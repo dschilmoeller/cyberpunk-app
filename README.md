@@ -1,7 +1,6 @@
 Flowchart: https://www.figma.com/file/IG0fbEmuLQvmyv1WP1Vbyy/Untitled?type=whiteboard&node-id=1%3A297&t=GvfsTTlVVhah3tAG-1
 DB Structure: - https://dbdesigner.page.link/D7aPbnUrHFgm7T9m6
 
-
 # Prime Solo Project Starting Repo
 This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
 
