@@ -9,6 +9,11 @@ function UserPage() {
     <div className="container">
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
+      <p>Your User Type is: {user.user_type}</p>
+      <p>See Existing Characters</p>
+      <p>Create New Character</p>
+      {/* Example of Admin Only Text */}
+      {user.user_type === 2 ? <p>Test words</p> : <></>}
       <LogOutButton className="btn" />
     </div>
   );
