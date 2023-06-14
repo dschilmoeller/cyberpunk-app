@@ -17,7 +17,7 @@ function* fetchCharacters() {
 // 
 
 function* characterSaga() {
-  yield takeLatest('FETCH_CHARACTERS', fetchCharacters);
+  yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
 }
 
 export default characterSaga;
