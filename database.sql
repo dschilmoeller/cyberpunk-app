@@ -9,3 +9,4 @@ CREATE TABLE "user" (
     "password" VARCHAR (1000) NOT NULL,
     "user_type" INT NOT NULL
 );
+

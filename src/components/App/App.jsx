@@ -20,6 +20,9 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
+import CharacterList from '../Characters/CharacterList/CharacterList';
+import CharacterDetail from '../Characters/CharacterDetail/CharacterDetail';
+
 import './App.css';
 
 function App() {
@@ -95,6 +98,13 @@ function App() {
               <RegisterPage />
             }
           </Route>
+
+          <ProtectedRoute
+            exact
+            path="/characters"
+          >
+            <CharacterList />
+          </ProtectedRoute>
 
           <Route
             exact
