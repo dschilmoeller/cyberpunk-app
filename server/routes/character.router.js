@@ -24,13 +24,13 @@ router.get('/fetchallcharacters', (req, res) => {
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
 router.get('/fetchcharacterdetails/:id', (req, res) => {
-    console.log(`In fetch char details, id:`, req.params.id);
+    // console.log(`In fetch char details, id:`, req.params.id);
     const sqlText = `SELECT * FROM "character"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows);
-            console.log(`Result:`, result.rows);
+            // console.log(`Result:`, result.rows);
         })
         .catch(err => {
             console.log(`Error fetching character details:`, err);

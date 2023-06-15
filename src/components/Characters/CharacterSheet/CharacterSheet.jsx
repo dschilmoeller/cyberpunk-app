@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
-
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
 function CharacterSheet() {
-    const characterList = useSelector((store) => store.characterList);
+    const charDetail = useSelector((store) => store.characterDetail[0]);
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - IN PLAY');
     const dispatch = useDispatch();
@@ -16,15 +19,47 @@ function CharacterSheet() {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
     }
 
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+
     return (
         <>
-            <div>
+            <Box sx={{ flexGrow: 1 }}>
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
                 <p>Character Sheet</p>
+                <Grid container spacing={2}>
 
-            </div>
+                    {charDetail ? (
+                        <>
+                            <Grid item xs={4}>
+                                <Item>Name: {charDetail.name}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Role: {charDetail.role}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Player: {charDetail.player}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Campaign: </Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Culture: {charDetail.culture}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Concept: {charDetail.concept}</Item>
+                            </Grid>
+                        </>
+                    ) : <></>}
+                </Grid>
+            </Box>
         </>
     )
 }
