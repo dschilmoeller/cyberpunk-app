@@ -1,21 +1,19 @@
-// to be non-static, editable character sheet
+// to be static-ish char sheet, used during play
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
 
-function CharacterDetail() {
-    const characterDetail = useSelector((store) => store.characterDetail);
+function CharacterSheet() {
+    const characterList = useSelector((store) => store.characterList);
     // console.log(`Characters:`, characterList);
-    const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
+    const [heading, setHeading] = useState('Character Sheet - IN PLAY');
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
-    let charName = characterDetail[0].name
 
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
-        console.log(`Charname`, charName);
     }
 
     return (
@@ -24,12 +22,11 @@ function CharacterDetail() {
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
-                <Button onClick={() => dispatch({ type: 'CLEAR_CHARACTER_DETAIL' })}>Clear Details</Button>
-                {charName ? <p>Character Detail: {charName}</p> : <></>}
+                <p>Character Sheet</p>
 
             </div>
         </>
     )
 }
 
-export default CharacterDetail;
+export default CharacterSheet;

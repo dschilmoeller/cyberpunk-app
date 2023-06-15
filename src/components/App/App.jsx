@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 
 import CharacterList from '../Characters/CharacterList/CharacterList';
 import CharacterDetail from '../Characters/CharacterDetail/CharacterDetail';
+import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 
 import './App.css';
 
@@ -101,9 +102,24 @@ function App() {
 
           <ProtectedRoute
             exact
-            path="/characters"
+            path="/characterlist"
           >
             <CharacterList />
+          </ProtectedRoute>
+          {/* in play version, can edit health, luck, and other temp features */}
+          <ProtectedRoute
+            exact
+            path="/charactersheet/:id"
+          >
+            <CharacterSheet />
+          </ProtectedRoute>
+
+          {/* detailed version, able to spend XP and change sheet generally */}
+          <ProtectedRoute
+            exact
+            path="/characterdetail/:id"
+          >
+            <CharacterDetail />
           </ProtectedRoute>
 
           <Route
