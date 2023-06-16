@@ -7,6 +7,10 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+
+import CharacterAttributes from './CharacterAttributes';
+import CharacterSkills from './CharacterSkills';
+
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
     // console.log(`Characters:`, characterList);
@@ -14,6 +18,11 @@ function CharacterSheet() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
+
+    const fulldot = ` \u2b24`
+    const emptydot = ` \u25ef`
+
+
 
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
@@ -34,6 +43,7 @@ function CharacterSheet() {
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
                 <p>Character Sheet</p>
+                
                 <Grid container spacing={2}>
 
                     {charDetail ? (
@@ -56,6 +66,9 @@ function CharacterSheet() {
                             <Grid item xs={4}>
                                 <Item>Concept: {charDetail.concept}</Item>
                             </Grid>
+                            <CharacterAttributes charDetail={charDetail} />
+                            <CharacterSkills charDetail={charDetail} />
+
                         </>
                     ) : <></>}
                 </Grid>
