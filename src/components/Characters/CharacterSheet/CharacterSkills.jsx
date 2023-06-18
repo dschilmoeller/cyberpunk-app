@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
-// TODO: URGENT: FIRST AID / PARAMED change
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 

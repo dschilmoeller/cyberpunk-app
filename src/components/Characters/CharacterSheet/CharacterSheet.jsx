@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 
 import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
+import CharacterMarkers from './CharacterMarkers';
 
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
@@ -68,6 +69,7 @@ function CharacterSheet() {
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />
+                            <CharacterMarkers charDetail={charDetail} />
 
                         </>
                     ) : <></>}
