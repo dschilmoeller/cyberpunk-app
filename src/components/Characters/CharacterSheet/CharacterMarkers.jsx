@@ -82,6 +82,37 @@ function CharacterMarkers(charDetailProp) {
         }
     }
 
+    const [luckBox1, setLuckBox1] = useState(unhurtMarker)
+    const [luckBox2, setLuckBox2] = useState(unhurtMarker)
+    const [luckBox3, setLuckBox3] = useState(unhurtMarker)
+    const [luckBox4, setLuckBox4] = useState(unhurtMarker)
+    const [luckBox5, setLuckBox5] = useState(unhurtMarker)
+    const [luckBox6, setLuckBox6] = useState(unhurtMarker)
+    const [luckBox7, setLuckBox7] = useState(unhurtMarker)
+    const [luckBox8, setLuckBox8] = useState(unhurtMarker)
+    const [luckBox9, setLuckBox9] = useState(unhurtMarker)
+    const [luckBox10, setLuckBox10] = useState(unhurtMarker)
+
+    const luckBoxChanger = (incoming) => {
+        switch (incoming) {
+            case `\u2610`:
+                return aggMarker;
+            case `\u2718`:
+                return unhurtMarker;
+        }
+    }
+
+    // create a variable with part of it's name being a variable?
+    // algorithmically generate state as well to handle large numbers of state as with armor/luck/humanity esp.?
+
+    const fortySpot = () => {
+        let fortyArray = []
+        for (let i = 0; i < 40; i++) {
+            fortyArray.push(<Grid item xs={0.6}><Item>{unhurtMarker}</Item></Grid>)
+        }
+        return fortyArray
+    }
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -168,14 +199,27 @@ function CharacterMarkers(charDetailProp) {
                     <Grid item xs={1.2}><Item>9</Item></Grid>
                     <Grid item xs={1.2}><Item>10</Item></Grid>
                 </Grid>
-            </Grid>
+                <Grid container>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox1(luckBoxChanger(luckBox1))}>{luckBox1}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox2(luckBoxChanger(luckBox2))}>{luckBox2}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox3(luckBoxChanger(luckBox3))}>{luckBox3}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox4(luckBoxChanger(luckBox4))}>{luckBox4}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox5(luckBoxChanger(luckBox5))}>{luckBox5}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox6(luckBoxChanger(luckBox6))}>{luckBox6}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox7(luckBoxChanger(luckBox7))}>{luckBox7}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox8(luckBoxChanger(luckBox8))}>{luckBox8}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox9(luckBoxChanger(luckBox9))}>{luckBox9}</Item></Grid>
+                    <Grid item xs={1.2}><Item onClick={() => setLuckBox10(luckBoxChanger(luckBox10))}>{luckBox10}</Item></Grid>
+                </Grid>
 
-            <Grid item xs={6}>
-                <Item>Humanity</Item>
-            </Grid>
+                <Item sx={{ marginTop: 4 }}>Humanity</Item>
+                <Grid container>
 
-            <Grid item xs={6}>
-                <Item>Luck</Item>
+                    {fortySpot()}
+                    {/* <Grid item xs={0.6}><Item>{unhurtMarker}</Item></Grid> */}
+                    {/* Loop -> Key = x => Function using 'this' ?? generate x boxes and track. */}
+                    {/* How then to handle tracking between sessions and save? Do dispatches to total armor each time a box is checked in the switch statement? */}
+                </Grid>
             </Grid>
         </>
     )
