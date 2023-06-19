@@ -12,6 +12,8 @@ import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './CharacterMarkers';
 
+// only load when chardetail is loaded
+
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
     // console.log(`Characters:`, characterList);

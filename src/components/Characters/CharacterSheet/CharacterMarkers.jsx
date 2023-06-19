@@ -5,11 +5,15 @@ import Grid from '@mui/material/Grid';
 
 import { styled } from '@mui/material/styles';
 
+import Humanity from './Humanity';
+
 // To Do: set up cyberware boxes
 // More importantly, decide how to handle all of the above.
 // Only one kind of Cyberware impacts the number of boxes - can do a simple-ish conditional
 // render on that side depending on what cyberware is present. Might need to be a stretch
 // for the time being.
+
+// only render armor/luck/humanity once character is loaded
 
 // would be worth making some SVG squares of larger size for usage later.
 // it may also be time to break down armor/luck/etc into smaller components.
@@ -102,17 +106,6 @@ function CharacterMarkers(charDetailProp) {
         }
     }
 
-    // create a variable with part of it's name being a variable?
-    // algorithmically generate state as well to handle large numbers of state as with armor/luck/humanity esp.?
-
-    const fortySpot = () => {
-        let fortyArray = []
-        for (let i = 0; i < 40; i++) {
-            fortyArray.push(<Grid item xs={0.6}><Item>{unhurtMarker}</Item></Grid>)
-        }
-        return fortyArray
-    }
-
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -185,8 +178,8 @@ function CharacterMarkers(charDetailProp) {
                     <Grid item xs={1.2}><Item onClick={() => setArmorBox9(armorBoxChanger(armorBox9))}>{armorBox9}</Item></Grid>
                     <Grid item xs={1.2}><Item onClick={() => setArmorBox10(armorBoxChanger(armorBox10))}>{armorBox10}</Item></Grid>
                 </Grid>
-
-                <Item sx={{ marginTop: 4 }}>Luck</Item>
+                <Item>Invisible Text. Or is margin top 4.5 above luck correct on all screen sizes?</Item>
+                <Item>Luck</Item>
                 <Grid container>
                     <Grid item xs={1.2}><Item>1</Item></Grid>
                     <Grid item xs={1.2}><Item>2</Item></Grid>
@@ -211,14 +204,10 @@ function CharacterMarkers(charDetailProp) {
                     <Grid item xs={1.2}><Item onClick={() => setLuckBox9(luckBoxChanger(luckBox9))}>{luckBox9}</Item></Grid>
                     <Grid item xs={1.2}><Item onClick={() => setLuckBox10(luckBoxChanger(luckBox10))}>{luckBox10}</Item></Grid>
                 </Grid>
-
-                <Item sx={{ marginTop: 4 }}>Humanity</Item>
+                <Item>Invisible Text</Item>
+                <Item>Humanity</Item>
                 <Grid container>
-
-                    {fortySpot()}
-                    {/* <Grid item xs={0.6}><Item>{unhurtMarker}</Item></Grid> */}
-                    {/* Loop -> Key = x => Function using 'this' ?? generate x boxes and track. */}
-                    {/* How then to handle tracking between sessions and save? Do dispatches to total armor each time a box is checked in the switch statement? */}
+                    <Humanity />
                 </Grid>
             </Grid>
         </>
