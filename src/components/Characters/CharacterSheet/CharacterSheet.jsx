@@ -25,8 +25,6 @@ function CharacterSheet() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
 
-
-
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
     }
@@ -46,7 +44,7 @@ function CharacterSheet() {
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
                 <p>Character Sheet</p>
-                
+
                 <Grid container spacing={2}>
 
                     {charDetail ? (

@@ -46,17 +46,20 @@ function Humanity(charDetailProp) {
 
     return (
         <>
-            {currentHumanityArray.map((item, i) => {
-                if (item === 0) {
-                    return <Grid item xs={.6} key={i}><Item>{unhurtMarker}</Item></Grid>
-                }
-                if (item === 1) {
-                    return <Grid item xs={.6} key={i}><Item>{stunMarker}</Item></Grid>
-                }
-                if (item === 2) {
-                    return <Grid item xs={.6} key={i}><Item>{lethalMarker}</Item></Grid>
-                }
-            })}
+            <Item sx={{ marginTop: 4.5 }}>Humanity</Item>
+            <Grid container>
+                {currentHumanityArray.map((item, i) => {
+                    if (item === 0) {
+                        return <Grid item xs={.6} key={i}><Item>{unhurtMarker}</Item></Grid>
+                    }
+                    if (item === 1) {
+                        return <Grid item xs={.6} key={i}><Item>{stunMarker}</Item></Grid>
+                    }
+                    if (item === 2) {
+                        return <Grid item xs={.6} key={i}><Item>{lethalMarker}</Item></Grid>
+                    }
+                })}
+            </Grid>
         </>
     )
 }

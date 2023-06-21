@@ -113,6 +113,15 @@ function CharacterSkills(charDetailProp) {
             <Grid item xs={12}>
                 <Item><Button onClick={() => setSkills()}>Set Skills</Button></Item>
             </Grid>
+            <Grid item xs={4}>
+                <Item>Streetwise</Item>
+            </Grid>
+            <Grid item xs={4}>
+                <Item>Tekhne</Item>
+            </Grid>
+            <Grid item xs={4}>
+                <Item>Knowledge</Item>
+            </Grid>
 
             <Grid item xs={1.5}>
                 <Item>Athletics:</Item>
