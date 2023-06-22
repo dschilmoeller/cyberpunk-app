@@ -16,6 +16,8 @@ function* fetchCharacterDetail(action) {
   try {
     const characterDetail = yield axios.get(`/api/characters/fetchcharacterdetails/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_DETAIL', payload: characterDetail.data });
+    const characterCyberBridgeDetail = yield axios.get(`/api/characters/fetchcharactercyberdetails/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_CYBER_DETAIL', payload: characterCyberBridgeDetail.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }

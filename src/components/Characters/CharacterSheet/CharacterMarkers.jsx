@@ -28,12 +28,6 @@ import Armor from './Armor';
 function CharacterMarkers(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
-    // These are largely determined during character creation. Default state should be pulled from character-reducer.
-    const [maxHealth, setMaxHealth] = useState(0)
-    const [humanity, setHumanity] = useState(0)
-    const [maxLuck, setMaxLuck] = useState(0)
-    const [maxArmor, setMaxArmor] = useState(6)
-
     // special character storage
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
@@ -50,16 +44,11 @@ function CharacterMarkers(charDetailProp) {
 
     return (
         <>
-
-            <Health />
-
-
+            <Health charDetailProp={charDetail} />
             <Grid item xs={6}>
-                <Armor charDetailProp={charDetail}/>
-                <Luck charDetailProp={charDetail}/>
-
-                <Humanity />
-
+                <Armor charDetailProp={charDetail} />
+                <Luck charDetailProp={charDetail} />
+                <Humanity charDetailProp={charDetail} />
             </Grid>
         </>
     )

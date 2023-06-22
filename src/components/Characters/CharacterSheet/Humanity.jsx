@@ -7,11 +7,12 @@ import { styled } from '@mui/material/styles';
 // To Do: import charDetailProp correctly
 // change characters to filled boxes and x'd boxes for style
 function Humanity(charDetailProp) {
-
+    
+    
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
     const lethalMarker = `\uFE45`;
-
+    const aggMarker = `\u2718`;
     // loop through perm humanity loss, creating a 1 for each and adding to current humanity (b)
     // loop through temp humanity loss, creating a 2 for each and adding to current humanity (c)
     // finally loop, with i starting at total of perm + temp humanity loss, and add 0s until 40 is reached.
@@ -53,10 +54,10 @@ function Humanity(charDetailProp) {
                         return <Grid item xs={.6} key={i}><Item>{unhurtMarker}</Item></Grid>
                     }
                     if (item === 1) {
-                        return <Grid item xs={.6} key={i}><Item>{stunMarker}</Item></Grid>
+                        return <Grid item xs={.6} key={i}><Item>{aggMarker}</Item></Grid>
                     }
                     if (item === 2) {
-                        return <Grid item xs={.6} key={i}><Item>{lethalMarker}</Item></Grid>
+                        return <Grid item xs={.6} key={i}><Item>{stunMarker}</Item></Grid>
                     }
                 })}
             </Grid>

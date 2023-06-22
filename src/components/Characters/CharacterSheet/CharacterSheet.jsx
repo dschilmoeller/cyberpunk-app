@@ -27,6 +27,7 @@ function CharacterSheet() {
 
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
+        // will need to get contents of bridge tables as well.
     }
 
     const Item = styled(Paper)(({ theme }) => ({
