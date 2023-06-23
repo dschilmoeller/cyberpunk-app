@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
 
+// RENAME THIS DRAMATICALLY TO DISTINGUISH FROM IN PLAY SHEET
 function CharacterDetail() {
     const characterDetail = useSelector((store) => store.characterDetail);
     // console.log(`Characters:`, characterList);

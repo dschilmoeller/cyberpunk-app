@@ -11,4 +11,5 @@ const characterCyberDetail = (state = [{
     return state
 }
 
+
 export default characterCyberDetail;

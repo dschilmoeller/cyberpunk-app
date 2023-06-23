@@ -8,6 +8,8 @@ import { styled } from '@mui/material/styles';
 function Health() {
     const cyberBridgeInfo = useSelector(store => store.characterCyberDetail[0])
 
+    const dispatch = useDispatch();
+
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
     const lethalMarker = `\uFE45`;
@@ -24,8 +26,8 @@ function Health() {
     const [badlyMauledBox, setBadlyMauledBox] = useState(`\u2610`)
     const [crippledBox, setCrippledBox] = useState(`\u2610`)
     const [incapacitatedBox, setIncapacitatedBox] = useState(`\u2610`)
-    
 
+    // determines presence and number of additional health boxes based on type of armor-ware and number of cyberlimbs.
     const cyberHealthBuilder = (cyberBridgeInfo) => {
         let cyberHealthCount = 0
         switch (cyberBridgeInfo.armor_level) {
@@ -59,14 +61,12 @@ function Health() {
                 cyberHealthCount += 4;
                 break;
         }
-        
+
         return cyberHealthCount;
     }
 
     const cyberHealthTotal = cyberHealthBuilder(cyberBridgeInfo)
 
-    
-    
     // state for cyberware boxes
     const [cyberBadlyBruisedBox, setCyberBadlyBruisedBox] = useState(`\u2610`)
     const [cyberHurtBox, setCyberHurtBox] = useState(`\u2610`)
@@ -78,20 +78,262 @@ function Health() {
     const [cyberCrippledBox, setCyberCrippledBox] = useState(`\u2610`)
     const [cyberIncapacitatedBox, setCyberIncapacitatedBox] = useState(`\u2610`)
 
-    // handles character cycling for boxes.
-    // add dispatch for updating current_stun/lethal/agg in reducer? Or just update DB every time?
+    // handles cycling for boxes.
     const healthBoxChanger = (incoming) => {
         switch (incoming) {
             case `\u2610`:
+                healthDispatcher('plusOneStun');
                 return stunMarker
             case `\u2736`:
+                healthDispatcher('plusOneLethal');
                 return lethalMarker
             case `\uFE45`:
+                healthDispatcher('plusOneAgg')
                 return aggMarker
             case `\u2718`:
+                healthDispatcher();
                 return unhurtMarker
         }
     }
+
+    // add dispatch for updating current_stun/lethal/agg in reducer? Or just update DB every time?
+    // dispatch currently works.
+    const healthDispatcher = (incoming) => {
+        let numberStunWounds = 0
+        let numberLethalWounds = 0
+        let numberAggWounds = 0
+        // subtractions required to deal with box not being changed when function is run
+        // otherwise the current number always has +1 of the last applied wound type.
+        // not needed for unhurt (default) => stun change since unhurt boxes are not tracked.
+        switch (incoming) {
+            case 'plusOneStun':
+                numberStunWounds += 1
+                break;
+            case 'plusOneLethal':
+                numberLethalWounds += 1
+                numberStunWounds -= 1
+                break;
+            case 'plusOneAgg':
+                numberAggWounds += 1
+                numberLethalWounds -= 1
+                break;
+        }
+        switch (bruisedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (badlyBruisedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (hurtBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (badlyHurtBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (injuredBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (woundedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (mauledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (badlyMauledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (crippledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (incapacitatedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberBadlyBruisedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberHurtBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberBadlyHurtBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberInjuredBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberWoundedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberMauledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberBadlyMauledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberCrippledBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        switch (cyberIncapacitatedBox) {
+            case stunMarker:
+                numberStunWounds += 1
+                break;
+            case lethalMarker:
+                numberLethalWounds += 1
+                break;
+            case aggMarker:
+                numberAggWounds += 1
+                break;
+        }
+        dispatch({ type: 'SET_WOUNDS', payload: {numberStunWounds: numberStunWounds, numberLethalWounds: numberLethalWounds, numberAggWounds: numberAggWounds} })
+    }
+
+    // how to change state of health boxes based on number of current wounds?
+    // very complex & long if statement? How to account for cyber boxes? Or maybe a 'from last session' pop-up with info?
+    // some work may be left to the player for the time being. Otherwise will require a dramatic rethink of code. 
+    // Talk w/ Paige, Ray, see if there's a better way to be going about this process?
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
