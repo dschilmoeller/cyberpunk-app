@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -6,6 +6,10 @@ import { styled } from '@mui/material/styles';
 
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
+
+    useEffect(() => {
+        setSkills();
+    })
 
     // Streetwise Skills
     const [athletics, setAthletics] = useState(0)
@@ -111,7 +115,7 @@ function CharacterSkills(charDetailProp) {
     return (
         <>
             <Grid item xs={12}>
-                <Item><Button onClick={() => setSkills()}>Set Skills</Button></Item>
+                <Item><h1>Skills</h1></Item>
             </Grid>
             <Grid item xs={4}>
                 <Item>Streetwise</Item>

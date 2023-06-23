@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -7,6 +7,9 @@ import { styled } from '@mui/material/styles';
 function CharacterAttributes(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
+    useEffect(() => {
+        setAttributes();
+    })
     // physical attributes
     const [strengthAtt, setStrengthAtt] = useState('');
     const [bodyAtt, setBodyAtt] = useState('');
@@ -64,10 +67,9 @@ function CharacterAttributes(charDetailProp) {
     return (
         <>
         <Grid item xs={12}>
-        <Item><Button onClick={() => setAttributes()}>Set Attributes</Button></Item>
         </Grid>
             
-            <Grid item xs={12}><Item>Atributes</Item></Grid>
+            <Grid item xs={12}><Item><h1>Atributes</h1></Item></Grid>
             <Grid item xs={1.5}>
                 <Item>Strength:</Item>
             </Grid>
