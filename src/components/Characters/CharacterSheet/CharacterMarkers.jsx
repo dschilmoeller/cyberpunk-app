@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
 import Health from './Health';
+import Health2 from './Health2';
 import Humanity from './Humanity';
 import Luck from './Luck';
 import Armor from './Armor';
@@ -44,7 +45,8 @@ function CharacterMarkers(charDetailProp) {
 
     return (
         <>
-            <Health charDetailProp={charDetail} />
+            {/* <Health charDetailProp={charDetail} /> */}
+            <Health2 charDetailProp={charDetail} />
             <Grid item xs={6}>
                 <Armor charDetailProp={charDetail} />
                 <Luck charDetailProp={charDetail} />

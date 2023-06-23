@@ -337,9 +337,9 @@ function Health() {
     // some work may be left to the player for the time being. Otherwise will require a dramatic rethink of code. 
     // Talk w/ Paige, Ray, see if there's a better way to be going about this process?
 
-    const previouslyOnCharStatus = (incoming) => {
-        
-    }
+    // const previouslyOnCharStatus = () => {
+    //     if (charStatus.current_stun > 0)        
+    // }
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
