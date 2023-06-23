@@ -49,4 +49,15 @@ router.get('/fetchcharactercyberdetails/:id', (req, res) => {
     })
 })
 
+router.get('/fetchcharacterstatus/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_status"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character cyberware detials`, err);
+    })
+})
 module.exports = router

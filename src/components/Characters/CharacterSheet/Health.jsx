@@ -7,6 +7,8 @@ import { styled } from '@mui/material/styles';
 
 function Health() {
     const cyberBridgeInfo = useSelector(store => store.characterCyberDetail[0])
+    // TODO: change to prop
+    const charStatus = useSelector((store) => store.characterStatus[0]);
 
     const dispatch = useDispatch();
 
@@ -335,6 +337,10 @@ function Health() {
     // some work may be left to the player for the time being. Otherwise will require a dramatic rethink of code. 
     // Talk w/ Paige, Ray, see if there's a better way to be going about this process?
 
+    const previouslyOnCharStatus = (incoming) => {
+        
+    }
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -346,7 +352,8 @@ function Health() {
     return (
         <>
             <Grid item xs={6}>
-                <Item>Health</Item>
+                {/* <Item>Health</Item> */}
+                <Button onClick={() => previouslyOnCharStatus()}>Get Character Status</Button>
                 <Grid container>
                     <Grid item xs={4}><Item>Bruised</Item></Grid>
                     <Grid item xs={4}><Item onClick={() => setBruisedBox(healthBoxChanger(bruisedBox))}>{bruisedBox}</Item></Grid>
