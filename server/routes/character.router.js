@@ -60,4 +60,19 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
         console.log(`Error fetching character cyberware detials`, err);
     })
 })
+
+router.put('/savecharacter/:id', (req, res) => {
+    const sqlText = `UPDATE "char_status"
+    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor" = $4, "current_luck" = $5
+    WHERE "char_id" = $6;`
+    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor, req.body.current_luck, req.params.id]
+
+    pool.query(sqlText, sqlParams)
+    .then((result) => {
+        res.sendStatus(202)
+    })
+    .catch(err => {
+        console.log(`Error saving character status:`, err);
+    })
+})
 module.exports = router

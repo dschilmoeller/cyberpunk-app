@@ -16,6 +16,7 @@ import CharacterMarkers from './CharacterMarkers';
 
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
+    const charStatus = useSelector(store => store.characterStatus)
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - IN PLAY');
     const dispatch = useDispatch();
@@ -28,6 +29,10 @@ function CharacterSheet() {
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         // will need to get contents of bridge tables as well.
+    }
+
+    const saveCharacter = () => {
+        dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charStatus: charStatus} })
     }
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -44,6 +49,7 @@ function CharacterSheet() {
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
+                <Button onClick={() => saveCharacter()}>Save Current Status</Button>
                 <p>Character Sheet</p>
 
                 <Grid container spacing={2}>

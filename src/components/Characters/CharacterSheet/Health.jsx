@@ -9,8 +9,8 @@ import { styled } from '@mui/material/styles';
 function Health2() {
     const charDetail = useSelector((store) => store.characterDetail[0])
     const totalHealth = charDetail.max_health
-    const charStatus = useSelector(store => store.characterStatus[0])
-
+    const charStatus = useSelector(store => store.characterStatus)
+    
     const dispatch = useDispatch();
 
     const unhurtMarker = `\u2610`;
@@ -26,12 +26,16 @@ function Health2() {
     const healthBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
             e.target.innerText = stunMarker
+            dispatch({type: "ADD_STUN_WOUND"})
         } else if (e.target.innerText === stunMarker) {
             e.target.innerText = lethalMarker
+            dispatch({type: "ADD_LETHAL_WOUND"})
         } else if (e.target.innerText === lethalMarker) {
             e.target.innerText = aggMarker
+            dispatch({type: "ADD_AGG_WOUND"})
         } else {
             e.target.innerText = unhurtMarker
+            dispatch({type: "REMOVE_WOUND"})
         }
     }
 

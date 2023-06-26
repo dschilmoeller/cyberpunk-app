@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
+import { useSelector } from 'react-redux';
 
-// fetch all characters - fetches character names and IDs to list on user page.
+// fetch character names and IDs
 function* fetchCharacters() {
   try {
     const allCharacters = yield axios.get('/api/characters/fetchallcharacters')
@@ -11,7 +12,7 @@ function* fetchCharacters() {
   }
 }
 
-// Fetch Character Details
+// Fetch Character Details for in-play sheet
 function* fetchCharacterDetail(action) {
   try {
     const characterDetail = yield axios.get(`/api/characters/fetchcharacterdetails/${action.payload}`)
@@ -19,7 +20,8 @@ function* fetchCharacterDetail(action) {
     const characterCyberBridgeDetail = yield axios.get(`/api/characters/fetchcharactercyberdetails/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_CYBER_DETAIL', payload: characterCyberBridgeDetail.data })
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data})
+    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0]})
+    console.log(`characterStatus.data:`, characterStatus.data[0]);
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -29,9 +31,18 @@ function* fetchCharacterDetail(action) {
 // Character Changes (put)
 // 
 
+function* saveCharacterSheet(action) {
+  try {
+    yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charStatus)
+  } catch (error) {
+    console.log(`Error saving Character Details`, error);
+  }
+}
+
 function* characterSaga() {
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
-  yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail)
+  yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
+  yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
 }
 
 export default characterSaga;
