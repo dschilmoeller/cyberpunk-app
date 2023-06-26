@@ -6,6 +6,8 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
 
+// should be able to change this to something more a-la health. only need max_luck from main char detail and current from char_status.
+
 function Luck(charDetailProp) {
     const charDetailLuck = charDetailProp.charDetailProp.max_luck
     const unhurtMarker = `\u2610`;

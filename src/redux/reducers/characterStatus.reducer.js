@@ -1,10 +1,10 @@
-const characterStatus = (state=[{
+const characterStatus = (state={
     current_stun: 0,
     current_lethal: 0,
     current_agg: 0,
-    current_armor: 0,
+    current_armor_loss: 0,
     current_luck: 0
-}], action) => {
+}, action) => {
     if (action.type === "SET_CHARACTER_STATUS") {
         return action.payload;
     }
@@ -20,8 +20,21 @@ const characterStatus = (state=[{
     if (action.type === "REMOVE_WOUND") {
         return {...state, current_agg: state.current_agg-1}
     }
+    if (action.type === "REMOVE_ONE_ARMOR") {
+        return {...state, current_armor_loss: state.current_armor_loss +1}
+    }
+    if (action.type === "ADD_ONE_ARMOR") {
+        return {...state, current_armor_loss: state.current_armor_loss -1}
+    }
+
     if (action.type === "CLEAR_CHARACTER_STATUS") {
-        return [];
+        return {
+    current_stun: 0,
+    current_lethal: 0,
+    current_agg: 0,
+    current_armor_loss: 0,
+    current_luck: 0
+};
     }
     return state
 }

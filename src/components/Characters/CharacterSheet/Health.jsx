@@ -6,11 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 
 
-function Health2() {
+function Health() {
     const charDetail = useSelector((store) => store.characterDetail[0])
+    const charStatus = useSelector((store) => store.characterStatus)
     const totalHealth = charDetail.max_health
-    const charStatus = useSelector(store => store.characterStatus)
-    
+
     const dispatch = useDispatch();
 
     const unhurtMarker = `\u2610`;
@@ -26,16 +26,16 @@ function Health2() {
     const healthBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
             e.target.innerText = stunMarker
-            dispatch({type: "ADD_STUN_WOUND"})
+            dispatch({ type: "ADD_STUN_WOUND" })
         } else if (e.target.innerText === stunMarker) {
             e.target.innerText = lethalMarker
-            dispatch({type: "ADD_LETHAL_WOUND"})
+            dispatch({ type: "ADD_LETHAL_WOUND" })
         } else if (e.target.innerText === lethalMarker) {
             e.target.innerText = aggMarker
-            dispatch({type: "ADD_AGG_WOUND"})
+            dispatch({ type: "ADD_AGG_WOUND" })
         } else {
             e.target.innerText = unhurtMarker
-            dispatch({type: "REMOVE_WOUND"})
+            dispatch({ type: "REMOVE_WOUND" })
         }
     }
 
@@ -64,9 +64,9 @@ function Health2() {
         let painPenalty = [0, 0, -1, -1, -2, -2, -3, -3, -5, -10]
         // conditional if pain editor is present.
         // painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -5]
-        
+
         let healthArray = woundBuilder(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg)
-        
+
         let healthArraySpot = 0
 
         let healthBoxes = []
@@ -120,4 +120,4 @@ function Health2() {
     )
 }
 
-export default Health2;
+export default Health;
