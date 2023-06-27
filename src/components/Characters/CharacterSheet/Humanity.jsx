@@ -3,36 +3,55 @@ import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import { useSelector, useDispatch } from 'react-redux';
 
 // To Do: import charDetailProp correctly
 // change characters to filled boxes and x'd boxes for style
 function Humanity(charDetailProp) {
-    
-    
+    const charStatus = useSelector(store => store.characterStatus)
+    const permHumanityLoss = charDetailProp.charDetailProp.perm_humanity_loss
     const unhurtMarker = `\u2610`;
+    const dispatch = useDispatch();
     const stunMarker = `\u2736`;
-    const lethalMarker = `\uFE45`;
     const aggMarker = `\u2718`;
-    // loop through perm humanity loss, creating a 1 for each and adding to current humanity (b)
-    // loop through temp humanity loss, creating a 2 for each and adding to current humanity (c)
-    // finally loop, with i starting at total of perm + temp humanity loss, and add 0s until 40 is reached.
-    // display 1 as perm loss, 2 as temp loss, and 0 as unused humanity.
-    const permHumanityLoss = 4
-    const tempHumanityLoss = 8
-    const currentHumanityArray = []
+
+    const humanityBoxChanger = (e) => {
+        if (e.target.innerText === unhurtMarker) {
+            e.target.innerText = stunMarker
+            dispatch({ type: "REMOVE_ONE_TEMP_HUMANITY" })
+        } else if (e.target.innerText === stunMarker) {
+            e.target.innerText = unhurtMarker
+            dispatch({ type: "ADD_ONE_TEMP_HUMANITY" })
+        }
+    }
+
+    const humanityArrayBuilder = (tempHumanityLoss, permHumanityLoss) => {
+        let humanityArray = []
+        for (let i = 0; i < permHumanityLoss; i++) {
+            humanityArray.push(aggMarker)
+        }
+        for (let i = 0; i < tempHumanityLoss; i++) {
+            humanityArray.push(stunMarker)
+        }
+        if (humanityArray.length < 40) {
+            let remainder = 40 - (permHumanityLoss + tempHumanityLoss)
+            for (let i = 0; i < remainder; i++) {
+                humanityArray.push(unhurtMarker)
+            }
+        }
+        return humanityArray;
+    }
+
 
     const humanityBuilder = () => {
-        for (let i = 0; i < permHumanityLoss; i++) {
-            currentHumanityArray.push(1)
-        }
+        let humanityArray = humanityArrayBuilder(charStatus.current_humanity_loss, permHumanityLoss)
+        let humanityBoxes = []
 
-        for (let i = 0; i < tempHumanityLoss; i++) {
-            currentHumanityArray.push(2)
+        for (let i = 0; i < 40; i++) {
+            humanityBoxes.push(<Grid item xs={1.2}><Item onClick={(e) => humanityBoxChanger(e)}>{humanityArray[i]}</Item></Grid>)
         }
-        let currentHumanityLost = (permHumanityLoss + tempHumanityLoss)
-        for (let i = currentHumanityLost; i < 40; i++) {
-            currentHumanityArray.push(0)
-        }
+        return humanityBoxes
+
     }
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -43,23 +62,11 @@ function Humanity(charDetailProp) {
         color: theme.palette.text.secondary,
     }));
 
-    humanityBuilder();
-
     return (
         <>
             <Item sx={{ marginTop: 4.5 }}>Humanity</Item>
             <Grid container>
-                {currentHumanityArray.map((item, i) => {
-                    if (item === 0) {
-                        return <Grid item xs={.6} key={i}><Item>{unhurtMarker}</Item></Grid>
-                    }
-                    if (item === 1) {
-                        return <Grid item xs={.6} key={i}><Item>{aggMarker}</Item></Grid>
-                    }
-                    if (item === 2) {
-                        return <Grid item xs={.6} key={i}><Item>{stunMarker}</Item></Grid>
-                    }
-                })}
+                {humanityBuilder()}
             </Grid>
         </>
     )

@@ -63,9 +63,9 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
 
 router.put('/savecharacter/:id', (req, res) => {
     const sqlText = `UPDATE "char_status"
-    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5
-    WHERE "char_id" = $6;`
-    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.params.id]
+    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5, "current_humanity_loss" = $6
+    WHERE "char_id" = $7;`
+    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.body.current_humanity_loss, req.params.id]
 
     pool.query(sqlText, sqlParams)
     .then((result) => {

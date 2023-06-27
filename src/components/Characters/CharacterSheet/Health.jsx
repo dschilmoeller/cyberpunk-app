@@ -18,11 +18,6 @@ function Health() {
     const lethalMarker = `\uFE45`;
     const aggMarker = `\u2718`;
 
-    // these will eventually be pulled from the characterStatus store
-    const [stunWounds, setStunWounds] = useState(charStatus.current_stun)
-    const [lethalWounds, setLethalWounds] = useState(charStatus.current_lethal)
-    const [aggWounds, setAggWounds] = useState(charStatus.current_agg)
-
     const healthBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
             e.target.innerText = stunMarker
