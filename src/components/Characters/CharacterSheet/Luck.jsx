@@ -13,10 +13,8 @@ function Luck(charDetailProp) {
 
     const luckBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
-            e.target.innerText = aggMarker
             dispatch({ type: "REMOVE_ONE_LUCK" })
         } else if (e.target.innerText === aggMarker) {
-            e.target.innerText = unhurtMarker
             dispatch({ type: "ADD_ONE_LUCK" })
         }
     }

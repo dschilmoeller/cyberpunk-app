@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
+import React from 'react';
 import Grid from '@mui/material/Grid';
-import { useSelector, useDispatch } from 'react-redux';
-import { styled } from '@mui/material/styles';
+import { useSelector} from 'react-redux';
 import Item from './Item';
+import { Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 function Weapons() {
-    const dispatch = useDispatch();
     const charWeapons = useSelector((store) => store.characterWeapons)
     const charDetail = useSelector((store) => store.characterDetail[0])
     const unhurtMarker = `\u2610`;
@@ -21,24 +19,30 @@ function Weapons() {
         }
     }
 
-    const weaponBuilder = () => {
+    const Div = styled('div')(({ theme }) => ({
+        ...theme.typography.button,
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing(1),
+      }));
+
+    const weaponBuilder = (incoming) => {
         let weapons = []
+
         for (let i = 0; i < charWeapons.length; i++) {
             let clip = []
             for (let b = 0; b < charWeapons[i].max_clip; b++){
-                clip.push(unhurtMarker)
+                clip.push(1)
             }
             
             weapons.push(
                 <>
-
                     <Grid item xs={6}><Item><i>{charWeapons[i].name}</i></Item></Grid>
                     <Grid item xs={2}><Item>{charWeapons[i].dmg_type === 'melee' ? charDetail.strength + charWeapons[i].damage : charWeapons[i].damage}</Item></Grid>
                     <Grid item xs={2}><Item>{charWeapons[i].rof}</Item></Grid>
                     <Grid item xs={2}><Item>{charWeapons[i].range === 0 ? 'Melee' : charWeapons[i].range}</Item></Grid>
                     <Grid item xs={6}><Item>{charWeapons[i].concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
                     <Grid item xs={6}><Item>Number of Hands: {charWeapons[i].hands}</Item></Grid>
-                    <Grid item xs={12}>{charWeapons[i].dmg_type === 'melee' ? <Item></Item> : <Item>Clip</Item>}</Grid>
+                    <Grid item xs={12}>{charWeapons[i].dmg_type === 'melee' ? <Item></Item> : <Item><Typography>Clip:</Typography> </Item>}</Grid>
                     {clip.map((item) => {
                         return (
                             <>
@@ -48,7 +52,6 @@ function Weapons() {
                             </>
                         )
                     })}
-
                 </>
             )
         }
@@ -62,7 +65,6 @@ function Weapons() {
                 <Grid item xs={2}><Item><b>DMG</b></Item></Grid>
                 <Grid item xs={2}><Item><b>ROF</b></Item></Grid>
                 <Grid item xs={2}><Item><b>Range</b></Item></Grid>
-
                 {weaponBuilder()}
             </Grid>
         </>

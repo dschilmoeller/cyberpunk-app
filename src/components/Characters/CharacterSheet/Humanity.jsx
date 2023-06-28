@@ -15,10 +15,8 @@ function Humanity(charDetailProp) {
 
     const humanityBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
-            e.target.innerText = stunMarker
             dispatch({ type: "REMOVE_ONE_TEMP_HUMANITY" })
         } else if (e.target.innerText === stunMarker) {
-            e.target.innerText = unhurtMarker
             dispatch({ type: "ADD_ONE_TEMP_HUMANITY" })
         }
     }

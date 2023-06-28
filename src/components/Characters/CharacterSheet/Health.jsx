@@ -17,16 +17,12 @@ function Health() {
 
     const healthBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
-            e.target.innerText = stunMarker
             dispatch({ type: "ADD_STUN_WOUND" })
         } else if (e.target.innerText === stunMarker) {
-            e.target.innerText = lethalMarker
             dispatch({ type: "ADD_LETHAL_WOUND" })
         } else if (e.target.innerText === lethalMarker) {
-            e.target.innerText = aggMarker
             dispatch({ type: "ADD_AGG_WOUND" })
         } else {
-            e.target.innerText = unhurtMarker
             dispatch({ type: "REMOVE_WOUND" })
         }
     }

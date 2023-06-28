@@ -15,10 +15,8 @@ function Armor(charDetailProp) {
     // add dispatch to update current_armor
     const armorBoxChanger = (e) => {
         if (e.target.innerText === unhurtMarker) {
-            e.target.innerText = aggMarker
             dispatch({type: "REMOVE_ONE_ARMOR"})
         } else if (e.target.innerText === aggMarker) {
-            e.target.innerText = unhurtMarker
             dispatch({type: "ADD_ONE_ARMOR"})
         }
     }
