@@ -61,20 +61,22 @@ function Health() {
         let cyberBoxes = total - 10
 
         for (let i = 0; i < 10; i++) {
-            healthBoxes.push(<Grid item xs={4}><Item>{healthWords[i]}</Item></Grid>)
+            healthBoxes.push(
+                <Grid key={i} item xs={4}><Item>{healthWords[i]}</Item></Grid>
+            )
             if (cyberBoxes > i) {
                 healthBoxes.push(
-                    <>
+                    <React.Fragment key={i + 50}>
                         <Grid item xs={2}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot]}</Item></Grid>
                         <Grid item xs={2}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot + 1]}</Item></Grid>
-                    </>
+                    </React.Fragment>
                 )
                 healthArraySpot += 2
             } else {
-                healthBoxes.push(<Grid item xs={4}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot]}</Item></Grid>)
+                healthBoxes.push(<Grid key={i + 100} item xs={4}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot]}</Item></Grid>)
                 healthArraySpot += 1
             }
-            healthBoxes.push(<Grid item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
+            healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
 
         }
 
