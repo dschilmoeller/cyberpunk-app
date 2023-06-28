@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { styled } from '@mui/material/styles';
-
+import Item from './Item';
 
 function Health() {
     const charDetail = useSelector((store) => store.characterDetail[0])
@@ -87,14 +84,6 @@ function Health() {
 
         return healthBoxes
     }
-
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
 
     return (
         <>

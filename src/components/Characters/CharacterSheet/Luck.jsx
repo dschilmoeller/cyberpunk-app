@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { styled } from '@mui/material/styles';
-
-
-// should be able to change this to something more a-la health. only need max_luck from main char detail and current from char_status.
+import Item from './Item';
 
 function Luck(charDetailProp) {
     const charDetailLuck = charDetailProp.charDetailProp.max_luck
@@ -52,14 +47,6 @@ function Luck(charDetailProp) {
         }
         return luckBoxes
     }
-
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
 
     return (
         <>

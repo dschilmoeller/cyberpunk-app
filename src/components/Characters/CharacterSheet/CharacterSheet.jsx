@@ -4,9 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
+import Item from './Item';
 
 import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
@@ -34,14 +33,6 @@ function CharacterSheet() {
     const saveCharacter = () => {
         dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charStatus: charStatus} })
     }
-
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
 
     return (
         <>
