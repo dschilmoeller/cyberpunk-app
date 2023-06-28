@@ -63,9 +63,9 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
 
 router.get('/fetchcharacterweapons/:id', (req, res) => {
     const sqlText = `SELECT * FROM "character_weapons_bridge"
-    JOIN "weapons_master" ON "weapons_master"."id" = "character_weapons_bridge"."weapon_id"
-    JOIN "weapon_mod1_master" ON "weapon_mod1_master".id = "character_weapons_bridge".weapon_mod_1
-    JOIN "weapon_mod2_master" ON "weapon_mod2_master".id = "character_weapons_bridge".weapon_mod_2
+    JOIN "weapons_master" ON "weapons_master"."weapon_id" = "character_weapons_bridge"."weapon_id"
+    JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_id = "character_weapons_bridge".weapon_mod_1
+    JOIN "weapon_mod2_master" ON "weapon_mod2_master".weapon_mod2_id = "character_weapons_bridge".weapon_mod_2
     WHERE char_id = $1
     `
     pool.query(sqlText, [req.params.id])

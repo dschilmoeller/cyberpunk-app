@@ -91,7 +91,6 @@ function Health() {
                     <Grid item xs={4}><Item>Status</Item></Grid>
                     <Grid item xs={4}><Item>Marks</Item></Grid>
                     <Grid item xs={4}><Item>Die Penalty</Item></Grid>
-
                 </Grid>
 
                 <Grid container>

@@ -16,6 +16,8 @@ import CharacterMarkers from './CharacterMarkers';
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
     const charStatus = useSelector(store => store.characterStatus)
+    const charWeapons = useSelector((store) => store.characterWeapons)
+
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - IN PLAY');
     const dispatch = useDispatch();
@@ -31,7 +33,7 @@ function CharacterSheet() {
     }
 
     const saveCharacter = () => {
-        dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charStatus: charStatus} })
+        dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charParams: {charStatus:charStatus, charWeapons: charWeapons} }})
     }
 
     return (

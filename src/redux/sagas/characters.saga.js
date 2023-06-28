@@ -20,7 +20,6 @@ function* fetchCharacterDetail(action) {
     const characterCyberBridgeDetail = yield axios.get(`/api/characters/fetchcharactercyberdetails/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_CYBER_DETAIL', payload: characterCyberBridgeDetail.data })
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload}`)
-    console.log(`characterStatus:`, characterStatus);
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0]})
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data})
