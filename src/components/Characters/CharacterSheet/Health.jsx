@@ -98,7 +98,7 @@ function Health() {
 
     return (
         <>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
                 <Grid container>
                     <Grid item xs={12}><Item>Health</Item></Grid>
                     <Grid item xs={4}><Item>Status</Item></Grid>

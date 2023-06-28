@@ -61,6 +61,22 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
     })
 })
 
+router.get('/fetchcharacterweapons/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "character_weapons_bridge"
+    JOIN "weapons_master" ON "weapons_master"."id" = "character_weapons_bridge"."weapon_id"
+    JOIN "weapon_mod1_master" ON "weapon_mod1_master".id = "character_weapons_bridge".weapon_mod_1
+    JOIN "weapon_mod2_master" ON "weapon_mod2_master".id = "character_weapons_bridge".weapon_mod_2
+    WHERE char_id = $1
+    `
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character weapon details`, err);
+    })
+})
+
 router.put('/savecharacter/:id', (req, res) => {
     const sqlText = `UPDATE "char_status"
     SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5, "current_humanity_loss" = $6

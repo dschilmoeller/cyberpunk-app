@@ -7,6 +7,7 @@ import characterList from './characterList.reducer';
 import characterDetail from './characterDetail.reducer';
 import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
+import characterWeapons from './characterWeapons.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -21,7 +22,7 @@ const rootReducer = combineReducers({
   characterDetail, // contains details of active character
   characterCyberDetail, // contains data of relevant bridge table row for character
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
-  
+  characterWeapons, // contains active character's weapons
 });
 
 export default rootReducer;
