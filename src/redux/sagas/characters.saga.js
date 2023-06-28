@@ -20,9 +20,9 @@ function* fetchCharacterDetail(action) {
     const characterCyberBridgeDetail = yield axios.get(`/api/characters/fetchcharactercyberdetails/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_CYBER_DETAIL', payload: characterCyberBridgeDetail.data })
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0]})
+    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data})
+    yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -34,7 +34,10 @@ function* fetchCharacterDetail(action) {
 
 function* saveCharacterSheet(action) {
   try {
-    yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charStatus)
+    yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
+    for (let i = 0; i < action.payload.charParams.charWeapons.length; i++) {
+      yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons[i])
+    }
   } catch (error) {
     console.log(`Error saving Character Details`, error);
   }

@@ -41,24 +41,24 @@ router.get('/fetchcharactercyberdetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_cyberware_bridge"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character cyberware detials`, err);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character cyberware detials`, err);
+        })
 })
 
 router.get('/fetchcharacterstatus/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_status"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character cyberware detials`, err);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character cyberware detials`, err);
+        })
 })
 
 router.get('/fetchcharacterweapons/:id', (req, res) => {
@@ -67,14 +67,15 @@ router.get('/fetchcharacterweapons/:id', (req, res) => {
     JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_id = "character_weapons_bridge".weapon_mod_1
     JOIN "weapon_mod2_master" ON "weapon_mod2_master".weapon_mod2_id = "character_weapons_bridge".weapon_mod_2
     WHERE char_id = $1
+    ORDER BY id ASC
     `
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character weapon details`, err);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character weapon details`, err);
+        })
 })
 
 router.put('/savecharacter/:id', (req, res) => {
@@ -84,11 +85,26 @@ router.put('/savecharacter/:id', (req, res) => {
     const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.body.current_humanity_loss, req.params.id]
 
     pool.query(sqlText, sqlParams)
-    .then((result) => {
-        res.sendStatus(202)
-    })
-    .catch(err => {
-        console.log(`Error saving character status:`, err);
-    })
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error saving character status:`, err);
+        })
 })
+
+router.put('/savecharacterweapons/:id', (req, res) => {
+    const sqlText = `UPDATE "character_weapons_bridge" 
+    SET "current_shots_fired" = $1
+    WHERE "id" = $2`
+    const sqlParams = [req.body.current_shots_fired, req.body.id]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`error saving weapon bridge status:`, err);
+        })
+})
+
 module.exports = router

@@ -10,23 +10,20 @@ import { styled } from '@mui/material/styles';
 function Weapons() {
     const charWeapons = useSelector((store) => store.characterWeapons)
     const charDetail = useSelector((store) => store.characterDetail[0])
+    
     const dispatch = useDispatch();
     const unhurtMarker = `\u2610`;
     const aggMarker = `\u2718`;
 
     const ammoBoxChanger = (e, incomingKey) => {
+        console.log(`Incoming key:`, incomingKey);
         if (e.target.innerText === unhurtMarker) {
-            dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
+            dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey+1 })
         } else if (e.target.innerText === aggMarker) {
-            dispatch({ type: "RELOAD_ONE_SHOT", payload: incomingKey })
+            dispatch({ type: "RELOAD_ONE_SHOT", payload: incomingKey+1 })
         }
     }
 
-    const Div = styled('div')(({ theme }) => ({
-        ...theme.typography.button,
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(1),
-    }));
 
     const clipBuilder = (maxClip, shotsFired, incomingKey) => {
         let clipArray = []
@@ -47,7 +44,7 @@ function Weapons() {
             case 'melee':
                 return (<Grid item xs={12}><Item></Item></Grid>)
             case 'smg':
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleAutoFire(incomingKey)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={()=> handleOneShot(incomingKey)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
             case 'assault':
                 return (<Grid item xs={12}><Item><Typography>Clip: <Button>AutoFire</Button> </Typography> </Item></Grid>)
             default:
@@ -57,14 +54,18 @@ function Weapons() {
 
     const handleAutoFire = (incomingKey) => {
         if ((charWeapons[incomingKey].max_clip - charWeapons[incomingKey].current_shots_fired) > 9 ) {
-            dispatch({type: 'FIRE_WEAPON_AUTOMATIC', payload: incomingKey})
+            dispatch({type: 'FIRE_WEAPON_AUTOMATIC', payload: incomingKey+1})
         } else {
             alert('You need more bullets!')
         }
     }
 
     const handleReload = (incomingKey) => {
-        dispatch({type: 'RELOAD_WEAPON', payload: incomingKey})
+        dispatch({type: 'RELOAD_WEAPON', payload: incomingKey+1})
+    }
+
+    const handleOneShot = (incomingKey) => {
+        dispatch ({type: "FIRE_ONE_SHOT", payload: incomingKey+1})
     }
 
     const weaponBuilder = () => {
