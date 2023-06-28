@@ -44,7 +44,7 @@ function Humanity(charDetailProp) {
         let humanityBoxes = []
 
         for (let i = 0; i < 40; i++) {
-            humanityBoxes.push(<Grid item xs={1.2}><Item onClick={(e) => humanityBoxChanger(e)}>{humanityArray[i]}</Item></Grid>)
+            humanityBoxes.push(<Grid key={i} item xs={1.2}><Item onClick={(e) => humanityBoxChanger(e)}>{humanityArray[i]}</Item></Grid>)
         }
         return humanityBoxes
 
