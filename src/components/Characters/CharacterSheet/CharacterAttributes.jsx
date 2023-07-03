@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
+import AttributesModal from '../../Modals/AttributesModal';
 
 function CharacterAttributes(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -51,82 +52,78 @@ function CharacterAttributes(charDetailProp) {
             returnedDots += emptydot
         }
         return returnedDots
-
     }
-
-
 
     return (
         <>
-        <Grid item xs={12}>
-        </Grid>
-            
+            <Grid item xs={12}>
+            </Grid>
             <Grid item xs={12}><Item><h1>Atributes</h1></Item></Grid>
             <Grid item xs={1.5}>
-                <Item>Strength:</Item>
+                <Item><AttributesModal prop={'Strength'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {strengthAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Appearance:</Item>
+                <Item><AttributesModal prop={'Appearance'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {appearanceAtt} </Item>
             </Grid>
-            
+
             <Grid item xs={1.5}>
-                <Item>Intelligence:</Item>
+                <Item><AttributesModal prop={'Intelligence'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {intelligenceAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Body: </Item>
+                <Item><AttributesModal prop={'Body'} /> </Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{bodyAtt}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Cool:</Item>
+                <Item><AttributesModal prop={'Cool'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {coolAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Willpower:</Item>
+                <Item><AttributesModal prop={'Willpower'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {willpowerAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Reflexes:</Item>
+                <Item><AttributesModal prop={'Reflexes'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{reflexesAtt}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Street Cred:</Item>
+                <Item><AttributesModal prop={'Street Cred'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {streetCredAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Technique:</Item>
+                <Item><AttributesModal prop={'Technique'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {techniqueAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Move:</Item>
+                <Item><AttributesModal prop={'Move'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{moveatt}</Item>
