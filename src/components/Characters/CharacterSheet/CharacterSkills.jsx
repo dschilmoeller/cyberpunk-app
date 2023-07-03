@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
+import SkillsModal from '../../Modals/SkillsModal';
 
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -107,129 +108,129 @@ function CharacterSkills(charDetailProp) {
                 <Item><h1>Skills</h1></Item>
             </Grid>
             <Grid item xs={4}>
-                <Item>Streetwise</Item>
+                <Item><SkillsModal prop={'Streetwise'} /></Item>
             </Grid>
             <Grid item xs={4}>
-                <Item>Tekhne</Item>
+                <Item><SkillsModal prop={'Tekhne'} /></Item>
             </Grid>
             <Grid item xs={4}>
-                <Item>Knowledge</Item>
+                <Item><SkillsModal prop={'Knowledge'} /></Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Athletics:</Item>
+                <Item><SkillsModal prop={'Athletics'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{athletics}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Animal Handling:</Item>
+                <Item><SkillsModal prop={'Animal Handling'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{animal}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Bureaucracy:</Item>
+                <Item><SkillsModal prop={'Bureaucracy'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{bureaucracy}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Concentration:</Item>
+                <Item><SkillsModal prop={'Concentration'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{concentration}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Demolitions:</Item>
+                <Item><SkillsModal prop={'Demolitions'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{demolitions}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Criminology:</Item>
+                <Item><SkillsModal prop={'Criminology'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{criminology}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Contortionist:</Item>
+                <Item><SkillsModal prop={'Contortionist'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{contortionist}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Drive Land Vehicle:</Item>
+                <Item><SkillsModal prop={'Drive Land Vehicle'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{driveLand}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Criminology:</Item>
+                <Item><SkillsModal prop={'Criminology'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{criminology}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Interrogation:</Item>
+                <Item><SkillsModal prop={'Interrogation'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{interrogation}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Drive Air Vehicle:</Item>
+                <Item><SkillsModal prop={'Drive Air Vehicle'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{driveAir}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Cryptography:</Item>
+                <Item><SkillsModal prop={'Cryptography'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{cryptography}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Legerdemain:</Item>
+                <Item><SkillsModal prop={'Legerdemain'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{legerdemain}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Drive Sea Vehicle:</Item>
+                <Item><SkillsModal prop={'Drive Sea Vehicle'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{driveSea}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Deduction:</Item>
+                <Item><SkillsModal prop={'Deduction'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{deduction}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Perception:</Item>
+                <Item><SkillsModal prop={'Perception'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{perception}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Etiquette:</Item>
+                <Item><SkillsModal prop={'Etiquette'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{etiquette}</Item>
@@ -238,7 +239,7 @@ function CharacterSkills(charDetailProp) {
             {isParaMed === true ? (
                 <>
                 <Grid item xs={1.5}>
-                    <Item>Paramedic:</Item>
+                    <Item><SkillsModal prop={'Paramedic'} /></Item>
                 </Grid>
                 <Grid item xs={2.5}>
                     <Item>{paramed}</Item>
@@ -246,7 +247,7 @@ function CharacterSkills(charDetailProp) {
                 </>
             ) : <>
                 <Grid item xs={1.5}>
-                    <Item>First Aid:</Item>
+                    <Item><SkillsModal prop={'First Aid'} /></Item>
                 </Grid>
                 <Grid item xs={2.5}>
                     <Item>{firstAid}</Item>
@@ -254,84 +255,84 @@ function CharacterSkills(charDetailProp) {
             </>}
 
             <Grid item xs={1.5}>
-                <Item>Persuasion:</Item>
+                <Item><SkillsModal prop={'Persuasion'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{persuasion}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Performance:</Item>
+                <Item><SkillsModal prop={'Performance'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{performance}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Gambling:</Item>
+                <Item><SkillsModal prop={'Gambling'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{gambling}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Resist Torture/Drugs:</Item>
+                <Item><SkillsModal prop={'Resist Torture/Drugs'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{resist}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Stealth:</Item>
+                <Item><SkillsModal prop={'Stealth'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{stealth}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Language:</Item>
+                <Item><SkillsModal prop={'Language'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{language}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Streetwise:</Item>
+                <Item><SkillsModal prop={'Streetwise'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{streetwise}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Survival:</Item>
+                <Item><SkillsModal prop={'Survival'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{survival}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Library Search:</Item>
+                <Item><SkillsModal prop={'Library Search'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{library}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Subterfuge:</Item>
+                <Item><SkillsModal prop={'Subterfuge'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{subterfuge}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Tracking:</Item>
+                <Item><SkillsModal prop={'Tracking'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{tracking}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item>Science:</Item>
+                <Item><SkillsModal prop={'Science'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{science}</Item>
