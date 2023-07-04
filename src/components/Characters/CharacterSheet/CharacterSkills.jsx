@@ -6,6 +6,9 @@ import SkillsModal from '../../Modals/SkillsModal';
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
+    const fulldot = ` \u2b24`
+    const emptydot = ` \u25ef`
+
     useEffect(() => {
         setSkills();
     })
@@ -48,8 +51,7 @@ function CharacterSkills(charDetailProp) {
     const [library, setLibrary] = useState(0)
     const [science, setScience] = useState(0)
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+
 
     const setSkills = () => {
         setAthletics(dotReturn(charDetail.athletics))
@@ -238,12 +240,12 @@ function CharacterSkills(charDetailProp) {
 
             {isParaMed === true ? (
                 <>
-                <Grid item xs={1.5}>
-                    <Item><SkillsModal prop={'Paramedic'} /></Item>
-                </Grid>
-                <Grid item xs={2.5}>
-                    <Item>{paramed}</Item>
-                </Grid>
+                    <Grid item xs={1.5}>
+                        <Item><SkillsModal prop={'Paramedic'} /></Item>
+                    </Grid>
+                    <Grid item xs={2.5}>
+                        <Item>{paramed}</Item>
+                    </Grid>
                 </>
             ) : <>
                 <Grid item xs={1.5}>

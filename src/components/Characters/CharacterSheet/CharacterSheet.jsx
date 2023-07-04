@@ -10,8 +10,7 @@ import Item from './Item';
 import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './CharacterMarkers';
-
-// only load when chardetail is loaded
+import CharacterSpecialSkills from './CharacterSpecialSkills';
 
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail[0]);
@@ -45,7 +44,7 @@ function CharacterSheet() {
                 <Button onClick={() => saveCharacter()}>Save Current Status</Button>
                 <p>Character Sheet</p>
 
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
 
                     {charDetail ? (
                         <>
@@ -69,6 +68,7 @@ function CharacterSheet() {
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />
+                            <CharacterSpecialSkills charDetail={charDetail} />
                             <CharacterMarkers charDetail={charDetail} />
 
                         </>
