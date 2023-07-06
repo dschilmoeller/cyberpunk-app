@@ -92,7 +92,6 @@ function CharacterSkills(charDetailProp) {
 
     const dotReturn = (skill) => {
         let returnedDots = ''
-
         for (let i = 0; i < skill; i++) {
             returnedDots += fulldot;
         }
@@ -101,7 +100,6 @@ function CharacterSkills(charDetailProp) {
             returnedDots += emptydot
         }
         return returnedDots
-
     }
 
     return (

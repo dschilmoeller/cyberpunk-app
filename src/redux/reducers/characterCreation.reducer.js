@@ -41,7 +41,17 @@ const characterCreation = (state = {creationStep: 'attributes'}, action) => {
         survival: ap.survival,
         tracking: ap.tracking,
         isParaMed: ap.isParaMed,
-        
+        bureaucracy: ap.bureaucracy,
+        business: ap.business,
+        criminology: ap.criminology,
+        cryptography: ap.cryptography,
+        deduction: ap.deduction,
+        firstAid: ap.firstAid,
+        paramed: ap.paramed,
+        gambling: ap.gambling,
+        language: ap.language,
+        library: ap.library,
+        science: ap.science
         }
     }
     return state
