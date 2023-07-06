@@ -39,14 +39,12 @@ function CreationSkills() {
     const [tracking, setTracking] = useState(0)
 
     // Knowledge Skills
-    const [isParaMed, setIsParaMed] = useState(false)
     const [bureaucracy, setBureaucracy] = useState(0)
     const [business, setBusiness] = useState(0)
     const [criminology, setCriminology] = useState(0)
     const [cryptography, setCryptography] = useState(0)
     const [deduction, setDeduction] = useState(0)
     const [firstAid, setFirstAid] = useState(0)
-    const [paramed, setParaMed] = useState(0)
     const [gambling, setGambling] = useState(0)
     const [language, setLanguage] = useState(0)
     const [library, setLibrary] = useState(0)
