@@ -14,10 +14,11 @@ function UserPage() {
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
       <p>Your User Type is: {user.user_type}</p>
-      <Button variant='contained' onClick={()=>history.push('/characterlist')}>See Existing Characters</Button>
-      <p>Create New Character</p>
+      <Button sx={{margin: 2}} variant='contained' onClick={()=>history.push('/characterlist')}>See Existing Characters</Button>
+      <br />
+      <Button sx={{margin: 2}} variant='contained' onClick={()=>history.push('/charcreation/')}>Create New Character</Button>
       {/* Example of Admin Only Text */}
-      {user.user_type === 2 ? <p>Test words</p> : <></>}
+      {user.user_type === 2 ? <p>Admin only words</p> : <></>}
       <LogOutButton className="btn" />
     </div>
   );

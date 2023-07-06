@@ -21,8 +21,10 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import CharacterList from '../Characters/CharacterList/CharacterList';
-import CharacterDetail from '../Characters/CharacterDetail/CharacterDetail';
 import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
+import Creation from '../CharCreation/Creation';
+import CharacterDetail from '../Characters/CharacterDetail/CharacterDetail';
+
 
 import './App.css';
 
@@ -120,6 +122,14 @@ function App() {
             path="/characterdetail/:id"
           >
             <CharacterDetail />
+          </ProtectedRoute>
+
+          {/* character creation */}
+          <ProtectedRoute
+            exact
+            path="/charcreation/"
+          >
+            <Creation />
           </ProtectedRoute>
 
           <Route
