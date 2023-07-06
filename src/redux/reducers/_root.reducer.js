@@ -9,6 +9,8 @@ import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterWeapons from './characterWeapons.reducer';
 
+import characterCreation from './characterCreation.reducer';
+
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
   characterCyberDetail, // contains data of relevant bridge table row for character
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterWeapons, // contains active character's weapons
+  characterCreation, // contains details set up during character creation
 });
 
 export default rootReducer;
