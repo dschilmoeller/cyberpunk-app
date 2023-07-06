@@ -155,10 +155,10 @@ function CharacterSkills(charDetailProp) {
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Criminology'} /></Item>
+                <Item><SkillsModal prop={'Business'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
-                <Item>{criminology}</Item>
+                <Item>{business}</Item>
             </Grid>
 
             <Grid item xs={1.5}>

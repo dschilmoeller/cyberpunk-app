@@ -29,7 +29,19 @@ const characterCreation = (state = {creationStep: 'attributes'}, action) => {
         persuasion: ap.persuasion,
         resist: ap.resist,
         streetwise: ap.streetwise,
-        subterfuge: ap.subterfuge
+        subterfuge: ap.subterfuge,
+        animal: ap.animal,
+        demolitions: ap.demolitions,
+        driveLand: ap.driveLand,
+        driveAir: ap.driveAir,
+        driveSea: ap.driveSea,
+        etiquette: ap.etiquette,
+        performance: ap.performance,
+        stealth: ap.stealth,
+        survival: ap.survival,
+        tracking: ap.tracking,
+        isParaMed: ap.isParaMed,
+        
         }
     }
     return state

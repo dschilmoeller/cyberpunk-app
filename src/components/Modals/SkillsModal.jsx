@@ -23,12 +23,12 @@ export default function SkillsModal({ prop }) {
 
     const modalText = (prop) => {
         switch (prop) {
-                case 'Streetwise':
-                    return 'Skills learned in the rough and tumble streets. Most tests involving these skills can be used untrained.'
-                case 'Tekhne':
-                    return 'Skills with some technical requirements and background. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value.'
-                    case 'Knowledge':
-                        return 'Skills reflecting a fair amount of study. Tests involving these skills usually cannot be attempted without at least one dot in the relevant skill.'
+            case 'Streetwise':
+                return 'Skills learned in the rough and tumble streets. Most tests involving these skills can be used untrained.'
+            case 'Tekhne':
+                return 'Skills with some technical requirements and background. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value.'
+            case 'Knowledge':
+                return 'Skills reflecting a fair amount of study. Tests involving these skills usually cannot be attempted without at least one dot in the relevant skill.'
             case 'Athletics':
                 return 'Good sport person.'
             case 'Concentration':
@@ -71,6 +71,8 @@ export default function SkillsModal({ prop }) {
                 return 'Where did that fricking lion go.'
             case 'Bureaucracy':
                 return 'I love the smell of paper in the morning.'
+            case 'Business':
+                return 'That is just good business.'
             case 'Criminology':
                 return 'The mind of a criminal is like a whatchamacallit. Sticky and hard to pry open..'
             case 'Cryptography':
