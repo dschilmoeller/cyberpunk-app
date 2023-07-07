@@ -23,7 +23,7 @@ function CreationSkills() {
     const [legerdemain, setLegerdemain] = useState(0)
     const [meleeWeapons, setMeleeWeapons] = useState(0)
     const [perception, setPerception] = useState(0)
-    const [rangedWeapons, setRangedWeapons] = useState(0)
+    const [firearms, setFirearms] = useState(0)
     const [streetwise, setStreetwise] = useState(0)
 
     // Tekhne skills
@@ -136,9 +136,9 @@ function CreationSkills() {
                 }
                 break;
 
-            case 'Ranged Weapons':
-                if (rangedWeapons === 0) {
-                    setRangedWeapons(skillNumber);
+            case 'Firearms':
+                if (firearms === 0) {
+                    setFirearms(skillNumber);
                     dealWithCounter();
                 } else {
                     alert('Already selected!');
@@ -367,7 +367,7 @@ function CreationSkills() {
         setLegerdemain(0)
         setMeleeWeapons(0)
         setPerception(0)
-        setRangedWeapons(0)
+        setFirearms(0)
         setStreetwise(0)
 
         setDemolitions(0)
@@ -468,10 +468,10 @@ function CreationSkills() {
                             <Item onClick={() => skillSelector('Perception')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(perception)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Ranged Weapons'} /></Item></Grid>
-                        {rangedWeapons === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => skillSelector('Ranged Weapons')}>{selectVerbiage()}</Item>
-                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(rangedWeapons)}</Item></Grid></> }
+                        <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                        {firearms === 0 ? <Grid xs={8} item>
+                            <Item onClick={() => skillSelector('Firearms')}>{selectVerbiage()}</Item>
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(firearms)}</Item></Grid></> }
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
                         {streetwise === 0 ? <Grid xs={8} item>
