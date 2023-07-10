@@ -47,7 +47,7 @@ function CreationSkills() {
     const [firstAid, setFirstAid] = useState(0)
     const [gambling, setGambling] = useState(0)
     const [language, setLanguage] = useState(0)
-    const [milTech, setMilTech] = useState(0)
+    const [militaryTech, setMilitaryTech] = useState(0)
     const [science, setScience] = useState(0)
     const [vehicleTech, setVehicleTech] = useState(0)
 
@@ -310,8 +310,8 @@ function CreationSkills() {
                 break;
 
             case 'Military Tech':
-                if (milTech === 0) {
-                    setMilTech(skillNumber);
+                if (militaryTech === 0) {
+                    setMilitaryTech(skillNumber);
                     dealWithCounter();
                 } else {
                     alert('Already selected!');
@@ -388,7 +388,7 @@ function CreationSkills() {
         setFirstAid(0)
         setGambling(0)
         setLanguage(0)
-        setMilTech(0)
+        setMilitaryTech(0)
         setScience(0)
         setVehicleTech(0)
     }
@@ -407,13 +407,35 @@ function CreationSkills() {
             const skills = {
                 athletics, brawling, concentration, evasion, fastTalk, firearms, legerdemain, meleeWeapons, perception, streetwise,
                 demolitions, driveLand, driveExotic, etiquette, exoticWeapons, heavyWeapons, performance, stealth, survival, tracking,
-                business, cryptography, cyberTech, firstAid, investigation, gambling, language, milTech, science, vehicleTech
+                business, cryptography, cyberTech, firstAid, investigation, gambling, language, militaryTech, science, vehicleTech
             }
             dispatch({ type: 'SET_CREATION_SKILLS', payload: skills })
-            // dispatch({ type: 'SET_CREATION_STEP', payload: '' })
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
         } else {
             alert('Please select all available skills!')
         }
+    }
+
+    const quickSelect = () => {
+        setAthletics(4)
+        setBrawling(4)
+        setConcentration(3)
+        setEvasion(3)
+        setFastTalk(3)
+        setFirearms(3)
+        setMeleeWeapons(2)
+        setLegerdemain(2)
+        setPerception(2)
+        setStreetwise(2)
+        setDemolitions(2)
+        setDriveLand(2)
+        setDriveExotic(1)
+        setEtiquette(1)
+        setExoticWeapons(1)
+        setHeavyWeapons(1)
+        setPerformance(1)
+        setStealth(1)
+        setSkillNumber(0)
     }
 
     return (
@@ -423,6 +445,7 @@ function CreationSkills() {
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetSkillSelection()}>Reset Skill Selection</Button>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchSkills()}>Save Skill Selection</Button>
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button>
                 </Grid>
             </Grid>
             <Grid container>
@@ -574,9 +597,9 @@ function CreationSkills() {
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(language)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Military Tech'} /></Item></Grid>
-                        {milTech === 0 ? <Grid xs={8} item>
+                        {militaryTech === 0 ? <Grid xs={8} item>
                             <Item onClick={() => skillSelector('Military Tech')}>{selectVerbiage()}</Item>
-                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(milTech)}</Item></Grid></>}
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(militaryTech)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Science'} /></Item></Grid>
                         {science === 0 ? <Grid xs={8} item>

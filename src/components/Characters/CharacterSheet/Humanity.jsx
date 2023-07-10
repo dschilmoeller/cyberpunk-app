@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
+import SpecialModal from '../../Modals/SpecialModal';
 
 // To Do: import charDetailProp correctly
 // change characters to filled boxes and x'd boxes for style
@@ -52,7 +53,7 @@ function Humanity(charDetailProp) {
 
     return (
         <>
-            <Item sx={{ marginTop: 4.5 }}>Humanity</Item>
+            <Item sx={{ marginTop: 4.5 }}><SpecialModal prop={'Humanity'} /></Item>
             <Grid container>
                 {humanityBuilder()}
             </Grid>

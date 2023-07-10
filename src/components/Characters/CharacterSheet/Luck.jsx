@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
+import SpecialModal from '../../Modals/SpecialModal';
 
 function Luck(charDetailProp) {
     const charDetailLuck = charDetailProp.charDetailProp.max_luck
@@ -48,7 +49,7 @@ function Luck(charDetailProp) {
 
     return (
         <>
-            <Item sx={{ marginTop: 4.5 }}>Luck</Item>
+            <Item sx={{ marginTop: 4.5 }}><SpecialModal prop={'Luck'} /></Item>
             <Grid container>
                 {luckBuilder()}
             </Grid>

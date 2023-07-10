@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
+import SpecialModal from '../../Modals/SpecialModal';
 
 function CharacterSpecialSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -100,7 +101,7 @@ function CharacterSpecialSkills(charDetailProp) {
                     </Grid>
                     {rockerboy != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Rockerboy</Item>
+                            <Item><SpecialModal prop={'Rockerboy'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{rockerboy}</Item>
@@ -108,7 +109,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {solo != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Solo</Item>
+                            <Item><SpecialModal prop={'Solo'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{solo}</Item>
@@ -116,7 +117,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {netrunner != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Netrunner</Item>
+                            <Item><SpecialModal prop={'Netrunner'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{netrunner}</Item>
@@ -124,7 +125,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {nomad != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Nomad</Item>
+                            <Item><SpecialModal prop={'Nomad'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{nomad}</Item>
@@ -132,7 +133,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {media != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Media</Item>
+                            <Item><SpecialModal prop={'Media'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{media}</Item>
@@ -140,28 +141,28 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {medtech != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item>Medtech</Item>
+                            <Item><SpecialModal prop={'Medtech'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medtech}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item>Surgery</Item>
+                            <Item><SpecialModal prop={'Surgery'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medSurgery}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item>Pharmaceuticals</Item>
+                            <Item><SpecialModal prop={'Pharmaceuticals'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medPharma}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item>Cryo</Item>
+                            <Item><SpecialModal prop={'Cryogenics'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medCryo}</Item>
@@ -169,31 +170,31 @@ function CharacterSpecialSkills(charDetailProp) {
                     </>) : <></>}
 
                     {maker != '' ? (<><Grid item xs={4.5}>
-                        <Item>Maker</Item>
+                        <Item><SpecialModal prop={'Maker'} /></Item>
                     </Grid>
                         <Grid item xs={7.5}>
                             <Item>{maker}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item>Field</Item>
+                            <Item><SpecialModal prop={'Field Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerField}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item>Upgrade</Item>
+                            <Item><SpecialModal prop={'Upgrade Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerUpgrade}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item>Fab</Item>
+                            <Item><SpecialModal prop={'Fabrication'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerFab}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item>Invent</Item>
+                            <Item><SpecialModal prop={'Invention'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerInvent}</Item>
