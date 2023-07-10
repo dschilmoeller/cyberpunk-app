@@ -113,6 +113,8 @@ function CharacterSkills(charDetailProp) {
             </Grid>
             <Grid item xs={4}>
                 <Grid container>
+                <Grid item xs={12}><Item><SkillsModal prop={'Streets'} /></Item></Grid>
+
                     <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(athletics)}</Item></Grid>
 
@@ -147,6 +149,8 @@ function CharacterSkills(charDetailProp) {
 
             <Grid item xs={4}>
                 <Grid container>
+                <Grid item xs={12}><Item><SkillsModal prop={'Tekhne'} /></Item></Grid>
+
                     <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(demolitions)}</Item></Grid>
 
@@ -181,6 +185,8 @@ function CharacterSkills(charDetailProp) {
 
             <Grid item xs={4}>
                 <Grid container>
+                <Grid item xs={12}><Item><SkillsModal prop={'Knowledge'} /></Item></Grid>
+
                     <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(business)}</Item></Grid>
 
