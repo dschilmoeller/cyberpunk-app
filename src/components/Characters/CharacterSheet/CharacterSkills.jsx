@@ -15,79 +15,83 @@ function CharacterSkills(charDetailProp) {
 
     // Streetwise Skills
     const [athletics, setAthletics] = useState(0)
+    const [brawling, setBrawling] = useState(0)
     const [concentration, setConcentration] = useState(0)
-    const [contortionist, setContortionist] = useState(0)
-    const [interrogation, setInterrogation] = useState(0)
+    const [evasion, setEvasion] = useState(0)
+    const [fastTalk, setFastTalk] = useState(0)
+    const [firearms, setFirearms] = useState(0)
     const [legerdemain, setLegerdemain] = useState(0)
+    const [meleeWeapons, setMeleeWeapons] = useState(0)
     const [perception, setPerception] = useState(0)
-    const [persuasion, setPersuasion] = useState(0)
-    const [resist, setResist] = useState(0)
     const [streetwise, setStreetwise] = useState(0)
-    const [subterfuge, setSubterfuge] = useState(0)
 
     // Tekhne skills
-    const [animal, setAnimal] = useState(0)
+
     const [demolitions, setDemolitions] = useState(0)
     const [driveLand, setDriveLand] = useState(0)
-    const [driveAir, setDriveAir] = useState(0)
-    const [driveSea, setDriveSea] = useState(0)
+    const [driveExotic, setDriveExotic] = useState(0)
     const [etiquette, setEtiquette] = useState(0)
+    const [heavyWeapons, setHeavyWeapons] = useState(0)
+    const [exoticWeapons, setExoticWeapons] = useState(0)
     const [performance, setPerformance] = useState(0)
     const [stealth, setStealth] = useState(0)
     const [survival, setSurvival] = useState(0)
     const [tracking, setTracking] = useState(0)
 
     // Knowledge Skills
-    const [isParaMed, setIsParaMed] = useState(false)
-    const [bureaucracy, setBureaucracy] = useState(0)
     const [business, setBusiness] = useState(0)
-    const [criminology, setCriminology] = useState(0)
     const [cryptography, setCryptography] = useState(0)
-    const [deduction, setDeduction] = useState(0)
+    const [cyberTech, setCyberTech] = useState(0)
+    const [investigation, setInvestigation] = useState(0)
     const [firstAid, setFirstAid] = useState(0)
-    const [paramed, setParaMed] = useState(0)
     const [gambling, setGambling] = useState(0)
     const [language, setLanguage] = useState(0)
-    const [library, setLibrary] = useState(0)
+    const [milTech, setMilTech] = useState(0)
     const [science, setScience] = useState(0)
+    const [vehicleTech, setVehicleTech] = useState(0)
+
+    // non-standard skills:
+    const [isParaMed, setIsParaMed] = useState(false)
+    const [paramed, setParaMed] = useState(0)
 
 
 
     const setSkills = () => {
-        setAthletics(dotReturn(charDetail.athletics))
-        setConcentration(dotReturn(charDetail.concentration))
-        setContortionist(dotReturn(charDetail.contortionist))
-        setInterrogation(dotReturn(charDetail.interrogation))
-        setLegerdemain(dotReturn(charDetail.legerdemain))
-        setPerception(dotReturn(charDetail.perception))
-        setPersuasion(dotReturn(charDetail.persuasion))
-        setResist(dotReturn(charDetail.resist))
-        setStreetwise(dotReturn(charDetail.streetwise))
-        setSubterfuge(dotReturn(charDetail.subterfuge))
+        setAthletics(charDetail.athletics)
+        setBrawling(charDetail.brawling)
+        setConcentration(charDetail.concentration)
+        setEvasion(charDetail.evasion)
+        setFastTalk(charDetail.fast_talk)
+        setFirearms(charDetail.firearms)
+        setLegerdemain(charDetail.legerdemain)
+        setMeleeWeapons(charDetail.melee_weapons)
+        setPerception(charDetail.perception)
+        setStreetwise(charDetail.streetwise)
 
-        setAnimal(dotReturn(charDetail.animal))
-        setDemolitions(dotReturn(charDetail.demolitions))
-        setDriveLand(dotReturn(charDetail.driveland))
-        setDriveAir(dotReturn(charDetail.driveair))
-        setDriveSea(dotReturn(charDetail.drivesea))
-        setEtiquette(dotReturn(charDetail.etiquette))
-        setPerformance(dotReturn(charDetail.performance))
-        setStealth(dotReturn(charDetail.stealth))
-        setSurvival(dotReturn(charDetail.survival))
-        setTracking(dotReturn(charDetail.tracking))
+        setDemolitions(charDetail.demolitions)
+        setDriveLand(charDetail.drive_land)
+        setDriveExotic(charDetail.drive_exotic)
+        setEtiquette(charDetail.etiquette)
+        setExoticWeapons(charDetail.exotic_weapons)
+        setHeavyWeapons(charDetail.heavy_weapons)
+        setPerformance(charDetail.performance)
+        setStealth(charDetail.stealth)
+        setSurvival(charDetail.survival)
+        setTracking(charDetail.tracking)
+
+        setBusiness(charDetail.business)
+        setCryptography(charDetail.cryptography)
+        setCyberTech(charDetail.cyber_tech)
+        setInvestigation(charDetail.investigation)
+        setFirstAid(charDetail.first_aid)
+        setGambling(charDetail.gambling)
+        setLanguage(charDetail.language)
+        setMilTech(charDetail.military_tech)
+        setScience(charDetail.science)
+        setVehicleTech(charDetail.vehicle_tech)
 
         setIsParaMed(charDetail.is_paramedical)
-        setBureaucracy(dotReturn(charDetail.bureaucracy))
-        setBusiness(dotReturn(charDetail.business))
-        setCriminology(dotReturn(charDetail.criminology))
-        setCryptography(dotReturn(charDetail.cryptography))
-        setDeduction(dotReturn(charDetail.deduction))
-        setFirstAid(dotReturn(charDetail.first_aid))
-        setParaMed(dotReturn(charDetail.paramed))
-        setGambling(dotReturn(charDetail.gambling))
-        setLanguage(dotReturn(charDetail.language))
-        setLibrary(dotReturn(charDetail.library))
-        setScience(dotReturn(charDetail.science))
+        setParaMed(charDetail.paramed)
     }
 
     const dotReturn = (skill) => {
@@ -108,234 +112,110 @@ function CharacterSkills(charDetailProp) {
                 <Item><h1>Skills</h1></Item>
             </Grid>
             <Grid item xs={4}>
-                <Item><SkillsModal prop={'Streetwise'} /></Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item><SkillsModal prop={'Tekhne'} /></Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item><SkillsModal prop={'Knowledge'} /></Item>
-            </Grid>
+                <Grid container>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(athletics)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Athletics'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{athletics}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Brawling'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(brawling)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Animal Handling'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{animal}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Concentration'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(concentration)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Bureaucracy'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{bureaucracy}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Evasion'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(evasion)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Concentration'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{concentration}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Fast Talk'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(fastTalk)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Demolitions'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{demolitions}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(firearms)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Business'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{business}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Legerdemain'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(legerdemain)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Contortionist'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{contortionist}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Melee Weapons'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(meleeWeapons)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Drive Land Vehicle'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{driveLand}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Perception'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(perception)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Criminology'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{criminology}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Interrogation'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{interrogation}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Drive Air Vehicle'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{driveAir}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Cryptography'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{cryptography}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Legerdemain'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{legerdemain}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Drive Sea Vehicle'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{driveSea}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Deduction'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{deduction}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Perception'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{perception}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Etiquette'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{etiquette}</Item>
-            </Grid>
-
-            {isParaMed === true ? (
-                <>
-                    <Grid item xs={1.5}>
-                        <Item><SkillsModal prop={'Paramedic'} /></Item>
-                    </Grid>
-                    <Grid item xs={2.5}>
-                        <Item>{paramed}</Item>
-                    </Grid>
-                </>
-            ) : <>
-                <Grid item xs={1.5}>
-                    <Item><SkillsModal prop={'First Aid'} /></Item>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(streetwise)}</Item></Grid>
                 </Grid>
-                <Grid item xs={2.5}>
-                    <Item>{firstAid}</Item>
+            </Grid>
+
+            <Grid item xs={4}>
+                <Grid container>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(demolitions)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Drive Land'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(driveLand)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Drive Exotic'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(driveExotic)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Etiquette'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(etiquette)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Exotic Weapons'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(exoticWeapons)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Heavy Weapons'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(heavyWeapons)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Performance'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(performance)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Stealth'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(stealth)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Survival'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(survival)}</Item></Grid>
+
+                    <Grid item xs={4}><Item><SkillsModal prop={'Tracking'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(tracking)}</Item></Grid>
                 </Grid>
-            </>}
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Persuasion'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{persuasion}</Item>
             </Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Performance'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{performance}</Item>
-            </Grid>
+            <Grid item xs={4}>
+                <Grid container>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(business)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Gambling'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{gambling}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Cryptography'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(cryptography)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Resist Torture/Drugs'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{resist}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Cyber Tech'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(cyberTech)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Stealth'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{stealth}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Investigation'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(investigation)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Language'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{language}</Item>
-            </Grid>
+                    {isParaMed === true ? (<>
+                        <Grid item xs={4}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
+                        <Grid item xs={8}><Item>{dotReturn(paramed)}</Item></Grid>
+                    </>) : (<>
+                        <Grid item xs={4}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
+                        <Grid item xs={8}><Item>{dotReturn(firstAid)}</Item></Grid>
+                    </>)}
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Streetwise'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{streetwise}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Gambling'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(gambling)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Survival'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{survival}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Language'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(language)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Library Search'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{library}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Military Tech'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(milTech)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Subterfuge'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{subterfuge}</Item>
-            </Grid>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Science'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(science)}</Item></Grid>
 
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Tracking'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{tracking}</Item>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <Item><SkillsModal prop={'Science'} /></Item>
-            </Grid>
-            <Grid item xs={2.5}>
-                <Item>{science}</Item>
+                    <Grid item xs={4}><Item><SkillsModal prop={'Vehicle Tech'} /></Item></Grid>
+                    <Grid item xs={8}><Item>{dotReturn(vehicleTech)}</Item></Grid>
+                </Grid>
             </Grid>
         </>
     )

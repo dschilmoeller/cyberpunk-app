@@ -204,7 +204,7 @@ function CreationAttributes() {
                             </>}
                         <Grid xs={4} item><Item>Movement</Item></Grid>
                         {reflexesAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('reflexes')}>Derived from Reflexes</Item>
+                            <Item>Derived from Reflexes</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(moveatt)}</Item></Grid>

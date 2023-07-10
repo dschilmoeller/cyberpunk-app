@@ -20,10 +20,10 @@ function CreationSkills() {
     const [concentration, setConcentration] = useState(0)
     const [evasion, setEvasion] = useState(0)
     const [fastTalk, setFastTalk] = useState(0)
+    const [firearms, setFirearms] = useState(0)
     const [legerdemain, setLegerdemain] = useState(0)
     const [meleeWeapons, setMeleeWeapons] = useState(0)
     const [perception, setPerception] = useState(0)
-    const [firearms, setFirearms] = useState(0)
     const [streetwise, setStreetwise] = useState(0)
 
     // Tekhne skills
@@ -32,8 +32,8 @@ function CreationSkills() {
     const [driveLand, setDriveLand] = useState(0)
     const [driveExotic, setDriveExotic] = useState(0)
     const [etiquette, setEtiquette] = useState(0)
-    const [heavyWeapon, setHeavyWeapon] = useState(0)
-    const [exoticWeapon, setExoticWeapon] = useState(0)
+    const [heavyWeapons, setHeavyWeapons] = useState(0)
+    const [exoticWeapons, setExoticWeapons] = useState(0)
     const [performance, setPerformance] = useState(0)
     const [stealth, setStealth] = useState(0)
     const [survival, setSurvival] = useState(0)
@@ -192,8 +192,8 @@ function CreationSkills() {
                 break;
 
             case 'Exotic Weapons':
-                if (exoticWeapon === 0) {
-                    setExoticWeapon(skillNumber);
+                if (exoticWeapons === 0) {
+                    setExoticWeapons(skillNumber);
                     dealWithCounter();
                 } else {
                     alert('Already selected!');
@@ -201,8 +201,8 @@ function CreationSkills() {
                 break;
 
             case 'Heavy Weapons':
-                if (heavyWeapon === 0) {
-                    setHeavyWeapon(skillNumber);
+                if (heavyWeapons === 0) {
+                    setHeavyWeapons(skillNumber);
                     dealWithCounter();
                 } else {
                     alert('Already selected!');
@@ -374,8 +374,8 @@ function CreationSkills() {
         setDriveLand(0)
         setDriveExotic(0)
         setEtiquette(0)
-        setExoticWeapon(0)
-        setHeavyWeapon(0)
+        setExoticWeapons(0)
+        setHeavyWeapons(0)
         setPerformance(0)
         setStealth(0)
         setSurvival(0)
@@ -405,12 +405,12 @@ function CreationSkills() {
     const dispatchSkills = () => {
         if (skillNumber === 0) {
             const skills = {
-                athletics, concentration, contortionist, interrogation, legerdemain, perception, persuasion, resist, streetwise, subterfuge,
-                animal, demolitions, driveLand, driveAir, driveSea, etiquette, performance, stealth, tracking, survival,
-                bureaucracy, business, criminology, cryptography, deduction, firstAid, gambling, language, library, science
+                athletics, brawling, concentration, evasion, fastTalk, firearms, legerdemain, meleeWeapons, perception, streetwise,
+                demolitions, driveLand, driveExotic, etiquette, exoticWeapons, heavyWeapons, performance, stealth, survival, tracking,
+                business, cryptography, cyberTech, firstAid, investigation, gambling, language, milTech, science, vehicleTech
             }
             dispatch({ type: 'SET_CREATION_SKILLS', payload: skills })
-            dispatch({ type: 'SET_CREATION_STEP', payload: 'combat_skills' })
+            // dispatch({ type: 'SET_CREATION_STEP', payload: '' })
         } else {
             alert('Please select all available skills!')
         }
@@ -441,7 +441,7 @@ function CreationSkills() {
                         <Grid item xs={4}><Item><SkillsModal prop={'Concentration'} /></Item></Grid>
                         {concentration === 0 ? <Grid xs={8} item>
                             <Item onClick={() => skillSelector('Concentration')}>{selectVerbiage()}</Item>
-                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(concentration)}</Item></Grid></>}            
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(concentration)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Evasion'} /></Item></Grid>
                         {evasion === 0 ? <Grid xs={8} item>
@@ -452,6 +452,10 @@ function CreationSkills() {
                         {fastTalk === 0 ? <Grid xs={8} item>
                             <Item onClick={() => skillSelector('Fast Talk')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(fastTalk)}</Item></Grid></>}
+                        <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                        {firearms === 0 ? <Grid xs={8} item>
+                            <Item onClick={() => skillSelector('Firearms')}>{selectVerbiage()}</Item>
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(firearms)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Legerdemain'} /></Item></Grid>
                         {legerdemain === 0 ? <Grid xs={8} item>
@@ -468,10 +472,7 @@ function CreationSkills() {
                             <Item onClick={() => skillSelector('Perception')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(perception)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
-                        {firearms === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => skillSelector('Firearms')}>{selectVerbiage()}</Item>
-                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(firearms)}</Item></Grid></> }
+                        
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
                         {streetwise === 0 ? <Grid xs={8} item>
@@ -504,9 +505,14 @@ function CreationSkills() {
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(etiquette)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Exotic Weapons'} /></Item></Grid>
-                        {exoticWeapon === 0 ? <Grid xs={8} item>
+                        {exoticWeapons === 0 ? <Grid xs={8} item>
                             <Item onClick={() => skillSelector('Exotic Weapons')}>{selectVerbiage()}</Item>
-                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(exoticWeapon)}</Item></Grid></>}
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(exoticWeapons)}</Item></Grid></>}
+
+                        <Grid item xs={4}><Item><SkillsModal prop={'Heavy Weapons'} /></Item></Grid>
+                        {heavyWeapons === 0 ? <Grid xs={8} item>
+                            <Item onClick={() => skillSelector('Heavy Weapons')}>{selectVerbiage()}</Item>
+                        </Grid> : <><Grid xs={8} item><Item>{dotReturn(heavyWeapons)}</Item></Grid></>}
 
                         <Grid item xs={4}><Item><SkillsModal prop={'Performance'} /></Item></Grid>
                         {performance === 0 ? <Grid xs={8} item>
