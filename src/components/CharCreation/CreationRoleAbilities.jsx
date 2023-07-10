@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SpecialModal from '../Modals/SpecialModal';
+import SkillsModal from '../Modals/SkillsModal';
 
 function CreationRoleAbilities() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch()
+    const characterDetails = useSelector(store => store.characterCreation)
 
     const [roleSelection, setRoleSelection] = useState('')
 
@@ -19,6 +21,8 @@ function CreationRoleAbilities() {
     const [media, setMedia] = useState(0);
     const [medtech, setMedtech] = useState(0);
     const [maker, setMaker] = useState(0);
+    const [isParamed, setIsParamed] = useState(false)
+    const [paramedic, setParamedic] = useState(0)
 
     const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(0)
     const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(0)
@@ -39,38 +43,52 @@ function CreationRoleAbilities() {
                 setRoleSelection('Rockerboy')
                 resetSpecialSkills()
                 setRockerboy(2)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
             case 'Solo':
                 setRoleSelection('Solo')
                 resetSpecialSkills()
                 setSolo(2)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
             case 'Netrunner':
                 setRoleSelection('Netrunner')
                 resetSpecialSkills()
                 setNetrunner(2)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
             case 'Nomad':
                 setRoleSelection('Nomad')
                 resetSpecialSkills()
                 setNomad(2)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
             case 'Media':
                 setRoleSelection('Media')
                 resetSpecialSkills()
                 setMedia(2)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
             case 'Medtech':
                 setRoleSelection('Medtech')
                 resetSpecialSkills()
                 setMedtech(2)
                 setAvailableMedSkillPoints(2)
+                setIsParamed(true)
+                setParamedic(characterDetails.firstAid)
                 break;
             case 'Maker':
                 setRoleSelection('Maker')
                 resetSpecialSkills()
                 setMaker(2)
                 setAvailableMakerSkillPoints(4)
+                setIsParamed(false)
+                setParamedic(0)
                 break;
         }
     }
@@ -167,20 +185,23 @@ function CreationRoleAbilities() {
             nomad,
             media,
             medtech,
+            maker,
             medSurgery,
             medPharma,
             medCryo,
+            isParamed,
+            paramedic,
             makerField,
             makerUpgrade,
             makerFab,
             makerInvent
         }
         if (roleSelection === 'Rockerboy' || roleSelection === 'Solo' || roleSelection === 'Netrunner' || roleSelection === 'Nomad' || roleSelection === 'Media'
-        || (roleSelection === 'Maker' && availableMakerSkillPoints === 0) 
-        || (roleSelection === 'Medtech' && availableMedSkillPoints === 0) ) {
-            dispatch({type: "SET_CREATION_ROLE_ABILITIES", payload: ability})
+            || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)
+            || (roleSelection === 'Medtech' && availableMedSkillPoints === 0)) {
+            dispatch({ type: "SET_CREATION_ROLE_ABILITIES", payload: ability })
         } else {
-            console.log(`Error`);
+            alert('Please ensure a role ability is selected and any associated skills are declared.')
         }
     }
 
@@ -276,6 +297,15 @@ function CreationRoleAbilities() {
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(medCryo)}</Item></Grid>
+
+<Grid item xs={12}><Item><h3>First Aid:</h3></Item></Grid>
+                <Grid item xs={6}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
+                <Grid item xs={6}><Item>{dotReturn(characterDetails.firstAid)}</Item></Grid>
+                <Grid item xs={12}><Item>becomes </Item></Grid>
+                <Grid item xs={6}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
+                <Grid item xs={6}><Item>{dotReturn(paramedic)}</Item></Grid>
+
+
             </>) : <></>}
 
         </Grid>
