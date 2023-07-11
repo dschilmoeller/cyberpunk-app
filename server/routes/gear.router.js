@@ -15,6 +15,7 @@ router.get('/armor', (req, res) => {
         });
 });
 
+// Fetch Weapon List
 router.get('/weapon', (req, res) => {
     const sqlText = `SELECT * FROM "weapon_master" order by "weapon_master_id"`
     
@@ -26,5 +27,18 @@ router.get('/weapon', (req, res) => {
             console.log(`Error Fetching Weapon List:`, err);
         });
 });
+
+// Fetch miscellaneous gear list.
+router.get('/miscgear', (req, res) => {
+    const sqlText = `SELECT * FROM "misc_gear_master" order by "misc_gear_master_id"`
+
+    pool.query(sqlText)
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching misc gear list:`, err);
+    })
+})
 
 module.exports = router

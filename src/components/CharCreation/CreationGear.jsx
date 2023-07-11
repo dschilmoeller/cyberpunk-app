@@ -25,8 +25,10 @@ export default function CreationGear() {
 
     const armor = useSelector(store => store.armorMaster)
     const weapons = useSelector(store => store.weaponMaster)
+    const miscGear = useSelector(store => store.miscGearMaster)
     const charArmor = useSelector(store => store.characterCreation.armor)
     const charWeapons = useSelector(store => store.characterCreation.weapons)
+    const charGear = useSelector(store => store.characterCreation.gear)
 
     const [selectedList, setSelectedList] = useState('Armor')
     const [bank, setBank] = useState(2500)
@@ -56,7 +58,7 @@ export default function CreationGear() {
     weaponBuilder();
 
     const purchaseArmor = (price, index) => {
-        if (bank > price) {
+        if (bank >= price) {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_ARMOR", payload: index })
         } else {
@@ -70,7 +72,7 @@ export default function CreationGear() {
     }
 
     const purchaseWeapon = (price, index) => {
-        if (bank > price) {
+        if (bank >= price) {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_WEAPON", payload: index })
         } else {
@@ -83,15 +85,36 @@ export default function CreationGear() {
         dispatch({ type: "CREATION_SELL_WEAPON", payload: index })
     }
 
+    const purchaseGear = (price, index) => {
+        if (bank >= price) {
+            setBank(bank - price)
+            dispatch({ type: "CREATION_BUY_GEAR", payload: index })
+        } else {
+            alert("Insufficient funds")
+        }
+    }
+
+    const sellGear = (price, index) => {
+        setBank(bank + price)
+        dispatch({ type: "CREATION_SELL_GEAR", payload: index })
+    }
+
+    const savePurchases = () => {
+        dispatch({ type: "SET_CREATION_STEP", payload: 'review'})
+    }
+
     return (<>
-        <h2>Cash on Hand: ${bank}</h2>
+        <h2>Cash on Hand: ${bank} <Button onClick={() => savePurchases()}>Save Purchases</Button></h2>
+        
 
         <Button onClick={() => setSelectedList('Armor')}>Armor</Button>
         <Button onClick={() => setSelectedList('Weapons')}>Weapons</Button>
+        <Button onClick={() => setSelectedList('Misc')}>Misc Gear</Button>
 
         {selectedList === 'Armor' ? (<>
 
             <h3>My armor:</h3>
+            <h4>Only the highest quality armor will be active on in-play sheet.</h4>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -143,7 +166,6 @@ export default function CreationGear() {
                 </Table>
             </TableContainer>
         </>) : <></>}
-
 
         {selectedList === 'Weapons' ? (<>
             <h3>My Weapons:</h3>
@@ -207,6 +229,57 @@ export default function CreationGear() {
                                 <TableCell align="center">{row.max_clip}</TableCell>
                                 <TableCell align="center">{row.hands}</TableCell>
                                 <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
+                                <TableCell align="right">{row.price}$</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>) : <></>}
+
+        {selectedList === 'Misc' ? (<>
+
+            <h3>My Misc Gear:</h3>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Return?</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Description</TableCell>
+                            <TableCell align="left">Price</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {charGear.map((item, i) => (
+                            <TableRow key={i}>
+                                <TableCell align="left"><Button onClick={() => sellGear(miscGear[item].price, i)}>Return</Button></TableCell>
+                                <TableCell align="left">{miscGear[item].name} </TableCell>
+                                <TableCell align="left">{miscGear[item].description}</TableCell>
+                                <TableCell align="right">{miscGear[item].price}$</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <h1>Misc Gear</h1>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Purchase?</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="left">Description</TableCell>
+                            <TableCell align="left">Price</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {miscGear.map((row, i) => (
+                            <TableRow key={row.name}>
+                                <TableCell align="left"><Button onClick={() => purchaseGear(row.price, i)}>Purchase</Button></TableCell>
+                                <TableCell>{row.name} </TableCell>
+                                <TableCell align="left">{row.description}</TableCell>
                                 <TableCell align="right">{row.price}$</TableCell>
                             </TableRow>
                         ))}

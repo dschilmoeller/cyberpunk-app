@@ -12,18 +12,20 @@ function Creation() {
     useEffect(() => {
         dispatch({type: "FETCH_ARMOR_LIST"})
         dispatch({type: "FETCH_WEAPON_LIST"})
+        dispatch({type: "FETCH_MISC_GEAR_LIST"})
     })
 
     const creationStep = useSelector((store) => store.characterCreation.creationStep)
     return (
         <>
             <h1>Character Creation</h1>
-            {/* {creationStep === 'first_steps' ? <CreationFirstSteps /> : <></>}
+            {creationStep === 'first_steps' ? <CreationFirstSteps /> : <></>}
             {creationStep === 'attributes' ? <CreationAttributes /> : <></>}
             {creationStep === 'skills' ? <CreationSkills /> : <></>}
             {creationStep === 'role' ? <CreationRoleAbilities /> : <></>}
-            {creationStep === 'gear' ? <CreationGear /> : <></>} */}
-            <CreationGear />
+            {creationStep === 'gear' ? <CreationGear /> : <></>}
+            
+            
         </>
     )
 }

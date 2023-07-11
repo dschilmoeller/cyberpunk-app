@@ -23,9 +23,19 @@ function* fetchWeapon() {
     }
 }
 
+function* fetchGear() {
+    try {
+        const gearList = yield axios.get('/api/gear/miscgear')
+        yield put({ type: "SET_MISC_GEAR_LIST", payload: gearList.data})
+    } catch (error) {
+        console.log(`Error fetching misc gear:`, error);
+    }
+}
+
 function* gearSaga() {
     yield takeLatest('FETCH_ARMOR_LIST', fetchArmor);
     yield takeLatest('FETCH_WEAPON_LIST', fetchWeapon);
+    yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
 }
 
 export default gearSaga;
