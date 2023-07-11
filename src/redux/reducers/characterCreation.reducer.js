@@ -1,4 +1,4 @@
-const characterCreation = (state = { creationStep: 'first_steps' }, action) => {
+const characterCreation = (state = { creationStep: 'first_steps', armor: [] }, action) => {
     const ap = action.payload
     if (action.type === "SET_CREATION_STEP") {
         return { ...state, creationStep: action.payload }
@@ -86,6 +86,10 @@ const characterCreation = (state = { creationStep: 'first_steps' }, action) => {
             makerFab: ap.makerFab,
             makerInvent: ap.makerInvent
         }
+    }
+    if (action.type === "CREATION_BUY_ARMOR") {
+        return { ...state,
+        armor: [...state.armor, action.payload] }
     }
     return state
 }

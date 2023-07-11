@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { Button } from '@mui/material';
@@ -194,12 +194,13 @@ function CreationRoleAbilities() {
             makerField,
             makerUpgrade,
             makerFab,
-            makerInvent
+            makerInvent,
         }
         if (roleSelection === 'Rockerboy' || roleSelection === 'Solo' || roleSelection === 'Netrunner' || roleSelection === 'Nomad' || roleSelection === 'Media'
             || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)
             || (roleSelection === 'Medtech' && availableMedSkillPoints === 0)) {
             dispatch({ type: "SET_CREATION_ROLE_ABILITIES", payload: ability })
+            dispatch({ type: "SET_CREATION_STEP", payload: 'gear'})
         } else {
             alert('Please ensure a role ability is selected and any associated skills are declared.')
         }
@@ -298,13 +299,12 @@ function CreationRoleAbilities() {
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(medCryo)}</Item></Grid>
 
-<Grid item xs={12}><Item><h3>First Aid:</h3></Item></Grid>
+                <Grid item xs={12}><Item><h3>First Aid:</h3></Item></Grid>
                 <Grid item xs={6}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
                 <Grid item xs={6}><Item>{dotReturn(characterDetails.firstAid)}</Item></Grid>
                 <Grid item xs={12}><Item>becomes </Item></Grid>
                 <Grid item xs={6}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
                 <Grid item xs={6}><Item>{dotReturn(paramedic)}</Item></Grid>
-
 
             </>) : <></>}
 
