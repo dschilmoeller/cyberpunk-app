@@ -26,6 +26,7 @@ export default function CreationGear() {
     const armor = useSelector(store => store.armorMaster)
     const weapons = useSelector(store => store.weaponMaster)
     const charArmor = useSelector(store => store.characterCreation.armor)
+    const charWeapons = useSelector(store => store.characterCreation.weapons)
 
     const [selectedList, setSelectedList] = useState('Armor')
     const [bank, setBank] = useState(2500)
@@ -54,30 +55,68 @@ export default function CreationGear() {
     armorBuilder();
     weaponBuilder();
 
-    const purchaseArmor = (price, armor_master_id) => {
+    const purchaseArmor = (price, index) => {
         if (bank > price) {
             setBank(bank - price)
-            dispatch({ type: "CREATION_BUY_ARMOR", payload: armor_master_id })
+            dispatch({ type: "CREATION_BUY_ARMOR", payload: index })
         } else {
             alert("Insufficient funds")
         }
     }
+
+    const sellArmor = (price, index) => {
+        setBank(bank + price)
+        dispatch({ type: "CREATION_SELL_ARMOR", payload: index })
+    }
+
+    const purchaseWeapon = (price, index) => {
+        if (bank > price) {
+            setBank(bank - price)
+            dispatch({ type: "CREATION_BUY_WEAPON", payload: index })
+        } else {
+            alert("Insufficient funds")
+        }
+    }
+
+    const sellWeapon = (price, index) => {
+        setBank(bank + price)
+        dispatch({ type: "CREATION_SELL_WEAPON", payload: index })
+    }
+
     return (<>
         <h2>Cash on Hand: ${bank}</h2>
-        <h3>My armor:</h3>
-        <ul>
-        {charArmor.map((item, i) => {
-            console.log(`Item:`, item);
-            return (<> 
-            <li>{}</li>
-            </>)
-        })}
-        </ul>
 
         <Button onClick={() => setSelectedList('Armor')}>Armor</Button>
         <Button onClick={() => setSelectedList('Weapons')}>Weapons</Button>
 
         {selectedList === 'Armor' ? (<>
+
+            <h3>My armor:</h3>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Return?</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Quality</TableCell>
+                            <TableCell align="left">Description</TableCell>
+                            <TableCell align="left">Price</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {charArmor.map((item, i) => (
+                            <TableRow key={i}>
+                                <TableCell align="left"><Button onClick={() => sellArmor(armor[item].price, i)}>Return</Button></TableCell>
+                                <TableCell align="left">{armor[item].name} </TableCell>
+                                <TableCell align="left">{armor[item].quality}</TableCell>
+                                <TableCell align="left">{armor[item].description}</TableCell>
+                                <TableCell align="right">{armor[item].price}$</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
             <h1>Armor</h1>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -91,9 +130,9 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {armorRows.map((row) => (
+                        {armorRows.map((row, i) => (
                             <TableRow key={row.name}>
-                                <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, row.armor_master_id)}>Purchase</Button></TableCell>
+                                <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, i)}>Purchase</Button></TableCell>
                                 <TableCell>{row.name} </TableCell>
                                 <TableCell align="left">{row.quality}</TableCell>
                                 <TableCell align="left">{row.description}</TableCell>
@@ -107,6 +146,40 @@ export default function CreationGear() {
 
 
         {selectedList === 'Weapons' ? (<>
+            <h3>My Weapons:</h3>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Return?</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="center">Damage</TableCell>
+                            <TableCell align="center">Range</TableCell>
+                            <TableCell align="center">Rate of Fire</TableCell>
+                            <TableCell align="center">Max Clip</TableCell>
+                            <TableCell align="center"># of Hands</TableCell>
+                            <TableCell align="center">Concealable?</TableCell>
+                            <TableCell align="center">Price</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {charWeapons.map((item, i) => (
+                            <TableRow key={i}>
+                                <TableCell align="left"><Button onClick={() => sellWeapon(weapons[item].price, i)}>Return</Button></TableCell>
+                                <TableCell align="left">{weapons[item].name}</TableCell>
+                                <TableCell align="center">{weapons[item].dmg_type === 'melee' || weapons[item].dmg_type === 'bow' ? `Str + ${weapons[item].damage}` : `${weapons[item].damage}`}</TableCell>
+                                <TableCell align="center">{weapons[item].dmg_type === 'bow' ? `Str * ${weapons[item].range}` : `${weapons[item].range}`}</TableCell>
+                                <TableCell align="center">{weapons[item].rof}</TableCell>
+                                <TableCell align="center">{weapons[item].max_clip}</TableCell>
+                                <TableCell align="center">{weapons[item].hands}</TableCell>
+                                <TableCell align="center">{weapons[item].concealable ? 'Yes' : 'No'}</TableCell>
+                                <TableCell align="right">{weapons[item].price}$</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
             <h1>Weapons</h1>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -124,9 +197,9 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {weaponRows.map((row) => (
-                            <TableRow key={row.name}>
-                                <TableCell align="left"><Button>Purchase</Button></TableCell>
+                        {weaponRows.map((row, i) => (
+                            <TableRow key={i}>
+                                <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
                                 <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
                                 <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>

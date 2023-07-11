@@ -1,4 +1,4 @@
-const characterCreation = (state = { creationStep: 'first_steps', armor: [] }, action) => {
+const characterCreation = (state = { creationStep: 'first_steps', armor: [], weapons: [] }, action) => {
     const ap = action.payload
     if (action.type === "SET_CREATION_STEP") {
         return { ...state, creationStep: action.payload }
@@ -88,9 +88,36 @@ const characterCreation = (state = { creationStep: 'first_steps', armor: [] }, a
         }
     }
     if (action.type === "CREATION_BUY_ARMOR") {
-        return { ...state,
-        armor: [...state.armor, action.payload] }
+        return {
+            ...state,
+            armor: [...state.armor, action.payload]
+        }
     }
+    if (action.type === "CREATION_SELL_ARMOR") {
+        return {
+            ...state,
+            armor: [
+                ...state.armor.slice(0, action.payload),
+            ...state.armor.slice(action.payload + 1)]
+        }
+    }
+
+    if (action.type === "CREATION_BUY_WEAPON") {
+        return {
+            ...state,
+            weapons: [...state.weapons, action.payload]
+        }
+    }
+
+    if (action.type === "CREATION_SELL_WEAPON") {
+        return {
+            ...state,
+            weapons: [
+                ...state.weapons.slice(0, action.payload),
+            ...state.weapons.slice(action.payload + 1)]
+        }
+    }
+
     return state
 }
 
