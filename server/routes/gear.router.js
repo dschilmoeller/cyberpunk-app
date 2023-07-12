@@ -41,4 +41,17 @@ router.get('/miscgear', (req, res) => {
     })
 })
 
+// Fetch cyberware list
+router.get('/cyberware/', (req, res) => {
+    const sqlText = `SELECT * FROM "cyberware_master" order by "cyberware_master_id"`
+    pool.query(sqlText)
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching cyberware master list:`, err);
+    })
+
+})
+
 module.exports = router

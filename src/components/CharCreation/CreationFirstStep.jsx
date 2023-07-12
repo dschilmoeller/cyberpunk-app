@@ -4,7 +4,6 @@ import Item from '../Characters/CharacterSheet/Item';
 import { TextField, Button } from "@mui/material";
 import { useDispatch } from 'react-redux';
 import { Typography } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
 
 function CreationFirstSteps() {
     const dispatch = useDispatch()

@@ -14,6 +14,7 @@ import characterCreation from './characterCreation.reducer';
 import armorMaster from './armorMaster.reducer';
 import weaponMaster from './weaponMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
+import cyberwareMaster from './cyberwareMaster.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   armorMaster, // master gear list - armor
   weaponMaster, // master gear list - weapons
   miscGearMaster, // master gear list - misc
+  cyberwareMaster, // master gear list - cyberware
 });
 
 export default rootReducer;

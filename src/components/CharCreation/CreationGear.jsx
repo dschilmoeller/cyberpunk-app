@@ -6,9 +6,7 @@
 // can show armor all in one.
 
 import React, { useState } from 'react';
-import { Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Table from '@mui/material/Table';
@@ -100,7 +98,7 @@ export default function CreationGear() {
     }
 
     const savePurchases = () => {
-        dispatch({ type: "SET_CREATION_STEP", payload: 'review'})
+        dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware'})
     }
 
     return (<>
