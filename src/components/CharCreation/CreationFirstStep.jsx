@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { TextField, Button } from "@mui/material";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 
 function CreationFirstSteps() {
     const dispatch = useDispatch()
-    const [handle, setHandle] = useState('')
-    const [player, setPlayer] = useState('')
-    const [campaign, setCampaign] = useState('')
-    const [role, setRole] = useState('')
-    const [culture, setCulture] = useState('')
-    const [concept, setConcept] = useState('')
+    const charDetail = useSelector(store => store.characterCreation)
+
+    const [handle, setHandle] = useState(charDetail.handle)
+    const [player, setPlayer] = useState(charDetail.player)
+    const [campaign, setCampaign] = useState(charDetail.campaign)
+    const [role, setRole] = useState(charDetail.role)
+    const [culture, setCulture] = useState(charDetail.culture)
+    const [concept, setConcept] = useState(charDetail.concept)
 
     const campaigns = [
         { label: 'Gatti Ombre', id: 1 },

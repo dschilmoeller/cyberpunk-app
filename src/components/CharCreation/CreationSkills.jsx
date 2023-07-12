@@ -3,53 +3,54 @@ import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { Button } from '@mui/material';
 import SkillsModal from '../Modals/SkillsModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function CreationSkills() {
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch();
+    const charDetail = useSelector(store => store.characterCreation)
 
-    const [skillNumber, setSkillNumber] = useState(4)
+    const [skillNumber, setSkillNumber] = useState(charDetail.skillNumber)
     const [skillCounter, setSkillCounter] = useState(1)
 
     // Streetwise Skills
-    const [athletics, setAthletics] = useState(0)
-    const [brawling, setBrawling] = useState(0)
-    const [concentration, setConcentration] = useState(0)
-    const [evasion, setEvasion] = useState(0)
-    const [fastTalk, setFastTalk] = useState(0)
-    const [firearms, setFirearms] = useState(0)
-    const [legerdemain, setLegerdemain] = useState(0)
-    const [meleeWeapons, setMeleeWeapons] = useState(0)
-    const [perception, setPerception] = useState(0)
-    const [streetwise, setStreetwise] = useState(0)
+    const [athletics, setAthletics] = useState(charDetail.athletics)
+    const [brawling, setBrawling] = useState(charDetail.brawling)
+    const [concentration, setConcentration] = useState(charDetail.concentration)
+    const [evasion, setEvasion] = useState(charDetail.evasion)
+    const [fastTalk, setFastTalk] = useState(charDetail.fastTalk)
+    const [firearms, setFirearms] = useState(charDetail.firearms)
+    const [legerdemain, setLegerdemain] = useState(charDetail.legerdemain)
+    const [meleeWeapons, setMeleeWeapons] = useState(charDetail.meleeWeapons)
+    const [perception, setPerception] = useState(charDetail.perception)
+    const [streetwise, setStreetwise] = useState(charDetail.streetwise)
 
     // Tekhne skills
 
-    const [demolitions, setDemolitions] = useState(0)
-    const [driveLand, setDriveLand] = useState(0)
-    const [driveExotic, setDriveExotic] = useState(0)
-    const [etiquette, setEtiquette] = useState(0)
-    const [heavyWeapons, setHeavyWeapons] = useState(0)
-    const [exoticWeapons, setExoticWeapons] = useState(0)
-    const [performance, setPerformance] = useState(0)
-    const [stealth, setStealth] = useState(0)
-    const [survival, setSurvival] = useState(0)
-    const [tracking, setTracking] = useState(0)
+    const [demolitions, setDemolitions] = useState(charDetail.demolitions)
+    const [driveLand, setDriveLand] = useState(charDetail.driveLand)
+    const [driveExotic, setDriveExotic] = useState(charDetail.driveExotic)
+    const [etiquette, setEtiquette] = useState(charDetail.etiquette)
+    const [heavyWeapons, setHeavyWeapons] = useState(charDetail.heavyWeapons)
+    const [exoticWeapons, setExoticWeapons] = useState(charDetail.exoticWeapons)
+    const [performance, setPerformance] = useState(charDetail.performance)
+    const [stealth, setStealth] = useState(charDetail.stealth)
+    const [survival, setSurvival] = useState(charDetail.survival)
+    const [tracking, setTracking] = useState(charDetail.tracking)
 
     // Knowledge Skills
-    const [business, setBusiness] = useState(0)
-    const [cryptography, setCryptography] = useState(0)
-    const [cyberTech, setCyberTech] = useState(0)
-    const [investigation, setInvestigation] = useState(0)
-    const [firstAid, setFirstAid] = useState(0)
-    const [gambling, setGambling] = useState(0)
-    const [language, setLanguage] = useState(0)
-    const [militaryTech, setMilitaryTech] = useState(0)
-    const [science, setScience] = useState(0)
-    const [vehicleTech, setVehicleTech] = useState(0)
+    const [business, setBusiness] = useState(charDetail.business)
+    const [cryptography, setCryptography] = useState(charDetail.cryptography)
+    const [cyberTech, setCyberTech] = useState(charDetail.cyberTech)
+    const [investigation, setInvestigation] = useState(charDetail.investigation)
+    const [firstAid, setFirstAid] = useState(charDetail.firstAid)
+    const [gambling, setGambling] = useState(charDetail.gambling)
+    const [language, setLanguage] = useState(charDetail.language)
+    const [militaryTech, setMilitaryTech] = useState(charDetail.militaryTech)
+    const [science, setScience] = useState(charDetail.science)
+    const [vehicleTech, setVehicleTech] = useState(charDetail.vehicleTech)
 
     const dotReturn = (skill) => {
         let returnedDots = ''
@@ -405,6 +406,7 @@ function CreationSkills() {
     const dispatchSkills = () => {
         if (skillNumber === 0) {
             const skills = {
+                skillNumber,
                 athletics, brawling, concentration, evasion, fastTalk, firearms, legerdemain, meleeWeapons, perception, streetwise,
                 demolitions, driveLand, driveExotic, etiquette, exoticWeapons, heavyWeapons, performance, stealth, survival, tracking,
                 business, cryptography, cyberTech, firstAid, investigation, gambling, language, militaryTech, science, vehicleTech

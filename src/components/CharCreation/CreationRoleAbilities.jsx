@@ -10,32 +10,32 @@ function CreationRoleAbilities() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch()
-    const characterDetails = useSelector(store => store.characterCreation)
+    const charDetail = useSelector(store => store.characterCreation)
 
-    const [roleSelection, setRoleSelection] = useState('')
+    const [roleSelection, setRoleSelection] = useState(charDetail.roleSelection)
 
-    const [rockerboy, setRockerboy] = useState(0);
-    const [solo, setSolo] = useState(0);
-    const [netrunner, setNetrunner] = useState(0);
-    const [nomad, setNomad] = useState(0);
-    const [media, setMedia] = useState(0);
-    const [medtech, setMedtech] = useState(0);
-    const [maker, setMaker] = useState(0);
-    const [isParamed, setIsParamed] = useState(false)
-    const [paramedic, setParamedic] = useState(0)
+    const [rockerboy, setRockerboy] = useState(charDetail.rockerboy);
+    const [solo, setSolo] = useState(charDetail.solo);
+    const [netrunner, setNetrunner] = useState(charDetail.netrunner);
+    const [nomad, setNomad] = useState(charDetail.nomad);
+    const [media, setMedia] = useState(charDetail.media);
+    const [medtech, setMedtech] = useState(charDetail.medtech);
+    const [maker, setMaker] = useState(charDetail.maker);
+    const [isParamedical, setIsParamedical] = useState(charDetail.isParamedical)
+    const [paramedic, setParamedic] = useState(charDetail.paramedic)
 
-    const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(0)
-    const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(0)
+    const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(charDetail.availableMedSkillPoints)
+    const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(charDetail.availableMakerSkillPoints)
 
     // special role skills - Medtech
-    const [medSurgery, setMedSurgery] = useState(0);
-    const [medPharma, setMedPharma] = useState(0);
-    const [medCryo, setMedCryo] = useState(0);
+    const [medSurgery, setMedSurgery] = useState(charDetail.medSurgery);
+    const [medPharma, setMedPharma] = useState(charDetail.medPharma);
+    const [medCryo, setMedCryo] = useState(charDetail.medCryo);
     // special role skills - Maker
-    const [makerField, setMakerField] = useState(0);
-    const [makerUpgrade, setMakerUpgrade] = useState(0);
-    const [makerFab, setMakerFab] = useState(0);
-    const [makerInvent, setMakerInvent] = useState(0);
+    const [makerField, setMakerField] = useState(charDetail.makerField);
+    const [makerUpgrade, setMakerUpgrade] = useState(charDetail.makerUpgrade);
+    const [makerFab, setMakerFab] = useState(charDetail.makerFab);
+    const [makerInvent, setMakerInvent] = useState(charDetail.makerInvent);
 
     const selectRole = (selectedRole) => {
         switch (selectedRole) {
@@ -43,51 +43,93 @@ function CreationRoleAbilities() {
                 setRoleSelection('Rockerboy')
                 resetSpecialSkills()
                 setRockerboy(2)
-                setIsParamed(false)
+                setSolo(0)
+                setNetrunner(0)
+                setNomad(0)
+                setMedia(0)
+                setMedtech(0)
+                setMaker(0)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
             case 'Solo':
                 setRoleSelection('Solo')
                 resetSpecialSkills()
                 setSolo(2)
-                setIsParamed(false)
+                setRockerboy(0)
+                setNetrunner(0)
+                setNomad(0)
+                setMedia(0)
+                setMedtech(0)
+                setMaker(0)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
             case 'Netrunner':
                 setRoleSelection('Netrunner')
                 resetSpecialSkills()
                 setNetrunner(2)
-                setIsParamed(false)
+                setRockerboy(0)
+                setSolo(0)
+                setNomad(0)
+                setMedia(0)
+                setMedtech(0)
+                setMaker(0)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
             case 'Nomad':
                 setRoleSelection('Nomad')
                 resetSpecialSkills()
                 setNomad(2)
-                setIsParamed(false)
+                setRockerboy(0)
+                setSolo(0)
+                setNetrunner(0)
+                setMedia(0)
+                setMedtech(0)
+                setMaker(0)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
             case 'Media':
                 setRoleSelection('Media')
                 resetSpecialSkills()
                 setMedia(2)
-                setIsParamed(false)
+                setRockerboy(0)
+                setSolo(0)
+                setNetrunner(0)
+                setNomad(0)
+                setMedtech(0)
+                setMaker(0)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
             case 'Medtech':
                 setRoleSelection('Medtech')
                 resetSpecialSkills()
                 setMedtech(2)
+                setRockerboy(0)
+                setSolo(0)
+                setNetrunner(0)
+                setNomad(0)
+                setMedia(0)
+                setMaker(0)
                 setAvailableMedSkillPoints(2)
-                setIsParamed(true)
-                setParamedic(characterDetails.firstAid)
+                setIsParamedical(true)
+                setParamedic(charDetail.firstAid)
                 break;
             case 'Maker':
                 setRoleSelection('Maker')
                 resetSpecialSkills()
                 setMaker(2)
+                setRockerboy(0)
+                setSolo(0)
+                setNetrunner(0)
+                setNomad(0)
+                setMedia(0)
+                setMedtech(0)
                 setAvailableMakerSkillPoints(4)
-                setIsParamed(false)
+                setIsParamedical(false)
                 setParamedic(0)
                 break;
         }
@@ -189,12 +231,15 @@ function CreationRoleAbilities() {
             medSurgery,
             medPharma,
             medCryo,
-            isParamed,
+            isParamedical,
             paramedic,
             makerField,
             makerUpgrade,
             makerFab,
             makerInvent,
+            roleSelection,
+            availableMakerSkillPoints,
+            availableMedSkillPoints
         }
         if (roleSelection === 'Rockerboy' || roleSelection === 'Solo' || roleSelection === 'Netrunner' || roleSelection === 'Nomad' || roleSelection === 'Media'
             || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)
@@ -302,7 +347,7 @@ function CreationRoleAbilities() {
 
                 <Grid item xs={12}><Item><h3>First Aid:</h3></Item></Grid>
                 <Grid item xs={6}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
-                <Grid item xs={6}><Item>{dotReturn(characterDetails.firstAid)}</Item></Grid>
+                <Grid item xs={6}><Item>{dotReturn(charDetail.firstAid)}</Item></Grid>
                 <Grid item xs={12}><Item>becomes </Item></Grid>
                 <Grid item xs={6}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
                 <Grid item xs={6}><Item>{dotReturn(paramedic)}</Item></Grid>

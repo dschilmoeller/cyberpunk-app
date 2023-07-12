@@ -5,6 +5,7 @@ import CreationSkills from './CreationSkills';
 import CreationRoleAbilities from './CreationRoleAbilities';
 import CreationGear from './CreationGear';
 import CreationCyberware from './CreationCyberware';
+import CreationReview from './CreationReview';
 import { useSelector, useDispatch } from 'react-redux';
 
 function Creation() {
@@ -27,6 +28,7 @@ function Creation() {
             {creationStep === 'role' ? <CreationRoleAbilities /> : <></>}
             {creationStep === 'gear' ? <CreationGear /> : <></>}
             {creationStep === 'cyberware' ? <CreationCyberware /> : <></>}
+            {creationStep === 'review' ? <CreationReview /> : <></>}
             
         </>
     )

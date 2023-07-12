@@ -2,30 +2,31 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function CreationAttributes() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch()
+    const charDetail = useSelector(store => store.characterCreation)
 
     const [attributeNumber, setAttributeNumber] = useState(4)
     const [attributeCounter, setAttributeCounter] = useState(1)
 
-    const [strengthAtt, setStrengthAtt] = useState(0);
-    const [bodyAtt, setBodyAtt] = useState(0);
-    const [reflexesAtt, setReflexesAtt] = useState(0);
-    const [moveatt, setMoveAtt] = useState(0);
+    const [strengthAtt, setStrengthAtt] = useState(charDetail.strength);
+    const [bodyAtt, setBodyAtt] = useState(charDetail.body);
+    const [reflexesAtt, setReflexesAtt] = useState(charDetail.reflexes);
+    const [moveatt, setMoveAtt] = useState(charDetail.move);
 
     // social attributes
-    const [appearanceAtt, setAppearanceAtt] = useState(0);
-    const [coolAtt, setCoolAtt] = useState(0);
-    const [streetCredAtt, setStreetCredAtt] = useState(1);
+    const [appearanceAtt, setAppearanceAtt] = useState(charDetail.appearance);
+    const [coolAtt, setCoolAtt] = useState(charDetail.cool);
+    const [streetCredAtt, setStreetCredAtt] = useState(charDetail.street_cred);
 
     // mental attributes
-    const [intelligenceAtt, setIntelligenceAtt] = useState(0);
-    const [willpowerAtt, setWillpowerAtt] = useState(0)
-    const [techniqueAtt, setTechniqueAtt] = useState(0)
+    const [intelligenceAtt, setIntelligenceAtt] = useState(charDetail.intelligence);
+    const [willpowerAtt, setWillpowerAtt] = useState(charDetail.willpower)
+    const [techniqueAtt, setTechniqueAtt] = useState(charDetail.technique)
 
     const dotReturn = (attribute) => {
         let returnedDots = ''
@@ -179,7 +180,7 @@ function CreationAttributes() {
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetAttributeSelection()}>Reset Attribute Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchAttributes()}>Save Attribute Selection</Button>
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchAttributes()}>Save Attributes</Button>
                 </Grid>
             </Grid>
             <Grid container>

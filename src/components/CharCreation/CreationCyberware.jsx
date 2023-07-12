@@ -17,9 +17,9 @@ export default function CreationCyberware() {
 
     const cyberware = useSelector(store => store.cyberwareMaster)
     const charCyberware = useSelector(store => store.characterCreation.cyberware)
-
+    const cyberbucks = useSelector(store => store.characterCreation.cyberbucks)
     const [selectedList, setSelectedList] = useState('fashionware')
-    const [bank, setBank] = useState(2500)
+    const [bank, setBank] = useState(cyberbucks)
 
     const cyberwareTableList = []
     const cyberwareTableBuilder = () => {
@@ -37,7 +37,7 @@ export default function CreationCyberware() {
     const purchaseCyberware = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
-            dispatch({ type: "CREATION_BUY_CYBERWARE", payload: index })
+            dispatch({ type: "CREATION_BUY_CYBERWARE", payload: index, newBank: (bank - price) })
         } else {
             alert("Insufficient funds")
         }
@@ -45,7 +45,7 @@ export default function CreationCyberware() {
 
     const sellCyberware = (price, index) => {
         setBank(bank + price)
-        dispatch({ type: "CREATION_SELL_CYBERWARE", payload: index })
+        dispatch({ type: "CREATION_SELL_CYBERWARE", payload: index, newBank: (bank + price) })
     }
 
     const savePurchases = () => {

@@ -27,9 +27,10 @@ export default function CreationGear() {
     const charArmor = useSelector(store => store.characterCreation.armor)
     const charWeapons = useSelector(store => store.characterCreation.weapons)
     const charGear = useSelector(store => store.characterCreation.gear)
+    const gearbucks = useSelector(store => store.characterCreation.gearbucks)
 
     const [selectedList, setSelectedList] = useState('Armor')
-    const [bank, setBank] = useState(2500)
+    const [bank, setBank] = useState(gearbucks)
 
     const armorRows = []
     const armorBuilder = () => {
@@ -58,7 +59,7 @@ export default function CreationGear() {
     const purchaseArmor = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
-            dispatch({ type: "CREATION_BUY_ARMOR", payload: index })
+            dispatch({ type: "CREATION_BUY_ARMOR", payload: index, newBank: (bank - price) })
         } else {
             alert("Insufficient funds")
         }
@@ -66,13 +67,13 @@ export default function CreationGear() {
 
     const sellArmor = (price, index) => {
         setBank(bank + price)
-        dispatch({ type: "CREATION_SELL_ARMOR", payload: index })
+        dispatch({ type: "CREATION_SELL_ARMOR", payload: index, newBank: (bank + price) })
     }
 
     const purchaseWeapon = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
-            dispatch({ type: "CREATION_BUY_WEAPON", payload: index })
+            dispatch({ type: "CREATION_BUY_WEAPON", payload: index, newBank: (bank - price) })
         } else {
             alert("Insufficient funds")
         }
@@ -80,13 +81,13 @@ export default function CreationGear() {
 
     const sellWeapon = (price, index) => {
         setBank(bank + price)
-        dispatch({ type: "CREATION_SELL_WEAPON", payload: index })
+        dispatch({ type: "CREATION_SELL_WEAPON", payload: index, newBank: (bank + price) })
     }
 
     const purchaseGear = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
-            dispatch({ type: "CREATION_BUY_GEAR", payload: index })
+            dispatch({ type: "CREATION_BUY_GEAR", payload: index, newBank: (bank - price) })
         } else {
             alert("Insufficient funds")
         }
@@ -94,17 +95,17 @@ export default function CreationGear() {
 
     const sellGear = (price, index) => {
         setBank(bank + price)
-        dispatch({ type: "CREATION_SELL_GEAR", payload: index })
+        dispatch({ type: "CREATION_SELL_GEAR", payload: index, newBank: (bank + price) })
     }
 
     const savePurchases = () => {
-        dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware'})
+        dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })
     }
 
     return (<>
         <h2>Cash on Hand: ${bank} <Button onClick={() => savePurchases()}>Save Purchases</Button></h2>
         <h3>Remember: You can't take it with you. You'll have another pool of money for cyberware, also!</h3>
-        
+
 
         <Button onClick={() => setSelectedList('Armor')}>Armor</Button>
         <Button onClick={() => setSelectedList('Weapons')}>Weapons</Button>
