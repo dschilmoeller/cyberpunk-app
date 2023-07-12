@@ -21,12 +21,13 @@ function Creation() {
     return (
         <>
             <h1>Character Creation</h1>
-            {/* {creationStep === 'first_steps' ? <CreationFirstSteps /> : <></>}
+            {creationStep === 'first_steps' ? <CreationFirstSteps /> : <></>}
             {creationStep === 'attributes' ? <CreationAttributes /> : <></>}
             {creationStep === 'skills' ? <CreationSkills /> : <></>}
             {creationStep === 'role' ? <CreationRoleAbilities /> : <></>}
-            {creationStep === 'gear' ? <CreationGear /> : <></>} */}
-            <CreationCyberware />
+            {creationStep === 'gear' ? <CreationGear /> : <></>}
+            {creationStep === 'cyberware' ? <CreationCyberware /> : <></>}
+            
         </>
     )
 }

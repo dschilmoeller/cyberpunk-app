@@ -129,6 +129,9 @@ function CreationAttributes() {
         if (attributeCounter > 3) {
             setAttributeNumber(2)
         }
+        if (attributeCounter > 6) {
+            setAttributeNumber(1)
+        }
     }
 
     const resetAttributeSelection = () => {
@@ -169,9 +172,10 @@ function CreationAttributes() {
     return (
         <>
             <h2>Attributes:</h2>
-            <h3>To start, select an attribute to be rated at 4. Next, three selections at 3. Another four at 2.</h3>
-            {/* <h3>Movement is derived from Reflexes, and Street Cred always starts at 1 for beginning characters.</h3> */}
-            <h4>Please click an attribute name to set it at {attributeNumber}</h4>
+            <h3>Selection: One attribute will start at 4. Three attributes are selected to start at 3. Three more will start at 2. Finally, a single attribute will start at 1  </h3>
+            <h3>Movement is derived from Reflexes, and Street Cred always starts at 1 for beginning characters.</h3>
+            <h3>Click an attribute name to learn more about it.</h3>
+            
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetAttributeSelection()}>Reset Attribute Selection</Button>
@@ -183,21 +187,21 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item>Strength</Item></Grid>
                         {strengthAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('strength')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('strength')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(strengthAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item>Body</Item></Grid>
                         {bodyAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('body')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('body')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(bodyAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item>Reflexes</Item></Grid>
                         {reflexesAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('reflexes')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('reflexes')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(reflexesAtt)}</Item></Grid>
@@ -216,14 +220,14 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item>Appearance</Item></Grid>
                         {appearanceAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('appearance')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('appearance')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(appearanceAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item>Cool</Item></Grid>
                         {coolAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('cool')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('cool')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(coolAtt)}</Item></Grid>
@@ -237,21 +241,21 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item>Intelligence</Item></Grid>
                         {intelligenceAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('intelligence')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('intelligence')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(intelligenceAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item>Willpower</Item></Grid>
                         {willpowerAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('willpower')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('willpower')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(willpowerAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item>Technique</Item></Grid>
                         {techniqueAtt === 0 ? <Grid xs={8} item>
-                            <Item onClick={() => AttributeSelector('technique')}>Select at {attributeNumber} points</Item>
+                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('technique')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(techniqueAtt)}</Item></Grid>

@@ -208,6 +208,7 @@ function CreationRoleAbilities() {
 
     return (<>
         <h1>Select Role</h1>
+        <h3>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</h3>
         <Grid container>
             <Grid item xs={12} textAlign={'center'}>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetRoleAbility()}>Reset Role Selection</Button>

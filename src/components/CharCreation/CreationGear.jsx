@@ -103,6 +103,7 @@ export default function CreationGear() {
 
     return (<>
         <h2>Cash on Hand: ${bank} <Button onClick={() => savePurchases()}>Save Purchases</Button></h2>
+        <h3>Remember: You can't take it with you. You'll have another pool of money for cyberware, also!</h3>
         
 
         <Button onClick={() => setSelectedList('Armor')}>Armor</Button>
