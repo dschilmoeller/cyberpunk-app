@@ -251,6 +251,23 @@ function CreationRoleAbilities() {
         }
     }
 
+    const instaFill = () => {
+        setRoleSelection('Maker')
+        setRockerboy(0)
+        setSolo(0)
+        setNetrunner(0)
+        setNomad(0)
+        setMedia(0)
+        setMedtech(0)
+        setMaker(2)
+        setMedCryo(0)
+        setMedPharma(0)
+        setMedSurgery(0)
+        setMakerField(1)
+        setMakerUpgrade(1)
+        setMakerFab(1)
+        setMakerInvent(1)
+    }
     return (<>
         <h1>Select Role</h1>
         <h3>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</h3>
@@ -258,6 +275,7 @@ function CreationRoleAbilities() {
             <Grid item xs={12} textAlign={'center'}>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetRoleAbility()}>Reset Role Selection</Button>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchRoleAbility()}>Save Role Selection</Button>
+                <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Role Selection</Button>
             </Grid>
         </Grid>
         <Grid container>

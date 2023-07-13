@@ -4,6 +4,7 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import characterSaga from './characters.saga';
 import gearSaga from './gear.saga';
+import creationSaga from './creation.saga';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -18,6 +19,6 @@ export default function* rootSaga() {
     userSaga(),
     characterSaga(), // character sheet related sagas.
     gearSaga(), // master equipment list sagas
-    
+    creationSaga(), // saga for saving character after creation.
   ]);
 }

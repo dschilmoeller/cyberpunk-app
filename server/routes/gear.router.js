@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Fetch Armor List
 router.get('/armor', (req, res) => {
-    const sqlText = `SELECT * FROM "armor_master" order by "quality"`
+    const sqlText = `SELECT * FROM "armor_master" order by "armor_master_id"`
 
     pool.query(sqlText)
         .then((result) => {

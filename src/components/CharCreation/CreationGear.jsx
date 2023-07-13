@@ -114,7 +114,7 @@ export default function CreationGear() {
         {selectedList === 'Armor' ? (<>
 
             <h3>My armor:</h3>
-            <h4>Only the highest quality armor will be active on in-play sheet.</h4>
+            <h4>Note: armor must be equipped from the advancement sheet.</h4>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>

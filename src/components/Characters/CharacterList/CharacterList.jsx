@@ -32,7 +32,7 @@ function CharacterList() {
           {characterList.map((character) => {
             return (
               <div key={character.id}>
-                <Button variant='contained' sx={{ m: 1 }} onClick={() => moveToCharacterSheet(character.id)}>{character.name}</Button>
+                <Button variant='contained' sx={{ m: 1 }} onClick={() => moveToCharacterSheet(character.id)}>{character.handle}</Button>
                 <Button onClick={() => moveToCharacterDetail(character.id)}>Spend XP Version </Button>
               </div>
             )

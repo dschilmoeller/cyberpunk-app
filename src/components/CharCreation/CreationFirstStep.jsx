@@ -35,8 +35,25 @@ function CreationFirstSteps() {
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
         dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
     }
+    const instaFill = () => {
+        setHandle('Mad Maxine')
+        setPlayer('Schwami')
+        setCampaign('Gatti Ombre')
+        setRole('Missus Fixit')
+        setCulture('Desert Traveler')
+        setConcept(`Mad Maxine's car mechanic`)
+        const character = {
+            handle,
+            player,
+            campaign,
+            role,
+            culture,
+            concept
+        }
+    }
     return (<>
         <h1>First Steps:</h1>
+        <Button onClick={()=> instaFill()}>Instafill</Button>
 
         <form onSubmit={handleSubmit}>
             <Grid container>

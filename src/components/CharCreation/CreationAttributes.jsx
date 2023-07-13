@@ -170,6 +170,20 @@ function CreationAttributes() {
         }
     }
 
+    const instaFill = () => {
+        setAttributeNumber(1);
+        setAttributeCounter(7);
+        setStrengthAtt(2);
+        setBodyAtt(2);
+        setReflexesAtt(3);
+        setMoveAtt(2);
+        setAppearanceAtt(1);
+        setCoolAtt(3);
+        setIntelligenceAtt(2);
+        setWillpowerAtt(3);
+        setTechniqueAtt(4);
+    }
+
     return (
         <>
             <h2>Attributes:</h2>
@@ -181,6 +195,7 @@ function CreationAttributes() {
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetAttributeSelection()}>Reset Attribute Selection</Button>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchAttributes()}>Save Attributes</Button>
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Fill</Button>
                 </Grid>
             </Grid>
             <Grid container>

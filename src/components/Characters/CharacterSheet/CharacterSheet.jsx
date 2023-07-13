@@ -49,7 +49,7 @@ function CharacterSheet() {
                     {charDetail ? (
                         <>
                             <Grid item xs={4}>
-                                <Item>Name: {charDetail.name}</Item>
+                                <Item>Name: {charDetail.handle}</Item>
                             </Grid>
                             <Grid item xs={4}>
                                 <Item>Role: {charDetail.role}</Item>
@@ -58,7 +58,7 @@ function CharacterSheet() {
                                 <Item>Player: {charDetail.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Campaign: </Item>
+                                <Item>Campaign: {charDetail.campaign} </Item>
                             </Grid>
                             <Grid item xs={4}>
                                 <Item>Culture: {charDetail.culture}</Item>

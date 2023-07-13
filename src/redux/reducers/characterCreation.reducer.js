@@ -4,7 +4,7 @@ const characterCreation = (state = {
 
     strength: 0, body: 0, reflexes: 0, move: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
-    skillNumber: 0,
+    skillNumber: 4,
     athletics: 0, brawling: 0, concentration: 0, evasion: 0, fastTalk: 0, firearms: 0, legerdemain: 0, meleeWeapons: 0, perception: 0, streetwise: 0,
     demolitions: 0, driveLand: 0, driveExotic: 0, etiquette: 0, exoticWeapons: 0, heavyWeapons: 0, performance: 0, stealth: 0, survival: 0, tracking: 0,
     business: 0, cryptography: 0, cyberTech: 0, firstAid: 0, investigation: 0, gambling: 0, language: 0, militaryTech: 0, science: 0, vehicleTech: 0,

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
-import { useSelector } from 'react-redux';
 
 // fetch character names and IDs
 function* fetchCharacters() {
