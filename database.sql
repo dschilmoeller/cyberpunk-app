@@ -1638,7 +1638,7 @@ VALUES (
 	(
 		E'Assault Rifle',
 		6,
-		E'rifle',
+		E'assault',
 		25,
 		3,
 		30,

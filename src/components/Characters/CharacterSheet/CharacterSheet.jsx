@@ -1,5 +1,5 @@
 // to be static-ish char sheet, used during play
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
@@ -26,10 +26,9 @@ function CharacterSheet() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
 
-    const fetchCharacterDetail = () => {
+    useEffect(() => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
-        // will need to get contents of bridge tables as well.
-    }
+    }, [])
 
     const saveCharacter = () => {
         dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charParams: {charStatus:charStatus, charWeapons: charWeapons} }})
@@ -40,7 +39,6 @@ function CharacterSheet() {
             <Box sx={{ flexGrow: 1 }}>
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
-                <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
                 <Button onClick={() => saveCharacter()}>Save Current Status</Button>
                 <p>Character Sheet</p>
 

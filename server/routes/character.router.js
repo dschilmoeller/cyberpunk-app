@@ -62,12 +62,12 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
 })
 
 router.get('/fetchcharacterweapons/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "character_weapons_bridge"
-    JOIN "weapons_master" ON "weapons_master"."weapon_id" = "character_weapons_bridge"."weapon_id"
-    JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_id = "character_weapons_bridge".weapon_mod_1
-    JOIN "weapon_mod2_master" ON "weapon_mod2_master".weapon_mod2_id = "character_weapons_bridge".weapon_mod_2
+    const sqlText = `SELECT * FROM "char_weapons_bridge"
+    JOIN "weapon_master" ON "weapon_master".weapon_master_id = "char_weapons_bridge".weapon_id
+    JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_master_id = "char_weapons_bridge".weapon_mod_1
+    JOIN "weapon_mod2_master" ON "weapon_mod2_master".weapon_mod2_master_id = "char_weapons_bridge".weapon_mod_2
     WHERE char_id = $1
-    ORDER BY id ASC
+    ORDER BY "damage" DESC
     `
     pool.query(sqlText, [req.params.id])
         .then((result) => {
@@ -94,9 +94,9 @@ router.put('/savecharacter/:id', (req, res) => {
 })
 
 router.put('/savecharacterweapons/:id', (req, res) => {
-    const sqlText = `UPDATE "character_weapons_bridge" 
+    const sqlText = `UPDATE "char_weapons_bridge" 
     SET "current_shots_fired" = $1
-    WHERE "id" = $2`
+    WHERE "weapon_bridge_id" = $2`
     const sqlParams = [req.body.current_shots_fired, req.body.id]
     pool.query(sqlText, sqlParams)
         .then((result) => {
@@ -168,6 +168,14 @@ router.post('/saveCreationCharacter/', (req, res) => {
                 const gearSqlParams = [result.rows[0].id, rb.cyberware[i]+1]
                 pool.query(gearSqlText, gearSqlParams)
             }
+            const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
+            "current_armor_loss","current_humanity_loss","current_luck_loss")
+            VALUES ($1, $2, $3, $4, $5, $6, $7)`
+            const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0]
+            pool.query(bridgeSqlText, bridgeParams)
+            
+        })
+        .then((result) => {
             res.sendStatus(201)
         })
         .catch(err => {
