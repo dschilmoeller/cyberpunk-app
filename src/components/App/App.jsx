@@ -23,8 +23,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import CharacterList from '../Characters/CharacterList/CharacterList';
 import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 import Creation from '../CharCreation/Creation';
-import CharacterDetail from '../Characters/CharacterDetail/CharacterDetail';
-
+import AdvancementSheet from '../Characters/AdvancementSheet/AdvancementSheet';
 
 import './App.css';
 
@@ -121,7 +120,7 @@ function App() {
             exact
             path="/characterdetail/:id"
           >
-            <CharacterDetail />
+            <AdvancementSheet />
           </ProtectedRoute>
 
           {/* character creation */}

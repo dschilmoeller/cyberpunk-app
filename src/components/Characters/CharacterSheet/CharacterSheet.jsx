@@ -18,7 +18,7 @@ function CharacterSheet() {
     const charWeapons = useSelector((store) => store.characterWeapons)
 
     // console.log(`Characters:`, characterList);
-    const [heading, setHeading] = useState('Character Sheet - IN PLAY');
+    
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
@@ -37,7 +37,7 @@ function CharacterSheet() {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <h2>{heading}</h2>
+                <h2>Character Sheet - IN PLAY</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => saveCharacter()}>Save Current Status</Button>
                 <p>Character Sheet</p>

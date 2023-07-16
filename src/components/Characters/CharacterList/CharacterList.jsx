@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 
 function CharacterList() {
   const characterList = useSelector((store) => store.characterList);
-  // console.log(`Characters:`, characterList);
-  const [heading, setHeading] = useState('Functional Component');
+  
   const dispatch = useDispatch();
   const history = useHistory()
 
-  const fetchCharacters = () => {
+  useEffect(() => {
     dispatch({ type: "FETCH_ALL_CHARACTERS" })
-  }
+  }, [])
 
   const moveToCharacterSheet = (id) => {
     history.push(`/charactersheet/${id}`)
@@ -21,11 +20,9 @@ function CharacterList() {
     history.push(`/characterdetail/${id}`)
   }
 
-
   return (
     <div>
-      <h2>{heading}</h2>
-      <Button onClick={() => fetchCharacters()}>Get All Characters</Button>
+      <h2>Character List</h2>
       {characterList.length ? (
         <>
           <p>My Characters:</p>

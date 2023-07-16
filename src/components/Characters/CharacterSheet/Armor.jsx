@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
 import SpecialModal from '../../Modals/SpecialModal';
 
-// TEST ARMOR NEXT!
 function Armor(charDetailProp) {
     
     const charDetailArmor = charDetailProp.charDetailProp.max_armor
