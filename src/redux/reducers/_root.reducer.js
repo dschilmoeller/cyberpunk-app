@@ -16,6 +16,8 @@ import weaponMaster from './weaponMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
 
+import advancementDetail from './advancementDetail.reducer';
+import advancementGear from './advancementGear.reducer';
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
   weaponMaster, // master gear list - weapons
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware
+  advancementDetail, // editable char sheet details
+  advancementGear, // editable char sheet equipment
 });
 
 export default rootReducer;

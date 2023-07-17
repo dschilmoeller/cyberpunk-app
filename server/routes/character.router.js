@@ -2,6 +2,10 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+// To Do: add blocker for not-logged in
+// rewrite SQL requests to limit characters to those belonging to logged in user (req.user.id?)
+// add res.send(error) to catch statements.
+// Eventually - GM section or change commands to allow for user type.
 
 // fetch characters list route
 router.get('/fetchallcharacters', (req, res) => {
@@ -19,7 +23,7 @@ router.get('/fetchallcharacters', (req, res) => {
             console.log(`Error Fetching characters:`, err);
         });
 });
- 
+
 // fetch character details
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
@@ -37,6 +41,7 @@ router.get('/fetchcharacterdetails/:id', (req, res) => {
         })
 })
 
+// fetch equipped cyberware
 router.get('/fetchcharactercyberdetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_cyberware_bridge"
     WHERE char_id = $1`
@@ -107,7 +112,112 @@ router.put('/savecharacterweapons/:id', (req, res) => {
         })
 })
 
-// character save route(s)
+
+// Character Advancement Routes
+router.get('/fetchAdvancementDetails/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "character"
+    WHERE id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching advancement character details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementOwnedArmor/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_armor" 
+    JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_owned_armor"."armor_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned armor details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementEquippedArmor/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_armor_bridge" 
+    JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned armor details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementOwnedWeapons/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_weapons" 
+    JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_owned_weapons"."weapon_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned weapon details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementEquippedWeapons/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_weapons_bridge" 
+    JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_weapons_bridge"."weapon_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned weapon details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementOwnedGear/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_gear" 
+    JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_owned_gear"."gear_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned gear details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementOwnedCyber/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_cyberware" 
+    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned cyberware details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementEquippedCyber/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_cyberware_bridge" 
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned equipped cyberware details:`, err);
+        })
+})
+
+
+// Creation save route(s)
 router.post('/saveCreationCharacter/', (req, res) => {
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
@@ -144,28 +254,35 @@ router.post('/saveCreationCharacter/', (req, res) => {
                 const armorSqlText = `INSERT INTO "char_owned_armor" 
                 ("char_id", "armor_id")
                 VALUES ($1, $2)`
-                const armorSqlParams = [result.rows[0].id, rb.armor[i]+1]
+                const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1]
                 pool.query(armorSqlText, armorSqlParams)
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
                 ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired")
                 VALUES ($1, $2, $3, $4, $5)`
-                const weaponSqlParams = [result.rows[0].id, rb.weapons[i]+1, 1, 1, 0]
+                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, 1, 1, 0]
+                pool.query(weaponSqlText, weaponSqlParams)
+            }
+            for (let i = 0; i < req.body.weapons.length; i++) {
+                const weaponSqlText = `INSERT INTO "char_owned_weapons" 
+                ("char_id", "weapon_id", "equipped")
+                VALUES ($1, $2, $3)`
+                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
             for (let i = 0; i < req.body.gear.length; i++) {
                 const gearSqlText = `INSERT INTO "char_gear_bridge" 
                 ("char_id", "misc_gear_id")
                 VALUES ($1, $2)`
-                const gearSqlParams = [result.rows[0].id, rb.gear[i]+1]
+                const gearSqlParams = [result.rows[0].id, rb.gear[i] + 1]
                 pool.query(gearSqlText, gearSqlParams)
             }
             for (let i = 0; i < req.body.cyberware.length; i++) {
                 const gearSqlText = `INSERT INTO "char_owned_cyberware" 
                 ("char_id", "cyberware_master_id")
                 VALUES ($1, $2)`
-                const gearSqlParams = [result.rows[0].id, rb.cyberware[i]+1]
+                const gearSqlParams = [result.rows[0].id, rb.cyberware[i] + 1]
                 pool.query(gearSqlText, gearSqlParams)
             }
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
@@ -173,7 +290,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
             VALUES ($1, $2, $3, $4, $5, $6, $7)`
             const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0]
             pool.query(bridgeSqlText, bridgeParams)
-            
+
         })
         .then((result) => {
             res.sendStatus(201)

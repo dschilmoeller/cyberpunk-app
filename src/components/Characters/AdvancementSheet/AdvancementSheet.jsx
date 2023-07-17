@@ -15,7 +15,7 @@ function CharacterDetail() {
     let charName = characterDetail[0].name
 
     const fetchCharacterDetail = () => {
-        dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
+        dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         console.log(`Charname`, charName);
     }
 
