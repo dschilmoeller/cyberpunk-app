@@ -15,13 +15,20 @@ CREATE TABLE "character" (
 	"campaign" varchar NOT NULL,
 	"is_paramedical" bool NOT NULL DEFAULT false,
 	"strength" integer NOT NULL DEFAULT '1',
+	"cyber_strength" integer NOT NULL DEFAULT '0',
 	"body" integer NOT NULL DEFAULT '1',
+	"cyber_body" integer NOT NULL DEFAULT '0',
 	"reflexes" integer NOT NULL DEFAULT '1',
+	"cyber_reflexes" integer NOT NULL DEFAULT '0',
 	"move" integer NOT NULL DEFAULT '1',
+	"cyber_move" integer NOT NULL DEFAULT '0',
 	"appearance" integer NOT NULL DEFAULT '1',
+	"cyber_appearance" integer NOT NULL DEFAULT '0',
 	"cool" integer NOT NULL DEFAULT '1',
+	"cyber_cool" integer NOT NULL DEFAULT '0',
 	"street_cred" integer NOT NULL DEFAULT '0',
 	"intelligence" integer NOT NULL DEFAULT '1',
+	"cyber_intelligence" integer NOT NULL DEFAULT '0',
 	"willpower" integer NOT NULL DEFAULT '1',
 	"technique" integer NOT NULL DEFAULT '1',
 	"athletics" integer NOT NULL DEFAULT '0',
@@ -78,6 +85,7 @@ CREATE TABLE "character" (
 	"bank" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "char_pk" PRIMARY KEY ("id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_status" (
 	"char_status_id" serial NOT NULL,
 	"char_id" integer NOT NULL,

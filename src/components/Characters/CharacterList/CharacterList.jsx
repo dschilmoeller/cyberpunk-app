@@ -16,8 +16,8 @@ function CharacterList() {
   const moveToCharacterSheet = (id) => {
     history.push(`/charactersheet/${id}`)
   }
-  const moveToCharacterDetail = (id) => {
-    history.push(`/characterdetail/${id}`)
+  const moveToAdvancementSheet = (id) => {
+    history.push(`/advancementsheet/${id}`)
   }
 
   return (
@@ -30,7 +30,7 @@ function CharacterList() {
             return (
               <div key={character.id}>
                 <Button variant='contained' sx={{ m: 1 }} onClick={() => moveToCharacterSheet(character.id)}>{character.handle}</Button>
-                <Button onClick={() => moveToCharacterDetail(character.id)}>Spend XP Version </Button>
+                <Button onClick={() => moveToAdvancementSheet(character.id)}>Spend XP Version </Button>
               </div>
             )
           })}

@@ -116,6 +116,7 @@ router.put('/savecharacterweapons/:id', (req, res) => {
 // Character Advancement Routes
 router.get('/fetchAdvancementDetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "character"
+    JOIN "char_status" ON "char_status"."char_status_id" = "character"."id"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {

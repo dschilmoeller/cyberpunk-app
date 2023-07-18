@@ -1,22 +1,34 @@
-// to be non-static, editable character sheet
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
 
-// RENAME THIS DRAMATICALLY TO DISTINGUISH FROM IN PLAY SHEET
-function CharacterDetail() {
-    const characterDetail = useSelector((store) => store.characterDetail);
+import Grid from '@mui/material/Grid';
+import Item from '../CharacterSheet/Item';
+
+import AdvancementAttributes from './AdvancementAttributes';
+import AdvancementSkills from './AdvancementSkills';
+import AdvancementSpecial from './AdvancementSpecial';
+import AdvancementOther from './AdvancementOther';
+
+function AdvancementSheet() {
+    const advancementDetails = useSelector((store) => store.advancementDetail[0]);
+
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
-    let charName = characterDetail[0].name
+    let handle = advancementDetails.handle
+
+    const [opener, setOpener] = useState('')
+
+    useEffect(() => {
+        dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
+    }, [])
 
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
-        console.log(`Charname`, charName);
     }
 
     return (
@@ -25,12 +37,85 @@ function CharacterDetail() {
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
-                <Button onClick={() => dispatch({ type: 'CLEAR_CHARACTER_DETAIL' })}>Clear Details</Button>
-                {charName ? <p>Character Detail: {charName}</p> : <></>}
+
+                {advancementDetails ? (
+                    <>
+                        <Grid container>
+                            <Grid item xs={4}>
+                                <Item>Name: {advancementDetails.handle}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Role: {advancementDetails.role}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Player: {advancementDetails.player}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Campaign: {advancementDetails.campaign} </Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Culture: {advancementDetails.culture}</Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item>Concept: {advancementDetails.concept}</Item>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container>
+                            <Grid item xs={12}><Item>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</Item></Grid>
+                        </Grid>
+                    </>
+                ) : <></>}
+
+                <h2>I want to change...</h2>
+                <Grid container>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Attributes')}>Attributes</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Skills')}>Skills</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Role')}>Role</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Other')}>Other Traits</Button></Item></Grid>
+
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Armor')}>Buy / Equip Armor</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Buy / Equip Weapons</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>Buy / Equip Other Gear</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Buy / Equip Cyberware</Button></Item></Grid>
+                </Grid>
+
+                {opener === 'Attributes' ? (<>
+                    <AdvancementAttributes />
+                </>) : <></>}
+
+                {opener === 'Skills' ? (<>
+                    <AdvancementSkills />
+                </>) : <></>}
+
+                {opener === 'Role' ? (<>
+                    <AdvancementSpecial />
+                </>) : <></>}
+
+                {opener === 'Other' ? (<>
+                    <AdvancementOther />
+                </>) : <></>}
+
+                {opener === 'Armor' ? (<>
+                    <h1>Armor</h1>
+                </>) : <></>}
+
+                {opener === 'Weapons' ? (<>
+                    <h1>Weapons</h1>
+                </>) : <></>}
+
+                {opener === 'Gear' ? (<>
+                    <h1>Other Gear</h1>
+                </>) : <></>}
+
+                {opener === 'Cyberware' ? (<>
+                    <h1>Cyberware</h1>
+                </>) : <></>}
+
 
             </div>
         </>
     )
 }
 
-export default CharacterDetail;
+export default AdvancementSheet;

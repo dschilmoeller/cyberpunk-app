@@ -9,8 +9,8 @@ import SpecialModal from '../../Modals/SpecialModal';
 function Humanity(charDetailProp) {
     const charStatus = useSelector(store => store.characterStatus)
     const permHumanityLoss = charDetailProp.charDetailProp.perm_humanity_loss
-    const unhurtMarker = `\u2610`;
     const dispatch = useDispatch();
+    const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
     const aggMarker = `\u2718`;
 
@@ -48,7 +48,6 @@ function Humanity(charDetailProp) {
             humanityBoxes.push(<Grid key={i} item xs={1.2}><Item onClick={(e) => humanityBoxChanger(e)}>{humanityArray[i]}</Item></Grid>)
         }
         return humanityBoxes
-
     }
 
     return (

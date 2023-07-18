@@ -118,7 +118,7 @@ function App() {
           {/* detailed version, able to spend XP and change sheet generally */}
           <ProtectedRoute
             exact
-            path="/characterdetail/:id"
+            path="/advancementsheet/:id"
           >
             <AdvancementSheet />
           </ProtectedRoute>
