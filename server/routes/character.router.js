@@ -28,13 +28,11 @@ router.get('/fetchallcharacters', (req, res) => {
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
 router.get('/fetchcharacterdetails/:id', (req, res) => {
-    // console.log(`In fetch char details, id:`, req.params.id);
     const sqlText = `SELECT * FROM "character"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows);
-            // console.log(`Result:`, result.rows);
         })
         .catch(err => {
             console.log(`Error fetching character details:`, err);
@@ -153,6 +151,32 @@ router.get('/fetchAdvancementEquippedArmor/:id', (req, res) => {
         })
 })
 
+router.get('/fetchAdvancementOwnedShield/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_shield" 
+    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_owned_shield"."shield_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned shield details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementEquippedShield/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_shield_bridge" 
+    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching equipped shield details:`, err);
+        })
+})
+
 router.get('/fetchAdvancementOwnedWeapons/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_weapons" 
     JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_owned_weapons"."weapon_id"
@@ -175,7 +199,7 @@ router.get('/fetchAdvancementEquippedWeapons/:id', (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching owned weapon details:`, err);
+            console.log(`Error fetching equipped weapon details:`, err);
         })
 })
 
@@ -213,7 +237,7 @@ router.get('/fetchAdvancementEquippedCyber/:id', (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching owned equipped cyberware details:`, err);
+            console.log(`Error fetching equipped cyberware details:`, err);
         })
 })
 

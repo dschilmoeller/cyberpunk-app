@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
-
+import SpecialModal from '../../Modals/SpecialModal';
 
 
 export default function AdvancementOther() {
@@ -72,7 +72,7 @@ export default function AdvancementOther() {
 
             <Grid item xs={6}>
                 <Grid container>
-                    <Grid item xs={12}><Item>Luck</Item></Grid>
+                    <Grid item xs={12}><Item><SpecialModal prop={'Luck'} /></Item></Grid>
                     <Grid item xs={12}>
                         {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Luck: {luckExpReturn()} </Item>
                             :
@@ -85,7 +85,7 @@ export default function AdvancementOther() {
 
             <Grid item xs={6}>
                 <Grid container>
-                    <Grid item xs={12}><Item>Humanity</Item></Grid>
+                    <Grid item xs={12}><Item><SpecialModal prop={'Humanity'} /></Item></Grid>
                     <Grid item xs={12}>
                         {advancementDetails.current_humanity_loss > 0 ?
                             <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 2 XP</Item>

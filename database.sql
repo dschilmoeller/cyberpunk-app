@@ -85,7 +85,6 @@ CREATE TABLE "character" (
 	"bank" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "char_pk" PRIMARY KEY ("id")
 ) WITH (OIDS = FALSE);
-
 CREATE TABLE "char_status" (
 	"char_status_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -122,8 +121,19 @@ CREATE TABLE "char_weapons_bridge" (
 ) WITH (OIDS = FALSE);
 CREATE TABLE "armor_master" (
 	"armor_master_id" serial NOT NULL,
-	"quality" integer NOT NULL DEFAULT '0' "price" integer NOT NULL DEFAULT '0',
+	"name" varchar NOT NULL DEFAULT 'name',
+	"description" varchar NOT NULL DEFAULT 'desc',
+	"quality" integer NOT NULL DEFAULT '0',
+	"price" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "armor_master_pk" PRIMARY KEY ("armor_master_id")
+) WITH (OIDS = FALSE);
+CREATE TABLE "shield_master" (
+	"shield_master_id" serial NOT NULL,
+	"name" varchar NOT NULL DEFAULT 'name',
+	"description" varchar NOT NULL DEFAULT 'desc',
+	"quality" integer NOT NULL DEFAULT '0',
+	"price" integer NOT NULL DEFAULT '0',
+	CONSTRAINT "shield_master_pk" PRIMARY KEY ("shield_master_id")
 ) WITH (OIDS = FALSE);
 CREATE TABLE "char_armor_bridge" (
 	"armor_bridge_id" serial NOT NULL,
@@ -133,6 +143,19 @@ CREATE TABLE "char_armor_bridge" (
 	"armor_mod_2" integer NOT NULL,
 	CONSTRAINT "char_armor_bridge_pk" PRIMARY KEY ("armor_bridge_id")
 ) WITH (OIDS = FALSE);
+CREATE TABLE "char_shield_bridge" (
+	"shield_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"shield_id" integer NOT NULL,
+	"armor_mod_1" integer NOT NULL default '1',
+	CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
+) WITH (OIDS = FALSE);
+ALTER TABLE "char_shield_bridge"
+ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ALTER TABLE "char_shield_bridge"
+ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
+ALTER TABLE "char_shield_bridge"
+ADD CONSTRAINT "char_shield_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master");
 CREATE TABLE "armor_mod_master" (
 	"armor_mod_master_id" serial NOT NULL,
 	CONSTRAINT "armor_mod_master_pk" PRIMARY KEY ("armor_mod_master_id")
@@ -374,6 +397,20 @@ ALTER TABLE "char_owned_armor"
 ADD CONSTRAINT "char_owned_armor_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
 ALTER TABLE "char_owned_armor"
 ADD CONSTRAINT "char_owned_armor_fk1" FOREIGN KEY ("armor_id") REFERENCES "armor_master"("armor_master_id");
+
+CREATE TABLE "char_owned_shield" (
+	"owned_shield_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"shield_id" integer NOT NULL,
+	"equipped" bool NOT NULL default false
+) WITH (OIDS = FALSE);
+ALTER TABLE "char_owned_shield"
+ADD CONSTRAINT "char_owned_shield_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ALTER TABLE "char_owned_shield"
+ADD CONSTRAINT "char_owned_shield_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
+
+
+
 CREATE TABLE "char_owned_weapons" (
 	"owned_weapons_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -432,6 +469,10 @@ ALTER TABLE "char_status"
 ADD CONSTRAINT "char_status_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
 ALTER TABLE "char_cyberware_bridge"
 ADD CONSTRAINT "char_cyberware_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+
+
+
+
 SELECT *
 FROM "char_weapons_bridge"
 	JOIN "weapons_master" ON "weapons_master".weapon_id = "char_weapons_bridge".weapon_id
@@ -441,6 +482,7 @@ WHERE char_id = 1
 ORDER BY id ASC
 select *
 from "weapon_master";
+
 INSERT INTO "cyberware_master" (
 		"name",
 		"type",
@@ -1493,6 +1535,13 @@ VALUES (
 		E'Advanced composite alloys and strategic plating offering the best possible protection. The weaere soaks non-aggravated wounds with a difficulty of 5.'
 	),
 	(
+		E'Military Grade Powered Armor',
+		10,
+		50000,
+		E'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Armor is considered Hardened (see rules)'
+	);
+INSERT INTO "public"."shield_master"("name", "quality", "price", "description")
+VALUES (
 		E'Runner\'s Buckler',
 		1,
 		500,
@@ -1503,13 +1552,7 @@ VALUES (
 		2,
 		1000,
 		E'A full sized shield offering decent protection.'
-	),
-	(
-		E'Military Grade Powered Armor',
-		10,
-		50000,
-		E'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Armor is considered Hardened (see rules)'
-	);
+	)
 INSERT INTO "public"."weapon_master"(
 		"name",
 		"damage",
@@ -2093,3 +2136,30 @@ INSERT INTO "char_status" (
 		"current_luck_loss"
 	)
 VALUES (2, 2, 3, 1, 1, 3, 2);
+
+INSERT INTO "public"."armor_master"("armor_master_id","name","quality","price","description")
+VALUES (1,E'Clothes',1,10,E'Standard clothing with mild antiballistic properties.'),
+(2,E'Leathers',2,20,E'Not even slightly bulletproof, but offers protection against small clubs.'),
+(3,E'Kevlar',3,50,E'Offers decent protection for the vitals at a bargain price.'),
+(4,E'Light Armorjack',4,100,E'Full body armor of the lightest kind.'),
+(5,E'Medium Armorjack',5,500,E'A plain suit of modern armor, completely undisguisable as anything else.'),
+(6,E'Heavy Armorjack',6,1000,E'The descendent of SWAT armor and platemail, offering considerable protection to the wearer.'),
+(7,E'Full Flak',7,2000,E'Standard military issue gear, designed to keep the wearer alive through some SHIT.'),
+(8,E'Metalgear',8,5000,E'Advanced composite alloys and strategic plating offering the best possible protection. The weaere soaks non-aggravated wounds with a difficulty of 5.'),
+(11,E'Armored Trench Coat',4,1000,E'A somewhat less obtrusive piece of gear, allowing an edgerunner to armor up in public. Not especially fancy, doesn\'t breathe. Expect a certain amount of musk.'),
+(12,E'Fancy Armored Suit',4,2500,E'A stylish, high class looking bit of body armor. Common amongst Corpos with reason to suspect they are less loved than they should be. Also, it breathes.'),
+(13,E'Military Grade Powered Armor',10,25000,E'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Non-aggravated wounds are soaked with a difficulty of 4. ');
+
+INSERT INTO "public"."shield_master"("name", "quality", "price", "description")
+VALUES (
+		E'Runner\'s Buckler',
+		1,
+		500,
+		E'A small shield, useful for deflecting gangers and salesmen.'
+	),
+	(
+		E'Riot Shield',
+		2,
+		1000,
+		E'A full sized shield offering decent protection.'
+	);

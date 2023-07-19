@@ -5,6 +5,10 @@
 // Show character gear at top of page
 // can show armor all in one.
 
+// need to modify:
+// add shield to armor section
+// add check for already owned and prevent repurchasing. No doubling up.
+
 import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';

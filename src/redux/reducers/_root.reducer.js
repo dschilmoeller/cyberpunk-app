@@ -12,6 +12,7 @@ import characterWeapons from './characterWeapons.reducer';
 import characterCreation from './characterCreation.reducer';
 
 import armorMaster from './armorMaster.reducer';
+import shieldMaster from './shieldMaster.reducer';
 import weaponMaster from './weaponMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   characterWeapons, // contains active character's weapons
   characterCreation, // contains details set up during character creation
   armorMaster, // master gear list - armor
+  shieldMaster, // master gear list - shields
   weaponMaster, // master gear list - weapons
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware

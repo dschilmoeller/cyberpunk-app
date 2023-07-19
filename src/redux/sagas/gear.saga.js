@@ -11,12 +11,21 @@ function* fetchArmor() {
     }
 }
 
+function* fetchShield() {
+    try {
+        const shieldList = yield axios.get('/api/gear/shield')
+        yield put({ type: "SET_SHIELD_LIST", payload: shieldList.data });
+    } catch (error) {
+        console.log('Error fetching shield:', error);
+    }
+}
+
 function* fetchWeapon() {
     try {
         const weaponList = yield axios.get('/api/gear/weapon')
         yield put({ type: "SET_WEAPON_LIST", payload: weaponList.data })
     } catch (error) {
-        console.log('Error fetching armor:', error);
+        console.log('Error fetching weapon:', error);
     }
 }
 
@@ -40,6 +49,7 @@ function* fetchCyberware() {
 
 function* gearSaga() {
         yield takeLatest('FETCH_ARMOR_LIST', fetchArmor);
+        yield takeLatest('FETCH_SHIELD_LIST', fetchShield)
         yield takeLatest('FETCH_WEAPON_LIST', fetchWeapon);
         yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
         yield takeLatest('FETCH_CYBERWARE_LIST', fetchCyberware);

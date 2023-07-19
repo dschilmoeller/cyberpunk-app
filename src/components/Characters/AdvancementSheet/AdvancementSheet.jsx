@@ -11,6 +11,8 @@ import AdvancementSkills from './AdvancementSkills';
 import AdvancementSpecial from './AdvancementSpecial';
 import AdvancementOther from './AdvancementOther';
 
+import AdvancementGearArmor from './AdvancementGearArmor';
+
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
 
@@ -25,8 +27,13 @@ function AdvancementSheet() {
 
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
+        dispatch({type: "FETCH_ARMOR_LIST"})
+        dispatch({type: "FETCH_SHIELD_LIST"})
+        dispatch({type: "FETCH_WEAPON_LIST"})
+        dispatch({type: "FETCH_MISC_GEAR_LIST"})
+        dispatch({type: "FETCH_CYBERWARE_LIST"})
     }, [])
-
+    
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
     }
@@ -97,7 +104,7 @@ function AdvancementSheet() {
                 </>) : <></>}
 
                 {opener === 'Armor' ? (<>
-                    <h1>Armor</h1>
+                    <AdvancementGearArmor />
                 </>) : <></>}
 
                 {opener === 'Weapons' ? (<>

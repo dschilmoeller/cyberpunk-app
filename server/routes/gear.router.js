@@ -15,6 +15,19 @@ router.get('/armor', (req, res) => {
         });
 });
 
+router.get('/shield', (req, res) => {
+    const sqlText = `SELECT * FROM "shield_master" order by "shield_master_id"`
+
+    pool.query(sqlText)
+        .then((result) => {
+            console.log(result.rows);
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error Fetching Armor List:`, err);
+        });
+});
+
 // Fetch Weapon List
 router.get('/weapon', (req, res) => {
     const sqlText = `SELECT * FROM "weapon_master" order by "weapon_master_id"`
