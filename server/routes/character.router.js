@@ -190,20 +190,11 @@ router.get('/fetchAdvancementCyber/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementEquippedCyber/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_cyberware_bridge" 
-    WHERE char_id = $1`
-    pool.query(sqlText, [req.params.id])
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.log(`Error fetching equipped cyberware details:`, err);
-        })
-})
-
 
 // Creation save route(s)
+// update to include armor/shield distinction
+// update to include equipped status - false
+
 router.post('/saveCreationCharacter/', (req, res) => {
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
@@ -237,24 +228,24 @@ router.post('/saveCreationCharacter/', (req, res) => {
     pool.query(charSqlText, charParams)
         .then((result) => {
             for (let i = 0; i < req.body.armor.length; i++) {
-                const armorSqlText = `INSERT INTO "char_owned_armor" 
-                ("char_id", "armor_id")
-                VALUES ($1, $2)`
-                const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1]
+                const armorSqlText = `INSERT INTO "char_armor_bridge" 
+                ("char_id", "armor_id", "armor_mod_1", "equipped")
+                VALUES ($1, $2, $3, $4)`
+                const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1, 1, false]
+                pool.query(armorSqlText, armorSqlParams)
+            }
+            for (let i = 0; i < req.body.shield.length; i++) {
+                const armorSqlText = `INSERT INTO "char_shield_bridge" 
+                ("char_id", "shield_id", "armor_mod_1", "equipped")
+                VALUES ($1, $2, $3, $4)`
+                const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1, 1, false]
                 pool.query(armorSqlText, armorSqlParams)
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
-                ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired")
+                ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
                 VALUES ($1, $2, $3, $4, $5)`
-                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, 1, 1, 0]
-                pool.query(weaponSqlText, weaponSqlParams)
-            }
-            for (let i = 0; i < req.body.weapons.length; i++) {
-                const weaponSqlText = `INSERT INTO "char_owned_weapons" 
-                ("char_id", "weapon_id", "equipped")
-                VALUES ($1, $2, $3)`
-                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, true]
+                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, 1, 1, 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
             for (let i = 0; i < req.body.gear.length; i++) {

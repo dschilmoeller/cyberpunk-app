@@ -16,7 +16,7 @@ const characterCreation = (state = {
     availableMedSkillPoints: 0, availableMakerSkillPoints: 0,
 
 
-    armor: [], weapons: [], gear: [], cyberware: [],
+    armor: [], shield: [], weapons: [], gear: [], cyberware: [],
 
     gearbucks: 1500, cyberbucks: 2500
 },
@@ -132,6 +132,24 @@ const characterCreation = (state = {
             gearbucks: action.newBank
         }
     }
+
+    if (action.type === "CREATION_BUY_SHIELD") {
+        return {
+            ...state,
+            shield: [...state.shield, action.payload],
+            gearbucks: action.newBank
+        }
+    }
+    if (action.type === "CREATION_SELL_SHIELD") {
+        return {
+            ...state,
+            shield: [
+                ...state.shield.slice(0, action.payload),
+                ...state.shield.slice(action.payload + 1)],
+            gearbucks: action.newBank
+        }
+    }
+
     if (action.type === "CREATION_BUY_WEAPON") {
         return {
             ...state,

@@ -26,9 +26,11 @@ export default function CreationGear() {
     const dispatch = useDispatch();
 
     const armor = useSelector(store => store.armorMaster)
+    const shield = useSelector(store => store.shieldMaster)
     const weapons = useSelector(store => store.weaponMaster)
     const miscGear = useSelector(store => store.miscGearMaster)
     const charArmor = useSelector(store => store.characterCreation.armor)
+    const charShield = useSelector(store => store.characterCreation.shield)
     const charWeapons = useSelector(store => store.characterCreation.weapons)
     const charGear = useSelector(store => store.characterCreation.gear)
     const gearbucks = useSelector(store => store.characterCreation.gearbucks)
@@ -36,30 +38,7 @@ export default function CreationGear() {
     const [selectedList, setSelectedList] = useState('Armor')
     const [bank, setBank] = useState(gearbucks)
 
-    const armorRows = []
-    const armorBuilder = () => {
-        const createArmorData = (name, quality, description, price, armor_master_id) => {
-            return { name, quality, description, price, armor_master_id };
-        }
-        for (let i = 0; i < armor.length; i++) {
-            armorRows.push(createArmorData(armor[i].name, armor[i].quality, armor[i].description, armor[i].price, armor[i].armor_master_id))
-        }
-    }
-
-    const weaponRows = []
-    const weaponBuilder = () => {
-        const createWeaponData = (name, damage, dmg_type, range, rof, max_clip, hands, concealable, price, weapon_master_id) => {
-            return { name, damage, dmg_type, range, rof, max_clip, hands, concealable, price, weapon_master_id }
-        }
-        for (let i = 0; i < weapons.length; i++) {
-            weaponRows.push(createWeaponData(weapons[i].name, weapons[i].damage, weapons[i].dmg_type, weapons[i].range,
-                weapons[i].rof, weapons[i].max_clip, weapons[i].hands, weapons[i].concealable, weapons[i].price, weapons[i].weapon_master_id))
-        }
-    }
-
-    armorBuilder();
-    weaponBuilder();
-
+    
     const purchaseArmor = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
@@ -72,6 +51,20 @@ export default function CreationGear() {
     const sellArmor = (price, index) => {
         setBank(bank + price)
         dispatch({ type: "CREATION_SELL_ARMOR", payload: index, newBank: (bank + price) })
+    }
+
+    const purchaseShield = (price, index) => {
+        if (bank >= price) {
+            setBank(bank - price)
+            dispatch({ type: "CREATION_BUY_SHIELD", payload: index, newBank: (bank - price) })
+        } else {
+            alert("Insufficient funds")
+        }
+    }
+
+    const sellShield = (price, index) => {
+        setBank(bank + price)
+        dispatch({ type: "CREATION_SELL_SHIELD", payload: index, newBank: (bank + price) })
     }
 
     const purchaseWeapon = (price, index) => {
@@ -140,6 +133,15 @@ export default function CreationGear() {
                                 <TableCell align="right">{armor[item].price}$</TableCell>
                             </TableRow>
                         ))}
+                        {charShield.map((item, i)=> (
+                            <TableRow key={i}>
+                            <TableCell align="left"><Button onClick={() => sellshield(shield[item].price, i)}>Return</Button></TableCell>
+                            <TableCell align="left">{shield[item].name} </TableCell>
+                            <TableCell align="left">{shield[item].quality}</TableCell>
+                            <TableCell align="left">{shield[item].description}</TableCell>
+                            <TableCell align="right">{shield[item].price}$</TableCell>
+                        </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -157,7 +159,7 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {armorRows.map((row, i) => (
+                        {armor.map((row, i) => (
                             <TableRow key={row.name}>
                                 <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, i)}>Purchase</Button></TableCell>
                                 <TableCell>{row.name} </TableCell>
@@ -165,6 +167,15 @@ export default function CreationGear() {
                                 <TableCell align="left">{row.description}</TableCell>
                                 <TableCell align="right">{row.price}$</TableCell>
                             </TableRow>
+                        ))}
+                        {shield.map((row, i) => (
+                            <TableRow key={row.name}>
+                            <TableCell align="left"><Button onClick={() => purchaseShield(row.price, i)}>Purchase</Button></TableCell>
+                            <TableCell>{row.name} </TableCell>
+                            <TableCell align="left">{row.quality}</TableCell>
+                            <TableCell align="left">{row.description}</TableCell>
+                            <TableCell align="right">{row.price}$</TableCell>
+                        </TableRow>
                         ))}
                     </TableBody>
                 </Table>
@@ -223,7 +234,7 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {weaponRows.map((row, i) => (
+                        {weapons.map((row, i) => (
                             <TableRow key={i}>
                                 <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
