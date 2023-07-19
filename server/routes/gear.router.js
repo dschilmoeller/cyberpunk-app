@@ -20,7 +20,6 @@ router.get('/shield', (req, res) => {
 
     pool.query(sqlText)
         .then((result) => {
-            console.log(result.rows);
             res.send(result.rows);
         })
         .catch(err => {

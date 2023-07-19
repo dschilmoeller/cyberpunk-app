@@ -125,20 +125,7 @@ router.get('/fetchAdvancementDetails/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementOwnedArmor/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_owned_armor" 
-    JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_owned_armor"."armor_id"
-    WHERE char_id = $1`
-    pool.query(sqlText, [req.params.id])
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.log(`Error fetching owned armor details:`, err);
-        })
-})
-
-router.get('/fetchAdvancementEquippedArmor/:id', (req, res) => {
+router.get('/fetchAdvancementArmor/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_armor_bridge" 
     JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
     WHERE char_id = $1`
@@ -151,20 +138,7 @@ router.get('/fetchAdvancementEquippedArmor/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementOwnedShield/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_owned_shield" 
-    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_owned_shield"."shield_id"
-    WHERE char_id = $1`
-    pool.query(sqlText, [req.params.id])
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.log(`Error fetching owned shield details:`, err);
-        })
-})
-
-router.get('/fetchAdvancementEquippedShield/:id', (req, res) => {
+router.get('/fetchAdvancementShield/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_shield_bridge" 
     JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
     WHERE char_id = $1`
@@ -177,20 +151,7 @@ router.get('/fetchAdvancementEquippedShield/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementOwnedWeapons/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_owned_weapons" 
-    JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_owned_weapons"."weapon_id"
-    WHERE char_id = $1`
-    pool.query(sqlText, [req.params.id])
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.log(`Error fetching owned weapon details:`, err);
-        })
-})
-
-router.get('/fetchAdvancementEquippedWeapons/:id', (req, res) => {
+router.get('/fetchAdvancementWeapons/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge" 
     JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_weapons_bridge"."weapon_id"
     WHERE char_id = $1`
@@ -203,7 +164,7 @@ router.get('/fetchAdvancementEquippedWeapons/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementOwnedGear/:id', (req, res) => {
+router.get('/fetchAdvancementGear/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_gear" 
     JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_owned_gear"."gear_id"
     WHERE char_id = $1`
@@ -216,9 +177,9 @@ router.get('/fetchAdvancementOwnedGear/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementOwnedCyber/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_owned_cyberware" 
-    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
+router.get('/fetchAdvancementCyber/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_cyberware_bridge" 
+    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_cyberware_bridge"."cyberware_master_id"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {

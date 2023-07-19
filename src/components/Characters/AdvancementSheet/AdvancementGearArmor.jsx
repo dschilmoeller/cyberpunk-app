@@ -15,38 +15,39 @@ import { Button } from '@mui/material';
 
 export default function AdvancementGearArmor() {
     const dispatch = useDispatch();
-    const ownedArmor = useSelector(store => store.advancementGear.ownedArmor)
-    const ownedShield = useSelector(store => store.advancementGear.ownedShield)
-    const equippedArmor = useSelector(store => store.advancementGear.equippedArmor)
-    const equippedShield = useSelector(store => store.advancementGear.equippedShield)
-    const armor = useSelector(store => store.armorMaster)
-    const shield = useSelector(store => store.shieldMaster)
+    const characterArmor = useSelector(store => store.advancementGear.armor)
+    const characterShield = useSelector(store => store.advancementGear.shield)
 
     const armorRows = []
-    const armorBuilder = () => {
-        const createArmorData = (name, quality, description, price, armor_master_id) => {
-            return { name, quality, description, price, armor_master_id };
-        }
-        for (let i = 0; i < ownedArmor.length; i++) {
-            armorRows.push(createArmorData(armor[i].name, armor[i].quality, armor[i].description, armor[i].price, armor[i].armor_master_id))
-        }
-    }
-
-    armorBuilder();
 
     const armorQualityBuilder = () => {
-        let armorTotal = (
-            equippedArmor[0].quality + equippedShield[0].quality
-        )
-        
+        let armorTotal = 0
+        characterArmor.map(item => {
+            if (item.equipped === true) {
+                armorTotal += item.quality
+            }
+        })
+        characterShield.map(item => {
+            if (item.equipped === true) {
+                armorTotal += item.quality
+            }
+        })
+
         return armorTotal
     }
 
-    const changeEquippedArmor = (incomingArmor) => {
-            dispatch({ type: 'CHANGE_EQUIPPED_ARMOR', payload: armor[incomingArmor.armor_master_id - 1] })
+    const equipArmor = (incomingArmor) => {
+        dispatch({ type: 'EQUIP_ARMOR', payload: incomingArmor })
     }
-    const changeEquippedShield = (incomingShield) => {
-        dispatch({ type: 'CHANGE_EQUIPPED_SHIELD', payload: shield[incomingShield.shield_master_id - 1] })
+    const equipShield = (incomingShield) => {
+        dispatch({ type: 'EQUIP_SHIELD', payload: incomingShield })
+    }
+
+    const unequipArmor = (incomingArmor) => {
+        dispatch({ type: 'UNEQUIP_ARMOR', payload: incomingArmor })
+    }
+    const unequipShield = (incomingShield) => {
+        dispatch({ type: 'UNEQUIP_SHIELD', payload: incomingShield })
     }
 
     return (<>
@@ -63,28 +64,33 @@ export default function AdvancementGearArmor() {
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="left">Quality</TableCell>
                         <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">Unequip</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {equippedArmor.map((item, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="left">{item.quality}</TableCell>
-                                    <TableCell align="left">{item.description}</TableCell>
-                                </TableRow>
-                            )
-                        
+                    {characterArmor.map((item, i) => {
+                        if (item.equipped === true) {
+                        return (
+                            <TableRow key={i}>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="left">{item.quality}</TableCell>
+                                <TableCell width={600} align="left">{item.description}</TableCell>
+                                <TableCell align="left"><Button onClick={()=> unequipArmor(item)}>Unequip</Button></TableCell>
+                            </TableRow>
+                        )
+                    }
                     })}
-                    {equippedShield.map((item, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="left">{item.quality}</TableCell>
-                                    <TableCell align="left">{item.description}</TableCell>
-                                </TableRow>
-                            )
-                        
+                    {characterShield.map((item, i) => {
+                        if (item.equipped === true) {
+                        return (
+                            <TableRow key={i}>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="left">{item.quality}</TableCell>
+                                <TableCell width={600} align="left">{item.description}</TableCell>
+                                <TableCell align="left"><Button onClick={()=> unequipShield(item)}>Unequip</Button></TableCell>
+                            </TableRow>
+                        )
+                        }
                     })}
                 </TableBody>
             </Table>
@@ -95,33 +101,33 @@ export default function AdvancementGearArmor() {
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="left">Equip?</TableCell>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="left">Quality</TableCell>
                         <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">Equip?</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {ownedArmor.map((item, i) => {
+                    {characterArmor.map((item, i) => {
                         if (item.equipped === false) {
                             return (
                                 <TableRow key={i}>
-                                    <TableCell align="left"><Button onClick={() => changeEquippedArmor(item)}>Equip</Button></TableCell>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="left">{item.quality}</TableCell>
-                                    <TableCell align="left">{item.description}</TableCell>
+                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                    <TableCell align="left"><Button onClick={() => equipArmor(item)}>Equip</Button></TableCell>
                                 </TableRow>
                             )
                         }
                     })}
-                    {ownedShield.map((item, i) => {
+                    {characterShield.map((item, i) => {
                         if (item.equipped === false) {
                             return (
                                 <TableRow key={i}>
-                                    <TableCell align="left"><Button onClick={() => changeEquippedShield(item)}>Equip</Button></TableCell>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="left">{item.quality}</TableCell>
-                                    <TableCell align="left">{item.description}</TableCell>
+                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                    <TableCell align="left"><Button onClick={() => equipShield(item)}>Equip</Button></TableCell>
                                 </TableRow>
                             )
                         }

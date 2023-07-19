@@ -12,6 +12,8 @@ import AdvancementSpecial from './AdvancementSpecial';
 import AdvancementOther from './AdvancementOther';
 
 import AdvancementGearArmor from './AdvancementGearArmor';
+import AdvancementGearWeapons from './AdvancementGearWeapons';
+import AdvancementGearOther from './AdvancementGearOther';
 
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
@@ -81,10 +83,10 @@ function AdvancementSheet() {
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Role')}>Role</Button></Item></Grid>
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Other')}>Other Traits</Button></Item></Grid>
 
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Armor')}>Buy / Equip Armor</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Buy / Equip Weapons</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>Buy / Equip Other Gear</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Buy / Equip Cyberware</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Armor')}>Equip Armor</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Equip Weapons</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>See Other Gear</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Equip Cyberware</Button></Item></Grid>
                 </Grid>
 
                 {opener === 'Attributes' ? (<>
@@ -108,11 +110,11 @@ function AdvancementSheet() {
                 </>) : <></>}
 
                 {opener === 'Weapons' ? (<>
-                    <h1>Weapons</h1>
+                    <AdvancementGearWeapons />
                 </>) : <></>}
 
                 {opener === 'Gear' ? (<>
-                    <h1>Other Gear</h1>
+                    <AdvancementGearOther />
                 </>) : <></>}
 
                 {opener === 'Cyberware' ? (<>

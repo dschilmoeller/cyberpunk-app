@@ -45,32 +45,20 @@ function* fetchAdvancementDetails(action) {
     const advancementDetails = yield axios.get(`/api/characters/fetchAdvancementDetails/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_DETAIL', payload: advancementDetails.data})
     
-    const advancementOwnedArmor = yield axios.get(`/api/characters/fetchAdvancementOwnedArmor/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_OWNED_ARMOR', payload: advancementOwnedArmor.data})
-    const advancementEquippedArmor = yield axios.get(`/api/characters/fetchAdvancementEquippedArmor/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_EQUIPPED_ARMOR', payload: advancementEquippedArmor.data})
+    const advancementArmor = yield axios.get(`/api/characters/fetchAdvancementArmor/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_ARMOR', payload: advancementArmor.data})
 
-    const advancementOwnedShield = yield axios.get(`/api/characters/fetchAdvancementOwnedShield/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_OWNED_SHIELD', payload: advancementOwnedShield.data})
-    const advancementEquippedShield = yield axios.get(`/api/characters/fetchAdvancementEquippedShield/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_EQUIPPED_SHIELD', payload: advancementEquippedShield.data})
+    const advancementShield = yield axios.get(`/api/characters/fetchAdvancementShield/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_SHIELD', payload: advancementShield.data})
 
-    const advancementOwnedWeapons = yield axios.get(`/api/characters/fetchAdvancementOwnedWeapons/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_OWNED_WEAPONS', payload: advancementOwnedWeapons.data})
-    const advancementEquippedWeapons = yield axios.get(`/api/characters/fetchAdvancementEquippedWeapons/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_EQUIPPED_WEAPONS', payload: advancementEquippedWeapons.data})
+    const advancementWeapons = yield axios.get(`/api/characters/fetchAdvancementWeapons/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_WEAPONS', payload: advancementWeapons.data})
 
-    const advancementOwnedGear = yield axios.get(`/api/characters/fetchAdvancementOwnedGear/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_OWNED_GEAR', payload: advancementOwnedGear.data})
-    // no distinction currently between owned/equipped gear.
-    // const advancementEquippedGear = yield axios.get(`/api/characters/fetchAdvancementEquippedGear/${action.payload}`)
-    // yield put({ type: 'SET_ADVANCEMENT_EQUIPPED_GEAR', payload: advancementEquippedGear.data})    
-
+    const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data})
     
-    const advancementOwnedCyber = yield axios.get(`/api/characters/fetchAdvancementOwnedcyber/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_OWNED_CYBERWARE', payload: advancementOwnedCyber.data})
-    const advancementEquippedCyber = yield axios.get(`/api/characters/fetchAdvancementEquippedcyber/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_EQUIPPED_CYBERWARE', payload: advancementEquippedCyber.data})
+    // const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
+    // yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: advancementCyber.data})
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

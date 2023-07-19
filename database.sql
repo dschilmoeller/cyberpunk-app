@@ -141,6 +141,7 @@ CREATE TABLE "char_armor_bridge" (
 	"armor_id" integer NOT NULL,
 	"armor_mod_1" integer NOT NULL,
 	"armor_mod_2" integer NOT NULL,
+	"equipped" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "char_armor_bridge_pk" PRIMARY KEY ("armor_bridge_id")
 ) WITH (OIDS = FALSE);
 CREATE TABLE "char_shield_bridge" (
@@ -148,6 +149,7 @@ CREATE TABLE "char_shield_bridge" (
 	"char_id" integer NOT NULL,
 	"shield_id" integer NOT NULL,
 	"armor_mod_1" integer NOT NULL default '1',
+	"equipped" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
 ) WITH (OIDS = FALSE);
 ALTER TABLE "char_shield_bridge"
@@ -387,40 +389,7 @@ CREATE TABLE "char_gear_bridge" (
 	"misc_gear_id" integer NOT NULL,
 	CONSTRAINT "char_gear_bridge_pk" PRIMARY KEY ("char_gear_bridge_id")
 ) wiTH (OIDS = FALSE);
-CREATE TABLE "char_owned_armor" (
-	"owned_armor_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"armor_id" integer NOT NULL,
-	"equipped" bool NOT NULL default false
-) WITH (OIDS = FALSE);
-ALTER TABLE "char_owned_armor"
-ADD CONSTRAINT "char_owned_armor_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
-ALTER TABLE "char_owned_armor"
-ADD CONSTRAINT "char_owned_armor_fk1" FOREIGN KEY ("armor_id") REFERENCES "armor_master"("armor_master_id");
 
-CREATE TABLE "char_owned_shield" (
-	"owned_shield_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"shield_id" integer NOT NULL,
-	"equipped" bool NOT NULL default false
-) WITH (OIDS = FALSE);
-ALTER TABLE "char_owned_shield"
-ADD CONSTRAINT "char_owned_shield_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
-ALTER TABLE "char_owned_shield"
-ADD CONSTRAINT "char_owned_shield_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
-
-
-
-CREATE TABLE "char_owned_weapons" (
-	"owned_weapons_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"weapon_id" integer NOT NULL,
-	"equipped" bool NOT NULL default false
-) WITH (OIDS = FALSE);
-ALTER TABLE "char_owned_weapons"
-ADD CONSTRAINT "char_owned_weapons_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
-ALTER TABLE "char_owned_weapons"
-ADD CONSTRAINT "char_owned_weapons_fk1" FOREIGN KEY ("weapon_id") REFERENCES "weapon_master"("weapon_master_id");
 CREATE TABLE "char_owned_gear" (
 	"owned_gear_id" serial NOT NULL,
 	"char_id" integer NOT NULL,

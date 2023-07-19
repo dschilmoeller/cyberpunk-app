@@ -1,45 +1,43 @@
 const advancementGear = (state = {
-    ownedArmor: [],
-    equippedArmor: [],
-    ownedShield: [],
-    equippedShield: [],
-    ownedWeapons: [],
-    equippedWeapons: [],
-    ownedGear: [],
-    ownedCyberware: [],
-    equippedCyberware: []
+    armor: [],
+    shield: [],
+    weapons: [],
+    gear: [],
+    cyberware: []
 }, action) => {
-    if (action.type === 'SET_ADVANCEMENT_OWNED_ARMOR') {
-        return { ...state, ownedArmor: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_EQUIPPED_ARMOR') {
-        return { ...state, equippedArmor: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_EQUIPPED_SHIELD') {
-        return { ...state, equippedShield: action.payload}
-    } else if (action.type === 'SET_ADVANCEMENT_OWNED_SHIELD') {
-        return { ...state, ownedShield: action.payload}
-    } else if (action.type === 'SET_ADVANCEMENT_OWNED_WEAPONS') {
-        return { ...state, ownedWeapons: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_EQUIPPED_WEAPONS') {
-        return { ...state, equippedWeapons: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_OWNED_GEAR') {
-        return { ...state, ownedGear: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_OWNED_CYBERWARE') {
-        return { ...state, ownedCyberware: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_EQUIPPED_CYBERWARE') {
-        return { ...state, equippedCyberware: action.payload }    
+    if (action.type === 'SET_ADVANCEMENT_ARMOR') {
+        return { ...state, armor: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_SHIELD') {
+        return { ...state, shield: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_WEAPONS') {
+        return { ...state, weapons: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_GEAR') {
+        return { ...state, gear: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_CYBER') {
+        return { ...state, cyberware: action.payload }
     }
 
-    if (action.type === 'CHANGE_EQUIPPED_ARMOR') {
+    if (action.type === 'EQUIP_ARMOR') {
         return {
             ...state,
-            equippedArmor: [action.payload],
-            ownedArmor: state.ownedArmor.map(item => {
-                if (item.equipped === true ) {
-                    item.equipped = false;
+            armor: state.armor.map(item => {
+                if (item.armor_bridge_id === action.payload.armor_bridge_id) {
+                    item.equipped = true
                     return item
-                } 
-                if (action.payload.armor_master_id === item.armor_master_id) {
-                item.equipped = true;
+                } else {
+                    item.equipped = false
+                    return item
+                }
+            })
+        }
+    }
+
+    if (action.type === 'UNEQUIP_ARMOR') {
+        return {
+            ...state,
+            armor: state.armor.map(item => {
+                if (item.armor_bridge_id === action.payload.armor_bridge_id) {
+                    item.equipped = false
                     return item
                 }
                 return item
@@ -47,23 +45,60 @@ const advancementGear = (state = {
         }
     }
 
-    if (action.type === 'CHANGE_EQUIPPED_SHIELD') {
+    if (action.type === 'EQUIP_SHIELD') {
         return {
             ...state,
-            equippedShield: [action.payload],
-            ownedShield: state.ownedShield.map(item => {
-                if (item.equipped === true ) {
-                    item.equipped = false;
+            shield: state.shield.map(item => {
+                if (item.shield_bridge_id === action.payload.shield_bridge_id) {
+                    item.equipped = true
                     return item
-                } 
-                if (action.payload.shield_master_id === item.shield_master_id) {
-                    item.equipped = true;
+                } else {
+                    item.equipped = false
+                    return item
+                }
+            })
+        }
+    }
+
+    if (action.type === 'UNEQUIP_SHIELD') {
+        return {
+            ...state,
+            shield: state.shield.map(item => {
+                if (item.shield_bridge_id === action.payload.shield_bridge_id) {
+                    item.equipped = false
                     return item
                 }
                 return item
             })
         }
     }
+
+    if (action.type === 'EQUIP_WEAPON') {
+        return {
+            ...state,
+            weapons: state.weapons.map(item => {
+                if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
+                    item.equipped = true
+                    return item
+                }
+                return item
+            })
+        }
+    }
+
+    if (action.type === 'UNEQUIP_WEAPON') {
+        return {
+            ...state,
+            weapons: state.weapons.map(item => {
+                if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
+                    item.equipped = false
+                    return item
+                }
+                return item
+            })
+        }
+    }
+
 
     return state
 }
