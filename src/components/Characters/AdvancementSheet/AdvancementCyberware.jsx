@@ -20,6 +20,10 @@ export default function AdvancementCyberware() {
     const [neuralSlots, setNeuralSlots] = useState(0)
     const [opticSlots, setOpticSlots] = useState(0)
     const [cyberaudioSlots, setCyberaudioSlots] = useState(0)
+    const [internalwareSlots, setInternalwareSlots] = useState(7)
+    const [externalwareSlots, setExternalwareSlots] = useState(1)
+    const [cyberarmSlots, setCyberarmSlots] = useState(0)
+    const [cyberlegSlots, setCyberlegSlots] = useState(0)
 
     // will need to useEffect to map through owned cyberware on page load
     // and change slots based on map results. Very similar to equip/unequip trees.
@@ -31,10 +35,11 @@ export default function AdvancementCyberware() {
                 if (fashionSlots > 0) {
                     setFashionSlots(fashionSlots - 1)
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    break;
                 } else {
                     alert('Not enough slots - try getting being less fashionable!')
+                    break;
                 }
-                break;
 
             // handle equipping cyberAudio
             case 'cyberaudio':
@@ -51,7 +56,6 @@ export default function AdvancementCyberware() {
                     alert("Not enough slots - make sure you have a cyberaudio suite installed and it isn't full!")
                     break;
                 }
-
 
             // Handle equipping Neuralware.
             case 'neuralware':
@@ -82,6 +86,59 @@ export default function AdvancementCyberware() {
                     break;
                 } else {
                     alert("Not enough slots - make sure you have cybereyes and they aren't already full!")
+                    break;
+                }
+
+            // handle equipping internalware
+            case 'internalware':
+                if (internalwareSlots > 0) {
+                    setInternalwareSlots(internalwareSlots - 1)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else {
+                    alert("Not enough slots - you're full up!")
+                    break;
+                }
+
+            // handle externalware
+            case 'externalware':
+                if (externalwareSlots > 0) {
+                    setExternalwareSlots(externalwareSlots - 1)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else {
+                    alert('You need to remove your existing externalware to equip a new piece!')
+                    break;
+                }
+            case 'cyberarm':
+                if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
+                    setCyberarmSlots(cyberarmSlots + 4)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else if (cyberarmSlots > 0) {
+                    setCyberarmSlots(cyberarmSlots - 1)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    break;
+                } else {
+                    alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    break;
+                }
+            case 'cyberleg':
+                if (incomingCyber.name === 'Cyberleg - Right' || incomingCyber.name === 'Cyberleg - Left') {
+                    setCyberlegSlots(cyberlegSlots + 3)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else if (cyberlegSlots > 0) {
+                    setCyberlegSlots(cyberlegSlots - 1)
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: incomingCyber })
+                    break;
+                } else {
+                    alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    break;
                 }
             default:
                 break;
@@ -127,6 +184,38 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
                     break;
                 }
+            case 'internalware':
+                setInternalwareSlots(internalwareSlots + 1)
+                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                break;
+            case 'externalware':
+                setExternalwareSlots(externalwareSlots + 1)
+                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                break;
+            case 'cyberarm':
+                if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
+                    setCyberarmSlots(cyberarmSlots - 4)
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else {
+                    setCyberarmSlots(cyberarmSlots + 1)
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                    break;
+                }
+            case 'cyberleg':
+                if (incomingCyber.name === 'Cyberleg - Right' || incomingCyber.name === 'Cyberleg - Left') {
+                    setCyberlegSlots(cyberlegSlots - 3)
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
+                } else {
+                    setCyberlegSlots(cyberlegSlots + 1)
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: incomingCyber })
+                    break;
+                }
             default:
                 break;
         }
@@ -167,7 +256,7 @@ export default function AdvancementCyberware() {
                         <TableRow>
                             <TableCell align='center'>Fashionware Requirements: None</TableCell>
                             <TableCell></TableCell>
-                            <TableCell align='center'>Available Fashionware Slots {fashionSlots}</TableCell>
+                            <TableCell align='center'>Available Fashionware Slots: {fashionSlots}</TableCell>
                         </TableRow>
                     ) : <></>}
 
@@ -192,6 +281,38 @@ export default function AdvancementCyberware() {
                             <TableCell align='center'>Optic Requirements: Cybereyes</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberoptic Slots: {opticSlots}</TableCell>
+                        </TableRow>
+                    ) : <></>}
+
+                    {selectedList === 'internalware' ? (
+                        <TableRow>
+                            <TableCell align='center'>Internalware Requirements: None</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell align='center'>Available Internalware Slots: {internalwareSlots}</TableCell>
+                        </TableRow>
+                    ) : <></>}
+
+                    {selectedList === 'externalware' ? (
+                        <TableRow>
+                            <TableCell align='center'>Externalware Requirements: None</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell align='center'>Available Externalware Slots: {externalwareSlots}</TableCell>
+                        </TableRow>
+                    ) : <></>}
+
+                    {selectedList === 'cyberarm' ? (
+                        <TableRow>
+                            <TableCell align='center'>Cyberarm Requirements: Cyberarm</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell align='center'>Available Cyberarm Slots: {cyberarmSlots}</TableCell>
+                        </TableRow>
+                    ) : <></>}
+
+                    {selectedList === 'cyberleg' ? (
+                        <TableRow>
+                            <TableCell align='center'>Cyberleg Requirements: Cyberleg</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell align='center'>Available Cyberleg Slots: {cyberlegSlots}</TableCell>
                         </TableRow>
                     ) : <></>}
 

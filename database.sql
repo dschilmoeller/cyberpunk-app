@@ -747,7 +747,7 @@ VALUES (
 		25000,
 		0,
 		0,
-		'A highly advanced intelligence booster Chip. Contains a Small helper AI to assist with cognitive loads.'
+		'A highly advanced intelligence booster Chip. Contains a helper AI to assist with cognitive loads.'
 	),
 	(
 		'Algernonic Subprocessors IV',
@@ -918,7 +918,7 @@ VALUES (
 		5000,
 		1,
 		10,
-		'SMall, self-propogating device that allows for rapid and dramatic healing. User recovers from wounds as though they were in a cryotank if they get at least 8 hours of sleep a day.'
+		'Small, self-propogating device that allows for rapid and dramatic healing. User recovers from wounds as though they were in a cryotank if they get at least 8 hours of sleep a day.'
 	),
 	(
 		'Vampyres',
@@ -927,7 +927,7 @@ VALUES (
 		500,
 		1,
 		4,
-		'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a sMall resevoir. If the user grapples a victim first, the damage is aggravated'
+		'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a small resevoir. If the user grapples a victim first, the damage is aggravated'
 	),
 	(
 		'Cybersnake',
@@ -954,7 +954,7 @@ VALUES (
 		1000,
 		1,
 		8,
-		'Increases Strength by a sMall amount without excessive bulk.'
+		'Increases Strength by a small amount without excessive bulk.'
 	),
 	(
 		'Grafted Muscles II',
@@ -999,7 +999,7 @@ VALUES (
 		1000,
 		1,
 		8,
-		'Increases Body by a sMall amount. Basically nothing you cannot achieve with vitamins.'
+		'Increases Body by a small amount. Basically nothing you cannot achieve with vitamins.'
 	),
 	(
 		'Bone Lacing II',
@@ -1044,7 +1044,7 @@ VALUES (
 		1000,
 		1,
 		8,
-		'Increases Reflexes by a sMall amount by slowly turning your nerves into carbon fiber optics.'
+		'Increases Reflexes by a small amount by slowly turning your nerves into carbon fiber optics.'
 	),
 	(
 		'Nervous System Siliconization II',
@@ -1206,7 +1206,7 @@ VALUES (
 		500,
 		0,
 		0,
-		'Fingers contain a variety of screwdrivers, wrenches, a sMall drill, and other tools. Never carry a toolbag again!'
+		'Fingers contain a variety of screwdrivers, wrenches, a small drill, and other tools. Never carry a toolbag again!'
 	),
 	(
 		'Quick Change Mount',
