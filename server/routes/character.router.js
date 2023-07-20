@@ -178,9 +178,10 @@ router.get('/fetchAdvancementGear/:id', (req, res) => {
 })
 
 router.get('/fetchAdvancementCyber/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_cyberware_bridge" 
-    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_cyberware_bridge"."cyberware_master_id"
-    WHERE char_id = $1`
+    const sqlText = `SELECT * FROM "char_owned_cyberware" 
+    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
+    WHERE char_id = $1
+    ORDER BY char_owned_cyberware."cyberware_master_id"`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows);

@@ -57,8 +57,8 @@ function* fetchAdvancementDetails(action) {
     const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data})
     
-    // const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
-    // yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: advancementCyber.data})
+    const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: advancementCyber.data})
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

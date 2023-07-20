@@ -11,13 +11,6 @@ import TableRow from '@mui/material/TableRow';
 
 import { Button } from '@mui/material';
 
-// TODO:
-// figure out how to handle dual wielding.
-// Should be able to manage via IDs and counting the equipped weapons .length.
-// or just not worry about it - this is basically a matter of what shows up on the character sheet, not what is in the char's hands.
-// so just go by bridge and owned gear table IDs to add / remove. Probably a better method for armor reducer handling as well. 
-// collapse owned and equipped gear into one table with simple equipped T/F column. Only apply info if equipped = true.
-
 export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
     const characterWeapons = useSelector(store => store.advancementGear.weapons)

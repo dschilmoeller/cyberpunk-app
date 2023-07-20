@@ -527,61 +527,61 @@ VALUES (
 	(
 		'Basic Neural Link',
 		'neuralware',
-		'Clinic',
+		'Hospital',
 		500,
 		1,
-		5,
-		'Artifical Nervous System that allows for the use of different pieces of chipware.  The basic version has 5 sockets. Inclues interfacing plugs to connect to most machines.'
+		10,
+		'Artifical Nervous System that allows for the use of different pieces of Chipware.  The basic version has 5 sockets. Inclues interfacing plugs to connect to most machines.'
 	),
 	(
 		'Braindance Recorder',
 		'neuralware',
-		'Clinic',
+		'Chip',
 		500,
-		1,
-		6,
-		'System to record all of a users experience to memory chips.'
+		0,
+		0,
+		'System to record all of a users experience to memory Chips.'
 	),
 	(
 		'Kerenzikov',
 		'neuralware',
-		'Clinic',
+		'Chip',
 		500,
-		1,
-		6,
+		0,
+		0,
 		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 1 and adds 1 die to most combat rolls for one scene when activated. Deals the user 3 stun damage when the effect wears off.'
 	),
 	(
 		'Sandevistan',
 		'neuralware',
-		'Clinic',
+		'Chip',
 		2000,
-		1,
-		6,
+		0,
+		0,
 		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 2 and adds 2 die to most combat rolls for one scene when activated. Deals the user 6 stun damage when the effect wears off.'
 	),
 	(
 		'Miilitech "Kali"',
 		'neuralware',
-		'Clinic',
+		'Chip',
 		25000,
-		1,
-		6,
+		0,
+		0,
 		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 3 and adds 3 die to most combat rolls for one scene when activated. Deals the user 6 lethal damage when the effect wears off.'
 	),
 	(
-		'Memory chip',
+		'Memory Chip',
 		'neuralware',
-		'chip',
+		'Chip',
 		10,
 		0,
 		0,
-		'Memory storage chip. Approximate capacity of 2 Exabytes, or 2 Billion Gigabytes for you old timers.'
+		'Memory storage Chip. Approximate capacity of 2 Exabytes, or 2 Billion Gigabytes for you old timers.'
 	),
 	(
 		'Olfactory Boost',
 		'neuralware',
-		'chip',
+		'Chip',
 		100,
 		0,
 		0,
@@ -590,7 +590,7 @@ VALUES (
 	(
 		'Pain Editor',
 		'neuralware',
-		'chip',
+		'Chip',
 		5000,
 		0,
 		0,
@@ -599,7 +599,7 @@ VALUES (
 	(
 		'Skill Chip - Athletics',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -608,7 +608,7 @@ VALUES (
 	(
 		'Skill Chip - Brawling',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -617,7 +617,7 @@ VALUES (
 	(
 		'Skill Chip - Evasion',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -626,7 +626,7 @@ VALUES (
 	(
 		'Skill Chip - Fast Talk',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -635,7 +635,7 @@ VALUES (
 	(
 		'Skill Chip - Firearms',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -644,7 +644,7 @@ VALUES (
 	(
 		'Skill Chip - Melee Weapons',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -653,7 +653,7 @@ VALUES (
 	(
 		'Skill Chip - Drive Land',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -662,7 +662,7 @@ VALUES (
 	(
 		'Skill Chip - Performance',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -671,7 +671,7 @@ VALUES (
 	(
 		'Skill Chip - Stealth',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -680,7 +680,7 @@ VALUES (
 	(
 		'Skill Chip - Cryptography',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -689,7 +689,7 @@ VALUES (
 	(
 		'Skill Chip - First Aid',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -698,7 +698,7 @@ VALUES (
 	(
 		'Skill Chip - Gambling',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -707,7 +707,7 @@ VALUES (
 	(
 		'Skill Chip - Language',
 		'neuralware',
-		'chip',
+		'Chip',
 		500,
 		0,
 		0,
@@ -716,7 +716,7 @@ VALUES (
 	(
 		'Tactile Booster',
 		'neuralware',
-		'chip',
+		'Chip',
 		100,
 		0,
 		0,
@@ -725,64 +725,64 @@ VALUES (
 	(
 		'Algernonic Subprocessors I',
 		'neuralware',
-		'chip',
+		'Chip',
 		1000,
 		0,
 		0,
-		'A general purpose intelligence booster chip. Gives instant access to all knowledge of roughly an 8th grader.'
+		'A general purpose intelligence booster Chip. Gives instant access to all knowledge of roughly an 8th grader.'
 	),
 	(
 		'Algernonic Subprocessors II',
 		'neuralware',
-		'chip',
+		'Chip',
 		5000,
 		0,
 		0,
-		'A general purpose intelligence booster chip. Makes the user seem pretty bright.'
+		'A general purpose intelligence booster Chip. Makes the user seem pretty bright.'
 	),
 	(
 		'Algernonic Subprocessors III',
 		'neuralware',
-		'chip',
+		'Chip',
 		25000,
 		0,
 		0,
-		'A highly advanced intelligence booster chip. Contains a sMall helper AI to assist with cognitive loads.'
+		'A highly advanced intelligence booster Chip. Contains a Small helper AI to assist with cognitive loads.'
 	),
 	(
 		'Algernonic Subprocessors IV',
 		'neuralware',
-		'chip',
+		'Chip',
 		75000,
 		0,
 		0,
-		'An extremely advanced intelligence booster chip. Can make an average dullard into a Weapons Grade Savant.'
+		'An extremely advanced intelligence booster Chip. Can make an average dullard into a Weapons Grade Savant.'
 	),
 	(
 		'Algernonic Subprocessors V',
 		'neuralware',
-		'chip',
+		'Chip',
 		1000000,
 		0,
 		0,
 		'This probably does not exist, so dont worry about the specs.'
 	),
 	(
-		'Cybereye',
+		'Basic Cybereyes',
 		'cyberoptics',
 		'Clinic',
 		100,
 		1,
-		6,
-		'An artificial eye with 3 option slots. Includes the ability to change colors and patterns, a HUD, simple video recordings, and Augemnted Reality'
+		10,
+		'A set of Artificial eyes with 3 option slots. Includes the ability to change colors and patterns, a HUD, simple video recordings, and Augmented Reality'
 	),
 	(
 		'Anti-Dazzle System',
 		'cyberoptics',
 		'Mall',
 		100,
-		1,
-		2,
+		0,
+		0,
 		'Makes the user immune to the effects of flashes and strobes.'
 	),
 	(
@@ -790,8 +790,8 @@ VALUES (
 		'cyberoptics',
 		'Clinic',
 		500,
-		1,
-		2,
+		0,
+		0,
 		'Single shot dart that can be loaded with poison.'
 	),
 	(
@@ -799,8 +799,8 @@ VALUES (
 		'cyberoptics',
 		'Mall',
 		500,
-		1,
-		4,
+		0,
+		0,
 		'When paired in both eyes, allows for reduced difficulties on vision based perception checks.'
 	),
 	(
@@ -808,8 +808,8 @@ VALUES (
 		'cyberoptics',
 		'Mall',
 		500,
-		1,
-		4,
+		0,
+		0,
 		'When paired in both eyes, allows for ignoring penalties for darkness, smog, and most smoke.'
 	),
 	(
@@ -817,8 +817,8 @@ VALUES (
 		'cyberoptics',
 		'Mall',
 		100,
-		1,
-		2,
+		0,
+		0,
 		'In-eye magnifier allows for zooming in up to 400x.'
 	),
 	(
@@ -826,8 +826,8 @@ VALUES (
 		'cyberoptics',
 		'Clinic',
 		1000,
-		1,
-		4,
+		0,
+		0,
 		'Displays ambient radiation as a soft glow in the users surroundings.'
 	),
 	(
@@ -835,18 +835,18 @@ VALUES (
 		'cyberoptics',
 		'Clinic',
 		100,
-		1,
-		2,
+		0,
+		0,
 		'More or less sophisticated digital assistant that appears in the users hud.'
 	),
 	(
-		'Cyberaudio Suite',
+		'Basic Cyberaudio Suite',
 		'cyberaudio',
 		'Clinic',
 		500,
 		1,
 		6,
-		'Artificial system replacing a users inter-ear canals. Includes basic recorder'
+		'Artificial hearing system replacing a users inner ear. Includes basic recorder and 3 option slots.'
 	),
 	(
 		'Hearing Amplifier',
@@ -1714,7 +1714,7 @@ VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
 	),
 	(
 		E'Audio Recorder',
-		E'Records audio onto onboard chips. ',
+		E'Records audio onto onboard Chips. ',
 		100
 	),
 	(
@@ -1729,7 +1729,7 @@ VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
 	),
 	(
 		E'Braindance Viewer',
-		E'Allows the wearer to experience braindance chips.',
+		E'Allows the wearer to experience braindance Chips.',
 		1000
 	),
 	(

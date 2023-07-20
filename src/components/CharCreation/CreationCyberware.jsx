@@ -128,7 +128,6 @@ export default function CreationCyberware() {
                                     <TableCell align="right">{row.price}$</TableCell>
                                 </TableRow>
                             ) : <></>}</React.Fragment>)
-
                     )}
                 </TableBody>
             </Table>

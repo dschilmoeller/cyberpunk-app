@@ -14,6 +14,7 @@ import AdvancementOther from './AdvancementOther';
 import AdvancementGearArmor from './AdvancementGearArmor';
 import AdvancementGearWeapons from './AdvancementGearWeapons';
 import AdvancementGearOther from './AdvancementGearOther';
+import AdvancementCyberware from './AdvancementCyberware';
 
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
@@ -118,7 +119,7 @@ function AdvancementSheet() {
                 </>) : <></>}
 
                 {opener === 'Cyberware' ? (<>
-                    <h1>Cyberware</h1>
+                    <AdvancementCyberware />
                 </>) : <></>}
 
 

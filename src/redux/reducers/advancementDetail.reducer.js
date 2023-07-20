@@ -60,6 +60,32 @@ const advancementDetail = (state = [{ name: '' }], action) => {
             }
         })
     }
+
+    if (action.type === 'HUMANITY_LOSS_CYBERWARE') {
+        return state.map(char => {
+            return {
+                ...char,
+                perm_humanity_loss: Number(char.perm_humanity_loss + action.payload.minLoss),
+                current_humanity_loss: Number(char.current_humanity_loss + action.payload.totalLoss - 1)
+            }
+        })
+    }
+    if (action.type === 'HUMANITY_RECOVERY_CYBERWARE') {
+        return state.map(char => {
+            // determine total of current temp humanity loss + payload
+            let newTotalTempHumanityLoss = (char.current_humanity_loss - (action.payload.totalLoss - 1))
+            // if newTotal is > 0, tempHumanityLost is newTotal
+            let tempHumanityLoss = 0
+            if (newTotalTempHumanityLoss > 0) { 
+                tempHumanityLoss = newTotalTempHumanityLoss
+            }
+            return {...char,
+                perm_humanity_loss: char.perm_humanity_loss - action.payload.minLoss,
+                current_humanity_loss: tempHumanityLoss
+            }
+        })
+    }
+
     return state
 }
 

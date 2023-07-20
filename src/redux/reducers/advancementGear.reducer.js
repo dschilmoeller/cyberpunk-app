@@ -13,7 +13,7 @@ const advancementGear = (state = {
         return { ...state, weapons: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_GEAR') {
         return { ...state, gear: action.payload }
-    } else if (action.type === 'SET_ADVANCEMENT_CYBER') {
+    } else if (action.type === 'SET_ADVANCEMENT_CYBERWARE') {
         return { ...state, cyberware: action.payload }
     }
 
@@ -99,7 +99,31 @@ const advancementGear = (state = {
         }
     }
 
+    if (action.type === 'EQUIP_CYBERWARE') {
+        return {
+            ...state,
+            cyberware: state.cyberware.map(item => {
+                if (item.owned_cyberware_id === action.payload.owned_cyberware_id) {
+                    item.equipped = true
+                    return item
+                }
+                return item
+            })
+        }
+    }
 
+    if (action.type === 'UNEQUIP_CYBERWARE') {
+        return {
+            ...state,
+            cyberware: state.cyberware.map(item => {
+                if (item.owned_cyberware_id === action.payload.owned_cyberware_id) {
+                    item.equipped = false
+                    return item
+                }
+                return item
+            })
+        }
+    }
     return state
 }
 
