@@ -59,6 +59,7 @@ export default function AdvancementSpecial() {
             dispatch({ type: 'INCREASE_ROLE', payload: { roleScore: roleScore, roleName: roleName, increaseRoleCost: increaseRoleCost } })
             if (roleName === 'medtech'){
                 setAvailableMedSkillPoints(availableMedSkillPoints + 1)
+                dispatch({ type: 'SET_PARAMEDICAL_TRUE'})
             }
             if (roleName === 'maker'){
                 setAvailableMakerSkillPoints(availableMakerSkillPoints + 2)

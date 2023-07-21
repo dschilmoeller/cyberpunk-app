@@ -151,10 +151,10 @@ export default function AdvancementSkills() {
                     <Grid item xs={5}><Item>{skillDotReturn(advancementDetails.cyber_tech)}</Item></Grid>
                     <Grid item xs={4}>{advancementDetails.cyber_tech < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => skillSpendExp(advancementDetails.cyber_tech, 'cyber_tech')}>Increase: {skillExpReturn(advancementDetails.cyber_tech)}</Item> : <Item>Maxed</Item>}</Grid>
 
-                    {advancementDetails.isParamedical ? (<>
+                    {advancementDetails.is_paramedical ? (<>
                         <Grid item xs={3}><Item><SkillsModal prop={'Paramedic'}></SkillsModal></Item></Grid>
-                    <Grid item xs={5}><Item>{skillDotReturn(advancementDetails.paramedic)}</Item></Grid>
-                    <Grid item xs={4}>{advancementDetails.paramedic < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => skillSpendExp(advancementDetails.paramedic, 'paramedic')}>Increase: {skillExpReturn(advancementDetails.paramedic)}</Item> : <Item>Maxed</Item>}</Grid>
+                    <Grid item xs={5}><Item>{skillDotReturn(advancementDetails.paramed)}</Item></Grid>
+                    <Grid item xs={4}>{advancementDetails.paramed < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => skillSpendExp(advancementDetails.paramed, 'paramed')}>Increase: {skillExpReturn(advancementDetails.paramed)}</Item> : <Item>Maxed</Item>}</Grid>
                     </>) : <>
                     <Grid item xs={3}><Item><SkillsModal prop={'First Aid'}></SkillsModal></Item></Grid>
                     <Grid item xs={5}><Item>{skillDotReturn(advancementDetails.first_aid)}</Item></Grid>

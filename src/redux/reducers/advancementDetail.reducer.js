@@ -86,6 +86,14 @@ const advancementDetail = (state = [{ name: '' }], action) => {
         })
     }
 
+    if (action.type === 'SET_PARAMEDICAL_TRUE') {
+        return state.map(char => {
+            return {
+                ...char,
+                is_paramedical: true
+            }
+        })
+    }
     return state
 }
 

@@ -18,7 +18,7 @@ import AdvancementCyberware from './AdvancementCyberware';
 
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
-
+    const equipmentDetails = useSelector(store => store.advancementGear)
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
     const dispatch = useDispatch();
@@ -41,12 +41,17 @@ function AdvancementSheet() {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
     }
 
+    const saveCharacterChanges = () => {
+        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: {char: advancementDetails, gear: equipmentDetails}})
+    }
+
     return (
         <>
             <div>
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
+                <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
 
                 {advancementDetails ? (
                     <>

@@ -59,8 +59,19 @@ function* fetchAdvancementDetails(action) {
     
     const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: advancementCyber.data})
+
+    const advancementCyberSlots = yield axios.get(`/api/characters/fetchAdvancementCyberSlots/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_CYBERWARE_SLOTS', payload: advancementCyberSlots.data[0]})
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
+  }
+}
+
+function* saveAdvancementDetails(action) {
+  try {
+    yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload)
+  } catch (error) {
+    console.log(`Error saving advancement Character Details:`, error);
   }
 }
 
@@ -72,6 +83,7 @@ function* characterSaga() {
 
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
+  yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
 }
 
 export default characterSaga;

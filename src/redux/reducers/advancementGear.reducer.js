@@ -3,7 +3,8 @@ const advancementGear = (state = {
     shield: [],
     weapons: [],
     gear: [],
-    cyberware: []
+    cyberware: [],
+    cyberwareSlots: {}
 }, action) => {
     if (action.type === 'SET_ADVANCEMENT_ARMOR') {
         return { ...state, armor: action.payload }
@@ -15,6 +16,10 @@ const advancementGear = (state = {
         return { ...state, gear: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_CYBERWARE') {
         return { ...state, cyberware: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_CYBERWARE_SLOTS') {
+        return {...state,
+        cyberwareSlots: action.payload
+        }
     }
 
     if (action.type === 'EQUIP_ARMOR') {
@@ -102,8 +107,10 @@ const advancementGear = (state = {
     if (action.type === 'EQUIP_CYBERWARE') {
         return {
             ...state,
+            cyberwareSlots: {...state.cyberwareSlots,
+                [action.payload.slot_type]: action.payload.slot_count},
             cyberware: state.cyberware.map(item => {
-                if (item.owned_cyberware_id === action.payload.owned_cyberware_id) {
+                if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
                     item.equipped = true
                     return item
                 }
@@ -115,8 +122,10 @@ const advancementGear = (state = {
     if (action.type === 'UNEQUIP_CYBERWARE') {
         return {
             ...state,
+            cyberwareSlots: {...state.cyberwareSlots,
+                [action.payload.slot_type]: action.payload.slot_count},
             cyberware: state.cyberware.map(item => {
-                if (item.owned_cyberware_id === action.payload.owned_cyberware_id) {
+                if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
                     item.equipped = false
                     return item
                 }
@@ -124,6 +133,9 @@ const advancementGear = (state = {
             })
         }
     }
+
+
+
     return state
 }
 

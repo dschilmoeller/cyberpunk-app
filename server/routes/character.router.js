@@ -7,6 +7,8 @@ const router = express.Router();
 // add res.send(error) to catch statements.
 // Eventually - GM section or change commands to allow for user type.
 
+// check equipped cyberware - will be used for in play health/armor/etc builders.
+
 // fetch characters list route
 router.get('/fetchallcharacters', (req, res) => {
     const sqlText = `SELECT id, handle 
@@ -41,7 +43,7 @@ router.get('/fetchcharacterdetails/:id', (req, res) => {
 
 // fetch equipped cyberware
 router.get('/fetchcharactercyberdetails/:id', (req, res) => {
-    const sqlText = `SELECT * FROM "char_cyberware_bridge"
+    const sqlText = `SELECT * FROM "char_owned_cyberware"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
@@ -191,10 +193,117 @@ router.get('/fetchAdvancementCyber/:id', (req, res) => {
         })
 })
 
+router.get('/fetchAdvancementCyberSlots/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_cyberware_bridge"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned cyberware details:`, err);
+        })
+})
+
+// advancement save route
+router.put('/saveAdvancementCharacter/:id', (req, res) => {
+    const rb = req.body.char
+    const charSqlText = `UPDATE "character"
+    SET "user_id" = $1, "handle" = $2, "player" = $3, "role" = $4, "culture" = $5, "concept" = $6, "campaign" = $7, "is_paramedical" = $8,
+    "strength" = $9, "body" = $10, "reflexes" = $11, "move" = $12, "appearance" = $13, "cool" = $14, "street_cred" = $15, "intelligence" = $16, "willpower" = $17, "technique" = $18,
+    "athletics" = $19, "brawling" = $20, "concentration" = $21, "evasion" = $22, "fast_talk" = $23, "firearms" = $24, "legerdemain" = $25, "melee_weapons" = $26, "perception" = $27, "streetwise" = $28,
+    "demolitions" = $29, "drive_land" = $30, "drive_exotic" = $31, "etiquette" = $32, "exotic_weapons" = $33, "heavy_weapons" = $34, "performance" = $35, "stealth" = $36, "survival" = $37, "tracking" = $38,
+    "business" = $39, "cryptography" = $40, "cyber_tech" = $41, "first_aid" = $42, "paramed" = $43, "investigation" = $44, "gambling" = $45, "language" = $46, "military_tech" = $47, "science" = $48, "vehicle_tech" = $49,
+    "rockerboy" = $50, "solo" = $51, "netrunner" = $52, "nomad" = $53, "media" = $54, "medtech" = $55, "med_surgery" = $56, "med_pharma" = $57, "med_cryo" = $58,
+    "maker" = $59, "maker_field" = $60, "maker_upgrade" = $61, "maker_fab" = $62, "maker_invent" = $63,
+    "max_health" = $64, "perm_humanity_loss" = $65, "max_luck" = $66, "max_armor" = $67, "max_xp" = $68, "spent_xp" = $69, "bank" = $70
+    WHERE ID = $71`
+
+    const charParams = [req.user.id, rb.handle, rb.player, rb.role, rb.culture, rb.concept, rb.campaign, rb.is_paramedical,
+    rb.strength, rb.body, rb.reflexes, rb.move, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
+    rb.athletics, rb.brawling, rb.concentration, rb.evasion, rb.fast_talk, rb.firearms, rb.legerdemain, rb.melee_weapons, rb.perception, rb.streetwise,
+    rb.demolitions, rb.drive_land, rb.drive_exotic, rb.etiquette, rb.exotic_weapons, rb.heavy_weapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
+    rb.business, rb.cryptography, rb.cyber_tech, rb.first_aid, rb.paramed, rb.investigation, rb.gambling, rb.language, rb.military_tech, rb.science, rb.vehicle_tech,
+    rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
+    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, 10, rb.perm_humanity_loss, rb.max_luck, rb.max_armor, rb.max_xp, rb.spent_xp, rb.bank, rb.char_id]
+
+    pool.query(charSqlText, charParams)
+    .then(result => {
+        // query to save character status!
+        const charStatusSqlText = `UPDATE "char_status"
+        SET "current_humanity_loss" = $1
+        WHERE char_status_id = $2`
+
+        const charStatusParams = [rb.current_humanity_loss, rb.char_status_id]
+        pool.query(charStatusSqlText, charStatusParams)
+    })    
+    .then(result => {
+            // change armor mod, equipped status
+            const armor = req.body.gear.armor
+            const armorSqlText = `UPDATE "char_armor_bridge"
+            SET "armor_mod_1" = $1, "equipped" = $2
+            WHERE armor_bridge_id = $3`
+
+            for (let i = 0; i < armor.length; i++) {
+                const armorSqlParams = [armor[i].armor_mod_1, armor[i].equipped, armor[i].armor_bridge_id]
+                pool.query(armorSqlText, armorSqlParams)
+            }
+
+            // change shield mod, equipped status
+            const shield = req.body.gear.shield
+            const shieldSqlText = `UPDATE "char_shield_bridge"
+            SET "armor_mod_1" = $1, "equipped" = $2
+            WHERE shield_bridge_id = $3`
+
+            for (let i = 0; i < shield.length; i++) {
+                const shieldSqlParams = [shield[i].armor_mod_1, shield[i].equipped, shield[i].shield_bridge_id]
+                pool.query(shieldSqlText, shieldSqlParams)
+            }
+
+            // change weapon details
+            const weapons = req.body.gear.weapons
+            const weaponsSqlText = `UPDATE "char_weapons_bridge"
+            SET "weapon_mod_1" = $1, "weapon_mod_2" = $2, "current_shots_fired" = $3, "equipped" = $4
+            WHERE weapon_bridge_id = $5`
+
+            for (let i = 0; i < weapons.length; i++) {
+            const weaponSqlParams = [weapons[i].weapon_mod_1, weapons[i].weapon_mod_2, weapons[i].current_shots_fired, weapons[i].equipped, weapons[i].weapon_bridge_id]
+                pool.query(weaponsSqlText, weaponSqlParams)
+            }
+
+            // change cyberware details
+            const cyberware = req.body.gear.cyberware
+            const cyberwareSqlText = `UPDATE "char_owned_cyberware"
+            SET "equipped" = $1
+            WHERE owned_cyberware_id = $2`
+
+            for (let i = 0; i < cyberware.length; i++) {
+                const cyberwareSqlParams = [cyberware[i].equipped, cyberware[i].owned_cyberware_id]
+                pool.query(cyberwareSqlText, cyberwareSqlParams)
+            }
+
+            // change slot details
+            const cyberwareSlots = req.body.gear.cyberwareSlots
+            const cyberwareSlotsSqlText = `UPDATE "char_cyberware_bridge"
+            SET "fashion_slots" = $1, "neural_slots" = $2, "optic_slots" = $3, 
+            "cyberaudio_slots" = $4, "internalware_slots" = $5, "externalware_slots" = $6, 
+            "cyberarm_slots" = $7, "cyberleg_slots" = $8
+            WHERE "cyberware_bridge_id" = $9`
+            const cyberwareSlotsSqlParams = [cyberwareSlots.fashion_slots, cyberwareSlots.neural_slots, cyberwareSlots.optic_slots,
+            cyberwareSlots.cyberaudio_slots, cyberwareSlots.internalware_slots, cyberwareSlots.externalware_slots, 
+            cyberwareSlots.cyberarm_slots, cyberwareSlots.cyberleg_slots, cyberwareSlots.cyberware_bridge_id]
+            pool.query(cyberwareSlotsSqlText, cyberwareSlotsSqlParams)
+        })
+        .then((result) => {
+            res.sendStatus(201)
+        })
+        .catch(err => {
+            console.log(`Error creating character,`, err);
+        })
+
+})
 
 // Creation save route(s)
-// update to include armor/shield distinction
-// update to include equipped status - false
 
 router.post('/saveCreationCharacter/', (req, res) => {
     const rb = req.body
@@ -268,6 +377,14 @@ router.post('/saveCreationCharacter/', (req, res) => {
             VALUES ($1, $2, $3, $4, $5, $6, $7)`
             const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0]
             pool.query(bridgeSqlText, bridgeParams)
+
+            const cyberBridgeSqlText = `INSERT INTO "char_cyberware_bridge" ("char_id", 
+            "fashionware_slots", "neural_slots", "optic_slots", 
+            "cyberaudio_slots", "internalware_slots", "externalware_slots", 
+            "cyberarm_slots", "cyberleg_slots")
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+            const cyberBridgeParams = [result.row[0].id, 7,0,0,0,7,1,0,0]
+            pool.query(cyberBridgeSqlText, cyberBridgeParams)
 
         })
         .then((result) => {
