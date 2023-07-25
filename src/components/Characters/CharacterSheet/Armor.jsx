@@ -6,9 +6,10 @@ import SpecialModal from '../../Modals/SpecialModal';
 
 function Armor(charDetailProp) {
     
-    const charDetailArmor = charDetailProp.charDetailProp.max_armor
     const charStatus = useSelector(store => store.characterStatus)
-    
+    const charDetailArmor = charStatus.current_armor_quality + charStatus.current_shield_quality + charStatus.current_cyberware_armor_quality
+
+
     const dispatch = useDispatch();
     const unhurtMarker = `\u2610`;
     const aggMarker = `\u2718`;

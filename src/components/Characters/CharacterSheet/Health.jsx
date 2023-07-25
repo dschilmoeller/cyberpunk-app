@@ -7,7 +7,7 @@ import SpecialModal from '../../Modals/SpecialModal';
 function Health() {
     const charDetail = useSelector((store) => store.characterDetail[0])
     const charStatus = useSelector((store) => store.characterStatus)
-    const totalHealth = charDetail.max_health
+    const totalHealth = 10 + charStatus.current_cyberware_health_boxes
 
     const dispatch = useDispatch();
 

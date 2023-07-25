@@ -18,7 +18,7 @@ export default function AdvancementGearArmor() {
     const characterArmor = useSelector(store => store.advancementGear.armor)
     const characterShield = useSelector(store => store.advancementGear.shield)
 
-    const armorRows = []
+    // Armor + Shield + Cyberware total for the database is built in the router. 
 
     const armorQualityBuilder = () => {
         let armorTotal = 0

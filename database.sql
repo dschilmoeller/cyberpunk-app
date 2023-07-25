@@ -4,6 +4,7 @@ CREATE TABLE "user" (
 	"password" VARCHAR (1000) NOT NULL,
 	"user_type" INT NOT NULL
 );
+-- remove max_armor, max_health
 CREATE TABLE "character" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
@@ -76,15 +77,14 @@ CREATE TABLE "character" (
 	"media" integer NOT NULL DEFAULT '0',
 	"medtech" integer NOT NULL DEFAULT '0',
 	"maker" integer NOT NULL DEFAULT '0',
-	"max_health" integer NOT NULL DEFAULT '10',
 	"perm_humanity_loss" integer NOT NULL DEFAULT '40',
 	"max_luck" integer NOT NULL DEFAULT '4',
-	"max_armor" integer NOT NULL DEFAULT '0',
 	"max_xp" integer NOT NULL DEFAULT '0',
 	"spent_xp" integer NOT NULL DEFAULT '0',
 	"bank" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "char_pk" PRIMARY KEY ("id")
 ) WITH (OIDS = FALSE);
+-- added current armor/shield/cyber armor, cyber health boxes
 CREATE TABLE "char_status" (
 	"char_status_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -94,6 +94,10 @@ CREATE TABLE "char_status" (
 	"current_armor_loss" integer NOT NULL,
 	"current_humanity_loss" integer NOT NULL,
 	"current_luck_loss" integer NOT NULL,
+	"current_armor_quality" integer NOT NULL DEFAULT 0,
+	"current_shield_quality" integer NOT NULL DEFAULT 0,
+	"current_cyberware_armor_quality" integer NOT NULL DEFAULT 0,
+	"current_cyberware_health_boxes" integer NOT NULL DEFAULT 0,
 	CONSTRAINT "char_status_pk" PRIMARY KEY ("char_status_id")
 ) WITH (OIDS = FALSE);
 CREATE TABLE "weapon_master" (
@@ -186,9 +190,9 @@ CREATE TABLE "cyberware_master" (
 CREATE TABLE "char_cyberware_bridge" (
 	"cyberware_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
-	"fashion_slots" integer NOT NULL DEFAULT 7,
-	"neural_slots" integer NOT NULL DEFAULT 0,
-	"optic_slots" integer NOT NULL DEFAULT 0,
+	"fashionware_slots" integer NOT NULL DEFAULT 7,
+	"neuralware_slots" integer NOT NULL DEFAULT 0,
+	"cyberoptic_slots" integer NOT NULL DEFAULT 0,
 	"cyberaudio_slots" integer NOT NULL DEFAULT 0,
 	"internalware_slots" integer NOT NULL DEFAULT 7,
 	"externalware_slots" integer NOT NULL DEFAULT 1,
@@ -210,16 +214,7 @@ CREATE TABLE "char_gear_bridge" (
 	CONSTRAINT "char_gear_bridge_pk" PRIMARY KEY ("char_gear_bridge_id")
 ) wiTH (OIDS = FALSE);
 
-CREATE TABLE "char_owned_gear" (
-	"owned_gear_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"gear_id" integer NOT NULL,
-	"equipped" bool NOT NULL default false
-) WITH (OIDS = FALSE);
-ALTER TABLE "char_owned_gear"
-ADD CONSTRAINT "char_owned_gear_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
-ALTER TABLE "char_owned_gear"
-ADD CONSTRAINT "char_owned_gear_fk1" FOREIGN KEY ("gear_id") REFERENCES "misc_gear_master"("misc_gear_master_id");
+
 CREATE TABLE "char_owned_cyberware" (
 	"owned_cyberware_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -1053,7 +1048,7 @@ VALUES (
 		500,
 		0,
 		0,
-		'A one-handed gun can be built into a cyberarm. Weapon is concealed even if not norMally able to be.'
+		'A one-handed gun can be built into a cyberarm. Weapon is concealed even if not normally able to be.'
 	),
 	(
 		'Big Knucks',
@@ -1836,7 +1831,6 @@ INSERT INTO "character" (
 		"maker_upgrade",
 		"maker_fab",
 		"maker_invent",
-		"max_health",
 		"perm_humanity_loss",
 		"max_luck",
 		"max_armor",
@@ -1907,7 +1901,6 @@ VALUES (
 		1,
 		1,
 		1,
-		10,
 		0,
 		4,
 		0,
