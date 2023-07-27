@@ -17,6 +17,9 @@ import AdvancementGearOther from './AdvancementGearOther';
 import AdvancementCyberware from './AdvancementCyberware';
 
 import AdvancementShopArmor from './AdvancementShopArmor';
+import AdvancementShopWeapons from './AdvancementShopWeapons';
+import AdvancementShopOther from './AdvancementShopOther';
+import AdvancementShopCyberware from './AdvancementShopCyberware';
 
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
@@ -138,6 +141,19 @@ function AdvancementSheet() {
                 {opener === 'Shop Armor' ? (<>
                     <AdvancementShopArmor />
                 </>) : <></>}
+
+                {opener === 'Shop Weapons' ? (<>
+                    <AdvancementShopWeapons />
+                </>) : <></>}
+
+                {opener === 'Shop Misc Gear' ? (<>
+                    <AdvancementShopOther />
+                </>) : <></>}
+
+                {opener === 'Shop Cyberware' ? (<>
+                    <AdvancementShopCyberware />
+                </>) : <></>}
+
             </div>
         </>
     )

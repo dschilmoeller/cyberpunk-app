@@ -135,6 +135,100 @@ const advancementDetail = (state = [{ name: '' }], action) => {
         })
     }
 
+    switch (action.type) {
+        case 'BUY_SHIELD':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank - action.payload.item.price)
+                }
+            })
+
+        case 'SELL_OWNED_SHIELD':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + Math.floor(action.payload.price / 4))
+                }
+            })
+        case 'SELL_ADVANCEMENT_SHIELD':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + action.payload.price)
+                }
+            })
+            //weapons
+            case 'BUY_WEAPON':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank - action.payload.item.price)
+                }
+            })
+
+        case 'SELL_OWNED_WEAPON':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + Math.floor(action.payload.price / 4))
+                }
+            })
+        case 'SELL_ADVANCEMENT_WEAPON':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + action.payload.price)
+                }
+            })
+            //othergear
+            case 'BUY_MISC_GEAR':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank - action.payload.item.price)
+                }
+            })
+
+        case 'SELL_OWNED_MISC_GEAR':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + Math.floor(action.payload.price / 4))
+                }
+            })
+        case 'SELL_ADVANCEMENT_MISC_GEAR':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + action.payload.price)
+                }
+            })
+            //cyberware
+            case 'BUY_CYBERWARE':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank - action.payload.item.price)
+                }
+            })
+
+        case 'SELL_OWNED_CYBERWARE':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + Math.floor(action.payload.price / 4))
+                }
+            })
+        case 'SELL_ADVANCEMENT_CYBERWARE':
+            return state.map(char => {
+                return {
+                    ...char,
+                    bank: Number(char.bank + action.payload.price)
+                }
+            })
+
+    }
     return state
 }
 

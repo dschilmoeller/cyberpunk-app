@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -12,10 +12,17 @@ import { Button } from '@mui/material';
 
 export default function AdvancementShopArmor() {
     const dispatch = useDispatch()
+    
     const charArmor = useSelector(store => store.advancementGear.armor)
     const boughtArmor = useSelector(store => store.advancementGear.boughtArmor)
     const armorID = useSelector(store => store.advancementGear.armorID)
     const armorMaster = useSelector(store => store.armorMaster)
+
+    const charShield = useSelector(store => store.advancementGear.shield)
+    const boughtShield = useSelector(store => store.advancementGear.boughtShield)
+    const shieldID = useSelector(store => store.advancementGear.shieldID)
+    const shieldMaster = useSelector(store => store.shieldMaster)
+    
     const charDetail = useSelector((store) => store.advancementDetail[0])
 
     const sellOwnedArmor = (item) => {
@@ -29,6 +36,23 @@ export default function AdvancementShopArmor() {
     const buyArmor = (item) => {
         if (charDetail.bank >= item.price) {
         dispatch({ type: 'BUY_ARMOR', payload: {item, armorID}})
+        }
+        else {
+            alert('Transaction canceled due to lack of funds!')
+        }
+    }
+
+    const sellOwnedShield = (item) => {
+        dispatch({ type: 'SELL_OWNED_SHIELD', payload: item })
+    }
+
+    const sellBoughtShield = (item) => {
+        dispatch({ type: 'SELL_ADVANCEMENT_SHIELD', payload: item})
+    }
+
+    const buyShield = (item) => {
+        if (charDetail.bank >= item.price) {
+        dispatch({ type: 'BUY_SHIELD', payload: {item, shieldID}})
         }
         else {
             alert('Transaction canceled due to lack of funds!')
@@ -73,6 +97,29 @@ export default function AdvancementShopArmor() {
                             </TableRow>
                         </React.Fragment>)
                     })}
+                    {charShield.map(item => {
+                        if (item.equipped === false) {
+                        return (<React.Fragment key={item.shield_bridge_id}>
+                            <TableRow>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="center">{item.quality}</TableCell>
+                                <TableCell width={600} align="center">{item.description}</TableCell>
+                                <TableCell align="center">{Math.floor(item.price / 4)}</TableCell>
+                                <TableCell align="center"><Button onClick={() => sellOwnedShield(item)}>Sell</Button></TableCell>
+                            </TableRow>
+                        </React.Fragment>)
+                    }})}
+                    {boughtShield.map((item, i) => {
+                        return (<React.Fragment key={i}>
+                            <TableRow>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="center">{item.quality}</TableCell>
+                                <TableCell width={600} align="center">{item.description}</TableCell>
+                                <TableCell align="center">{Math.floor(item.price)}</TableCell>
+                                <TableCell align="center"><Button onClick={() => sellBoughtShield(item)}>Return</Button></TableCell>
+                            </TableRow>
+                        </React.Fragment>)
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>
@@ -99,6 +146,17 @@ export default function AdvancementShopArmor() {
                                 <TableCell width={600} align="center">{item.description}</TableCell>
                                 <TableCell align="center">{item.price}</TableCell>
                                 <TableCell align="center"><Button onClick={() => buyArmor(item)}>Buy</Button></TableCell>
+                            </TableRow>
+                        </React.Fragment>)
+                    })}
+                    {shieldMaster.map(item => {
+                        return (<React.Fragment key={item.shield_master_id}>
+                            <TableRow>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="center">{item.quality}</TableCell>
+                                <TableCell width={600} align="center">{item.description}</TableCell>
+                                <TableCell align="center">{item.price}</TableCell>
+                                <TableCell align="center"><Button onClick={() => buyShield(item)}>Buy</Button></TableCell>
                             </TableRow>
                         </React.Fragment>)
                     })}
