@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
 import SkillsModal from '../../Modals/SkillsModal';
+import { useSelector } from 'react-redux';
 
+
+// prop should be changed to use-store to remove the setskills function's neccessity at some point.
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
+    const charCyber = useSelector(store => store.characterCyberDetail)
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
 
     useEffect(() => {
         setSkills();
+        skillChipChecker();
     })
 
     // Streetwise Skills
@@ -54,8 +59,6 @@ function CharacterSkills(charDetailProp) {
     const [isParaMed, setIsParaMed] = useState(false)
     const [paramed, setParaMed] = useState(0)
 
-
-
     const setSkills = () => {
         setAthletics(charDetail.athletics)
         setBrawling(charDetail.brawling)
@@ -94,6 +97,7 @@ function CharacterSkills(charDetailProp) {
         setParaMed(charDetail.paramed)
     }
 
+    // creates list of dots of either the filled or empty variety to show character stats.
     const dotReturn = (skill) => {
         let returnedDots = ''
         for (let i = 0; i < skill; i++) {
@@ -106,6 +110,76 @@ function CharacterSkills(charDetailProp) {
         return returnedDots
     }
 
+
+    // run through owned cyberware and see if any skill chips are installed.
+    // if they are, assign them at rank 2
+    const skillChipChecker = () => {
+        charCyber.map(cyberware => {
+            switch (cyberware.name) {
+                case 'Skill Chip - Athletics':
+                    if (cyberware.equipped === true) {
+                        setAthletics(2)
+                    }
+                    break;
+                case 'Skill Chip - Brawling':
+                    if (cyberware.equipped === true) {
+                        setBrawling(2)
+                    }
+                    break;
+                case 'Skill Chip - Evasion':
+                    if (cyberware.equipped === true) {
+                        setEvasion(2)
+                    }
+                    break;
+                case 'Skill Chip - Fast Talk':
+                    if (cyberware.equipped === true) {
+                        setFastTalk(2)
+                    }
+                    break;
+                case 'Skill Chip - Firearms':
+                    if (cyberware.equipped === true) {
+                        setFirearms(2)
+                    }
+                    break;
+                case 'Skill Chip - Melee Weapons':
+                    if (cyberware.equipped === true) {
+                        setMeleeWeapons(2)
+                    }
+                    break;
+                case 'Skill Chip - Drive Land':
+                    if (cyberware.equipped === true) {
+                        setDriveLand(2)
+                    }
+                    break;
+                case 'Skill Chip - Performance':
+                    if (cyberware.equipped === true) {
+                        setPerformance(2)
+                    }
+                    break;
+                case 'Skill Chip - Cryptography':
+                    if (cyberware.equipped === true) {
+                        setCryptography(2)
+                    }
+                    break;
+                case 'Skill Chip - First Aid':
+                    if (cyberware.equipped === true) {
+                        setFirstAid(2)
+                    }
+                    break;
+                case 'Skill Chip - Gambling':
+                    if (cyberware.equipped === true) {
+                        setGambling(2)
+                    }
+                    break;
+                case 'Skill Chip - Language':
+                    if (cyberware.equipped === true) {
+                        setLanguage(2)
+                    }
+                    break;
+            }
+        })
+    }
+
     return (
         <>
             <Grid item xs={12}>
@@ -113,7 +187,7 @@ function CharacterSkills(charDetailProp) {
             </Grid>
             <Grid item xs={4}>
                 <Grid container>
-                <Grid item xs={12}><Item><SkillsModal prop={'Streets'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsModal prop={'Streets'} /></Item></Grid>
 
                     <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(athletics)}</Item></Grid>
@@ -149,7 +223,7 @@ function CharacterSkills(charDetailProp) {
 
             <Grid item xs={4}>
                 <Grid container>
-                <Grid item xs={12}><Item><SkillsModal prop={'Tekhne'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsModal prop={'Tekhne'} /></Item></Grid>
 
                     <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(demolitions)}</Item></Grid>
@@ -185,7 +259,7 @@ function CharacterSkills(charDetailProp) {
 
             <Grid item xs={4}>
                 <Grid container>
-                <Grid item xs={12}><Item><SkillsModal prop={'Knowledge'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsModal prop={'Knowledge'} /></Item></Grid>
 
                     <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(business)}</Item></Grid>

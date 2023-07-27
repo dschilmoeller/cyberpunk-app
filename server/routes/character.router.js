@@ -44,6 +44,7 @@ router.get('/fetchcharacterdetails/:id', (req, res) => {
 // fetch equipped cyberware
 router.get('/fetchcharactercyberdetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware"
+    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
@@ -217,8 +218,9 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     "business" = $39, "cryptography" = $40, "cyber_tech" = $41, "first_aid" = $42, "paramed" = $43, "investigation" = $44, "gambling" = $45, "language" = $46, "military_tech" = $47, "science" = $48, "vehicle_tech" = $49,
     "rockerboy" = $50, "solo" = $51, "netrunner" = $52, "nomad" = $53, "media" = $54, "medtech" = $55, "med_surgery" = $56, "med_pharma" = $57, "med_cryo" = $58,
     "maker" = $59, "maker_field" = $60, "maker_upgrade" = $61, "maker_fab" = $62, "maker_invent" = $63,
-    "perm_humanity_loss" = $64, "max_luck" = $65, "max_xp" = $66, "spent_xp" = $67, "bank" = $68
-    WHERE ID = $69`
+    "perm_humanity_loss" = $64, "max_luck" = $65, "max_xp" = $66, "spent_xp" = $67, "bank" = $68,
+    "cyber_strength" = $69, "cyber_body" = $70, "cyber_reflexes" = $71, "cyber_move" = $72, "cyber_appearance" = $73, "cyber_cool" = $74, "cyber_intelligence" = $75
+    WHERE ID = $76`
 
     const charParams = [req.user.id, rb.handle, rb.player, rb.role, rb.culture, rb.concept, rb.campaign, rb.is_paramedical,
     rb.strength, rb.body, rb.reflexes, rb.move, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
@@ -226,7 +228,9 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     rb.demolitions, rb.drive_land, rb.drive_exotic, rb.etiquette, rb.exotic_weapons, rb.heavy_weapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
     rb.business, rb.cryptography, rb.cyber_tech, rb.first_aid, rb.paramed, rb.investigation, rb.gambling, rb.language, rb.military_tech, rb.science, rb.vehicle_tech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
-    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank, rb.char_id]
+    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
+    rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_move, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
+    rb.char_id]
 
     pool.query(charSqlText, charParams)
         .then(result => {

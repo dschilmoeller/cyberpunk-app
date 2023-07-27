@@ -56,7 +56,7 @@ const advancementDetail = (state = [{ name: '' }], action) => {
             return {
                 ...char,
                 current_humanity_loss: action.payload,
-                spent_xp: Number(action.payload)
+                spent_xp: Number(char.spent_xp + 1)
             }
         })
     }
@@ -91,6 +91,15 @@ const advancementDetail = (state = [{ name: '' }], action) => {
             return {
                 ...char,
                 is_paramedical: true
+            }
+        })
+    }
+
+    if (action.type === 'ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED') {
+        return state.map(char => {
+            return {
+                ...char,
+                [action.payload.type]: action.payload.quality
             }
         })
     }

@@ -29,14 +29,14 @@ function CharacterAttributes(charDetailProp) {
     const emptydot = ` \u25ef`
 
     const setAttributes = () => {
-        setStrengthAtt(dotReturn(charDetail.strength))
-        setBodyAtt(dotReturn(charDetail.body))
-        setReflexesAtt(dotReturn(charDetail.reflexes))
-        setMoveAtt(dotReturn(charDetail.move))
-        setAppearanceAtt(dotReturn(charDetail.appearance))
-        setCoolAtt(dotReturn(charDetail.cool))
+        setStrengthAtt(dotReturn(charDetail.strength + charDetail.cyber_strength))
+        setBodyAtt(dotReturn(charDetail.body + charDetail.cyber_body))
+        setReflexesAtt(dotReturn(charDetail.reflexes + charDetail.cyber_reflexes))
+        setMoveAtt(dotReturn(charDetail.move + charDetail.cyber_move))
+        setAppearanceAtt(dotReturn(charDetail.appearance + charDetail.cyber_appearance))
+        setCoolAtt(dotReturn(charDetail.cool + charDetail.cyber_cool))
         setStreetCredAtt(dotReturn(charDetail.street_cred))
-        setIntelligenceAtt(dotReturn(charDetail.intelligence))
+        setIntelligenceAtt(dotReturn(charDetail.intelligence + charDetail.cyber_intelligence))
         setWillpowerAtt(dotReturn(charDetail.willpower))
         setTechniqueAtt(dotReturn(charDetail.technique))
     }

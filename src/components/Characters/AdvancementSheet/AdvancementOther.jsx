@@ -88,7 +88,7 @@ export default function AdvancementOther() {
                     <Grid item xs={12}><Item><SpecialModal prop={'Humanity'} /></Item></Grid>
                     <Grid item xs={12}>
                         {advancementDetails.current_humanity_loss > 0 ?
-                            <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 2 XP</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>
                             : <Item>Remove Cyberware to restore additional humanity</Item>}
                     </Grid>
                     {humanityBuilder()}

@@ -292,7 +292,7 @@ VALUES (
 		100,
 		0,
 		0,
-		'Custom skin biosculpting that can alter the appearance of ones skin to almost any conceivable combination of color, inked tattoos, designs, and the like. Gives +1 Cool when paired with Techhair'
+		'Custom skin biosculpting that can alter the appearance of ones skin to almost any conceivable combination of color, inked tattoos, designs, and the like.'
 	),
 	(
 		'EMP Threading',
@@ -337,7 +337,7 @@ VALUES (
 		100,
 		0,
 		0,
-		'Color changing, light emitting, artificial hair. Gives +1 Cool when paired with Chemskin'
+		'Color changing, light emitting, artificial hair. Grants +1 Cool.'
 	),
 	(
 		'Basic Neural Link',
