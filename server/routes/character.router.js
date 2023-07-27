@@ -7,7 +7,7 @@ const router = express.Router();
 // add res.send(error) to catch statements.
 // Eventually - GM section or change commands to allow for user type.
 
-// check equipped cyberware - will be used for in play health/armor/etc builders.
+
 
 // fetch characters list route
 router.get('/fetchallcharacters', (req, res) => {
@@ -41,7 +41,7 @@ router.get('/fetchcharacterdetails/:id', (req, res) => {
         })
 })
 
-// fetch equipped cyberware
+// fetch equipped cyberware for in play character sheet.
 router.get('/fetchcharactercyberdetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware"
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
@@ -55,6 +55,7 @@ router.get('/fetchcharactercyberdetails/:id', (req, res) => {
         })
 })
 
+// fetch char_status details for in play character sheet.
 router.get('/fetchcharacterstatus/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_status"
     WHERE char_id = $1`
@@ -67,6 +68,7 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
         })
 })
 
+// fetch character weapons for in play character sheet
 router.get('/fetchcharacterweapons/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge"
     JOIN "weapon_master" ON "weapon_master".weapon_master_id = "char_weapons_bridge".weapon_id
@@ -84,6 +86,7 @@ router.get('/fetchcharacterweapons/:id', (req, res) => {
         })
 })
 
+// save changes made on in play character sheet.
 router.put('/savecharacter/:id', (req, res) => {
     const sqlText = `UPDATE "char_status"
     SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5, "current_humanity_loss" = $6
@@ -99,6 +102,7 @@ router.put('/savecharacter/:id', (req, res) => {
         })
 })
 
+// save shots fired on in play character sheet.
 router.put('/savecharacterweapons/:id', (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" 
     SET "current_shots_fired" = $1
@@ -115,6 +119,10 @@ router.put('/savecharacterweapons/:id', (req, res) => {
 
 
 // Character Advancement Routes
+// routes having to do with spending experience, equipping/unequipping gear and cyberware,
+// and purchasing and selling gear and cyberware
+
+// pulls stats and status for character, similar to in play sheet.
 router.get('/fetchAdvancementDetails/:id', (req, res) => {
     const sqlText = `SELECT * FROM "character"
     JOIN "char_status" ON "char_status"."char_id" = "character"."id"
@@ -128,6 +136,7 @@ router.get('/fetchAdvancementDetails/:id', (req, res) => {
         })
 })
 
+// various gear fetches.
 router.get('/fetchAdvancementArmor/:id', (req, res) => {
     const sqlText = `SELECT * FROM "char_armor_bridge" 
     JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
@@ -207,6 +216,7 @@ router.get('/fetchAdvancementCyberSlots/:id', (req, res) => {
 })
 
 // advancement save route
+// big one is to update the character stats, skills, and such.
 router.put('/saveAdvancementCharacter/:id', (req, res) => {
     const rb = req.body.char
 
@@ -252,6 +262,26 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
             for (let i = 0; i < armor.length; i++) {
                 const armorSqlParams = [armor[i].armor_mod_1, armor[i].equipped, armor[i].armor_bridge_id]
                 pool.query(armorSqlText, armorSqlParams)
+            }
+
+            // advancement gear changes
+            // armor: loop through soldArmor array, perform delete command on each
+            const soldArmor = req.body.gear.soldArmor
+            const soldArmorSqlText = `DELETE FROM "char_armor_bridge" WHERE "armor_bridge_id" = $1`
+
+            for (let i = 0; i < soldArmor.length; i++) {
+                const soldArmorSqlParams = [soldArmor[i].armor_bridge_id]
+                pool.query(soldArmorSqlText, soldArmorSqlParams)
+            }
+
+            // loop through boughtArmor array, perform post on each.
+            const boughtArmor = req.body.gear.boughtArmor
+            const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
+            VALUES ($1, $2, $3, $4);`
+
+            for (let i = 0; i < boughtArmor.length; i++) {
+                const boughtArmorParams = [req.user.id, boughtArmor[i].armor_master_id, 1, false]
+                pool.query(boughtArmorSqlText, boughtArmorParams)
             }
 
             // change shield mod, equipped status
@@ -307,6 +337,8 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
         })
 
 })
+
+
 
 // Creation save route(s)
 

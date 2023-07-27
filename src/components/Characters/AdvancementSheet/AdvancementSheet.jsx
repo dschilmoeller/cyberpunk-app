@@ -16,6 +16,8 @@ import AdvancementGearWeapons from './AdvancementGearWeapons';
 import AdvancementGearOther from './AdvancementGearOther';
 import AdvancementCyberware from './AdvancementCyberware';
 
+import AdvancementShopArmor from './AdvancementShopArmor';
+
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail[0]);
     const equipmentDetails = useSelector(store => store.advancementGear)
@@ -77,7 +79,8 @@ function AdvancementSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</Item></Grid>
+                            <Grid item xs={6}><Item>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</Item></Grid>
+                            <Grid item xs={6}><Item>Cash on Hand: ${advancementDetails.bank}</Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
@@ -93,6 +96,11 @@ function AdvancementSheet() {
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Equip Weapons</Button></Item></Grid>
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>See Other Gear</Button></Item></Grid>
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Equip Cyberware</Button></Item></Grid>
+
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Armor')}>Shop Armor</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Weapons')}>Shop Weapons</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Misc Gear')}>Shop Other Gear</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Cyberware')}>Shop Cyberware</Button></Item></Grid>
                 </Grid>
 
                 {opener === 'Attributes' ? (<>
@@ -127,7 +135,9 @@ function AdvancementSheet() {
                     <AdvancementCyberware />
                 </>) : <></>}
 
-
+                {opener === 'Shop Armor' ? (<>
+                    <AdvancementShopArmor />
+                </>) : <></>}
             </div>
         </>
     )

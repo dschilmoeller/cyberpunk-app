@@ -26,12 +26,6 @@ export default function AdvancementCyberware() {
     const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
     const [cyberlegSlots, setCyberlegSlots] = useState(charCyberwareSlots.cyberleg_slots)
 
-    // need to:
-    // change cyber_strength/body/reflexes/move/appearance/cool/intelligence based on appropriate cyberwares
-    // change char-sheet in play to render diff. if pain editor is equipped.
-    // save all to the database.
-
-
     const equipCyber = (incomingCyber) => {
 
         switch (incomingCyber.type) {

@@ -5,8 +5,8 @@ import Item from './Item';
 import SpecialModal from '../../Modals/SpecialModal';
 
 function Health() {
-    const charDetail = useSelector((store) => store.characterDetail[0])
     const charStatus = useSelector((store) => store.characterStatus)
+    const charCyber = useSelector(store => store.characterCyberDetail)
     const totalHealth = 10 + charStatus.current_cyberware_health_boxes
 
     const dispatch = useDispatch();
@@ -51,9 +51,12 @@ function Health() {
     const healthBuilder = (total) => {
         let healthWords = ['Bruised', 'Badly Bruised', 'Hurt', 'Badly Hurt', 'Injured', 'Wounded', 'Mauled', 'Seriously Mauled', 'Crippled', 'Incapacitated']
         let painPenalty = [0, 0, -1, -1, -2, -2, -3, -3, -5, -10]
-        // conditional if pain editor is present.
-        // painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -5]
-
+        charCyber.map(cyberware => {
+            if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
+                painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -5]
+            }
+        })
+        
         let healthArray = woundBuilder(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg)
 
         let healthArraySpot = 0

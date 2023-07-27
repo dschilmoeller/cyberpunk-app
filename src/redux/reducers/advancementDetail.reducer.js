@@ -76,10 +76,11 @@ const advancementDetail = (state = [{ name: '' }], action) => {
             let newTotalTempHumanityLoss = (char.current_humanity_loss - (action.payload.totalLoss - 1))
             // if newTotal is > 0, tempHumanityLost is newTotal
             let tempHumanityLoss = 0
-            if (newTotalTempHumanityLoss > 0) { 
+            if (newTotalTempHumanityLoss > 0) {
                 tempHumanityLoss = newTotalTempHumanityLoss
             }
-            return {...char,
+            return {
+                ...char,
                 perm_humanity_loss: char.perm_humanity_loss - action.payload.minLoss,
                 current_humanity_loss: tempHumanityLoss
             }
@@ -103,6 +104,37 @@ const advancementDetail = (state = [{ name: '' }], action) => {
             }
         })
     }
+
+    // tied to advancementShop functions, changes cash on hand status.
+    if (action.type === 'BUY_ARMOR') {
+        return state.map(char => {
+            return {
+                ...char,
+                bank: Number(char.bank - action.payload.item.price)
+            }
+        })
+    }
+
+    if (action.type === 'SELL_OWNED_ARMOR') {
+        return state.map(char => {
+            return {
+                ...char,
+                // sells armor for standard 25% street value
+                bank: Number(char.bank + Math.floor(action.payload.price / 4))
+            }
+        })
+    }
+
+    if (action.type === 'SELL_ADVANCEMENT_ARMOR') {
+        return state.map(char => {
+            return {
+                ...char,
+                // sells armor for full value, ie. 'returns' it.
+                bank: Number(char.bank + action.payload.price)
+            }
+        })
+    }
+
     return state
 }
 

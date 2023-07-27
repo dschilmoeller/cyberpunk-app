@@ -8,7 +8,10 @@ const advancementGear = (state = {
     totalArmorQuality: 0,
     totalShieldQuality: 0,
     totalCyberwareArmorQuality: 0,
-    totalCyberwareHealthBoxesCreated: 0
+    totalCyberwareHealthBoxesCreated: 0,
+    boughtArmor: [],
+    soldArmor: [],
+    armorID: 0
 }, action) => {
     if (action.type === 'SET_ADVANCEMENT_DETAIL') {
         return {
@@ -190,6 +193,45 @@ const advancementGear = (state = {
         }
     }
 
+    // when buying armor, put into a new area of the reducer for use with a PUT command
+    if (action.type === 'BUY_ARMOR') {
+        return {
+            ...state,
+            boughtArmor: [...state.boughtArmor,
+            {
+                // to give each piece a unique ID for use in selling, armor is specified as part of the payload.item from AdvancementShopArmor
+                armor_master_id: action.payload.item.armor_master_id,
+                description: action.payload.item.description,
+                name: action.payload.item.name,
+                price: action.payload.item.price,
+                quality: action.payload.item.quality,
+                armorID: action.payload.armorID
+            }],
+            // increment Armor ID to give each piece of armor a unique identifier. Now when using SELL_ADVANCEMENT_ARMOR below,
+            // individual armors can be sold even if they otherwise have the same ID.
+            armorID: state.armorID + 1
+        }
+    }
+
+    // parse through bought armor to remove armor purchased and sold in the same session.
+    // armor from this sell command is NOT added to the soldArmor array as it will not need to be deleted from the database.
+    if (action.type === 'SELL_ADVANCEMENT_ARMOR') {
+        return {
+            ...state,
+            boughtArmor: state.boughtArmor.filter(armor => armor.armorID !== action.payload.armorID),
+        }
+    }
+
+    // unlike above, this version uses the bridge ID from the database, which is inherently unique.
+    // armors sold via this method are added to the soldArmor array so they can be deleted from the database when changes are saved.
+    if (action.type === 'SELL_OWNED_ARMOR') {
+        return {
+            ...state,
+            armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
+            soldArmor: [...state.soldArmor, action.payload]
+        }
+    }
+    
 
     return state
 }
