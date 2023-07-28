@@ -492,7 +492,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
 
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
             "current_armor_loss","current_humanity_loss","current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes")
-            VALUES ($1, $2, $3, $4, $5, $6, $7)`
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
             const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             pool.query(bridgeSqlText, bridgeParams)
 

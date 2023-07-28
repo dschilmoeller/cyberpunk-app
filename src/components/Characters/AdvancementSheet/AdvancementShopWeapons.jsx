@@ -60,7 +60,7 @@ export default function AdvancementShopWeapons() {
                             return (<React.Fragment key={item.weapon_bridge_id}>
                                 <TableRow>
                                     <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.damage}</TableCell>
+                                    <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                     <TableCell align="center">{item.range}</TableCell>
                                     <TableCell align="center">{item.rof}</TableCell>
                                     <TableCell align="center">{item.max_clip}</TableCell>
@@ -76,7 +76,7 @@ export default function AdvancementShopWeapons() {
                         return (<React.Fragment key={i}>
                             <TableRow>
                                 <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.damage}</TableCell>
+                                <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                 <TableCell align="center">{item.range}</TableCell>
                                 <TableCell align="center">{item.rof}</TableCell>
                                 <TableCell align="center">{item.max_clip}</TableCell>
@@ -113,8 +113,8 @@ export default function AdvancementShopWeapons() {
                         return (<React.Fragment key={item.weapon_master_id}>
                             <TableRow>
                                 <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `Str + ${item.damage}` : `${item.damage}`}</TableCell>
-                                <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
+                                <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
+                                <TableCell align="center">{item.dmg_type === 'bow' ? `${(charDetail.strength + charDetail.cyber_strength) * item.range}` : `${item.range}`}</TableCell>
                                 <TableCell align="center">{item.rof}</TableCell>
                                 <TableCell align="center">{item.max_clip}</TableCell>
                                 <TableCell align="center">{item.hands}</TableCell>

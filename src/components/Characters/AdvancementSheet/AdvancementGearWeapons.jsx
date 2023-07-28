@@ -14,6 +14,7 @@ import { Button } from '@mui/material';
 export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
     const characterWeapons = useSelector(store => store.advancementGear.weapons)
+    const charDetail = useSelector(store => store.advancementDetail[0])
 
     const unequipWeapon = (incomingWeapon) => {
         dispatch({ type: "UNEQUIP_WEAPON", payload: incomingWeapon })
@@ -46,7 +47,7 @@ export default function AdvancementGearWeapons() {
                             return (
                                 <TableRow key={i}>
                                     <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `Str + ${item.damage}` : `${item.damage}`}</TableCell>
+                                    <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                                     <TableCell align="center">{item.rof}</TableCell>
                                     <TableCell align="center">{item.max_clip}</TableCell>
@@ -82,7 +83,7 @@ export default function AdvancementGearWeapons() {
                             return (
                                 <TableRow key={i}>
                                     <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `Str + ${item.damage}` : `${item.damage}`}</TableCell>
+                                    <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                                     <TableCell align="center">{item.rof}</TableCell>
                                     <TableCell align="center">{item.max_clip}</TableCell>
