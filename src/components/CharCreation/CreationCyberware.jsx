@@ -84,7 +84,7 @@ export default function CreationCyberware() {
                                     <TableCell align="left">{cyberware[item].description}</TableCell>
                                     <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>
                                     <TableCell align="left">{cyberware[item].install_level}</TableCell>
-                                    <TableCell align="right">{cyberware[item].price}$</TableCell>
+                                    <TableCell align="right">${cyberware[item].price.toLocaleString("en-US")}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -125,7 +125,7 @@ export default function CreationCyberware() {
                                     <TableCell align="left">{row.description}</TableCell>
                                     <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
                                     <TableCell align="left">{row.install_level}</TableCell>
-                                    <TableCell align="right">{row.price}$</TableCell>
+                                    <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
                                 </TableRow>
                             ) : <></>}</React.Fragment>)
                     )}

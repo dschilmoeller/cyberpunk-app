@@ -48,6 +48,7 @@ function AdvancementSheet() {
 
     const saveCharacterChanges = () => {
         dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
+        history.push('/characterlist')
     }
 
     return (

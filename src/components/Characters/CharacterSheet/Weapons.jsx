@@ -6,7 +6,6 @@ import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 // change alert to a snackbar type alert!
-
 function Weapons() {
     const charWeapons = useSelector((store) => store.characterWeapons)
     const charDetail = useSelector((store) => store.characterDetail[0])
@@ -76,9 +75,7 @@ function Weapons() {
 
     return (
         <>
-
             <Grid container spacing={2}>
-
                 {/* cycle through weapons and list melee weapons up top */}
                 {charWeapons.map(weapon => {
                     if (weapon.equipped === true) {
@@ -131,7 +128,6 @@ function Weapons() {
                         }
                     }
                 })}
-
             </Grid>
         </>
     )
