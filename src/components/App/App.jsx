@@ -25,6 +25,9 @@ import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 import Creation from '../CharCreation/Creation';
 import AdvancementSheet from '../Characters/AdvancementSheet/AdvancementSheet';
 
+import GameMasterLanding from '../GameMaster/GameMasterLanding';
+import GameMasterSheet from '../GameMaster/GameMasterSheet';
+
 import './App.css';
 
 function App() {
@@ -131,6 +134,21 @@ function App() {
             <Creation />
           </ProtectedRoute>
 
+          {/* GM Page */}
+          <ProtectedRoute
+            exact
+            path="/gamemaster/"
+          >
+            <GameMasterLanding />
+          </ProtectedRoute>
+
+          {/* GM Individual Character Details Page */}
+          <ProtectedRoute
+            exact
+            path="/gamemastersheet/:id"
+          >
+            <GameMasterSheet />
+          </ProtectedRoute>
           <Route
             exact
             path="/home"

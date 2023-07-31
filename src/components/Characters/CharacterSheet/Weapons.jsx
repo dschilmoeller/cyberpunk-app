@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 // change alert to a snackbar type alert!
 function Weapons() {
     const charWeapons = useSelector((store) => store.characterWeapons)
-    const charDetail = useSelector((store) => store.characterDetail[0])
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const dispatch = useDispatch();
     const unhurtMarker = `\u2610`;

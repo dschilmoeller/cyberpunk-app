@@ -17,8 +17,10 @@ function UserPage() {
       <Button sx={{margin: 2}} variant='contained' onClick={()=>history.push('/characterlist')}>See Existing Characters</Button>
       <br />
       <Button sx={{margin: 2}} variant='contained' onClick={()=>history.push('/charcreation/')}>Create New Character</Button>
-      {/* Example of Admin Only Text */}
-      {user.user_type === 2 ? <p>Admin only words</p> : <></>}
+      <br />
+
+      {user.user_type === 2 ? <Button sx={{margin: 2}} variant='contained' onClick={()=>history.push('/gamemaster/')}>GM Page</Button> : <></>}
+      <br />
       <LogOutButton className="btn" />
     </div>
   );

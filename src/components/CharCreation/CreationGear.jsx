@@ -10,9 +10,9 @@
 // add check for already owned and prevent repurchasing. No doubling up.
 
 import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -116,7 +116,6 @@ export default function CreationGear() {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Quality</TableCell>
                             <TableCell align="left">Description</TableCell>

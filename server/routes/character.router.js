@@ -26,6 +26,21 @@ router.get('/fetchallcharacters', (req, res) => {
         });
 });
 
+router.get('/fetchGameMasterCharacters', (req, res) => {
+    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank 
+    FROM "character"
+    ORDER BY player ASC
+    `
+
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error Fetching characters:`, err);
+        });
+});
+
 // fetch character details
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
@@ -107,7 +122,8 @@ router.put('/savecharacterweapons/:id', (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" 
     SET "current_shots_fired" = $1
     WHERE "weapon_bridge_id" = $2`
-    const sqlParams = [req.body.current_shots_fired, req.body.id]
+
+    const sqlParams = [req.body.current_shots_fired, req.body.weapon_bridge_id]
     pool.query(sqlText, sqlParams)
         .then((result) => {
             res.sendStatus(202)

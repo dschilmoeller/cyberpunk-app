@@ -13,7 +13,7 @@ import CharacterMarkers from './CharacterMarkers';
 import CharacterSpecialSkills from './CharacterSpecialSkills';
 
 function CharacterSheet() {
-    const charDetail = useSelector((store) => store.characterDetail[0]);
+    const charDetail = useSelector((store) => store.characterDetail);
     const charStatus = useSelector(store => store.characterStatus)
     const charWeapons = useSelector((store) => store.characterWeapons)
 
