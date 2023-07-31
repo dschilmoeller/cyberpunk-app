@@ -1,4 +1,4 @@
-const advancementDetail = (state = [{ name: '' }], action) => {
+const advancementDetail = (state = {}, action) => {
     if (action.type === "SET_ADVANCEMENT_DETAIL") {
         return action.payload;
     }

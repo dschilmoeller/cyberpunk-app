@@ -43,7 +43,7 @@ function* saveCharacterSheet(action) {
 function* fetchAdvancementDetails(action) {
   try {
     const advancementDetails = yield axios.get(`/api/characters/fetchAdvancementDetails/${action.payload}`)
-    yield put({ type: 'SET_ADVANCEMENT_DETAIL', payload: advancementDetails.data})
+    yield put({ type: 'SET_ADVANCEMENT_DETAIL', payload: advancementDetails.data[0]})
     
     const advancementArmor = yield axios.get(`/api/characters/fetchAdvancementArmor/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_ARMOR', payload: advancementArmor.data})

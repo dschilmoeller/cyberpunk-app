@@ -22,7 +22,7 @@ import AdvancementShopOther from './AdvancementShopOther';
 import AdvancementShopCyberware from './AdvancementShopCyberware';
 
 function AdvancementSheet() {
-    const advancementDetails = useSelector((store) => store.advancementDetail[0]);
+    const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
     // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');

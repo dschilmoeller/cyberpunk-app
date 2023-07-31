@@ -28,10 +28,10 @@ const advancementGear = (state = {
     if (action.type === 'SET_ADVANCEMENT_DETAIL') {
         return {
             ...state,
-            totalArmorQuality: action.payload[0].current_armor_quality,
-            totalShieldQuality: action.payload[0].current_shield_quality,
-            totalCyberwareArmorQuality: action.payload[0].current_cyberware_armor_quality,
-            totalCyberwareHealthBoxesCreated: action.payload[0].current_cyberware_health_boxes
+            totalArmorQuality: action.payload.current_armor_quality,
+            totalShieldQuality: action.payload.current_shield_quality,
+            totalCyberwareArmorQuality: action.payload.current_cyberware_armor_quality,
+            totalCyberwareHealthBoxesCreated: action.payload    .current_cyberware_health_boxes
         }
     }
     if (action.type === 'SET_ADVANCEMENT_ARMOR') {

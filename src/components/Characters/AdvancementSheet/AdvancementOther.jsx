@@ -8,7 +8,7 @@ import SpecialModal from '../../Modals/SpecialModal';
 export default function AdvancementOther() {
 
     const dispatch = useDispatch();
-    const advancementDetails = useSelector((store) => store.advancementDetail[0]);
+    const advancementDetails = useSelector((store) => store.advancementDetail);
 
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;

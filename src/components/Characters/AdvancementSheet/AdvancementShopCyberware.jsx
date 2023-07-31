@@ -16,7 +16,7 @@ export default function AdvancementShopCyberware() {
     const cyberwareID = useSelector(store => store.advancementGear.cyberwareID)
     const cyberwareMaster = useSelector(store => store.cyberwareMaster)
 
-    const charDetail = useSelector((store) => store.advancementDetail[0])
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const [selectedList, setSelectedList] = useState('fashionware')
 

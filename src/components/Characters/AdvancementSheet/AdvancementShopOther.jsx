@@ -16,7 +16,7 @@ export default function AdvancementShopOther() {
     const miscGearID = useSelector(store => store.advancementGear.miscGearID)
     const gearMaster = useSelector(store => store.miscGearMaster)
 
-    const charDetail = useSelector((store) => store.advancementDetail[0])
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const sellOwnedGear = (item) => {
         dispatch({ type: 'SELL_OWNED_MISC_GEAR', payload: item })

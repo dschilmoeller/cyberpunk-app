@@ -23,7 +23,7 @@ export default function AdvancementShopArmor() {
     const shieldID = useSelector(store => store.advancementGear.shieldID)
     const shieldMaster = useSelector(store => store.shieldMaster)
     
-    const charDetail = useSelector((store) => store.advancementDetail[0])
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const sellOwnedArmor = (item) => {
         dispatch({ type: 'SELL_OWNED_ARMOR', payload: item })

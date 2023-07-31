@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 export default function AdvancementCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
-    const charDetails = useSelector(store => store.advancementDetail[0])
+    const charDetails = useSelector(store => store.advancementDetail)
     const charCyberwareSlots = useSelector(store => store.advancementGear.cyberwareSlots)
 
     const [selectedList, setSelectedList] = useState('fashionware')

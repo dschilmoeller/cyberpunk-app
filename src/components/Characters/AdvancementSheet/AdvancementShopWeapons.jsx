@@ -16,7 +16,7 @@ export default function AdvancementShopWeapons() {
     const weaponID = useSelector(store => store.advancementGear.weaponID)
     const weaponMaster = useSelector(store => store.weaponMaster)
 
-    const charDetail = useSelector((store) => store.advancementDetail[0])
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const sellOwnedWeapon = (item) => {
         dispatch({ type: 'SELL_OWNED_WEAPON', payload: item })

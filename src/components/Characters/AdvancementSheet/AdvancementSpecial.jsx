@@ -8,7 +8,7 @@ import SpecialModal from '../../Modals/SpecialModal';
 export default function AdvancementSpecial() {
 
     const dispatch = useDispatch();
-    const advancementDetails = useSelector((store) => store.advancementDetail[0]);
+    const advancementDetails = useSelector((store) => store.advancementDetail);
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`

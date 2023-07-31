@@ -14,7 +14,7 @@ import { Button } from '@mui/material';
 export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
     const characterWeapons = useSelector(store => store.advancementGear.weapons)
-    const charDetail = useSelector(store => store.advancementDetail[0])
+    const charDetail = useSelector(store => store.advancementDetail)
 
     const unequipWeapon = (incomingWeapon) => {
         dispatch({ type: "UNEQUIP_WEAPON", payload: incomingWeapon })
