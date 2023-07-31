@@ -30,13 +30,13 @@ function Weapons() {
         // starts by adding a checked box to the array
         for (let i = 0; i < shotsFired; i++) {
             // key is good until something with more than 100 bullets in the clip comes along
-            clipArray.push(<Grid item key={i+100} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{aggMarker}</Item></Grid>)
+            clipArray.push(<Grid item key={i + 100} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{aggMarker}</Item></Grid>)
         }
         // next adds blank boxes to the array to the end of the list.
         if (clipArray.length < maxClip) {
             let remainder = maxClip - shotsFired
             for (let i = 0; i < remainder; i++) {
-                clipArray.push(<Grid item key={i+200} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{unhurtMarker}</Item></Grid>)
+                clipArray.push(<Grid item key={i + 200} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{unhurtMarker}</Item></Grid>)
             }
         }
         return clipArray
@@ -76,23 +76,29 @@ function Weapons() {
 
     return (
         <>
-            <Grid container>
-                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                <Grid item xs={2}><Item><b>DMG</b></Item></Grid>
-                <Grid item xs={2}><Item><b>ROF</b></Item></Grid>
-                <Grid item xs={2}><Item><b>Range</b></Item></Grid>
+
+            <Grid container spacing={2}>
+
                 {/* cycle through weapons and list melee weapons up top */}
                 {charWeapons.map(weapon => {
                     if (weapon.equipped === true) {
                         if (weapon.dmg_type === 'melee') {
                             return (
                                 <React.Fragment key={weapon.weapon_bridge_id}>
-                                    <Grid item xs={6}><Item><i>{weapon.name}</i></Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + charDetail.cyber_strength + weapon.damage : weapon.damage}</Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
-                                    <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
-                                    <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
+                                    <Grid item xs={6} >
+                                        <Grid container>
+                                            <Grid item xs={6}><Item><b>Name</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>DMG</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>ROF</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>Range</b></Item></Grid>
+                                            <Grid item xs={6}><Item><i>{weapon.name}</i></Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + charDetail.cyber_strength + weapon.damage : weapon.damage}</Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
+                                            <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
+                                            <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
+                                        </Grid>
+                                    </Grid>
                                 </React.Fragment>
                             )
                         }
@@ -104,14 +110,22 @@ function Weapons() {
                         if (weapon.dmg_type != 'melee') {
                             return (
                                 <React.Fragment key={weapon.weapon_bridge_id}>
-                                    <Grid item xs={6}><Item><i>{weapon.name}</i></Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + weapon.damage : weapon.damage}</Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
-                                    <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
-                                    <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
-                                    <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
-                                    {ClipButtonBuilder(weapon.dmg_type, weapon.weapon_bridge_id, weapon.max_clip, weapon.current_shots_fired)}
-                                    {clipBuilder(weapon.max_clip, weapon.current_shots_fired, weapon.weapon_bridge_id)}
+                                    <Grid item xs={6}>
+                                        <Grid container>
+                                            <Grid item xs={6}><Item><b>Name</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>DMG</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>ROF</b></Item></Grid>
+                                            <Grid item xs={2}><Item><b>Range</b></Item></Grid>
+                                            <Grid item xs={6}><Item><i>{weapon.name}</i></Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + weapon.damage : weapon.damage}</Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
+                                            <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
+                                            <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
+                                            <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
+                                            {ClipButtonBuilder(weapon.dmg_type, weapon.weapon_bridge_id, weapon.max_clip, weapon.current_shots_fired)}
+                                            {clipBuilder(weapon.max_clip, weapon.current_shots_fired, weapon.weapon_bridge_id)}
+                                        </Grid>
+                                    </Grid>
                                 </React.Fragment>
                             )
                         }

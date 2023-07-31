@@ -43,7 +43,7 @@ function CharacterMarkers(charDetailProp) {
                 <Luck charDetailProp={charDetail} />
                 <Humanity charDetailProp={charDetail} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
                 <Weapons />
             </Grid>
         </>
