@@ -40,6 +40,16 @@ function* saveCharacterSheet(action) {
   }
 }
 
+// save GM changes:
+function* saveGameMasterCharacter(action) {
+  try {
+    yield axios.put(`api/characters/savegamemastercharacter/${action.payload.charDetail.id}`, action.payload)
+  } catch (error) {
+    console.log(`Error saving GM changes:`, error);
+  }
+}
+
+
 function* fetchAdvancementDetails(action) {
   try {
     const advancementDetails = yield axios.get(`/api/characters/fetchAdvancementDetails/${action.payload}`)
@@ -97,6 +107,7 @@ function* characterSaga() {
 
   // GM fetch/save
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
+  yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
 }
 
 export default characterSaga;

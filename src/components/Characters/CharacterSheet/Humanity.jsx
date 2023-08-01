@@ -14,14 +14,6 @@ function Humanity(charDetailProp) {
     const stunMarker = `\u2736`;
     const aggMarker = `\u2718`;
 
-    const humanityBoxChanger = (e) => {
-        if (e.target.innerText === unhurtMarker) {
-            dispatch({ type: "REMOVE_ONE_TEMP_HUMANITY" })
-        } else if (e.target.innerText === stunMarker) {
-            dispatch({ type: "ADD_ONE_TEMP_HUMANITY" })
-        }
-    }
-
     const humanityArrayBuilder = (tempHumanityLoss, permHumanityLoss) => {
         let humanityArray = []
         for (let i = 0; i < permHumanityLoss; i++) {
@@ -45,7 +37,7 @@ function Humanity(charDetailProp) {
         let humanityBoxes = []
 
         for (let i = 0; i < 40; i++) {
-            humanityBoxes.push(<Grid key={i} item xs={1.2}><Item onClick={(e) => humanityBoxChanger(e)}>{humanityArray[i]}</Item></Grid>)
+            humanityBoxes.push(<Grid key={i} item xs={1.2}><Item>{humanityArray[i]}</Item></Grid>)
         }
         return humanityBoxes
     }

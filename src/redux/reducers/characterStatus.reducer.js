@@ -36,11 +36,17 @@ const characterStatus = (state = {
         return { ...state, current_luck_loss: state.current_luck_loss - 1 }
     }
 
-    if (action.type === "REMOVE_ONE_TEMP_HUMANITY") {
-        return { ...state, current_humanity_loss: state.current_humanity_loss + 1 }
-    }
-    if (action.type === "ADD_ONE_TEMP_HUMANITY") {
-        return { ...state, current_humanity_loss: state.current_humanity_loss - 1 }
+    // undecided if players can modify their own humanity. Thinking no in light of the GM page being available.
+    // if (action.type === "REMOVE_ONE_TEMP_HUMANITY") {
+    //     return { ...state, current_humanity_loss: state.current_humanity_loss + 1 }
+    // }
+    // if (action.type === "ADD_ONE_TEMP_HUMANITY") {
+    //     return { ...state, current_humanity_loss: state.current_humanity_loss - 1 }
+    // }
+
+    if (action.type === 'GM_CHANGE_TEMP_HUMANITY_LOSS') {
+        return {...state,
+        current_humanity_loss: state.current_humanity_loss + action.payload}
     }
 
     if (action.type === "CLEAR_CHARACTER_STATUS") {

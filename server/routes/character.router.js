@@ -26,21 +26,6 @@ router.get('/fetchallcharacters', (req, res) => {
         });
 });
 
-router.get('/fetchGameMasterCharacters', (req, res) => {
-    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank 
-    FROM "character"
-    ORDER BY player ASC
-    `
-
-    pool.query(sqlText)
-        .then((result) => {
-            res.send(result.rows);
-        })
-        .catch(err => {
-            console.log(`Error Fetching characters:`, err);
-        });
-});
-
 // fetch character details
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
@@ -529,4 +514,40 @@ router.post('/saveCreationCharacter/', (req, res) => {
         })
 })
 
+// GM Routes
+router.get('/fetchGameMasterCharacters', (req, res) => {
+    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank 
+    FROM "character"
+    ORDER BY player ASC
+    `
+
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error Fetching characters:`, err);
+        });
+});
+
+router.put('/savegamemastercharacter/:id', (req, res) => {
+    const charDetailsSqlText = `UPDATE character
+    SET handle = $1, player = $2, role = $3, culture = $4, concept = $5, campaign = $6, max_xp = $7, spent_xp = $8, bank = $9
+    WHERE id = $10`
+    const charStatusSqlText = `UPDATE char_status
+    SET current_humanity_loss = $1
+    WHERE char_status_id = $2 `
+    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.concept, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.id]
+    const charStatusUpdateParams = [req.body.charStatus.current_humanity_loss, req.body.charStatus.char_status_id]
+    pool.query(charDetailsSqlText, charDetailUpdateParams)
+    .then((result) => {
+        pool.query(charStatusSqlText, charStatusUpdateParams)
+    })
+    .then(result => {
+        res.sendStatus(203)
+    })
+    .catch(err => {
+        console.log(`Error updating character for GM:`, err);
+    })
+})
 module.exports = router

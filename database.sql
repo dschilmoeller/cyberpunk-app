@@ -267,996 +267,119 @@ ORDER BY id ASC
 select *
 from "weapon_master";
 
-INSERT INTO "cyberware_master" (
-		"name",
-		"type",
-		"install_level",
-		"price",
-		"humanity_loss_min",
-		"humanity_loss_max",
-		"description"
-	)
-VALUES (
-		'Biomonitor',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Implant that reads vital signs.'
-	),
-	(
-		'Chemskin',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Custom skin biosculpting that can alter the appearance of ones skin to almost any conceivable combination of color, inked tattoos, designs, and the like.'
-	),
-	(
-		'EMP Threading',
-		'fashionware',
-		'Mall',
-		10,
-		0,
-		0,
-		'Metallic lines that run across the body. Highly fashionable combinations are always coming and going.'
-	),
-	(
-		'Light Tattoo',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Subdermal patches that can produce colorful, backlit tattoos. Gives +1 appearance when awesome enough.'
-	),
-	(
-		'Corneal Implant',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Color changing lenses implanted in the eyes, allowing for nearly any color/style combination'
-	),
-	(
-		'Skinwatch',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Subdermal LED watch'
-	),
-	(
-		'Techhair',
-		'fashionware',
-		'Mall',
-		100,
-		0,
-		0,
-		'Color changing, light emitting, artificial hair. Grants +1 Cool.'
-	),
-	(
-		'Basic Neural Link',
-		'neuralware',
-		'Hospital',
-		500,
-		1,
-		10,
-		'Artifical Nervous System that allows for the use of different pieces of Chipware.  The basic version has 5 sockets. Inclues interfacing plugs to connect to most machines.'
-	),
-	(
-		'Braindance Recorder',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'System to record all of a users experience to memory Chips.'
-	),
-	(
-		'Kerenzikov',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 1 and adds 1 die to most combat rolls for one scene when activated. Deals the user 3 stun damage when the effect wears off.'
-	),
-	(
-		'Sandevistan',
-		'neuralware',
-		'Chip',
-		2000,
-		0,
-		0,
-		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 2 and adds 2 die to most combat rolls for one scene when activated. Deals the user 6 stun damage when the effect wears off.'
-	),
-	(
-		'Miilitech "Kali"',
-		'neuralware',
-		'Chip',
-		25000,
-		0,
-		0,
-		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 3 and adds 3 die to most combat rolls for one scene when activated. Deals the user 6 lethal damage when the effect wears off.'
-	),
-	(
-		'Memory Chip',
-		'neuralware',
-		'Chip',
-		10,
-		0,
-		0,
-		'Memory storage Chip. Approximate capacity of 2 Exabytes, or 2 Billion Gigabytes for you old timers.'
-	),
-	(
-		'Olfactory Boost',
-		'neuralware',
-		'Chip',
-		100,
-		0,
-		0,
-		'Chip that assists in decoding scents and boosts a users sense of smell to dog-like levels. Allows tracking via scent, amongst other tricks.'
-	),
-	(
-		'Pain Editor',
-		'neuralware',
-		'Chip',
-		5000,
-		0,
-		0,
-		'Chip that overrides the users ability to feel pain. Dramatically reduces wound-based die penalties.'
-	),
-	(
-		'Skill Chip - Athletics',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Brawling',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Evasion',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Fast Talk',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Firearms',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Melee Weapons',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Drive Land',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Performance',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Stealth',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Cryptography',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - First Aid',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Gambling',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Skill Chip - Language',
-		'neuralware',
-		'Chip',
-		500,
-		0,
-		0,
-		'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.'
-	),
-	(
-		'Tactile Booster',
-		'neuralware',
-		'Chip',
-		100,
-		0,
-		0,
-		'Chip that increases a users sense of touch to the point where they can detect cats and larger sized animals from 20 meters away by placing their hand on a solid surface.'
-	),
-	(
-		'Algernonic Subprocessors I',
-		'neuralware',
-		'Chip',
-		1000,
-		0,
-		0,
-		'A general purpose intelligence booster Chip. Gives instant access to all knowledge of roughly an 8th grader.'
-	),
-	(
-		'Algernonic Subprocessors II',
-		'neuralware',
-		'Chip',
-		5000,
-		0,
-		0,
-		'A general purpose intelligence booster Chip. Makes the user seem pretty bright.'
-	),
-	(
-		'Algernonic Subprocessors III',
-		'neuralware',
-		'Chip',
-		25000,
-		0,
-		0,
-		'A highly advanced intelligence booster Chip. Contains a helper AI to assist with cognitive loads.'
-	),
-	(
-		'Algernonic Subprocessors IV',
-		'neuralware',
-		'Chip',
-		75000,
-		0,
-		0,
-		'An extremely advanced intelligence booster Chip. Can make an average dullard into a Weapons Grade Savant.'
-	),
-	(
-		'Algernonic Subprocessors V',
-		'neuralware',
-		'Chip',
-		1000000,
-		0,
-		0,
-		'This probably does not exist, so dont worry about the specs.'
-	),
-	(
-		'Basic Cybereyes',
-		'cyberoptics',
-		'Clinic',
-		100,
-		1,
-		10,
-		'A set of Artificial eyes with 3 option slots. Includes the ability to change colors and patterns, a HUD, simple video recordings, and Augmented Reality'
-	),
-	(
-		'Anti-Dazzle System',
-		'cyberoptics',
-		'Mall',
-		100,
-		0,
-		0,
-		'Makes the user immune to the effects of flashes and strobes.'
-	),
-	(
-		'Dartgun',
-		'cyberoptics',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Single shot dart that can be loaded with poison.'
-	),
-	(
-		'Image Processing',
-		'cyberoptics',
-		'Mall',
-		500,
-		0,
-		0,
-		'When paired in both eyes, allows for reduced difficulties on vision based perception checks.'
-	),
-	(
-		'Infrared Imaging',
-		'cyberoptics',
-		'Mall',
-		500,
-		0,
-		0,
-		'When paired in both eyes, allows for ignoring penalties for darkness, smog, and most smoke.'
-	),
-	(
-		'MicroOptics',
-		'cyberoptics',
-		'Mall',
-		100,
-		0,
-		0,
-		'In-eye magnifier allows for zooming in up to 400x.'
-	),
-	(
-		'Rad Detector',
-		'cyberoptics',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Displays ambient radiation as a soft glow in the users surroundings.'
-	),
-	(
-		'HUD Agent',
-		'cyberoptics',
-		'Clinic',
-		100,
-		0,
-		0,
-		'More or less sophisticated digital assistant that appears in the users hud.'
-	),
-	(
-		'Basic Cyberaudio Suite',
-		'cyberaudio',
-		'Clinic',
-		500,
-		1,
-		6,
-		'Artificial hearing system replacing a users inner ear. Includes basic recorder and 3 option slots.'
-	),
-	(
-		'Hearing Amplifier',
-		'cyberaudio',
-		'Mall',
-		100,
-		1,
-		2,
-		'Boosts nearby sounds, allowing for reduced difficulties on hearing based perception checks.'
-	),
-	(
-		'Level Damper',
-		'cyberaudio',
-		'Mall',
-		100,
-		1,
-		2,
-		'Dampens loud noises such as gunshots, flash bang grenades, and screams.'
-	),
-	(
-		'Radio Communicator',
-		'cyberaudio',
-		'Clinic',
-		100,
-		1,
-		2,
-		'Allows user to communicate via radio. Approximate range of 1 mile.'
-	),
-	(
-		'Voice Stress Analyzer',
-		'cyberaudio',
-		'Clinic',
-		500,
-		1,
-		4,
-		'Runs sophisticated analysis on incoming speech patterns, giving reduced difficulties to efforts to detect lies.'
-	),
-	(
-		'AudioVox',
-		'internalware',
-		'Clinic',
-		500,
-		1,
-		5,
-		'Voice synthesizer. Can be programmed in a variety of useful ways, most commonly used by speech-givers and musicians to achieve flawless verbalization.'
-	),
-	(
-		'Contraceptive Implant',
-		'internalware',
-		'Mall',
-		10,
-		0,
-		0,
-		'Prevents unwanted pregnancy for approxiamtely 4 years.'
-	),
-	(
-		'Platelet Booster',
-		'internalware',
-		'Clinic',
-		500,
-		1,
-		3,
-		'Advanced nanotech that lowers healing difficulty values by 1.'
-	),
-	(
-		'Nanotech Hive',
-		'internalware',
-		'Hospital',
-		5000,
-		1,
-		10,
-		'Small, self-propogating device that allows for rapid and dramatic healing. User recovers from wounds as though they were in a cryotank if they get at least 8 hours of sleep a day.'
-	),
-	(
-		'Vampyres',
-		'internalware',
-		'Clinic',
-		500,
-		1,
-		4,
-		'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a small resevoir. If the user grapples a victim first, the damage is aggravated'
-	),
-	(
-		'Cybersnake',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		10,
-		'Esophogus mounted Heavy Melee Weapon. If the user grapples a victim first, the damage is aggravated.'
-	),
-	(
-		'Gills',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		8,
-		'User can breathe underwater.'
-	),
-	(
-		'Grafted Muscles I',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		8,
-		'Increases Strength by a small amount without excessive bulk.'
-	),
-	(
-		'Grafted Muscles II',
-		'internalware',
-		'Hospital',
-		5000,
-		2,
-		12,
-		'Increases Strength by a moderate amount without excessive bulk.'
-	),
-	(
-		'Grafted Muscles III',
-		'internalware',
-		'Hospital',
-		25000,
-		3,
-		16,
-		'Increases Strength by a large amount without excessive bulk.'
-	),
-	(
-		'Grafted Muscles IV',
-		'internalware',
-		'Hospital',
-		75000,
-		4,
-		20,
-		'Massively increased Strength without a trace courtesy of like, carbon nanorods or some bullshit.'
-	),
-	(
-		'Grafted Muscles V',
-		'internalware',
-		'Hospital',
-		1000000,
-		5,
-		24,
-		'This is probably not real and therefore no cause for concern or alarm.'
-	),
-	(
-		'Bone Lacing I',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		8,
-		'Increases Body by a small amount. Basically nothing you cannot achieve with vitamins.'
-	),
-	(
-		'Bone Lacing II',
-		'internalware',
-		'Hospital',
-		5000,
-		2,
-		12,
-		'Increases Body by a modest amount. Your bones are...pretty strong.'
-	),
-	(
-		'Bone Lacing III',
-		'internalware',
-		'Hospital',
-		25000,
-		3,
-		16,
-		'Increases Body by a large amount. Unironic use of the nickname Old Ironsides is permitted.'
-	),
-	(
-		'Bone Lacing IV',
-		'internalware',
-		'Hospital',
-		75000,
-		4,
-		20,
-		'Massively increased Body courtesy of Vanadium Bones and Shit (tm).'
-	),
-	(
-		'Bone Lacing V',
-		'internalware',
-		'Hospital',
-		1000000,
-		5,
-		24,
-		'This cannot be done, obviously. You are not a literal brick wall.'
-	),
-	(
-		'Nervous System Siliconization I',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		8,
-		'Increases Reflexes by a small amount by slowly turning your nerves into carbon fiber optics.'
-	),
-	(
-		'Nervous System Siliconization II',
-		'internalware',
-		'Hospital',
-		5000,
-		2,
-		12,
-		'Increases Reflexes by a modest amount. Carbon Fiber Optics. Pretty cool right..'
-	),
-	(
-		'Nervous System Siliconization III',
-		'internalware',
-		'Hospital',
-		25000,
-		3,
-		16,
-		'Increases Reflexes by a large amount. Very futuristic, your Carbon Fiber Optics.'
-	),
-	(
-		'Nervous System Siliconization IV',
-		'internalware',
-		'Hospital',
-		75000,
-		4,
-		20,
-		'Increases Reflexes by an enormous amount. Just say it. Carbon. Fiber. Optics.'
-	),
-	(
-		'Nervous System Siliconization V',
-		'internalware',
-		'Hospital',
-		1000000,
-		5,
-		24,
-		'Such a thing is surely not possible.'
-	),
-	(
-		'Independent Air Supply',
-		'internalware',
-		'Hospital',
-		1000,
-		1,
-		2,
-		'A third lung made of oxygen tanks. Allows holding ones breath for about an hour.'
-	),
-	(
-		'Midnight Lady Implant',
-		'internalware',
-		'Clinic',
-		100,
-		1,
-		2,
-		'Be a Venus, be the fire, be the desire.'
-	),
-	(
-		'Mr. Studd Implant',
-		'internalware',
-		'Clinic',
-		100,
-		1,
-		2,
-		'All Night. Every Night.'
-	),
-	(
-		'Toxin Binders',
-		'internalware',
-		'Clinic',
-		500,
-		1,
-		2,
-		'Reduces difficulty to resist airborne toxins by 1.'
-	),
-	(
-		'Nasal Filters',
-		'internalware',
-		'Hospital',
-		5000,
-		1,
-		2,
-		'Makes owner immune to most airborne toxins and gases.'
-	),
-	(
-		'Skin Weave',
-		'externalware',
-		'Hospital',
-		500,
-		1,
-		6,
-		'Weaves resistant material directly into the skin. Increases armor by 2 and adds 1 health box.'
-	),
-	(
-		'Subdermal Armor',
-		'externalware',
-		'Hospital',
-		1000,
-		1,
-		10,
-		'Implanted armor beneatht the skin. Increases armor by 3 and adds 2 health boxes.'
-	),
-	(
-		'Body Plating',
-		'externalware',
-		'Hospital',
-		25000,
-		2,
-		20,
-		'Bonds armor plating directly to the skin and bone in an extremely unsettling way. Generally considered the last step before one goes full cyborg. Increases armor by 5 and adds 3 health boxes. This armor is also considered Hardened (see rules).'
-	),
-	(
-		'Cyberarm - Right',
-		'cyberarm',
-		'Hospital',
-		500,
-		2,
-		10,
-		'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.'
-	),
-	(
-		'Cyberarm - Left',
-		'cyberarm',
-		'Hospital',
-		500,
-		2,
-		10,
-		'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.'
-	),
-	(
-		'Grapple Hand',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'User can fire their hand 30 meters. It can still feel and grab things. Hand can also just run along the ground and grab things.'
-	),
-	(
-		'Medscanner',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Built in scanner that assists with diagnosing injury and illness. Reduces First Aid and Paramedic difficulties by 1.'
-	),
-	(
-		'Techscanner',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Built in scanner for assessing technology. Comes with a variety of probes. Reduces repair and jury rigging difficulties by 1.'
-	),
-	(
-		'Tool Hand',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Fingers contain a variety of screwdrivers, wrenches, a small drill, and other tools. Never carry a toolbag again!'
-	),
-	(
-		'Quick Change Mount',
-		'cyberarm',
-		'Clinic',
-		100,
-		0,
-		0,
-		'Special mounting that allows arm to be removed or attached as a complex action'
-	),
-	(
-		'Subdermal Grip',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Allows user to interface with a smartgun without connecting interface plugs.'
-	),
-	(
-		'Built-in Gun',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'A one-handed gun can be built into a cyberarm. Weapon is concealed even if not normally able to be.'
-	),
-	(
-		'Big Knucks',
-		'cyberarm',
-		'Clinic',
-		100,
-		0,
-		0,
-		'Built in armored knuckles. Gives +1 damage to unarmed attacks.'
-	),
-	(
-		'Scratchers',
-		'cyberarm',
-		'Clinic',
-		100,
-		0,
-		0,
-		'Carbo-glass fingernails. Acts as a light melee weapon that is virtually undetectable. Exotic Weapon'
-	),
-	(
-		'Rippers',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Carbo-glass claws built into the first joint of a finger. Acts as a medium melee weapon that is virtually undetectable. Exotic Weapon.'
-	),
-	(
-		'Wolvers',
-		'cyberarm',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Titanium claws concealed in the forearm that pop out when making a fist. Does NOT make the noise for trademark reasons. Acts as a heavy melee weapon that is virtually undetectable. Exotic Weapon.'
-	),
-	(
-		'Hardened Shielding',
-		'cyberarm',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Cyberlimb is immune to the effect of EMP devices.'
-	),
-	(
-		'Plastic Covering',
-		'cyberarm',
-		'Clinic',
-		100,
-		0,
-		0,
-		'Plastic coating for limb, giving it a close to human appearance, if somewhat shiny and angular.'
-	),
-	(
-		'Realskinn Covering',
-		'cyberarm',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Artificial skin covering for cyberlimb. Mimics the feel, temp, and reaction of actual skin.'
-	),
-	(
-		'SuperChrome Covering',
-		'cyberarm',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Shiny metallic coating for cyberlminb. Self cleaning and polishing, too!'
-	),
-	(
-		'Cyberleg - Right',
-		'cyberleg',
-		'Hospital',
-		500,
-		2,
-		10,
-		'Replacement leg. Standard issue looks like an angular robotic limb. Modifications all require installation in both legs to be effective. Grants 1 additional health box.'
-	),
-	(
-		'Cyberleg - Left',
-		'cyberleg',
-		'Hospital',
-		500,
-		2,
-		10,
-		'Replacement leg. Standard issue looks like an angular robotic limb. Modifications all require installation in both legs to be effective. Grants 1 additional health box.'
-	),
-	(
-		'Grip Foot',
-		'cyberleg',
-		'Clinic',
-		250,
-		0,
-		0,
-		'Foot contains traction enhancing nanofibers similar to a chameleons. Allows climbing at normal speed on non-wet surfaces. User must be barefoot'
-	),
-	(
-		'Web Foot',
-		'cyberleg',
-		'Clinic',
-		250,
-		0,
-		0,
-		'Allows toes to extend and deploy webbing, acting as built in flippers. Allows swimming at normal speed.'
-	),
-	(
-		'Spring Heels',
-		'cyberleg',
-		'Clinic',
-		250,
-		0,
-		0,
-		'Leg contains powerful hydraulics, allowing for some truly impressive leaps. More importantly, allows surviving the landing.'
-	),
-	(
-		'Skate Foot',
-		'cyberleg',
-		'Clinic',
-		250,
-		0,
-		0,
-		'Feet can split apart and deploy inline skates. Movement is doubled over most surfaces when skating.'
-	),
-	(
-		'Hardened Shielding',
-		'cyberleg',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Cyberlimb is immune to the effect of EMP devices.'
-	),
-	(
-		'Plastic Covering',
-		'cyberleg',
-		'Clinic',
-		100,
-		0,
-		0,
-		'Plastic coating for limb, giving it a close to human appearance, if somewhat shiny and angular.'
-	),
-	(
-		'Realskinn Covering',
-		'cyberleg',
-		'Clinic',
-		500,
-		0,
-		0,
-		'Artificial skin covering for cyberlimb. Mimics the feel, temp, and reaction of actual skin.'
-	),
-	(
-		'SuperChrome Covering',
-		'cyberleg',
-		'Clinic',
-		1000,
-		0,
-		0,
-		'Shiny metallic coating for cyberlminb. Self cleaning and polishing, too!'
-	),
-	(
-		'Artificial Shoulder Mount',
-		'borgware',
-		'Hospital',
-		1000,
-		2,
-		20,
-		'(BETA - Does not work) Allows user to mount an additional pair of cyberlimbs under their normal arms.'
-	),
-	(
-		'MultiOptic Mount',
-		'borgware',
-		'Hospital',
-		1000,
-		2,
-		20,
-		'(BETA - Does not work) Gives user 5 additional cybereye slots.'
-	),
-	(
-		'Sensor Array',
-		'borgware',
-		'Hospital',
-		1000,
-		2,
-		20,
-		'(BETA - Does not work) Gives user 5 additional cyberear slots.'
-	),
-	(
-		'Linear Frame Alpha',
-		'borgware',
-		'Hospital',
-		50000,
-		2,
-		20,
-		'(BETA - Does not work) Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 2. Decreases Reflexes by 1. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.'
-	),
-	(
-		'Linear Frame Beta',
-		'borgware',
-		'Hospital',
-		150000,
-		3,
-		30,
-		'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 5 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 2. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.'
-	);
+INSERT INTO "cyberware_master"("cyberware_master_id","name","price","description","humanity_loss_min","humanity_loss_max","install_level","type")
+VALUES
+INSERT INTO "cyberware_master"("name","price","description","humanity_loss_min","humanity_loss_max","install_level","type")
+VALUES
+('Biomonitor',100,'Implant that reads vital signs.',0,0,'Mall','fashionware'),
+('Chemskin',100,'Custom skin biosculpting that can alter the appearance of ones skin to almost any conceivable combination of color, inked tattoos, designs, and the like.',0,0,'Mall','fashionware'),
+('EMP Threading',10,'Metallic lines that run across the body. Highly fashionable combinations are always coming and going.',0,0,'Mall','fashionware'),
+('Light Tattoo',100,'Subdermal patches that can produce colorful, backlit tattoos. Gives +1 Appearance when awesome enough.',0,0,'Mall','fashionware'),
+('Corneal Implant',100,'Color changing lenses implanted in the eyes, allowing for nearly any color/style combination',0,0,'Mall','fashionware'),
+('Skinwatch',100,'Subdermal LED watch',0,0,'Mall','fashionware'),
+('Techhair',100,'Color changing, light emitting, artificial hair. Grants +1 Cool.',0,0,'Mall','fashionware'),
+('Basic Neural Link',500,'Artifical Nervous System that allows for the use of different pieces of chipware.  The basic version has 5 sockets. Inclues interfacing plugs to connect to most machines.',2,8,'Hospital','neuralware'),
+('Braindance Recorder',500,'System to record all of a users experience to memory chips.',0,0,'Chip','neuralware'),
+('Kerenzikov',500,'Speedware that artifically boosts a users experiential sense of time. Increases Move by 1 and adds 1 die to most combat rolls for one scene when activated. Deals the user 3 stun damage when the effect wears off.',0,0,'Chip','neuralware'),
+('Sandevistan',2000,'Speedware that artifically boosts a users experiential sense of time. Increases Move by 2 and adds 2 die to most combat rolls for one scene when activated. Deals the user 6 stun damage when the effect wears off.',0,0,'Chip','neuralware'),
+('Miilitech "Kali"',25000,'Speedware that artifically boosts a users experiential sense of time. Increases Move by 3 and adds 3 die to most combat rolls for one scene when activated. Deals the user 6 lethal damage when the effect wears off.',0,0,'Chip','neuralware'),
+('Memory chip',10,'Memory storage chip. Approximate capacity of 2 Exabytes, or 2 Billion Gigabytes for you old timers.',0,0,'Chip','neuralware'),
+('Olfactory Boost',100,'Chip that assists in decoding scents and boosts a users sense of smell to dog-like levels. Allows tracking via scent, amongst other tricks.',0,0,'Chip','neuralware'),
+('Pain Editor',5000,'Chip that overrides the users ability to feel pain. Dramatically reduces wound-based die penalties.',0,0,'Chip','neuralware'),
+('Skill Chip - Athletics',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Brawling',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Evasion',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Fast Talk',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Firearms',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Melee Weapons',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Drive Land',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Performance',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Stealth',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Cryptography',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - First Aid',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Gambling',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Skill Chip - Language',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware'),
+('Tactile Booster',100,'Chip that increases a users sense of touch to the point where they can detect cats and larger sized animals from 20 meters away by placing their hand on a solid surface.',0,0,'Chip','neuralware'),
+('Algernonic Subprocessors I',1000,'A general purpose intelligence booster chip. Gives instant access to all knowledge of an 8th grader.',0,0,'Chip','neuralware'),
+('Algernonic Subprocessors II',5000,'A general purpose intelligence booster chip. Makes the user seem pretty bright.',0,0,'Chip','neuralware'),
+('Algernonic Subprocessors III',25000,'A highly advanced intelligence booster chip. Contains a Small helper AI to assist with cognitive loads.',0,0,'Chip','neuralware'),
+('Algernonic Subprocessors IV',75000,'An extremely advanced intelligence booster chip. Can make an average dullard into a Weapons Grade Savant.',0,0,'Chip','neuralware'),
+('Algernonic Subprocessors V',1000000,'If this existed it would definitely be used to cheat at Jeapordy.',0,0,'Chip','neuralware'),
+('Basic Cybereyes',100,'A set of Artificial eyes with 3 option slots. Includes the ability to change colors and patterns, a HUD, simple video recordings, and viewing Augmented Reality',1,4,'Clinic','cyberoptics'),
+('Anti-Dazzle System',100,'Makes the user immune to the effects of flashes and strobes.',0,0,'Mall','cyberoptics'),
+('Dartgun',500,'Single shot dart that can be loaded with poison.',0,0,'Clinic','cyberoptics'),
+('Image Processing',500,'When paired in both eyes, allows for reduced difficulties on vision based perception checks.',0,0,'Mall','cyberoptics'),
+('Infrared Imaging',500,'When paired in both eyes, allows for ignoring penalties for darkness, smog, and most smoke.',0,0,'Mall','cyberoptics'),
+('MicroOptics',100,'In-eye magnifier allows for zooming in up to 400x.',0,0,'Mall','cyberoptics'),
+('Rad Detector',1000,'Displays ambient radiation as a soft glow in the users surroundings.',0,0,'Clinic','cyberoptics'),
+('HUD Agent',100,'More or less sophisticated digital assistant that appears in the users hud.',0,0,'Clinic','cyberoptics'),
+('Basic Cyberaudio Suite',500,'Artificial system replacing a users inner ear. Includes basic recorder',1,4,'Clinic','cyberaudio'),
+('Hearing Amplifier',100,'Boosts nearby sounds, allowing for reduced difficulties on hearing based perception checks.',0,0,'Mall','cyberaudio'),
+('Level Damper',100,'Dampens loud noises such as gunshots, flash bang grenades, and screams.',0,0,'Mall','cyberaudio'),
+('Radio Communicator',100,'Allows user to communicate via radio. Approximate range of 1 mile.',0,0,'Clinic','cyberaudio'),
+('Voice Stress Analyzer',500,'Runs sophisticated analysis on incoming speech patterns, giving reduced difficulties to efforts to detect lies.',0,0,'Clinic','cyberaudio'),
+('AudioVox',500,'Voice synthesizer. Can be programmed in a variety of useful ways, most commonly used by speech-givers and musicians to achieve flawless verbalization.',1,4,'Clinic','internalware'),
+('Contraceptive Implant',10,'Prevents unwanted pregnancy for approxiamtely 4 years.',0,0,'Mall','internalware'),
+('Platelet Booster',500,'Advanced nanotech that lowers healing difficulty values by 1.',1,4,'Clinic','internalware'),
+('Nanotech Hive',5000,'Small, self-propogating device that allows for rapid and dramatic healing. User recovers from wounds as though they were in a cryotank if they get at least 8 hours of sleep a day.',1,4,'Hospital','internalware'),
+('Vampyres',500,'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a small resevoir. If the user grapples a victim first, the damage is aggravated',1,4,'Clinic','internalware'),
+('Cybersnake',1000,'Esophogus mounted Heavy Melee Weapon. If the user grapples a victim first, the damage is aggravated.',2,8,'Hospital','internalware'),
+('Gills',1000,'User can breathe underwater.',1,4,'Hospital','internalware'),
+('Grafted Muscles I',1000,'Increases Strength by a small amount without excessive bulking.',1,4,'Hospital','internalware'),
+('Grafted Muscles II',5000,'Increases Strength by a moderate amount with a small amount of bulk.',2,8,'Hospital','internalware'),
+('Grafted Muscles III',25000,'Increases Strength by a large amount. The muscles are apparent but seem natural.',3,9,'Hospital','internalware'),
+('Grafted Muscles IV',75000,'Massively increased Strength without a visible trace courtesy of like, carbon nanorods or some nonsense.',4,12,'Hospital','internalware'),
+('Grafted Muscles V',1000000,'This is probably not real and stories of waifu girls ripping cars in half is therefore no cause for alarm.',5,15,'Hospital','internalware'),
+('Bone Lacing I',1000,'Increases Body by a small amount. Basically nothing you cannot achieve with vitamins.',1,4,'Hospital','internalware'),
+('Bone Lacing II',5000,'Increases Body by a modest amount. Your bones are...pretty strong.',2,8,'Hospital','internalware'),
+('Bone Lacing III',25000,'Increases Body by a large amount. Unironic use of the nickname Old Ironsides is permitted.',3,9,'Hospital','internalware'),
+('Bone Lacing IV',75000,'Massively increased Body courtesy of Vanadium Bones and, um, skin de-tenderizing (.',4,12,'Hospital','internalware'),
+('Bone Lacing V',1000000,'Stories of humans becoming literal brick walls are to be dismissed by all right thinking people.',5,15,'Hospital','internalware'),
+('Nervous System Siliconization I',1000,'Increases Reflexes by a small amount by turning some of your nerves into carbon fiber optics.',1,4,'Hospital','internalware'),
+('Nervous System Siliconization II',5000,'Increases Reflexes by a modest amount. Carbon Fiber Optic nerves again. Pretty cool right.',2,8,'Hospital','internalware'),
+('Nervous System Siliconization III',25000,'Increases Reflexes by a large amount. Very futuristic, your Carbon Fiber Optics endings.',3,9,'Hospital','internalware'),
+('Nervous System Siliconization IV',75000,'Increases Reflexes by an enormous amount. Just say it. Carbon. Fiber. Optics. Rolls off the tongue.',4,12,'Hospital','internalware'),
+('Nervous System Siliconization V',1000000,'Faster than a speeding bullet and slicker than an oil spill. Thank god these don\'t exist, right.',5,15,'Hospital','internalware'),
+('Independent Air Supply',1000,'A third lung made of oxygen tanks. Allows holding ones breath for about an hour.',1,6,'Hospital','internalware'),
+('Midnight Lady Implant',100,'Be a Venus, be the fire, be the desire.',1,2,'Clinic','internalware'),
+('Mr. Studd Implant',100,'All Night. Every Night.',1,2,'Clinic','internalware'),
+('Toxin Binders',500,'Reduces difficulty to resist airborne toxins by 1.',1,4,'Clinic','internalware'),
+('Nasal Filters',5000,'Makes owner immune to most airborne toxins and gases.',1,6,'Hospital','internalware'),
+('Skin Weave',500,'Weaves resistant material directly into the skin. Increases armor by 2 and adds 1 health box.',1,4,'Hospital','externalware'),
+('Subdermal Armor',1000,'Implanted armor beneath the skin. Increases armor by 3 and adds 2 health boxes.',1,4,'Hospital','externalware'),
+('Body Plating',25000,'Bonds armor plating directly to the user\'s bone in an extremely unsettling way. Generally considered the last step before one goes full cyborg. Increases armor by 5 and adds 3 health boxes. This armor is also considered Hardened (rules).',2,6,'Hospital','externalware'),
+('Cyberarm - Right',500,'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.',2,6,'Hospital','cyberarm'),
+('Cyberarm - Left',500,'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.',2,6,'Hospital','cyberarm'),
+('Grapple Hand',500,'User can fire their hand 30 meters. It can still feel and grab things. Hand can also just run along the ground and grab things.',0,0,'Clinic','cyberarm'),
+('Medscanner',500,'Built in scanner that assists with diagnosing injury and illness. Reduces First Aid and Paramedic difficulties by 1.',0,0,'Clinic','cyberarm'),
+('Techscanner',500,'Built in scanner for assessing technology. Comes with a variety of probes. Reduces repair and jury rigging difficulties by 1.',0,0,'Clinic','cyberarm'),
+('Tool Hand',500,'Fingers contain a variety of screwdrivers, wrenches, a small drill, and other tools. Never carry a toolbag again!',0,0,'Clinic','cyberarm'),
+('Quick Change Mount',100,'Special mounting that allows arm to be removed or attached as a complex action',0,0,'Clinic','cyberarm'),
+('Subdermal Grip',500,'Allows user to interface with a smartgun without connecting interface plugs.',0,0,'Clinic','cyberarm'),
+('Built-in Gun',500,'A one-handed gun can be built into a cyberarm. Weapon is concealed even if not normally able to be.',0,0,'Clinic','cyberarm'),
+('Big Knucks',100,'Built in armored knuckles. Gives +1 damage to unarmed attacks.',0,0,'Clinic','cyberarm'),
+('Scratchers',100,'Carbo-glass fingernails. Acts as a light melee weapon that is virtually undetectable. Exotic Weapon',0,0,'Clinic','cyberarm'),
+('Rippers',500,'Carbo-glass claws built into the first joint of a finger. Acts as a medium melee weapon that is virtually undetectable. Exotic Weapon.',0,0,'Clinic','cyberarm'),
+('Wolvers',1000,'Titanium claws concealed in the forearm that pop out when making a fist. Does NOT make the noise for trademark reasons. Acts as a heavy melee weapon that is virtually undetectable. Exotic Weapon.',0,0,'Clinic','cyberarm'),
+('Hardened Shielding',1000,'Cyberlimb is immune to the effect of EMP devices.',0,0,'Clinic','cyberarm'),
+('Plastic Covering',100,'Plastic coating for limb, giving it a close to human appearance, if somewhat shiny and angular.',0,0,'Clinic','cyberarm'),
+('Realskinn Covering',500,'Artificial skin covering for cyberlimb. Mimics the feel, temp, and reaction of actual skin.',0,0,'Clinic','cyberarm'),
+('SuperChrome Covering',1000,'Shiny metallic coating for cyberlminb. Self cleaning and polishing, too!',0,0,'Clinic','cyberarm'),
+('Cyberleg - Right',500,'Replacement leg. Standard issue looks like an angular robotic limb. Modifications all require installation in both legs to be effective. Grants 1 additional health box.',2,6,'Hospital','cyberleg'),
+('Cyberleg - Left',500,'Replacement leg. Standard issue looks like an angular robotic limb. Modifications all require installation in both legs to be effective. Grants 1 additional health box.',2,6,'Hospital','cyberleg'),
+('Grip Foot',250,'Foot contains traction enhancing nanofibers similar to a chameleons. Allows climbing at normal speed on non-wet surfaces. User must be barefoot',0,0,'Clinic','cyberleg'),
+('Web Foot',250,'Allows toes to extend and deploy webbing, acting as built in flippers. Allows swimming at normal speed.',0,0,'Clinic','cyberleg'),
+('Spring Heels',250,'Leg contains powerful hydraulics, allowing for some truly impressive leaps. More importantly, allows surviving the landing.',0,0,'Clinic','cyberleg'),
+('Skate Foot',250,'Feet can split apart and deploy inline skates. Movement is doubled over most surfaces when skating.',0,0,'Clinic','cyberleg'),
+('Hardened Shielding',1000,'Cyberlimb is immune to the effect of EMP devices.',0,0,'Clinic','cyberleg'),
+('Plastic Covering',100,'Plastic coating for limb, giving it a close to human appearance, if somewhat shiny and angular.',0,0,'Clinic','cyberleg'),
+('Realskinn Covering',500,'Artificial skin covering for cyberlimb. Mimics the feel, temp, and reaction of actual skin.',0,0,'Clinic','cyberleg'),
+('SuperChrome Covering',1000,'Shiny metallic coating for cyberlminb. Self cleaning and polishing, too!',0,0,'Clinic','cyberleg'),
+('Artificial Shoulder Mount',1000,'(BETA - Does not work) Allows user to mount an additional pair of cyberlimbs under their normal arms.',3,9,'Hospital','borgware'),
+('MultiOptic Mount',1000,'(BETA - Does not work) Gives user 5 additional cybereye slots.',3,9,'Hospital','borgware'),
+('Sensor Array',1000,'(BETA - Does not work) Gives user 5 additional cyberear slots.',3,9,'Hospital','borgware'),
+('Linear Frame Alpha',50000,'(BETA - Does not work) Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 2. Decreases Reflexes by 1. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',3,9,'Hospital','borgware'),
+('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 5 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 2. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',4,12,'Hospital','borgware');
 INSERT INTO "public"."armor_master"("name", "quality", "price", "description")
 VALUES (
 		E'Clothes',

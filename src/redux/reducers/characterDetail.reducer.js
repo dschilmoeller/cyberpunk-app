@@ -14,6 +14,12 @@ const characterDetail = (state = {}, action) => {
         return {...state,
         bank: state.bank + action.payload}
     }
+
+    if (action.type === 'GM_CHANGE_PERM_HUMANITY_LOSS') {
+        return {...state,
+            perm_humanity_loss: state.perm_humanity_loss + action.payload
+        }
+    }
     return state
 }
 

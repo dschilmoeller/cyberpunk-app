@@ -25,6 +25,14 @@ export default function GameMasterLanding() {
         history.push(`/gamemastersheet/${characterID}`)
     }
 
+    const commaTizer = (incoming) => {
+        if (incoming === undefined) {
+            return 0
+        } else {
+            return incoming.toLocaleString()
+        }
+    }
+
     return (<>
         <h1>GM Page</h1>
 
@@ -41,18 +49,18 @@ export default function GameMasterLanding() {
                         </TableRow>
                     </TableHead>
                     {characterList.map(character => {
-                        return (<>
+                        return (<React.Fragment key={character.id}>
 
                             <TableBody>
                                 <TableRow>
                                     <TableCell align="left"><Button variant='contained' sx={{ m: 1 }} onClick={() => viewGameMasterSheet(character.id)}>{character.handle}</Button></TableCell>
                                     <TableCell align="left">{character.player}</TableCell>
                                     <TableCell align="left">{character.max_xp - character.spent_xp}</TableCell>
-                                    <TableCell align="left">${character.bank.toLocaleString()}</TableCell>
+                                    <TableCell align="left">${commaTizer(character.bank)}</TableCell>
                                 </TableRow>
                             </TableBody>
 
-                        </>)
+                        </React.Fragment>)
                     })}
                 </Table>
             </TableContainer>
