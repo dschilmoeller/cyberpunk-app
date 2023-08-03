@@ -8,6 +8,9 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
     fontSize: '0.9em',
+    // This looks not great. Styling needs a more thorough overhaul
+    // color: 'white',
+    // backgroundColor: 'black'
 }));
 
 export default Item
