@@ -120,6 +120,9 @@ function Weapons() {
                                             <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
                                             <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
                                             {ClipButtonBuilder(weapon.dmg_type, weapon.weapon_bridge_id, weapon.max_clip, weapon.current_shots_fired)}
+
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
                                             {clipBuilder(weapon.max_clip, weapon.current_shots_fired, weapon.weapon_bridge_id)}
                                         </Grid>
                                     </Grid>

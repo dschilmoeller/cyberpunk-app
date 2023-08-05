@@ -24,77 +24,77 @@ export default function SkillsModal({ prop }) {
     const modalText = (prop) => {
         switch (prop) {
             case 'Streets':
-                return 'Skills learned in the rough and tumble streets. Most tests involving these skills can be used untrained.'
+                return 'Skills learned in the rough and tumble streets. Tests involving these skills can be used untrained.'
             case 'Tekhne':
-                return 'Skills with some technical requirements and background. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value.'
+                return 'Skills with some technical and training requirements. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value or require additional successes.'
             case 'Knowledge':
                 return 'Skills reflecting a fair amount of study. Tests involving these skills usually cannot be attempted without at least one dot in the relevant skill.'
             // street skills
             case 'Athletics':
-                return 'Good sport person.'
+                return `Athletics is a character's skill in all manner of sport and physical activity, from acrobatics and rock climbing to parkour and swimming.`
             case 'Brawling':
-                return 'Fisticuffs!'
+                return `Whether dirty street fighting or classic hapkido, Brawling represents a character's ability to engage in physical violence without weaponry.`
             case 'Concentration':
-                return 'Good focus brain'
+                return `Concentration is a character's ability to maintain focus even in trying circumstances.`
             case 'Evasion':
-                return 'Stand still dangit!'
+                return `Evasion is a character's ability to dodge and avoid attacks.`
             case 'Fast Talk':
-                return 'Lying. Just lying'
+                return `Fast Talk is used to charm, deceive, or hornswaggle.`
             case 'Firearms':
-                return 'Shooty bang bang'
+                return `Firearms is a character's skill with most ranged weapons that rely on gunpowder.`
             case 'Legerdemain':
-                return 'I think that is how you spell it.'
+                return `Legerdemain allows a character to perform acts of physical dexterity, and covers a variety of crime-adjacent activities, including lock picking, picking pockets. It also can be used for close up magic.`
             case 'Melee Weapons':
-                return 'You have my stun baton'
+                return `Melee Weapons is a character's skill with most hand held weapons that aren't guns.`
             case 'Perception':
-                return 'What is sight without wisdom to see what is there.'
+                return `Perception is a character's ability to observe that which is concealed or hidden, and is commonly used in opposition to other characters.`
             case 'Streetwise':
-                return 'The wisdom of the streets.'
+                return `Streetwise is a character's knowledge of the streets. It represents a character's ability to survive in an urban environment. It also represents the ability to find information, scrounge materials, or even a couch for the night.`
             // Tekhne Skills
             case 'Demolitions':
-                return 'Pop goes the weasal. and the condos. And the garage.'
+                return `Demolitions is a character's skill with emplaced explosives, as well as their ability to disarm the same.`
             case 'Drive Land':
-                return 'Cars and such'
+                return `Drive Land Vehicles is a character's ability to pilot land vehicles, including cars and motorcycles.`
             case 'Drive Exotic':
-                return 'Planes, Trains, and automoboats.'
+                return `Drive Exotic Vehicles is a character's ability to pilot all other vehicles, from speedboats to airplanes to submarines to zeppelins.`
             case 'Etiquette':
-                return 'Use the small fork.'
+                return `Etiquette is a character's knowledge of appropriate behavior for diverse situations. Not only which fork to use at a black tie dinner, but also how to behave at a go-ganger rally and the depth of bow appropriate for a Tyger Claw Boss vs their lieutenant.`
             case 'Exotic Weapons':
-                return 'And my monofilament whip'
+                return `Exotic Weapons are those which don't fall easily into either Ranged or Melee categories. The most commonly seen weapons are bows, but most cyberweapons also use this skill.`
             case 'Heavy Weapons':
-                return 'And my axe-class minigun'
+                return `Heavy Weapons are rarely used by Edgerunners - they are expensive, complicated, super advanced, or all of the above - gatling guns, rocket launchers, and high powered lasers are examples of heavy weapons.`
             case 'Performance':
-                return 'Toodle toot tooty horn.'
+                return `Performance is skill at some kind of artistic pursuit, generally one designed to be played to a crowd. Singing, musical instruments, or dancing are typical applications of this skill.`
             case 'Stealth':
-                return 'Sneaky sneaky boots.'
+                return `Stealth is a character's ability to move undetected. It can also cover camoflauging ones person or equipment.`
             case 'Survival':
-                return 'There can be only one.'
+                return `Survival is a character's ability to survive in a harsh, non-urban environment. Outdoor survivalists, nomadds, and the like use this skill regularly, mostly to tell whether or not the cactus water is going to make them see things again.`
             case 'Tracking':
-                return 'Where did that fricking lion go.'
+                return `Tracking is a character's ability to follow signs and evidence to locate prey of some kind. Bounty Hunters and Big Game Enthusiasts alike have many uses for this skill.`
 
             // knowledge skills
             case 'Business':
-                return 'That is just good business.'
+                return `Business is a practical knowledge of the day to day tasks of a corporation. It includes knowledge of finance and accounting, as well as business etiquette and proper filing of form 11-J.`
             case 'Cryptography':
-                return 'Hope you sanitized your inputs.'
+                return `Cryptography is a theoretical and practical application of cybersecurity and cryptographic principles.`
             case 'Cyber Tech':
-                return 'Care and maintenance of the chrome.'
+                return `Cyber tech is a character's knowledge of the installation, repair, and development of implanted technology.`
             case 'Investigation':
-                return 'If A then B and Not C ergo the Dog Did Not Bark'
+                return `Investigation is a character's knowledge of investigative principles and methods.`
             case 'First Aid':
-                return 'I do not think I trained for this.'
+                return `First Aid is basic medical training and skills at applying medical attention in the field.`
             case 'Paramedic':
-                return 'I definitely trained for this.'
+                return `Paramedic is advanced medical training and the skills needed to deal with severe injuries in the field.`
             case 'Gambling':
-                return 'I dont feel lucky. I AM lucky.'
+                return `Gambling represents a sophisticated understanding of the principles of chance and how they may be altered in one's favor.`
             case 'Language':
-                return 'Ah, the sub-dialect of northern German native to the Piffledorf valley.'
+                return `Language is a character's skill in a foreign language. Each rank represents fluency in an additional language beyond one's native tongue.`
             case 'Military Tech':
-                return 'Care and maintenance of the steel and polymerized plastic'
+                return `Military Technology is the skill at repairing and maintaining weapons and armor.`
             case 'Science':
-                return 'She blinded me!'
+                return `Science represents training and knowledge in advanced fields such as Physics, Chemistry, and related subjects.`
             case 'Vehicle Tech':
-                return 'Care and maintenance of the fleet!'
+                return `Vehicle Technology is the training and mechanical knowledge needed to perform maintenance and repairs to vehicles of all types.`
             default:
                 return ''
         }

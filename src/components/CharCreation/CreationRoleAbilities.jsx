@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SpecialModal from '../Modals/SpecialModal';
 import SkillsModal from '../Modals/SkillsModal';
 
+import SpecialDialog from '../Modals/SpecialDialog';
+import SpecialSkillsDialog from '../Modals/SpecialSkillsDialog';
+
 function CreationRoleAbilities() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
@@ -279,12 +282,12 @@ function CreationRoleAbilities() {
             </Grid>
         </Grid>
         <Grid container>
-            <Grid item xs={12}><Item><h1>Role Abilities</h1></Item></Grid>
+            <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Role Abilities</Item></Grid>
             {roleSelection === 'Rockerboy' ? (<>
                 <Grid item xs={12}><Item>ROCKERBOY SELECTED</Item></Grid>
             </>)
                 : (<>
-                    <Grid item xs={6}><Item><SpecialModal prop={'Rockerboy'} /></Item></Grid>
+                    <Grid item xs={6}><Item><SpecialDialog prop={'Rockerboy'} /></Item></Grid>
                     <Grid item xs={6}><Item onClick={() => selectRole('Rockerboy')}>Select</Item></Grid>
                 </>)}
 
@@ -292,42 +295,42 @@ function CreationRoleAbilities() {
             {roleSelection === 'Solo' ? (<>
                 <Grid item xs={12}><Item>SOLO SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Solo'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Solo'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Solo')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Netrunner' ? (<>
                 <Grid item xs={12}><Item>NETRUNNER SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Netrunner'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Netrunner'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Netrunner')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Nomad' ? (<>
                 <Grid item xs={12}><Item>NOMAD SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Nomad'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Nomad'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Nomad')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Media' ? (<>
                 <Grid item xs={12}><Item>MEDIA SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Media'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Media'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Media')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Medtech' ? (<>
                 <Grid item xs={12}><Item>MEDTECH SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Medtech'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Medtech'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Medtech')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Maker' ? (<>
                 <Grid item xs={12}><Item>MAKER SELECTED</Item></Grid>
             </>) : (<>
-                <Grid item xs={6}><Item><SpecialModal prop={'Maker'} /></Item></Grid>
+                <Grid item xs={6}><Item><SpecialDialog prop={'Maker'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Maker')}>Select</Item></Grid>
             </>)}
         </Grid>
@@ -335,10 +338,10 @@ function CreationRoleAbilities() {
         <Grid container>
             {roleSelection === 'Medtech' ? (<>
 
-                <Grid item xs={12}><Item><h1>Special Skills</h1></Item></Grid>
+                <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
                 <Grid item xs={12}><Item><h3>Points Available: {availableMedSkillPoints}</h3></Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Surgery'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Surgery'} /></Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Surgery')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -347,7 +350,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item>{dotReturn(medSurgery)}</Item></Grid>
 
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Pharmaceuticals'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Pharmaceuticals'} /></Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Pharmaceuticals')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -355,7 +358,7 @@ function CreationRoleAbilities() {
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(medPharma)}</Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Cryogenics'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Cryogenics'} /></Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Cryogenics')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -376,10 +379,10 @@ function CreationRoleAbilities() {
 
         <Grid container>
             {roleSelection === 'Maker' ? (<>
-                <Grid item xs={12}><Item><h1>Special Skills</h1></Item></Grid>
+                <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
                 <Grid item xs={12}><Item><h3>Points Available: {availableMakerSkillPoints}</h3></Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Field Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Field Expertise'} /></Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Field Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -387,7 +390,7 @@ function CreationRoleAbilities() {
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(makerField)}</Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Upgrade Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Upgrade Expertise'} /></Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Upgrade Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -395,7 +398,7 @@ function CreationRoleAbilities() {
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(makerUpgrade)}</Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Fabrication'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Fabrication Expertise'} /></Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Fabrication')}>Select Skill</Item></Grid>
                 </>) : (<>
@@ -403,7 +406,7 @@ function CreationRoleAbilities() {
                 </>)}
                 <Grid item xs={4}><Item>{dotReturn(makerFab)}</Item></Grid>
 
-                <Grid item xs={4}><Item><SpecialModal prop={'Invention'} /></Item></Grid>
+                <Grid item xs={4}><Item><SpecialSkillsDialog prop={'Invention Expertise'} /></Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Invention')}>Select Skill</Item></Grid>
                 </>) : (<>

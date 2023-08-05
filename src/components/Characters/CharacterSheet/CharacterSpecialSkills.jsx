@@ -3,6 +3,8 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 import SpecialModal from '../../Modals/SpecialModal';
 
+import SpecialDialog from '../../Modals/SpecialDialog';
+
 function CharacterSpecialSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
@@ -93,7 +95,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
     return (
         <>
-            <Grid item xs={12}><Item>Special Skills</Item></Grid>
+            <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
             <Grid item xs={4}>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
@@ -101,7 +103,7 @@ function CharacterSpecialSkills(charDetailProp) {
                     </Grid>
                     {rockerboy != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Rockerboy'} /></Item>
+                            <Item><SpecialDialog prop={'Rockerboy'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{rockerboy}</Item>
@@ -109,7 +111,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {solo != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Solo'} /></Item>
+                            <Item><SpecialDialog prop={'Solo'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{solo}</Item>
@@ -117,7 +119,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {netrunner != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Netrunner'} /></Item>
+                            <Item><SpecialDialog prop={'Netrunner'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{netrunner}</Item>
@@ -125,7 +127,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {nomad != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Nomad'} /></Item>
+                            <Item><SpecialDialog prop={'Nomad'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{nomad}</Item>
@@ -133,7 +135,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {media != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Media'} /></Item>
+                            <Item><SpecialDialog prop={'Media'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{media}</Item>
@@ -141,7 +143,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {medtech != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Medtech'} /></Item>
+                            <Item><SpecialDialog prop={'Medtech'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medtech}</Item>
@@ -170,7 +172,7 @@ function CharacterSpecialSkills(charDetailProp) {
                     </>) : <></>}
 
                     {maker != '' ? (<><Grid item xs={4.5}>
-                        <Item><SpecialModal prop={'Maker'} /></Item>
+                        <Item><SpecialDialog prop={'Maker'} /></Item>
                     </Grid>
                         <Grid item xs={7.5}>
                             <Item>{maker}</Item>

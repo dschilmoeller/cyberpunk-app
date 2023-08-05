@@ -44,7 +44,7 @@ function Humanity(charDetailProp) {
 
     return (
         <>
-            <Item sx={{ marginTop: 4.5 }}><SpecialModal prop={'Humanity'} /></Item>
+            <Item><SpecialModal prop={'Humanity'} /></Item>
             <Grid container>
                 {humanityBuilder()}
             </Grid>

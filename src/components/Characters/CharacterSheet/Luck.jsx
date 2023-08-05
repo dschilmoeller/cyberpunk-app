@@ -49,7 +49,7 @@ function Luck(charDetailProp) {
 
     return (
         <>
-            <Item sx={{ marginTop: 4.5 }}><SpecialModal prop={'Luck'} /></Item>
+            <Item><SpecialModal prop={'Luck'} /></Item>
             <Grid container>
                 {luckBuilder()}
             </Grid>

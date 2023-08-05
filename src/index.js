@@ -8,12 +8,13 @@ import App from './components/App/App';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+// this handles theming. Certain elements are called by ID (e.g. modals) in app.css
 const theme = createTheme({
   typography: {
     allVariants: {
       fontFamily: ['Orbitron'],
       textTransform: 'none',
-      fontSize: 14,
+      fontSize: 16,
     },
   },
 });

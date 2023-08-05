@@ -32,7 +32,7 @@ function CharacterAttributes(charDetailProp) {
         setStrengthAtt(dotReturn(charDetail.strength + charDetail.cyber_strength))
         setBodyAtt(dotReturn(charDetail.body + charDetail.cyber_body))
         setReflexesAtt(dotReturn(charDetail.reflexes + charDetail.cyber_reflexes))
-        setMoveAtt(dotReturn(charDetail.move + charDetail.cyber_move))
+        setMoveAtt(dotReturn(Math.ceil(charDetail.reflexes + charDetail.cyber_reflexes) / 2))
         setAppearanceAtt(dotReturn(charDetail.appearance + charDetail.cyber_appearance))
         setCoolAtt(dotReturn(charDetail.cool + charDetail.cyber_cool))
         setStreetCredAtt(dotReturn(charDetail.street_cred))
@@ -58,7 +58,7 @@ function CharacterAttributes(charDetailProp) {
         <>
             <Grid item xs={12}>
             </Grid>
-            <Grid item xs={12}><Item><h1>Atributes</h1></Item></Grid>
+            <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Attributes</Item></Grid>
             <Grid item xs={1.5}>
                 <Item><AttributesModal prop={'Strength'} /></Item>
             </Grid>

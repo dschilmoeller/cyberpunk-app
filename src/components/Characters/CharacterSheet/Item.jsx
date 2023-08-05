@@ -7,10 +7,12 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    fontSize: '0.9em',
-    // This looks not great. Styling needs a more thorough overhaul
-    // color: 'white',
-    // backgroundColor: 'black'
+    fontSize: '.9em',
+    fontWeight: '500',
+    height: '2em',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center'
 }));
 
 export default Item

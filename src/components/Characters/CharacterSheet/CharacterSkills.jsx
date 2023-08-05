@@ -183,7 +183,7 @@ function CharacterSkills(charDetailProp) {
     return (
         <>
             <Grid item xs={12}>
-                <Item><h1>Skills</h1></Item>
+            <Item sx={{fontSize:'1.8em', padding: 0}}>Skills</Item>
             </Grid>
             <Grid item xs={4}>
                 <Grid container>

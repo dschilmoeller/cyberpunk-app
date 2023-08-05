@@ -9,7 +9,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: .5,
+    width: .7,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -25,14 +25,11 @@ export default function AttributesModal({ prop }) {
         switch (prop) {
             case 'Strength':
                 return <>
-                    <Grid container >
-                        <Grid item padding={.5} xs={12}>Strength determines how strong a character is.
-                            A test is an example of a task that requires effort but is not especially impressive;
-                            a feat of strength is something that would represent a high difficulty roll for the character with that strength
-                            but would probably be a mere test for someone with higher strength.
-                            Feats two levels down rarely require tests to perform, so a character with 10 strength can
-                            casually rip off car doors and smash through brick walls all day!</Grid>
-
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={.5} paddingBottom={2} xs={12}>Strength determines how strong a character is. A test is an example of a task that requires effort but is not especially impressive; a feat of strength is something that would represent a high difficulty roll, possibly requiring additional successes for the character with that strength.
+                            
+                            </Grid>
+                            <Grid item padding={.5} paddingBottom={3} xs={12}>Generally, what is a test for one character is not rolled for a character with 1 more dot in strength. Likewise, a feat for one character is a test for a character with one more dot in strength, and a roll is not required for a character with 2 more dots in strength.</Grid>
 
                         <Grid item padding={.5} xs={2}><b>Rating</b></Grid>
                         <Grid item padding={.5} xs={6}><b>Example Test / Feet of Strength</b></Grid>
@@ -83,8 +80,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                         <Grid container>
-                            <Grid item padding={.5} xs={12}>Body is a measure of phsyical toughness and general good health. Characters with a very low body are generally not in very good health, while characters with a high body tend to be extremely fit.</Grid>
-                            <Grid item padding={.5} xs={12}>Common rolls include checking for fatiguing tasks such as running around on foot all day, and of course Body + Armor is used for resisting damage.</Grid>
+                            <Grid item padding={1} xs={12}>Body is a measure of phsyical toughness and general good health. Characters with a very low body are generally not in very good health, while characters with a high body tend to be extremely fit.</Grid>
+                            <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and of course Body + Armor is used for resisting damage. </Grid>
                         </Grid>
                     </>
                 )
@@ -92,8 +89,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                         <Grid container>
-                            <Grid item padding={.5} xs={12}>Reflexes measure how flexible and agile a character is.</Grid>
-                            <Grid item padding={.5} xs={12}>Common rolls include most combat related tests, including attacking and dodging.</Grid>
+                            <Grid item padding={1} xs={12}>Reflexes measure how flexible and agile a character is.</Grid>
+                            <Grid item padding={1} xs={12}>Common rolls include combat related tests, including attacking and dodging, as well as any test requiring physical finesse that isn't related to a technical skill.</Grid>
                         </Grid>
                     </>
                 )
@@ -101,8 +98,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                         <Grid container>
-                            <Grid item padding={.5} xs={12}>Appearance is the physical attractiveness and/or measure of how striking a character looks</Grid>
-                            <Grid item padding={.5} xs={12}>Common rolls include making a strong first impression and getting your way by sheer animal magnetism.</Grid>
+                            <Grid item padding={1} xs={12}>Appearance is the physical attractiveness and/or measure of how striking a character looks</Grid>
+                            <Grid item padding={1} xs={12}>Common rolls include making a strong first impression and getting your way by sheer animal magnetism. Frequently paired with Fast Talk, Etiquette, or Business</Grid>
                         </Grid>
                     </>
                 )
@@ -110,13 +107,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                     <Grid container>
-                        <Grid item padding={.5} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
-                        <Grid item padding={.5} xs={12}>As such, common rolls include not only etiquette, persuasion and subterfuge (lying) rolls, but Cool can also be used in many situations where another attribute would normally appear, including:</Grid>
-                        <Grid item paddingTop={.5} paddingLeft={.5} xs={12}>Ranged Weapon Tests</Grid>
-                        <Grid item xs={12} paddingLeft={.5}>Drive vehicle tests</Grid>
-                        <Grid item xs={12} paddingLeft={.5}>Gambling</Grid>
-                        <Grid item xs={12} paddingLeft={.5}>High stakes, formal combat, such as quick draw/dueling.</Grid>
-                        <Grid item xs={12} paddingLeft={.5}>Generally, such rolls have a higher difficulty value than they otherwise might.</Grid>
+                        <Grid item padding={1} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
+                        <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the Rule of Cool.</Grid>d
                     </Grid>
                     </>
                 )
@@ -125,7 +117,7 @@ export default function AttributesModal({ prop }) {
                     <>
                     <Grid container>
                         <Grid item xs={12}>Simply put, how good your name is on the street - a measure of your underworld notoriety.</Grid>
-                        <Grid item xs={12}>Street cred cannot be purchased with experience, but can be obtained during character creation and during play as the runner pulls off especially daring and/or stupid jobs.</Grid>
+                        <Grid item xs={12}>Street cred cannot be purchased with experience, and is granted during play as the runner pulls off especially daring and/or stupid jobs.</Grid>
                     </Grid>
                     </>
                 )
@@ -133,8 +125,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                     <Grid container>
-                        <Grid item xs={12}>How mentally sharp someone is, as well as describing a level of book learning.</Grid>
-                        <Grid item xs={12}>Common used in academic skill tests, as well as to recall specific events or items.</Grid>
+                        <Grid item xs={12}>How mentally sharp someone is, as well as describing their level of book learning.</Grid>
+                        <Grid item xs={12}>Common used in academic skill tests. A character can use a raw intelligence test to recall specific events or items.</Grid>
                     </Grid>
                     </>
                 )
@@ -143,7 +135,7 @@ export default function AttributesModal({ prop }) {
                     <>
                     <Grid container>
                         <Grid item xs={12}>A person's level of mental toughness and willingness to persevere in the face of adversity.</Grid>
-                        <Grid item xs={12}>Commonly used as a solo test to deal with terrifying situations, as a counter to intimidation, and in conjunction with the Resist Torture/Drugs skill when appropriate.</Grid>
+                        <Grid item xs={12}>Commonly used as a solo test to deal with terrifying situations, and may be paired with other skills in some situations (Concentration is the most common, but Demolitions, Etiquette, and Gambling are likewise common enough pairings)</Grid>
                     </Grid>
                     </>
                 )
@@ -151,8 +143,8 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                     <Grid container>
-                        <Grid item xs={12}>A person's level of skill, generally with mechanical or more practical matters than Intelligence.</Grid>
-                        <Grid item xs={12}>Commonly used with technical skills, as well Performance, Drive Vehicles, and Gambling (e.g. when trying to cheat)</Grid>
+                        <Grid item xs={12}>A person's level of skill and manual dexterity, generally with mechanical or more practical matters than Intelligence.</Grid>
+                        <Grid item xs={12}>Commonly used with Tech skills, as well Performance, Drive Vehicles, and Gambling (when trying to cheat)</Grid>
                     </Grid>
                     </>
                 )
@@ -160,9 +152,9 @@ export default function AttributesModal({ prop }) {
                 return (
                     <>
                     <Grid container>
-                        <Grid item xs={12}>The speed a person moves at. In grid-based play, this the number of squares (1 meter) a character can move each round as a standard action during combat or other contested situations.</Grid>
-                        <Grid item xs={12}>Generally, this can be used as a comparison as to whether two characters move faster/slower than each other, or at roughly the same speed.</Grid>
-                        <Grid item xs={12}>A successful Reflexes + Athletics test allows for more movement in a round, particularly when that is all a character is doing that turn.</Grid>
+                        <Grid item xs={12} padding={1}>The speed a person moves at. In grid-based play, this the number of squares (1 meter) a character can move each round as a standard action during combat or other contested situations.</Grid>
+                        <Grid item xs={12} padding={1}>Generally, this can be used as a comparison as to whether two characters move faster/slower than each other, or at roughly the same speed.</Grid>
+                        <Grid item xs={12} padding={1}>A successful Reflexes + Athletics test allows for more movement in a round, particularly when moving is all a character is doing that turn.</Grid>
                     </Grid>
                     </>
                 )
