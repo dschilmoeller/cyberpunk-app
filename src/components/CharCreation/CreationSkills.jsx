@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { Button } from '@mui/material';
-import SkillsModal from '../Modals/SkillsModal';
 import { useDispatch, useSelector } from 'react-redux';
+
+import SkillsDialog from '../Modals/SkillsDialog';
 
 function CreationSkills() {
 
@@ -456,51 +457,51 @@ function CreationSkills() {
             <Grid container>
                 <Grid item xs={4}>
                     <Grid container spacing={1}>
-                        <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Athletics'} /></Item></Grid>
                         {athletics === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Athletics')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(athletics)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Brawling'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Brawling'} /></Item></Grid>
                         {brawling === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Brawling')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(brawling)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Concentration'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Concentration'} /></Item></Grid>
                         {concentration === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Concentration')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(concentration)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Evasion'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Evasion'} /></Item></Grid>
                         {evasion === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Evasion')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(evasion)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Fast Talk'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Fast Talk'} /></Item></Grid>
                         {fastTalk === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Fast Talk')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(fastTalk)}</Item></Grid></>}
-                        <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Firearms'} /></Item></Grid>
                         {firearms === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Firearms')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(firearms)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Legerdemain'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Legerdemain'} /></Item></Grid>
                         {legerdemain === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Legerdemain')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(legerdemain)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Melee Weapons'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Melee Weapons'} /></Item></Grid>
                         {meleeWeapons === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Melee Weapons')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(meleeWeapons)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Perception'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Perception'} /></Item></Grid>
                         {perception === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Perception')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(perception)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Streetwise'} /></Item></Grid>
                         {streetwise === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Streetwise')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(streetwise)}</Item></Grid></>}
@@ -509,52 +510,52 @@ function CreationSkills() {
 
                 <Grid item xs={4}>
                     <Grid container spacing={1}>
-                        <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                         {demolitions === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Demolitions')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(demolitions)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Drive Land Vehicle'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Drive Land Vehicle'} /></Item></Grid>
                         {driveLand === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Drive Land Vehicle')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(driveLand)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Drive Exotic Vehicle'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Drive Exotic Vehicle'} /></Item></Grid>
                         {driveExotic === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Drive Exotic Vehicle')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(driveExotic)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Etiquette'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Etiquette'} /></Item></Grid>
                         {etiquette === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Etiquette')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(etiquette)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Exotic Weapons'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Exotic Weapons'} /></Item></Grid>
                         {exoticWeapons === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Exotic Weapons')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(exoticWeapons)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Heavy Weapons'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Heavy Weapons'} /></Item></Grid>
                         {heavyWeapons === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Heavy Weapons')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(heavyWeapons)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Performance'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Performance'} /></Item></Grid>
                         {performance === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Performance')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(performance)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Stealth'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Stealth'} /></Item></Grid>
                         {stealth === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Stealth')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(stealth)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Survival'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Survival'} /></Item></Grid>
                         {survival === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Survival')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(survival)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Tracking'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Tracking'} /></Item></Grid>
                         {tracking === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Tracking')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(tracking)}</Item></Grid></>}
@@ -563,52 +564,52 @@ function CreationSkills() {
 
                 <Grid item xs={4}>
                     <Grid container spacing={1}>
-                        <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Business'} /></Item></Grid>
                         {business === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Business')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(business)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Cryptography'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Cryptography'} /></Item></Grid>
                         {cryptography === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Cryptography')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(cryptography)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Cyber Tech'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Cyber Tech'} /></Item></Grid>
                         {cyberTech === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Cyber Tech')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(cyberTech)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Investigation'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Investigation'} /></Item></Grid>
                         {investigation === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Investigation')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(investigation)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'First Aid'} /></Item></Grid>
                         {firstAid === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('First Aid')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(firstAid)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Gambling'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Gambling'} /></Item></Grid>
                         {gambling === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Gambling')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(gambling)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Language'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Language'} /></Item></Grid>
                         {language === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Language')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(language)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Military Tech'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Military Tech'} /></Item></Grid>
                         {militaryTech === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Military Tech')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(militaryTech)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Science'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Science'} /></Item></Grid>
                         {science === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Science')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(science)}</Item></Grid></>}
 
-                        <Grid item xs={4}><Item><SkillsModal prop={'Vehicle Tech'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Vehicle Tech'} /></Item></Grid>
                         {vehicleTech === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Vehicle Tech')}>{selectVerbiage()}</Item>
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(vehicleTech)}</Item></Grid></>}

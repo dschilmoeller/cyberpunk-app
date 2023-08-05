@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
-import SkillsModal from '../../Modals/SkillsModal';
 import { useSelector } from 'react-redux';
 
+import SkillsDialog from '../../Modals/SkillsDialog';
 
 // prop should be changed to use-store to remove the setskills function's neccessity at some point.
 function CharacterSkills(charDetailProp) {
@@ -187,113 +187,113 @@ function CharacterSkills(charDetailProp) {
             </Grid>
             <Grid item xs={4}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SkillsModal prop={'Streets'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsDialog prop={'Streets'} /></Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Athletics'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(athletics)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Brawling'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Brawling'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(brawling)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Concentration'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Concentration'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(concentration)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Evasion'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Evasion'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(evasion)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Fast Talk'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Fast Talk'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(fastTalk)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Firearms'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(firearms)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Legerdemain'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Legerdemain'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(legerdemain)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Melee Weapons'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Melee Weapons'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(meleeWeapons)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Perception'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Perception'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(perception)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Streetwise'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(streetwise)}</Item></Grid>
                 </Grid>
             </Grid>
 
             <Grid item xs={4}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SkillsModal prop={'Tekhne'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsDialog prop={'Tekhne'} /></Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(demolitions)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Drive Land'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Land'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(driveLand)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Drive Exotic'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Exotic'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(driveExotic)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Etiquette'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Etiquette'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(etiquette)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Exotic Weapons'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Exotic Weapons'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(exoticWeapons)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Heavy Weapons'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Heavy Weapons'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(heavyWeapons)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Performance'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Performance'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(performance)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Stealth'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Stealth'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(stealth)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Survival'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Survival'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(survival)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Tracking'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Tracking'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(tracking)}</Item></Grid>
                 </Grid>
             </Grid>
 
             <Grid item xs={4}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SkillsModal prop={'Knowledge'} /></Item></Grid>
+                    <Grid item xs={12}><Item><SkillsDialog prop={'Knowledge'} /></Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Business'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(business)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Cryptography'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Cryptography'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(cryptography)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Cyber Tech'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Cyber Tech'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(cyberTech)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Investigation'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Investigation'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(investigation)}</Item></Grid>
 
                     {isParaMed === true ? (<>
-                        <Grid item xs={4}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'Paramedic'} /></Item></Grid>
                         <Grid item xs={8}><Item>{dotReturn(paramed)}</Item></Grid>
                     </>) : (<>
-                        <Grid item xs={4}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
+                        <Grid item xs={4}><Item><SkillsDialog prop={'First Aid'} /></Item></Grid>
                         <Grid item xs={8}><Item>{dotReturn(firstAid)}</Item></Grid>
                     </>)}
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Gambling'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Gambling'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(gambling)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Language'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Language'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(language)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Military Tech'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Military Tech'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(milTech)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Science'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Science'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(science)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsModal prop={'Vehicle Tech'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Vehicle Tech'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(vehicleTech)}</Item></Grid>
                 </Grid>
             </Grid>

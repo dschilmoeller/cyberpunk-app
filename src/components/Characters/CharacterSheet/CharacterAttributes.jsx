@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
-import AttributesModal from '../../Modals/AttributesModal';
+import AttributesDialog from '../../Modals/AttributesDialog';
 
 function CharacterAttributes(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -60,70 +60,70 @@ function CharacterAttributes(charDetailProp) {
             </Grid>
             <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Attributes</Item></Grid>
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Strength'} /></Item>
+                <Item><AttributesDialog prop={'Strength'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {strengthAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Appearance'} /></Item>
+                <Item><AttributesDialog prop={'Appearance'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {appearanceAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Intelligence'} /></Item>
+                <Item><AttributesDialog prop={'Intelligence'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {intelligenceAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Body'} /> </Item>
+                <Item><AttributesDialog prop={'Body'} /> </Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{bodyAtt}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Cool'} /></Item>
+                <Item><AttributesDialog prop={'Cool'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {coolAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Willpower'} /></Item>
+                <Item><AttributesDialog prop={'Willpower'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {willpowerAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Reflexes'} /></Item>
+                <Item><AttributesDialog prop={'Reflexes'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{reflexesAtt}</Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Street Cred'} /></Item>
+                <Item><AttributesDialog prop={'Street Cred'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {streetCredAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Technique'} /></Item>
+                <Item><AttributesDialog prop={'Technique'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item> {techniqueAtt} </Item>
             </Grid>
 
             <Grid item xs={1.5}>
-                <Item><AttributesModal prop={'Move'} /></Item>
+                <Item><AttributesDialog prop={'Move'} /></Item>
             </Grid>
             <Grid item xs={2.5}>
                 <Item>{moveatt}</Item>

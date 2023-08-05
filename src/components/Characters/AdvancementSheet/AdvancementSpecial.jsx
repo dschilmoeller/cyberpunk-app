@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
-import SpecialModal from '../../Modals/SpecialModal';
+import RoleSkillsDialog from '../../Modals/RoleSkillsDialog';
+import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
 
 export default function AdvancementSpecial() {
 
@@ -84,7 +85,7 @@ export default function AdvancementSpecial() {
         <h1>Role Abilities</h1>
         <Grid container>
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Rockerboy'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.rockerboy)}</Item>
@@ -92,7 +93,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{advancementDetails.rockerboy < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.rockerboy, 'rockerboy')}>Increase: {roleExpReturn(advancementDetails.rockerboy)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Solo'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.solo)}</Item>
@@ -101,7 +102,7 @@ export default function AdvancementSpecial() {
 
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Netrunner'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.netrunner)}</Item>
@@ -110,7 +111,7 @@ export default function AdvancementSpecial() {
 
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Nomad'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.nomad)}</Item>
@@ -118,7 +119,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{advancementDetails.nomad < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.nomad, 'nomad')}>Increase: {roleExpReturn(advancementDetails.nomad)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Media'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.media)}</Item>
@@ -126,7 +127,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{advancementDetails.media < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.media, 'media')}>Increase: {roleExpReturn(advancementDetails.media)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Medtech'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'lightblue' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
@@ -134,7 +135,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{advancementDetails.medtech < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.medtech, 'medtech')}>Increase: {roleExpReturn(advancementDetails.medtech)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Surgery'} /></Item>
+                <Item><RoleSkillsDialog prop={'Surgery'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
@@ -142,7 +143,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_surgery < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_surgery, 'med_surgery')}>Spend Role Points</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Pharmaceuticals'} /></Item>
+                <Item><RoleSkillsDialog prop={'Pharmaceuticals'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
@@ -150,7 +151,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_pharma < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_pharma, 'med_pharma')}>Spend Role Points</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Cryogenics'} /></Item>
+                <Item><RoleSkillsDialog prop={'Cryogenics'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
@@ -158,7 +159,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_cryo < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')}>Spend Role Points</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Maker'} /></Item>
+                <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker)}</Item>
@@ -166,7 +167,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{advancementDetails.maker < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.maker, 'maker')}>Increase: {roleExpReturn(advancementDetails.maker)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Field Expertise'} /></Item>
+                <Item><RoleSkillsDialog prop={'Field Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
@@ -174,7 +175,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_field < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_field, 'maker_field')}>Spend Role Points</Item> :<Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Upgrade Expertise'} /></Item>
+                <Item><RoleSkillsDialog prop={'Upgrade Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
@@ -182,7 +183,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_upgrade < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_upgrade, 'maker_upgrade')}>Spend Role Points</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Fabrication'} /></Item>
+                <Item><RoleSkillsDialog prop={'Fabrication'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
@@ -190,7 +191,7 @@ export default function AdvancementSpecial() {
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_fab < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')}>Spend Role Points</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><SpecialModal prop={'Invention'} /></Item>
+                <Item><RoleSkillsDialog prop={'Invention'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>

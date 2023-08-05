@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
-import SpecialModal from '../../Modals/SpecialModal';
 
-import SpecialDialog from '../../Modals/SpecialDialog';
+import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
+import RoleSkillsDialog from '../../Modals/RoleSkillsDialog';
 
-function CharacterSpecialSkills(charDetailProp) {
+function CharacterRoleAbilities(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
     const fulldot = ` \u2b24`
@@ -103,7 +103,7 @@ function CharacterSpecialSkills(charDetailProp) {
                     </Grid>
                     {rockerboy != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Rockerboy'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{rockerboy}</Item>
@@ -111,7 +111,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {solo != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Solo'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{solo}</Item>
@@ -119,7 +119,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {netrunner != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Netrunner'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{netrunner}</Item>
@@ -127,7 +127,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {nomad != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Nomad'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{nomad}</Item>
@@ -135,7 +135,7 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {media != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Media'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{media}</Item>
@@ -143,28 +143,28 @@ function CharacterSpecialSkills(charDetailProp) {
 
                     {medtech != '' ? (<>
                         <Grid item xs={4.5}>
-                            <Item><SpecialDialog prop={'Medtech'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medtech}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Surgery'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Surgery'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medSurgery}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Pharmaceuticals'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Pharmaceuticals'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medPharma}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Cryogenics'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Cryogenics'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medCryo}</Item>
@@ -172,31 +172,31 @@ function CharacterSpecialSkills(charDetailProp) {
                     </>) : <></>}
 
                     {maker != '' ? (<><Grid item xs={4.5}>
-                        <Item><SpecialDialog prop={'Maker'} /></Item>
+                        <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
                     </Grid>
                         <Grid item xs={7.5}>
                             <Item>{maker}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Field Expertise'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Field Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerField}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Upgrade Expertise'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Upgrade Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerUpgrade}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Fabrication'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Fabrication'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerFab}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><SpecialModal prop={'Invention'} /></Item>
+                            <Item><RoleSkillsDialog prop={'Invention'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerInvent}</Item>
@@ -213,4 +213,4 @@ function CharacterSpecialSkills(charDetailProp) {
     )
 }
 
-export default CharacterSpecialSkills 
+export default CharacterRoleAbilities 

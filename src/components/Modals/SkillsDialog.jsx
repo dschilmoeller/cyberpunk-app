@@ -1,27 +1,25 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { Grid } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: .5,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-export default function SkillsModal({ prop }) {
+export default function SkillsDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [scroll, setScroll] = React.useState('paper');
 
-    const modalText = (prop) => {
+    const handleClickOpen = (scrollType) => () => {
+        setOpen(true);
+        setScroll(scrollType);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const dialogText = (prop) => {
         switch (prop) {
             case 'Streets':
                 return 'Skills learned in the rough and tumble streets. Tests involving these skills can be used untrained.'
@@ -99,24 +97,30 @@ export default function SkillsModal({ prop }) {
                 return ''
         }
     }
+
     return (
         <div>
-            <Typography variant='subtitle2' sx={{ "&:hover": { cursor: "pointer" } }} onClick={handleOpen}>{prop}</Typography>
-            <Modal
+            <Button onClick={handleClickOpen('paper')}>{prop}</Button>
+            <Dialog
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                scroll={scroll}
+                maxWidth='lg'
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        {prop}
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        {modalText(prop)}
-                    </Typography>
-                </Box>
-            </Modal>
+                <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+                    <DialogContentText
+                        tabIndex={-1}
+                    >
+                        {dialogText(prop)}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Close</Button>
+                </DialogActions>
+            </Dialog>
         </div>
-    )
+    );
 }

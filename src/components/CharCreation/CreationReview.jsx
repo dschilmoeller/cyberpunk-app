@@ -5,9 +5,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Item from '../Characters/CharacterSheet/Item';
-import AttributesModal from '../Modals/AttributesModal';
-import SkillsModal from '../Modals/SkillsModal';
-import SpecialModal from '../Modals/SpecialModal';
+
+import AttributesDialog from '../Modals/AttributesDialog';
+import SkillsDialog from '../Modals/SkillsDialog';
+import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
+import RoleSkillsDialog from '../Modals/RoleSkillsDialog';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -166,29 +168,29 @@ export default function CreationReview() {
                         <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'attributes' })}><h1>Atribute - click to return to Attribute selection</h1></Item></Grid>
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={4}><Item><AttributesModal prop={'Strength'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Strength'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{attDotReturn(strengthAtt)} </Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Body'} /> </Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Body'} /> </Item></Grid>
                                 <Grid item xs={8}><Item>{attDotReturn(bodyAtt)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Reflexes'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Reflexes'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{attDotReturn(reflexesAtt)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Move'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Move'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{attDotReturn(moveatt)}</Item></Grid>
                             </Grid>
                         </Grid>
 
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={4}><Item><AttributesModal prop={'Appearance'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Appearance'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(appearanceAtt)} </Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Cool'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Cool'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(coolAtt)} </Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Street Cred'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Street Cred'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(streetCredAtt)} </Item></Grid>
 
                             </Grid>
@@ -196,13 +198,13 @@ export default function CreationReview() {
 
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={4}><Item><AttributesModal prop={'Intelligence'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Intelligence'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(intelligenceAtt)} </Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Willpower'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Willpower'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(willpowerAtt)} </Item></Grid>
 
-                                <Grid item xs={4}><Item><AttributesModal prop={'Technique'} /></Item></Grid>
+                                <Grid item xs={4}><Item><AttributesDialog prop={'Technique'} /></Item></Grid>
                                 <Grid item xs={8}><Item> {attDotReturn(techniqueAtt)} </Item></Grid>
                             </Grid>
                         </Grid>
@@ -211,113 +213,113 @@ export default function CreationReview() {
 
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={12}><Item><SkillsModal prop={'Streets'} /></Item></Grid>
+                                <Grid item xs={12}><Item><SkillsDialog prop={'Streets'} /></Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Athletics'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Athletics'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(athletics)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Brawling'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Brawling'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(brawling)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Concentration'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Concentration'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(concentration)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Evasion'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Evasion'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(evasion)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Fast Talk'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Fast Talk'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(fastTalk)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Firearms'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Firearms'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(firearms)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Legerdemain'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Legerdemain'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(legerdemain)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Melee Weapons'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Melee Weapons'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(meleeWeapons)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Perception'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Perception'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(perception)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Streetwise'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Streetwise'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(streetwise)}</Item></Grid>
                             </Grid>
                         </Grid>
 
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={12}><Item><SkillsModal prop={'Tekhne'} /></Item></Grid>
+                                <Grid item xs={12}><Item><SkillsDialog prop={'Tekhne'} /></Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Demolitions'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(demolitions)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Drive Land'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Drive Land'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(driveLand)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Drive Exotic'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Drive Exotic'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(driveExotic)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Etiquette'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Etiquette'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(etiquette)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Exotic Weapons'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Exotic Weapons'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(exoticWeapons)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Heavy Weapons'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Heavy Weapons'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(heavyWeapons)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Performance'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Performance'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(performance)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Stealth'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Stealth'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(stealth)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Survival'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Survival'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(survival)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Tracking'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Tracking'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(tracking)}</Item></Grid>
                             </Grid>
                         </Grid>
 
                         <Grid item xs={4}>
                             <Grid container>
-                                <Grid item xs={12}><Item><SkillsModal prop={'Knowledge'} /></Item></Grid>
+                                <Grid item xs={12}><Item><SkillsDialog prop={'Knowledge'} /></Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Business'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Business'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(business)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Cryptography'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Cryptography'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(cryptography)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Cyber Tech'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Cyber Tech'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(cyberTech)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Investigation'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Investigation'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(investigation)}</Item></Grid>
 
                                 {isParamedical === true ? (<>
-                                    <Grid item xs={4}><Item><SkillsModal prop={'Paramedic'} /></Item></Grid>
+                                    <Grid item xs={4}><Item><SkillsDialog prop={'Paramedic'} /></Item></Grid>
                                     <Grid item xs={8}><Item>{skillDotReturn(paramedic)}</Item></Grid>
                                 </>) : (<>
-                                    <Grid item xs={4}><Item><SkillsModal prop={'First Aid'} /></Item></Grid>
+                                    <Grid item xs={4}><Item><SkillsDialog prop={'First Aid'} /></Item></Grid>
                                     <Grid item xs={8}><Item>{skillDotReturn(firstAid)}</Item></Grid>
                                 </>)}
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Gambling'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Gambling'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(gambling)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Language'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Language'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(language)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Military Tech'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Military Tech'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(militaryTech)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Science'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Science'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(science)}</Item></Grid>
 
-                                <Grid item xs={4}><Item><SkillsModal prop={'Vehicle Tech'} /></Item></Grid>
+                                <Grid item xs={4}><Item><SkillsDialog prop={'Vehicle Tech'} /></Item></Grid>
                                 <Grid item xs={8}><Item>{skillDotReturn(vehicleTech)}</Item></Grid>
                             </Grid>
                         </Grid>
@@ -327,7 +329,7 @@ export default function CreationReview() {
                             <Grid container spacing={1}>
                                 {rockerboy != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Rockerboy'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(rockerboy)}</Item>
@@ -335,7 +337,7 @@ export default function CreationReview() {
 
                                 {solo != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Solo'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(solo)}</Item>
@@ -343,7 +345,7 @@ export default function CreationReview() {
 
                                 {netrunner != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Netrunner'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(netrunner)}</Item>
@@ -351,7 +353,7 @@ export default function CreationReview() {
 
                                 {nomad != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Nomad'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(nomad)}</Item>
@@ -359,7 +361,7 @@ export default function CreationReview() {
 
                                 {media != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Media'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(media)}</Item>
@@ -367,28 +369,28 @@ export default function CreationReview() {
 
                                 {medtech != '' ? (<>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Medtech'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medtech)}</Item>
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Surgery'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Surgery'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medSurgery)}</Item>
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Pharmaceuticals'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Pharmaceuticals'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medPharma)}</Item>
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Cryogenics'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Cryogenics'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medCryo)}</Item>
@@ -396,31 +398,31 @@ export default function CreationReview() {
                                 </>) : <></>}
 
                                 {maker != '' ? (<><Grid item xs={4.5}>
-                                    <Item><SpecialModal prop={'Maker'} /></Item>
+                                    <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
                                 </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(maker)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Field Expertise'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Field Expertise'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerField)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Upgrade Expertise'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Upgrade Expertise'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerUpgrade)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Fabrication'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Fabrication'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerFab)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><SpecialModal prop={'Invention'} /></Item>
+                                        <Item><RoleSkillsDialog prop={'Invention'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerInvent)}</Item>

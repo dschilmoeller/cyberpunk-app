@@ -10,7 +10,7 @@ import Item from './Item';
 import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './CharacterMarkers';
-import CharacterSpecialSkills from './CharacterSpecialSkills';
+import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail);
@@ -66,7 +66,7 @@ function CharacterSheet() {
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />
-                            <CharacterSpecialSkills charDetail={charDetail} />
+                            <CharacterRoleAbilities charDetail={charDetail} />
                             <CharacterMarkers charDetail={charDetail} />
 
                         </>
