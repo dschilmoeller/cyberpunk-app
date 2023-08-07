@@ -9,7 +9,6 @@ import Item from '../Characters/CharacterSheet/Item';
 import AttributesDialog from '../Modals/AttributesDialog';
 import SkillsDialog from '../Modals/SkillsDialog';
 import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
-import RoleSkillsDialog from '../Modals/RoleSkillsDialog';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -376,21 +375,21 @@ export default function CreationReview() {
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Surgery'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medSurgery)}</Item>
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Pharmaceuticals'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medPharma)}</Item>
                                     </Grid>
 
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Cryogenics'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{skillDotReturn(medCryo)}</Item>
@@ -404,25 +403,25 @@ export default function CreationReview() {
                                         <Item>{attDotReturn(maker)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Field Expertise'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerField)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Upgrade Expertise'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerUpgrade)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Fabrication'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerFab)}</Item>
                                     </Grid>
                                     <Grid item xs={4.5}>
-                                        <Item><RoleSkillsDialog prop={'Invention'} /></Item>
+                                        <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
                                     </Grid>
                                     <Grid item xs={7.5}>
                                         <Item>{attDotReturn(makerInvent)}</Item>

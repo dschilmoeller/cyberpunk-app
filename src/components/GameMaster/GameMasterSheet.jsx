@@ -28,6 +28,9 @@ export default function GameMasterSheet() {
 
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
 
+    const fulldot = ` \u2b24`
+    const emptydot = ` \u25ef`
+
     useEffect(() => {
         // fetch initial details
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
@@ -40,20 +43,16 @@ export default function GameMasterSheet() {
         setCampaign(charDetail.campaign)
     }, [charDetail.id])
 
-    const changeXP = (incoming) => {
-        if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
-            dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
-        } else {
-            console.log(`Bad dog`);
+    const attDotReturn = (attribute, max) => {
+        let returnedDots = ''
+        for (let i = 0; i < attribute; i++) {
+            returnedDots += fulldot;
         }
-    }
-
-    const changeBank = (incoming) => {
-        if (charDetail.bank + incoming >= 0) {
-            dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
-        } else {
-            console.log(`No biscuit`);
+        let j = attribute
+        for (j; j <= (max - 1); j++) {
+            returnedDots += emptydot
         }
+        return returnedDots
     }
 
     const changeHumanity = (type, amount) => {
@@ -65,10 +64,35 @@ export default function GameMasterSheet() {
             alert('Error!')
         }
     }
+    
+    const changeBank = (incoming) => {
+        if (charDetail.bank + incoming >= 0) {
+            dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
+        } else {
+            console.log(`No biscuit`);
+        }
+    }
+    
+    const changeXP = (incoming) => {
+        if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
+            dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
+        } else {
+            console.log(`Bad dog`);
+        }
+    }
+    
+    const changeStreetCred = (incoming) => {
+        if (charDetail.street_cred + incoming >= 0 && charDetail.street_cred + incoming <= 10) {
+            console.log(`new street cred:`, charDetail.street_cred + incoming);
+            dispatch({ type: 'GM_CHANGE_STREET_CRED', payload: incoming})
+        }
+    }
 
     const saveCharacter = () => {
-        dispatch({type: "SAVE_GM_CHANGES", payload: {charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, concept, campaign}})
+        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, concept, campaign } })
     }
+
+    
 
     return (<>
         <h1>Character Details: </h1>
@@ -153,6 +177,15 @@ export default function GameMasterSheet() {
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-5)}>Remove 5 XP </Button></Grid>
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-10)}>Remove 10 XP </Button></Grid>
             </Grid>) : <></>}
+
+        <h1>Street Cred</h1>
+        <Grid container spacing={2} alignContent={'center'}>
+            <Grid item xs={6} textAlign={'center'}>Street Cred</Grid>
+            <Grid item xs={6} textAlign={'center'}>{attDotReturn(charDetail.street_cred, 10)}</Grid>
+            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeStreetCred(1)}>Add 1 Street Cred</Button></Grid>
+            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeStreetCred(-1)}>Remove 1 Street Cred</Button></Grid>
+        </Grid>
+
 
     </>)
 }

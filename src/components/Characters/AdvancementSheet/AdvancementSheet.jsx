@@ -44,11 +44,16 @@ function AdvancementSheet() {
 
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
+        window.location.reload(true);
     }
 
     const saveCharacterChanges = () => {
-        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
-        history.push('/characterlist')
+        if (advancementDetails.perm_humanity_loss + advancementDetails.current_humanity_loss > 39) {
+            alert('You cannot save! Your character will undergo immediate cyberpsychosis if you do have at least 1 humanity remaining!')
+        } else {
+            dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
+            history.push('/characterlist')
+        }
     }
 
     return (
@@ -56,7 +61,7 @@ function AdvancementSheet() {
             <div>
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
-                <Button onClick={() => fetchCharacterDetail()}>Fetch Character Details</Button>
+                <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
                 <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
 
                 {advancementDetails ? (

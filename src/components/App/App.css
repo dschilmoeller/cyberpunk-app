@@ -115,3 +115,7 @@ input {
 #modal-modal-description {
   font-family:'Times New Roman', Times, serif
 }
+
+#skill-sheet-clickable {
+  font-size: large;
+}

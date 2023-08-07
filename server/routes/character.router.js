@@ -532,12 +532,12 @@ router.get('/fetchGameMasterCharacters', (req, res) => {
 
 router.put('/savegamemastercharacter/:id', (req, res) => {
     const charDetailsSqlText = `UPDATE character
-    SET handle = $1, player = $2, role = $3, culture = $4, concept = $5, campaign = $6, max_xp = $7, spent_xp = $8, bank = $9
-    WHERE id = $10`
+    SET handle = $1, player = $2, role = $3, culture = $4, concept = $5, campaign = $6, max_xp = $7, spent_xp = $8, bank = $9, street_cred = $10
+    WHERE id = $11`
     const charStatusSqlText = `UPDATE char_status
     SET current_humanity_loss = $1
     WHERE char_status_id = $2 `
-    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.concept, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.id]
+    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.concept, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.id]
     const charStatusUpdateParams = [req.body.charStatus.current_humanity_loss, req.body.charStatus.char_status_id]
     pool.query(charDetailsSqlText, charDetailUpdateParams)
     .then((result) => {

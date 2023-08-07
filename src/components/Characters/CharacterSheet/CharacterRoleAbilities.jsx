@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
-import RoleSkillsDialog from '../../Modals/RoleSkillsDialog';
 
 function CharacterRoleAbilities(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -150,21 +149,21 @@ function CharacterRoleAbilities(charDetailProp) {
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Surgery'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medSurgery}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Pharmaceuticals'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medPharma}</Item>
                         </Grid>
 
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Cryogenics'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{medCryo}</Item>
@@ -178,25 +177,25 @@ function CharacterRoleAbilities(charDetailProp) {
                             <Item>{maker}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Field Expertise'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerField}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Upgrade Expertise'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerUpgrade}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Fabrication'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerFab}</Item>
                         </Grid>
                         <Grid item xs={4.5}>
-                            <Item><RoleSkillsDialog prop={'Invention'} /></Item>
+                            <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
                             <Item>{makerInvent}</Item>

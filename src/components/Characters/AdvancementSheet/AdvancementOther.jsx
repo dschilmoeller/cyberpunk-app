@@ -14,8 +14,10 @@ export default function AdvancementOther() {
     const stunMarker = `\u2736`;
     const aggMarker = `\u2718`;
 
+    // creates 10 boxes; character luck are empty square, unpurchased luck is X'd square.
     const luckBuilder = () => {
         let luckBoxes = []
+        // push 1 empty square per point of max luck
         for (let i = 0; i < advancementDetails.max_luck; i++) {
             luckBoxes.push(
                 <React.Fragment key={i}>
@@ -23,43 +25,47 @@ export default function AdvancementOther() {
                 </React.Fragment>
             )
         }
+        // fill remainder with filled squares.
+        for (let i = 0; i < (10 - advancementDetails.max_luck); i++) {
+            luckBoxes.push(
+                <React.Fragment key={i+10}>
+                    <Grid item xs={2.4}><Item>{aggMarker}</Item></Grid>
+                </React.Fragment>
+            )
+        }
         return luckBoxes
     }
 
+    // returns cost of increasing luck score
     const luckExpReturn = () => {
         return (advancementDetails.max_luck * 2) + ' XP'
     }
 
+    // increase Luck in advancementDetails reducer by sending new max score + amount of XP spent.
     const addLuck = () => {
         let increaseLuckCost = advancementDetails.max_luck * 2
         dispatch({ type: "INCREASE_LUCK", payload: { newLuck: (advancementDetails.max_luck + 1), increaseLuckCost } })
     }
 
+    // creates 40 entries in an array; permanent cyberware humanity loss repped by an X; temp by a *, and remainining humanity represented by empty square
+    // each entry shows up as a box with appropriate mark.
     const humanityArrayBuilder = (tempHumanityLoss, permHumanityLoss) => {
         let humanityArray = []
         for (let i = 0; i < permHumanityLoss; i++) {
-            humanityArray.push(aggMarker)
+            humanityArray.push(
+                <Grid key={i} item xs={1.2}><Item>{aggMarker}</Item></Grid>
+            )
         }
         for (let i = 0; i < tempHumanityLoss; i++) {
-            humanityArray.push(stunMarker)
+            humanityArray.push(<Grid key={i+40} item xs={1.2}><Item>{stunMarker}</Item></Grid>)
         }
         if (humanityArray.length < 40) {
             let remainder = 40 - (permHumanityLoss + tempHumanityLoss)
             for (let i = 0; i < remainder; i++) {
-                humanityArray.push(unhurtMarker)
+                humanityArray.push(<Grid key={i+80} item xs={1.2}><Item>{unhurtMarker}</Item></Grid>)
             }
         }
         return humanityArray;
-    }
-
-    const humanityBuilder = () => {
-        let humanityArray = humanityArrayBuilder(advancementDetails.current_humanity_loss, advancementDetails.perm_humanity_loss)
-        let humanityBoxes = []
-
-        for (let i = 0; i < 40; i++) {
-            humanityBoxes.push(<Grid key={i} item xs={1.2}><Item>{humanityArray[i]}</Item></Grid>)
-        }
-        return humanityBoxes
     }
 
     const restoreTemporaryHumanity = () => {
@@ -74,7 +80,7 @@ export default function AdvancementOther() {
                 <Grid container>
                     <Grid item xs={12}><Item><SpecialModal prop={'Luck'} /></Item></Grid>
                     <Grid item xs={12}>
-                        {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Luck: {luckExpReturn()} </Item>
+                        {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Maximum Luck: {luckExpReturn()} </Item>
                             :
                             <Item>Maximum Luck Achieved!</Item>}
 
@@ -89,9 +95,11 @@ export default function AdvancementOther() {
                     <Grid item xs={12}>
                         {advancementDetails.current_humanity_loss > 0 ?
                             <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>
-                            : <Item>Remove Cyberware to restore additional humanity</Item>}
+                            : <></>}
+                        {advancementDetails.current_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
+                        {advancementDetails.perm_humanity_loss === 0 && advancementDetails.current_humanity_loss === 0 ? <Item>Maximum Humanity reached</Item> : <></>}
                     </Grid>
-                    {humanityBuilder()}
+                    {humanityArrayBuilder(advancementDetails.current_humanity_loss, advancementDetails.perm_humanity_loss)}
                 </Grid>
             </Grid>
 

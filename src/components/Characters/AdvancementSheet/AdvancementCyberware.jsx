@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
+import Item from '../CharacterSheet/Item';
+
 export default function AdvancementCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
@@ -312,7 +314,7 @@ export default function AdvancementCyberware() {
     }
 
     return (<>
-        <h1>Cyber!</h1>
+        <Item><h1>Cyberware</h1></Item>
 
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -335,7 +337,8 @@ export default function AdvancementCyberware() {
                     <TableRow>
                         <TableCell align='center'>Permanent Humanity Loss: {charDetails.perm_humanity_loss}</TableCell>
                         <TableCell align='center'>Temporary Humanity Loss: {charDetails.current_humanity_loss}</TableCell>
-                        <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>
+                        {(charDetails.perm_humanity_loss + charDetails.current_humanity_loss) > 39 ? <TableCell sx={{color:'red', backgroundColor:'black'}} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell> 
+                        : <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>}
                     </TableRow>
 
                     {selectedList === 'fashionware' ? (

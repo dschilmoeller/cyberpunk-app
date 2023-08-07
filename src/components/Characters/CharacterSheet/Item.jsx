@@ -9,10 +9,11 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
     fontSize: '.9em',
     fontWeight: '500',
-    height: '2em',
+    height: '2.5em',
     display: 'flex',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    alignItems: 'center'
 }));
 
 export default Item
