@@ -190,17 +190,78 @@ export default function AdvancementCyberware() {
                     break;
                 }
             case 'cyberarm':
+                // Top level - Check if incoming gear being equipped is a cyberarm or a mod
                 if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
-                    setCyberarmSlots(cyberarmSlots + 4)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 4 } })
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    dispatch({ type: 'CYBERLIMB_EQUIPPED' })
-                    break;
+                    // if a right or left arm, check to see if one is already equipped
+                    if (incomingCyber.name === 'Cyberarm - Right') {
+                        // set number of character shoulders available
+                        let rightShoulderCount = 1
+
+                        // detect borgware & increase number of shoulders if appropriate
+                        for (let i = 0; i < charCyberware.length; i++) {
+                            if (charCyberware[i].name === 'Artificial Shoulder Mount' && charCyberware[i].equipped === true) {
+                                rightShoulderCount = 2
+                            }
+                        }
+
+                        // count number of currently used shoulders and reduce available shoulders
+                        for (let i = 0; i < charCyberware.length; i++) {
+                            if (charCyberware[i].name === 'Cyberarm - Right' && charCyberware[i].equipped === true) {
+                                rightShoulderCount += -1
+                            }
+                        }
+
+                        // if shoulder amount is okay, equip 'ware. o/w present error.
+                        if (rightShoulderCount > 0) {
+                            setCyberarmSlots(cyberarmSlots + 4)
+                            dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 4 } })
+                            dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                            dispatch({ type: 'CYBERLIMB_EQUIPPED' })
+                            return;
+                        } else {
+                            alert('You do not have a shoulder to stand on.')
+                            return;
+                        }
+
+                        // repeat above process but for left arms.
+                    } else if (incomingCyber.name === 'Cyberarm - Left') {
+                        // set number of character shoulders available
+                        let leftShoulderCount = 1
+
+                        // detect borgware & increase number of shoulders if appropriate
+                        for (let i = 0; i < charCyberware.length; i++) {
+                            if (charCyberware[i].name === 'Artificial Shoulder Mount' && charCyberware[i].equipped === true) {
+                                leftShoulderCount = 2
+                            }
+                        }
+
+                        // count number of currently used shoulders and reduce available shoulders
+                        for (let i = 0; i < charCyberware.length; i++) {
+                            if (charCyberware[i].name === 'Cyberarm - Left' && charCyberware[i].equipped === true) {
+                                leftShoulderCount += -1
+                            }
+                        }
+
+                        // if shoulder amount is okay, equip 'ware. o/w present error.
+                        if (leftShoulderCount > 0) {
+                            setCyberarmSlots(cyberarmSlots + 4)
+                            dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 4 } })
+                            dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                            dispatch({ type: 'CYBERLIMB_EQUIPPED' })
+                            return;
+                        } else {
+                            alert('You do not have a shoulder to stand on.')
+                            return;
+                        }
+                    }
+                    // If a cyberarm type and not a right / left cyberarm (thus, an arm mod), see if there are any slots open for mods.
                 } else if (cyberarmSlots > 0) {
+                    // if there are open slots, lower slot count by 1, equip gear, and exit function
                     setCyberarmSlots(cyberarmSlots - 1)
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots - 1 } })
                     break;
                 } else {
+                    // if there are no open slots, alert user to lack of slots.
                     alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
                     break;
                 }
@@ -219,6 +280,9 @@ export default function AdvancementCyberware() {
                     alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
                     break;
                 }
+            case 'borgware':
+                dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber} })
+                dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
             default:
                 break;
         }
@@ -304,6 +368,9 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots + 1 } })
                     break;
                 }
+            case 'borgware':
+                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
+                dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
             default:
                 break;
         }
@@ -337,8 +404,8 @@ export default function AdvancementCyberware() {
                     <TableRow>
                         <TableCell align='center'>Permanent Humanity Loss: {charDetails.perm_humanity_loss}</TableCell>
                         <TableCell align='center'>Temporary Humanity Loss: {charDetails.current_humanity_loss}</TableCell>
-                        {(charDetails.perm_humanity_loss + charDetails.current_humanity_loss) > 39 ? <TableCell sx={{color:'red', backgroundColor:'black'}} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell> 
-                        : <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>}
+                        {(charDetails.perm_humanity_loss + charDetails.current_humanity_loss) > 39 ? <TableCell sx={{ color: 'red', backgroundColor: 'black' }} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>
+                            : <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>}
                     </TableRow>
 
                     {selectedList === 'fashionware' ? (

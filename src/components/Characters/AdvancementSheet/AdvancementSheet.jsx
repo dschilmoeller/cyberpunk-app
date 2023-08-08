@@ -94,7 +94,7 @@ function AdvancementSheet() {
                     </>
                 ) : <></>}
 
-                <h2>I want to change...</h2>
+                <Item><h2>I want to change...</h2></Item>
                 <Grid container>
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Attributes')}>Attributes</Button></Item></Grid>
                     <Grid item xs={3}><Item><Button onClick={() => setOpener('Skills')}>Skills</Button></Item></Grid>

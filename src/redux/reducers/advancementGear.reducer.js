@@ -338,7 +338,8 @@ const advancementGear = (state = {
                     name: action.payload.item.name,
                     price: action.payload.item.price,
                     type: action.payload.item.type,
-                    cyberwareID: action.payload.cyberwareID
+                    cyberwareID: action.payload.cyberwareID,
+                    equipped: false
                 }],
                 cyberwareID: state.cyberwareID + 1
             }

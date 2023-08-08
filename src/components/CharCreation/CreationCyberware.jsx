@@ -68,23 +68,23 @@ export default function CreationCyberware() {
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">Return?</TableCell>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Description</TableCell>
                                 <TableCell align="left">Humanity Loss</TableCell>
                                 <TableCell align="left">Install Requirement</TableCell>
                                 <TableCell align="left">Price</TableCell>
+                                <TableCell align="left">Return?</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {charCyberware.map((item, i) => (
                                 <TableRow key={i}>
-                                    <TableCell align="left"><Button onClick={() => sellCyberware(cyberware[item].price, i)}>Return</Button></TableCell>
                                     <TableCell align="left">{cyberware[item].name} </TableCell>
                                     <TableCell align="left">{cyberware[item].description}</TableCell>
                                     <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>
                                     <TableCell align="left">{cyberware[item].install_level}</TableCell>
                                     <TableCell align="right">${cyberware[item].price.toLocaleString("en-US")}</TableCell>
+                                    <TableCell align="left"><Button onClick={() => sellCyberware(cyberware[item].price, i)}>Return</Button></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -107,12 +107,12 @@ export default function CreationCyberware() {
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="left">Purchase?</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell align="left">Description</TableCell>
                         <TableCell align="left">Humanity Loss</TableCell>
                         <TableCell align="left">Install Requirement</TableCell>
                         <TableCell align="left">Price</TableCell>
+                        <TableCell align="left">Purchase?</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -120,12 +120,12 @@ export default function CreationCyberware() {
                         <React.Fragment key={i}>
                             {row.type === selectedList ? (
                                 <TableRow key={i}>
-                                    <TableCell align="left"><Button onClick={() => purchaseCyberware(row.price, i)}>Purchase</Button></TableCell>
                                     <TableCell>{row.name} </TableCell>
                                     <TableCell align="left">{row.description}</TableCell>
                                     <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
                                     <TableCell align="left">{row.install_level}</TableCell>
                                     <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                    <TableCell align="left"><Button onClick={() => purchaseCyberware(row.price, i)}>Purchase</Button></TableCell>
                                 </TableRow>
                             ) : <></>}</React.Fragment>)
                     )}
