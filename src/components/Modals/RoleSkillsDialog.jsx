@@ -591,8 +591,13 @@ export default function RoleSkillsDialog({ prop }) {
     }
 
     return (
-        <div>
-            <Button onClick={handleClickOpen('paper')}>{prop}</Button>
+        <>
+            <Button sx={{
+                textTransform: 'none', color: 'black', '&:hover': {
+                    backgroundColor: '#000',
+                    color: '#fff',
+                }
+            }} fullWidth onClick={handleClickOpen('paper')}>{prop}</Button>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -613,7 +618,7 @@ export default function RoleSkillsDialog({ prop }) {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </>
     );
 
 }

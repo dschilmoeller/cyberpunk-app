@@ -2,7 +2,8 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
-import SpecialModal from '../../Modals/SpecialModal';
+
+import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 function Armor(charDetailProp) {
     
@@ -53,7 +54,7 @@ function Armor(charDetailProp) {
 
     return (
         <>
-            <Item><SpecialModal prop={'Armor'} /></Item>
+            <Item><OtherAttributesDialog prop={'Armor'} /></Item>
             <Grid container>
                 {armorBuilder()}
             </Grid>

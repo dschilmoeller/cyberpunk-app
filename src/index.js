@@ -19,11 +19,16 @@ const theme = createTheme({
   },
 });
 
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 const root = ReactDOM.createRoot(document.getElementById('react-root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-
       <Provider store={store}>
         <App />
       </Provider>

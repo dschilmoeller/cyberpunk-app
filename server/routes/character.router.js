@@ -118,6 +118,22 @@ router.put('/savecharacterweapons/:id', (req, res) => {
         })
 })
 
+router.put('/characterBurnOneLuck/:id', (req, res) => {
+    const sqlText = `UPDATE "character"
+    SET "max_luck" = $1
+    WHERE "id" = $2`
+
+    const sqlParams = [(req.body.max_luck - 1), req.body.charID]
+
+    pool.query(sqlText, sqlParams)
+        .then((results) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error burning one char luck:`, err);
+        })
+})
+
 
 // Character Advancement Routes
 // routes having to do with spending experience, equipping/unequipping gear and cyberware,
@@ -540,14 +556,14 @@ router.put('/savegamemastercharacter/:id', (req, res) => {
     const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.concept, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.id]
     const charStatusUpdateParams = [req.body.charStatus.current_humanity_loss, req.body.charStatus.char_status_id]
     pool.query(charDetailsSqlText, charDetailUpdateParams)
-    .then((result) => {
-        pool.query(charStatusSqlText, charStatusUpdateParams)
-    })
-    .then(result => {
-        res.sendStatus(203)
-    })
-    .catch(err => {
-        console.log(`Error updating character for GM:`, err);
-    })
+        .then((result) => {
+            pool.query(charStatusSqlText, charStatusUpdateParams)
+        })
+        .then(result => {
+            res.sendStatus(203)
+        })
+        .catch(err => {
+            console.log(`Error updating character for GM:`, err);
+        })
 })
 module.exports = router

@@ -95,11 +95,23 @@ function* fetchGameMasterCharacters() {
   }
 }
 
+function* characterBurnLuck(action) {
+  try {
+    console.log(`action.payload:`, action.payload);
+    axios.put(`/api/characters/characterBurnOneLuck/${action.payload.charID}`, action.payload)
+  } catch (error) {
+    console.log(`Error burning one luck:`, error);
+  }
+}
+
 function* characterSaga() {
   // in play fetch/save
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
+
+  // permanent luck reduction
+  yield takeLatest('PLAYER_BURN_ONE_LUCK', characterBurnLuck);
 
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);

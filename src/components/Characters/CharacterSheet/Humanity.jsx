@@ -2,10 +2,11 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
-import SpecialModal from '../../Modals/SpecialModal';
+
+import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 // To Do: import charDetailProp correctly
-// change characters to filled boxes and x'd boxes for style
+
 function Humanity(charDetailProp) {
     const charStatus = useSelector(store => store.characterStatus)
     const permHumanityLoss = charDetailProp.charDetailProp.perm_humanity_loss
@@ -44,7 +45,7 @@ function Humanity(charDetailProp) {
 
     return (
         <>
-            <Item><SpecialModal prop={'Humanity'} /></Item>
+            <Item><OtherAttributesDialog prop={'Humanity'} /></Item>
             <Grid container>
                 {humanityBuilder()}
             </Grid>

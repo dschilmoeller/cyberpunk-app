@@ -30,6 +30,13 @@ const characterDetail = (state = {}, action) => {
         }
     }
 
+    if (action.type === 'PLAYER_BURN_ONE_LUCK') {
+        return {
+            ...state,
+            max_luck: state.max_luck - 1
+        }
+    }
+
     return state
 }
 
