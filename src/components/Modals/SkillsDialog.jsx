@@ -103,9 +103,9 @@ export default function SkillsDialog({ prop }) {
     return (
         <>
             <Button sx={{
-                textTransform: 'none', color: 'black', '&:hover': {
-                    backgroundColor: '#000',
-                    color: '#fff',
+                textTransform: 'none', color: 'white', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
                 }
             }} fullWidth onClick={handleClickOpen('paper')}>{prop}</Button>
             <Dialog

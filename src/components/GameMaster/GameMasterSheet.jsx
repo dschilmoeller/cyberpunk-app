@@ -27,7 +27,7 @@ export default function GameMasterSheet() {
     const [campaign, setCampaign] = useState(charDetail.campaign)
 
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
-
+    const [allowPermLuckChange, setAllowPermLuckChange] = useState(false)
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
 
@@ -64,7 +64,7 @@ export default function GameMasterSheet() {
             alert('Error!')
         }
     }
-    
+
     const changeBank = (incoming) => {
         if (charDetail.bank + incoming >= 0) {
             dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
@@ -72,7 +72,7 @@ export default function GameMasterSheet() {
             console.log(`No biscuit`);
         }
     }
-    
+
     const changeXP = (incoming) => {
         if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
             dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
@@ -80,11 +80,17 @@ export default function GameMasterSheet() {
             console.log(`Bad dog`);
         }
     }
-    
+
     const changeStreetCred = (incoming) => {
         if (charDetail.street_cred + incoming >= 0 && charDetail.street_cred + incoming <= 10) {
             console.log(`new street cred:`, charDetail.street_cred + incoming);
-            dispatch({ type: 'GM_CHANGE_STREET_CRED', payload: incoming})
+            dispatch({ type: 'GM_CHANGE_STREET_CRED', payload: incoming })
+        }
+    }
+
+    const changeLuck = (incoming) => {
+        if (charDetail.max_luck + incoming <= 10 && charDetail.max_luck + incoming >= 0) {
+            dispatch({ type: 'GM_CHANGE_PERM_LUCK', payload: incoming })
         }
     }
 
@@ -92,7 +98,7 @@ export default function GameMasterSheet() {
         dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, concept, campaign } })
     }
 
-    
+
 
     return (<>
         <h1>Character Details: </h1>
@@ -185,6 +191,31 @@ export default function GameMasterSheet() {
             <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeStreetCred(1)}>Add 1 Street Cred</Button></Grid>
             <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeStreetCred(-1)}>Remove 1 Street Cred</Button></Grid>
         </Grid>
+
+        <h1>Luck</h1>
+        <Grid container>
+            <Grid item xs={4} textAlign={'center'}>Current Maximum Luck: {attDotReturn(charDetail.max_luck, 10)} </Grid>
+        </Grid>
+
+        {allowPermLuckChange ? (<>
+            <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
+                <FormGroup sx={{ position: 'flex', alignItems: 'center' }} >
+                    <FormControlLabel control={<Switch
+                        checked={allowPermLuckChange}
+                        onChange={(e) => setAllowPermLuckChange(e.target.checked)} />} label="Allow Permanent Luck Changes" />
+                </FormGroup>
+            </Grid>
+            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeLuck(1)}>Add 1 Permanent Luck</Button></Grid>
+            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeLuck(-1)}>Remove 1 Permanent Luck</Button></Grid>
+        </>) : (<>
+            <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
+                <FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
+                    <FormControlLabel control={<Switch
+                        checked={allowPermLuckChange}
+                        onChange={(e) => setAllowPermLuckChange(e.target.checked)} />} label="Allow Permanent Luck Changes" />
+                </FormGroup>
+            </Grid>
+        </>)}
 
 
     </>)

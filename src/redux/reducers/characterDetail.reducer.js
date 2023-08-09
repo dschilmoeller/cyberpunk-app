@@ -30,6 +30,15 @@ const characterDetail = (state = {}, action) => {
         }
     }
 
+    if (action.type === 'GM_CHANGE_PERM_LUCK') {
+        return {...state,
+        max_luck: state.max_luck + action.payload}
+    }
+
+    if (action.type === 'SAVE_GM_CHANGES') {
+        return action.payload
+    }
+
     if (action.type === 'PLAYER_BURN_ONE_LUCK') {
         return {
             ...state,

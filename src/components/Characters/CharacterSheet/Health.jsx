@@ -104,7 +104,7 @@ function Health() {
             // add die penalties; highlight as one goes down list.
 
             diePenaltySpot > i ?
-                healthBoxes.push(<Grid key={i + 150} item xs={4}><Item sx={{ backgroundColor:'red', color:'aqua' }}>{painPenalty[i]}</Item></Grid>)
+                healthBoxes.push(<Grid key={i + 150} item xs={4}><Item sx={{ backgroundColor:'#E11845', color:'aqua' }}>{painPenalty[i]}</Item></Grid>)
                 : healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
             // healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
 
