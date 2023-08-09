@@ -7,13 +7,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { Grid } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 
 export default function AttributesDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
@@ -86,7 +79,7 @@ export default function AttributesDialog({ prop }) {
             case 'Body':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Body is a measure of phsyical toughness and general good health. Characters with a very low body are generally not in very good health, while characters with a high body tend to be extremely fit.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and of course Body + Armor is used for resisting damage. </Grid>
                         </Grid>
@@ -95,7 +88,7 @@ export default function AttributesDialog({ prop }) {
             case 'Reflexes':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Reflexes measure how flexible and agile a character is.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include combat related tests, including attacking and dodging, as well as any test requiring physical finesse that isn't related to a technical skill.</Grid>
                         </Grid>
@@ -104,7 +97,7 @@ export default function AttributesDialog({ prop }) {
             case 'Appearance':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Appearance is the physical attractiveness and/or measure of how striking a character looks</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include making a strong first impression and getting your way by sheer animal magnetism. Frequently paired with Fast Talk, Etiquette, or Business</Grid>
                         </Grid>
@@ -113,7 +106,7 @@ export default function AttributesDialog({ prop }) {
             case 'Cool':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
                             <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the Rule of Cool.</Grid>d
                         </Grid>
@@ -122,7 +115,7 @@ export default function AttributesDialog({ prop }) {
             case 'Street Cred':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item xs={12}>Simply put, how good your name is on the street - a measure of your underworld notoriety.</Grid>
                             <Grid item xs={12}>Street cred cannot be purchased with experience, and is granted during play as the runner pulls off especially daring and/or stupid jobs.</Grid>
                         </Grid>
@@ -131,7 +124,7 @@ export default function AttributesDialog({ prop }) {
             case 'Intelligence':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item xs={12}>How mentally sharp someone is, as well as describing their level of book learning.</Grid>
                             <Grid item xs={12}>Common used in academic skill tests. A character can use a raw intelligence test to recall specific events or items.</Grid>
                         </Grid>
@@ -140,7 +133,7 @@ export default function AttributesDialog({ prop }) {
             case 'Willpower':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item xs={12}>A person's level of mental toughness and willingness to persevere in the face of adversity.</Grid>
                             <Grid item xs={12}>Commonly used as a solo test to deal with terrifying situations, and may be paired with other skills in some situations (Concentration is the most common, but Demolitions, Etiquette, and Gambling are likewise common enough pairings)</Grid>
                         </Grid>
@@ -149,7 +142,7 @@ export default function AttributesDialog({ prop }) {
             case 'Technique':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item xs={12}>A person's level of skill and manual dexterity, generally with mechanical or more practical matters than Intelligence.</Grid>
                             <Grid item xs={12}>Commonly used with Tech skills, as well Performance, Drive Vehicles, and Gambling (when trying to cheat)</Grid>
                         </Grid>
@@ -158,7 +151,7 @@ export default function AttributesDialog({ prop }) {
             case 'Move':
                 return (
                     <>
-                        <Grid container>
+                        <Grid container fontFamily={'serif'}>
                             <Grid item xs={12} padding={1}>The speed a person moves at. In grid-based play, this the number of squares (1 meter) a character can move each round as a standard action during combat or other contested situations.</Grid>
                             <Grid item xs={12} padding={1}>Generally, this can be used as a comparison as to whether two characters move faster/slower than each other, or at roughly the same speed.</Grid>
                             <Grid item xs={12} padding={1}>A successful Reflexes + Athletics test allows for more movement in a round, particularly when moving is all a character is doing that turn.</Grid>

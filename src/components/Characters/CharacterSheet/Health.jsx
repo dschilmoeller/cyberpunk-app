@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
 import SpecialModal from '../../Modals/SpecialModal';
+import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 function Health() {
     const charStatus = useSelector((store) => store.characterStatus)
@@ -66,7 +67,7 @@ function Health() {
 
         for (let i = 0; i < 10; i++) {
             healthBoxes.push(
-                <Grid key={i} item xs={4}><Item><SpecialModal prop={healthWords[i]} /></Item></Grid>
+                <Grid key={i} item xs={4}><Item><OtherAttributesDialog prop={healthWords[i]} /></Item></Grid>
             )
             if (cyberBoxes > i) {
                 healthBoxes.push(
@@ -91,10 +92,10 @@ function Health() {
         <>
             <Grid item xs={4}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SpecialModal prop={'Health'} /></Item></Grid>
-                    <Grid item xs={4}><Item><SpecialModal prop={'Status'} /></Item></Grid>
-                    <Grid item xs={4}><Item><SpecialModal prop={'Marks'} /></Item></Grid>
-                    <Grid item xs={4}><Item><SpecialModal prop={'Die Penalty'} /></Item></Grid>
+                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
                 
                     {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
                 </Grid>

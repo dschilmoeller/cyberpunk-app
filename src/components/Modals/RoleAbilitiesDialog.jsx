@@ -32,7 +32,7 @@ export default function RoleAbilitiesDialog({ prop }) {
         switch (prop) {
             case 'Rockerboy':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item xs={12}>
                             <h1>Charismatic Impact</h1>
                             A character with the Rockerboy Role has the Charismatic Impact ability. They can influence others by sheer presence of personality. They need not be a musical performer; they can influence others through poetry, art, dance, or simply their physical presence. They could be a rocker—or a cult leader.
@@ -70,9 +70,9 @@ export default function RoleAbilitiesDialog({ prop }) {
                         </Grid>
 
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                            <Table sx={{ minWidth: 650, fontFamily: 'serif' }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow sx={{fontFamily: 'serif'}}>
                                         <TableCell align="left">Rank</TableCell>
                                         <TableCell align="left">Venue</TableCell>
                                         <TableCell align="center">Single Fan</TableCell>
@@ -136,7 +136,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Solo':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item xs={12}>
                             <h1>Combat Awareness</h1>
                             A character with the Solo Role has the Combat Awareness ability. They get 1 point in Combat Awareness for each rank in Solo. At any time outside of combat, or at the beginning of their combat turn, they can distribute their points into any of the below abilities. Each ability with a 'charge' such as Damage Reduction resets at the beginning of their turn.
@@ -201,7 +201,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Netrunner':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item xs={12}>
                             Look I'm not doing this yet.
                         </Grid>
@@ -209,7 +209,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Nomad':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item padding={.5} xs={12}>
                             <h1>Moto</h1>
                             A character with the Nomad role has the Moto ability. Nomads spend their whole lives behind the wheel and under the hoods of their cars, and as a consequence are significantly better drivers than most other people. Nomads add dice equal to 1/2 their rank to just about any vehicle test they make, including piloting, repairing, and inventing.
@@ -267,7 +267,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Media':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item padding={.5} xs={12}>
                             <h1>Credibility</h1>
                             A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, and assists in digging up new information, rumors, and the like.
@@ -329,7 +329,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Medtech':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item padding={.5} xs={12}>
                             <h1>Medical Expertise</h1>
                             A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpunk, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
@@ -434,7 +434,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Maker':
                 return (
-                    <Grid container>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item padding={.5} xs={12}>
                             <h1>Craft</h1>
                             A character with the Maker role can jury rig, improve, manufacture, and invent items using their Craft Role Ability. Each rank of Maker gives 2 ranks to put into one of four specialties. These skills are rolled with an attribute for most tests; Craft is rarely rolled on its own.

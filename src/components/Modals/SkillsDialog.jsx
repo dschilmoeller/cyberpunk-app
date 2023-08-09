@@ -6,6 +6,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { Grid } from '@mui/material';
+
 export default function SkillsDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
@@ -114,7 +116,9 @@ export default function SkillsDialog({ prop }) {
                     <DialogContentText
                         tabIndex={-1}
                     >
-                        {dialogText(prop)}
+                        <Grid container fontFamily={'serif'}>
+                        <Grid item>{dialogText(prop)}</Grid>
+                        </Grid>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
