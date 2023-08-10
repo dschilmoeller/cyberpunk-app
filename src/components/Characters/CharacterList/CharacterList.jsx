@@ -20,6 +20,10 @@ function CharacterList() {
     history.push(`/advancementsheet/${id}`)
   }
 
+  const moveToShopSheet = (id) => {
+    history.push(`/shopSheet/${id}`)
+  }
+
   return (
     <div>
       <h2>Character List</h2>
@@ -30,7 +34,8 @@ function CharacterList() {
             return (
               <div key={character.id}>
                 <Button variant='contained' sx={{ m: 1 }} onClick={() => moveToCharacterSheet(character.id)}>{character.handle}</Button>
-                <Button onClick={() => moveToAdvancementSheet(character.id)}>Spend XP Version </Button>
+                <Button onClick={() => moveToAdvancementSheet(character.id)}>Spend XP & Equip Gear </Button>
+                <Button onClick={() => moveToShopSheet(character.id)}>Shopping </Button>
               </div>
             )
           })}

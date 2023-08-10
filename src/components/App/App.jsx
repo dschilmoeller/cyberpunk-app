@@ -24,6 +24,7 @@ import CharacterList from '../Characters/CharacterList/CharacterList';
 import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 import Creation from '../CharCreation/Creation';
 import AdvancementSheet from '../Characters/AdvancementSheet/AdvancementSheet';
+import ShoppingSheet from '../Characters/ShoppingSheet/ShoppingSheet';
 
 import GameMasterLanding from '../GameMaster/GameMasterLanding';
 import GameMasterSheet from '../GameMaster/GameMasterSheet';
@@ -124,6 +125,14 @@ function App() {
             path="/advancementsheet/:id"
           >
             <AdvancementSheet />
+          </ProtectedRoute>
+
+          {/* shopping area */}
+          <ProtectedRoute
+            exact
+            path="/shopsheet/:id"
+          >
+            <ShoppingSheet />
           </ProtectedRoute>
 
           {/* character creation */}

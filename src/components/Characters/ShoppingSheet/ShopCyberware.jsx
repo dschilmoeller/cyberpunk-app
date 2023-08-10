@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
-export default function AdvancementShopCyberware() {
+export default function ShopCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
     const boughtCyberware = useSelector(store => store.advancementGear.boughtCyberware)

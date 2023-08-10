@@ -9,8 +9,8 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h2 >CyberPumpkin</h2>
+      <Link className="nav-title" to="/home">
+        <h2>CyberPumpkin</h2>
       </Link>
       <div>
         {/* If no user is logged in, show these links */}

@@ -6,21 +6,19 @@ import { useHistory, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
-import AdvancementAttributes from './AdvancementAttributes';
-import AdvancementSkills from './AdvancementSkills';
-import AdvancementSpecial from './AdvancementSpecial';
-import AdvancementOther from './AdvancementOther';
+import ShopArmor from './ShopArmor';
+import ArmorOwnedTable from './ArmorOwnedTable';
+import ArmorMasterTable from './ArmorMasterTable';
+import WeaponsOwnedTable from './WeaponsOwnedTable';
+import WeaponsMasterTable from './WeaponsMasterTable';
+import ShopCyberware from './ShopCyberware';
+import ShopOther from './ShopOther';
 
-import AdvancementGearArmor from './AdvancementGearArmor';
-import AdvancementGearWeapons from './AdvancementGearWeapons';
-import AdvancementGearOther from './AdvancementGearOther';
-import AdvancementCyberware from './AdvancementCyberware';
-
-function AdvancementSheet() {
+function ShoppingSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
     // console.log(`Characters:`, characterList);
-    const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
+    const [heading, setHeading] = useState('Character Sheet - Shopping');
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
@@ -82,56 +80,35 @@ function AdvancementSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={6}><Item>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</Item></Grid>
-                            <Grid item xs={6}><Item>Cash on Hand: ${advancementDetails.bank}</Item></Grid>
+                            <Grid item xs={12}><Item>Cash on Hand: ${advancementDetails.bank}</Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
 
-                <Item><h2>I want to change...</h2></Item>
+                <Item><h2>I want to shop for...</h2></Item>
                 <Grid container>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Attributes')}>Attributes</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Skills')}>Skills</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Role')}>Role</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Other')}>Other Traits</Button></Item></Grid>
-
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Armor')}>Equip Armor</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Equip Weapons</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>See Other Gear</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Equip Cyberware</Button></Item></Grid>
-
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Armor')}>Shop Armor</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Weapons')}>Shop Weapons</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Misc Gear')}>Shop Other Gear</Button></Item></Grid>
+                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Cyberware')}>Shop Cyberware</Button></Item></Grid>
                 </Grid>
 
-                {opener === 'Attributes' ? (<>
-                    <AdvancementAttributes />
+                {opener === 'Shop Armor' ? (<>
+                    <ArmorOwnedTable />
+                    <ArmorMasterTable />
                 </>) : <></>}
 
-                {opener === 'Skills' ? (<>
-                    <AdvancementSkills />
+                {opener === 'Shop Weapons' ? (<>
+                    <WeaponsOwnedTable />
+        <WeaponsMasterTable />
                 </>) : <></>}
 
-                {opener === 'Role' ? (<>
-                    <AdvancementSpecial />
+                {opener === 'Shop Misc Gear' ? (<>
+                    <ShopOther />
                 </>) : <></>}
 
-                {opener === 'Other' ? (<>
-                    <AdvancementOther />
-                </>) : <></>}
-
-                {opener === 'Armor' ? (<>
-                    <AdvancementGearArmor />
-                </>) : <></>}
-
-                {opener === 'Weapons' ? (<>
-                    <AdvancementGearWeapons />
-                </>) : <></>}
-
-                {opener === 'Gear' ? (<>
-                    <AdvancementGearOther />
-                </>) : <></>}
-
-                {opener === 'Cyberware' ? (<>
-                    <AdvancementCyberware />
+                {opener === 'Shop Cyberware' ? (<>
+                    <ShopCyberware />
                 </>) : <></>}
 
             </div>
@@ -139,4 +116,4 @@ function AdvancementSheet() {
     )
 }
 
-export default AdvancementSheet;
+export default ShoppingSheet;

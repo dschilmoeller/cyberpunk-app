@@ -3,10 +3,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #fff;
 
   margin: 0 0 30px;
-  background-color: darkgray;
+  background-color: black;
   overflow: hidden;
+  border-bottom: yellow;
+  border-top: black;
+  border-left: black;
+  border-right: black;
+  border-style: solid;
 }
 
 .nav a {
@@ -14,17 +20,22 @@
 }
 
 .nav-title {
-  font-size: 24px;
   font-weight: 700;
-  color: #f2f2f2;
+  color: white;
   padding-left: 10px;
+  padding-right: 10px;
   margin: 0;
+}
+
+.nav-title:hover {
+  background-color: #f2f2f2;
+  color: #000
 }
 
 .navLink {
   display: inline-block;
   color: #f2f2f2;
-  background-color: darkgray;
+  background-color: black;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;

@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
-export default function AdvancementShopOther() {
+export default function ShopOther() {
     const dispatch = useDispatch()
     const charMiscGear = useSelector(store => store.advancementGear.gear)
     const boughtMiscGear = useSelector(store => store.advancementGear.boughtMiscGear)

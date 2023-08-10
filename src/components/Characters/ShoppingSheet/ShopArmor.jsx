@@ -9,8 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
+import ArmorOwnedTable from './ArmorOwnedTable';
 
-export default function AdvancementShopArmor() {
+export default function ShopArmor() {
     const dispatch = useDispatch()
     
     const charArmor = useSelector(store => store.advancementGear.armor)
@@ -62,7 +63,9 @@ export default function AdvancementShopArmor() {
     return (<>
         <h1>Shop Armor</h1>
         <h2>My Armor</h2>
-        <TableContainer component={Paper}>
+<ArmorOwnedTable />
+
+        {/* <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
@@ -162,6 +165,6 @@ export default function AdvancementShopArmor() {
                     })}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer> */}
     </>)
 }
