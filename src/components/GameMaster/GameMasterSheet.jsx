@@ -23,7 +23,6 @@ export default function GameMasterSheet() {
     const [player, setPlayer] = useState(charDetail.player)
     const [role, setRole] = useState(charDetail.role)
     const [culture, setCulture] = useState(charDetail.culture)
-    const [concept, setConcept] = useState(charDetail.concept)
     const [campaign, setCampaign] = useState(charDetail.campaign)
 
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
@@ -39,7 +38,6 @@ export default function GameMasterSheet() {
         setPlayer(charDetail.player)
         setRole(charDetail.role)
         setCulture(charDetail.culture)
-        setConcept(charDetail.concept)
         setCampaign(charDetail.campaign)
     }, [charDetail.id])
 
@@ -95,7 +93,7 @@ export default function GameMasterSheet() {
     }
 
     const saveCharacter = () => {
-        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, concept, campaign } })
+        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, campaign } })
     }
 
 
@@ -115,8 +113,6 @@ export default function GameMasterSheet() {
             <Grid item xs={2} textAlign={'center'}>Culture: {charDetail.culture}</Grid>
             <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Culture' value={culture || ''} onChange={(event) => { setCulture(event.target.value) }} /></Grid>
 
-            <Grid item xs={2} textAlign={'center'}>Concept: {charDetail.concept}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Concept' value={concept || ''} onChange={(event) => { setConcept(event.target.value) }} /></Grid>
             <Grid item xs={2} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
             <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Campaign' value={campaign || ''} onChange={(event) => { setCampaign(event.target.value) }} /></Grid>
         </Grid>

@@ -61,9 +61,6 @@ function CharacterSheet() {
                             <Grid item xs={4}>
                                 <Item>Culture: {charDetail.culture}</Item>
                             </Grid>
-                            <Grid item xs={4}>
-                                <Item>Concept: {charDetail.concept}</Item>
-                            </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />
                             <CharacterRoleAbilities charDetail={charDetail} />

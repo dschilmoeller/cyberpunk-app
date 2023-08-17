@@ -14,7 +14,6 @@ function CreationFirstSteps() {
     const [campaign, setCampaign] = useState(charDetail.campaign)
     const [role, setRole] = useState(charDetail.role)
     const [culture, setCulture] = useState(charDetail.culture)
-    const [concept, setConcept] = useState(charDetail.concept)
 
     const campaigns = [
         { label: 'Gatti Ombre', id: 1 },
@@ -30,7 +29,6 @@ function CreationFirstSteps() {
             campaign,
             role,
             culture,
-            concept
         }
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
         dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
@@ -41,15 +39,6 @@ function CreationFirstSteps() {
         setCampaign('Gatti Ombre')
         setRole('Missus Fixit')
         setCulture('Desert Traveler')
-        setConcept(`Mad Maxine's car mechanic`)
-        const character = {
-            handle,
-            player,
-            campaign,
-            role,
-            culture,
-            concept
-        }
     }
     return (<>
         <h1>First Steps:</h1>
@@ -124,20 +113,6 @@ function CreationFirstSteps() {
                         required
                         type='text'
                         value={culture}
-                        fullWidth
-                    />
-                </Grid>
-
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Concept: A one sentence summary of your character</Typography></Item>
-                </Grid>
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
-                    <TextField
-                        label="Concept"
-                        onChange={e => setConcept(e.target.value)}
-                        required
-                        type='text'
-                        value={concept}
                         fullWidth
                     />
                 </Grid>

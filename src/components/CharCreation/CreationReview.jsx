@@ -160,9 +160,6 @@ export default function CreationReview() {
                         <Grid item xs={4}>
                             <Item>Culture: {charDetail.culture}</Item>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Item>Concept: {charDetail.concept}</Item>
-                        </Grid>
 
                         <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'attributes' })}><h1>Atribute - click to return to Attribute selection</h1></Item></Grid>
                         <Grid item xs={4}>

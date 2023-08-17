@@ -76,9 +76,6 @@ function AdvancementSheet() {
                             <Grid item xs={4}>
                                 <Item>Culture: {advancementDetails.culture}</Item>
                             </Grid>
-                            <Grid item xs={4}>
-                                <Item>Concept: {advancementDetails.concept}</Item>
-                            </Grid>
                         </Grid>
 
                         <Grid container>
