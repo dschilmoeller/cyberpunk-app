@@ -11,6 +11,9 @@ import ArmorOwnedTable from './ArmorOwnedTable';
 import ArmorMasterTable from './ArmorMasterTable';
 import WeaponsOwnedTable from './WeaponsOwnedTable';
 import WeaponsMasterTable from './WeaponsMasterTable';
+import OtherOwnedTable from './OtherOwnedTable';
+import OtherMasterTable from './OtherMasterTable';
+
 import ShopCyberware from './ShopCyberware';
 import ShopOther from './ShopOther';
 
@@ -100,11 +103,12 @@ function ShoppingSheet() {
 
                 {opener === 'Shop Weapons' ? (<>
                     <WeaponsOwnedTable />
-        <WeaponsMasterTable />
+                    <WeaponsMasterTable />
                 </>) : <></>}
 
                 {opener === 'Shop Misc Gear' ? (<>
-                    <ShopOther />
+                    <OtherOwnedTable />
+                    <OtherMasterTable />
                 </>) : <></>}
 
                 {opener === 'Shop Cyberware' ? (<>

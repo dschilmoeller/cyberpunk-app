@@ -12,6 +12,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import WeaponDialog from '../../Modals/WeaponDialog';
+
 export default function WeaponsOwnedTable() {
     const dispatch = useDispatch()
     const charWeapons = useSelector(store => store.advancementGear.weapons)
@@ -108,7 +110,7 @@ export default function WeaponsOwnedTable() {
             id: 'price',
             numeric: true,
             disablePadding: false,
-            label: 'Price',
+            label: 'Street Price',
         },
         {
             id: 'sell',
@@ -236,7 +238,7 @@ export default function WeaponsOwnedTable() {
                                 if (row.equipped === false) {
                                     return (
                                         <TableRow hover key={row.weapon_bridge_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
+                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.damage}</TableCell>
                                             <TableCell align="center">{row.range}</TableCell>
                                             <TableCell align="center">{row.rof}</TableCell>

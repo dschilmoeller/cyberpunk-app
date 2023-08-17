@@ -31,7 +31,37 @@ const advancementGear = (state = {
             totalArmorQuality: action.payload.current_armor_quality,
             totalShieldQuality: action.payload.current_shield_quality,
             totalCyberwareArmorQuality: action.payload.current_cyberware_armor_quality,
-            totalCyberwareHealthBoxesCreated: action.payload    .current_cyberware_health_boxes
+            totalCyberwareHealthBoxesCreated: action.payload.current_cyberware_health_boxes
+        }
+    }
+
+    if (action.type === 'CLEAR_ADVANCEMENT_DETAIL') {
+        return {
+            armor: [],
+            shield: [],
+            weapons: [],
+            gear: [],
+            cyberware: [],
+            cyberwareSlots: {},
+            totalArmorQuality: 0,
+            totalShieldQuality: 0,
+            totalCyberwareArmorQuality: 0,
+            totalCyberwareHealthBoxesCreated: 0,
+            boughtArmor: [],
+            soldArmor: [],
+            armorID: 0,
+            boughtShield: [],
+            soldShield: [],
+            shieldID: 0,
+            boughtWeapons: [],
+            soldWeapons: [],
+            weaponID: 0,
+            boughtMiscGear: [],
+            soldMiscGear: [],
+            miscGearID: 0,
+            boughtCyberware: [],
+            soldCyberware: [],
+            cyberwareID: 0
         }
     }
     if (action.type === 'SET_ADVANCEMENT_ARMOR') {

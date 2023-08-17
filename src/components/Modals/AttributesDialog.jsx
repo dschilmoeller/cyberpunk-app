@@ -108,7 +108,18 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
-                            <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the Rule of Cool.</Grid>d
+                            <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the <b>Rule of Cool.</b></Grid>
+                            <Grid item padding={1} xs={12}><b>The Rule of Cool</b></Grid>
+                            <Grid item padding={1} xs={12}>Cyberpunks live and die by how cool they are. To reflect this, once per scene, they can use their Cool attribute in lieu of any other attribute in a roll. This can only be done if what they are doing is Fucking Awesome.
+                                The GM has final say on what can be subbed, but they are encouraged to be generous.</Grid>
+                            <Grid item padding={1} xs={12}>
+                                Typically, the difficulty value of the roll is higher, or it requires two rolls (only one of which uses Cool) to succeed. If successful, the result should be Very Dramatic.
+                            </Grid>
+                            <Grid item padding={1} xs={12}>Example:
+                                Ace has strutted into the wrong bar and is close to being on the receiving end of an ass-kicking from a group of Maelstrom gangers. They opt to shoot one in the back of the head…from the front.
+                                The GM requires Ace to make an Intelligence (3) + Science (2) roll to calculate the angles.
+                                Ace succeeds at Geometry, and rolls their Cool (6) + Automatics (5) skill, scoring an impressive 8 successes and spraying robo-eyes all over their immaculate vest. The remaining gangers buy Ace all the beer.
+                            </Grid>
                         </Grid>
                     </>
                 )

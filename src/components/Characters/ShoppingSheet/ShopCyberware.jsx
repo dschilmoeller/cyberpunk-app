@@ -31,9 +31,11 @@ export default function ShopCyberware() {
     const buyCyberware = (item) => {
         if (charDetail.bank >= item.price) {
             dispatch({ type: 'BUY_CYBERWARE', payload: { item, cyberwareID: cyberwareID } })
+            return;
         }
         else {
             alert('Transaction canceled due to lack of funds!')
+            return;
         }
     }
 
@@ -76,7 +78,7 @@ export default function ShopCyberware() {
                 </TableHead>
                 <TableBody>
                     {charCyberware.map(item => {
-                        if (item.equipped === false) {
+                        if (item.equipped === false && item.type === selectedList) {
                             return (<React.Fragment key={item.owned_cyberware_id}>
                                 <TableRow>
                                     <TableCell align="left">{item.name} </TableCell>

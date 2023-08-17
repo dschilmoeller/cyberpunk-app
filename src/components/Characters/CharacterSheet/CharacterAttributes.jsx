@@ -32,7 +32,7 @@ function CharacterAttributes(charDetailProp) {
         setStrengthAtt(dotReturn(charDetail.strength + charDetail.cyber_strength))
         setBodyAtt(dotReturn(charDetail.body + charDetail.cyber_body))
         setReflexesAtt(dotReturn(charDetail.reflexes + charDetail.cyber_reflexes))
-        setMoveAtt(dotReturn(Math.ceil(charDetail.reflexes + charDetail.cyber_reflexes) / 2))
+        setMoveAtt(moveDotReturn(Math.ceil(charDetail.reflexes + charDetail.cyber_reflexes) / 2))
         setAppearanceAtt(dotReturn(charDetail.appearance + charDetail.cyber_appearance))
         setCoolAtt(dotReturn(charDetail.cool + charDetail.cyber_cool))
         setStreetCredAtt(dotReturn(charDetail.street_cred))
@@ -49,6 +49,19 @@ function CharacterAttributes(charDetailProp) {
         }
         let j = attribute
         for (j; j <= 9; j++) {
+            returnedDots += emptydot
+        }
+        return returnedDots
+    }
+
+    const moveDotReturn = (attribute) => {
+        let returnedDots = ''
+
+        for (let i = 0; i < attribute; i++) {
+            returnedDots += fulldot;
+        }
+        let j = attribute
+        for (j; j <= 4; j++) {
             returnedDots += emptydot
         }
         return returnedDots

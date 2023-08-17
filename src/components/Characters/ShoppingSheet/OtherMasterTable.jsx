@@ -12,30 +12,16 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-
-export default function ArmorMasterTable() {
+export default function OtherMasterTable() {
     const dispatch = useDispatch()
-
-    const armorID = useSelector(store => store.advancementGear.armorID)
-    const armorMaster = useSelector(store => store.armorMaster)
-
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
-    const shieldMaster = useSelector(store => store.shieldMaster)
+    const miscGearID = useSelector(store => store.advancementGear.miscGearID)
+    const gearMaster = useSelector(store => store.miscGearMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
-    const buyArmor = (item) => {
+    const buyMiscGear = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_ARMOR', payload: { item, armorID } })
-        }
-        else {
-            alert('Transaction canceled due to lack of funds!')
-        }
-    }
-
-    const buyShield = (item) => {
-        if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_SHIELD', payload: { item, shieldID } })
+        dispatch({ type: 'BUY_MISC_GEAR', payload: {item, miscGearID: miscGearID}})
         }
         else {
             alert('Transaction canceled due to lack of funds!')
@@ -84,14 +70,8 @@ export default function ArmorMasterTable() {
             label: 'Name',
         },
         {
-            id: 'quality',
-            numeric: true,
-            disablePadding: false,
-            label: 'Quality',
-        },
-        {
             id: 'description',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Description',
         },
@@ -102,10 +82,10 @@ export default function ArmorMasterTable() {
             label: 'Price',
         },
         {
-            id: 'buy',
+            id: 'purchase',
             numeric: false,
             disablePadding: false,
-            label: 'Buy',
+            label: 'Purchase',
         },
     ];
 
@@ -147,7 +127,7 @@ export default function ArmorMasterTable() {
     };
 
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('price');
+    const [orderBy, setOrderBy] = React.useState('name');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -155,45 +135,35 @@ export default function ArmorMasterTable() {
         setOrderBy(property);
     };
 
-    function createMasterArmorData(armor_master_id, description, name, price, quality) {
+    // create OtherGear Data
+
+    function createOtherMasterData(description, misc_gear_master_id, name, price) {
         return {
-            armor_master_id, description, name, price, quality
+            description,
+            misc_gear_master_id,
+            name,
+            price
         }
     }
 
-    const masterArmorRows = []
-    for (let i = 0; i < armorMaster.length; i++) {
-        masterArmorRows.push(createMasterArmorData(armorMaster[i].armor_master_id, armorMaster[i].description, armorMaster[i].name,
-            armorMaster[i].price, armorMaster[i].quality))
+    // take misc gear data and push into array for conversion into rows.
+    const otherMasterRows = []
+    for (let i = 0; i < gearMaster.length; i++) {
+        otherMasterRows.push(createOtherMasterData(gearMaster[i].description, gearMaster[i].misc_gear_master_id, gearMaster[i].name, gearMaster[i].price))
     }
-    
-    // sort and monitor changes to charArmorRows in case of sales.
-    const sortedMasterArmorRows = React.useMemo(
+
+    // sort and monitor changes. 
+    const sortedOtherMasterRows = React.useMemo(
         () =>
-            stableSort(masterArmorRows, getComparator(order, orderBy)),
+            stableSort(otherMasterRows, getComparator(order, orderBy)),
         [order, orderBy],
     );
-
-    function createMasterShieldData(description, name, price, quality, shield_master_id) {
-        return {
-            description, name, price, quality, shield_master_id
-        }
-    }
-
-    const masterShieldRows = []
-    for (let i = 0; i < shieldMaster.length; i++) {
-        masterShieldRows.push(createMasterShieldData(shieldMaster[i].description, shieldMaster[i].name, shieldMaster[i].price,
-            shieldMaster[i].quality, shieldMaster[i].shield_master_id))
-    }
-
-    const sortedMasterShieldRows = React.useMemo(
-        () =>
-            stableSort(masterShieldRows, getComparator(order, orderBy)),
-        [order, orderBy],
-    );
-
 
     return (<>
+        <h1>Shop Other</h1>
+
+
+        <h2>Buy Other</h2>
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -208,33 +178,20 @@ export default function ArmorMasterTable() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedMasterArmorRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.armor_master_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{Math.floor(row.price)}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                            })}
-                            {sortedMasterShieldRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.shield_master_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{Math.floor(row.price)}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
+                            {sortedOtherMasterRows.map((row) => {
+                                return (
+                                    <TableRow hover key={row.name}>
+                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{row.price}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
-
     </>)
 }

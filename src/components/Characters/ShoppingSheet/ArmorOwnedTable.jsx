@@ -18,12 +18,10 @@ export default function ArmorOwnedTable() {
     const charArmor = useSelector(store => store.advancementGear.armor)
     const boughtArmor = useSelector(store => store.advancementGear.boughtArmor)
     const armorID = useSelector(store => store.advancementGear.armorID)
-    const armorMaster = useSelector(store => store.armorMaster)
 
     const charShield = useSelector(store => store.advancementGear.shield)
     const boughtShield = useSelector(store => store.advancementGear.boughtShield)
     const shieldID = useSelector(store => store.advancementGear.shieldID)
-    const shieldMaster = useSelector(store => store.shieldMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
@@ -35,30 +33,12 @@ export default function ArmorOwnedTable() {
         dispatch({ type: 'SELL_ADVANCEMENT_ARMOR', payload: item })
     }
 
-    const buyArmor = (item) => {
-        if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_ARMOR', payload: { item, armorID } })
-        }
-        else {
-            alert('Transaction canceled due to lack of funds!')
-        }
-    }
-
     const sellOwnedShield = (item) => {
         dispatch({ type: 'SELL_OWNED_SHIELD', payload: item })
     }
 
     const sellBoughtShield = (item) => {
         dispatch({ type: 'SELL_ADVANCEMENT_SHIELD', payload: item })
-    }
-
-    const buyShield = (item) => {
-        if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_SHIELD', payload: { item, shieldID } })
-        }
-        else {
-            alert('Transaction canceled due to lack of funds!')
-        }
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -118,7 +98,7 @@ export default function ArmorOwnedTable() {
             id: 'price',
             numeric: true,
             disablePadding: false,
-            label: 'Price',
+            label: 'Street Price',
         },
         {
             id: 'sell',

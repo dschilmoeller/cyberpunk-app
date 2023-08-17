@@ -12,6 +12,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import WeaponDialog from '../../Modals/WeaponDialog';
+
 export default function WeaponsMasterTable() {
     const dispatch = useDispatch()
     const weaponID = useSelector(store => store.advancementGear.weaponID)
@@ -239,7 +241,7 @@ export default function WeaponsMasterTable() {
                             {sortedWeaponMasterRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.name}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
                                         <TableCell align="center">{row.damage}</TableCell>
                                         <TableCell align="center">{row.range}</TableCell>
                                         <TableCell align="center">{row.rof}</TableCell>
@@ -256,41 +258,5 @@ export default function WeaponsMasterTable() {
                 </TableContainer>
             </Paper>
         </Box>
-
-        {/* Old table - not sortable. */}
-        {/* <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="center">Damage</TableCell>
-                        <TableCell align="center">Range</TableCell>
-                        <TableCell align="center">Rate of Fire</TableCell>
-                        <TableCell align="center">Max Clip</TableCell>
-                        <TableCell align="center"># of Hands</TableCell>
-                        <TableCell align="center">Concealable?</TableCell>
-                        <TableCell align="center">Price</TableCell>
-                        <TableCell align="center">Buy</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {weaponMaster.map(item => {
-                        return (<React.Fragment key={item.weapon_master_id}>
-                            <TableRow>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
-                                <TableCell align="center">{item.dmg_type === 'bow' ? `${(charDetail.strength + charDetail.cyber_strength) * item.range}` : `${item.range}`}</TableCell>
-                                <TableCell align="center">{item.rof}</TableCell>
-                                <TableCell align="center">{item.max_clip}</TableCell>
-                                <TableCell align="center">{item.hands}</TableCell>
-                                <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="center">{item.price}</TableCell>
-                                <TableCell align="center"><Button onClick={() => buyWeapon(item)}>Buy</Button></TableCell>
-                            </TableRow>
-                        </React.Fragment>)
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer> */}
     </>)
 }

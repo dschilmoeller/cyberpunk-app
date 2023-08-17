@@ -11,6 +11,8 @@ import TableRow from '@mui/material/TableRow';
 
 import { Button } from '@mui/material';
 
+import WeaponDialog from '../../Modals/WeaponDialog';
+
 export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
     const characterWeapons = useSelector(store => store.advancementGear.weapons)
@@ -46,7 +48,7 @@ export default function AdvancementGearWeapons() {
                         if (item.equipped === true) {
                             return (
                                 <TableRow key={i}>
-                                    <TableCell align="left">{item.name} </TableCell>
+                                    <TableCell align="left"><WeaponDialog prop={item.name} /></TableCell>
                                     <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                                     <TableCell align="center">{item.rof}</TableCell>
@@ -82,7 +84,7 @@ export default function AdvancementGearWeapons() {
                         if (item.equipped === false) {
                             return (
                                 <TableRow key={i}>
-                                    <TableCell align="left">{item.name} </TableCell>
+                                    <TableCell align="left"><WeaponDialog prop={item.name} /></TableCell>
                                     <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                                     <TableCell align="center">{item.rof}</TableCell>
