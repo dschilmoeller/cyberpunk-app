@@ -247,7 +247,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     "maker" = $59, "maker_field" = $60, "maker_upgrade" = $61, "maker_fab" = $62, "maker_invent" = $63,
     "perm_humanity_loss" = $64, "max_luck" = $65, "max_xp" = $66, "spent_xp" = $67, "bank" = $68,
     "cyber_strength" = $69, "cyber_body" = $70, "cyber_reflexes" = $71, "cyber_move" = $72, "cyber_appearance" = $73, "cyber_cool" = $74, "cyber_intelligence" = $75
-    WHERE ID = $76`
+    WHERE id = $76`
 
     const charParams = [req.user.id, rb.handle, rb.player, rb.role, rb.culture, rb.concept, rb.campaign, rb.is_paramedical,
     rb.strength, rb.body, rb.reflexes, rb.move, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
@@ -343,7 +343,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtArmor.length; i++) {
-                    const boughtArmorParams = [req.user.id, boughtArmor[i].armor_master_id, 1, false]
+                    const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 1, false]
                     pool.query(boughtArmorSqlText, boughtArmorParams)
                 }
             }
@@ -361,7 +361,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "armor_mod_1", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtShield.length; i++) {
-                    const boughtShieldParams = [req.user.id, boughtShield[i].shield_master_id, 1, false]
+                    const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 1, false]
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }
@@ -381,7 +381,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
             VALUES ($1, $2, $3, $4, $5, $6);`
                 for (let i = 0; i < boughtWeapons.length; i++) {
-                    const boughtWeaponsParams = [req.user.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
+                    const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
                 }
             }
@@ -401,7 +401,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 const boughtMiscGearSqlText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") 
             VALUES ($1, $2)`
                 for (let i = 0; i < boughtMiscGear.length; i++) {
-                    const boughtMiscGearParams = [req.user.id, boughtMiscGear[i].misc_gear_master_id]
+                    const boughtMiscGearParams = [req.body.char.id, boughtMiscGear[i].misc_gear_master_id]
                     pool.query(boughtMiscGearSqlText, boughtMiscGearParams)
                 }
             }
@@ -420,7 +420,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 const boughtCyberwareSqlText = `INSERT INTO "char_owned_cyberware" ("char_id", "cyberware_master_id") 
             VALUES ($1, $2)`
                 for (let i = 0; i < boughtCyberware.length; i++) {
-                    const boughtCyberwareParams = [req.user.id, boughtCyberware[i].cyberware_master_id]
+                    const boughtCyberwareParams = [req.body.char.id, boughtCyberware[i].cyberware_master_id]
                     pool.query(boughtCyberwareSqlText, boughtCyberwareParams)
                 }
             }
@@ -430,7 +430,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
             res.sendStatus(201)
         })
         .catch(err => {
-            console.log(`Error creating character,`, err);
+            console.log(`Error saving advancement character,`, err);
         })
 
 })

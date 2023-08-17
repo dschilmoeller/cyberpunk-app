@@ -218,7 +218,9 @@ function Weapons() {
                 {/* cycle through weapons and list melee weapons up top */}
                 {/* Starting with cyberweapons */}
                 {charCyberDetail.map(cyberware => {
-                    return cyberWeaponData(cyberware)
+                    if (cyberware.equipped === true) {
+                        return cyberWeaponData(cyberware)
+                    }
                 })}
                 {charWeapons.map(weapon => {
                     if (weapon.equipped === true) {

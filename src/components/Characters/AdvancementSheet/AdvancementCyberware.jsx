@@ -255,6 +255,10 @@ export default function AdvancementCyberware() {
                         }
                     }
                     // If a cyberarm type and not a right / left cyberarm (thus, an arm mod), see if there are any slots open for mods.
+                } else if (incomingCyber.name === 'Big Knucks' || incomingCyber.name === 'Scratchers' || incomingCyber.name === 'Rippers' || incomingCyber.name === 'Wolvers') {
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots } })
+                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    break;
                 } else if (cyberarmSlots > 0) {
                     // if there are open slots, lower slot count by 1, equip gear, and exit function
                     setCyberarmSlots(cyberarmSlots - 1)
@@ -281,7 +285,7 @@ export default function AdvancementCyberware() {
                     break;
                 }
             case 'borgware':
-                dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber} })
+                dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
                 dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
             default:
                 break;
@@ -350,6 +354,10 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots - 4 } })
                     dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     dispatch({ type: 'CYBERLIMB_REMOVED' })
+                    break;
+                } else if (incomingCyber.name === 'Big Knucks' || incomingCyber.name === 'Scratchers' || incomingCyber.name === 'Rippers' || incomingCyber.name === 'Wolvers') {
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots } })
+                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     break;
                 } else {
                     setCyberarmSlots(cyberarmSlots + 1)
