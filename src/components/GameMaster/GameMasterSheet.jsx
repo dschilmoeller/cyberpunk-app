@@ -20,8 +20,6 @@ export default function GameMasterSheet() {
     // State handlers for various fields
     const [handle, setHandle] = useState(charDetail.handle)
     const [player, setPlayer] = useState(charDetail.player)
-    const [role, setRole] = useState(charDetail.role)
-    const [culture, setCulture] = useState(charDetail.culture)
     const [campaign, setCampaign] = useState(charDetail.campaign)
 
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
@@ -35,8 +33,6 @@ export default function GameMasterSheet() {
         // required to make inputs default to existing data
         setHandle(charDetail.handle)
         setPlayer(charDetail.player)
-        setRole(charDetail.role)
-        setCulture(charDetail.culture)
         setCampaign(charDetail.campaign)
     }, [charDetail.id])
 
@@ -92,7 +88,7 @@ export default function GameMasterSheet() {
     }
 
     const saveCharacter = () => {
-        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, handle, player, role, culture, campaign } })
+        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, handle, player, campaign } })
     }
 
 
@@ -107,13 +103,8 @@ export default function GameMasterSheet() {
             <Grid item xs={2} textAlign={'center'}>Player: {charDetail.player}</Grid>
             <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
 
-            <Grid item xs={2} textAlign={'center'}>Role: {charDetail.role}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Role' value={role || ''} onChange={(event) => { setRole(event.target.value) }} /></Grid>
-            <Grid item xs={2} textAlign={'center'}>Culture: {charDetail.culture}</Grid>
-            <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Culture' value={culture || ''} onChange={(event) => { setCulture(event.target.value) }} /></Grid>
-
-            <Grid item xs={2} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
-            <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Campaign' value={campaign || ''} onChange={(event) => { setCampaign(event.target.value) }} /></Grid>
+            <Grid item xs={4} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
+            <Grid item xs={4} marginRight={2}><TextField fullWidth variant='standard' label='Change Campaign' value={campaign || ''} onChange={(event) => { setCampaign(event.target.value) }} /></Grid>
         </Grid>
         <br />
         <br />
@@ -189,7 +180,7 @@ export default function GameMasterSheet() {
 
         <h1>Luck</h1>
         <Grid container>
-            <Grid item xs={4} textAlign={'center'}>Current Maximum Luck: {attDotReturn(charDetail.max_luck, 10)} </Grid>
+            <Grid item xs={12} textAlign={'center'}>Current Maximum Luck: {attDotReturn(charDetail.max_luck, 10)} </Grid>
         </Grid>
 
         {allowPermLuckChange ? (<>
@@ -200,8 +191,10 @@ export default function GameMasterSheet() {
                         onChange={(e) => setAllowPermLuckChange(e.target.checked)} />} label="Allow Permanent Luck Changes" />
                 </FormGroup>
             </Grid>
-            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeLuck(1)}>Add 1 Permanent Luck</Button></Grid>
-            <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeLuck(-1)}>Remove 1 Permanent Luck</Button></Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeLuck(1)}>Add 1 Permanent Luck</Button></Grid>
+                <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeLuck(-1)}>Remove 1 Permanent Luck</Button></Grid>
+            </Grid>
         </>) : (<>
             <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
                 <FormGroup sx={{ position: 'flex', alignItems: 'center' }}>

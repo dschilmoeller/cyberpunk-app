@@ -12,8 +12,6 @@ function CreationFirstSteps() {
     const [handle, setHandle] = useState(charDetail.handle)
     const [player, setPlayer] = useState(charDetail.player)
     const [campaign, setCampaign] = useState(charDetail.campaign)
-    const [role, setRole] = useState(charDetail.role)
-    const [culture, setCulture] = useState(charDetail.culture)
 
     const campaigns = [
         { label: 'Gatti Ombre', id: 1 },
@@ -27,8 +25,6 @@ function CreationFirstSteps() {
             handle,
             player,
             campaign,
-            role,
-            culture,
         }
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
         dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
@@ -37,8 +33,6 @@ function CreationFirstSteps() {
         setHandle('Mad Maxine')
         setPlayer('Schwami')
         setCampaign('Gatti Ombre')
-        setRole('Missus Fixit')
-        setCulture('Desert Traveler')
     }
     return (<>
         <h1>First Steps:</h1>
@@ -85,34 +79,6 @@ function CreationFirstSteps() {
                         required
                         type='text'
                         value={campaign}
-                        fullWidth
-                    />
-                </Grid>
-
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Role: What is your character's function on the team?</Typography></Item>
-                </Grid>
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
-                    <TextField
-                        label="Role"
-                        onChange={e => setRole(e.target.value)}
-                        required
-                        type='text'
-                        value={role}
-                        fullWidth
-                    />
-                </Grid>
-
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Culture: What is your character's background?</Typography></Item>
-                </Grid>
-                <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
-                    <TextField
-                        label="Culture"
-                        onChange={e => setCulture(e.target.value)}
-                        required
-                        type='text'
-                        value={culture}
                         fullWidth
                     />
                 </Grid>

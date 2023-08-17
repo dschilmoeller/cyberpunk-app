@@ -66,16 +66,10 @@ function ShoppingSheet() {
                                 <Item>Name: {advancementDetails.handle}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Role: {advancementDetails.role}</Item>
-                            </Grid>
-                            <Grid item xs={4}>
                                 <Item>Player: {advancementDetails.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
                                 <Item>Campaign: {advancementDetails.campaign} </Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item>Culture: {advancementDetails.culture}</Item>
                             </Grid>
                         </Grid>
 

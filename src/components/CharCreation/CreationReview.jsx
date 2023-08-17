@@ -149,16 +149,10 @@ export default function CreationReview() {
                             <Item>Handle: {charDetail.handle}</Item>
                         </Grid>
                         <Grid item xs={4}>
-                            <Item>Role: {charDetail.role}</Item>
-                        </Grid>
-                        <Grid item xs={4}>
                             <Item>Player: {charDetail.player}</Item>
                         </Grid>
                         <Grid item xs={4}>
                             <Item>Campaign: {charDetail.campaign} </Item>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Item>Culture: {charDetail.culture}</Item>
                         </Grid>
 
                         <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'attributes' })}><h1>Atribute - click to return to Attribute selection</h1></Item></Grid>

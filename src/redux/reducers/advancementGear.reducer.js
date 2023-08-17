@@ -191,12 +191,13 @@ const advancementGear = (state = {
     if (action.type === 'CYBERWARE_ARMOR_EQUIPPED') {
         return {
             ...state,
-            totalCyberwareArmorQuality: action.payload.armor,
-            totalCyberwareHealthBoxesCreated: action.payload.healthBoxes
+            totalCyberwareArmorQuality: state.totalCyberwareArmorQuality + action.payload.armor,
+            totalCyberwareHealthBoxesCreated: state.totalCyberwareHealthBoxesCreated + action.payload.healthBoxes
         }
     }
 
     if (action.type === 'UNEQUIP_CYBERWARE') {
+        console.log(`cyberware:`, action.payload);
         return {
             ...state,
             cyberwareSlots: {
@@ -216,8 +217,8 @@ const advancementGear = (state = {
     if (action.type === 'CYBERWARE_ARMOR_REMOVED') {
         return {
             ...state,
-            totalCyberwareArmorQuality: action.payload.armor,
-            totalCyberwareHealthBoxesCreated: action.payload.healthBoxes
+            totalCyberwareArmorQuality: state.totalCyberwareArmorQuality + action.payload.armor,
+            totalCyberwareHealthBoxesCreated: state.totalCyberwareHealthBoxesCreated + action.payload.healthBoxes
         }
     }
 

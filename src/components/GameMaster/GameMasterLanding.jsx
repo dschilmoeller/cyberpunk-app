@@ -45,6 +45,8 @@ export default function GameMasterLanding() {
                             <TableCell align="center">Name</TableCell>
                             <TableCell align="center">Player</TableCell>
                             <TableCell align="center">Cool + Perception</TableCell>
+                            <TableCell align="center">Reflexes</TableCell>
+                            <TableCell align="center">Humanity Remaining</TableCell>
                             <TableCell align="center">Available XP</TableCell>
                             <TableCell align="center">Current Funds</TableCell>
                         </TableRow>
@@ -58,6 +60,8 @@ export default function GameMasterLanding() {
                                     <TableCell align="center"><Button variant='contained' sx={{ m: 1 }} onClick={() => viewGameMasterSheet(character.id)}>{character.handle}</Button></TableCell>
                                     <TableCell align="center">{character.player}</TableCell>
                                     <TableCell align="center">{character.cool + character.cyber_cool + character.perception}</TableCell>
+                                    <TableCell align="center">{character.reflexes + character.cyber_reflexes}</TableCell>
+                                    <TableCell align="center">{40 - (character.perm_humanity_loss + character.temp_humanity_loss)}</TableCell>
                                     <TableCell align="center">{character.max_xp - character.spent_xp}</TableCell>
                                     <TableCell align="center">${commaTizer(character.bank)}</TableCell>
                                 </TableRow>

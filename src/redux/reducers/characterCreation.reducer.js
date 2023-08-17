@@ -1,6 +1,6 @@
 const characterCreation = (state = {
     creationStep: 'first_steps',
-    handle: '', player: '', campaign: '', role: '', culture: '', 
+    handle: '', player: '', campaign: '', 
 
     strength: 0, body: 0, reflexes: 0, move: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
@@ -32,8 +32,6 @@ const characterCreation = (state = {
             handle: ap.handle,
             player: ap.player,
             campaign: ap.campaign,
-            role: ap.role,
-            culture: ap.culture,
         }
     }
     if (action.type === "SET_CREATION_ATTRIBUTES") {

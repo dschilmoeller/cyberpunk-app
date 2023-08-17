@@ -439,6 +439,7 @@ function CreationSkills() {
         setPerformance(1)
         setStealth(1)
         setSkillNumber(0)
+        setSkillCounter(19)
     }
 
     return (

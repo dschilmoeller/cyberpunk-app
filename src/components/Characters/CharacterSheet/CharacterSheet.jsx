@@ -50,16 +50,10 @@ function CharacterSheet() {
                                 <Item>Name: {charDetail.handle}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Role: {charDetail.role}</Item>
-                            </Grid>
-                            <Grid item xs={4}>
                                 <Item>Player: {charDetail.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
                                 <Item>Campaign: {charDetail.campaign} </Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item>Culture: {charDetail.culture}</Item>
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />

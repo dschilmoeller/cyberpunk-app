@@ -10,8 +10,6 @@ CREATE TABLE "character" (
 	"user_id" integer NOT NULL,
 	"handle" varchar NOT NULL,
 	"player" varchar NOT NULL,
-	"role" varchar NOT NULL,
-	"culture" varchar NOT NULL,
 	"campaign" varchar NOT NULL,
 	"is_paramedical" bool NOT NULL DEFAULT false,
 	"strength" integer NOT NULL DEFAULT '1',
@@ -378,7 +376,7 @@ VALUES
 ('MultiOptic Mount',1000,'(BETA - Does not work) Gives user 5 additional cybereye slots.',3,9,'Hospital','borgware'),
 ('Sensor Array',1000,'(BETA - Does not work) Gives user 5 additional cyberear slots.',3,9,'Hospital','borgware'),
 ('Linear Frame Alpha',50000,'(BETA - Does not work) Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 2. Decreases Reflexes by 1. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',3,9,'Hospital','borgware'),
-('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 5 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 2. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',4,12,'Hospital','borgware');
+('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 2. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',4,12,'Hospital','borgware');
 INSERT INTO "public"."armor_master"("name", "quality", "price", "description")
 VALUES (
 		E'Clothes',
@@ -893,9 +891,6 @@ INSERT INTO "character" (
 		"user_id",
 		"handle",
 		"player",
-		"role",
-		"culture",
-
 		"campaign",
 		"is_paramedical",
 		"strength",

@@ -33,8 +33,11 @@ export default function AdvancementCyberware() {
         switch (incomingCyber.type) {
             case 'fashionware':
                 if (fashionSlots > 0) {
+                    // remove 1 of the 7 slots available on the dom. This should be synchronous with the slot count, below to keep the count correct. May need further testing.
                     setFashionSlots(fashionSlots - 1)
+                    // equip cyberware; inform reducer of type and current count.
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'fashionware_slots', slot_count: fashionSlots - 1 } })
+                    // check if attribute enhancing cyberware has been equipped and inform reducer if so.
                     switch (incomingCyber.name) {
                         case 'Light Tattoo':
                             dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
@@ -43,22 +46,31 @@ export default function AdvancementCyberware() {
                     }
                     break;
                 } else {
+                    // warning in case character is too fashionable for their own good.
                     alert('Not enough slots - try getting being less fashionable!')
                     break;
                 }
 
             // handle equipping cyberAudio
             case 'cyberaudio':
+                // check if base item is being equipped; 
                 if (incomingCyber.name === 'Basic Cyberaudio Suite') {
-                    setCyberaudioSlots(3)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: 3 } })
+                    // if so add 3 slots to current count (default 0)
+                    setCyberaudioSlots(cyberaudioSlots + 3)
+                    // equip cyberware and inform reducer of slot type and current count.
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots + 3 } })
+                    // deal with humanity loss of equipping primary device.
                     dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     break;
+                    // check if cyberaudio slots exist.
                 } else if (cyberaudioSlots > 0) {
+                    // if so, reduce slot count by 1
                     setCyberaudioSlots(cyberaudioSlots - 1)
+                    // equip cyberware and inform reducer of slot type and current count.
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots - 1 } })
                     break;
                 } else {
+                    // warning in case character is trying to equip too much gear.
                     alert("Not enough slots - make sure you have a cyberaudio suite installed and it isn't full!")
                     break;
                 }
@@ -66,11 +78,14 @@ export default function AdvancementCyberware() {
             // Handle equipping Neuralware.
             case 'neuralware':
                 if (incomingCyber.name === 'Basic Neural Link') {
-                    setNeuralSlots(5)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: 5 } })
+                    // set neural slots to the appropriate number. currently only basic neural link is suppported, advanced is easily added e.g. with higher slot count.
+                    setNeuralSlots(neuralSlots + 5)
+                    // dispatch cyberware, slot type and count. 
+                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: neuralSlots + 5 } })
                     dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     break;
                 } else if (neuralSlots > 0) {
+                    // sets neural slots
                     setNeuralSlots(neuralSlots - 1)
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: neuralSlots - 1 } })
                     switch (incomingCyber.name) {
@@ -314,6 +329,12 @@ export default function AdvancementCyberware() {
                     setNeuralSlots(0)
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: 0 } })
                     dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    // loop through equipped cyberware; remove all equipped neuralware when Neural Link is removed.
+                    charCyberware.map(cyberware => {
+                        if (cyberware.type === 'neuralware') {
+                            dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: cyberware, slot_type: 'neuralware_slots', slot_count: 0 } })
+                        }
+                    })
                     break;
                 } else {
                     setNeuralSlots(neuralSlots + 1)
@@ -325,6 +346,12 @@ export default function AdvancementCyberware() {
                     setOpticSlots(0)
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: 0 } })
                     dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    // loop through equipped cyberware and remove all equipped cyberoptics when cybereyes are removed.
+                    charCyberware.map(cyberware => {
+                        if (cyberware.type === 'cyberoptics') {
+                            dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: cyberware, slot_type: 'cyberoptic_slots', slot_count: 0 } })
+                        }
+                    })
                     break;
                 } else {
                     setOpticSlots(opticSlots + 1)
@@ -341,11 +368,11 @@ export default function AdvancementCyberware() {
                 dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots + 1 } })
                 dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                 if (incomingCyber.name === 'Skin Weave') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: 0, healthBoxes: 0 } })
+                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -2, healthBoxes: -1 } })
                 } else if (incomingCyber.name === 'Subdermal Armor') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: 0, healthBoxes: 0 } })
+                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
                 } else if (incomingCyber.name === 'Body Plating') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: 0, healthBoxes: 0 } })
+                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
                 }
                 break;
             case 'cyberarm':

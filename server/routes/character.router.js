@@ -239,24 +239,24 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
 
     // swapped concept for temp humanity loss tracker rather than re-number all items.
     const charSqlText = `UPDATE "character"
-    SET "user_id" = $1, "handle" = $2, "player" = $3, "role" = $4, "culture" = $5, "temp_humanity_loss" = $6, "campaign" = $7, "is_paramedical" = $8,
-    "strength" = $9, "body" = $10, "reflexes" = $11, "move" = $12, "appearance" = $13, "cool" = $14, "street_cred" = $15, "intelligence" = $16, "willpower" = $17, "technique" = $18,
-    "athletics" = $19, "brawling" = $20, "concentration" = $21, "evasion" = $22, "fast_talk" = $23, "firearms" = $24, "legerdemain" = $25, "melee_weapons" = $26, "perception" = $27, "streetwise" = $28,
-    "demolitions" = $29, "drive_land" = $30, "drive_exotic" = $31, "etiquette" = $32, "exotic_weapons" = $33, "heavy_weapons" = $34, "performance" = $35, "stealth" = $36, "survival" = $37, "tracking" = $38,
-    "business" = $39, "cryptography" = $40, "cyber_tech" = $41, "first_aid" = $42, "paramed" = $43, "investigation" = $44, "gambling" = $45, "language" = $46, "military_tech" = $47, "science" = $48, "vehicle_tech" = $49,
-    "rockerboy" = $50, "solo" = $51, "netrunner" = $52, "nomad" = $53, "media" = $54, "medtech" = $55, "med_surgery" = $56, "med_pharma" = $57, "med_cryo" = $58,
-    "maker" = $59, "maker_field" = $60, "maker_upgrade" = $61, "maker_fab" = $62, "maker_invent" = $63,
-    "perm_humanity_loss" = $64, "max_luck" = $65, "max_xp" = $66, "spent_xp" = $67, "bank" = $68,
-    "cyber_strength" = $69, "cyber_body" = $70, "cyber_reflexes" = $71, "cyber_move" = $72, "cyber_appearance" = $73, "cyber_cool" = $74, "cyber_intelligence" = $75
-    WHERE id = $76`
+    SET  "is_paramedical" = $1,
+    "strength" = $2, "body" = $3, "reflexes" = $4, "appearance" = $5, "cool" = $6, "street_cred" = $7, "intelligence" = $8, "willpower" = $9, "technique" = $10,
+    "athletics" = $11, "brawling" = $12, "concentration" = $13, "evasion" = $14, "fast_talk" = $15, "firearms" = $16, "legerdemain" = $17, "melee_weapons" = $18, "perception" = $19, "streetwise" = $20,
+    "demolitions" = $21, "drive_land" = $22, "drive_exotic" = $23, "etiquette" = $24, "exotic_weapons" = $25, "heavy_weapons" = $26, "performance" = $27, "stealth" = $28, "survival" = $29, "tracking" = $30,
+    "business" = $31, "cryptography" = $32, "cyber_tech" = $33, "first_aid" = $34, "paramed" = $35, "investigation" = $36, "gambling" = $37, "language" = $38, "military_tech" = $39, "science" = $40, "vehicle_tech" = $41,
+    "rockerboy" = $42, "solo" = $43, "netrunner" = $44, "nomad" = $45, "media" = $46, "medtech" = $47, "med_surgery" = $48, "med_pharma" = $49, "med_cryo" = $50,
+    "maker" = $51, "maker_field" = $52, "maker_upgrade" = $53, "maker_fab" = $54, "maker_invent" = $55,
+    "perm_humanity_loss" = $56, "temp_humanity_loss" = $57, "max_luck" = $58, "max_xp" = $59, "spent_xp" = $60, "bank" = $61,
+    "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_move" = $65, "cyber_appearance" = $66, "cyber_cool" = $67, "cyber_intelligence" = $68
+    WHERE id = $69`
 
-    const charParams = [req.user.id, rb.handle, rb.player, rb.role, rb.culture, rb.temp_humanity_loss, rb.campaign, rb.is_paramedical,
-    rb.strength, rb.body, rb.reflexes, rb.move, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
+    const charParams = [rb.is_paramedical,
+    rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
     rb.athletics, rb.brawling, rb.concentration, rb.evasion, rb.fast_talk, rb.firearms, rb.legerdemain, rb.melee_weapons, rb.perception, rb.streetwise,
     rb.demolitions, rb.drive_land, rb.drive_exotic, rb.etiquette, rb.exotic_weapons, rb.heavy_weapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
     rb.business, rb.cryptography, rb.cyber_tech, rb.first_aid, rb.paramed, rb.investigation, rb.gambling, rb.language, rb.military_tech, rb.science, rb.vehicle_tech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
-    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
+    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.temp_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
     rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_move, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
     rb.char_id]
 
@@ -443,8 +443,8 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
 router.post('/saveCreationCharacter/', (req, res) => {
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
-		"user_id","handle","player","role","culture","campaign","is_paramedical",
-		"strength","body","reflexes","move","appearance","cool","street_cred","intelligence","willpower","technique",
+		"user_id","handle","player","campaign","is_paramedical",
+		"strength","body","reflexes","appearance","cool","street_cred","intelligence","willpower","technique",
 		"athletics","brawling","concentration","evasion","fast_talk","firearms","legerdemain","melee_weapons","perception","streetwise",
         "demolitions","drive_land","drive_exotic","etiquette","exotic_weapons","heavy_weapons","performance","stealth","survival","tracking",
         "business","cryptography","cyber_tech","investigation","first_aid","paramed","gambling","language","military_tech","science","vehicle_tech",
@@ -452,18 +452,18 @@ router.post('/saveCreationCharacter/', (req, res) => {
 		"maker","maker_field","maker_upgrade","maker_fab","maker_invent",
 		"perm_humanity_loss","max_luck","max_xp","spent_xp","bank"
 	)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, 
-        $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, 
-        $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, 
-        $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, 
-        $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, 
-        $49, $50, $51, $52, $53, $54, $55, $56, $57, 
-        $58, $59, $60, $61, $62, 
-        $63, $64, $65, $66, $67)
+    VALUES ($1, $2, $3, $4, $5, 
+        $6, $7, $8, $9, $10, $11, $12, $13, $14, 
+        $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, 
+        $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, 
+        $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, 
+        $46, $47, $48, $49, $50, $51, $52, $53, $54, 
+        $55, $56, $57, $58, $59, 
+        $60, $61, $62, $63, $64)
         RETURNING id;`
 
-    const charParams = [req.user.id, rb.handle, rb.player, rb.role, rb.culture, rb.campaign, rb.isParamedical,
-    rb.strength, rb.body, rb.reflexes, rb.move, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
+    const charParams = [req.user.id, rb.handle, rb.player, rb.campaign, rb.isParamedical,
+    rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
     rb.athletics, rb.brawling, rb.concentration, rb.evasion, rb.fastTalk, rb.firearms, rb.legerdemain, rb.meleeWeapons, rb.perception, rb.streetwise,
     rb.demolitions, rb.driveLand, rb.driveExotic, rb.etiquette, rb.exoticWeapons, rb.heavyWeapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
     rb.business, rb.cryptography, rb.cyberTech, rb.firstAid, rb.paramedic, rb.investigation, rb.gambling, rb.language, rb.militaryTech, rb.science, rb.vehicleTech,
@@ -533,7 +533,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
 
 // GM Routes
 router.get('/fetchGameMasterCharacters', (req, res) => {
-    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank, cool, cyber_cool, perception
+    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank, cool, cyber_cool, perception, perm_humanity_loss, temp_humanity_loss, reflexes, cyber_reflexes
     FROM "character"
     ORDER BY player ASC
     `
@@ -549,10 +549,10 @@ router.get('/fetchGameMasterCharacters', (req, res) => {
 
 router.put('/savegamemastercharacter/:id', (req, res) => {
     const charDetailsSqlText = `UPDATE character
-    SET handle = $1, player = $2, role = $3, culture = $4, campaign = $5, max_xp = $6, spent_xp = $7, bank = $8, street_cred = $9, max_luck = $10, temp_humanity_loss = $11, perm_humanity_loss = $12
-    WHERE id = $13`
+    SET handle = $1, player = $2, campaign = $3, max_xp = $4, spent_xp = $5, bank = $6, street_cred = $7, max_luck = $8, temp_humanity_loss = $9, perm_humanity_loss = $10
+    WHERE id = $11`
 
-    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.max_luck, req.body.charDetail.temp_humanity_loss, req.body.charDetail.perm_humanity_loss, req.body.charDetail.id]
+    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.max_luck, req.body.charDetail.temp_humanity_loss, req.body.charDetail.perm_humanity_loss, req.body.charDetail.id]
     pool.query(charDetailsSqlText, charDetailUpdateParams)
         .then(result => {
             res.sendStatus(203)
