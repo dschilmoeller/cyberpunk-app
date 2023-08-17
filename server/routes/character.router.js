@@ -532,7 +532,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
 
 // GM Routes
 router.get('/fetchGameMasterCharacters', (req, res) => {
-    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank 
+    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank, cool, cyber_cool, perception
     FROM "character"
     ORDER BY player ASC
     `

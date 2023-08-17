@@ -53,15 +53,21 @@ export default function AdvancementSpecial() {
     const roleSpendExp = (roleScore, roleName) => {
         const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp
         roleScore = Number(roleScore)
-        let increaseRoleCost = (roleScore + 1) * 5
+        let increaseRoleCost = 0
+        if (roleScore === 0) {
+            increaseRoleCost = 15
+        } else {
+            increaseRoleCost = (roleScore + 1) * 5
+        }
+        
 
         if (increaseRoleCost <= availableExp) {
             dispatch({ type: 'INCREASE_ROLE', payload: { roleScore: roleScore, roleName: roleName, increaseRoleCost: increaseRoleCost } })
-            if (roleName === 'medtech'){
+            if (roleName === 'medtech') {
                 setAvailableMedSkillPoints(availableMedSkillPoints + 1)
-                dispatch({ type: 'SET_PARAMEDICAL_TRUE'})
+                dispatch({ type: 'SET_PARAMEDICAL_TRUE' })
             }
-            if (roleName === 'maker'){
+            if (roleName === 'maker') {
                 setAvailableMakerSkillPoints(availableMakerSkillPoints + 2)
             }
         } else {
@@ -71,11 +77,11 @@ export default function AdvancementSpecial() {
 
     const increaseRoleSkill = (currentSkillRank, skillName) => {
         dispatch({ type: 'INCREASE_ROLE_SKILL', payload: { skillName, currentSkillRank } })
-        if (skillName === 'med_surgery' || skillName === 'med_pharma' || skillName === 'med_cryo'){
+        if (skillName === 'med_surgery' || skillName === 'med_pharma' || skillName === 'med_cryo') {
             setAvailableMedSkillPoints(availableMedSkillPoints - 1)
         }
-        if (skillName === 'maker_field' || skillName === 'maker_upgrade' || skillName === 'maker_fab' || skillName === 'maker_invent'){
-            setAvailableMakerSkillPoints(availableMakerSkillPoints -1)
+        if (skillName === 'maker_field' || skillName === 'maker_upgrade' || skillName === 'maker_fab' || skillName === 'maker_invent') {
+            setAvailableMakerSkillPoints(availableMakerSkillPoints - 1)
         }
     }
 
@@ -89,7 +95,12 @@ export default function AdvancementSpecial() {
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.rockerboy)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.rockerboy < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.rockerboy, 'rockerboy')}>Increase: {roleExpReturn(advancementDetails.rockerboy)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.rockerboy < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.rockerboy, 'rockerboy')}>Increase: {roleExpReturn(advancementDetails.rockerboy)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
@@ -97,7 +108,12 @@ export default function AdvancementSpecial() {
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.solo)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.solo < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.solo, 'solo')}>Increase: {roleExpReturn(advancementDetails.solo)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.solo < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.solo, 'solo')}>Increase: {roleExpReturn(advancementDetails.solo)}</Item> : <Item>Maxed</Item>}</Grid>
 
 
             <Grid item xs={3}>
@@ -106,7 +122,12 @@ export default function AdvancementSpecial() {
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.netrunner)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.netrunner < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.netrunner, 'netrunner')}>Increase: {roleExpReturn(advancementDetails.netrunner)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.netrunner < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.netrunner, 'netrunner')}>Increase: {roleExpReturn(advancementDetails.netrunner)}</Item> : <Item>Maxed</Item>}</Grid>
 
 
             <Grid item xs={3}>
@@ -115,7 +136,12 @@ export default function AdvancementSpecial() {
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.nomad)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.nomad < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.nomad, 'nomad')}>Increase: {roleExpReturn(advancementDetails.nomad)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.nomad < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.nomad, 'nomad')}>Increase: {roleExpReturn(advancementDetails.nomad)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
@@ -123,79 +149,129 @@ export default function AdvancementSpecial() {
             <Grid item xs={6}>
                 <Item>{roleDotReturn(advancementDetails.media)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.media < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.media, 'media')}>Increase: {roleExpReturn(advancementDetails.media)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.media < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.media, 'media')}>Increase: {roleExpReturn(advancementDetails.media)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'lightblue' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
+                <Item sx={{ backgroundColor: 'darkblue' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.medtech < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.medtech, 'medtech')}>Increase: {roleExpReturn(advancementDetails.medtech)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.medtech < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.medtech, 'medtech')}>Increase: {roleExpReturn(advancementDetails.medtech)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
+                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_surgery < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_surgery, 'med_surgery')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_surgery < 5 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_surgery, 'med_surgery')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
+                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_pharma < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_pharma, 'med_pharma')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_pharma < 5 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_pharma, 'med_pharma')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'lightblue' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
+                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_cryo < 5 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_cryo < 5 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker)}</Item>
+                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker)}</Item>
             </Grid>
-            <Grid item xs={3}>{advancementDetails.maker < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => roleSpendExp(advancementDetails.maker, 'maker')}>Increase: {roleExpReturn(advancementDetails.maker)}</Item> : <Item>Maxed</Item>}</Grid>
+            <Grid item xs={3}>{advancementDetails.maker < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => roleSpendExp(advancementDetails.maker, 'maker')}>Increase: {roleExpReturn(advancementDetails.maker)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
+                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_field < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_field, 'maker_field')}>Spend Role Points ({availableMakerSkillPoints})</Item> :<Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_field < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_field, 'maker_field')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
+                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_upgrade < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_upgrade, 'maker_upgrade')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_upgrade < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_upgrade, 'maker_upgrade')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
+                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_fab < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_fab < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'palegreen' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>
+                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>
             </Grid>
-            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_invent < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => increaseRoleSkill(advancementDetails.maker_invent, 'maker_invent')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_invent < 10 ? <Item sx={{
+                cursor: 'pointer', '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                }
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_invent, 'maker_invent')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
         </Grid>
     </>)
 }
