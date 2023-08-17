@@ -88,7 +88,6 @@ function* saveAdvancementDetails(action) {
 function* fetchGameMasterCharacters() {
   try {
     const allCharacters = yield axios.get('/api/characters/fetchGameMasterCharacters')
-    console.log(`payload`, allCharacters.data);
     yield put({ type: "SET_GM_CHARACTER_LIST", payload: allCharacters.data });
   } catch (error) {
     console.log('Error fetching characters for Game Master:', error);

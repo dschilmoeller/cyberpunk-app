@@ -43,7 +43,7 @@ const advancementDetail = (state = {}, action) => {
     if (action.type === 'REMOVE_TEMP_HUMANITY_LOSS') {
             return {
                 ...state,
-                current_humanity_loss: action.payload,
+                temp_humanity_loss: action.payload,
                 spent_xp: Number(state.spent_xp + 1)
             }
     }
@@ -52,12 +52,12 @@ const advancementDetail = (state = {}, action) => {
             return {
                 ...state,
                 perm_humanity_loss: Number(state.perm_humanity_loss + action.payload.minLoss),
-                current_humanity_loss: Number(state.current_humanity_loss + action.payload.totalLoss - 1)
+                temp_humanity_loss: Number(state.temp_humanity_loss + action.payload.totalLoss - 1)
             }
     }
     if (action.type === 'HUMANITY_RECOVERY_CYBERWARE') {
             // determine total of current temp humanity loss + payload
-            let newTotalTempHumanityLoss = (state.current_humanity_loss - (action.payload.totalLoss - 1))
+            let newTotalTempHumanityLoss = (state.temp_humanity_loss - (action.payload.totalLoss - 1))
             // if newTotal is > 0, tempHumanityLost is newTotal
             let tempHumanityLoss = 0
             if (newTotalTempHumanityLoss > 0) {
@@ -66,7 +66,7 @@ const advancementDetail = (state = {}, action) => {
             return {
                 ...state,
                 perm_humanity_loss: state.perm_humanity_loss - action.payload.minLoss,
-                current_humanity_loss: tempHumanityLoss
+                temp_humanity_loss: tempHumanityLoss
             }
     }
 

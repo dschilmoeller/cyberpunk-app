@@ -411,9 +411,9 @@ export default function AdvancementCyberware() {
                     </TableRow>
                     <TableRow>
                         <TableCell align='center'>Permanent Humanity Loss: {charDetails.perm_humanity_loss}</TableCell>
-                        <TableCell align='center'>Temporary Humanity Loss: {charDetails.current_humanity_loss}</TableCell>
-                        {(charDetails.perm_humanity_loss + charDetails.current_humanity_loss) > 39 ? <TableCell sx={{ color: 'red', backgroundColor: 'black' }} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>
-                            : <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.current_humanity_loss}</TableCell>}
+                        <TableCell align='center'>Temporary Humanity Loss: {charDetails.temp_humanity_loss}</TableCell>
+                        {(charDetails.perm_humanity_loss + charDetails.temp_humanity_loss) > 39 ? <TableCell sx={{ color: 'red', backgroundColor: 'black' }} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.temp_humanity_loss}</TableCell>
+                            : <TableCell align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.temp_humanity_loss}</TableCell>}
                     </TableRow>
 
                     {selectedList === 'fashionware' ? (

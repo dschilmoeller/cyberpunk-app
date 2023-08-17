@@ -69,7 +69,7 @@ export default function AdvancementOther() {
     }
 
     const restoreTemporaryHumanity = () => {
-        dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.current_humanity_loss - 1 })
+        dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
     }
 
     return (<>
@@ -93,13 +93,13 @@ export default function AdvancementOther() {
                 <Grid container>
                     <Grid item xs={12}><Item><SpecialModal prop={'Humanity'} /></Item></Grid>
                     <Grid item xs={12}>
-                        {advancementDetails.current_humanity_loss > 0 ?
+                        {advancementDetails.temp_humanity_loss > 0 ?
                             <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>
                             : <></>}
-                        {advancementDetails.current_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
-                        {advancementDetails.perm_humanity_loss === 0 && advancementDetails.current_humanity_loss === 0 ? <Item>Maximum Humanity reached</Item> : <></>}
+                        {advancementDetails.temp_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
+                        {advancementDetails.perm_humanity_loss === 0 && advancementDetails.temp_humanity_loss === 0 ? <Item>Maximum Humanity reached</Item> : <></>}
                     </Grid>
-                    {humanityArrayBuilder(advancementDetails.current_humanity_loss, advancementDetails.perm_humanity_loss)}
+                    {humanityArrayBuilder(advancementDetails.temp_humanity_loss, advancementDetails.perm_humanity_loss)}
                 </Grid>
             </Grid>
 

@@ -42,7 +42,7 @@ function AdvancementSheet() {
     }
 
     const saveCharacterChanges = () => {
-        if (advancementDetails.perm_humanity_loss + advancementDetails.current_humanity_loss > 39) {
+        if (advancementDetails.perm_humanity_loss + advancementDetails.temp_humanity_loss > 39) {
             alert('You cannot save! Your character will undergo immediate cyberpsychosis if you do have at least 1 humanity remaining!')
         } else {
             dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })

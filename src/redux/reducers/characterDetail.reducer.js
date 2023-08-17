@@ -5,6 +5,12 @@ const characterDetail = (state = {}, action) => {
     if (action.type === 'CLEAR_CHARACTER_DETAIL') {
         return {}
     }
+
+    if (action.type === 'GM_CHANGE_TEMP_HUMANITY_LOSS') {
+        return {...state,
+            temp_humanity_loss: state.temp_humanity_loss + action.payload}
+    }
+    
     if (action.type === 'GM_CHANGE_PERM_HUMANITY_LOSS') {
         return {
             ...state,

@@ -16,7 +16,6 @@ export default function GameMasterSheet() {
     const params = useParams();
 
     const charDetail = useSelector(store => store.characterDetail)
-    const charStatus = useSelector(store => store.characterStatus)
 
     // State handlers for various fields
     const [handle, setHandle] = useState(charDetail.handle)
@@ -54,9 +53,9 @@ export default function GameMasterSheet() {
     }
 
     const changeHumanity = (type, amount) => {
-        if (type === 'temp' && (amount + charStatus.current_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charStatus.current_humanity_loss >= 0)) {
+        if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
             dispatch({ type: 'GM_CHANGE_TEMP_HUMANITY_LOSS', payload: amount })
-        } else if (type === 'perm' && (amount + charStatus.current_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
+        } else if (type === 'perm' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
             dispatch({ type: 'GM_CHANGE_PERM_HUMANITY_LOSS', payload: amount })
         } else {
             alert('Error!')
@@ -93,7 +92,7 @@ export default function GameMasterSheet() {
     }
 
     const saveCharacter = () => {
-        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, charStatus: charStatus, handle, player, role, culture, campaign } })
+        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, handle, player, role, culture, campaign } })
     }
 
 
@@ -119,10 +118,10 @@ export default function GameMasterSheet() {
         <br />
         <br />
         <h1>Humanity</h1>
-        {charStatus.current_humanity_loss >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
-            <Grid item xs={4} textAlign={'center'}>Current Total Humanity Loss: {charDetail.perm_humanity_loss + charStatus.current_humanity_loss} / 40</Grid>
+        {charDetail.temp_humanity_loss >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
+            <Grid item xs={4} textAlign={'center'}>Current Total Humanity Loss: {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Permanent Humanity Loss: {charDetail.perm_humanity_loss}</Grid>
-            <Grid item xs={4} textAlign={'center'}>Current Temporary Humanity Loss: {charStatus.current_humanity_loss}</Grid>
+            <Grid item xs={4} textAlign={'center'}>Current Temporary Humanity Loss: {charDetail.temp_humanity_loss}</Grid>
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -1)}>Restore 1 Temp Humanity</Button></Grid>
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -5)}>Restore 5 Temp Humanity</Button></Grid>
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 1)}>Remove 1 Temp Humanity</Button></Grid>

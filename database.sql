@@ -77,6 +77,7 @@ CREATE TABLE "character" (
 	"medtech" integer NOT NULL DEFAULT '0',
 	"maker" integer NOT NULL DEFAULT '0',
 	"perm_humanity_loss" integer NOT NULL DEFAULT '40',
+	"temp_humanity_loss" integer NOT NULL DEFAULT '0',
 	"max_luck" integer NOT NULL DEFAULT '4',
 	"max_xp" integer NOT NULL DEFAULT '0',
 	"spent_xp" integer NOT NULL DEFAULT '0',
@@ -91,7 +92,6 @@ CREATE TABLE "char_status" (
 	"current_lethal" integer NOT NULL,
 	"current_agg" integer NOT NULL,
 	"current_armor_loss" integer NOT NULL,
-	"current_humanity_loss" integer NOT NULL,
 	"current_luck_loss" integer NOT NULL,
 	"current_armor_quality" integer NOT NULL DEFAULT 0,
 	"current_shield_quality" integer NOT NULL DEFAULT 0,
@@ -1035,10 +1035,9 @@ INSERT INTO "char_status" (
 		"current_lethal",
 		"current_agg",
 		"current_armor_loss",
-		"current_humanity_loss",
 		"current_luck_loss"
 	)
-VALUES (2, 2, 3, 1, 1, 3, 2);
+VALUES (2, 2, 3, 1, 1, 2);
 
 INSERT INTO "public"."armor_master"("armor_master_id","name","quality","price","description")
 VALUES (1,E'Clothes',1,10,E'Standard clothing with mild antiballistic properties.'),

@@ -89,9 +89,9 @@ router.get('/fetchcharacterweapons/:id', (req, res) => {
 // save changes made on in play character sheet.
 router.put('/savecharacter/:id', (req, res) => {
     const sqlText = `UPDATE "char_status"
-    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5, "current_humanity_loss" = $6
-    WHERE "char_id" = $7;`
-    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.body.current_humanity_loss, req.params.id]
+    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5
+    WHERE "char_id" = $6;`
+    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.params.id]
 
     pool.query(sqlText, sqlParams)
         .then((result) => {
@@ -264,10 +264,10 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
         .then(result => {
             // query to save character status!
             const charStatusSqlText = `UPDATE "char_status"
-        SET "current_humanity_loss" = $1, "current_armor_quality"= $2, "current_shield_quality" = $3, "current_cyberware_armor_quality" = $4, "current_cyberware_health_boxes" = $5
-        WHERE char_status_id = $6`
+        SET "current_armor_quality"= $1, "current_shield_quality" = $2, "current_cyberware_armor_quality" = $3, "current_cyberware_health_boxes" = $4
+        WHERE char_status_id = $5`
 
-            const charStatusParams = [rb.current_humanity_loss, req.body.gear.totalArmorQuality, req.body.gear.totalShieldQuality, req.body.gear.totalCyberwareArmorQuality, req.body.gear.totalCyberwareHealthBoxesCreated, rb.char_status_id]
+            const charStatusParams = [req.body.gear.totalArmorQuality, req.body.gear.totalShieldQuality, req.body.gear.totalCyberwareArmorQuality, req.body.gear.totalCyberwareHealthBoxesCreated, rb.char_status_id]
             pool.query(charStatusSqlText, charStatusParams)
         })
         .then(result => {
@@ -509,9 +509,9 @@ router.post('/saveCreationCharacter/', (req, res) => {
             }
 
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
-            "current_armor_loss","current_humanity_loss","current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes")
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
-            const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            "current_armor_loss","current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes")
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+            const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             pool.query(bridgeSqlText, bridgeParams)
 
             const cyberBridgeSqlText = `INSERT INTO "char_cyberware_bridge" ("char_id", 
@@ -549,17 +549,11 @@ router.get('/fetchGameMasterCharacters', (req, res) => {
 
 router.put('/savegamemastercharacter/:id', (req, res) => {
     const charDetailsSqlText = `UPDATE character
-    SET handle = $1, player = $2, role = $3, culture = $4, campaign = $5, max_xp = $6, spent_xp = $7, bank = $8, street_cred = $9, max_luck = $10
-    WHERE id = $11`
-    const charStatusSqlText = `UPDATE char_status
-    SET current_humanity_loss = $1
-    WHERE char_status_id = $2 `
-    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.max_luck, req.body.charDetail.id]
-    const charStatusUpdateParams = [req.body.charStatus.current_humanity_loss, req.body.charStatus.char_status_id]
+    SET handle = $1, player = $2, role = $3, culture = $4, campaign = $5, max_xp = $6, spent_xp = $7, bank = $8, street_cred = $9, max_luck = $10, temp_humanity_loss = $11, perm_humanity_loss = $12
+    WHERE id = $13`
+
+    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.role, req.body.culture, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.max_luck, req.body.charDetail.temp_humanity_loss, req.body.charDetail.perm_humanity_loss, req.body.charDetail.id]
     pool.query(charDetailsSqlText, charDetailUpdateParams)
-        .then((result) => {
-            pool.query(charStatusSqlText, charStatusUpdateParams)
-        })
         .then(result => {
             res.sendStatus(203)
         })

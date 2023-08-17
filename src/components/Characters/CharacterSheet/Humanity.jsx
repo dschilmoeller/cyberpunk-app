@@ -8,8 +8,8 @@ import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 // To Do: import charDetailProp correctly
 
 function Humanity(charDetailProp) {
-    const charStatus = useSelector(store => store.characterStatus)
-    const permHumanityLoss = charDetailProp.charDetailProp.perm_humanity_loss
+    const temp_humanity_loss = charDetailProp.charDetailProp.temp_humanity_loss
+    const perm_humanity_loss = charDetailProp.charDetailProp.perm_humanity_loss
     const dispatch = useDispatch();
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
@@ -34,7 +34,7 @@ function Humanity(charDetailProp) {
 
 
     const humanityBuilder = () => {
-        let humanityArray = humanityArrayBuilder(charStatus.current_humanity_loss, permHumanityLoss)
+        let humanityArray = humanityArrayBuilder(temp_humanity_loss, perm_humanity_loss)
         let humanityBoxes = []
 
         for (let i = 0; i < 40; i++) {
