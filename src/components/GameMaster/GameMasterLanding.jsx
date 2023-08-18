@@ -21,10 +21,6 @@ export default function GameMasterLanding() {
         dispatch({ type: "FETCH_GM_CHARACTERS" })
     }, [])
 
-    const viewGameMasterSheet = (characterID) => {
-        history.push(`/gamemastersheet/${characterID}`)
-    }
-
     const commaTizer = (incoming) => {
         if (incoming === undefined) {
             return 0
@@ -57,7 +53,7 @@ export default function GameMasterLanding() {
 
                             <TableBody>
                                 <TableRow hover>
-                                    <TableCell align="center"><Button variant='contained' sx={{ m: 1 }} onClick={() => viewGameMasterSheet(character.id)}>{character.handle}</Button></TableCell>
+                                    <TableCell align="center"><Button fullWidth variant='contained' sx={{ m: 1 }} onClick={() => history.push(`/gamemastersheet/${character.id}`)}>{character.handle}</Button></TableCell>
                                     <TableCell align="center">{character.player}</TableCell>
                                     <TableCell align="center">{character.cool + character.cyber_cool + character.perception}</TableCell>
                                     <TableCell align="center">{character.reflexes + character.cyber_reflexes}</TableCell>

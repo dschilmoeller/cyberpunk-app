@@ -24,6 +24,8 @@ export default function GameMasterSheet() {
 
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
     const [allowPermLuckChange, setAllowPermLuckChange] = useState(false)
+    const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
+
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
 
@@ -91,19 +93,36 @@ export default function GameMasterSheet() {
         dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, handle, player, campaign } })
     }
 
-
+    const deleteCharacter = () => {
+        dispatch({ type: "DELETE_CHARACTER", payload: { charDetailID: charDetail.id, user_id: charDetail.user_id } })
+        history.push('/gamemaster/')
+    }
 
     return (<>
-        <h1>Character Details: </h1>
         <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12}><Item><Button variant='contained' onClick={() => saveCharacter()}>Save Changes</Button></Item></Grid>
+            <Grid item xs={6}><h1>Character Details: </h1></Grid>
+            <Grid item xs={6}><Item><FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
+                <FormControlLabel control={<Switch
+                    checked={allowDeleteCharacter}
+                    onChange={(e) => setAllowDeleteCharacter(e.target.checked)} />} label="Allow Character Deletion" />
+            </FormGroup>
+            </Item>
+            </Grid>
 
-            <Grid item xs={2} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
-            <Grid item xs={2} textAlign={'center'}>Player: {charDetail.player}</Grid>
-            <Grid item xs={3} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
+            {allowDeleteCharacter ? (<>
+                <Grid item xs={6}><Item><Button variant='contained' onClick={() => saveCharacter()}>Save Changes</Button></Item></Grid>
+                <Grid item xs={6}><Item><Button variant='contained' color='error' onClick={() => deleteCharacter()}>Delete Character</Button></Item></Grid>
 
-            <Grid item xs={4} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
+            </>) : (<>
+                <Grid item xs={12}><Item><Button variant='contained' onClick={() => saveCharacter()}>Save Changes</Button></Item></Grid>
+            </>)}
+
+            <Grid item xs={6} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
+            <Grid item xs={4}><TextField fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
+            <Grid item xs={6} textAlign={'center'}>Player: {charDetail.player}</Grid>
+            <Grid item xs={4} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
+
+            <Grid item xs={6} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
             <Grid item xs={4} marginRight={2}><TextField fullWidth variant='standard' label='Change Campaign' value={campaign || ''} onChange={(event) => { setCampaign(event.target.value) }} /></Grid>
         </Grid>
         <br />

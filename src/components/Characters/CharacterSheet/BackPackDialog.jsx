@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import PropTypes from 'prop-types';
@@ -175,7 +173,8 @@ export default function BackPackDialog({ prop }) {
                     color: '#000',
                 }
             }} fullWidth onClick={() => UseConsumable(row)}>Eat</Button></TableCell></>)
-        } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare') {
+        } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
+        || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge') {
             return (<TableCell align='center' padding="normal"><Button sx={{
                 textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
                     backgroundColor: '#fff',

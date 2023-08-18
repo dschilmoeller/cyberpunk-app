@@ -623,7 +623,7 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                     <TableRow>
                                         <TableCell align="left">Speedheal</TableCell>
-                                        <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they'd rested for the appropriate length of time. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
+                                        <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
@@ -633,7 +633,7 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                     <TableRow>
                                         <TableCell align="left">Surge</TableCell>
-                                        <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. For each consecutive dose a user takes in without taking a week off, they lose 2 additional humanity (3 for the second, 5 for the 3rd dose, and so on).</TableCell>
+                                        <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties.</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>

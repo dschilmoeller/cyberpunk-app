@@ -152,7 +152,7 @@ CREATE TABLE "char_shield_bridge" (
 	CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
 ) WITH (OIDS = FALSE);
 ALTER TABLE "char_shield_bridge"
-ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_shield_bridge"
 ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
 ALTER TABLE "char_shield_bridge"
@@ -217,19 +217,19 @@ CREATE TABLE "char_owned_cyberware" (
 	"equipped" bool NOT NULL default false
 ) WITH (OIDS = FALSE);
 ALTER TABLE "char_owned_cyberware"
-ADD CONSTRAINT "char_owned_cyberware_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_owned_cyberware_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_owned_cyberware"
 ADD CONSTRAINT "char_owned_cyberware_fk1" FOREIGN KEY ("cyberware_id") REFERENCES "cyberware_master"("cyberware_master_id");
 ALTER TABLE "misc_gear_master"
 ADD COLUMN "price" integer NOT NULL DEFAULT '0';
 ALTER TABLE "char_gear_bridge"
-ADD CONSTRAINT "char_gear_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_gear_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_gear_bridge"
 ADD CONSTRAINT "char_gear_bridge_fk1" FOREIGN KEY ("misc_gear_id") REFERENCES "misc_gear_master"("misc_gear_master_id");
 ALTER TABLE "character"
 ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "char_weapons_bridge"
-ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_weapons_bridge"
 ADD CONSTRAINT "char_weapons_bridge_fk1" FOREIGN KEY ("weapon_id") REFERENCES "weapon_master"("weapon_master_id");
 ALTER TABLE "char_weapons_bridge"
@@ -237,7 +237,7 @@ ADD CONSTRAINT "char_weapons_bridge_fk2" FOREIGN KEY ("weapon_mod_1") REFERENCES
 ALTER TABLE "char_weapons_bridge"
 ADD CONSTRAINT "char_weapons_bridge_fk3" FOREIGN KEY ("weapon_mod_2") REFERENCES "weapon_mod2_master"("weapon_mod2_master_id");
 ALTER TABLE "char_armor_bridge"
-ADD CONSTRAINT "char_armor_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_armor_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_armor_bridge"
 ADD CONSTRAINT "char_armor_bridge_fk1" FOREIGN KEY ("armor_id") REFERENCES "armor_master"("armor_master_id");
 ALTER TABLE "char_armor_bridge"
@@ -245,9 +245,9 @@ ADD CONSTRAINT "char_armor_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "a
 ALTER TABLE "char_armor_bridge"
 ADD CONSTRAINT "char_armor_bridge_fk3" FOREIGN KEY ("armor_mod_2") REFERENCES "armor_mod_master"("armor_mod_master_id");
 ALTER TABLE "char_status"
-ADD CONSTRAINT "char_status_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_status_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_cyberware_bridge"
-ADD CONSTRAINT "char_cyberware_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_cyberware_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 
 
 
@@ -878,6 +878,31 @@ VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
 		E'Virtuality Goggles',
 		E'Projects cyberspace imagery over a real world view - helpful for the netrunner on the go.',
 		100
+	),
+	(
+		E'Antibiotic',
+		E'Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Requires Pharmaceutical Skill to use properly.',
+		500
+	),
+	(
+		E'Rapi-Detox',
+		E'When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends. Requires Pharmaceutical Skill to use properly.',
+		500
+	),
+	(
+		E'Speedheal',
+		E'When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day. Requires Pharmaceutical Skill to use properly.',
+		500
+	),
+	(
+		E'Stim',
+		E'When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious. Requires Pharmaceutical Skill to use properly.',
+		500
+	),
+	(
+		E'Surge',
+		E'A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties. Requires Pharmaceutical Skill to use properly.',
+		500
 	);
 INSERT INTO "weapon_mod1_master" ("mod_1_name")
 VALUES ('Not Modded');

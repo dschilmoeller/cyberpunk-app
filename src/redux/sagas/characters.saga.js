@@ -57,6 +57,14 @@ function* saveGameMasterCharacter(action) {
   }
 }
 
+function* deleteGameMasterCharacter(action) {
+  try {
+    yield axios.delete(`api/characters/deletegamemastercharacter/${action.payload.charDetailID}`)
+  } catch (error) {
+    console.log(`Error delete character (GM):`, error);
+  }
+}
+
 
 function* fetchAdvancementDetails(action) {
   try {
@@ -124,9 +132,10 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
 
-  // GM fetch/save
+  // GM fetch/save/delete
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
   yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
+  yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
 }
 
 export default characterSaga;

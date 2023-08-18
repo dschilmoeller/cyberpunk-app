@@ -11,7 +11,7 @@ const router = express.Router();
 
 // fetch characters list route
 router.get('/fetchallcharacters', (req, res) => {
-    const sqlText = `SELECT id, handle 
+    const sqlText = `SELECT id, handle, campaign
     FROM "character"
     WHERE user_id = $1
     ORDER BY id ASC
@@ -590,4 +590,23 @@ router.put('/savegamemastercharacter/:id', (req, res) => {
             console.log(`Error updating character for GM:`, err);
         })
 })
+
+router.delete('/deletegamemastercharacter/:id', (req, res) => {
+    const charDeleteSqlText = `DELETE FROM "character" WHERE "id" = $1;`
+    const charDeleteSqlParams = [req.params.id]
+
+    if (req.user.user_type === 2) {
+        pool.query(charDeleteSqlText, charDeleteSqlParams)
+        .then(result => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error deleting character for GM:`, err);
+        })
+    } else {
+        res.sendStatus(403)
+    }
+    
+})
+
 module.exports = router
