@@ -12,13 +12,17 @@ import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './CharacterMarkers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
+import Weapons from './Weapons';
+import BackPackDialog from './BackPackDialog';
+
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail);
     const charStatus = useSelector(store => store.characterStatus)
     const charWeapons = useSelector((store) => store.characterWeapons)
+    const charMiscGear = useSelector(store => store.characterMiscGear)
 
     // console.log(`Characters:`, characterList);
-    
+
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
@@ -31,7 +35,7 @@ function CharacterSheet() {
     }, [])
 
     const saveCharacter = () => {
-        dispatch({type: "SAVE_CHARACTER_SHEET", payload: {charID: params.id, charParams: {charStatus:charStatus, charWeapons: charWeapons} }})
+        dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons } } })
     }
 
     return (
@@ -59,6 +63,18 @@ function CharacterSheet() {
                             <CharacterSkills charDetail={charDetail} />
                             <CharacterRoleAbilities charDetail={charDetail} />
                             <CharacterMarkers charDetail={charDetail} />
+                            
+                            <Grid item xs={12}>
+                                <Weapons />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Grid container>
+                                    <Grid item xs={3}></Grid>
+                                    <Grid item xs={6}><BackPackDialog prop={'Open Backpack'} /></Grid>
+                                    <Grid item xs={3}></Grid>
+                                </Grid>
+                            </Grid>
 
                         </>
                     ) : <></>}

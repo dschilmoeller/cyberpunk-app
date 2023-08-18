@@ -86,6 +86,35 @@ router.get('/fetchcharacterweapons/:id', (req, res) => {
         })
 })
 
+// fetch character misc gear for in play character sheet
+router.get('/fetchCharacterMiscGear/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "char_gear_bridge"
+    JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_gear_bridge"."misc_gear_id"
+    WHERE "char_id" = $1
+    ORDER BY "name" ASC`
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character misc gear details`, err);
+    })
+})
+
+// use consumable from pack:
+router.delete('/useConsumable/:id', (req, res) => {
+    const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
+    const sqlParams = [req.params.id]
+    console.log(`query should be:`, sqlText, sqlParams);
+    pool.query(sqlText, sqlParams)
+    .then((result) => {
+        res.sendStatus(202)
+    })
+    .catch(err => {
+        console.log(`Error using consumable:`, err);
+    })
+})
+
 // save changes made on in play character sheet.
 router.put('/savecharacter/:id', (req, res) => {
     const sqlText = `UPDATE "char_status"
@@ -247,8 +276,8 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     "rockerboy" = $42, "solo" = $43, "netrunner" = $44, "nomad" = $45, "media" = $46, "medtech" = $47, "med_surgery" = $48, "med_pharma" = $49, "med_cryo" = $50,
     "maker" = $51, "maker_field" = $52, "maker_upgrade" = $53, "maker_fab" = $54, "maker_invent" = $55,
     "perm_humanity_loss" = $56, "temp_humanity_loss" = $57, "max_luck" = $58, "max_xp" = $59, "spent_xp" = $60, "bank" = $61,
-    "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_move" = $65, "cyber_appearance" = $66, "cyber_cool" = $67, "cyber_intelligence" = $68
-    WHERE id = $69`
+    "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_appearance" = $65, "cyber_cool" = $66, "cyber_intelligence" = $67
+    WHERE id = $68`
 
     const charParams = [rb.is_paramedical,
     rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
@@ -257,7 +286,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     rb.business, rb.cryptography, rb.cyber_tech, rb.first_aid, rb.paramed, rb.investigation, rb.gambling, rb.language, rb.military_tech, rb.science, rb.vehicle_tech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
     rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.temp_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
-    rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_move, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
+    rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
     rb.char_id]
 
     pool.query(charSqlText, charParams)

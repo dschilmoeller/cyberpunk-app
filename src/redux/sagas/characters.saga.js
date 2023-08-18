@@ -22,6 +22,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data })
+    const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -38,6 +40,12 @@ function* saveCharacterSheet(action) {
   } catch (error) {
     console.log(`Error saving Character Details`, error);
   }
+}
+
+// Using various consumables:
+function* useConsumableFromPack(action) {
+  yield axios.delete(`/api/characters/useConsumable/${action.payload.char_gear_bridge_id}`)
+  yield put({ type: 'CONSUMABLE_USED', payload: action.payload})
 }
 
 // save GM changes:
@@ -96,7 +104,6 @@ function* fetchGameMasterCharacters() {
 
 function* characterBurnLuck(action) {
   try {
-    console.log(`action.payload:`, action.payload);
     axios.put(`/api/characters/characterBurnOneLuck/${action.payload.charID}`, action.payload)
   } catch (error) {
     console.log(`Error burning one luck:`, error);
@@ -107,6 +114,7 @@ function* characterSaga() {
   // in play fetch/save
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
+  yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
 
   // permanent luck reduction

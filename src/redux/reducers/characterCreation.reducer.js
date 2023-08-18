@@ -2,7 +2,7 @@ const characterCreation = (state = {
     creationStep: 'first_steps',
     handle: '', player: '', campaign: '', 
 
-    strength: 0, body: 0, reflexes: 0, move: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
+    strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
     skillNumber: 4,
     athletics: 0, brawling: 0, concentration: 0, evasion: 0, fastTalk: 0, firearms: 0, legerdemain: 0, meleeWeapons: 0, perception: 0, streetwise: 0,
@@ -40,7 +40,6 @@ const characterCreation = (state = {
             strength: ap.strength,
             body: ap.body,
             reflexes: ap.reflexes,
-            move: ap.move,
             appearance: ap.appearance,
             cool: ap.cool,
             street_cred: ap.street_cred,

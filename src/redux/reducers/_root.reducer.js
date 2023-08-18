@@ -8,6 +8,7 @@ import characterDetail from './characterDetail.reducer';
 import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterWeapons from './characterWeapons.reducer';
+import characterMiscGear from './characterMiscGear.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   characterCyberDetail, // contains data of relevant bridge table row for character
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterWeapons, // contains active character's weapons
+  characterMiscGear, // contains active character's miscellaneous gear
   characterCreation, // contains details set up during character creation
   armorMaster, // master gear list - armor
   shieldMaster, // master gear list - shields

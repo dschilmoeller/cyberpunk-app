@@ -36,7 +36,7 @@ export default function CreationReview() {
     const [strengthAtt, setStrengthAtt] = useState(charDetail.strength);
     const [bodyAtt, setBodyAtt] = useState(charDetail.body);
     const [reflexesAtt, setReflexesAtt] = useState(charDetail.reflexes);
-    const [moveatt, setMoveAtt] = useState(charDetail.move);
+    const [moveatt, setMoveAtt] = useState(Math.ceil(charDetail.reflexes / 2));
 
     // social attributes
     const [appearanceAtt, setAppearanceAtt] = useState(charDetail.appearance);

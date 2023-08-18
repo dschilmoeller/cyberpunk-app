@@ -9,7 +9,6 @@ import Health from './Health';
 import Humanity from './Humanity';
 import Luck from './Luck';
 import Armor from './Armor';
-import Weapons from './Weapons';
 
 // To Do: 
 
@@ -43,9 +42,7 @@ function CharacterMarkers(charDetailProp) {
                 <Luck charDetailProp={charDetail} />
                 <Humanity charDetailProp={charDetail} />
             </Grid>
-            <Grid item xs={12}>
-                <Weapons />
-            </Grid>
+            
         </>
     )
 }

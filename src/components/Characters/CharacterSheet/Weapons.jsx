@@ -209,12 +209,15 @@ function Weapons() {
                         </Grid>
                     </React.Fragment>
                 </>)
+            default:
+                return (<React.Fragment key={cyberware.owned_cyberware_id}></React.Fragment>)
         }
     }
 
     return (
         <>
             <Grid container spacing={2}>
+                <Grid item xs={12}><Item>Equipped Weapons</Item></Grid>
                 {/* cycle through weapons and list melee weapons up top */}
                 {/* Starting with cyberweapons */}
                 {charCyberDetail.map(cyberware => {

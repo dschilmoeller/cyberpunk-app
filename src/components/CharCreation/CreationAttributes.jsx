@@ -18,7 +18,7 @@ function CreationAttributes() {
     const [strengthAtt, setStrengthAtt] = useState(charDetail.strength);
     const [bodyAtt, setBodyAtt] = useState(charDetail.body);
     const [reflexesAtt, setReflexesAtt] = useState(charDetail.reflexes);
-    const [moveatt, setMoveAtt] = useState(charDetail.move);
+    const [moveatt, setMoveAtt] = useState(0);
 
     // social attributes
     const [appearanceAtt, setAppearanceAtt] = useState(charDetail.appearance);
@@ -157,7 +157,6 @@ function CreationAttributes() {
                 strength: strengthAtt,
                 body: bodyAtt,
                 reflexes: reflexesAtt,
-                move: moveatt,
                 appearance: appearanceAtt,
                 cool: coolAtt,
                 street_cred: streetCredAtt,

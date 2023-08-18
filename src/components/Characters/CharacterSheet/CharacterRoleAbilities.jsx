@@ -92,11 +92,15 @@ function CharacterRoleAbilities(charDetailProp) {
         return returnedDots
     }
 
+    const medEmptySkill = (emptydot + emptydot + emptydot + emptydot + emptydot)
+    const makerEmptySkill = (emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot)
+
     return (
         <>
-            <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
+            <Grid item xs={12}><Item sx={{ fontSize: '1.4em', padding: 0 }}>Special Skills and Other Information</Item></Grid>
             <Grid item xs={4}>
-                <Grid container spacing={1}>
+                <Grid container>
+
                     <Grid item xs={12}>
                         <Item>Role Abilities</Item>
                     </Grid>
@@ -148,26 +152,32 @@ function CharacterRoleAbilities(charDetailProp) {
                             <Item>{medtech}</Item>
                         </Grid>
 
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{medSurgery}</Item>
-                        </Grid>
+                        {medSurgery != medEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{medSurgery}</Item>
+                            </Grid>
+                        </>) : <></>}
 
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{medPharma}</Item>
-                        </Grid>
+                        {medPharma != medEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{medPharma}</Item>
+                            </Grid>
+                        </>) : <> </>}
 
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{medCryo}</Item>
-                        </Grid>
+                        {medCryo != medEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{medCryo}</Item>
+                            </Grid>
+                        </>) : <> </>}
                     </>) : <></>}
 
                     {maker != '' ? (<><Grid item xs={4.5}>
@@ -176,38 +186,46 @@ function CharacterRoleAbilities(charDetailProp) {
                         <Grid item xs={7.5}>
                             <Item>{maker}</Item>
                         </Grid>
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{makerField}</Item>
-                        </Grid>
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{makerUpgrade}</Item>
-                        </Grid>
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{makerFab}</Item>
-                        </Grid>
-                        <Grid item xs={4.5}>
-                            <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
-                        </Grid>
-                        <Grid item xs={7.5}>
-                            <Item>{makerInvent}</Item>
-                        </Grid>
+
+                        {makerField != makerEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{makerField}</Item>
+                            </Grid>
+                        </>) : <> </>}
+
+                        {makerUpgrade != makerEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{makerUpgrade}</Item>
+                            </Grid>
+                        </>) : <> </>}
+
+                        {makerFab != makerEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{makerFab}</Item>
+                            </Grid>
                         </>) : <></>}
 
-                    <Grid item xs={12} />
-
+                        {makerInvent != makerEmptySkill ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{makerInvent}</Item>
+                            </Grid>
+                        </>) : <> </>}
+                        +
+                    </>) : <></>}
                 </Grid>
             </Grid>
-
-
         </>
     )
 }
