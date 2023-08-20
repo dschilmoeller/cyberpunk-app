@@ -52,6 +52,20 @@ const characterDetail = (state = {}, action) => {
         }
     }
 
+    if (action.type === 'MAKE_PHARMACEUTICAL') {
+        return {
+            ...state,
+            bank: action.payload.newBank
+        }
+    }
+
+    if (action.type === 'ARBITRARY_BANK_CHANGE') {
+        return {
+            ...state,
+            bank: action.payload
+        }
+    }
+
     return state
 }
 

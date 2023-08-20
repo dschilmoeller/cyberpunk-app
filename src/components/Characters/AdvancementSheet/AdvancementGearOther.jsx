@@ -1,4 +1,5 @@
-import React from 'react';
+import { useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import Paper from '@mui/material/Paper';
@@ -9,12 +10,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { Button } from '@mui/material';
 
 export default function AdvancementGearOther() {
     const gear = useSelector(store => store.advancementGear.gear)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({ type: "FETCH_MISC_GEAR_LIST" })
+    }, [])
+
     return (<>
-    <h1>Other Gear</h1>
+        <h1>Other Gear</h1>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
@@ -25,12 +31,12 @@ export default function AdvancementGearOther() {
                 </TableHead>
                 <TableBody>
                     {gear.map((item, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.description}</TableCell>
-                                </TableRow>
-                            )
+                        return (
+                            <TableRow key={i}>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="center">{item.description}</TableCell>
+                            </TableRow>
+                        )
                     })}
                 </TableBody>
             </Table>

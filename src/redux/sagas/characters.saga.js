@@ -42,10 +42,40 @@ function* saveCharacterSheet(action) {
   }
 }
 
+function* saveCharacterBank(action) {
+  try {
+    console.log(`action.payload:`, action.payload);
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+  } catch (error) {
+    console.log(`Error making a bank change`, error);
+  }
+}
+
 // Using various consumables:
 function* useConsumableFromPack(action) {
   yield axios.delete(`/api/characters/useConsumable/${action.payload.char_gear_bridge_id}`)
-  yield put({ type: 'CONSUMABLE_USED', payload: action.payload})
+  yield put({ type: 'CONSUMABLE_USED', payload: action.payload })
+}
+
+// making pharmaceutical compounds
+function* characterCreatePharmaceutical(action) {
+  try {
+  yield axios.put('api/characters/charactercreatepharmaceutical/', action.payload)
+  const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload.characterID}`)
+  yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data })
+  } catch (error) {
+    console.log(`Error creating pharmaceutical compound.`);
+  }
+}
+
+function* fetchCharacterMiscGear(action) {
+  try {
+    const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
+  } catch (error) {
+    console.log(`Error fetching in play misc gear`);
+  }
+  
 }
 
 // save GM changes:
@@ -123,6 +153,9 @@ function* characterSaga() {
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
+  yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
+  yield takeLatest('FETCH_CHARACTER_MISC_GEAR', fetchCharacterMiscGear);
+  yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
 
   // permanent luck reduction

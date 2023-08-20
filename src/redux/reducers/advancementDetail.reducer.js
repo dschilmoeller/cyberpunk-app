@@ -173,6 +173,14 @@ const advancementDetail = (state = {}, action) => {
                     bank: Number(state.bank + action.payload.price)
                 }
     }
+
+    if (action.type === 'MAKE_PHARMACEUTICAL') {
+        return {
+            ...state,
+            bank: action.payload.newBank
+        }
+    }
+    
     return state
 }
 

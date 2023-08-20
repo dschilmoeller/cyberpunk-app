@@ -14,6 +14,7 @@ import AdvancementOther from './AdvancementOther';
 import AdvancementGearArmor from './AdvancementGearArmor';
 import AdvancementGearWeapons from './AdvancementGearWeapons';
 import AdvancementGearOther from './AdvancementGearOther';
+import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
 
 function AdvancementSheet() {
@@ -117,9 +118,16 @@ function AdvancementSheet() {
                     <AdvancementGearWeapons />
                 </>) : <></>}
 
-                {opener === 'Gear' ? (<>
-                    <AdvancementGearOther />
-                </>) : <></>}
+                {opener === 'Gear' && advancementDetails.med_pharma > 0 ?
+                    (<>
+                        <AdvancementMakePharmaDialog />
+                        <AdvancementGearOther />
+                    </>) : <></>}
+
+                {opener === 'Gear' && advancementDetails.med_pharma < 1 ?
+                    (<>
+                        <AdvancementGearOther />
+                    </>) : <></>}
 
                 {opener === 'Cyberware' ? (<>
                     <AdvancementCyberware />

@@ -32,6 +32,7 @@ function CharacterSheet() {
 
     useEffect(() => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
+        dispatch({ type: 'FETCH_MISC_GEAR_LIST' })
     }, [])
 
     const saveCharacter = () => {

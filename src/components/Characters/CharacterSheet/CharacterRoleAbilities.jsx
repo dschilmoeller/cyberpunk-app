@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
+import MakePharmaDialog from '../../Modals/MakePharmaDialog';
 
 function CharacterRoleAbilities(charDetailProp) {
     const charDetail = charDetailProp.charDetail
@@ -167,6 +168,9 @@ function CharacterRoleAbilities(charDetailProp) {
                             </Grid>
                             <Grid item xs={7.5}>
                                 <Item>{medPharma}</Item>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <MakePharmaDialog />
                             </Grid>
                         </>) : <> </>}
 

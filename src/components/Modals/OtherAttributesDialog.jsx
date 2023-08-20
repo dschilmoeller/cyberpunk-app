@@ -106,13 +106,14 @@ export default function OtherAttributesDialog({ prop }) {
                 return (<>
                     <Grid item xs={12} paddingBottom={1}>Armor reflects a combination of worn armor, shields, and cyberware that provide some protection against injury. When receiving an injury, characters roll Body + Armor to resist the damage against a difficulty value of 6. 1s are ignored on this roll.</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires either the military tech (worn armor) or cybertech (cyberware armor) to repair.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires the Military Tech (worn armor) or Cybertech (cyberware armor) skill to repair.</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}>Weapons whose base damage is one third or less of a target's combined armor value cannot damage that armor - it is simply too strong. The weapon does no damage, a soak roll is not needed, and the armor is not ablated. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards cover and certain super-heavy cyberware.
+                    <Grid item xs={12} paddingBottom={1}>Weapons whose base damage is one third or less of a target's combined armor value cannot damage that armor - the armor is simply too tough. The weapon does no damage, a soak roll is not needed, and the armor is not ablated. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware.
                     </Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is tougher than others, and is considered <i>Hardened.</i> Characters with any amount of hardened armor roll against a difficulty value of 5 to soak damage, and ignore attacks whose base damage is 1/2 or less of their armor value, rather than 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is vastly tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced military equipment, full body cyberware conversions, and military grade vehicle armor. Characters (or cover) with any amount of hardened armor roll against a difficulty value of 5 to soak damage, and ignore attacks whose base damage is 1/2 or less of their armor value rather than 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor. However, some ammunition and even specific weapons allow characters to ignore the <i>Hardened</i> property.</Grid>
 
+                    <Grid item xs={12}>Hardened armor typically does not stack with other kinds armor - putting a kevlar jacket on over Powered Military Armor is gilding the lily somewhat. The GM has final say on whether or not armors can be worn together.</Grid>
                 </>)
 
             case 'Luck':

@@ -93,26 +93,25 @@ router.get('/fetchCharacterMiscGear/:id', (req, res) => {
     WHERE "char_id" = $1
     ORDER BY "name" ASC`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character misc gear details`, err);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character misc gear details`, err);
+        })
 })
 
 // use consumable from pack:
 router.delete('/useConsumable/:id', (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
     const sqlParams = [req.params.id]
-    console.log(`query should be:`, sqlText, sqlParams);
     pool.query(sqlText, sqlParams)
-    .then((result) => {
-        res.sendStatus(202)
-    })
-    .catch(err => {
-        console.log(`Error using consumable:`, err);
-    })
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error using consumable:`, err);
+        })
 })
 
 // save changes made on in play character sheet.
@@ -143,10 +142,11 @@ router.put('/savecharacterweapons/:id', (req, res) => {
             res.sendStatus(202)
         })
         .catch(err => {
-            console.log(`error saving weapon bridge status:`, err);
+            console.log(`Error saving weapon bridge status:`, err);
         })
 })
 
+// handle permanent luck changes made by burning one luck.
 router.put('/characterBurnOneLuck/:id', (req, res) => {
     const sqlText = `UPDATE "character"
     SET "max_luck" = $1
@@ -163,6 +163,38 @@ router.put('/characterBurnOneLuck/:id', (req, res) => {
         })
 })
 
+// create pharmaceutical compound
+router.put('/charactercreatepharmaceutical/', (req, res) => {
+    const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
+    const bankSqlParams = [req.body.newBank, req.body.characterID]
+    const updateMiscGearBridgeText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") VALUES ($1, $2)`
+    const miscGearBridgeParams = [req.body.characterID, req.body.pharmaceutical.misc_gear_master_id]
+
+    pool.query(updateBankSqlText, bankSqlParams)
+        .then((results) => {
+            for (let i = 0; i < req.body.doses; i++) {
+                pool.query(updateMiscGearBridgeText, miscGearBridgeParams)
+            }
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error creating new pharmaceuticals`, err);
+        })
+})
+
+// save arbitrary in play bank changes (from backpack) 
+router.put('/savecharacterbank/:id', (req, res) => {
+    const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
+    const bankSqlParams = [req.body.newBank, req.body.id]
+
+    pool.query(updateBankSqlText, bankSqlParams)
+        .then((results) => [
+            res.sendStatus(200)
+        ])
+        .catch(err => {
+            console.log(`arbitrarily updating bank:`, err);
+        })
+})
 
 // Character Advancement Routes
 // routes having to do with spending experience, equipping/unequipping gear and cyberware,
@@ -597,16 +629,16 @@ router.delete('/deletegamemastercharacter/:id', (req, res) => {
 
     if (req.user.user_type === 2) {
         pool.query(charDeleteSqlText, charDeleteSqlParams)
-        .then(result => {
-            res.sendStatus(202)
-        })
-        .catch(err => {
-            console.log(`Error deleting character for GM:`, err);
-        })
+            .then(result => {
+                res.sendStatus(202)
+            })
+            .catch(err => {
+                console.log(`Error deleting character for GM:`, err);
+            })
     } else {
         res.sendStatus(403)
     }
-    
+
 })
 
 module.exports = router

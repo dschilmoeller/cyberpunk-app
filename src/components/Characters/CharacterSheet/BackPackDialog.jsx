@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TextField, Button } from "@mui/material";
 
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,15 +14,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-
+import { Grid } from '@mui/material';
 
 export default function BackPackDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
+    const characterDetail = useSelector(store => store.characterDetail)
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
         setScroll(scrollType);
+        dispatch({ type: "FETCH_CHARACTER_MISC_GEAR", payload: characterDetail.id })
     };
 
     const handleClose = () => {
@@ -174,7 +176,7 @@ export default function BackPackDialog({ prop }) {
                 }
             }} fullWidth onClick={() => UseConsumable(row)}>Eat</Button></TableCell></>)
         } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
-        || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge') {
+            || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge') {
             return (<TableCell align='center' padding="normal"><Button sx={{
                 textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
                     backgroundColor: '#fff',
@@ -188,6 +190,29 @@ export default function BackPackDialog({ prop }) {
 
     const UseConsumable = (foodstuff) => {
         dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: foodstuff })
+    }
+
+    // arbitrary money changes:
+    const [bankChange, setBankChange] = React.useState(0)
+
+    const addMoney = (change) => {
+        if ((change) > 0) {
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) + parseFloat(change) })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: {id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change))} })
+            setBankChange(0)
+        } else {
+            alert('Change amount/Negatives not allowed')
+        }
+    }
+
+    const spendMoney = (change) => {
+        if ((change) > 0) {
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) - parseFloat(change) })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: {id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change))} })
+            setBankChange(0)
+        } else {
+            alert('Change amount/Negatives not allowed')
+        }
     }
 
     return (
@@ -206,8 +231,21 @@ export default function BackPackDialog({ prop }) {
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
-                <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
-
+                <DialogTitle id="scroll-dialog-title">Backpack</DialogTitle>
+                <Grid container>
+                    <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: ${characterDetail.bank}</Grid>
+                    <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
+                    <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
+                        label="Add/Remove Amount"
+                        onChange={e => setBankChange(e.target.value)}
+                        required
+                        type='number'
+                        value={bankChange}
+                        fullWidth
+                    />
+                    </Grid>
+                    <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button color='error' onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+                </Grid>
 
                 <TableContainer>
                     <Table
