@@ -271,7 +271,7 @@ VALUES
 ('Speedy', '+1 Dice to Initiative Actions', 50, 'software', 1, 0,0,0,0,3),
 ('Worm', '+1 Dice to Backdoor Actions', 50, 'software', 1, 0,0,0,0,3),
 ('Greaser', '+1 Dice to Slide Actions', 50, 'software', 1, 0,0,0,0,3),
-('Armor', '+1 Diece to Net Soak Rolls.', 50, 'software', 1, 0,0,0,0,3),
+('Armor', '+1 Dice to Net Soak Rolls.', 50, 'software', 1, 0,0,0,0,3),
 ('Flak', 'Reduce target program attack to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
 ('Shield', 'On receiving damage in the net, reduce to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
 ('Ban Hammer', 'An elegant weapon from a civilized discussion board.', 50, 'software', 1, 0,0,2,0,3),
@@ -299,7 +299,7 @@ VALUES
 ('Hardened Circuitry', 'Cyberdeck cannot be disabled or destroyed by EMP effects.', 100, 'mod', 1, 0,0,0,0,0),
 ('Insulated Wires', 'Cyberdeck cannot catch on fire as the result of enemy programs.', 100, 'mod', 1, 0,0,0,0,0),
 ('Extended Antenna', 'Cyberdeck can connect to wireless access points up to 20 meters away.', 100, 'mod', 1, 0,0,0,0,0),
-('Backup Drive', 'A progrma that is destroyed is saved to this drive instead. They can be restored to the Deck with a single meat action.', 100, 'mod', 1, 0,0,0,0,0),
+('Backup Drive', 'A program that is destroyed is saved to this drive instead. They can be restored to the Deck with a single meat action.', 100, 'mod', 1, 0,0,0,0,0),
 ('KRASH Barrier', 'Netrunner cannot be Jacked Out involuntarily without depressing a physical button on this device.', 500, 'mod', 2, 0,0,0,0,0);
 
 INSERT INTO "netrunner_master"("name", "description", "price", "type", "slots", "perception", "speed", "attack", "defense", "rez")

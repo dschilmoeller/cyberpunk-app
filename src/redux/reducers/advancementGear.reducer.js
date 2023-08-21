@@ -22,6 +22,9 @@ const advancementGear = (state = {
     boughtMiscGear: [],
     soldMiscGear: [],
     miscGearID: 0,
+    boughtNetrunnerGear: [],
+    soldNetrunnerGear: [],
+    netrunnerGearID: 0,
     boughtCyberware: [],
     soldCyberware: [],
     cyberwareID: 0
@@ -43,6 +46,7 @@ const advancementGear = (state = {
             weapons: [],
             gear: [],
             cyberware: [],
+            netrunnerGear: [],
             cyberwareSlots: {},
             totalArmorQuality: 0,
             totalShieldQuality: 0,
@@ -60,6 +64,9 @@ const advancementGear = (state = {
             boughtMiscGear: [],
             soldMiscGear: [],
             miscGearID: 0,
+            boughtNetrunnerGear: [],
+            soldNetrunnerGear: [],
+            netrunnerGearID: 0,
             boughtCyberware: [],
             soldCyberware: [],
             cyberwareID: 0
@@ -203,7 +210,7 @@ const advancementGear = (state = {
                     item.equipped = false
                     return item
                 }
-                
+
             }),
         }
     }
@@ -340,7 +347,7 @@ const advancementGear = (state = {
         }
     }
 
-// remaining versions dropped into a switch statement, but perform the same functions as above.
+    // remaining versions dropped into a switch statement, but perform the same functions as above.
     switch (action.type) {
         case 'BUY_SHIELD':
             return {
@@ -421,6 +428,33 @@ const advancementGear = (state = {
                 gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id),
                 soldMiscGear: [...state.soldMiscGear, action.payload]
             }
+        case 'BUY_NETRUNNER_GEAR':
+            return {
+                ...state,
+                boughtNetrunnerGear: [...state.boughtNetrunnerGear,
+                {
+                    attack: action.payload.item.attack,
+                    defense: action.payload.item.defense,
+                    description: action.payload.item.description,
+                    name: action.payload.item.name,
+                    netrunner_master_id: action.payload.item.netrunner_master_id,
+                    price: action.payload.item.price,
+                    rez: action.payload.item.rez,
+                    slots: action.payload.item.slots,
+                    type: action.payload.item.type
+                }]
+            }
+        case 'SELL_ADVANCEMENT_NETRUNNER_GEAR':
+            return {
+                ...state,
+                boughtNetrunnerGear: state.boughtNetrunnerGear.filter(gear => gear.netrunnerGearID !== action.payload.netrunnerGearID),
+            }
+        case 'SELL_OWNED_NETRUNNER_GEAR':
+            return {
+                ...state,
+                netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
+                soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload]
+            }
         case 'BUY_CYBERWARE':
             return {
                 ...state,
@@ -451,7 +485,7 @@ const advancementGear = (state = {
             }
     }
     return state
-    
+
 }
 
 export default advancementGear;

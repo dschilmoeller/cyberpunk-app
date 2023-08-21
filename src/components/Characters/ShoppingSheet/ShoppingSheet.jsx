@@ -6,12 +6,17 @@ import { useHistory, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import ArmorOwnedTable from './ArmorOwnedTable';
 import ArmorMasterTable from './ArmorMasterTable';
 import WeaponsOwnedTable from './WeaponsOwnedTable';
 import WeaponsMasterTable from './WeaponsMasterTable';
 import OtherOwnedTable from './OtherOwnedTable';
 import OtherMasterTable from './OtherMasterTable';
+import NetrunnerOwnedTable from './NetrunnerOwnedTable';
+import NetrunnerMasterTable from './NetrunnerMasterTable';
 
 import ShopCyberware from './ShopCyberware';
 
@@ -32,6 +37,7 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_SHIELD_LIST" })
         dispatch({ type: "FETCH_WEAPON_LIST" })
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
+        dispatch({type: "FETCH_NETRUNNER_LIST"})
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
     }, [])
 
@@ -47,6 +53,11 @@ function ShoppingSheet() {
             dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
             history.push('/characterlist')
         }
+    }
+
+    const [selectedShopping, setSelectedShopping] = useState('weapons')
+    const handleShoppingSelect = (event, newValue) => {
+        setSelectedShopping(newValue)
     }
 
     return (
@@ -78,29 +89,40 @@ function ShoppingSheet() {
                 ) : <></>}
 
                 <Item><h2>I want to shop for...</h2></Item>
-                <Grid container>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Armor')}>Shop Armor</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Weapons')}>Shop Weapons</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Misc Gear')}>Shop Other Gear</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Shop Cyberware')}>Shop Cyberware</Button></Item></Grid>
-                </Grid>
 
-                {opener === 'Shop Armor' ? (<>
+                <Tabs
+                    value={selectedShopping}
+                    onChange={handleShoppingSelect}
+                    indicatorColor='primary'
+                    textColor='secondary'>
+                    <Tab value='armor' label='Armor' />
+                    <Tab value='weapons' label='Weapons' />
+                    <Tab value='other' label='Other Gear' />
+                    {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
+                    <Tab value='cyberware' label='Cyberware' />
+                </Tabs>
+
+                {selectedShopping === 'armor' ? (<>
                     <ArmorOwnedTable />
                     <ArmorMasterTable />
                 </>) : <></>}
 
-                {opener === 'Shop Weapons' ? (<>
+                {selectedShopping === 'weapons' ? (<>
                     <WeaponsOwnedTable />
                     <WeaponsMasterTable />
                 </>) : <></>}
 
-                {opener === 'Shop Misc Gear' ? (<>
+                {selectedShopping === 'other' ? (<>
                     <OtherOwnedTable />
                     <OtherMasterTable />
                 </>) : <></>}
 
-                {opener === 'Shop Cyberware' ? (<>
+                {selectedShopping === 'netrunner' ? (<>
+                    <NetrunnerOwnedTable />
+                    <NetrunnerMasterTable />
+                </>) : <></>}
+
+                {selectedShopping === 'cyberware' ? (<>
                     <ShopCyberware />
                 </>) : <></>}
 

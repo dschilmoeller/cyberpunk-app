@@ -107,12 +107,12 @@ router.get('/fetchcharacterNetrunningGear/:id', (req, res) => {
     WHERE "char_id" = $1
     ORDER BY "type" ASC, "attack" DESC`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character netrunning gear.`);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character netrunning gear.`);
+        })
 })
 // use consumable from pack:
 router.delete('/useConsumable/:id', (req, res) => {
@@ -312,12 +312,12 @@ router.get('/fetchNetrunnerGear/:id', (req, res) => {
     WHERE char_id = $1
     ORDER BY "type" ASC`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        res.send(result.rows)
-    })
-    .catch(err => {
-        console.log(`Error fetching netrunner gear details`, err);
-    })
+        .then((result) => {
+            res.send(result.rows)
+        })
+        .catch(err => {
+            console.log(`Error fetching netrunner gear details`, err);
+        })
 })
 
 // advancement save route
@@ -420,12 +420,12 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
             const netrunnerGearSqlText = `UPDATE "netrunner_bridge"
             SET "equipped" = $1
             WHERE "netrunner_bridge_id" = $2`
-            
+
             for (let i = 0; i < netrunnerGear.length; i++) {
                 const netrunnerGearSqlParams = [netrunnerGear[i].equipped, netrunnerGear[i].netrunner_bridge_id]
                 pool.query(netrunnerGearSqlText, netrunnerGearSqlParams)
             }
-        
+
 
             // SHOPPING
             // armor: loop through soldArmor array, perform delete command on each
@@ -504,6 +504,26 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
                 for (let i = 0; i < boughtMiscGear.length; i++) {
                     const boughtMiscGearParams = [req.body.char.id, boughtMiscGear[i].misc_gear_master_id]
                     pool.query(boughtMiscGearSqlText, boughtMiscGearParams)
+                }
+            }
+
+            const soldNetrunnerGear = req.body.gear.soldNetrunnerGear
+            if (soldNetrunnerGear.length > 0) {
+                const soldNetrunnerGearSqlText = `DELETE FROM "netrunner_bridge" where "netrunner_bridge_id" = $1`
+                for (let i = 0; i < soldNetrunnerGear.length; i++) {
+                    const soldNetrunnerGearParams = [soldNetrunnerGear[i].netrunner_bridge_id]
+                    pool.query(soldNetrunnerGearSqlText, soldNetrunnerGearParams)
+                }
+            }
+
+            const boughtNetrunnerGear = req.body.gear.boughtNetrunnerGear
+            if (boughtNetrunnerGear.length > 0) {
+                const boughtNetrunnerGearSqlText = `INSERT INTO "netrunner_bridge" ("char_id", "netrunner_master_id") 
+            VALUES ($1, $2)`
+                for (let i = 0; i < boughtNetrunnerGear.length; i++) {
+
+                    const boughtNetrunnerGearParams = [req.body.char.id, boughtNetrunnerGear[i].netrunner_master_id]
+                    pool.query(boughtNetrunnerGearSqlText, boughtNetrunnerGearParams)
                 }
             }
 
