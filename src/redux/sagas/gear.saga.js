@@ -47,12 +47,22 @@ function* fetchCyberware() {
     }
 }
 
-function* gearSaga() {
-        yield takeLatest('FETCH_ARMOR_LIST', fetchArmor);
-        yield takeLatest('FETCH_SHIELD_LIST', fetchShield)
-        yield takeLatest('FETCH_WEAPON_LIST', fetchWeapon);
-        yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
-        yield takeLatest('FETCH_CYBERWARE_LIST', fetchCyberware);
+function* fetchNetrunner() {
+    try {
+        const netrunnerList = yield axios.get('/api/gear/netrunner')
+        yield put({ type: "SET_NETRUNNER_LIST", payload: netrunnerList.data })
+    } catch (error) {
+        console.log(`Error fetching netrunner list:`, error);
     }
+}
 
-    export default gearSaga;
+function* gearSaga() {
+    yield takeLatest('FETCH_ARMOR_LIST', fetchArmor);
+    yield takeLatest('FETCH_SHIELD_LIST', fetchShield)
+    yield takeLatest('FETCH_WEAPON_LIST', fetchWeapon);
+    yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
+    yield takeLatest('FETCH_CYBERWARE_LIST', fetchCyberware);
+    yield takeLatest('FETCH_NETRUNNER_LIST', fetchNetrunner)
+}
+
+export default gearSaga;

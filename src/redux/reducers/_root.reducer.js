@@ -9,6 +9,7 @@ import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterWeapons from './characterWeapons.reducer';
 import characterMiscGear from './characterMiscGear.reducer';
+import characterNetrunnerGear from './characterNetrunnerGear.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
@@ -17,6 +18,7 @@ import shieldMaster from './shieldMaster.reducer';
 import weaponMaster from './weaponMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
+import netrunnerGearMaster from './netrunnerMaster.reducer';
 
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
@@ -35,12 +37,14 @@ const rootReducer = combineReducers({
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterWeapons, // contains active character's weapons
   characterMiscGear, // contains active character's miscellaneous gear
+  characterNetrunnerGear, // contains active characters netrunning gear (if any)
   characterCreation, // contains details set up during character creation
   armorMaster, // master gear list - armor
   shieldMaster, // master gear list - shields
   weaponMaster, // master gear list - weapons
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware
+  netrunnerGearMaster, // master gear list - netrunner
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 });

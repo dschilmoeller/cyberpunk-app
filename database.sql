@@ -68,6 +68,7 @@ CREATE TABLE "character" (
 	"rockerboy" integer NOT NULL DEFAULT '0',
 	"solo" integer NOT NULL DEFAULT '0',
 	"netrunner" integer NOT NULL DEFAULT '0',
+	"cyberdeck_slots" integer NOT NULL DEFAULT '0',
 	"nomad" integer NOT NULL DEFAULT '0',
 	"media" integer NOT NULL DEFAULT '0',
 	"medtech" integer NOT NULL DEFAULT '0',
@@ -200,7 +201,8 @@ CREATE TABLE "misc_gear_master" (
 	"misc_gear_master_id" serial NOT NULL,
 	"name" varchar NOT NULL,
 	"description" varchar NOT NULL,
-	"price" integer NOT NULL DEFAULT '0' CONSTRAINT "misc_gear_master_pk" PRIMARY KEY ("misc_gear_master_id")
+	"price" integer NOT NULL DEFAULT '0',
+	CONSTRAINT "misc_gear_master_pk" PRIMARY KEY ("misc_gear_master_id")
 ) WITH (OIDS = FALSE);
 CREATE TABLE "char_gear_bridge" (
 	"char_gear_bridge_id" serial NOT NULL,
@@ -209,7 +211,110 @@ CREATE TABLE "char_gear_bridge" (
 	CONSTRAINT "char_gear_bridge_pk" PRIMARY KEY ("char_gear_bridge_id")
 ) wiTH (OIDS = FALSE);
 
+CREATE TABLE "lifestyle_master" (
+	"lifestyle_master_id" serial NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL,
+	"price" integer NOT NULL DEFAULT '0',
+	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
+) WITH (OIDS = FALSE);
+CREATE TABLE "lifestyle_brige" (
+	"lifestyle_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"lifestyle_id" integer NOT NULL,
+	"months_owned" integer NOT NULL
+	CONSTRAINT "lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
+) WITH (OIDS = FALSE);
+ALTER TABLE "lifestyle_bridge"
+ADD CONSTRAINT "lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "lifestyle_bridge"
+ADD CONSTRAINT "lifestyle_bridge_fk1" FOREIGN KEY ("lifestyle_id") REFERENCES "lifestyle_master"("lifestyle_master_id");
+INSERT INTO "lifestyle_master" ("name", "description", "price")
+VALUES ('Street', 'You eat what you can find in dumpsters. All health recovery takes twice as long, but hey, you are alive.', 0),
+('Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
+('Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
+('Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
+('Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)
 
+CREATE TABLE "netrunner_master" (
+	"netrunner_master_id" serial NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL,
+	"price" integer NOT NULL DEFAULT 0,
+	"type" varchar NOT NULL,
+	"slots" integer NOT NULL DEFAULT 0,
+	"perception" integer NOT NULL DEFAULT 0,
+	"speed" integer NOT NULL DEFAULT 0,
+	"attack" integer NOT NULL DEFAULT 0,
+	"defense" integer NOT NULL DEFAULT 0,
+	"rez" integer NOT NULL DEFAULT 0,
+	CONSTRAINT "netrunner_master_pk" PRIMARY KEY ("netrunner_master_id")
+) WITH (OIDS = FALSE);
+CREATE TABLE "netrunner_bridge" (
+	"netrunner_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"netrunner_master_id" integer NOT NULL,
+	"equipped" boolean NOT NULL DEFAULT false,
+	CONSTRAINT "netrunner_bridge_pk" PRIMARY KEY ("netrunner_bridge_id")
+) WITH (OIDS = FALSE);
+ALTER TABLE "netrunner_bridge"
+ADD CONSTRAINT "netrunner_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "netrunner_bridge"
+ADD CONSTRAINT "netrunner_bridge_fk1" FOREIGN KEY ("netrunner_master_id") REFERENCES "netrunner_master"("netrunner_master_id");
+INSERT INTO "netrunner_master"("name", "description", "price", "type", "slots", "perception", "speed", "attack", "defense", "rez")
+VALUES
+('Cyberdeck Alpha', 'A basic Deck for Netrunning. Roughly the size of a pack of cigarettes. Provides 5 slots.', 500, 'deck', 5, 0,0,0,0,0),
+('Cyberdeck Beta', 'An advanced Deck for Netrunning. Slightly larger, more rugged, and much more powerful. Provides 6 slots.', 2500, 'deck', 6, 0,0,0,0,0),
+('Cyberdeck Delta', 'A sophisticated Deck for Netrunning, with milspec components and a quantum processor. About the size of paperback book, and as rugged as a piece of steel of the same size. Provides 7 slots.', 10000, 'deck', 7, 0,0,0,0,0),
+('Eraser', '+1 Dice to Cloak Actions', 50, 'software', 1, 0,0,0,0,3),
+('See Ya', '+1 Dice to Pathfinder Actions', 50, 'software', 1, 0,0,0,0,3),
+('Speedy', '+1 Dice to Initiative Actions', 50, 'software', 1, 0,0,0,0,3),
+('Worm', '+1 Dice to Backdoor Actions', 50, 'software', 1, 0,0,0,0,3),
+('Greaser', '+1 Dice to Slide Actions', 50, 'software', 1, 0,0,0,0,3),
+('Armor', '+1 Diece to Net Soak Rolls.', 50, 'software', 1, 0,0,0,0,3),
+('Flak', 'Reduce target program attack to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
+('Shield', 'On receiving damage in the net, reduce to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
+('Ban Hammer', 'An elegant weapon from a civilized discussion board.', 50, 'software', 1, 0,0,2,0,3),
+('Sword', 'A common weapon in the Netrunners arsenal.', 50, 'software', 1, 0,0,1,1,3),
+('Epic Flail', 'Sometimes you just gotta hope and swing.', 50, 'software', 1, 0,0,0,2,3),
+('DeckKRASH', 'If this hits a Netrunner, they immediately Jack Out if it does any damage.', 500, 'software',1, 0,0,0,0,1),
+('Hellbolt', 'If used on an enemy Netrunner, their cyberdeck will catch on fire if it does any damage', 500, 'software',1, 0,0,2,0,1),
+('Nerve Scrub', 'If used on an enemy Netrunner, their Reflexes and Intelligence are lowered by one for 1 hour if the attack does any damage. These effects are psychosomatic and not permanent.', 500, 'software',1, 0,0,0,0,1),
+('Poison Pins', 'If used to target an enemy program, the program will be destroyed instead of deactivated if it is de-rezzed.', 500, 'software',1, 0,0,1,1,3),
+('Superglue', 'If used on an enemy Netrunner, they can not change levels in the Architecture or voluntarily Jack Out for 1d10/2 rounds.', 500, 'software',1, 0,0,1,1,3),
+('Brainfuxx0r', 'If used on an enemy Netrunner, their lose a number of Netrunner actions equal to the damage taken.', 500, 'software',1, 0,0,1,1,3),
+('Asp', 'On successful hit, deactivates a program at random. Can combine - each program gives +1 to all stats when doing so.', 100, 'black ice', 1, 5,5,2,2,3),
+('Giant', 'On successful hit that causes damage, Netrunner is forcibly jacked out.', 1000, 'black ice', 1, 5,1,6,4,6),
+('Hellhound', 'On a successful hit that causes damage, Netrunner deck catches fire. Can combine - each program gives +1 to all stats when doing so.', 500, 'black ice', 1, 7,6,5,3,4),
+('Kraken', 'On a successful hit that causes damage, Netrunner cannot change levels of the architecture or Jack Out for 1 round', 1000, 'black ice', 1, 5,2,8,4,6),
+('Liche', 'On a successful hit that causes damage, Netrunners Reflexes and Intelligence are lowered by one for 1 hour.', 500, 'black ice', 1, 8, 6, 4,4,8),
+('Raven', 'Instead of attacking, can change places with a program from a deeper level of the architecture.', 100, 'black ice', 1, 4,4,2,2,3),
+('Scorpion', 'On a successful hit that causes damage, Netrunners Movement is lowered by 1 for 1 hour.', 500, 'black ice', 1, 5,4,4,4,3),
+('Skunk', 'Until Derezzed, the Netrunner loses 1 die to all Slide actions. Each Skunk program can affect only 1 Netrunner at a time, but multiple Skunks can stack the effects.', 500, 'black ice', 1, 5,4,4,2,2),
+('Wisp', 'A basic defensive program that can take a variety of forms. Can combine - each program gives +1 to all stats when doing so.', 50, 'black ice', 1, 5,4,2,2,3),
+('Dragon', 'If this ICE targets a program, the program will be destroyed instead of deactivated if it is de-rezzed', 10000, 'black ice', 1, 8,8,7,7,10),
+('Killer App', 'If this ICE targets a program, the program will be destroyed instead of deactivated if it is de-rezzed.', 1000, 'black ice', 1,5,3,8,2,4),
+('Sabertooth', 'If this ICE targets a program, the program will be destroyed instead of deactivated if it is de-rezzed.', 1000, 'black ice', 1,5,8,4,2,4),
+('DNA Lock', 'Deck cannot be accessed or altered without a Cybertech roll against a DV of 8.', 100, 'mod', 1, 0,0,0,0,0),
+('Hardened Circuitry', 'Cyberdeck cannot be disabled or destroyed by EMP effects.', 100, 'mod', 1, 0,0,0,0,0),
+('Insulated Wires', 'Cyberdeck cannot catch on fire as the result of enemy programs.', 100, 'mod', 1, 0,0,0,0,0),
+('Extended Antenna', 'Cyberdeck can connect to wireless access points up to 20 meters away.', 100, 'mod', 1, 0,0,0,0,0),
+('Backup Drive', 'A progrma that is destroyed is saved to this drive instead. They can be restored to the Deck with a single meat action.', 100, 'mod', 1, 0,0,0,0,0),
+('KRASH Barrier', 'Netrunner cannot be Jacked Out involuntarily without depressing a physical button on this device.', 500, 'mod', 2, 0,0,0,0,0);
+
+INSERT INTO "netrunner_master"("name", "description", "price", "type", "slots", "perception", "speed", "attack", "defense", "rez")
+VALUES
+-- One step up weapons
+('Langford Parrot', 'Caution: Direct observation of the Parrot may result in catastrophic autoDarwination', 500, 'software', 1,0,0,3,1,4),
+('Flaming Sword', 'Like a sword, but on fire.', 500, 'software', 1,0,0,2,2,4),
+('Web Launchers', 'Apparently this is a weapon somehow?', 500, 'software', 1,0,0,1,3,4),
+-- Two step up weapons
+('BFG', 'They bring a knife, we bring a rocket launcher.', 2500, 'software', 1,0,0,4,2,5),
+('Holy Avenger', 'Yo I think this thing is +5 AND flaming.', 2500, 'software', 1, 0, 0, 3,3,5),
+('Zatoichi Walking Stick', 'You can hear how dice fall when holding it.', 2500, 'software', 1,0,0,2,4,5),
+-- notes for other silly things:
+
+-- Nailbat
 CREATE TABLE "char_owned_cyberware" (
 	"owned_cyberware_id" serial NOT NULL,
 	"char_id" integer NOT NULL,

@@ -6,6 +6,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import CharacterAttributes from './CharacterAttributes';
 import CharacterSkills from './CharacterSkills';
@@ -13,7 +15,9 @@ import CharacterMarkers from './CharacterMarkers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 import Weapons from './Weapons';
+import CharacterNetrunner from './CharacterNetrunner';
 import BackPackDialog from './BackPackDialog';
+import Backpack from './Backpack';
 
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail);
@@ -27,9 +31,6 @@ function CharacterSheet() {
     const history = useHistory();
     const params = useParams();
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
-
     useEffect(() => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_MISC_GEAR_LIST' })
@@ -37,6 +38,11 @@ function CharacterSheet() {
 
     const saveCharacter = () => {
         dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons } } })
+    }
+
+    const [selectedInventory, setSelectedInventory] = useState('weapons')
+    const handleInventorySelect = (event, newValue) => {
+        setSelectedInventory(newValue)
     }
 
     return (
@@ -64,18 +70,37 @@ function CharacterSheet() {
                             <CharacterSkills charDetail={charDetail} />
                             <CharacterRoleAbilities charDetail={charDetail} />
                             <CharacterMarkers charDetail={charDetail} />
-                            
-                            <Grid item xs={12}>
-                                <Weapons />
-                            </Grid>
 
-                            <Grid item xs={12}>
-                                <Grid container>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><BackPackDialog prop={'Open Backpack'} /></Grid>
-                                    <Grid item xs={3}></Grid>
+                            <Tabs
+                                value={selectedInventory}
+                                onChange={handleInventorySelect}
+                                indicatorColor='primary'
+                                textColor='secondary'>
+                                <Tab value='weapons' label='Weapons' />
+                                {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
+                                <Tab value='backback' label='Backback' />
+                            </Tabs>
+
+                            {selectedInventory === 'weapons' ? (<>
+                                <Grid item xs={12}>
+                                    <Weapons />
                                 </Grid>
-                            </Grid>
+                            </>) : <></>}
+
+                            {selectedInventory === 'netrunner' ? (<>
+                                <CharacterNetrunner />
+                            </>) : <></>}
+
+                            {selectedInventory === 'backback' ? (<>
+                                <Backpack />
+                                {/* <Grid item xs={12}>
+                                    <Grid container>
+                                        <Grid item xs={3}></Grid>
+                                        <Grid item xs={6}><BackPackDialog prop={'Open Backpack'} /></Grid>
+                                        <Grid item xs={3}></Grid>
+                                    </Grid>
+                                </Grid> */}
+                            </>) : <></>}
 
                         </>
                     ) : <></>}

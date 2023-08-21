@@ -6,7 +6,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
-import ShopArmor from './ShopArmor';
 import ArmorOwnedTable from './ArmorOwnedTable';
 import ArmorMasterTable from './ArmorMasterTable';
 import WeaponsOwnedTable from './WeaponsOwnedTable';
@@ -15,7 +14,6 @@ import OtherOwnedTable from './OtherOwnedTable';
 import OtherMasterTable from './OtherMasterTable';
 
 import ShopCyberware from './ShopCyberware';
-import ShopOther from './ShopOther';
 
 function ShoppingSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);

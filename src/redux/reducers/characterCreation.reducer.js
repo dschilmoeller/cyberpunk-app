@@ -16,7 +16,7 @@ const characterCreation = (state = {
     availableMedSkillPoints: 0, availableMakerSkillPoints: 0,
 
 
-    armor: [], shield: [], weapons: [], gear: [], cyberware: [],
+    armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
 
     gearbucks: 1500, cyberbucks: 2500
 },
@@ -175,6 +175,22 @@ const characterCreation = (state = {
             gear: [
                 ...state.gear.slice(0, action.payload),
                 ...state.gear.slice(action.payload + 1)],
+            gearbucks: action.newBank
+        }
+    }
+    if (action.type === "CREATION_BUY_NETRUNNER_GEAR") {
+        return {
+            ...state,
+            netrunnerGear: [...state.netrunnerGear, action.payload],
+            gearbucks: action.newBank
+        }
+    }
+    if (action.type === "CREATION_SELL_NETRUNNER_GEAR") {
+        return {
+            ...state,
+            netrunnerGear: [
+                ...state.netrunnerGear.slice(0, action.payload),
+                ...state.netrunnerGear.slice(action.payload + 1)],
             gearbucks: action.newBank
         }
     }

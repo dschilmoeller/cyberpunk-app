@@ -91,7 +91,7 @@ function Weapons() {
         switch (cyberware.name) {
             case 'Cybersnake':
                 damage = charDetail.strength + charDetail.cyber_strength + 2
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -108,10 +108,10 @@ function Weapons() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             case 'Vampyres':
                 damage = charDetail.strength + charDetail.cyber_strength + 0
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -127,11 +127,10 @@ function Weapons() {
                                 <Grid item xs={6}><Item>Number of Hands: 0</Item></Grid>
                             </Grid>
                         </Grid>
-                    </React.Fragment>
-                </>)
+                    </React.Fragment>)
             case 'Big Knucks':
                 damage = charDetail.strength + charDetail.cyber_strength + 1
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -148,10 +147,10 @@ function Weapons() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             case 'Scratchers':
                 damage = charDetail.strength + charDetail.cyber_strength + 0
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -168,10 +167,10 @@ function Weapons() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             case 'Rippers':
                 damage = charDetail.strength + charDetail.cyber_strength + 1
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -188,10 +187,10 @@ function Weapons() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             case 'Wolvers':
                 damage = charDetail.strength + charDetail.cyber_strength + 2
-                return (<>
+                return (
                     <React.Fragment key={cyberware.owned_cyberware_id}>
                         <Grid item xs={6} >
                             <Grid container>
@@ -208,7 +207,7 @@ function Weapons() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             default:
                 return (<React.Fragment key={cyberware.owned_cyberware_id}></React.Fragment>)
         }

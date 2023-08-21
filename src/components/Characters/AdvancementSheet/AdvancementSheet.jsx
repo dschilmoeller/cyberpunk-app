@@ -6,6 +6,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import AdvancementAttributes from './AdvancementAttributes';
 import AdvancementSkills from './AdvancementSkills';
 import AdvancementSpecial from './AdvancementSpecial';
@@ -14,19 +17,37 @@ import AdvancementOther from './AdvancementOther';
 import AdvancementGearArmor from './AdvancementGearArmor';
 import AdvancementGearWeapons from './AdvancementGearWeapons';
 import AdvancementGearOther from './AdvancementGearOther';
+import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
 import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
 
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
-    // console.log(`Characters:`, characterList);
     const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
 
-    const [opener, setOpener] = useState('')
+    // opener for primary tabs.
+    const [value, setValue] = useState(false)
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        setExperienceValue(false)
+        setShopValue(false)
+    }
+
+    // next level down tabs
+    const [experienceValue, setExperienceValue] = useState(false)
+    const handleExperienceValueChange = (event, newValue) => {
+        setExperienceValue(newValue);
+        setShopValue(false)
+    }
+    const [equipmentValue, setShopValue] = useState(false)
+    const equipmentValueChange = (event, newValue) => {
+        setShopValue(newValue)
+        setExperienceValue(false)
+    }
 
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
@@ -81,55 +102,80 @@ function AdvancementSheet() {
                 ) : <></>}
 
                 <Item><h2>I want to change...</h2></Item>
-                <Grid container>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Attributes')}>Attributes</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Skills')}>Skills</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Role')}>Role</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Other')}>Other Traits</Button></Item></Grid>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor='primary'
+                    textColor='secondary'>
+                    <Tab value='experience' label='Spend XP' />
+                    <Tab value='gear' label='Equip Gear' />
+                </Tabs>
 
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Armor')}>Equip Armor</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Weapons')}>Equip Weapons</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Gear')}>See Other Gear</Button></Item></Grid>
-                    <Grid item xs={3}><Item><Button onClick={() => setOpener('Cyberware')}>Equip Cyberware</Button></Item></Grid>
+                {value === 'experience' ? (
+                    <Tabs
+                        value={experienceValue}
+                        onChange={handleExperienceValueChange}
+                        indicatorColor='primary'
+                        textColor='secondary'>
+                        <Tab value='attributes' label='Attributes' />
+                        <Tab value='skills' label='Skills' />
+                        <Tab value='role' label='Role Abilities' />
+                        <Tab value='otherTraits' label='Other Traits' />
+                    </Tabs>) : <></>}
 
-                </Grid>
-
-                {opener === 'Attributes' ? (<>
+                {experienceValue === 'attributes' ? (<>
                     <AdvancementAttributes />
                 </>) : <></>}
 
-                {opener === 'Skills' ? (<>
+                {experienceValue === 'skills' ? (<>
                     <AdvancementSkills />
                 </>) : <></>}
 
-                {opener === 'Role' ? (<>
+                {experienceValue === 'role' ? (<>
                     <AdvancementSpecial />
                 </>) : <></>}
 
-                {opener === 'Other' ? (<>
+                {experienceValue === 'otherTraits' ? (<>
                     <AdvancementOther />
                 </>) : <></>}
 
-                {opener === 'Armor' ? (<>
+                {value === 'gear' ? (
+                    <Tabs
+                        value={equipmentValue}
+                        onChange={equipmentValueChange}
+                        indicatorColor='primary'
+                        textColor='secondary'>
+                        <Tab value='armor' label='Armor' />
+                        <Tab value='weapons' label='Weapons' />
+                        <Tab value='other' label='Other Gear' />
+                        {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner Gear' />}
+                        <Tab value='cyberware' label='Cyberware' />
+                    </Tabs>) : <></>}
+
+                {equipmentValue === 'armor' ? (<>
                     <AdvancementGearArmor />
                 </>) : <></>}
 
-                {opener === 'Weapons' ? (<>
+                {equipmentValue === 'weapons' ? (<>
                     <AdvancementGearWeapons />
                 </>) : <></>}
 
-                {opener === 'Gear' && advancementDetails.med_pharma > 0 ?
+                {equipmentValue === 'other' && advancementDetails.med_pharma > 0 ?
                     (<>
                         <AdvancementMakePharmaDialog />
                         <AdvancementGearOther />
                     </>) : <></>}
 
-                {opener === 'Gear' && advancementDetails.med_pharma < 1 ?
+                {equipmentValue === 'other' && advancementDetails.med_pharma < 1 ?
                     (<>
                         <AdvancementGearOther />
                     </>) : <></>}
 
-                {opener === 'Cyberware' ? (<>
+                {equipmentValue === 'netrunner' ? (<>
+                    <AdvancementNetrunnerGear />
+                </>) : <></>}
+
+                {equipmentValue === 'cyberware' ? (<>
                     <AdvancementCyberware />
                 </>) : <></>}
 

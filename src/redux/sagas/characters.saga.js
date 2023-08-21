@@ -24,6 +24,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data })
     const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
+    const characterNetrunningGear = yield axios.get(`api/characters/fetchcharacterNetrunningGear/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_NETRUNNER_GEAR', payload: characterNetrunningGear.data})
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -118,6 +120,10 @@ function* fetchAdvancementDetails(action) {
 
     const advancementCyberSlots = yield axios.get(`/api/characters/fetchAdvancementCyberSlots/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_CYBERWARE_SLOTS', payload: advancementCyberSlots.data[0] })
+
+    const advancementNetrunnerGear = yield axios.get(`/api/characters/fetchNetrunnerGear/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_NETRUNNER_GEAR', payload: advancementNetrunnerGear.data })
+
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

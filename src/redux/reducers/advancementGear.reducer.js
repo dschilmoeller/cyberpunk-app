@@ -4,6 +4,7 @@ const advancementGear = (state = {
     weapons: [],
     gear: [],
     cyberware: [],
+    netrunnerGear: [],
     cyberwareSlots: {},
     totalArmorQuality: 0,
     totalShieldQuality: 0,
@@ -78,6 +79,11 @@ const advancementGear = (state = {
         return {
             ...state,
             cyberwareSlots: action.payload
+        }
+    } else if (action.type === 'SET_ADVANCEMENT_NETRUNNER_GEAR') {
+        return {
+            ...state,
+            netrunnerGear: action.payload
         }
     }
 
@@ -167,6 +173,65 @@ const advancementGear = (state = {
                     return item
                 }
                 return item
+            })
+        }
+    }
+
+    if (action.type === 'EQUIP_NETRUNNER_DECK') {
+        return {
+            ...state,
+            netrunnerGear: state.netrunnerGear.map(item => {
+                if (item.netrunner_bridge_id === action.payload.netrunner_bridge_id) {
+                    item.equipped = true
+                    return item
+                } else {
+                    item.equipped = false
+                    return item
+                }
+            }),
+        }
+    }
+
+    if (action.type === 'UNEQUIP_NETRUNNER_DECK') {
+        return {
+            ...state,
+            netrunnerGear: state.netrunnerGear.map(item => {
+                if (item.netrunner_bridge_id === action.payload.netrunner_bridge_id) {
+                    item.equipped = false
+                    return item
+                } else {
+                    item.equipped = false
+                    return item
+                }
+                
+            }),
+        }
+    }
+
+    if (action.type === 'EQUIP_NETRUNNER_GEAR') {
+        return {
+            ...state,
+            netrunnerGear: state.netrunnerGear.map(item => {
+                if (item.netrunner_bridge_id === action.payload.netrunner_bridge_id) {
+                    item.equipped = true
+                    return item
+                } else {
+                    return item
+                }
+            })
+        }
+    }
+
+    if (action.type === 'UNEQUIP_NETRUNNER_GEAR') {
+        return {
+            ...state,
+            netrunnerGear: state.netrunnerGear.map(item => {
+                if (item.netrunner_bridge_id === action.payload.netrunner_bridge_id) {
+                    item.equipped = false
+                    return item
+                } else {
+                    return item
+                }
             })
         }
     }

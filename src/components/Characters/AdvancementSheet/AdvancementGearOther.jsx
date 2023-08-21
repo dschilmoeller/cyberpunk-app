@@ -16,6 +16,7 @@ export default function AdvancementGearOther() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // this is here so that when pharmaceuticals are made they show up in the list when the dialog is closed.
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
     }, [])
 

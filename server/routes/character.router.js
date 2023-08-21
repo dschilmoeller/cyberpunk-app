@@ -101,6 +101,19 @@ router.get('/fetchCharacterMiscGear/:id', (req, res) => {
         })
 })
 
+router.get('/fetchcharacterNetrunningGear/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "netrunner_bridge"
+    JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
+    WHERE "char_id" = $1
+    ORDER BY "type" ASC, "attack" DESC`
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character netrunning gear.`);
+    })
+})
 // use consumable from pack:
 router.delete('/useConsumable/:id', (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
@@ -293,12 +306,24 @@ router.get('/fetchAdvancementCyberSlots/:id', (req, res) => {
         })
 })
 
+router.get('/fetchNetrunnerGear/:id', (req, res) => {
+    const sqlText = `SELECT * FROM "netrunner_bridge"
+    JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
+    WHERE char_id = $1
+    ORDER BY "type" ASC`
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        res.send(result.rows)
+    })
+    .catch(err => {
+        console.log(`Error fetching netrunner gear details`, err);
+    })
+})
+
 // advancement save route
 // big one is to update the character stats, skills, and such.
 router.put('/saveAdvancementCharacter/:id', (req, res) => {
     const rb = req.body.char
-
-    // swapped concept for temp humanity loss tracker rather than re-number all items.
     const charSqlText = `UPDATE "character"
     SET  "is_paramedical" = $1,
     "strength" = $2, "body" = $3, "reflexes" = $4, "appearance" = $5, "cool" = $6, "street_cred" = $7, "intelligence" = $8, "willpower" = $9, "technique" = $10,
@@ -308,8 +333,9 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     "rockerboy" = $42, "solo" = $43, "netrunner" = $44, "nomad" = $45, "media" = $46, "medtech" = $47, "med_surgery" = $48, "med_pharma" = $49, "med_cryo" = $50,
     "maker" = $51, "maker_field" = $52, "maker_upgrade" = $53, "maker_fab" = $54, "maker_invent" = $55,
     "perm_humanity_loss" = $56, "temp_humanity_loss" = $57, "max_luck" = $58, "max_xp" = $59, "spent_xp" = $60, "bank" = $61,
-    "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_appearance" = $65, "cyber_cool" = $66, "cyber_intelligence" = $67
-    WHERE id = $68`
+    "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_appearance" = $65, "cyber_cool" = $66, "cyber_intelligence" = $67,
+    "cyberdeck_slots" = $68
+    WHERE id = $69`
 
     const charParams = [rb.is_paramedical,
     rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
@@ -319,6 +345,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
     rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.temp_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
     rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
+    rb.cyberdeck_slots,
     rb.char_id]
 
     pool.query(charSqlText, charParams)
@@ -387,6 +414,18 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
             cyberwareSlots.cyberaudio_slots, cyberwareSlots.internalware_slots, cyberwareSlots.externalware_slots,
             cyberwareSlots.cyberarm_slots, cyberwareSlots.cyberleg_slots, cyberwareSlots.cyberware_bridge_id]
             pool.query(cyberwareSlotsSqlText, cyberwareSlotsSqlParams)
+
+            // change netrunner gear details:
+            const netrunnerGear = req.body.gear.netrunnerGear
+            const netrunnerGearSqlText = `UPDATE "netrunner_bridge"
+            SET "equipped" = $1
+            WHERE "netrunner_bridge_id" = $2`
+            
+            for (let i = 0; i < netrunnerGear.length; i++) {
+                const netrunnerGearSqlParams = [netrunnerGear[i].equipped, netrunnerGear[i].netrunner_bridge_id]
+                pool.query(netrunnerGearSqlText, netrunnerGearSqlParams)
+            }
+        
 
             // SHOPPING
             // armor: loop through soldArmor array, perform delete command on each
@@ -511,7 +550,8 @@ router.post('/saveCreationCharacter/', (req, res) => {
         "business","cryptography","cyber_tech","investigation","first_aid","paramed","gambling","language","military_tech","science","vehicle_tech",
 		"rockerboy","solo","netrunner","nomad","media","medtech","med_surgery","med_pharma","med_cryo",
 		"maker","maker_field","maker_upgrade","maker_fab","maker_invent",
-		"perm_humanity_loss","max_luck","max_xp","spent_xp","bank"
+		"perm_humanity_loss","max_luck","max_xp","spent_xp","bank",
+        "cyberdeck_slots"
 	)
     VALUES ($1, $2, $3, $4, $5, 
         $6, $7, $8, $9, $10, $11, $12, $13, $14, 
@@ -520,7 +560,8 @@ router.post('/saveCreationCharacter/', (req, res) => {
         $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, 
         $46, $47, $48, $49, $50, $51, $52, $53, $54, 
         $55, $56, $57, $58, $59, 
-        $60, $61, $62, $63, $64)
+        $60, $61, $62, $63, $64,
+        $65)
         RETURNING id;`
 
     const charParams = [req.user.id, rb.handle, rb.player, rb.campaign, rb.isParamedical,
@@ -529,7 +570,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
     rb.demolitions, rb.driveLand, rb.driveExotic, rb.etiquette, rb.exoticWeapons, rb.heavyWeapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
     rb.business, rb.cryptography, rb.cyberTech, rb.firstAid, rb.paramedic, rb.investigation, rb.gambling, rb.language, rb.militaryTech, rb.science, rb.vehicleTech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.medSurgery, rb.medPharma, rb.medCryo,
-    rb.maker, rb.makerField, rb.makerUpgrade, rb.makerFab, rb.makerInvent, 0, 5, 0, 0, 300]
+    rb.maker, rb.makerField, rb.makerUpgrade, rb.makerFab, rb.makerInvent, 0, 5, 0, 0, 300, 0]
 
     pool.query(charSqlText, charParams)
         .then((result) => {
@@ -567,6 +608,13 @@ router.post('/saveCreationCharacter/', (req, res) => {
                 VALUES ($1, $2)`
                 const gearSqlParams = [result.rows[0].id, rb.cyberware[i] + 1]
                 pool.query(gearSqlText, gearSqlParams)
+            }
+            for (let i = 0; i < req.body.netrunnerGear.length; i++) {
+                const netrunnerGearSqlText = `INSERT INTO "netrunner_bridge" 
+                ("char_id", "netrunner_master_id", "equipped")
+                VALUES ($1, $2, $3)`
+                const netrunnerGearParams = [result.rows[0].id, rb.netrunnerGear[i] + 1, false]
+                pool.query(netrunnerGearSqlText, netrunnerGearParams)
             }
 
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
