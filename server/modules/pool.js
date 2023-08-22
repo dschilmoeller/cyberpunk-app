@@ -9,6 +9,7 @@ let pool;
 if (process.env.DATABASE_URL) {
     pool = new pg.Pool({
         connectionString: process.env.DATABASE_URL,
+        database: 'cyberpunk',
         ssl: {
             rejectUnauthorized: false
         }
@@ -21,7 +22,7 @@ else {
     pool = new pg.Pool({
         host: 'localhost',
         port: 5432,
-        database: 'cyberpunk2', // db name
+        database: 'cyberpunk', // db name
     });
 }
 
