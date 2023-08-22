@@ -20,7 +20,6 @@ function* fetchUser() {
     // the client-side code know the user is logged in
     yield put({ type: 'SET_USER', payload: response.data });
   } catch (error) {
-    console.log(`env stuff `, process.env.DATABASE_URL);
     console.log('User get request failed', error);
   }
 }
