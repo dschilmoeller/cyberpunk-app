@@ -12,6 +12,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 notes.txt
+database2.sql
 
 # Runtime data
 pids

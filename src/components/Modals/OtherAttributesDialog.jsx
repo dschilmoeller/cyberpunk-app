@@ -161,13 +161,9 @@ export default function OtherAttributesDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        <Grid container fontFamily={'serif'}>
-                            {dialogText(prop)}
-                        </Grid>
-                    </DialogContentText>
+                    <Grid container fontFamily={'serif'}>
+                        {dialogText(prop)}
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

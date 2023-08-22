@@ -160,7 +160,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkblue' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
+                <Item sx={{ backgroundColor: '#074287' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
             </Grid>
             <Grid item xs={3}>{advancementDetails.medtech < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -173,7 +173,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
+                <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_surgery < 5 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -186,7 +186,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
+                <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_pharma < 5 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -199,7 +199,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkblue' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
+                <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_cryo < 5 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -212,7 +212,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker)}</Item>
+                <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker)}</Item>
             </Grid>
             <Grid item xs={3}>{advancementDetails.maker < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -225,7 +225,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
+                <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_field < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -238,7 +238,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
+                <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_upgrade < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -251,7 +251,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
+                <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_fab < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {
@@ -264,7 +264,7 @@ export default function AdvancementSpecial() {
                 <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
             </Grid>
             <Grid item xs={6}>
-                <Item sx={{ backgroundColor: 'darkgreen' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>
+                <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_invent < 10 ? <Item sx={{
                 cursor: 'pointer', '&:hover': {

@@ -226,7 +226,6 @@ function CharacterRoleAbilities(charDetailProp) {
                                 <Item>{makerInvent}</Item>
                             </Grid>
                         </>) : <> </>}
-                        +
                     </>) : <></>}
                 </Grid>
             </Grid>

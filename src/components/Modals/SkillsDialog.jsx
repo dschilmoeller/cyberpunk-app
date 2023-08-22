@@ -118,13 +118,9 @@ export default function SkillsDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        <Grid container fontFamily={'serif'}>
+                    <Grid container fontFamily={'serif'}>
                         <Grid item>{dialogText(prop)}</Grid>
-                        </Grid>
-                    </DialogContentText>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

@@ -72,7 +72,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650, fontFamily: 'serif' }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow sx={{fontFamily: 'serif'}}>
+                                    <TableRow sx={{ fontFamily: 'serif' }}>
                                         <TableCell align="left">Rank</TableCell>
                                         <TableCell align="left">Venue</TableCell>
                                         <TableCell align="center">Single Fan</TableCell>
@@ -869,11 +869,7 @@ export default function RoleAbilitiesDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        {dialogText(prop)}
-                    </DialogContentText>
+                    {dialogText(prop)}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

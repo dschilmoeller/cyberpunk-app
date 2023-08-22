@@ -101,7 +101,7 @@ function AdvancementSheet() {
                     </>
                 ) : <></>}
 
-                <Item><h2>I want to change...</h2></Item>
+                <Item><h2>I want to...</h2>
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -109,7 +109,7 @@ function AdvancementSheet() {
                     textColor='secondary'>
                     <Tab value='experience' label='Spend XP' />
                     <Tab value='gear' label='Equip Gear' />
-                </Tabs>
+                </Tabs></Item>
 
                 {value === 'experience' ? (
                     <Tabs

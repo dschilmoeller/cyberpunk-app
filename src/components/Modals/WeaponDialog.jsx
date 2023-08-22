@@ -165,12 +165,12 @@ export default function WeaponDialog({ prop }) {
                         <Grid item padding={1} xs={12}>Wolvers are roughly 8 inch clas that extend between the knuckles. They deal damage as a Heavy Melee Weapon and use the Exotic Weapons skill. For legal reasons they do not make the noise.</Grid>
                     </Grid>
                 </>)
-                case 'Big Knucks':
-                    return (<>
+            case 'Big Knucks':
+                return (<>
                     <Grid container fontFamily={'serif'}>
                         <Grid item padding={1} xs={12}>Big Knucks are little more than reinforced knuckles, and allow a character's unarmed attacks to deal lethal damage as well as acting as a medium melee weapon.</Grid>
                     </Grid>
-                    </>)
+                </>)
             default:
                 return ''
         }
@@ -206,11 +206,7 @@ export default function WeaponDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{titleText(prop)}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        {dialogText(prop)}
-                    </DialogContentText>
+                    {dialogText(prop)}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

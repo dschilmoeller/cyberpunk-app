@@ -51,7 +51,6 @@ function CharacterSheet() {
                 <h2>Character Sheet - IN PLAY</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => saveCharacter()}>Save Current Status</Button>
-                <p>Character Sheet</p>
 
                 <Grid container spacing={1}>
 
@@ -78,7 +77,7 @@ function CharacterSheet() {
                                 textColor='secondary'>
                                 <Tab value='weapons' label='Weapons' />
                                 {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
-                                <Tab value='backback' label='Backback' />
+                                <Tab value='backpack' label='Backpack' />
                             </Tabs>
 
                             {selectedInventory === 'weapons' ? (<>
@@ -91,7 +90,7 @@ function CharacterSheet() {
                                 <CharacterNetrunner />
                             </>) : <></>}
 
-                            {selectedInventory === 'backback' ? (<>
+                            {selectedInventory === 'backpack' ? (<>
                                 <Backpack />
                                 {/* <Grid item xs={12}>
                                     <Grid container>

@@ -536,7 +536,7 @@ export default function RoleSkillsDialog({ prop }) {
                                                 <TableCell align='left'>5 (2+)</TableCell>
                                                 <TableCell align="left">1 hour.</TableCell>
                                             </TableRow>
-                                            
+
                                             <TableRow>
                                                 <TableCell align="left">Costly</TableCell>
                                                 <TableCell align='left'>6 (2+)</TableCell>
@@ -578,12 +578,12 @@ export default function RoleSkillsDialog({ prop }) {
                             </Grid>
 
                             <Grid item padding={.5} xs={12}>
-                            <h3>Invention Expertise:</h3>
-                            A Maker can invent upgrades, modifications, or entirely new items. This skill is kept fairly open ended, but should fit in with the approximate technology and costs of existing items.
-                        </Grid>
-                        <Grid item padding={.5} xs={12}>
-                            If satisfied, the GM will create rules and stats for the proposed item. The invention skill allows the production of a single prototype device; these tend to unbalance and break the game and as such are notoriously prone to failure as the GM realizes their mistake. Mass production requires the Fabrication skill. The roll to invent something is Intelligence + Invention Expertise with a DV determined by the GM. 
-                        </Grid>
+                                <h3>Invention Expertise:</h3>
+                                A Maker can invent upgrades, modifications, or entirely new items. This skill is kept fairly open ended, but should fit in with the approximate technology and costs of existing items.
+                            </Grid>
+                            <Grid item padding={.5} xs={12}>
+                                If satisfied, the GM will create rules and stats for the proposed item. The invention skill allows the production of a single prototype device; these tend to unbalance and break the game and as such are notoriously prone to failure as the GM realizes their mistake. Mass production requires the Fabrication skill. The roll to invent something is Intelligence + Invention Expertise with a DV determined by the GM.
+                            </Grid>
                         </Grid>
                     </Grid>
                 )
@@ -608,11 +608,8 @@ export default function RoleSkillsDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{prop}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        {dialogText(prop)}
-                    </DialogContentText>
+
+                    {dialogText(prop)}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

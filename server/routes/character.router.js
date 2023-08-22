@@ -2,7 +2,10 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-// To Do: add blocker for not-logged in
+const { rejectUnauthenticated } = require('../modules/authentication-middleware')
+const { rejectNonAdmin } = require('../modules/rejectNonAdmin')
+
+
 // rewrite SQL requests to limit characters to those belonging to logged in user (req.user.id?)
 // add res.send(error) to catch statements.
 // Eventually - GM section or change commands to allow for user type.
@@ -10,7 +13,7 @@ const router = express.Router();
 
 
 // fetch characters list route
-router.get('/fetchallcharacters', (req, res) => {
+router.get('/fetchallcharacters', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT id, handle, campaign
     FROM "character"
     WHERE user_id = $1
@@ -29,7 +32,7 @@ router.get('/fetchallcharacters', (req, res) => {
 // fetch character details
 // wrap res.send in conditional - if req.user.id != returned user_id 
 // or just leave in SQL command as WHERE for security reasons.
-router.get('/fetchcharacterdetails/:id', (req, res) => {
+router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
@@ -42,7 +45,7 @@ router.get('/fetchcharacterdetails/:id', (req, res) => {
 })
 
 // fetch equipped cyberware for in play character sheet.
-router.get('/fetchcharactercyberdetails/:id', (req, res) => {
+router.get('/fetchcharactercyberdetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware"
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
     WHERE char_id = $1`
@@ -56,7 +59,7 @@ router.get('/fetchcharactercyberdetails/:id', (req, res) => {
 })
 
 // fetch char_status details for in play character sheet.
-router.get('/fetchcharacterstatus/:id', (req, res) => {
+router.get('/fetchcharacterstatus/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_status"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
@@ -69,7 +72,7 @@ router.get('/fetchcharacterstatus/:id', (req, res) => {
 })
 
 // fetch character weapons for in play character sheet
-router.get('/fetchcharacterweapons/:id', (req, res) => {
+router.get('/fetchcharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge"
     JOIN "weapon_master" ON "weapon_master".weapon_master_id = "char_weapons_bridge".weapon_id
     JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_master_id = "char_weapons_bridge".weapon_mod_1
@@ -87,7 +90,7 @@ router.get('/fetchcharacterweapons/:id', (req, res) => {
 })
 
 // fetch character misc gear for in play character sheet
-router.get('/fetchCharacterMiscGear/:id', (req, res) => {
+router.get('/fetchCharacterMiscGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_gear_bridge"
     JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_gear_bridge"."misc_gear_id"
     WHERE "char_id" = $1
@@ -101,7 +104,7 @@ router.get('/fetchCharacterMiscGear/:id', (req, res) => {
         })
 })
 
-router.get('/fetchcharacterNetrunningGear/:id', (req, res) => {
+router.get('/fetchcharacterNetrunningGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "netrunner_bridge"
     JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
     WHERE "char_id" = $1
@@ -115,7 +118,7 @@ router.get('/fetchcharacterNetrunningGear/:id', (req, res) => {
         })
 })
 // use consumable from pack:
-router.delete('/useConsumable/:id', (req, res) => {
+router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
     const sqlParams = [req.params.id]
     pool.query(sqlText, sqlParams)
@@ -128,7 +131,7 @@ router.delete('/useConsumable/:id', (req, res) => {
 })
 
 // save changes made on in play character sheet.
-router.put('/savecharacter/:id', (req, res) => {
+router.put('/savecharacter/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status"
     SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5
     WHERE "char_id" = $6;`
@@ -144,7 +147,7 @@ router.put('/savecharacter/:id', (req, res) => {
 })
 
 // save shots fired on in play character sheet.
-router.put('/savecharacterweapons/:id', (req, res) => {
+router.put('/savecharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" 
     SET "current_shots_fired" = $1
     WHERE "weapon_bridge_id" = $2`
@@ -160,7 +163,7 @@ router.put('/savecharacterweapons/:id', (req, res) => {
 })
 
 // handle permanent luck changes made by burning one luck.
-router.put('/characterBurnOneLuck/:id', (req, res) => {
+router.put('/characterBurnOneLuck/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "character"
     SET "max_luck" = $1
     WHERE "id" = $2`
@@ -177,7 +180,7 @@ router.put('/characterBurnOneLuck/:id', (req, res) => {
 })
 
 // create pharmaceutical compound
-router.put('/charactercreatepharmaceutical/', (req, res) => {
+router.put('/charactercreatepharmaceutical/', rejectUnauthenticated, (req, res) => {
     const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
     const bankSqlParams = [req.body.newBank, req.body.characterID]
     const updateMiscGearBridgeText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") VALUES ($1, $2)`
@@ -196,7 +199,7 @@ router.put('/charactercreatepharmaceutical/', (req, res) => {
 })
 
 // save arbitrary in play bank changes (from backpack) 
-router.put('/savecharacterbank/:id', (req, res) => {
+router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
     const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
     const bankSqlParams = [req.body.newBank, req.body.id]
 
@@ -214,7 +217,7 @@ router.put('/savecharacterbank/:id', (req, res) => {
 // and purchasing and selling gear and cyberware
 
 // pulls stats and status for character, similar to in play sheet.
-router.get('/fetchAdvancementDetails/:id', (req, res) => {
+router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
     JOIN "char_status" ON "char_status"."char_id" = "character"."id"
     WHERE id = $1`
@@ -228,7 +231,7 @@ router.get('/fetchAdvancementDetails/:id', (req, res) => {
 })
 
 // various gear fetches.
-router.get('/fetchAdvancementArmor/:id', (req, res) => {
+router.get('/fetchAdvancementArmor/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_armor_bridge" 
     JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
     WHERE char_id = $1`
@@ -241,7 +244,7 @@ router.get('/fetchAdvancementArmor/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementShield/:id', (req, res) => {
+router.get('/fetchAdvancementShield/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_shield_bridge" 
     JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
     WHERE char_id = $1`
@@ -254,7 +257,7 @@ router.get('/fetchAdvancementShield/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementWeapons/:id', (req, res) => {
+router.get('/fetchAdvancementWeapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge" 
     JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_weapons_bridge"."weapon_id"
     WHERE char_id = $1`
@@ -267,7 +270,7 @@ router.get('/fetchAdvancementWeapons/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementGear/:id', (req, res) => {
+router.get('/fetchAdvancementGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_gear_bridge" 
     JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_gear_bridge"."misc_gear_id"
     WHERE char_id = $1`
@@ -280,7 +283,7 @@ router.get('/fetchAdvancementGear/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementCyber/:id', (req, res) => {
+router.get('/fetchAdvancementCyber/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware" 
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
     WHERE char_id = $1
@@ -294,7 +297,7 @@ router.get('/fetchAdvancementCyber/:id', (req, res) => {
         })
 })
 
-router.get('/fetchAdvancementCyberSlots/:id', (req, res) => {
+router.get('/fetchAdvancementCyberSlots/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_cyberware_bridge"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
@@ -306,7 +309,7 @@ router.get('/fetchAdvancementCyberSlots/:id', (req, res) => {
         })
 })
 
-router.get('/fetchNetrunnerGear/:id', (req, res) => {
+router.get('/fetchNetrunnerGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "netrunner_bridge"
     JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
     WHERE char_id = $1
@@ -322,7 +325,7 @@ router.get('/fetchNetrunnerGear/:id', (req, res) => {
 
 // advancement save route
 // big one is to update the character stats, skills, and such.
-router.put('/saveAdvancementCharacter/:id', (req, res) => {
+router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) => {
     const rb = req.body.char
     const charSqlText = `UPDATE "character"
     SET  "is_paramedical" = $1,
@@ -560,7 +563,7 @@ router.put('/saveAdvancementCharacter/:id', (req, res) => {
 
 // Creation save route(s)
 
-router.post('/saveCreationCharacter/', (req, res) => {
+router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
 		"user_id","handle","player","campaign","is_paramedical",
@@ -661,7 +664,7 @@ router.post('/saveCreationCharacter/', (req, res) => {
 })
 
 // GM Routes
-router.get('/fetchGameMasterCharacters', (req, res) => {
+router.get('/fetchGameMasterCharacters', rejectNonAdmin, (req, res) => {
     const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank, cool, cyber_cool, perception, perm_humanity_loss, temp_humanity_loss, reflexes, cyber_reflexes
     FROM "character"
     ORDER BY player ASC
@@ -676,7 +679,7 @@ router.get('/fetchGameMasterCharacters', (req, res) => {
         });
 });
 
-router.put('/savegamemastercharacter/:id', (req, res) => {
+router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
     const charDetailsSqlText = `UPDATE character
     SET handle = $1, player = $2, campaign = $3, max_xp = $4, spent_xp = $5, bank = $6, street_cred = $7, max_luck = $8, temp_humanity_loss = $9, perm_humanity_loss = $10
     WHERE id = $11`
@@ -691,7 +694,7 @@ router.put('/savegamemastercharacter/:id', (req, res) => {
         })
 })
 
-router.delete('/deletegamemastercharacter/:id', (req, res) => {
+router.delete('/deletegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
     const charDeleteSqlText = `DELETE FROM "character" WHERE "id" = $1;`
     const charDeleteSqlParams = [req.params.id]
 

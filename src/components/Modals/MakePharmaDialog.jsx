@@ -121,7 +121,7 @@ export default function MakePharmaDialog() {
             >
                 <DialogTitle id="scroll-dialog-title">The Lab</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText tabIndex={-1}>
+                    
                         <Grid container>
                             <Grid item xs={8}>
                                 <Grid container>
@@ -228,7 +228,6 @@ export default function MakePharmaDialog() {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>

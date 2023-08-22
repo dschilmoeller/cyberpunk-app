@@ -1,10 +1,3 @@
-/* the only line you likely need to change is
-
- database: 'prime_app',
-
- change `prime_app` to the name of your database, and you should be all set!
-*/
-
 const pg = require('pg');
 let pool;
 
@@ -24,12 +17,12 @@ if (process.env.DATABASE_URL) {
 // When we're running this app on our own computer
 // we'll connect to the postgres database that is 
 // also running on our computer (localhost)
-else {
-    pool = new pg.Pool({
-        host: 'localhost',
-        port: 5432,
-        database: 'cyberpunk', // db name
-    });
-}
+// else {
+//     pool = new pg.Pool({
+//         host: 'localhost',
+//         port: 5432,
+//         database: 'cyberpunk2', // db name
+//     });
+// }
 
 module.exports = pool;

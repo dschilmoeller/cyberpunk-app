@@ -4,7 +4,7 @@ CREATE TABLE "user" (
 	"password" VARCHAR (1000) NOT NULL,
 	"user_type" INT NOT NULL
 );
--- remove max_armor, max_health
+
 CREATE TABLE "character" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
@@ -81,7 +81,10 @@ CREATE TABLE "character" (
 	"bank" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "char_pk" PRIMARY KEY ("id")
 ) WITH (OIDS = FALSE);
--- added current armor/shield/cyber armor, cyber health boxes
+
+ALTER TABLE "character"
+ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
+
 CREATE TABLE "char_status" (
 	"char_status_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -96,6 +99,7 @@ CREATE TABLE "char_status" (
 	"current_cyberware_health_boxes" integer NOT NULL DEFAULT 0,
 	CONSTRAINT "char_status_pk" PRIMARY KEY ("char_status_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "weapon_master" (
 	"weapon_master_id" serial NOT NULL,
 	"name" varchar NOT NULL,
@@ -109,6 +113,7 @@ CREATE TABLE "weapon_master" (
 	"price" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "weapons_master_pk" PRIMARY KEY ("weapon_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_weapons_bridge" (
 	"weapon_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -119,6 +124,7 @@ CREATE TABLE "char_weapons_bridge" (
 	"equipped" bool NOT NULL DEFAULT false,
 	CONSTRAINT "char_weapons_bridge_pk" PRIMARY KEY ("weapon_bridge_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "armor_master" (
 	"armor_master_id" serial NOT NULL,
 	"name" varchar NOT NULL DEFAULT 'name',
@@ -127,6 +133,7 @@ CREATE TABLE "armor_master" (
 	"price" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "armor_master_pk" PRIMARY KEY ("armor_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "shield_master" (
 	"shield_master_id" serial NOT NULL,
 	"name" varchar NOT NULL DEFAULT 'name',
@@ -135,6 +142,7 @@ CREATE TABLE "shield_master" (
 	"price" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "shield_master_pk" PRIMARY KEY ("shield_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_armor_bridge" (
 	"armor_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -144,6 +152,7 @@ CREATE TABLE "char_armor_bridge" (
 	"equipped" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "char_armor_bridge_pk" PRIMARY KEY ("armor_bridge_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_shield_bridge" (
 	"shield_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -158,20 +167,24 @@ ALTER TABLE "char_shield_bridge"
 ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
 ALTER TABLE "char_shield_bridge"
 ADD CONSTRAINT "char_shield_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master");
+
 CREATE TABLE "armor_mod_master" (
 	"armor_mod_master_id" serial NOT NULL,
 	CONSTRAINT "armor_mod_master_pk" PRIMARY KEY ("armor_mod_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "weapon_mod1_master" (
 	"weapon_mod1_master_id" serial NOT NULL,
 	"mod_1_name" varchar NOT NULL,
 	CONSTRAINT "weapon_mod1_master_pk" PRIMARY KEY ("weapon_mod1_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "weapon_mod2_master" (
 	"weapon_mod2_master_id" serial NOT NULL,
 	"mod_2_name" varchar NOT NULL,
 	CONSTRAINT "weapon_mod2_master_pk" PRIMARY KEY ("weapon_mod2_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "cyberware_master" (
 	"cyberware_master_id" serial NOT NULL,
 	"name" varchar NOT NULL,
@@ -183,6 +196,7 @@ CREATE TABLE "cyberware_master" (
 	"humanity_loss_max" integer NOT NULL DEFAULT '1',
 	CONSTRAINT "cyberware_master_pk" PRIMARY KEY ("cyberware_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_cyberware_bridge" (
 	"cyberware_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -204,6 +218,7 @@ CREATE TABLE "misc_gear_master" (
 	"price" integer NOT NULL DEFAULT '0',
 	CONSTRAINT "misc_gear_master_pk" PRIMARY KEY ("misc_gear_master_id")
 ) WITH (OIDS = FALSE);
+
 CREATE TABLE "char_gear_bridge" (
 	"char_gear_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -211,30 +226,35 @@ CREATE TABLE "char_gear_bridge" (
 	CONSTRAINT "char_gear_bridge_pk" PRIMARY KEY ("char_gear_bridge_id")
 ) wiTH (OIDS = FALSE);
 
-CREATE TABLE "lifestyle_master" (
-	"lifestyle_master_id" serial NOT NULL,
-	"name" varchar NOT NULL,
-	"description" varchar NOT NULL,
-	"price" integer NOT NULL DEFAULT '0',
-	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
-) WITH (OIDS = FALSE);
-CREATE TABLE "lifestyle_brige" (
-	"lifestyle_bridge_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"lifestyle_id" integer NOT NULL,
-	"months_owned" integer NOT NULL
-	CONSTRAINT "lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
-) WITH (OIDS = FALSE);
-ALTER TABLE "lifestyle_bridge"
-ADD CONSTRAINT "lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
-ALTER TABLE "lifestyle_bridge"
-ADD CONSTRAINT "lifestyle_bridge_fk1" FOREIGN KEY ("lifestyle_id") REFERENCES "lifestyle_master"("lifestyle_master_id");
-INSERT INTO "lifestyle_master" ("name", "description", "price")
-VALUES ('Street', 'You eat what you can find in dumpsters. All health recovery takes twice as long, but hey, you are alive.', 0),
-('Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
-('Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
-('Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
-('Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)
+ALTER TABLE "char_gear_bridge"
+ADD CONSTRAINT "char_gear_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "char_gear_bridge"
+ADD CONSTRAINT "char_gear_bridge_fk1" FOREIGN KEY ("misc_gear_id") REFERENCES "misc_gear_master"("misc_gear_master_id");
+
+-- CREATE TABLE "lifestyle_master" (
+-- 	"lifestyle_master_id" serial NOT NULL,
+-- 	"name" varchar NOT NULL,
+-- 	"description" varchar NOT NULL,
+-- 	"price" integer NOT NULL DEFAULT '0',
+-- 	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
+-- ) WITH (OIDS = FALSE);
+-- CREATE TABLE "lifestyle_brige" (
+-- 	"lifestyle_bridge_id" serial NOT NULL,
+-- 	"char_id" integer NOT NULL,
+-- 	"lifestyle_id" integer NOT NULL,
+-- 	"months_owned" integer NOT NULL
+-- 	CONSTRAINT "lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
+-- ) WITH (OIDS = FALSE);
+-- ALTER TABLE "lifestyle_bridge"
+-- ADD CONSTRAINT "lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+-- ALTER TABLE "lifestyle_bridge"
+-- ADD CONSTRAINT "lifestyle_bridge_fk1" FOREIGN KEY ("lifestyle_id") REFERENCES "lifestyle_master"("lifestyle_master_id");
+-- INSERT INTO "lifestyle_master" ("name", "description", "price")
+-- VALUES ('Street', 'You eat what you can find in dumpsters. All health recovery takes twice as long, but hey, you are alive.', 0),
+-- ('Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
+-- ('Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
+-- ('Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
+-- ('Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)
 
 CREATE TABLE "netrunner_master" (
 	"netrunner_master_id" serial NOT NULL,
@@ -311,10 +331,8 @@ VALUES
 -- Two step up weapons
 ('BFG', 'They bring a knife, we bring a rocket launcher.', 2500, 'software', 1,0,0,4,2,5),
 ('Holy Avenger', 'Yo I think this thing is +5 AND flaming.', 2500, 'software', 1, 0, 0, 3,3,5),
-('Zatoichi Walking Stick', 'You can hear how dice fall when holding it.', 2500, 'software', 1,0,0,2,4,5),
--- notes for other silly things:
+('Zatoichi Walking Stick', 'You can hear how dice fall when holding it.', 2500, 'software', 1,0,0,2,4,5);
 
--- Nailbat
 CREATE TABLE "char_owned_cyberware" (
 	"owned_cyberware_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
@@ -325,14 +343,8 @@ ALTER TABLE "char_owned_cyberware"
 ADD CONSTRAINT "char_owned_cyberware_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_owned_cyberware"
 ADD CONSTRAINT "char_owned_cyberware_fk1" FOREIGN KEY ("cyberware_id") REFERENCES "cyberware_master"("cyberware_master_id");
-ALTER TABLE "misc_gear_master"
-ADD COLUMN "price" integer NOT NULL DEFAULT '0';
-ALTER TABLE "char_gear_bridge"
-ADD CONSTRAINT "char_gear_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
-ALTER TABLE "char_gear_bridge"
-ADD CONSTRAINT "char_gear_bridge_fk1" FOREIGN KEY ("misc_gear_id") REFERENCES "misc_gear_master"("misc_gear_master_id");
-ALTER TABLE "character"
-ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
+
+
 ALTER TABLE "char_weapons_bridge"
 ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_weapons_bridge"

@@ -28,7 +28,7 @@ export default function AdvancementOther() {
         // fill remainder with filled squares.
         for (let i = 0; i < (10 - advancementDetails.max_luck); i++) {
             luckBoxes.push(
-                <React.Fragment key={i+10}>
+                <React.Fragment key={i + 10}>
                     <Grid item xs={2.4}><Item>{aggMarker}</Item></Grid>
                 </React.Fragment>
             )
@@ -44,7 +44,11 @@ export default function AdvancementOther() {
     // increase Luck in advancementDetails reducer by sending new max score + amount of XP spent.
     const addLuck = () => {
         let increaseLuckCost = advancementDetails.max_luck * 2
-        dispatch({ type: "INCREASE_LUCK", payload: { newLuck: (advancementDetails.max_luck + 1), increaseLuckCost } })
+        if (advancementDetails.max_xp - advancementDetails.spent_xp >= increaseLuckCost) {
+            dispatch({ type: "INCREASE_LUCK", payload: { newLuck: (advancementDetails.max_luck + 1), increaseLuckCost } })
+        } else {
+            alert('Insufficent Experience')
+        }
     }
 
     // creates 40 entries in an array; permanent cyberware humanity loss repped by an X; temp by a *, and remainining humanity represented by empty square
@@ -57,19 +61,23 @@ export default function AdvancementOther() {
             )
         }
         for (let i = 0; i < tempHumanityLoss; i++) {
-            humanityArray.push(<Grid key={i+40} item xs={1.2}><Item>{stunMarker}</Item></Grid>)
+            humanityArray.push(<Grid key={i + 40} item xs={1.2}><Item>{stunMarker}</Item></Grid>)
         }
         if (humanityArray.length < 40) {
             let remainder = 40 - (permHumanityLoss + tempHumanityLoss)
             for (let i = 0; i < remainder; i++) {
-                humanityArray.push(<Grid key={i+80} item xs={1.2}><Item>{unhurtMarker}</Item></Grid>)
+                humanityArray.push(<Grid key={i + 80} item xs={1.2}><Item>{unhurtMarker}</Item></Grid>)
             }
         }
         return humanityArray;
     }
 
     const restoreTemporaryHumanity = () => {
-        dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
+        if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
+            dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
+        } else {
+            alert('Insufficient Experience')
+        }
     }
 
     return (<>

@@ -205,11 +205,7 @@ export default function CharSheetWeaponDialog({ prop }) {
             >
                 <DialogTitle id="scroll-dialog-title">{titleText(prop)}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText
-                        tabIndex={-1}
-                    >
-                        {dialogText(prop)}
-                    </DialogContentText>
+                    {dialogText(prop)}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>
