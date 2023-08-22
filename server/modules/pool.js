@@ -8,7 +8,7 @@ let pool;
 //  DATABASE_URL=postgresql://jDoe354:secretPw123@some.db.com/prime_app
 if (process.env.DATABASE_URL) {
     pool = new pg.Pool({
-        connectionString: process.env.DATABASE_URL,
+        connectionString: `postgres://cyberpunk_xonu_user:EJ14QFFbsTxwpOn2Cd9XeKgS5lSLoT5L@dpg-cjhv3d0cfp5c73eairkg-a/cyberpunk_xonu`,
         ssl: {
             rejectUnauthorized: false
         }
