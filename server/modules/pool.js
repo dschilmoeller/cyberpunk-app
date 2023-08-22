@@ -9,7 +9,7 @@ let pool;
 if (process.env.DATABASE_URL) {
     pool = new pg.Pool({
         connectionString: process.env.DATABASE_URL,
-        database: 'cyberpunk',
+        database: 'cyberpunk_xonu',
         ssl: {
             rejectUnauthorized: false
         }
