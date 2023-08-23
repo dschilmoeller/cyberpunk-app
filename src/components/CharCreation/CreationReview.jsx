@@ -175,7 +175,7 @@ export default function CreationReview() {
         updatedCharDetail.cyberware = cyberware_master_array
 
         dispatch({ type: "SAVE_CREATION_CHARACTER", payload: updatedCharDetail })
-        // history.push('/user')
+        history.push('/characterlist')
     }
 
     return (<>
