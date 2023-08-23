@@ -23,12 +23,14 @@ export default function CreationReview() {
 
     const charDetail = useSelector(store => store.characterCreation)
     const armor = useSelector(store => store.armorMaster)
+    const shield = useSelector(store => store.shieldMaster)
     const weapons = useSelector(store => store.weaponMaster)
     const miscGear = useSelector(store => store.miscGearMaster)
-    const cyberware = useSelector(store => store.cyberwareMaster)
     const netrunnerMaster = useSelector(store => store.netrunnerGearMaster)
-
+    const cyberware = useSelector(store => store.cyberwareMaster)
+    
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
@@ -132,8 +134,48 @@ export default function CreationReview() {
     }
 
     const saveCharacter = () => {
-        console.log(`Saving...`);
-        dispatch({ type: "SAVE_CREATION_CHARACTER", payload: charDetail })
+        let updatedCharDetail = charDetail
+        // convert index to master ids. is there a way to do this directly in the logic so that index === id? not without total conversion. see if this will fix for now.
+        // this allows for table indices not to match perfectly.
+        let armor_master_array = []
+        for (let i = 0; i < charDetail.armor.length; i++ ) {
+            // go to armor at index: chardetail.armor[i] and fetch master id.
+            armor_master_array.push(armor[charDetail.armor[i]].armor_master_id)
+        }
+        updatedCharDetail.armor = armor_master_array
+        
+        let shield_master_array = []
+        for (let i = 0; i < charDetail.shield.length; i++ ) {
+            shield_master_array.push(shield[charDetail.shield[i]].shield_master_id)
+        }
+        updatedCharDetail.shield = shield_master_array
+
+        let weapon_master_array = []
+        for (let i = 0; i < charDetail.weapons.length; i++ ) {
+            weapon_master_array.push(weapons[charDetail.weapons[i]].weapon_master_id)
+        }
+        updatedCharDetail.weapons = weapon_master_array
+
+        let misc_gear_master_array = []
+        for (let i = 0; i < charDetail.gear.length; i++ ) {
+            misc_gear_master_array.push(miscGear[charDetail.gear[i]].misc_gear_master_id)
+        }
+        updatedCharDetail.gear = misc_gear_master_array
+        
+        let netrunner_gear_master_array = []
+        for (let i = 0; i < charDetail.netrunnerGear.length; i++ ) {
+            netrunner_gear_master_array.push(netrunnerMaster[charDetail.netrunnerGear[i]].netrunner_master_id)
+        }
+        updatedCharDetail.netrunnerGear = netrunner_gear_master_array
+        
+        let cyberware_master_array = []
+        for (let i = 0; i < charDetail.cyberware.length; i++ ) {
+            cyberware_master_array.push(cyberware[charDetail.cyberware[i]].cyberware_master_id)
+        }
+        updatedCharDetail.cyberware = cyberware_master_array
+
+        dispatch({ type: "SAVE_CREATION_CHARACTER", payload: updatedCharDetail })
+        // history.push('/user')
     }
 
     return (<>
@@ -476,6 +518,14 @@ export default function CreationReview() {
                                                 <TableCell align="left">{armor[item].quality}</TableCell>
                                                 <TableCell align="left">{armor[item].description}</TableCell>
                                                 <TableCell align="center">{armor[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {charDetail.shield.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{shield[item].name} </TableCell>
+                                                <TableCell align="left">{shield[item].quality}</TableCell>
+                                                <TableCell align="left">{shield[item].description}</TableCell>
+                                                <TableCell align="center">{shield[item].price}$</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
