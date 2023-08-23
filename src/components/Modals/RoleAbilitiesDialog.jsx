@@ -793,43 +793,43 @@ export default function RoleAbilitiesDialog({ prop }) {
                                 <TableBody>
 
                                     <TableRow>
-                                        <TableCell align="left">Cheap</TableCell>
+                                        <TableCell align="left">Cheap ($1 - $50)</TableCell>
                                         <TableCell align='left'>5 (2+)</TableCell>
                                         <TableCell align="left">1 hour.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Costly</TableCell>
+                                        <TableCell align="left">Costly ($51 - $100)</TableCell>
                                         <TableCell align='left'>6 (2+)</TableCell>
                                         <TableCell align="left">6 hours.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Preem</TableCell>
+                                        <TableCell align="left">Preem ($101 - $500)</TableCell>
                                         <TableCell align='left'>6 (4+)</TableCell>
                                         <TableCell align="left">1 day.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Expensive</TableCell>
+                                        <TableCell align="left">Expensive ($501 - $2,500)</TableCell>
                                         <TableCell align='left'>7 (2+)</TableCell>
                                         <TableCell align="left">3 days.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Valuable</TableCell>
+                                        <TableCell align="left">Valuable ($2501 - $5,000)</TableCell>
                                         <TableCell align='left'>7 (4+)</TableCell>
                                         <TableCell align="left">1 week.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Luxury</TableCell>
+                                        <TableCell align="left">Luxury ($5001 - $10,0000)</TableCell>
                                         <TableCell align='left'>7 (8+)</TableCell>
                                         <TableCell align="left">1 month.</TableCell>
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell align="left">Extravagant</TableCell>
+                                        <TableCell align="left">Extravagant ($10,001+)</TableCell>
                                         <TableCell align='left'>8 (2 successes / 10,000 of base cost)</TableCell>
                                         <TableCell align="left">1 week / 10,000 of base cost.</TableCell>
                                     </TableRow>

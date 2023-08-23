@@ -8,6 +8,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import { Button } from '@mui/material';
 
@@ -21,6 +23,9 @@ export default function CreationCyberware() {
     const [selectedList, setSelectedList] = useState('fashionware')
     const [bank, setBank] = useState(cyberbucks)
 
+    const handleChange = (event, newValue) => {
+        setSelectedList(newValue)
+    }
     const cyberwareTableList = []
     const cyberwareTableBuilder = () => {
         const createCyberwareData = (cyberware_master_id, name, price, description, humanity_loss_min, humanity_loss_max, install_level, type) => {
@@ -53,15 +58,11 @@ export default function CreationCyberware() {
     }
 
     return (<>
-        <h1>Cyberware</h1>
-        <h2>Cash on Hand: ${bank} <Button onClick={() => savePurchases()}>Save Purchases</Button></h2>
+        <h2>Cash on Hand: ${bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
         <h3>Remember: You can't take it with you!</h3>
-        <h3>Due to the vagaries of programming, cyberware must be manually equipped after character creation!</h3>
-        <h3>See above: system does not currently check what you're buying against the number of slots available - you can buy more than you can use.</h3>
+        <h3>All Cyberware must be manually equipped after character creation!</h3>
 
-        <h1>Cyberware</h1>
-
-        {charCyberware.length > 0 ? (
+        {charCyberware.length ? (
             <>
                 <TableContainer component={Paper}>
                     <h3>My Cyberware</h3>
@@ -81,7 +82,7 @@ export default function CreationCyberware() {
                                 <TableRow key={i}>
                                     <TableCell align="left">{cyberware[item].name} </TableCell>
                                     <TableCell align="left">{cyberware[item].description}</TableCell>
-                                    <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>
+                                    <TableCell align="left">{cyberware[item].humanity_loss_min} - {cyberware[item].humanity_loss_max}</TableCell>
                                     <TableCell align="left">{cyberware[item].install_level}</TableCell>
                                     <TableCell align="right">${cyberware[item].price.toLocaleString("en-US")}</TableCell>
                                     <TableCell align="left"><Button onClick={() => sellCyberware(cyberware[item].price, i)}>Return</Button></TableCell>
@@ -93,15 +94,20 @@ export default function CreationCyberware() {
             </>
         ) : <></>}
 
-        <Button onClick={() => setSelectedList('fashionware')}>Fashionware</Button>
-        <Button onClick={() => setSelectedList('neuralware')}>Neuralware</Button>
-        <Button onClick={() => setSelectedList('cyberoptics')}>Cyberoptics</Button>
-        <Button onClick={() => setSelectedList('cyberaudio')}>Cyberaudio</Button>
-        <Button onClick={() => setSelectedList('internalware')}>Internal Ware</Button>
-        <Button onClick={() => setSelectedList('externalware')}>External Ware</Button>
-        <Button onClick={() => setSelectedList('cyberarm')}>Cyberarms</Button>
-        <Button onClick={() => setSelectedList('cyberleg')}>Cyberlegs</Button>
-        <Button onClick={() => setSelectedList('borgware')}>Borgware (BETA)</Button>
+        <Tabs
+            value={selectedList}
+            onChange={handleChange}
+            indicatorColor='secondary'
+        >
+            <Tab value='fashionware' label='Fashionware' />
+            <Tab value='neuralware' label='Neuralware' />
+            <Tab value='cyberoptics' label='Cyberoptics' />
+            <Tab value='internalware' label='Internalware' />
+            <Tab value='externalware' label='Externalware' />
+            <Tab value='cyberarm' label='Cyberarm' />
+            <Tab value='cyberleg' label='Cyberleg' />
+            <Tab value='borgware' label='Borgware' />
+        </Tabs>
 
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -116,19 +122,22 @@ export default function CreationCyberware() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cyberwareTableList.map((row, i) => (
-                        <React.Fragment key={i}>
-                            {row.type === selectedList ? (
-                                <TableRow key={i}>
-                                    <TableCell>{row.name} </TableCell>
-                                    <TableCell align="left">{row.description}</TableCell>
-                                    <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
-                                    <TableCell align="left">{row.install_level}</TableCell>
-                                    <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
-                                    <TableCell align="left"><Button onClick={() => purchaseCyberware(row.price, i)}>Purchase</Button></TableCell>
-                                </TableRow>
-                            ) : <></>}</React.Fragment>)
-                    )}
+                    {cyberwareTableList.map((row, i) => {
+                        // cycle through list and do not render items not of type selected and those that cost too much
+                        if (row.price < 5000 && row.type === selectedList) {
+                            return (
+                                <React.Fragment key={i}>
+                                    <TableRow key={i}>
+                                        <TableCell>{row.name} </TableCell>
+                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
+                                        <TableCell align="left">{row.install_level}</TableCell>
+                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => purchaseCyberware(row.price, i)}>Purchase</Button></TableCell>
+                                    </TableRow>
+                                </React.Fragment>)
+                        }
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>

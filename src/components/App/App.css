@@ -68,7 +68,7 @@ Button
   border-radius: 0;
   background: none;
   font: inherit;
-  color: #444;
+  color: #fff;
 }
 
 .btn_asLink:hover {
@@ -102,7 +102,8 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  background-color: #efefef;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+  background-color: #1A2027;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
@@ -113,9 +114,19 @@ input {
 }
 
 #modal-modal-description {
-  font-family:'Times New Roman', Times, serif
+  font-family: 'Times New Roman', Times, serif
 }
 
 #skill-sheet-clickable {
   font-size: large;
+}
+
+a {
+  color: yellow
+}
+
+a:hover {
+  background-color: transparent;
+  border-color: #008183;
+  color: darkgreen;
 }

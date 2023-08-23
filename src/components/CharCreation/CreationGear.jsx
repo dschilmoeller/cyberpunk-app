@@ -123,12 +123,6 @@ export default function CreationGear() {
     const savePurchases = () => {
         dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })
     }
-    const niceButton = {
-        '&:hover': {
-            backgroundColor: '#fff',
-            color: '#000',
-        }
-    }
 
     return (<>
         <h2>Cash on Hand: ${bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
@@ -151,8 +145,8 @@ export default function CreationGear() {
 
         {value === 'Armor' ? (<>
 
-            <h3>My armor:</h3>
-            <h4>Note: armor must be equipped from the advancement sheet.</h4>
+            <h3>My Armor:</h3>
+            <h4>Note: Armor must be equipped from the advancement sheet.</h4>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -187,7 +181,7 @@ export default function CreationGear() {
                 </Table>
             </TableContainer>
 
-            <h1>Armor</h1>
+            <h3>Armor</h3>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -200,24 +194,32 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {armor.map((row, i) => (
-                            <TableRow key={row.name}>
-                                <TableCell>{row.name} </TableCell>
-                                <TableCell align="left">{row.quality}</TableCell>
-                                <TableCell align="left">{row.description}</TableCell>
-                                <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
-                                <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, i)}>Purchase</Button></TableCell>
-                            </TableRow>
-                        ))}
-                        {shield.map((row, i) => (
-                            <TableRow key={row.name}>
-                                <TableCell>{row.name} </TableCell>
-                                <TableCell align="left">{row.quality}</TableCell>
-                                <TableCell align="left">{row.description}</TableCell>
-                                <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
-                                <TableCell align="left"><Button onClick={() => purchaseShield(row.price, i)}>Purchase</Button></TableCell>
-                            </TableRow>
-                        ))}
+                        {armor.map((row, i) => {
+                            if (row.price < 5000) {
+                                return (
+                                    <TableRow key={row.name}>
+                                        <TableCell>{row.name} </TableCell>
+                                        <TableCell align="left">{row.quality}</TableCell>
+                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, i)}>Purchase</Button></TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        })}
+                        {shield.map((row, i) => {
+                            if (row.price < 5000) {
+                                return (
+                                    <TableRow key={row.name}>
+                                        <TableCell>{row.name} </TableCell>
+                                        <TableCell align="left">{row.quality}</TableCell>
+                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => purchaseShield(row.price, i)}>Purchase</Button></TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -225,6 +227,7 @@ export default function CreationGear() {
 
         {value === 'Weapons' ? (<>
             <h3>My Weapons:</h3>
+            <h4>Note: Weapons are automatically equipped.</h4>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -258,7 +261,7 @@ export default function CreationGear() {
                 </Table>
             </TableContainer>
 
-            <h1>Weapons</h1>
+            <h3>Weapons</h3>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -275,19 +278,23 @@ export default function CreationGear() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {weapons.map((row, i) => (
-                            <TableRow key={i}>
-                                <TableCell align="left">{row.name}</TableCell>
-                                <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
-                                <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
-                                <TableCell align="center">{row.rof}</TableCell>
-                                <TableCell align="center">{row.max_clip}</TableCell>
-                                <TableCell align="center">{row.hands}</TableCell>
-                                <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
-                                <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
-                            </TableRow>
-                        ))}
+                        {weapons.map((row, i) => {
+                            if (row.price < 5000) {
+                                return (
+                                    <TableRow key={i}>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
+                                        <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
+                                        <TableCell align="center">{row.rof}</TableCell>
+                                        <TableCell align="center">{row.max_clip}</TableCell>
+                                        <TableCell align="center">{row.hands}</TableCell>
+                                        <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
+                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -319,7 +326,7 @@ export default function CreationGear() {
                 </Table>
             </TableContainer>
 
-            <h1>Misc Gear</h1>
+            <h3>Misc Gear</h3>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -396,8 +403,8 @@ export default function CreationGear() {
         </>) : <></>} */}
 
         {value === 'Netrunner' ? (<>
-            <Grid container>
-                <Tabs
+            <Grid container padding={2}>
+                <Grid item xs={12}><Tabs
                     value={netrunnerValue}
                     onChange={handleNetrunnerChange}
                     indicatorColor='primary'
@@ -406,78 +413,100 @@ export default function CreationGear() {
                     <Tab value='software' label='Software' />
                     <Tab value='mod' label='Deck Mods' />
                 </Tabs>
+                </Grid>
+                <Grid item xs={12}>
+                    <h3>My Netrunning Equipment:</h3>
+                    <h4>Note: Equipment must be equipped from the advancement sheet.</h4>
+                </Grid>
             </Grid>
-            <h3>My Equipment:</h3>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Price</TableCell>
-                            <TableCell align="left">Slots</TableCell>
-                            <TableCell align="left">Remove</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {charNetrunnerGear.map((item, i) => {
+            <Grid container padding={2}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left">Name</TableCell>
+                                <TableCell align="left">Description</TableCell>
+                                <TableCell align="center">Price</TableCell>
+                                <TableCell align="center">Slots</TableCell>
+                                <TableCell align="center">Remove</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {charNetrunnerGear.map((item, i) => {
                                 return (
                                     <TableRow key={i}>
                                         <TableCell align="left">{netrunnerGear[item].name} </TableCell>
                                         <TableCell align="left">{netrunnerGear[item].description}</TableCell>
-                                        <TableCell align="right">${netrunnerGear[item].price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="right">{netrunnerGear[item].slots}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => sellNetrunnerGear(netrunnerGear[item].price, i)}>Return</Button></TableCell>
+                                        <TableCell align="center">${netrunnerGear[item].price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{netrunnerGear[item].slots}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => sellNetrunnerGear(netrunnerGear[item].price, i)}>Return</Button></TableCell>
                                     </TableRow>
                                 )
+                            }) // end map
+                            } {/* end conditional */}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-                        }) // end map
-                        } {/* end conditional */}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            <h1>Available Decks</h1>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Price</TableCell>
-                            {netrunnerValue === 'software' ? (
-                                <>
-                                    <TableCell align='left'>Attack</TableCell>
-                                    <TableCell align='left'>Defend</TableCell>
-                                </>
-                            ) : <></>}
-                            <TableCell align="left" width={'15%'}>Purchase?</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {netrunnerGear.map((row, i) => {
-                            if (row.type === netrunnerValue) {
-                                return (
-                                    <TableRow key={row.name}>
-                                        <TableCell>{row.name} </TableCell>
-                                        <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
-                                        {netrunnerValue === 'software' ? (
-                                            <>
-                                                <TableCell align='left'>{row.attack}</TableCell>
-                                                <TableCell align='left'>{row.defense}</TableCell>
-                                            </>
-                                        ) : <></>}
-                                        <TableCell align="left"><Button onClick={() => purchaseNetrunnerGear(row.price, i)}>Purchase</Button></TableCell>
-                                    </TableRow>
-                                )
-                            } // end if
-                        }) // end map
-                        } {/* end conditional */}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
+                <h3>Available Decks</h3>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell align="left">Description</TableCell>
+                                <TableCell align="center">Price</TableCell>
+                                {netrunnerValue === 'software' ? (
+                                    <>
+                                        <TableCell align='center'>Attack</TableCell>
+                                        <TableCell align='center'>Defense</TableCell>
+                                    </>
+                                ) : <></>}
+                                {netrunnerValue === 'deck' ? (
+                                    <>
+                                        <TableCell align='center'>Slots</TableCell>
+                                    </>) : <></>}
+                                {netrunnerValue === 'mod' ? (
+                                    <>
+                                        <TableCell align='center'>Slots</TableCell>
+                                    </>) : <></>}
+                                <TableCell align="center" width={'15%'}>Purchase?</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {netrunnerGear.map((row, i) => {
+                                if (row.type === netrunnerValue && row.price < 2000) {
+                                    return (
+                                        <TableRow key={row.name}>
+                                            <TableCell>{row.name} </TableCell>
+                                            <TableCell align="left">{row.description}</TableCell>
+                                            <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                            {netrunnerValue === 'software' ? (
+                                                <>
+                                                    <TableCell align='center'>{row.attack}</TableCell>
+                                                    <TableCell align='center'>{row.defense}</TableCell>
+                                                </>
+                                            ) : <></>}
+                                            {netrunnerValue === 'deck' ? (
+                                                <>
+                                                    <TableCell align='center'>{row.slots}</TableCell>
+                                                </>
+                                            ) : <></>}
+                                            {netrunnerValue === 'mod' ? (
+                                                <>
+                                                    <TableCell align='center'>{row.slots}</TableCell>
+                                                </>
+                                            ) : <></>}
+                                            <TableCell align="center"><Button onClick={() => purchaseNetrunnerGear(row.price, i)}>Purchase</Button></TableCell>
+                                        </TableRow>
+                                    )
+                                } // end if
+                            }) // end map
+                            } {/* end conditional */}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
         </>) : <></>}
 
     </>)

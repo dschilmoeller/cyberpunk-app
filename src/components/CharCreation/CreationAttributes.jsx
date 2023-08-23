@@ -12,9 +12,13 @@ function CreationAttributes() {
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
 
+    // state for tracking amount to apply to each attribute, and how many have been selected.
     const [attributeNumber, setAttributeNumber] = useState(4)
     const [attributeCounter, setAttributeCounter] = useState(1)
 
+    // sets selection if returning to this page. All state is tracked through characterCreationDetail reducer
+    // and fired into the database during the review stage.
+    // physical attributes
     const [strengthAtt, setStrengthAtt] = useState(charDetail.strength);
     const [bodyAtt, setBodyAtt] = useState(charDetail.body);
     const [reflexesAtt, setReflexesAtt] = useState(charDetail.reflexes);
@@ -43,6 +47,8 @@ function CreationAttributes() {
         return returnedDots
     }
 
+    // goes through selections and sets attribute to the current attributeNumber, then changes the counter
+    // and if necessary, the attributeNumber for the next selection.
     const AttributeSelector = (attribute) => {
         switch (attribute) {
             case ('strength'):
@@ -171,32 +177,34 @@ function CreationAttributes() {
         }
     }
 
-    const instaFill = () => {
-        setAttributeNumber(1);
-        setAttributeCounter(7);
-        setStrengthAtt(2);
-        setBodyAtt(2);
-        setReflexesAtt(3);
-        setMoveAtt(2);
-        setAppearanceAtt(1);
-        setCoolAtt(3);
-        setIntelligenceAtt(2);
-        setWillpowerAtt(3);
-        setTechniqueAtt(4);
-    }
+    // quick fill for faster demo/testing purposes.
+    // const instaFill = () => {
+    //     setAttributeNumber(1);
+    //     setAttributeCounter(7);
+    //     setStrengthAtt(2);
+    //     setBodyAtt(2);
+    //     setReflexesAtt(3);
+    //     setMoveAtt(2);
+    //     setAppearanceAtt(1);
+    //     setCoolAtt(3);
+    //     setIntelligenceAtt(2);
+    //     setWillpowerAtt(3);
+    //     setTechniqueAtt(4);
+    // }
 
     return (
         <>
             <h2>Attributes:</h2>
-            <h3>Selection: One attribute will start at 4. Three attributes are selected to start at 3. Three more will start at 2. Finally, a single attribute will start at 1  </h3>
-            <h3>Movement is derived from Reflexes, and Street Cred always starts at 1 for beginning characters.</h3>
-            <h3>Click an attribute name to learn more about it.</h3>
+            <h3>Attributes are the fundamental traits of your character - almost all rolls in Cyberpunk use one Attribute + a skill or other trait.</h3>
+            <h3>One Attribute is selected at 4; three more are at 3. Then, select three more at 2 - this is about average for most humans - and finally one attribute is selected at 1.</h3>
+            <h3>Movement is always derived from Reflexes, and all characters start with 1 Street Cred.</h3>
+            <h3>Click an attribute name to learn more about it, including examples!</h3>
             
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetAttributeSelection()}>Reset Attribute Selection</Button>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchAttributes()}>Save Attributes</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Fill</Button>
+                    {/* <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Fill</Button> */}
                 </Grid>
             </Grid>
             <Grid container>
