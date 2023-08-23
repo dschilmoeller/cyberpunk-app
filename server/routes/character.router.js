@@ -597,48 +597,52 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
 
     pool.query(charSqlText, charParams)
         .then((result) => {
+            // get rid of pluses or will shift all gear.
+            // const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1, 1, false] => const armorSqlParams = [result.rows[0].id, rb.armor[i], 1, false]
+            
             for (let i = 0; i < req.body.armor.length; i++) {
                 const armorSqlText = `INSERT INTO "char_armor_bridge" 
                 ("char_id", "armor_id", "armor_mod_1", "equipped")
                 VALUES ($1, $2, $3, $4)`
-                const armorSqlParams = [result.rows[0].id, rb.armor[i] + 1, 1, false]
+                const armorSqlParams = [result.rows[0].id, rb.armor[i], 1, false]
                 pool.query(armorSqlText, armorSqlParams)
             }
             for (let i = 0; i < req.body.shield.length; i++) {
                 const shieldSqlText = `INSERT INTO "char_shield_bridge" 
                 ("char_id", "shield_id", "armor_mod_1", "equipped")
                 VALUES ($1, $2, $3, $4)`
-                const shieldSqlParams = [result.rows[0].id, rb.shield[i] + 1, 1, false]
+                const shieldSqlParams = [result.rows[0].id, rb.shield[i], 1, false]
                 pool.query(shieldSqlText, shieldSqlParams)
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
                 ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
                 VALUES ($1, $2, $3, $4, $5, $6)`
-                const weaponSqlParams = [result.rows[0].id, rb.weapons[i] + 1, 1, 1, 0, true]
+                const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 1, 1, 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
             for (let i = 0; i < req.body.gear.length; i++) {
                 const gearSqlText = `INSERT INTO "char_gear_bridge" 
                 ("char_id", "misc_gear_id")
                 VALUES ($1, $2)`
-                const gearSqlParams = [result.rows[0].id, rb.gear[i] + 1]
-                pool.query(gearSqlText, gearSqlParams)
-            }
-            for (let i = 0; i < req.body.cyberware.length; i++) {
-                const gearSqlText = `INSERT INTO "char_owned_cyberware" 
-                ("char_id", "cyberware_master_id")
-                VALUES ($1, $2)`
-                const gearSqlParams = [result.rows[0].id, rb.cyberware[i] + 1]
+                const gearSqlParams = [result.rows[0].id, rb.gear[i]]
                 pool.query(gearSqlText, gearSqlParams)
             }
             for (let i = 0; i < req.body.netrunnerGear.length; i++) {
                 const netrunnerGearSqlText = `INSERT INTO "netrunner_bridge" 
                 ("char_id", "netrunner_master_id", "equipped")
                 VALUES ($1, $2, $3)`
-                const netrunnerGearParams = [result.rows[0].id, rb.netrunnerGear[i] + 1, false]
+                const netrunnerGearParams = [result.rows[0].id, rb.netrunnerGear[i], false]
                 pool.query(netrunnerGearSqlText, netrunnerGearParams)
             }
+            for (let i = 0; i < req.body.cyberware.length; i++) {
+                const gearSqlText = `INSERT INTO "char_owned_cyberware" 
+                ("char_id", "cyberware_master_id")
+                VALUES ($1, $2)`
+                const gearSqlParams = [result.rows[0].id, rb.cyberware[i]]
+                pool.query(gearSqlText, gearSqlParams)
+            }
+            
 
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
             "current_armor_loss","current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes")
