@@ -26,6 +26,7 @@ export default function CreationReview() {
     const weapons = useSelector(store => store.weaponMaster)
     const miscGear = useSelector(store => store.miscGearMaster)
     const cyberware = useSelector(store => store.cyberwareMaster)
+    const netrunnerMaster = useSelector(store => store.netrunnerGearMaster)
 
     const dispatch = useDispatch();
 
@@ -132,19 +133,31 @@ export default function CreationReview() {
 
     const saveCharacter = () => {
         console.log(`Saving...`);
-        dispatch({type: "SAVE_CREATION_CHARACTER", payload: charDetail})
+        dispatch({ type: "SAVE_CREATION_CHARACTER", payload: charDetail })
     }
 
     return (<>
         <Box sx={{ flexGrow: 1 }}>
-            <h1>Review Character</h1>
-            <Button onClick={() => saveCharacter()}>Save Character</Button>
+            <Grid container paddingLeft={3} paddingBottom={3} paddingRight={3}>
+                <Grid item display={'flex'} justifyContent={'center'} xs={12}>
+                    <h1>Review Character</h1>
+                </Grid>
+                <Grid item xs={12}>
+                    <Item><Button fullWidth onClick={() => saveCharacter()}>Save Character</Button></Item>
+                </Grid>
+            </Grid>
 
             <Grid container spacing={1}>
 
                 {charDetail ? (
                     <>
-                        <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'first_steps' })}><h1>Details - click to return to Character Details</h1></Item></Grid>
+                        <Grid item xs={12}><Item>
+                            <Button fullWidth
+                                onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'first_steps' })}>
+                                Details - click to return to Character Details
+                            </Button>
+                        </Item>
+                        </Grid>
                         <Grid item xs={4}>
                             <Item>Handle: {charDetail.handle}</Item>
                         </Grid>
@@ -155,7 +168,14 @@ export default function CreationReview() {
                             <Item>Campaign: {charDetail.campaign} </Item>
                         </Grid>
 
-                        <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'attributes' })}><h1>Atribute - click to return to Attribute selection</h1></Item></Grid>
+                        <Grid item xs={12}><Item>
+                            <Button fullWidth
+                                onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'attributes' })}>
+                                Atribute - click to return to Attribute selection
+                            </Button>
+                        </Item>
+                        </Grid>
+
                         <Grid item xs={4}>
                             <Grid container>
                                 <Grid item xs={4}><Item><AttributesDialog prop={'Strength'} /></Item></Grid>
@@ -199,7 +219,14 @@ export default function CreationReview() {
                             </Grid>
                         </Grid>
 
-                        <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'skills' })}><h1>Skills - click to return to Skill selection</h1></Item></Grid>
+                        <Grid item xs={12}>
+                            <Item>
+                                <Button fullWidth
+                                    onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'skills' })}>
+                                    Skills - click to return to Skill selection
+                                </Button>
+                            </Item>
+                        </Grid>
 
                         <Grid item xs={4}>
                             <Grid container>
@@ -314,224 +341,265 @@ export default function CreationReview() {
                             </Grid>
                         </Grid>
 
-                        <Grid item xs={12}><Item sx={{ cursor: 'pointer' }} onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'role' })}><h1>Role Abilities - click to return to Role selection</h1></Item></Grid>
-                        
-                            <Grid container spacing={1}>
-                                {rockerboy != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(rockerboy)}</Item>
-                                    </Grid></>) : <></>}
+                        <Grid container spacing={1} paddingTop={1} paddingBottom={1}>
+                            <Grid item xs={12}>
+                                <Item>
+                                    <Button fullWidth
+                                        onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'role' })}>
+                                        Role Abilities - click to return to Role selection</Button>
+                                </Item>
+                            </Grid>
 
-                                {solo != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(solo)}</Item>
-                                    </Grid></>) : <></>}
-
-                                {netrunner != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(netrunner)}</Item>
-                                    </Grid></>) : <></>}
-
-                                {nomad != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(nomad)}</Item>
-                                    </Grid></>) : <></>}
-
-                                {media != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(media)}</Item>
-                                    </Grid></>) : <></>}
-
-                                {medtech != '' ? (<>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{skillDotReturn(medtech)}</Item>
-                                    </Grid>
-
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{skillDotReturn(medSurgery)}</Item>
-                                    </Grid>
-
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{skillDotReturn(medPharma)}</Item>
-                                    </Grid>
-
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{skillDotReturn(medCryo)}</Item>
-                                    </Grid>
-                                </>) : <></>}
-
-                                {maker != '' ? (<><Grid item xs={4.5}>
-                                    <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
+                            {rockerboy != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
                                 </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(maker)}</Item>
-                                    </Grid>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(makerField)}</Item>
-                                    </Grid>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(makerUpgrade)}</Item>
-                                    </Grid>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(makerFab)}</Item>
-                                    </Grid>
-                                    <Grid item xs={4.5}>
-                                        <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
-                                    </Grid>
-                                    <Grid item xs={7.5}>
-                                        <Item>{attDotReturn(makerInvent)}</Item>
-                                    </Grid>
-                                </>) : <></>}
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(rockerboy)}</Item>
+                                </Grid></>) : <></>}
+
+                            {solo != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(solo)}</Item>
+                                </Grid></>) : <></>}
+
+                            {netrunner != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(netrunner)}</Item>
+                                </Grid></>) : <></>}
+
+                            {nomad != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(nomad)}</Item>
+                                </Grid></>) : <></>}
+
+                            {media != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(media)}</Item>
+                                </Grid></>) : <></>}
+
+                            {medtech != '' ? (<>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{skillDotReturn(medtech)}</Item>
+                                </Grid>
+
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{skillDotReturn(medSurgery)}</Item>
+                                </Grid>
+
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{skillDotReturn(medPharma)}</Item>
+                                </Grid>
+
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{skillDotReturn(medCryo)}</Item>
+                                </Grid>
+                            </>) : <></>}
+
+                            {maker != '' ? (<><Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
+                            </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(maker)}</Item>
+                                </Grid>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(makerField)}</Item>
+                                </Grid>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(makerUpgrade)}</Item>
+                                </Grid>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(makerFab)}</Item>
+                                </Grid>
+                                <Grid item xs={4.5}>
+                                    <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
+                                </Grid>
+                                <Grid item xs={7.5}>
+                                    <Item>{attDotReturn(makerInvent)}</Item>
+                                </Grid>
+                            </>) : <></>}
                         </Grid>
 
-                        <TableContainer component={Paper}>
+                        <Grid container spacing={1} padding={2}>
 
-                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell><b>Armor</b></TableCell>
-                                        <TableCell><Button onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })}>Return to Gear Selection</Button></TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell align="left">Name</TableCell>
-                                        <TableCell align="left">Quality</TableCell>
-                                        <TableCell align="left">Description</TableCell>
-                                        <TableCell align="left">Price</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {charDetail.armor.map((item, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell align="left">{armor[item].name} </TableCell>
-                                            <TableCell align="left">{armor[item].quality}</TableCell>
-                                            <TableCell align="left">{armor[item].description}</TableCell>
-                                            <TableCell align="right">{armor[item].price}$</TableCell>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>
+                                <Button onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })}>Return to Gear Selection</Button>
+                            </Grid>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Armor</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="left">Quality</TableCell>
+                                            <TableCell align="left">Description</TableCell>
+                                            <TableCell align="center">Price</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.armor.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{armor[item].name} </TableCell>
+                                                <TableCell align="left">{armor[item].quality}</TableCell>
+                                                <TableCell align="left">{armor[item].description}</TableCell>
+                                                <TableCell align="center">{armor[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
 
-                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell><b>Weapons</b></TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell align="left">Name</TableCell>
-                                        <TableCell align="center">Damage</TableCell>
-                                        <TableCell align="center">Range</TableCell>
-                                        <TableCell align="center">Rate of Fire</TableCell>
-                                        <TableCell align="center">Max Clip</TableCell>
-                                        <TableCell align="center"># of Hands</TableCell>
-                                        <TableCell align="center">Concealable?</TableCell>
-                                        <TableCell align="center">Price</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {charDetail.weapons.map((item, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell align="left">{weapons[item].name}</TableCell>
-                                            <TableCell align="center">{weapons[item].dmg_type === 'melee' || weapons[item].dmg_type === 'bow' ? `Str + ${weapons[item].damage}` : `${weapons[item].damage}`}</TableCell>
-                                            <TableCell align="center">{weapons[item].dmg_type === 'bow' ? `Str * ${weapons[item].range}` : `${weapons[item].range}`}</TableCell>
-                                            <TableCell align="center">{weapons[item].rof}</TableCell>
-                                            <TableCell align="center">{weapons[item].max_clip}</TableCell>
-                                            <TableCell align="center">{weapons[item].hands}</TableCell>
-                                            <TableCell align="center">{weapons[item].concealable ? 'Yes' : 'No'}</TableCell>
-                                            <TableCell align="right">{weapons[item].price}$</TableCell>
+                        <Grid container spacing={1} padding={2}>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Weapons</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="center">Damage</TableCell>
+                                            <TableCell align="center">Range</TableCell>
+                                            <TableCell align="center">Rate of Fire</TableCell>
+                                            <TableCell align="center">Max Clip</TableCell>
+                                            <TableCell align="center"># of Hands</TableCell>
+                                            <TableCell align="center">Concealable?</TableCell>
+                                            <TableCell align="center">Price</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.weapons.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{weapons[item].name}</TableCell>
+                                                <TableCell align="center">{weapons[item].dmg_type === 'melee' || weapons[item].dmg_type === 'bow' ? `Str + ${weapons[item].damage}` : `${weapons[item].damage}`}</TableCell>
+                                                <TableCell align="center">{weapons[item].dmg_type === 'bow' ? `Str * ${weapons[item].range}` : `${weapons[item].range}`}</TableCell>
+                                                <TableCell align="center">{weapons[item].rof}</TableCell>
+                                                <TableCell align="center">{weapons[item].max_clip}</TableCell>
+                                                <TableCell align="center">{weapons[item].hands}</TableCell>
+                                                <TableCell align="center">{weapons[item].concealable ? 'Yes' : 'No'}</TableCell>
+                                                <TableCell align="center">{weapons[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
 
-                        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell><b>Misc Gear</b></TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell align="left">Name</TableCell>
-                                    <TableCell align="left">Description</TableCell>
-                                    <TableCell align="left">Price</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {charDetail.gear.map((item, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell align="left">{miscGear[item].name} </TableCell>
-                                        <TableCell align="left">{miscGear[item].description}</TableCell>
-                                        <TableCell align="right">{miscGear[item].price}$</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <Grid container spacing={1} padding={2}>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Misc Gear</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="left">Description</TableCell>
+                                            <TableCell align="center">Price</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.gear.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{miscGear[item].name} </TableCell>
+                                                <TableCell align="left">{miscGear[item].description}</TableCell>
+                                                <TableCell align="center">{miscGear[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
 
-                        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell><b>Cyberware</b></TableCell>
-                                    <TableCell><Button onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })}>Return to Cyberware</Button></TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell align="left">Name</TableCell>
-                                    <TableCell align="left">Description</TableCell>
-                                    <TableCell align="left">Humanity Loss</TableCell>
-                                    <TableCell align="left">Price</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {charDetail.cyberware.map((item, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell align="left">{cyberware[item].name} </TableCell>
-                                        <TableCell align="left">{cyberware[item].description}</TableCell>
-                                        <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>
-                                        <TableCell align="right">{cyberware[item].price}$</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <Grid container spacing={1} padding={2}>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Netrunner Gear</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="left">Description</TableCell>
+                                            <TableCell align="center">Price</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.netrunnerGear.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{netrunnerMaster[item].name}</TableCell>
+                                                <TableCell align="left">{netrunnerMaster[item].description}</TableCell>
+                                                <TableCell align="center">{netrunnerMaster[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+
+                        <Grid container spacing={1} padding={2}>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>
+                                <Button onClick={() => dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })}>Return to Cyberware</Button>
+                            </Grid>
+
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Cyberware</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="left">Description</TableCell>
+                                            <TableCell align="left">Humanity Loss</TableCell>
+                                            <TableCell align="left">Price</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.cyberware.map((item, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell align="left">{cyberware[item].name} </TableCell>
+                                                <TableCell align="left">{cyberware[item].description}</TableCell>
+                                                <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>
+                                                <TableCell align="right">{cyberware[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
 
                     </>
                 ) : <></>}
 
             </Grid>
-        </Box>
+        </Box >
 
     </>)
 }

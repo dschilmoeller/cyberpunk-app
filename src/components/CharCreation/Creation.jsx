@@ -25,7 +25,7 @@ function Creation() {
     const creationStep = useSelector((store) => store.characterCreation.creationStep)
     return (
         <>
-            <h1>Character Creation</h1>
+            {creationStep != 'review' ? <h2>Character Creation</h2> : <></>}
             {creationStep === 'first_steps' ? <CreationFirstSteps /> : <></>}
             {creationStep === 'attributes' ? <CreationAttributes /> : <></>}
             {creationStep === 'skills' ? <CreationSkills /> : <></>}

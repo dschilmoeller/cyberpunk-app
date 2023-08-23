@@ -13,6 +13,8 @@ function CreationSkills() {
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
 
+    // functions more or less identically to the attributes, except the skill number is tracked via the reducer
+    // for what I'm sure was a good reason.
     const [skillNumber, setSkillNumber] = useState(charDetail.skillNumber)
     const [skillCounter, setSkillCounter] = useState(1)
 
@@ -419,45 +421,49 @@ function CreationSkills() {
         }
     }
 
-    const quickSelect = () => {
-        setAthletics(4)
-        setBrawling(4)
-        setConcentration(3)
-        setEvasion(3)
-        setFastTalk(3)
-        setFirearms(3)
-        setMeleeWeapons(2)
-        setLegerdemain(2)
-        setPerception(2)
-        setStreetwise(2)
-        setDemolitions(2)
-        setDriveLand(2)
-        setDriveExotic(1)
-        setEtiquette(1)
-        setExoticWeapons(1)
-        setHeavyWeapons(1)
-        setPerformance(1)
-        setStealth(1)
-        setSkillNumber(0)
-        setSkillCounter(19)
-    }
+    // quick fill for faster demo/testing purposes.
+    // const quickSelect = () => {
+    //     setAthletics(4)
+    //     setBrawling(4)
+    //     setConcentration(3)
+    //     setEvasion(3)
+    //     setFastTalk(3)
+    //     setFirearms(3)
+    //     setMeleeWeapons(2)
+    //     setLegerdemain(2)
+    //     setPerception(2)
+    //     setStreetwise(2)
+    //     setDemolitions(2)
+    //     setDriveLand(2)
+    //     setDriveExotic(1)
+    //     setEtiquette(1)
+    //     setExoticWeapons(1)
+    //     setHeavyWeapons(1)
+    //     setPerformance(1)
+    //     setStealth(1)
+    //     setSkillNumber(0)
+    //     setSkillCounter(19)
+    // }
 
     return (
         <>
-        <h1>Skill Selectoin</h1>
-        <h3>Two skills are selected at rank 4; Four skills are selected at rank 3; six skills are selected at ranks 2 and 1.</h3>
-        <h3>Click a skill name to learn more about it.</h3>
+            <h1>Skill Selection</h1>
+            <h3>Skills are the specific areas that your character excels in - or not. Similar to Attributes, they are selected in descending order of priority.</h3>
+            <h3>Two skills are selected at 4; four skills are selected at 3; and six skills each are selected at 2 and 1.</h3>
+            <h3>Click a skill name to learn more about it. Click column headers for special notes involving all the skills in a column.</h3>
+            <h3></h3>
 
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetSkillSelection()}>Reset Skill Selection</Button>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchSkills()}>Save Skill Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button>
+                    {/* <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button> */}
                 </Grid>
             </Grid>
             <Grid container>
-                <Grid item xs={4}>
+                <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
+                        <Grid item xs={12}><Item><SkillsDialog prop={'Streets'} /></Item></Grid>
                         <Grid item xs={4}><Item><SkillsDialog prop={'Athletics'} /></Item></Grid>
                         {athletics === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Athletics')}>{selectVerbiage()}</Item>
@@ -509,8 +515,9 @@ function CreationSkills() {
                     </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
+                    <Grid item xs={12}><Item><SkillsDialog prop={'Tekhne'} /></Item></Grid>
                         <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                         {demolitions === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Demolitions')}>{selectVerbiage()}</Item>
@@ -563,8 +570,9 @@ function CreationSkills() {
                     </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
+                    <Grid item xs={12}><Item><SkillsDialog prop={'Knowledge'} /></Item></Grid>
                         <Grid item xs={4}><Item><SkillsDialog prop={'Business'} /></Item></Grid>
                         {business === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Business')}>{selectVerbiage()}</Item>

@@ -29,14 +29,15 @@ function CreationFirstSteps() {
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
         dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
     }
-    const instaFill = () => {
-        setHandle('Mad Maxine')
-        setPlayer('Schwami')
-        setCampaign('Gatti Ombre')
-    }
+    // quick fill for faster demo/testing purposes.
+    // const instaFill = () => {
+    //     setHandle('Mad Maxine')
+    //     setPlayer('Schwami')
+    //     setCampaign('Gatti Ombre')
+    // }
     return (<>
         <h1>First Steps:</h1>
-        <Button onClick={()=> instaFill()}>Instafill</Button>
+        {/* <Button onClick={()=> instaFill()}>Instafill</Button> */}
 
         <form onSubmit={handleSubmit}>
             <Grid container>

@@ -14,8 +14,11 @@ function CreationRoleAbilities() {
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
 
+    // sets selection if returning to this page. All state is tracked through characterCreationDetail reducer
+    // and fired into the database during the review stage.
     const [roleSelection, setRoleSelection] = useState(charDetail.roleSelection)
 
+    // state for all roles - not elegant but works.
     const [rockerboy, setRockerboy] = useState(charDetail.rockerboy);
     const [solo, setSolo] = useState(charDetail.solo);
     const [netrunner, setNetrunner] = useState(charDetail.netrunner);
@@ -26,6 +29,7 @@ function CreationRoleAbilities() {
     const [isParamedical, setIsParamedical] = useState(charDetail.isParamedical)
     const [paramedic, setParamedic] = useState(charDetail.paramedic)
 
+    // tracking available points.
     const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(charDetail.availableMedSkillPoints)
     const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(charDetail.availableMakerSkillPoints)
 
@@ -39,6 +43,8 @@ function CreationRoleAbilities() {
     const [makerFab, setMakerFab] = useState(charDetail.makerFab);
     const [makerInvent, setMakerInvent] = useState(charDetail.makerInvent);
 
+    // each selection resets all other role selections and zeroes out the special medtech/maker skills.
+    // as well as changes isParamedical to false if not selecting medtech.
     const selectRole = (selectedRole) => {
         switch (selectedRole) {
             case 'Rockerboy':
@@ -247,43 +253,46 @@ function CreationRoleAbilities() {
             || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)
             || (roleSelection === 'Medtech' && availableMedSkillPoints === 0)) {
             dispatch({ type: "SET_CREATION_ROLE_ABILITIES", payload: ability })
-            dispatch({ type: "SET_CREATION_STEP", payload: 'gear'})
+            dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })
         } else {
             alert('Please ensure a role ability is selected and any associated skills are declared.')
         }
     }
 
-    const instaFill = () => {
-        setRoleSelection('Maker')
-        setRockerboy(0)
-        setSolo(0)
-        setNetrunner(0)
-        setNomad(0)
-        setMedia(0)
-        setMedtech(0)
-        setMaker(2)
-        setMedCryo(0)
-        setMedPharma(0)
-        setMedSurgery(0)
-        setMakerField(1)
-        setMakerUpgrade(1)
-        setMakerFab(1)
-        setMakerInvent(1)
-    }
+    // quick fill for faster demo/testing purposes.
+    // const instaFill = () => {
+    //     setRoleSelection('Maker')
+    //     setRockerboy(0)
+    //     setSolo(0)
+    //     setNetrunner(0)
+    //     setNomad(0)
+    //     setMedia(0)
+    //     setMedtech(0)
+    //     setMaker(2)
+    //     setMedCryo(0)
+    //     setMedPharma(0)
+    //     setMedSurgery(0)
+    //     setMakerField(1)
+    //     setMakerUpgrade(1)
+    //     setMakerFab(1)
+    //     setMakerInvent(1)
+    // }
     return (<>
         <h1>Select Role</h1>
         <h3>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</h3>
+        <h3>Roles selected during creation start with 2 ranks, and represent the specialization your character has chosen up to date, as well as their primary means of making a living on a day to day basis.</h3>
+        <h3>Note that Medtech and Maker roles have special skills associated with them - you'll have to make some additional selections.</h3>
         <Grid container>
             <Grid item xs={12} textAlign={'center'}>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetRoleAbility()}>Reset Role Selection</Button>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchRoleAbility()}>Save Role Selection</Button>
-                <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Role Selection</Button>
+                {/* <Button sx={{ margin: 1 }} variant='contained' onClick={() => instaFill()}>Quick Role Selection</Button> */}
             </Grid>
         </Grid>
-        <Grid container>
-            <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Role Abilities</Item></Grid>
+        <Grid container spacing={1} padding={2}>
+            <Grid item xs={12}><Item sx={{ fontSize: '1.8em', padding: 0 }}>Role Abilities</Item></Grid>
             {roleSelection === 'Rockerboy' ? (<>
-                <Grid item xs={12}><Item>ROCKERBOY SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>ROCKERBOY SELECTED</Item></Grid>
             </>)
                 : (<>
                     <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item></Grid>
@@ -292,78 +301,78 @@ function CreationRoleAbilities() {
 
 
             {roleSelection === 'Solo' ? (<>
-                <Grid item xs={12}><Item>SOLO SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>SOLO SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Solo'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Solo')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Netrunner' ? (<>
-                <Grid item xs={12}><Item>NETRUNNER SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>NETRUNNER SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Netrunner')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Nomad' ? (<>
-                <Grid item xs={12}><Item>NOMAD SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>NOMAD SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Nomad'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Nomad')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Media' ? (<>
-                <Grid item xs={12}><Item>MEDIA SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MEDIA SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Media'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Media')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Medtech' ? (<>
-                <Grid item xs={12}><Item>MEDTECH SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MEDTECH SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Medtech'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Medtech')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Maker' ? (<>
-                <Grid item xs={12}><Item>MAKER SELECTED</Item></Grid>
+                <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MAKER SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Maker'} /></Item></Grid>
                 <Grid item xs={6}><Item onClick={() => selectRole('Maker')}>Select</Item></Grid>
             </>)}
         </Grid>
 
-        <Grid container>
+        <Grid container spacing={1} padding={2}>
             {roleSelection === 'Medtech' ? (<>
 
-                <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
+                <Grid item xs={12}><Item sx={{ fontSize: '1.8em', padding: 0 }}>Special Skills</Item></Grid>
                 <Grid item xs={12}><Item><h3>Points Available: {availableMedSkillPoints}</h3></Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Surgery'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(medSurgery)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Surgery')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(medSurgery)}</Item></Grid>
 
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(medPharma)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Pharmaceuticals')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(medPharma)}</Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(medCryo)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Cryogenics')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(medCryo)}</Item></Grid>
 
                 <Grid item xs={12}><Item><h3>First Aid:</h3></Item></Grid>
                 <Grid item xs={6}><Item><SkillsDialog prop={'First Aid'} /></Item></Grid>
@@ -376,42 +385,42 @@ function CreationRoleAbilities() {
 
         </Grid>
 
-        <Grid container>
+        <Grid container spacing={1} padding={2}>
             {roleSelection === 'Maker' ? (<>
-                <Grid item xs={12}><Item sx={{fontSize:'1.8em', padding: 0}}>Special Skills</Item></Grid>
+                <Grid item xs={12}><Item sx={{ fontSize: '1.8em', padding: 0 }}>Special Skills</Item></Grid>
                 <Grid item xs={12}><Item><h3>Points Available: {availableMakerSkillPoints}</h3></Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(makerField)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Field Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(makerField)}</Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(makerUpgrade)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Upgrade Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(makerUpgrade)}</Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Fabrication Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(makerFab)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Fabrication')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(makerFab)}</Item></Grid>
 
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Invention Expertise'} /></Item></Grid>
+                <Grid item xs={4}><Item>{dotReturn(makerInvent)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
                     <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Invention')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
-                <Grid item xs={4}><Item>{dotReturn(makerInvent)}</Item></Grid>
             </>) : <></>}
         </Grid>
     </>)

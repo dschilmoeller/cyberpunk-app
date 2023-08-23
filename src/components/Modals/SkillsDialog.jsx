@@ -53,9 +53,9 @@ export default function SkillsDialog({ prop }) {
             // Tekhne Skills
             case 'Demolitions':
                 return `Demolitions is a character's skill with emplaced explosives, as well as their ability to disarm the same.`
-            case 'Drive Land':
+            case 'Drive Land Vehicle':
                 return `Drive Land Vehicles is a character's ability to pilot land vehicles, including cars and motorcycles.`
-            case 'Drive Exotic':
+            case 'Drive Exotic Vehicle':
                 return `Drive Exotic Vehicles is a character's ability to pilot all other vehicles, from speedboats to airplanes to submarines to zeppelins.`
             case 'Etiquette':
                 return `Etiquette is a character's knowledge of appropriate behavior for diverse situations. Not only which fork to use at a black tie dinner, but also how to behave at a go-ganger rally and the depth of bow appropriate for a Tyger Claw Boss vs their lieutenant.`
