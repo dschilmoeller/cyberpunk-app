@@ -293,7 +293,7 @@ VALUES
 ('Greaser', '+1 Dice to Slide Actions', 50, 'software', 1, 0,0,0,0,3),
 ('Armor', '+1 Dice to Net Soak Rolls.', 50, 'software', 1, 0,0,0,0,3),
 ('Flak', 'Reduce target program attack to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
-('Shield', 'On receiving damage in the net, reduce to 0. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
+('Shield', 'On receiving damage in the net, reduce by 8. Program immediately deactivates once used.', 50, 'software', 1, 0,0,0,0,3),
 ('Ban Hammer', 'An elegant weapon from a civilized discussion board.', 50, 'software', 1, 0,0,2,0,3),
 ('Sword', 'A common weapon in the Netrunners arsenal.', 50, 'software', 1, 0,0,1,1,3),
 ('Epic Flail', 'Sometimes you just gotta hope and swing.', 50, 'software', 1, 0,0,0,2,3),

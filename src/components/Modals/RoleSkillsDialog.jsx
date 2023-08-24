@@ -332,7 +332,7 @@ export default function RoleSkillsDialog({ prop }) {
                     <Grid container>
                         <Grid item padding={.5} xs={12}>
                             <h1>Medical Expertise</h1>
-                            A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpunk, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
+                            A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpumpkin, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Surgery:</h3>

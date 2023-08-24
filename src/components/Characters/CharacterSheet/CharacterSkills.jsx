@@ -228,10 +228,10 @@ function CharacterSkills(charDetailProp) {
                     <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(demolitions)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Land'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Land Vehicle'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(driveLand)}</Item></Grid>
 
-                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Exotic'} /></Item></Grid>
+                    <Grid item xs={4}><Item><SkillsDialog prop={'Drive Exotic Vehicle'} /></Item></Grid>
                     <Grid item xs={8}><Item>{dotReturn(driveExotic)}</Item></Grid>
 
                     <Grid item xs={4}><Item><SkillsDialog prop={'Etiquette'} /></Item></Grid>

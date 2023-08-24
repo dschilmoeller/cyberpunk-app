@@ -74,7 +74,7 @@ export default function CharSheetWeaponDialog({ prop }) {
             case 'Very Heavy Pistol':
                 return (<>
                     <Grid container fontFamily={'serif'}>
-                        <Grid item padding={1} xs={12}>Pistols are one handed firearms, and are very nearly ubiquitous in Night City and the rest of the Cyberpunk world. They are most dangerous in the hands of a skilled shooter. Please note that machine pistols are treated as Submachine Guns. Pistols use the Firearms skill.</Grid>
+                        <Grid item padding={1} xs={12}>Pistols are one handed firearms, and are very nearly ubiquitous in Night City and the rest of the Cyberpumpkin world. They are most dangerous in the hands of a skilled shooter. Please note that machine pistols are treated as Submachine Guns. Pistols use the Firearms skill.</Grid>
                         <Grid item padding={1} xs={12}>Light Pistols are typically low caliber, high magazine weapons. They also include hold-outs and very small revolvers; they are generally not terribly accurate and only useful at very close range.</Grid>
                         <Grid item padding={1} xs={12}>Heavy Pistols are the favored weapon of law enforcement, Edgerunners, and just about everyone else who can afford one - they mix the best in range, stopping power, and magazine size.</Grid>
                         <Grid item padding={1} xs={12}>Very Heavy Pistols are favored by those looking to make a statement; the 44 Magnum or Desert Eagle being classic examples. While each shot is far more dangerous and accurate from such weapons, relatively low rates of fire and magazine size means they should only be used by experts.</Grid>

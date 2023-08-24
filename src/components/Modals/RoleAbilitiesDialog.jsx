@@ -66,7 +66,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                             Large: Give substantial amount of money, minor crimes, assist in a fight when the danger is low.
                         </Grid>
                         <Grid item padding={.25} paddingBottom={2} xs={12}>
-                            Huge: Give life savings, commit major crimes, assist in a fight until hopeless.
+                            Huge: Give life savings, commit major crimes, assist in a hopeless fight.
                         </Grid>
 
                         <TableContainer component={Paper}>
@@ -332,7 +332,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                     <Grid container fontFamily={'serif'}>
                         <Grid item padding={.5} xs={12}>
                             <h1>Medical Expertise</h1>
-                            A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpunk, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
+                            A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpumpkin, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Surgery:</h3>

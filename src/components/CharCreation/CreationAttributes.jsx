@@ -195,7 +195,7 @@ function CreationAttributes() {
     return (
         <>
             <h2>Attributes:</h2>
-            <h3>Attributes are the fundamental traits of your character - almost all rolls in Cyberpunk use one Attribute + a skill or other trait.</h3>
+            <h3>Attributes are the fundamental traits of your character - almost all rolls in Cyberpumpkin use one Attribute + a skill or other trait.</h3>
             <h3>One Attribute is selected at 4; three more are at 3. Then, select three more at 2 - this is about average for most humans - and finally one attribute is selected at 1.</h3>
             <h3>Movement is always derived from Reflexes, and all characters start with 1 Street Cred.</h3>
             <h3>Click an attribute name to learn more about it, including examples!</h3>

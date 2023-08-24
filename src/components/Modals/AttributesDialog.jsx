@@ -110,7 +110,7 @@ export default function AttributesDialog({ prop }) {
                             <Grid item padding={1} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
                             <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the <b>Rule of Cool.</b></Grid>
                             <Grid item padding={1} xs={12}><b>The Rule of Cool</b></Grid>
-                            <Grid item padding={1} xs={12}>Cyberpunks live and die by how cool they are. To reflect this, once per scene, they can use their Cool attribute in lieu of any other attribute in a roll. This can only be done if what they are doing is Fucking Awesome.
+                            <Grid item padding={1} xs={12}>Cyberpumpkins live and die by how cool they are. To reflect this, once per scene, they can use their Cool attribute in lieu of any other attribute in a roll. This can only be done if what they are doing is Fucking Awesome.
                                 The GM has final say on what can be subbed, but they are encouraged to be generous.</Grid>
                             <Grid item padding={1} xs={12}>
                                 Typically, the difficulty value of the roll is higher, or it requires two rolls (only one of which uses Cool) to succeed. If successful, the result should be Very Dramatic.

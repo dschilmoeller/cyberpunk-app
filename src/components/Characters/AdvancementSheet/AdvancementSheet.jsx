@@ -56,6 +56,7 @@ function AdvancementSheet() {
         dispatch({ type: "FETCH_WEAPON_LIST" })
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
+        dispatch({ type: "FETCH_NETRUNNER_LIST" })
     }, [])
 
     const fetchCharacterDetail = () => {

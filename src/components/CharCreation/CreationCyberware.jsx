@@ -102,6 +102,7 @@ export default function CreationCyberware() {
             <Tab value='fashionware' label='Fashionware' />
             <Tab value='neuralware' label='Neuralware' />
             <Tab value='cyberoptics' label='Cyberoptics' />
+            <Tab value='cyberaudio' label='Cyberaudio' />
             <Tab value='internalware' label='Internalware' />
             <Tab value='externalware' label='Externalware' />
             <Tab value='cyberarm' label='Cyberarm' />
