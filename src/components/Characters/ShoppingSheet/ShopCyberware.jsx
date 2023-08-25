@@ -72,7 +72,7 @@ export default function ShopCyberware() {
         </Snackbar >
 
         <h1>Shop Cyberware</h1>
-        
+
         <Tabs
             value={selectedList}
             onChange={handleTabChange}
@@ -118,16 +118,18 @@ export default function ShopCyberware() {
                         }
                     })}
                     {boughtCyberware.map((item, i) => {
-                        return (<React.Fragment key={i}>
-                            <TableRow>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.description}</TableCell>
-                                <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
-                                <TableCell align="center">{item.install_level}</TableCell>
-                                <TableCell align="center">{Math.floor(item.price)}</TableCell>
-                                <TableCell align="center"><Button onClick={() => sellBoughtCyberware(item)}>Return</Button></TableCell>
-                            </TableRow>
-                        </React.Fragment>)
+                        if (item.type === selectedList) {
+                            return (<React.Fragment key={i}>
+                                <TableRow>
+                                    <TableCell align="left">{item.name} </TableCell>
+                                    <TableCell align="center">{item.description}</TableCell>
+                                    <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
+                                    <TableCell align="center">{item.install_level}</TableCell>
+                                    <TableCell align="center">{Math.floor(item.price)}</TableCell>
+                                    <TableCell align="center"><Button onClick={() => sellBoughtCyberware(item)}>Return</Button></TableCell>
+                                </TableRow>
+                            </React.Fragment>)
+                        }
                     })}
                 </TableBody>
             </Table>

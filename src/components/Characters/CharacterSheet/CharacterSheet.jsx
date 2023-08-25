@@ -36,8 +36,12 @@ function CharacterSheet() {
         dispatch({ type: 'FETCH_MISC_GEAR_LIST' })
     }, [])
 
-    const saveCharacter = () => {
+    const saveCharacter = (useHist) => {
         dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons } } })
+        if (useHist === 'useHist') {
+            history.push('/characterlist')
+        }
+
     }
 
     const [selectedInventory, setSelectedInventory] = useState('weapons')
@@ -48,10 +52,14 @@ function CharacterSheet() {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <h2>Character Sheet - IN PLAY</h2>
-                <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
-                <Button onClick={() => saveCharacter()}>Save Current Status</Button>
-
+                <Grid container>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={6}>
+                        <Button onClick={() => saveCharacter('useHist')}>Back to Character List</Button>
+                    </Grid>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={6}>
+                        <Button onClick={() => saveCharacter()}>Save Current Status</Button>
+                    </Grid>
+                </Grid>
                 <Grid container spacing={1}>
 
                     {charDetail ? (

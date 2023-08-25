@@ -228,7 +228,7 @@ export default function WeaponsMasterTable() {
     const sortedWeaponMasterRows = React.useMemo(
         () =>
             stableSort(weaponMasterRows, getComparator(order, orderBy)),
-        [order, orderBy],
+        [order, orderBy, weaponMaster],
     );
 
     return (<>

@@ -59,10 +59,17 @@ function ShoppingSheet() {
     return (
         <>
             <div>
-                <h2>{heading}</h2>
-                <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
-                <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
-                <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+                <Grid container>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
+                    </Grid>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
+                    </Grid>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+                    </Grid>
+                </Grid>
 
                 {advancementDetails ? (
                     <>
@@ -79,7 +86,7 @@ function ShoppingSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item>Cash on Hand: ${advancementDetails.bank}</Item></Grid>
+                            <Grid item xs={12}><Item><h2>Cash on Hand: ${advancementDetails.bank}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}

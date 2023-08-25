@@ -144,6 +144,7 @@ export default function AdvancementNetrunnerGear() {
                         <TableRow>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Slots</TableCell>
                             <TableCell align="center">Equip?</TableCell>
                         </TableRow>
                     </TableHead>
@@ -154,6 +155,7 @@ export default function AdvancementNetrunnerGear() {
                                     <TableRow key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
+                                        <TableCell align="center">{item.slots}</TableCell>
                                         <TableCell align="center" onClick={() => equipNetrunnerGear(item)}><Button>Equip</Button></TableCell>
                                     </TableRow>
                                 )
@@ -171,6 +173,8 @@ export default function AdvancementNetrunnerGear() {
                         <TableRow>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Attack</TableCell>
+                            <TableCell align="center">Defense</TableCell>
                             <TableCell align="center">Equip?</TableCell>
                         </TableRow>
                     </TableHead>
@@ -181,6 +185,8 @@ export default function AdvancementNetrunnerGear() {
                                     <TableRow key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
+                                        <TableCell align="center">{item.attack}</TableCell>
+                                        <TableCell align="center">{item.defense}</TableCell>
                                         <TableCell align="center"><Button onClick={() => equipNetrunnerGear(item)}>Equip</Button></TableCell>
                                     </TableRow>
                                 )
@@ -198,6 +204,7 @@ export default function AdvancementNetrunnerGear() {
                         <TableRow>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Slots</TableCell>
                             <TableCell align="center">Equip?</TableCell>
                         </TableRow>
                     </TableHead>
@@ -208,6 +215,7 @@ export default function AdvancementNetrunnerGear() {
                                     <TableRow key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
+                                        <TableCell align="center">{item.slots}</TableCell>
                                         <TableCell align="center"><Button onClick={() => equipNetrunnerGear(item)}>Equip</Button></TableCell>
                                     </TableRow>
                                 )

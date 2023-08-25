@@ -30,8 +30,6 @@ export default function GameMasterLanding() {
     }
 
     return (<>
-        <h1>GM Page</h1>
-
         <h2>Select Character to Review</h2>
         {characterList.length ? (<>
             <TableContainer component={Paper}>

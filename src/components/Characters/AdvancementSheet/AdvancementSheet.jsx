@@ -100,11 +100,19 @@ function AdvancementSheet() {
                         You cannot save! Your character will undergo immediate cyberpsychosis if you don't have at least 1 humanity remaining!
                     </Alert>
                 </Snackbar >
-
-                <h2>{heading}</h2>
-                <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
-                <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
-                <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+                <Grid container>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
+                    </Grid>
+                
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
+                    </Grid>
+                
+                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                        <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+                    </Grid>
+                </Grid>
 
                 {advancementDetails ? (
                     <>
