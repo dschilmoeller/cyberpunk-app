@@ -29,15 +29,17 @@ router.get('/fetchallcharacters', rejectUnauthenticated, (req, res) => {
         });
 });
 
-// fetch character details
-// wrap res.send in conditional - if req.user.id != returned user_id 
-// or just leave in SQL command as WHERE for security reasons.
 router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
-            res.send(result.rows);
+            // Crude security measure to prevent accessing unauthorized chars.
+            // if (result.rows[0].user_id === req.user.id) {
+                res.send(result.rows);
+            // } else {
+            //     res.send(404)
+            // }
         })
         .catch(err => {
             console.log(`Error fetching character details:`, err);

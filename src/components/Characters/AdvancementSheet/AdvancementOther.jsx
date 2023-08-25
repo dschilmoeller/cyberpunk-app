@@ -4,6 +4,13 @@ import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 import SpecialModal from '../../Modals/SpecialModal';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 export default function AdvancementOther() {
 
@@ -13,6 +20,11 @@ export default function AdvancementOther() {
     const unhurtMarker = `\u2610`;
     const stunMarker = `\u2736`;
     const aggMarker = `\u2718`;
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     // creates 10 boxes; character luck are empty square, unpurchased luck is X'd square.
     const luckBuilder = () => {
@@ -47,7 +59,7 @@ export default function AdvancementOther() {
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= increaseLuckCost) {
             dispatch({ type: "INCREASE_LUCK", payload: { newLuck: (advancementDetails.max_luck + 1), increaseLuckCost } })
         } else {
-            alert('Insufficent Experience')
+            setShowSnackbar(true)
         }
     }
 
@@ -76,11 +88,22 @@ export default function AdvancementOther() {
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
             dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
         } else {
-            alert('Insufficient Experience')
+            setShowSnackbar(true)
         }
     }
 
     return (<>
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient Experience
+            </Alert>
+        </Snackbar >
         <h1>Other Traits</h1>
         <Grid container>
 

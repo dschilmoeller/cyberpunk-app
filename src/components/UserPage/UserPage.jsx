@@ -18,8 +18,6 @@ function UserPage() {
         <Button sx={{ margin: 2 }} variant='contained' onClick={() => history.push('/charcreation/')}>Create New Character</Button>
         <br />
 
-        {user.user_type === 2 ? <Button sx={{ margin: 2 }} variant='contained' onClick={() => history.push('/gamemaster/')}>GM Page</Button> : <></>}
-
       </Grid>
     </>
   );

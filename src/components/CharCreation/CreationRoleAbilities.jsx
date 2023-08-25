@@ -7,12 +7,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import SkillsDialog from '../Modals/SkillsDialog';
 import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 function CreationRoleAbilities() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     // sets selection if returning to this page. All state is tracked through characterCreationDetail reducer
     // and fired into the database during the review stage.
@@ -255,7 +267,7 @@ function CreationRoleAbilities() {
             dispatch({ type: "SET_CREATION_ROLE_ABILITIES", payload: ability })
             dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })
         } else {
-            alert('Please ensure a role ability is selected and any associated skills are declared.')
+            setShowSnackbar(true)
         }
     }
 
@@ -278,6 +290,19 @@ function CreationRoleAbilities() {
     //     setMakerInvent(1)
     // }
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Please ensure you have selected a Role and any related skills!
+            </Alert>
+        </Snackbar >
+
         <h1>Select Role</h1>
         <h3>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</h3>
         <h3>Roles selected during creation start with 2 ranks, and represent the specialization your character has chosen up to date, as well as their primary means of making a living on a day to day basis.</h3>

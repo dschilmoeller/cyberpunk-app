@@ -5,6 +5,14 @@ import Item from '../CharacterSheet/Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function AdvancementSpecial() {
 
     const dispatch = useDispatch();
@@ -15,6 +23,11 @@ export default function AdvancementSpecial() {
 
     const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(0)
     const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(0)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const roleDotReturn = (role) => {
         let returnedDots = ''
@@ -59,7 +72,7 @@ export default function AdvancementSpecial() {
         } else {
             increaseRoleCost = (roleScore + 1) * 5
         }
-        
+
 
         if (increaseRoleCost <= availableExp) {
             dispatch({ type: 'INCREASE_ROLE', payload: { roleScore: roleScore, roleName: roleName, increaseRoleCost: increaseRoleCost } })
@@ -71,7 +84,7 @@ export default function AdvancementSpecial() {
                 setAvailableMakerSkillPoints(availableMakerSkillPoints + 2)
             }
         } else {
-            alert('Insufficient XP')
+            setShowSnackbar(true)
         }
     }
 
@@ -87,6 +100,19 @@ export default function AdvancementSpecial() {
 
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient XP
+            </Alert>
+        </Snackbar >
+
         <h1>Role Abilities</h1>
         <Grid container>
             <Grid item xs={3}>

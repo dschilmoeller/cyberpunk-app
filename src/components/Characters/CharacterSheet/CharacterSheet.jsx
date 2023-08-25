@@ -16,7 +16,7 @@ import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 import Weapons from './Weapons';
 import CharacterNetrunner from './CharacterNetrunner';
-import BackPackDialog from './BackPackDialog';
+
 import Backpack from './Backpack';
 
 function CharacterSheet() {
@@ -92,13 +92,6 @@ function CharacterSheet() {
 
                             {selectedInventory === 'backpack' ? (<>
                                 <Backpack />
-                                {/* <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={3}></Grid>
-                                        <Grid item xs={6}><BackPackDialog prop={'Open Backpack'} /></Grid>
-                                        <Grid item xs={3}></Grid>
-                                    </Grid>
-                                </Grid> */}
                             </>) : <></>}
 
                         </>

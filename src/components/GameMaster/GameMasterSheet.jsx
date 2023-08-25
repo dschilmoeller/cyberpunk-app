@@ -10,12 +10,26 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function GameMasterSheet() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
 
     const charDetail = useSelector(store => store.characterDetail)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
 
     // State handlers for various fields
     const [handle, setHandle] = useState(charDetail.handle)
@@ -56,7 +70,7 @@ export default function GameMasterSheet() {
         } else if (type === 'perm' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
             dispatch({ type: 'GM_CHANGE_PERM_HUMANITY_LOSS', payload: amount })
         } else {
-            alert('Error!')
+            setShowSnackbar(true)
         }
     }
 
@@ -64,7 +78,7 @@ export default function GameMasterSheet() {
         if (charDetail.bank + incoming >= 0) {
             dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
         } else {
-            console.log(`No biscuit`);
+            setShowSnackbar(true)
         }
     }
 
@@ -72,20 +86,23 @@ export default function GameMasterSheet() {
         if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
             dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
         } else {
-            console.log(`Bad dog`);
+            setShowSnackbar(true)
         }
     }
 
     const changeStreetCred = (incoming) => {
         if (charDetail.street_cred + incoming >= 0 && charDetail.street_cred + incoming <= 10) {
-            console.log(`new street cred:`, charDetail.street_cred + incoming);
             dispatch({ type: 'GM_CHANGE_STREET_CRED', payload: incoming })
+        } else {
+            setShowSnackbar(true)
         }
     }
 
     const changeLuck = (incoming) => {
         if (charDetail.max_luck + incoming <= 10 && charDetail.max_luck + incoming >= 0) {
             dispatch({ type: 'GM_CHANGE_PERM_LUCK', payload: incoming })
+        } else {
+            setShowSnackbar(true)
         }
     }
 
@@ -99,6 +116,19 @@ export default function GameMasterSheet() {
     }
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Can't make selected change!
+            </Alert>
+        </Snackbar >
+
         <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}><h1>Character Details: </h1></Grid>
             <Grid item xs={6}><Item><FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
@@ -159,7 +189,7 @@ export default function GameMasterSheet() {
         </Grid>) : <></>}
 
         <h1>Money</h1>
-        {charDetail.bank ? (<Grid container spacing={2} alignContent={'center'}>
+        {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: ${charDetail.bank}</Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(10)}>Add $10 </Button></Grid>

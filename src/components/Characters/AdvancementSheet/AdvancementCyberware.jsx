@@ -11,6 +11,15 @@ import { Button } from '@mui/material';
 
 import Item from '../CharacterSheet/Item';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
+
 export default function AdvancementCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
@@ -27,6 +36,12 @@ export default function AdvancementCyberware() {
     const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
     const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
     const [cyberlegSlots, setCyberlegSlots] = useState(charCyberwareSlots.cyberleg_slots)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+    const [toastText, setToastText] = React.useState('')
 
     const equipCyber = (incomingCyber) => {
 
@@ -47,7 +62,8 @@ export default function AdvancementCyberware() {
                     break;
                 } else {
                     // warning in case character is too fashionable for their own good.
-                    alert('Not enough slots - try getting being less fashionable!')
+                    setToastText('Not enough slots - try getting being less fashionable!')
+                    setShowSnackbar(true)
                     break;
                 }
 
@@ -71,7 +87,8 @@ export default function AdvancementCyberware() {
                     break;
                 } else {
                     // warning in case character is trying to equip too much gear.
-                    alert("Not enough slots - make sure you have a cyberaudio suite installed and it isn't full!")
+                    setToastText("Not enough slots - make sure you have a cyberaudio suite installed and it isn't full!")
+                    setShowSnackbar(true)
                     break;
                 }
 
@@ -107,7 +124,8 @@ export default function AdvancementCyberware() {
                     }
                     break;
                 } else {
-                    alert("Not enough slots - make sure you have a neural link installed and it isn't full!")
+                    setToastText("Not enough slots - make sure you have a neural link installed and it isn't full!")
+                    setShowSnackbar(true)
                     break;
                 }
 
@@ -123,7 +141,8 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: opticSlots - 1 } })
                     break;
                 } else {
-                    alert("Not enough slots - make sure you have cybereyes and they aren't already full!")
+                    setToastText("Not enough slots - make sure you have cybereyes and they aren't already full!")
+                    setShowSnackbar(true)
                     break;
                 }
 
@@ -182,7 +201,8 @@ export default function AdvancementCyberware() {
                     }
                     break;
                 } else {
-                    alert("Not enough slots - you're full up!")
+                    setToastText("Not enough slots - you're full up!")
+                    setShowSnackbar(true)
                     break;
                 }
 
@@ -201,7 +221,8 @@ export default function AdvancementCyberware() {
                     }
                     break;
                 } else {
-                    alert('You need to remove your existing externalware to equip a new piece!')
+                    setToastText('You need to remove your existing externalware to equip a new piece!')
+                    setShowSnackbar(true)
                     break;
                 }
             case 'cyberarm':
@@ -234,7 +255,8 @@ export default function AdvancementCyberware() {
                             dispatch({ type: 'CYBERLIMB_EQUIPPED' })
                             return;
                         } else {
-                            alert('You do not have a shoulder to stand on.')
+                            setToastText('You do not have a shoulder to stand on.')
+                            setShowSnackbar(true)
                             return;
                         }
 
@@ -265,7 +287,8 @@ export default function AdvancementCyberware() {
                             dispatch({ type: 'CYBERLIMB_EQUIPPED' })
                             return;
                         } else {
-                            alert('You do not have a shoulder to stand on.')
+                            setToastText('You do not have a shoulder to stand on.')
+                            setShowSnackbar(true)
                             return;
                         }
                     }
@@ -281,7 +304,8 @@ export default function AdvancementCyberware() {
                     break;
                 } else {
                     // if there are no open slots, alert user to lack of slots.
-                    alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    setToastText("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    setShowSnackbar(true)
                     break;
                 }
             case 'cyberleg':
@@ -296,7 +320,8 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots - 1 } })
                     break;
                 } else {
-                    alert("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    setToastText("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    setShowSnackbar(true)
                     break;
                 }
             case 'borgware':
@@ -417,6 +442,18 @@ export default function AdvancementCyberware() {
 
     return (<>
         <Item><h1>Cyberware</h1></Item>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                {toastText}
+            </Alert>
+        </Snackbar >
 
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

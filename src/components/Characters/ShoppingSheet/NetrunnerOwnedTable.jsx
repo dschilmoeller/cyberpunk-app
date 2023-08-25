@@ -147,7 +147,8 @@ export default function NetrunnerOwnedTable() {
             charNetrunnerGear[i].netrunner_bridge_id,
             charNetrunnerGear[i].netrunner_master_id,
             charNetrunnerGear[i].perception,
-            charNetrunnerGear[i].price, charNetrunnerGear[i].rez,
+            charNetrunnerGear[i].price, 
+            charNetrunnerGear[i].rez,
             charNetrunnerGear[i].slots,
             charNetrunnerGear[i].speed,
             charNetrunnerGear[i].type))

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
@@ -16,6 +16,15 @@ import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
+
 export default function AdvancementNetrunnerGear() {
     const charDetailCyberdeckSlots = useSelector(store => store.advancementDetail.cyberdeck_slots)
     const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
@@ -32,6 +41,12 @@ export default function AdvancementNetrunnerGear() {
         setValue(newValue);
     }
 
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+
     const equipNetrunnerGear = (item) => {
         switch (item.type) {
             case 'deck':
@@ -43,7 +58,7 @@ export default function AdvancementNetrunnerGear() {
                 if (netrunnerSlots > item.slots) {
                     dispatch({ type: 'EQUIP_NETRUNNER_GEAR', payload: item });
                 } else {
-                    alert('Not enough slots.')
+                    setShowSnackbar(true)
                     break;
                 }
             default:
@@ -59,7 +74,7 @@ export default function AdvancementNetrunnerGear() {
                 break;
             case 'software':
             case 'mod':
-                dispatch({ type: 'UNEQUIP_NETRUNNER_GEAR', payload: item})
+                dispatch({ type: 'UNEQUIP_NETRUNNER_GEAR', payload: item })
                 break;
             default:
                 break;
@@ -67,6 +82,18 @@ export default function AdvancementNetrunnerGear() {
     }
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Not enough slots - you'll need a different deck.
+            </Alert>
+        </Snackbar >
 
         <Tabs
             value={value}

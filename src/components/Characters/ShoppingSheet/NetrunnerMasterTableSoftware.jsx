@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,6 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function NetrunnerMasterTableSoftware() {
     const dispatch = useDispatch()
     const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
@@ -19,12 +27,17 @@ export default function NetrunnerMasterTableSoftware() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     const buyNetrunnerGear = (item) => {
         if (charDetail.bank >= item.price) {
             dispatch({ type: 'BUY_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID } })
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
         }
     }
 
@@ -175,13 +188,19 @@ export default function NetrunnerMasterTableSoftware() {
     );
 
     return (<>
-        <h2>Buy Netrunner Gear</h2>
-        {/* Decks
-            <TableCell align="center">{row.slots}</TableCell>
-            <TableCell align="center">{Math.floor(row.slots / 3)}</TableCell> */}
-        {/* software */}
 
-        {/* Tables = turn into own component. Tables are too different. */}
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds!
+            </Alert>
+        </Snackbar >
+
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>

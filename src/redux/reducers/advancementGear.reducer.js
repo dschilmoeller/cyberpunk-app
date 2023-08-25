@@ -441,8 +441,10 @@ const advancementGear = (state = {
                     price: action.payload.item.price,
                     rez: action.payload.item.rez,
                     slots: action.payload.item.slots,
-                    type: action.payload.item.type
-                }]
+                    type: action.payload.item.type,
+                    netrunnerGearID: action.payload.netrunnerGearID
+                }],
+                netrunnerGearID: state.netrunnerGearID + 1
             }
         case 'SELL_ADVANCEMENT_NETRUNNER_GEAR':
             return {

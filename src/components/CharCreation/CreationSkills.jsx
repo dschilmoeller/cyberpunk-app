@@ -6,12 +6,26 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SkillsDialog from '../Modals/SkillsDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 function CreationSkills() {
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
 
     // functions more or less identically to the attributes, except the skill number is tracked via the reducer
     // for what I'm sure was a good reason.
@@ -417,7 +431,7 @@ function CreationSkills() {
             dispatch({ type: 'SET_CREATION_SKILLS', payload: skills })
             dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
         } else {
-            alert('Please select all available skills!')
+            setShowSnackbar(true)
         }
     }
 
@@ -447,6 +461,20 @@ function CreationSkills() {
 
     return (
         <>
+
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackbar}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                    Please ensure you have made all your skill selections!
+                </Alert>
+            </Snackbar >
+
+
             <h1>Skill Selection</h1>
             <h3>Skills are the specific areas that your character excels in - or not. Similar to Attributes, they are selected in descending order of priority.</h3>
             <h3>Two skills are selected at 4; four skills are selected at 3; and six skills each are selected at 2 and 1.</h3>
@@ -517,7 +545,7 @@ function CreationSkills() {
 
                 <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
-                    <Grid item xs={12}><Item><SkillsDialog prop={'Tekhne'} /></Item></Grid>
+                        <Grid item xs={12}><Item><SkillsDialog prop={'Tekhne'} /></Item></Grid>
                         <Grid item xs={4}><Item><SkillsDialog prop={'Demolitions'} /></Item></Grid>
                         {demolitions === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Demolitions')}>{selectVerbiage()}</Item>
@@ -572,7 +600,7 @@ function CreationSkills() {
 
                 <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
-                    <Grid item xs={12}><Item><SkillsDialog prop={'Knowledge'} /></Item></Grid>
+                        <Grid item xs={12}><Item><SkillsDialog prop={'Knowledge'} /></Item></Grid>
                         <Grid item xs={4}><Item><SkillsDialog prop={'Business'} /></Item></Grid>
                         {business === 0 ? <Grid xs={8} item>
                             <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector('Business')}>{selectVerbiage()}</Item>

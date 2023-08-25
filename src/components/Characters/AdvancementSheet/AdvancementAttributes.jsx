@@ -2,10 +2,23 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
 
 import AttributesDialog from '../../Modals/AttributesDialog';
 
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
+
 export default function AdvancementAttributes() {
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
@@ -38,12 +51,24 @@ export default function AdvancementAttributes() {
         if (increaseAttributeCost <= availableExp) {
             dispatch({ type: 'INCREASE_ATTRIBUTE', payload: { attributeScore, attributeName, increaseAttributeCost } })
         } else {
-            alert('Insufficient XP')
+            setShowSnackbar(true)
         }
     }
 
     return (<>
         <h1>Attributes</h1>
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient XP
+            </Alert>
+        </Snackbar >
+        
         <Grid container>
             <Grid item xs={12}>
                 <Grid container>

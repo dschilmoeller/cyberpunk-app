@@ -9,6 +9,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function ShopCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
@@ -17,6 +25,11 @@ export default function ShopCyberware() {
     const cyberwareMaster = useSelector(store => store.cyberwareMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const [selectedList, setSelectedList] = useState('fashionware')
 
@@ -34,12 +47,24 @@ export default function ShopCyberware() {
             return;
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
             return;
         }
     }
 
     return (<>
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds
+            </Alert>
+        </Snackbar >
+
         <h1>Shop Cyberware</h1>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

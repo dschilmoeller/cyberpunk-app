@@ -12,6 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function OtherMasterTable() {
     const dispatch = useDispatch()
     const miscGearID = useSelector(store => store.advancementGear.miscGearID)
@@ -19,12 +27,17 @@ export default function OtherMasterTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     const buyMiscGear = (item) => {
         if (charDetail.bank >= item.price) {
-        dispatch({ type: 'BUY_MISC_GEAR', payload: {item, miscGearID: miscGearID}})
+            dispatch({ type: 'BUY_MISC_GEAR', payload: { item, miscGearID: miscGearID } })
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
         }
     }
 
@@ -160,8 +173,18 @@ export default function OtherMasterTable() {
     );
 
     return (<>
-        <h1>Shop Other</h1>
 
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds!
+            </Alert>
+        </Snackbar >
 
         <h2>Buy Other</h2>
         <Box sx={{ width: '100%' }}>

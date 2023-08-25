@@ -12,6 +12,13 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 export default function ArmorMasterTable() {
     const dispatch = useDispatch()
@@ -24,12 +31,17 @@ export default function ArmorMasterTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     const buyArmor = (item) => {
         if (charDetail.bank >= item.price) {
             dispatch({ type: 'BUY_ARMOR', payload: { item, armorID } })
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
         }
     }
 
@@ -38,7 +50,7 @@ export default function ArmorMasterTable() {
             dispatch({ type: 'BUY_SHIELD', payload: { item, shieldID } })
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
         }
     }
 
@@ -166,7 +178,7 @@ export default function ArmorMasterTable() {
         masterArmorRows.push(createMasterArmorData(armorMaster[i].armor_master_id, armorMaster[i].description, armorMaster[i].name,
             armorMaster[i].price, armorMaster[i].quality))
     }
-    
+
     // sort and monitor changes to charArmorRows in case of sales.
     const sortedMasterArmorRows = React.useMemo(
         () =>
@@ -194,6 +206,21 @@ export default function ArmorMasterTable() {
 
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds!
+            </Alert>
+        </Snackbar >
+
+        <h2>Buy Armor</h2>
+
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -209,26 +236,26 @@ export default function ArmorMasterTable() {
                         />
                         <TableBody>
                             {sortedMasterArmorRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.armor_master_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{Math.floor(row.price)}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
+                                return (
+                                    <TableRow hover key={row.armor_master_id}>
+                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{Math.floor(row.price)}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                             {sortedMasterShieldRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.shield_master_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{Math.floor(row.price)}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
+                                return (
+                                    <TableRow hover key={row.shield_master_id}>
+                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{Math.floor(row.price)}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                         </TableBody>
                     </Table>

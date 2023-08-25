@@ -14,6 +14,13 @@ import { Button } from '@mui/material';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 export default function WeaponsMasterTable() {
     const dispatch = useDispatch()
     const weaponID = useSelector(store => store.advancementGear.weaponID)
@@ -21,12 +28,17 @@ export default function WeaponsMasterTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     const buyWeapon = (item) => {
         if (charDetail.bank >= item.price) {
             dispatch({ type: 'BUY_WEAPON', payload: { item, weaponID } })
         }
         else {
-            alert('Transaction canceled due to lack of funds!')
+            setShowSnackbar(true)
         }
     }
 
@@ -220,10 +232,19 @@ export default function WeaponsMasterTable() {
     );
 
     return (<>
-        <h1>Shop Weapons</h1>
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds!
+            </Alert>
+        </Snackbar >
 
-
-        <h2>Buy Weapon</h2>
+        <h2>Buy Weapons</h2>
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>

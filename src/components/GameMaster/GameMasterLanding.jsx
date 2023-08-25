@@ -48,9 +48,7 @@ export default function GameMasterLanding() {
                         </TableRow>
                     </TableHead>
                     {characterList.map(character => {
-                        console.log(`character:`, character);
                         return (<React.Fragment key={character.id}>
-
                             <TableBody>
                                 <TableRow hover>
                                     <TableCell align="center"><Button fullWidth variant='contained' sx={{ m: 1 }} onClick={() => history.push(`/gamemastersheet/${character.id}`)}>{character.handle}</Button></TableCell>
@@ -62,7 +60,6 @@ export default function GameMasterLanding() {
                                     <TableCell align="center">${commaTizer(character.bank)}</TableCell>
                                 </TableRow>
                             </TableBody>
-
                         </React.Fragment>)
                     })}
                 </Table>

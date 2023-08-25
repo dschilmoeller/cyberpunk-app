@@ -6,11 +6,24 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import AttributesDialog from '../Modals/AttributesDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 function CreationAttributes() {
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     // state for tracking amount to apply to each attribute, and how many have been selected.
     const [attributeNumber, setAttributeNumber] = useState(4)
@@ -173,7 +186,7 @@ function CreationAttributes() {
             dispatch({ type: 'SET_CREATION_ATTRIBUTES', payload: attributes })
             dispatch({ type: 'SET_CREATION_STEP', payload: 'skills' })
         } else {
-            alert('Not done!')
+            setShowSnackbar(true)
         }
     }
 
@@ -194,12 +207,26 @@ function CreationAttributes() {
 
     return (
         <>
+
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackbar}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                    Please ensure you have selected all the necessary attributes!
+                </Alert>
+            </Snackbar >
+
+
             <h2>Attributes:</h2>
             <h3>Attributes are the fundamental traits of your character - almost all rolls in Cyberpumpkin use one Attribute + a skill or other trait.</h3>
             <h3>One Attribute is selected at 4; three more are at 3. Then, select three more at 2 - this is about average for most humans - and finally one attribute is selected at 1.</h3>
             <h3>Movement is always derived from Reflexes, and all characters start with 1 Street Cred.</h3>
             <h3>Click an attribute name to learn more about it, including examples!</h3>
-            
+
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetAttributeSelection()}>Reset Attribute Selection</Button>
@@ -212,21 +239,21 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item><AttributesDialog prop={'Strength'} /></Item></Grid>
                         {strengthAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('strength')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('strength')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(strengthAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item><AttributesDialog prop={'Body'} /></Item></Grid>
                         {bodyAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('body')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('body')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(bodyAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item><AttributesDialog prop={'Reflexes'} /></Item></Grid>
                         {reflexesAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('reflexes')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('reflexes')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(reflexesAtt)}</Item></Grid>
@@ -245,14 +272,14 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item><AttributesDialog prop={'Appearance'} /></Item></Grid>
                         {appearanceAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('appearance')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('appearance')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(appearanceAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item><AttributesDialog prop={'Cool'} /></Item></Grid>
                         {coolAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('cool')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('cool')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(coolAtt)}</Item></Grid>
@@ -266,21 +293,21 @@ function CreationAttributes() {
                     <Grid container>
                         <Grid xs={4} item><Item><AttributesDialog prop={'Intelligence'} /></Item></Grid>
                         {intelligenceAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('intelligence')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('intelligence')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(intelligenceAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item><AttributesDialog prop={'Willpower'} /></Item></Grid>
                         {willpowerAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('willpower')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('willpower')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(willpowerAtt)}</Item></Grid>
                             </>}
                         <Grid xs={4} item><Item><AttributesDialog prop={'Technique'} /></Item></Grid>
                         {techniqueAtt === 0 ? <Grid xs={8} item>
-                            <Item  sx={{cursor:'pointer'}} onClick={() => AttributeSelector('technique')}>Select at {attributeNumber} points</Item>
+                            <Item sx={{ cursor: 'pointer' }} onClick={() => AttributeSelector('technique')}>Select at {attributeNumber} points</Item>
                         </Grid>
                             : <>
                                 <Grid xs={8} item><Item>{dotReturn(techniqueAtt)}</Item></Grid>

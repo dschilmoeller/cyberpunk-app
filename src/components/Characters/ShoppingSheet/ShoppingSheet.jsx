@@ -37,7 +37,7 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_SHIELD_LIST" })
         dispatch({ type: "FETCH_WEAPON_LIST" })
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
-        dispatch({type: "FETCH_NETRUNNER_LIST"})
+        dispatch({ type: "FETCH_NETRUNNER_LIST" })
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
     }, [])
 
@@ -47,12 +47,8 @@ function ShoppingSheet() {
     }
 
     const saveCharacterChanges = () => {
-        if (advancementDetails.perm_humanity_loss + advancementDetails.temp_humanity_loss > 39) {
-            alert('You cannot save! Your character will undergo immediate cyberpsychosis if you do have at least 1 humanity remaining!')
-        } else {
-            dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
-            history.push('/characterlist')
-        }
+        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
+        history.push('/characterlist')
     }
 
     const [selectedShopping, setSelectedShopping] = useState('weapons')

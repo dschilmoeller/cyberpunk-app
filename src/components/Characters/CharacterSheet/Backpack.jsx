@@ -12,9 +12,22 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { Grid } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function Backpack() {
     const characterDetail = useSelector(store => store.characterDetail)
     const dispatch = useDispatch();
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -181,64 +194,76 @@ export default function Backpack() {
     const addMoney = (change) => {
         if ((change) > 0) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) + parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: {id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change))} })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change)) } })
             setBankChange(0)
         } else {
-            alert('Change amount/Negatives not allowed')
+            setShowSnackbar(true)
         }
     }
 
     const spendMoney = (change) => {
         if ((change) > 0) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) - parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: {id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change))} })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change)) } })
             setBankChange(0)
         } else {
-            alert('Change amount/Negatives not allowed')
+            setShowSnackbar(true)
         }
     }
 
     return (
         <>
-                <Grid container>
-                    <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: ${characterDetail.bank}</Grid>
-                    <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
-                    <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
-                        label="Add/Remove Amount"
-                        onChange={e => setBankChange(e.target.value)}
-                        required
-                        type='number'
-                        value={bankChange}
-                        fullWidth
-                    />
-                    </Grid>
-                    <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
-                </Grid>
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackbar}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                    Cannot perform negative changes!
+                </Alert>
+            </Snackbar >
 
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                        aria-labelledby="tableTitle"
-                        size={'small'}
-                    >
-                        <EnhancedTableHead
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                            {sortedcharMiscGearRows.map((row, i) => {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell padding="normal">{row.name}</TableCell>
-                                        <TableCell padding="normal">{row.description}</TableCell>
-                                        {edibleTest(row)}
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            <Grid container>
+                <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: ${characterDetail.bank}</Grid>
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
+                <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
+                    label="Add/Remove Amount"
+                    onChange={e => setBankChange(e.target.value)}
+                    required
+                    type='number'
+                    value={bankChange}
+                    fullWidth
+                />
+                </Grid>
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+            </Grid>
+
+            <TableContainer>
+                <Table
+                    sx={{ minWidth: 750 }}
+                    aria-labelledby="tableTitle"
+                    size={'small'}
+                >
+                    <EnhancedTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                        {sortedcharMiscGearRows.map((row, i) => {
+                            return (
+                                <TableRow hover key={i}>
+                                    <TableCell padding="normal">{row.name}</TableCell>
+                                    <TableCell padding="normal">{row.description}</TableCell>
+                                    {edibleTest(row)}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </>
     )
 }

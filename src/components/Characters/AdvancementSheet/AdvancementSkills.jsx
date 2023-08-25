@@ -5,6 +5,14 @@ import Item from '../CharacterSheet/Item';
 
 import SkillsDialog from '../../Modals/SkillsDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function AdvancementSkills() {
 
     const dispatch = useDispatch();
@@ -12,6 +20,11 @@ export default function AdvancementSkills() {
 
     const fulldot = ` \u2b24`
     const emptydot = ` \u25ef`
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
     const skillDotReturn = (skill) => {
         let returnedDots = ''
@@ -38,11 +51,23 @@ export default function AdvancementSkills() {
         if (increaseSkillCost <= availableExp) {
             dispatch({ type: 'INCREASE_SKILL', payload: { skillScore: skillScore, skillName: skillName, increaseSkillCost: increaseSkillCost } })
         } else {
-            alert('Insufficient XP')
+            setShowSnackbar(true)
         }
     }
 
     return (<>
+    <Snackbar
+    TransitionComponent={TransitionUp}
+    autoHideDuration={2000}
+    open={showSnackbar}
+    onClose={() => setShowSnackbar(false)}
+    anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+>
+    <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+        Insufficient XP
+    </Alert>
+</Snackbar >
+
         <h1>Skills</h1>
         <Grid container>
             <Grid item xs={4}>

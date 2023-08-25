@@ -21,6 +21,14 @@ import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
 import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
@@ -49,6 +57,11 @@ function AdvancementSheet() {
         setExperienceValue(false)
     }
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         dispatch({ type: "FETCH_ARMOR_LIST" })
@@ -66,7 +79,7 @@ function AdvancementSheet() {
 
     const saveCharacterChanges = () => {
         if (advancementDetails.perm_humanity_loss + advancementDetails.temp_humanity_loss > 39) {
-            alert('You cannot save! Your character will undergo immediate cyberpsychosis if you do have at least 1 humanity remaining!')
+            setShowSnackbar(true)
         } else {
             dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
             history.push('/characterlist')
@@ -76,6 +89,18 @@ function AdvancementSheet() {
     return (
         <>
             <div>
+                <Snackbar
+                    TransitionComponent={TransitionUp}
+                    autoHideDuration={4000}
+                    open={showSnackbar}
+                    onClose={() => setShowSnackbar(false)}
+                    anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                >
+                    <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                        You cannot save! Your character will undergo immediate cyberpsychosis if you don't have at least 1 humanity remaining!
+                    </Alert>
+                </Snackbar >
+
                 <h2>{heading}</h2>
                 <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                 <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
@@ -103,14 +128,14 @@ function AdvancementSheet() {
                 ) : <></>}
 
                 <Item><h2>I want to...</h2>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor='primary'
-                    textColor='secondary'>
-                    <Tab value='experience' label='Spend XP' />
-                    <Tab value='gear' label='Equip Gear' />
-                </Tabs></Item>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor='primary'
+                        textColor='secondary'>
+                        <Tab value='experience' label='Spend XP' />
+                        <Tab value='gear' label='Equip Gear' />
+                    </Tabs></Item>
 
                 {value === 'experience' ? (
                     <Tabs

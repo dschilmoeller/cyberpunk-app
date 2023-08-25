@@ -5,6 +5,14 @@ import Item from './Item';
 import { Button, Typography } from '@mui/material';
 import CharSheetWeaponDialog from '../../Modals/CharSheetWeaponDialog';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 // change alert to a snackbar type alert!
 function Weapons() {
     const charWeapons = useSelector((store) => store.characterWeapons)
@@ -14,6 +22,11 @@ function Weapons() {
     const dispatch = useDispatch();
     const unhurtMarker = `\u2610`;
     const aggMarker = `\u2718`;
+
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     // handles clicking an ammo box manually. simply converts one box from checked to unchecked and vice versa
     const ammoBoxChanger = (e, incomingKey) => {
@@ -47,11 +60,11 @@ function Weapons() {
     const ClipButtonBuilder = (damageType, incomingKey, max_clip, current_shots_fired) => {
         switch (damageType) {
             case 'smg':
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
             case 'assault':
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
             default:
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey)}>Shoot</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
         }
     }
 
@@ -60,7 +73,7 @@ function Weapons() {
         if ((max_clip - current_shots_fired) > 9) {
             dispatch({ type: 'FIRE_WEAPON_AUTOMATIC', payload: incomingKey })
         } else {
-            alert('You need more bullets!')
+            setShowSnackbar(true)
         }
     }
 
@@ -70,8 +83,12 @@ function Weapons() {
     }
 
     // identical to clicking a box in the relevant area.
-    const handleOneShot = (incomingKey) => {
+    const handleOneShot = (incomingKey, max_clip, current_shots_fired) => {
+        if ((max_clip - current_shots_fired) > 0) {
         dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
+        } else {
+            setShowSnackbar(true)
+        }
     }
 
     const weaponHandCalculation = (incoming) => {
@@ -215,6 +232,18 @@ function Weapons() {
 
     return (
         <>
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackbar}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                    Insufficient Ammo!
+                </Alert>
+            </Snackbar >
+
             <Grid container spacing={2}>
                 <Grid item xs={12}><Item>Equipped Weapons</Item></Grid>
                 {/* cycle through weapons and list melee weapons up top */}
