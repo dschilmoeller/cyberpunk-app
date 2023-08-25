@@ -29,6 +29,8 @@ export default function Backpack() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    const [showSnackSnackBar, setShowSnackSnackBar] = React.useState(false);
+
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -115,7 +117,10 @@ export default function Backpack() {
                             )
                         } else {
                             return (
-                                <TableCell key={headCell.id} align={'left'} padding={'normal'}>
+                                <TableCell key={headCell.id}
+                                    align={'left'}
+                                    padding={'normal'}
+                                    >
                                     {headCell.label}
                                 </TableCell>
                             )
@@ -165,27 +170,37 @@ export default function Backpack() {
 
     const edibleTest = (row) => {
         if (row.name === 'MRE' || row.name === 'Food Stick' || row.name === 'Kibble Pack') {
-            return (<><TableCell align='center' padding="normal"><Button sx={{
-                textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
-                    backgroundColor: '#fff',
-                    color: '#000',
-                }
-            }} fullWidth onClick={() => UseConsumable(row)}>Eat</Button></TableCell></>)
+            let isFood = true
+            return (<><TableCell align='center' padding="normal">
+                <Button sx={{
+                    textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
+                        backgroundColor: '#fff',
+                        color: '#000',
+                    }
+                }}
+                    fullWidth
+                    onClick={() => UseConsumable(row, isFood)}>Eat</Button></TableCell></>)
         } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
             || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge') {
-            return (<TableCell align='center' padding="normal"><Button sx={{
-                textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
-                    backgroundColor: '#fff',
-                    color: '#000',
-                }
-            }} fullWidth onClick={() => UseConsumable(row)}>Use</Button></TableCell>)
+            return (<TableCell align='center' padding="normal">
+                <Button sx={{
+                    textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
+                        backgroundColor: '#fff',
+                        color: '#000',
+                    }
+                }}
+                    fullWidth
+                    onClick={() => UseConsumable(row)}>Use</Button></TableCell>)
         } else {
             return (<TableCell padding="normal"></TableCell>)
         }
     }
 
-    const UseConsumable = (foodstuff) => {
+    const UseConsumable = (foodstuff, isFood) => {
         dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: foodstuff })
+        if (isFood === true) {
+            setShowSnackSnackBar(true)
+        }
     }
 
     // arbitrary money changes:
@@ -222,6 +237,18 @@ export default function Backpack() {
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     Cannot perform negative changes!
+                </Alert>
+            </Snackbar >
+
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackSnackBar}
+                onClose={() => setShowSnackSnackBar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackSnackBar(false)} severity="success" sx={{ width: '100%' }}>
+                    NOM NOM NOM!
                 </Alert>
             </Snackbar >
 
