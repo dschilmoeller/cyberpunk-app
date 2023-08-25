@@ -84,19 +84,20 @@ function ShoppingSheet() {
                     </>
                 ) : <></>}
 
-                <Item><h2>I want to shop for...</h2></Item>
-
-                <Tabs
-                    value={selectedShopping}
-                    onChange={handleShoppingSelect}
-                    indicatorColor='primary'
-                    textColor='secondary'>
-                    <Tab value='armor' label='Armor' />
-                    <Tab value='weapons' label='Weapons' />
-                    <Tab value='other' label='Other Gear' />
-                    {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
-                    <Tab value='cyberware' label='Cyberware' />
-                </Tabs>
+                <Item>
+                    <h2>I want to shop for...</h2>
+                    <Tabs
+                        value={selectedShopping}
+                        onChange={handleShoppingSelect}
+                        indicatorColor='primary'
+                        textColor='secondary'>
+                        <Tab value='armor' label='Armor' />
+                        <Tab value='weapons' label='Weapons' />
+                        <Tab value='other' label='Other Gear' />
+                        {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
+                        <Tab value='cyberware' label='Cyberware' />
+                    </Tabs>
+                </Item>
 
                 {selectedShopping === 'armor' ? (<>
                     <ArmorOwnedTable />

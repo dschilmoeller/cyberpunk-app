@@ -11,6 +11,9 @@ import { Button } from '@mui/material';
 
 import Item from '../CharacterSheet/Item';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -27,6 +30,9 @@ export default function AdvancementCyberware() {
     const charCyberwareSlots = useSelector(store => store.advancementGear.cyberwareSlots)
 
     const [selectedList, setSelectedList] = useState('fashionware')
+    const handleTabChange = (event, newValue) => {
+        setSelectedList(newValue)
+    }
 
     const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
     const [neuralSlots, setNeuralSlots] = useState(charCyberwareSlots.neuralware_slots)
@@ -441,6 +447,22 @@ export default function AdvancementCyberware() {
     }
 
     return (<>
+        <Tabs
+            value={selectedList}
+            onChange={handleTabChange}
+            indicatorColor='primary'
+            textColor='secondary'>
+            <Tab value='fashionware' label='Fashionware' />
+            <Tab value='neuralware' label='Neuralware' />
+            <Tab value='cyberoptics' label='Cyberoptics' />
+            <Tab value='cyberaudio' label='Cyberaudio' />
+            <Tab value='internalware' label='Internalware' />
+            <Tab value='externalware' label='Externalware' />
+            <Tab value='cyberarm' label='Cyberarm' />
+            <Tab value='cyberleg' label='Cyberleg' />
+            <Tab value='borgware' label='Borgware (Beta)' />
+        </Tabs>
+
         <Item><h1>Cyberware</h1></Item>
 
         <Snackbar
@@ -458,21 +480,6 @@ export default function AdvancementCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableBody>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberaudio')}>Cyberaudio</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('neuralware')}>Neuralware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberoptics')}>Cyberoptics</Button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('fashionware')}>Fashionware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('internalware')}>Internal Ware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('externalware')}>External Ware</Button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberarm')}>Cyberarms</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberleg')}>Cyberlegs</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('borgware')}>Borgware (BETA)</Button></TableCell>
-                    </TableRow>
                     <TableRow>
                         <TableCell align='center'>Permanent Humanity Loss: {charDetails.perm_humanity_loss}</TableCell>
                         <TableCell align='center'>Temporary Humanity Loss: {charDetails.temp_humanity_loss}</TableCell>
@@ -506,7 +513,7 @@ export default function AdvancementCyberware() {
 
                     {selectedList === 'cyberoptics' ? (
                         <TableRow>
-                            <TableCell align='center'>Optic Requirements: Cybereyes</TableCell>
+                            <TableCell align='center'>Optics Requirements: Cybereyes</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberoptic Slots: {opticSlots}</TableCell>
                         </TableRow>

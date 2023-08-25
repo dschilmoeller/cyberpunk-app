@@ -9,6 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -32,6 +35,9 @@ export default function ShopCyberware() {
     });
 
     const [selectedList, setSelectedList] = useState('fashionware')
+    const handleTabChange = (event, newValue) => {
+        setSelectedList(newValue)
+    }
 
     const sellOwnedCyberware = (item) => {
         dispatch({ type: 'SELL_OWNED_CYBERWARE', payload: item })
@@ -66,27 +72,22 @@ export default function ShopCyberware() {
         </Snackbar >
 
         <h1>Shop Cyberware</h1>
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableBody>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberaudio')}>Cyberaudio</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('neuralware')}>Neuralware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberoptics')}>Cyberoptics</Button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('fashionware')}>Fashionware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('internalware')}>Internal Ware</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('externalware')}>External Ware</Button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberarm')}>Cyberarms</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('cyberleg')}>Cyberlegs</Button></TableCell>
-                        <TableCell align="center"><Button onClick={() => setSelectedList('borgware')}>Borgware (BETA)</Button></TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </TableContainer>
+        
+        <Tabs
+            value={selectedList}
+            onChange={handleTabChange}
+            indicatorColor='primary'
+            textColor='secondary'>
+            <Tab value='fashionware' label='Fashionware' />
+            <Tab value='neuralware' label='Neuralware' />
+            <Tab value='cyberoptics' label='Cyberoptics' />
+            <Tab value='cyberaudio' label='Cyberaudio' />
+            <Tab value='internalware' label='Internalware' />
+            <Tab value='externalware' label='Externalware' />
+            <Tab value='cyberarm' label='Cyberarm' />
+            <Tab value='cyberleg' label='Cyberleg' />
+            <Tab value='borgware' label='Borgware (Beta)' />
+        </Tabs>
 
         <h2>My Cyberware</h2>
         <TableContainer component={Paper}>
