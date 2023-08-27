@@ -25,7 +25,7 @@ function* fetchCharacterDetail(action) {
     const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
     const characterNetrunningGear = yield axios.get(`api/characters/fetchcharacterNetrunningGear/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_NETRUNNER_GEAR', payload: characterNetrunningGear.data})
+    yield put({ type: 'SET_CHARACTER_NETRUNNER_GEAR', payload: characterNetrunningGear.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -62,9 +62,9 @@ function* useConsumableFromPack(action) {
 // making pharmaceutical compounds
 function* characterCreatePharmaceutical(action) {
   try {
-  yield axios.put('api/characters/charactercreatepharmaceutical/', action.payload)
-  const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload.characterID}`)
-  yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data })
+    yield axios.put('api/characters/charactercreatepharmaceutical/', action.payload)
+    const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload.characterID}`)
+    yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data })
   } catch (error) {
     console.log(`Error creating pharmaceutical compound.`);
   }
@@ -77,7 +77,7 @@ function* fetchCharacterMiscGear(action) {
   } catch (error) {
     console.log(`Error fetching in play misc gear`);
   }
-  
+
 }
 
 // save GM changes:
@@ -124,6 +124,8 @@ function* fetchAdvancementDetails(action) {
     const advancementNetrunnerGear = yield axios.get(`/api/characters/fetchNetrunnerGear/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_NETRUNNER_GEAR', payload: advancementNetrunnerGear.data })
 
+    const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_VEHICLES', payload: advancementVehicles.data })
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

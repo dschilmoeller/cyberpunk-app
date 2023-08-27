@@ -211,7 +211,7 @@ export default function NetrunnerMasterTableMods() {
                                             <TableCell align='left'>{row.name}</TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
                                             <TableCell align="center">{row.slots}</TableCell>
-                                            <TableCell align="center">${row.price}</TableCell>
+                                            <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => buyNetrunnerGear(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );

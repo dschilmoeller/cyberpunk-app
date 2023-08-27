@@ -19,6 +19,7 @@ import weaponMaster from './weaponMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
 import netrunnerGearMaster from './netrunnerMaster.reducer';
+import vehicleMaster from './vehicleMaster.reducer';
 
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware
   netrunnerGearMaster, // master gear list - netrunner
+  vehicleMaster, // master gear list - vehicles
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 });

@@ -284,7 +284,7 @@ export default function TestTable() {
                                         <TableCell align="center">{row.max_clip}</TableCell>
                                         <TableCell align="center">{row.hands}</TableCell>
                                         <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
-                                        <TableCell align="center">{row.price}</TableCell>
+                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button>Buy</Button></TableCell>
                                     </TableRow>
                                 );

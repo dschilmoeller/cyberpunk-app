@@ -245,7 +245,7 @@ export default function WeaponsOwnedTable() {
                                             <TableCell align="center">{row.max_clip}</TableCell>
                                             <TableCell align="center">{row.hands}</TableCell>
                                             <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
-                                            <TableCell align="center">{Math.floor(row.price / 4)}</TableCell>
+                                            <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedWeapon(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
@@ -261,7 +261,7 @@ export default function WeaponsOwnedTable() {
                                         <TableCell align="center">{item.max_clip}</TableCell>
                                         <TableCell align="center">{item.hands}</TableCell>
                                         <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">{Math.floor(item.price)}</TableCell>
+                                        <TableCell align="center">${Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtWeapon(item)}>Sell</Button></TableCell>
                                     </TableRow>
                                 )

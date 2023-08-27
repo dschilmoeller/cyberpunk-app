@@ -17,19 +17,18 @@ import OtherOwnedTable from './OtherOwnedTable';
 import OtherMasterTable from './OtherMasterTable';
 import NetrunnerOwnedTable from './NetrunnerOwnedTable';
 import NetrunnerMasterTable from './NetrunnerMasterTable';
+import VehicleMasterTable from './VehicleMasterTable';
+import VehicleOwnedTable from './VehicleOwnedTable'
 
 import ShopCyberware from './ShopCyberware';
 
 function ShoppingSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
-    // console.log(`Characters:`, characterList);
-    const [heading, setHeading] = useState('Character Sheet - Shopping');
+
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
-
-    const [opener, setOpener] = useState('')
 
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
@@ -39,6 +38,7 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
         dispatch({ type: "FETCH_NETRUNNER_LIST" })
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
+        dispatch({ type: "FETCH_VEHICLE_LIST" })
     }, [])
 
     const fetchCharacterDetail = () => {
@@ -51,7 +51,7 @@ function ShoppingSheet() {
         history.push('/characterlist')
     }
 
-    const [selectedShopping, setSelectedShopping] = useState('weapons')
+    const [selectedShopping, setSelectedShopping] = useState('armor')
     const handleShoppingSelect = (event, newValue) => {
         setSelectedShopping(newValue)
     }
@@ -103,6 +103,7 @@ function ShoppingSheet() {
                         <Tab value='other' label='Other Gear' />
                         {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                         <Tab value='cyberware' label='Cyberware' />
+                        <Tab value='vehicles' label='Vehicles' />
                     </Tabs>
                 </Item>
 
@@ -128,6 +129,11 @@ function ShoppingSheet() {
 
                 {selectedShopping === 'cyberware' ? (<>
                     <ShopCyberware />
+                </>) : <></>}
+
+                {selectedShopping === 'vehicles' ? (<>
+                    <VehicleOwnedTable />
+                    <VehicleMasterTable />
                 </>) : <></>}
 
             </div>

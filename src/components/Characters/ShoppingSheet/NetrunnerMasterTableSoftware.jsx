@@ -224,7 +224,7 @@ export default function NetrunnerMasterTableSoftware() {
                                             <TableCell align="center">{row.attack}</TableCell>
                                             <TableCell align="center">{row.defense}</TableCell>
                                             <TableCell align="center">{row.rez}</TableCell>
-                                            <TableCell align="center">${row.price}</TableCell>
+                                            <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => buyNetrunnerGear(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );

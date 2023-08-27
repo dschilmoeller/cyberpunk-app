@@ -241,7 +241,7 @@ export default function ArmorMasterTable() {
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{Math.floor(row.price)}</TableCell>
+                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
@@ -252,7 +252,7 @@ export default function ArmorMasterTable() {
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{Math.floor(row.price)}</TableCell>
+                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );

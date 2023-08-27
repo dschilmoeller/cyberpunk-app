@@ -111,7 +111,7 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
-                                    <TableCell align="center">{Math.floor(item.price / 4)}</TableCell>
+                                    <TableCell align="center">${Math.floor(item.price / 4).toLocaleString("en-US")}</TableCell>
                                     <TableCell align="center"><Button onClick={() => sellOwnedCyberware(item)}>Sell</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
@@ -125,7 +125,7 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
-                                    <TableCell align="center">{Math.floor(item.price)}</TableCell>
+                                    <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                     <TableCell align="center"><Button onClick={() => sellBoughtCyberware(item)}>Return</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
@@ -160,7 +160,7 @@ export default function ShopCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
-                                            <TableCell align="center">${Math.floor(item.price)}</TableCell>
+                                            <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
                                         </TableRow>
                                     </React.Fragment>

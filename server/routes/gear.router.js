@@ -76,4 +76,14 @@ router.get('/netrunner/', (req, res) => {
     })
 })
 
+router.get('/vehicles', (req, res) => {
+    const sqlText = `SELECT * FROM "vehicle_master" order by "type"`
+    pool.query(sqlText)
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching vehicle master list:`, err);
+    })
+})
 module.exports = router

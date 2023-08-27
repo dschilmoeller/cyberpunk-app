@@ -206,7 +206,7 @@ export default function OtherMasterTable() {
                                     <TableRow hover key={row.name}>
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{row.price}</TableCell>
+                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );

@@ -5,6 +5,7 @@ const advancementGear = (state = {
     gear: [],
     cyberware: [],
     netrunnerGear: [],
+    vehicles: [],
     cyberwareSlots: {},
     totalArmorQuality: 0,
     totalShieldQuality: 0,
@@ -25,6 +26,9 @@ const advancementGear = (state = {
     boughtNetrunnerGear: [],
     soldNetrunnerGear: [],
     netrunnerGearID: 0,
+    boughtVehicles: [],
+    soldVehicles: [],
+    vehicleID: 0,
     boughtCyberware: [],
     soldCyberware: [],
     cyberwareID: 0
@@ -47,6 +51,7 @@ const advancementGear = (state = {
             gear: [],
             cyberware: [],
             netrunnerGear: [],
+            vehicles: [],
             cyberwareSlots: {},
             totalArmorQuality: 0,
             totalShieldQuality: 0,
@@ -67,6 +72,9 @@ const advancementGear = (state = {
             boughtNetrunnerGear: [],
             soldNetrunnerGear: [],
             netrunnerGearID: 0,
+            boughtVehicles: [],
+            soldVehicles: [],
+            vehicleID: 0,
             boughtCyberware: [],
             soldCyberware: [],
             cyberwareID: 0
@@ -83,15 +91,11 @@ const advancementGear = (state = {
     } else if (action.type === 'SET_ADVANCEMENT_CYBERWARE') {
         return { ...state, cyberware: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_CYBERWARE_SLOTS') {
-        return {
-            ...state,
-            cyberwareSlots: action.payload
-        }
+        return { ...state, cyberwareSlots: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_NETRUNNER_GEAR') {
-        return {
-            ...state,
-            netrunnerGear: action.payload
-        }
+        return { ...state, netrunnerGear: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_VEHICLES') {
+        return { ...state, vehicles: action.payload }
     }
 
     if (action.type === 'EQUIP_ARMOR') {
@@ -484,6 +488,34 @@ const advancementGear = (state = {
                 ...state,
                 cyberware: state.cyberware.filter(cyberware => cyberware.owned_cyberware_id !== action.payload.owned_cyberware_id),
                 soldCyberware: [...state.soldCyberware, action.payload]
+            }
+        case 'BUY_VEHICLE':
+            return {
+                ...state,
+                boughtVehicles: [...state.boughtVehicles,
+                {
+                    description: action.payload.item.description,
+                    health: action.payload.item.health,
+                    move: action.payload.item.move,
+                    mph: action.payload.item.mph,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    seats: action.payload.item.seats,
+                    type: action.payload.item.type,
+                    vehicle_master_id: action.payload.item.vehicle_master_id
+                }],
+                vehicleID: state.vehicleID + 1
+            }
+        case 'SELL_ADVANCEMENT_VEHICLE':
+            return {
+                ...state,
+                boughtVehicles: state.boughtVehicles.filter(gear => gear.vehicleID !== action.payload.vehicleID),
+            }
+        case 'SELL_OWNED_VEHICLE':
+            return {
+                ...state,
+                vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
+                soldVehicles: [...state.soldVehicles, action.payload]
             }
     }
     return state

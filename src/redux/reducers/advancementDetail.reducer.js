@@ -171,6 +171,21 @@ const advancementDetail = (state = {}, action) => {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
+            case 'BUY_VEHICLE':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload.item.price)
+            }
+        case 'SELL_OWNED_VEHICLE':
+            return {
+                ...state,
+                bank: Number(state.bank + Math.floor(action.payload.price / 4))
+            }
+        case 'SELL_ADVANCEMENT_VEHICLE':
+            return {
+                ...state,
+                bank: Number(state.bank + action.payload.price)
+            }
         //cyberware
         case 'BUY_CYBERWARE':
             return {

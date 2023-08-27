@@ -36,7 +36,7 @@ router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
         .then((result) => {
             // Crude security measure to prevent accessing unauthorized chars.
             // if (result.rows[0].user_id === req.user.id) {
-                res.send(result.rows);
+            res.send(result.rows);
             // } else {
             //     res.send(404)
             // }
@@ -321,7 +321,22 @@ router.get('/fetchNetrunnerGear/:id', rejectUnauthenticated, (req, res) => {
             res.send(result.rows)
         })
         .catch(err => {
-            console.log(`Error fetching netrunner gear details`, err);
+            console.log(`Error fetching advancement character netrunner gear details`, err);
+        })
+})
+
+router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_vehicle_bridge"
+    JOIN "vehicle_master" ON "vehicle_master"."vehicle_master_id" = "char_vehicle_bridge"."vehicle_id"
+    WHERE char_id = $1
+    ORDER BY "type" ASC`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            
+            res.send(result.rows)
+        })
+        .catch(err => {
+            console.log(`Error fetching advancement character vehicles:`, err);
         })
 })
 
@@ -431,7 +446,6 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
                 pool.query(netrunnerGearSqlText, netrunnerGearSqlParams)
             }
 
-
             // SHOPPING
             // armor: loop through soldArmor array, perform delete command on each
             const soldArmor = req.body.gear.soldArmor
@@ -529,6 +543,26 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
                     const boughtNetrunnerGearParams = [req.body.char.id, boughtNetrunnerGear[i].netrunner_master_id]
                     pool.query(boughtNetrunnerGearSqlText, boughtNetrunnerGearParams)
+                }
+            }
+
+            const soldVehicles = req.body.gear.soldVehicles
+            if (soldVehicles.length > 0) {
+                const soldVehicleSqlText = `DELETE FROM "char_vehicle_bridge" WHERE "vehicle_bridge_id" = $1`
+                for (let i = 0; i < soldVehicles.length; i++) {
+                    const soldVehicleParams = [soldVehicles[i].vehicle_bridge_id]
+                    pool.query(soldVehicleSqlText, soldVehicleParams)
+                }
+            }
+
+            // loop through boughtArmor array, perform post on each.
+            const boughtVehicles = req.body.gear.boughtVehicles
+            if (boughtVehicles.length > 0) {
+                const boughtVehiclesSqlText = `INSERT INTO "char_vehicle_bridge" ("char_id", "vehicle_id")
+            VALUES ($1, $2);`
+                for (let i = 0; i < boughtVehicles.length; i++) {
+                    const boughtVehiclesParmas = [req.body.char.id, boughtVehicles[i].vehicle_master_id]
+                    pool.query(boughtVehiclesSqlText, boughtVehiclesParmas)
                 }
             }
 

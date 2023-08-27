@@ -12,8 +12,6 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-import WeaponDialog from '../../Modals/WeaponDialog';
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -21,10 +19,12 @@ import Slide from '@mui/material/Slide';
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
-export default function WeaponsMasterTable() {
+
+export default function VehicleMasterTable() {
     const dispatch = useDispatch()
-    const weaponID = useSelector(store => store.advancementGear.weaponID)
-    const weaponMaster = useSelector(store => store.weaponMaster)
+
+    const vehicleID = useSelector(store => store.advancementGear.vehicleID)
+    const vehicleMaster = useSelector(store => store.vehicleMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
@@ -33,9 +33,9 @@ export default function WeaponsMasterTable() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
-    const buyWeapon = (item) => {
+    const buyVehicle = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_WEAPON', payload: { item, weaponID } })
+            dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
         }
         else {
             setShowSnackbar(true)
@@ -84,40 +84,40 @@ export default function WeaponsMasterTable() {
             label: 'Name',
         },
         {
-            id: 'damage',
-            numeric: true,
-            disablePadding: false,
-            label: 'Damage',
-        },
-        {
-            id: 'range',
-            numeric: true,
-            disablePadding: false,
-            label: 'Range',
-        },
-        {
-            id: 'rof',
-            numeric: true,
-            disablePadding: false,
-            label: 'Rate of Fire',
-        },
-        {
-            id: 'max_clip',
-            numeric: true,
-            disablePadding: false,
-            label: 'Max Clip',
-        },
-        {
-            id: 'hands',
-            numeric: true,
-            disablePadding: false,
-            label: '# of Hands',
-        },
-        {
-            id: 'concealable',
+            id: 'description',
             numeric: false,
             disablePadding: false,
-            label: 'Concealable',
+            label: 'Description',
+        },
+        {
+            id: 'health',
+            numeric: false,
+            disablePadding: false,
+            label: 'Health',
+        },
+        {
+            id: 'seats',
+            numeric: false,
+            disablePadding: false,
+            label: 'Seats',
+        },
+        {
+            id: 'move',
+            numeric: false,
+            disablePadding: false,
+            label: 'Move',
+        },
+        {
+            id: 'mph',
+            numeric: false,
+            disablePadding: false,
+            label: 'Top Speed',
+        },
+        {
+            id: 'type',
+            numeric: false,
+            disablePadding: false,
+            label: 'Type',
         },
         {
             id: 'price',
@@ -126,10 +126,10 @@ export default function WeaponsMasterTable() {
             label: 'Price',
         },
         {
-            id: 'purchase',
+            id: 'buy',
             numeric: false,
             disablePadding: false,
-            label: 'Purchase',
+            label: 'Buy',
         },
     ];
 
@@ -146,7 +146,7 @@ export default function WeaponsMasterTable() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={headCell.numeric ? 'center' : 'left'}
+                            align={'center'}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -170,11 +170,8 @@ export default function WeaponsMasterTable() {
         orderBy: PropTypes.string.isRequired,
     };
 
-
-
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('price');
-
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -182,56 +179,26 @@ export default function WeaponsMasterTable() {
         setOrderBy(property);
     };
 
-    // create weaponMaster data
-
-    function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id) {
+    function createVehicleMasterData(description, health, move, mph, name, price, seats, type, vehicle_master_id) {
         return {
-            concealable,
-            damage,
-            dmg_type,
-            hands,
-            max_clip,
-            name,
-            price,
-            range,
-            rof,
-            weapon_master_id
+            description, health, move, mph, name, price, seats, type, vehicle_master_id
         }
     }
 
-    // take weaponMaster data and push into array for conversion into rows.
-    const weaponMasterRows = []
-    for (let i = 0; i < weaponMaster.length; i++) {
-        let damage = 0
-        let range = 0
-
-        // precalculate strength based damage
-        if (weaponMaster[i].dmg_type === 'melee' || weaponMaster[i].dmg_type === 'bow') {
-            damage = charDetail.strength + charDetail.cyber_strength + weaponMaster[i].damage
-        } else {
-            damage = weaponMaster[i].damage
-        }
-        // precalculate strength based range
-        if (weaponMaster[i].dmg_type === 'bow') {
-            range = (charDetail.strength + charDetail.cyber_strength) * weaponMaster[i].range
-        } else {
-            range = weaponMaster[i].range
-        }
-        // return finalized weapon data (allows range and damage to sort properly)
-        weaponMasterRows.push(createMasterWeaponData(weaponMaster[i].concealable, damage, weaponMaster[i].dmg_type,
-            weaponMaster[i].hands, weaponMaster[i].max_clip, weaponMaster[i].name,
-            weaponMaster[i].price, range, weaponMaster[i].rof,
-            weaponMaster[i].weapon_master_id))
+    const vehicleMasterRows = []
+    for (let i = 0; i < vehicleMaster.length; i++) {
+        vehicleMasterRows.push(createVehicleMasterData(vehicleMaster[i].description, vehicleMaster[i].health, vehicleMaster[i].move, vehicleMaster[i].mph, vehicleMaster[i].name, vehicleMaster[i].price, vehicleMaster[i].seats, vehicleMaster[i].type, vehicleMaster[i].vehicle_master_id))
     }
 
-    // sort and monitor changes. 
-    const sortedWeaponMasterRows = React.useMemo(
+    // sort and monitor changes to charArmorRows in case of sales.
+    const sortedVehicleMasterRows = React.useMemo(
         () =>
-            stableSort(weaponMasterRows, getComparator(order, orderBy)),
-        [order, orderBy, weaponMaster],
+            stableSort(vehicleMasterRows, getComparator(order, orderBy)),
+        [order, orderBy],
     );
 
     return (<>
+
         <Snackbar
             TransitionComponent={TransitionUp}
             autoHideDuration={2000}
@@ -244,7 +211,8 @@ export default function WeaponsMasterTable() {
             </Alert>
         </Snackbar >
 
-        <h2>Buy Weapons</h2>
+        <h2>Buy Vehicle</h2>
+
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -259,25 +227,27 @@ export default function WeaponsMasterTable() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedWeaponMasterRows.map((row) => {
+                            {sortedVehicleMasterRows.map((row) => {
                                 return (
-                                    <TableRow hover key={row.name}>
-                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
-                                        <TableCell align="center">{row.damage}</TableCell>
-                                        <TableCell align="center">{row.range}</TableCell>
-                                        <TableCell align="center">{row.rof}</TableCell>
-                                        <TableCell align="center">{row.max_clip}</TableCell>
-                                        <TableCell align="center">{row.hands}</TableCell>
-                                        <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
+                                    <TableRow hover key={row.vehicle_master_id}>
+                                        <TableCell padding='normal'>{row.name}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{row.health}</TableCell>
+                                        <TableCell align="center">{row.seats}</TableCell>
+                                        <TableCell align="center">{row.move}</TableCell>
+                                        <TableCell align="center">{row.mph}</TableCell>
+                                        <TableCell align="center">{row.type}</TableCell>
+                                        <TableCell align="center">${Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}
+                            
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
+
     </>)
 }

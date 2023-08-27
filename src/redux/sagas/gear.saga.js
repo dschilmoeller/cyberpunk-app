@@ -56,13 +56,23 @@ function* fetchNetrunner() {
     }
 }
 
+function* fetchVehicles() {
+    try {
+        const vehicleList = yield axios.get('/api/gear/vehicles')
+        yield put({ type: "SET_VEHICLE_LIST", payload: vehicleList.data})
+    } catch (error) {
+        console.log(`Error fetching vehicle list`, error);
+    }
+}
+
 function* gearSaga() {
     yield takeLatest('FETCH_ARMOR_LIST', fetchArmor);
     yield takeLatest('FETCH_SHIELD_LIST', fetchShield)
     yield takeLatest('FETCH_WEAPON_LIST', fetchWeapon);
     yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
     yield takeLatest('FETCH_CYBERWARE_LIST', fetchCyberware);
-    yield takeLatest('FETCH_NETRUNNER_LIST', fetchNetrunner)
+    yield takeLatest('FETCH_NETRUNNER_LIST', fetchNetrunner);
+    yield takeLatest('FETCH_VEHICLE_LIST', fetchVehicles);
 }
 
 export default gearSaga;

@@ -231,6 +231,113 @@ ADD CONSTRAINT "char_gear_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "charac
 ALTER TABLE "char_gear_bridge"
 ADD CONSTRAINT "char_gear_bridge_fk1" FOREIGN KEY ("misc_gear_id") REFERENCES "misc_gear_master"("misc_gear_master_id");
 
+CREATE TABLE "vehicle_master" (
+	"vehicle_master_id" serial NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL,
+	"type", varchar NOT NULL,
+	"health", integer NOT NULL,
+	"seats", integer NOT NULL,
+	"move", integer NOT NULL,
+	"mph", integer NOT NULL,
+	"price" integer NOT NULL DEFAULT '0',
+	CONSTRAINT "vehicle_master_pk" PRIMARY KEY ("vehicle_master_id")
+) WITH (OIDS = FALSE);
+
+INSERT INTO "vehicle_master" ("name", "description", "type", "health", "seats", "move", "mph", "price")
+VALUES
+('Scooter', 'A small but mighty wheeled conveyance, useful for a daily commute through traffic.', 'Bike', 5, 1, 10, 40, 5000),
+('Roadbike', 'A common sight on Night City streets as an efficient and cheap form of transport.', 'Bike', 8, 2, 15, 100, 20000),
+('Superbike', 'A powerful and exotic streetbike capable of extreme speed and high performance.', 'Bike', 6, 2, 25, 300, 100000),
+('Compact Groundcar', 'A small, affordable vehicle for the budget conscious driver.', 'Car', 14, 4, 15, 100, 30000),
+('High Performance Groundcar', 'A sporty, more playful version of the standard groundcar, with improved performance.', 'Car', 14, 4, 20, 200, 50000),
+('Super Groundcar', 'An exotic and sports car, capable of extreme speeds and maneuvers', 'Car', 12, 2, 25, 300, 100000),
+('Jet Ski', 'Personal watercraft.', 'Boat', 8, 2, 15, 60, 20000),
+('Speedboat', 'High performance watercraft.', 'Boat', 12, 4, 15, 60, 30000),
+('Cabin Cruiser', 'Large and luxurious boat that doubles as floating living space. This model has 2 rooms', 'Boat', 20, 4, 6, 20, 60000),
+('Cabin Cruiser', 'Large and luxurious boat that doubles as floating living space. This model has 4 rooms', 'Boat', 30, 8, 6, 20, 120000),
+('Yacht', 'Customized, massive watercraft with ultraluxe accommodations. Fluffy white cat not included. This model has 4 rooms.', 'Boat', 50, 16, 6, 30, 200000),
+('Yacht', 'Customized, massive watercraft with ultraluxe accommodations. Fluffy white cat not included. This model has 8 rooms.', 'Boat', 60, 32, 6, 30, 400000),
+('Gyrocopter', 'Smallest possible flying machine - favored by a select few enthusiasts.', 'Air', 4, 1, 10, 60, 20000),
+('Helicopter', 'A proper whirlybird flyer, with actual range and safety features.', 'Air', 12, 4, 20, 200, 50000),
+('AV-4 Aerodyne', 'A multipurpose vectored thrust flying machine, useful for delivering small groups at high speed.', 'Air', 20, 6, 20, 200, 100000),
+('AV-9 Aerodyne', 'Exotic vector thrust vehicle capable of extreme maneuvers', 'Air', 12, 2, 25, 300, 200000),
+('Aerozep', 'Modern cargo blimp that can serve as a floating living space. This model has 2 rooms.', 'Air', 20, 4, 10, 100, 60000),
+('Aerozep', 'Modern cargo blimp that can serve as a floating living space. This model has 6 rooms.', 'Air', 20, 12, 10, 100, 180000);
+
+CREATE TABLE "char_vehicle_bridge" (
+	"vehicle_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"vehicle_id" integer NOT NULL,
+	"vehicle_mod_1" integer NOT NULL DEFAULT 1,
+	"vehicle_mod_2" integer NOT NULL DEFAULT 1,
+	"vehicle_mod_3" integer NOT NULL DEFAULT 1,
+	"vehicle_mod_4" integer NOT NULL DEFAULT 1,
+	"vehicle_mod_5" integer NOT NULL DEFAULT 1,
+	CONSTRAINT "char_vehicle_bridge_pk" PRIMARY KEY ("vehicle_bridge_id")
+) wiTH (OIDS = FALSE);
+
+CREATE TABLE "vehicle_mod_master" (
+	"vehicle_mod_master_id" serial NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL,
+	"type" varchar NOT NULL,
+	"price" varchar NOT NULL,
+	CONSTRAINT "vehicle_mod_master_pk" PRIMARY KEY ("vehicle_mod_master_id")
+) WITH (OIDS = FALSE);
+
+INSERT INTO "vehicle_mod_master" ("name", "description", "type", "price")
+VALUES 
+('Armored', 'Armors the bike and allows it to be used as cover. Adds Vehicle Health in Armor.', 'Bike', 5000),
+('Armored', 'Armors the car chassis and adds bulletproof glass. Adds Vehicle Health in Armor.', 'Car', 10000),
+('Armored', 'Armors the boat chassis. Adds 1/2 Vehicle Health in Armor.', 'Boat', 10000),
+('Armored', 'Armors the aircraft chassis and adds bullet resistant glass. Adds 1/2 Vehicle Health in Armor.', 'Air', 15000),
+('Comm Center', 'Adds communications center, 6 Radio Communicators, Scramblers, Radio Scanner, Homing tracers and tracking device.', 'Car', 2000),
+('Comm Center', 'Adds communications center, 6 Radio Communicators, Scramblers, Radio Scanner, Homing tracers and tracking device.', 'Boat', 2000),
+('NOS', 'Gives bike a short burst of power. Vehicle can make 1 extra move action, but takes 3 unsoakable wounds.', 'Bike', 1000),
+('NOS', 'Gives car a short burst of power. Vehicle can make 1 extra move action, but takes 3 unsoakable wounds.', 'Car', 1000),
+('Onboard Flamethrower', 'Vehicle mounted flamethrower, deals 8 Damage with ROF of 1 and clip of 1. Cannot be reloaded while driving.', 'Bike', 5000),
+('Onboard Flamethrower', 'Vehicle mounted flamethrower, deals 8 Damage with ROF of 1 and clip of 1. Cannot be reloaded while driving.', 'Car', 5000),
+('Onboard Machine Gun', 'Vehicle mounted assault rifle. Can only use autofire actions; cannot be reloaded while driving.', 'Bike', 5000),
+('Onboard Machine Gun', 'Vehicle mounted assault rifle. Can only use autofire actions; cannot be reloaded while driving.', 'Car', 5000),
+('Seating Upgrade', 'Adds 1 seat to vehicle, either by adding a sidecar, expanding the chassis, or something similar. Seat can be rigged to eject.', 'Bike', 1000),
+('Seating Upgrade', 'Adds 1 seat to vehicle, either by adding a sidecar, expanding the chassis, or something similar. Seat can be rigged to eject.', 'Car', 1000),
+('Seating Upgrade', 'Adds 1 seat to vehicle, either by adding a sidecar, expanding the chassis, or something similar. Seat can be rigged to eject.', 'Air', 1000),
+('Security Upgrade', 'Replaces mechanical locks with biometric security. Requires Vehicle Tech DV8 (2+) to bypass, failure results in 10 stun damage/round to intruder. Intruder cannot stop themselves from taking this damage.', 'Bike', 6000),
+('Security Upgrade', 'Replaces mechanical locks with biometric security. Requires Vehicle Tech DV8 (2+) to bypass, failure results in 10 stun damage/round to intruder. Intruder cannot stop themselves from taking this damage.', 'Car', 6000),
+('Security Upgrade', 'Replaces mechanical locks with biometric security. Requires Vehicle Tech DV8 (2+) to bypass, failure results in 10 stun damage/round to intruder. Intruder cannot stop themselves from taking this damage.', 'Boat', 6000),
+('Security Upgrade', 'Replaces mechanical locks with biometric security. Requires Vehicle Tech DV8 (2+) to bypass, failure results in 10 stun damage/round to intruder. Intruder cannot stop themselves from taking this damage.', 'Air', 6000),
+('Smuggling Compartment', 'Installs 1 hidden holster per passenger, capable of holding any concealable weapon. Creates 1 larger space in the vehicle that requires a Perception check to locate.', 'Bike', 1000),
+('Smuggling Compartment', 'Installs 1 hidden holster per passenger, capable of holding any concealable weapon. Creates 1 larger space in the vehicle that requires a Perception check to locate.', 'Car', 1000),
+('Smuggling Compartment', 'Installs 1 hidden holster per passenger, capable of holding any concealable weapon. Creates 2 larger spaces in the vehicle that requires a Perception check to locate.', 'Boat', 2000),
+('Smuggling Compartment', 'Installs 1 hidden holster per passenger, capable of holding any concealable weapon. Creates 2 larger spaces in the vehicle that requires a Perception check to locate.', 'Air', 2000),
+('Heavy Chassis', 'Significantly upgrades the structure of the vehicle, allowing it to tow multiple tons and installing a 100m towing cable. Reduces top speed by 25%', 'Car', 5000),
+('Rocket Pod', 'Requires Heavy Chassis. Installs Rocket Launcher with clip of 3 onto the vehicle.', 'Car', 30000),
+('Heavy Weapon Mount', 'Requires Heavy Chassis. Installs Heavy Cannon (Dam 16, Range 100, ROF 1, Clip 10) onto the vehicle.', 'Car', 30000),
+('Mounted Melee Weapon', 'Very Heavy Melee weapon is mounted on one side of the vehicle. Concealable. Driver can attack using their action; vehicle has effective strength of 4.', 'Bike', 3000),
+('Mounted Melee Weapon', 'Very Heavy Melee weapon is mounted on one side of the vehicle. Concealable. Driver can attack using their action; vehicle has effective strength of 7.', 'Car', 3000),
+('Hover Install', 'Installs a series of powerful fans and a deployable raft to vehicle, allowing it to move on water as a cabin cruiser.', 'Car', 4000),
+('AV-4 Engine Install', 'Adds powerful vectored thrust turbofans to the vehicle, allowing it to fly. While in the air, moves as an AV-4.', 'Car', 10000),
+('Combat Plow', 'When ramming, those inside take no damage. If vehicle has and used NOS mod in the same or previous turn, deals 4 extra damage.', 'Car', 1000),
+('Enhanced Plug Integration', 'While driving, user can attack and dodge as though they were on foot - normal combat movements do not require drive tests.', 'Bike', 5000),
+
+
+
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk1" FOREIGN KEY ("vehicle_id") REFERENCES "vehicle_master"("vehicle_master_id");
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk2" FOREIGN KEY ("vehicle_mod_1") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk3" FOREIGN KEY ("vehicle_mod_2") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk4" FOREIGN KEY ("vehicle_mod_3") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk5" FOREIGN KEY ("vehicle_mod_4") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
+ALTER TABLE "char_vehicle_bridge"
+ADD CONSTRAINT "char_vehicle_bridge_fk6" FOREIGN KEY ("vehicle_mod_5") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
+
 -- CREATE TABLE "lifestyle_master" (
 -- 	"lifestyle_master_id" serial NOT NULL,
 -- 	"name" varchar NOT NULL,

@@ -190,7 +190,7 @@ export default function OtherOwnedTable() {
                                     <TableRow hover key={row.char_gear_bridge_id}>
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{Math.floor(row.price / 4)}</TableCell>
+                                        <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
                                     </TableRow>
                                 );
@@ -200,7 +200,7 @@ export default function OtherOwnedTable() {
                                     <TableRow hover key={i}>
                                         <TableCell padding="none" align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">{Math.floor(item.price)}</TableCell>
+                                        <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>
                                     </TableRow>
                                 )
