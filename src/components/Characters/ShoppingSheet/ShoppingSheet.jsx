@@ -30,6 +30,8 @@ function ShoppingSheet() {
     const history = useHistory();
     const params = useParams();
 
+    const euroBuck = `\u20AC$`
+
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         dispatch({ type: "FETCH_ARMOR_LIST" })
@@ -86,7 +88,7 @@ function ShoppingSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item><h2>Cash on Hand: ${advancementDetails.bank}</h2></Item></Grid>
+                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}

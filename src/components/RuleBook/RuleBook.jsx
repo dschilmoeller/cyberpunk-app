@@ -138,6 +138,7 @@ export default function VerticalTabs() {
   const stunMarker = `\u2736`;
   const lethalMarker = `\uFE45`;
   const aggMarker = `\u2718`;
+  const euroBuck = `\u20AC$`
 
   return (
     <Box
@@ -1041,7 +1042,7 @@ export default function VerticalTabs() {
                             <TableCell>{row.name}</TableCell>
                             <TableCell align="left">{row.quality}</TableCell>
                             <TableCell align="left">{row.description}</TableCell>
-                            <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                            <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                           </TableRow>
                         )
                       })}
@@ -1051,7 +1052,7 @@ export default function VerticalTabs() {
                             <TableCell>{row.name}</TableCell>
                             <TableCell align="left">{row.quality}</TableCell>
                             <TableCell align="left">{row.description}</TableCell>
-                            <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                            <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                           </TableRow>
                         )
                       })}
@@ -1107,7 +1108,7 @@ export default function VerticalTabs() {
                             <TableCell align="center">{row.max_clip}</TableCell>
                             <TableCell align="center">{row.hands}</TableCell>
                             <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
-                            <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                            <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                           </TableRow>
                         )
                       })}
@@ -1144,7 +1145,7 @@ export default function VerticalTabs() {
                         <TableRow key={row.name}>
                           <TableCell>{row.name}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                          <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -1219,7 +1220,7 @@ export default function VerticalTabs() {
                               <TableCell align="left">{row.description}</TableCell>
                               <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
                               <TableCell align="left">{row.install_level}</TableCell>
-                              <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                              <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                             </TableRow>
                           </Fragment>)
                       }
@@ -1360,7 +1361,7 @@ export default function VerticalTabs() {
                                   <TableCell align='center'>{row.slots}</TableCell>
                                 </>
                               ) : <></>}
-                              <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                              <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                             </TableRow>
                           </Fragment>)
                       }

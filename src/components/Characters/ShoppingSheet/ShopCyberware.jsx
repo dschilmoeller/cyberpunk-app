@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -28,6 +29,8 @@ export default function ShopCyberware() {
     const cyberwareMaster = useSelector(store => store.cyberwareMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const euroBuck = `\u20AC$`
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -71,7 +74,11 @@ export default function ShopCyberware() {
             </Alert>
         </Snackbar >
 
-        <h1>Shop Cyberware</h1>
+        <Grid container>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <h1>Shop Cyberware</h1>
+            </Grid>
+        </Grid>
 
         <Tabs
             value={selectedList}
@@ -88,8 +95,9 @@ export default function ShopCyberware() {
             <Tab value='cyberleg' label='Cyberleg' />
             <Tab value='borgware' label='Borgware (Beta)' />
         </Tabs>
-
+        
         <h2>My Cyberware</h2>
+
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
@@ -111,7 +119,7 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
-                                    <TableCell align="center">${Math.floor(item.price / 4).toLocaleString("en-US")}</TableCell>
+                                    <TableCell align="center">{euroBuck}{Math.floor(item.price / 4).toLocaleString("en-US")}</TableCell>
                                     <TableCell align="center"><Button onClick={() => sellOwnedCyberware(item)}>Sell</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
@@ -125,7 +133,7 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
-                                    <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                    <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                     <TableCell align="center"><Button onClick={() => sellBoughtCyberware(item)}>Return</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
@@ -160,7 +168,7 @@ export default function ShopCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
-                                            <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
                                         </TableRow>
                                     </React.Fragment>

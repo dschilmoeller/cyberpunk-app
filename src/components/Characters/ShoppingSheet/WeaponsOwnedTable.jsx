@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
@@ -20,6 +21,8 @@ export default function WeaponsOwnedTable() {
     const boughtWeapons = useSelector(store => store.advancementGear.boughtWeapons)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const euroBuck = `\u20AC$`
 
     const sellOwnedWeapon = (item) => {
         dispatch({ type: 'SELL_OWNED_WEAPON', payload: item })
@@ -217,7 +220,11 @@ export default function WeaponsOwnedTable() {
 
 
     return (<>
-        <h1>Shop Weapons</h1>
+        <Grid container>
+                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                    <h1>Shop Weapons</h1>
+                </Grid>
+            </Grid>
         <h2>My Weapons</h2>
 
         <Box sx={{ width: '100%' }}>
@@ -245,7 +252,7 @@ export default function WeaponsOwnedTable() {
                                             <TableCell align="center">{row.max_clip}</TableCell>
                                             <TableCell align="center">{row.hands}</TableCell>
                                             <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
-                                            <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedWeapon(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
@@ -261,7 +268,7 @@ export default function WeaponsOwnedTable() {
                                         <TableCell align="center">{item.max_clip}</TableCell>
                                         <TableCell align="center">{item.hands}</TableCell>
                                         <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">${Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtWeapon(item)}>Sell</Button></TableCell>
                                     </TableRow>
                                 )

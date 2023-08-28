@@ -37,6 +37,7 @@ export default function MakePharmaDialog() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    const euroBuck = `\u20AC$`
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -169,7 +170,7 @@ export default function MakePharmaDialog() {
                                     alignItems={'center'}
                                     justifyContent={'center'}
                                     padding={2}>
-                                    <b>Current Bank: ${charDetail.bank}</b>
+                                    <b>Current Bank: {euroBuck}{charDetail.bank}</b>
                                 </Grid>
                                 <Grid item xs={12}
                                     display={'flex'}

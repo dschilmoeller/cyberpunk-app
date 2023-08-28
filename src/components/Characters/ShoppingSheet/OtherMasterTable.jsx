@@ -27,6 +27,8 @@ export default function OtherMasterTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const euroBuck = `\u20AC$`
+
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -206,7 +208,7 @@ export default function OtherMasterTable() {
                                     <TableRow hover key={row.name}>
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );

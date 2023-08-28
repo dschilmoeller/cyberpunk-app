@@ -27,6 +27,9 @@ export default function VehicleMasterTable() {
     const vehicleMaster = useSelector(store => store.vehicleMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const useNomadFreebie = useSelector(store => store.advancementGear.useNomadFreebie)
+
+    const euroBuck = `\u20AC$`
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -36,6 +39,8 @@ export default function VehicleMasterTable() {
     const buyVehicle = (item) => {
         if (charDetail.bank >= item.price) {
             dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
+        } else if (useNomadFreebie === true) {
+            dispatch({ type: 'BUY_NOMAD_VEHICLE', payload: { item, vehicleID } })
         }
         else {
             setShowSnackbar(true)
@@ -237,12 +242,15 @@ export default function VehicleMasterTable() {
                                         <TableCell align="center">{row.move}</TableCell>
                                         <TableCell align="center">{row.mph}</TableCell>
                                         <TableCell align="center">{row.type}</TableCell>
-                                        <TableCell align="center">${Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                        {useNomadFreebie ? (
+                                            <TableCell align="center">{euroBuck}0</TableCell>
+                                        ) : <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>}
+
                                         <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}
-                            
+
                         </TableBody>
                     </Table>
                 </TableContainer>

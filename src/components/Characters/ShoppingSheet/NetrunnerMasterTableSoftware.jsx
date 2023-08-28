@@ -27,6 +27,8 @@ export default function NetrunnerMasterTableSoftware() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const euroBuck = `\u20AC$`
+
     const [showSnackbar, setShowSnackbar] = useState(false);
     const Alert = forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -224,7 +226,7 @@ export default function NetrunnerMasterTableSoftware() {
                                             <TableCell align="center">{row.attack}</TableCell>
                                             <TableCell align="center">{row.defense}</TableCell>
                                             <TableCell align="center">{row.rez}</TableCell>
-                                            <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => buyNetrunnerGear(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );

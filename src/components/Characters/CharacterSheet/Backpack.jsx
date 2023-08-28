@@ -24,6 +24,8 @@ export default function Backpack() {
     const characterDetail = useSelector(store => store.characterDetail)
     const dispatch = useDispatch();
 
+    const euroBuck = `\u20AC$`
+
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -253,7 +255,7 @@ export default function Backpack() {
             </Snackbar >
 
             <Grid container>
-                <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: ${characterDetail.bank}</Grid>
+                <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
                 <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
                     label="Add/Remove Amount"

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -11,6 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Switch from '@mui/material/Switch';
 
 export default function VehicleOwnedTable() {
     const dispatch = useDispatch()
@@ -19,13 +21,20 @@ export default function VehicleOwnedTable() {
     const boughtVehicles = useSelector(store => store.advancementGear.boughtVehicles)
     const vehicleID = useSelector(store => store.advancementGear.vehicleID)
 
+    const nomadFreebieStatus = useSelector(store => store.advancementGear.useNomadFreebie)
+
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const euroBuck = `\u20AC$`
 
     const sellOwnedVehicle = (item) => {
         dispatch({ type: 'SELL_OWNED_VEHICLE', payload: item })
     }
 
     const sellBoughtVehicle = (item) => {
+        if (item.is_nomad_vehicle === true) {
+            dispatch({ type: 'RESTORE_NOMAD_SLOT' })
+        }
         dispatch({ type: 'SELL_ADVANCEMENT_VEHICLE', payload: item })
     }
 
@@ -186,10 +195,36 @@ export default function VehicleOwnedTable() {
         [order, orderBy, charVehicleRows],
     );
 
+    const [useNomadFreebie, setUseNomadFreebie] = React.useState(nomadFreebieStatus);
+
+    const handleNomadSelection = (event) => {
+        dispatch({ type: 'SET_NOMAD_FREEBIE', payload: event.target.checked })
+    };
+
     return (
         <>
-            <h1>Shop Vehicles</h1>
-            <h2>My Vehicles</h2>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'} alignItems={'center'}><h1>Shop Vehicles</h1></Grid>
+
+            {charDetail.nomad > 0 ?
+                <Grid container display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                    <Grid item xs={6} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                        <h2>Nomad Vehicles Available: {charDetail.nomad_vehicle_slots}</h2>
+                    </Grid>
+                    {charDetail.nomad_vehicle_slots ? (
+                        <Grid item xs={6} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            <h2>Acquire Nomad Vehicle</h2>
+                            <Switch
+                                checked={nomadFreebieStatus}
+                                onChange={handleNomadSelection}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
+                        </Grid>) :
+                        <Grid item xs={6} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                            <h2>No Nomad Vehicles Available.</h2>
+                        </Grid>}
+                </Grid>
+                : <></>}
+            <Grid item xs={12}><h2>My Vehicles</h2></Grid>
 
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
@@ -215,7 +250,7 @@ export default function VehicleOwnedTable() {
                                             <TableCell align="center">{row.move}</TableCell>
                                             <TableCell align="center">{row.mph}</TableCell>
                                             <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
@@ -230,7 +265,7 @@ export default function VehicleOwnedTable() {
                                             <TableCell align="center">{row.move}</TableCell>
                                             <TableCell align="center">{row.mph}</TableCell>
                                             <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">${Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellBoughtVehicle(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     )

@@ -23,6 +23,8 @@ import netrunnerGearMaster from './netrunnerMaster.reducer';
 import vehicleMaster from './vehicleMaster.reducer';
 import vehicleModMaster from './vehicleModMaster.reducer';
 
+import treasureMaster from './treasureMaster.reducer';
+
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
 // rootReducer is the primary reducer for our entire project
@@ -51,6 +53,7 @@ const rootReducer = combineReducers({
   netrunnerGearMaster, // master gear list - netrunner
   vehicleMaster, // master gear list - vehicles
   vehicleModMaster, // master gear list - vehicle mods
+  treasureMaster, // master gear list - special treasures
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 });

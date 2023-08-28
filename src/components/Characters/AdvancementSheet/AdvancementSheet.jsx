@@ -37,6 +37,8 @@ function AdvancementSheet() {
     const history = useHistory();
     const params = useParams();
 
+    const euroBuck = `\u20AC$`
+
     // opener for primary tabs.
     const [value, setValue] = useState(false)
     const handleChange = (event, newValue) => {
@@ -130,7 +132,7 @@ function AdvancementSheet() {
 
                         <Grid container>
                             <Grid item xs={6}><Item>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</Item></Grid>
-                            <Grid item xs={6}><Item>Cash on Hand: ${advancementDetails.bank}</Item></Grid>
+                            <Grid item xs={6}><Item>Cash on Hand: {euroBuck}{advancementDetails.bank}</Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}

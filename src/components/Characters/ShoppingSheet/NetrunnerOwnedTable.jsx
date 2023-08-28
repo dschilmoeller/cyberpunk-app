@@ -11,11 +11,14 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 export default function NetrunnerOwnedTable() {
     const dispatch = useDispatch()
     const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
     const boughtNetrunnerGear = useSelector(store => store.advancementGear.boughtNetrunnerGear)
+
+    const euroBuck = `\u20AC$`
 
     const sellOwnedGear = (item) => {
         dispatch({ type: 'SELL_OWNED_NETRUNNER_GEAR', payload: item })
@@ -147,7 +150,7 @@ export default function NetrunnerOwnedTable() {
             charNetrunnerGear[i].netrunner_bridge_id,
             charNetrunnerGear[i].netrunner_master_id,
             charNetrunnerGear[i].perception,
-            charNetrunnerGear[i].price, 
+            charNetrunnerGear[i].price,
             charNetrunnerGear[i].rez,
             charNetrunnerGear[i].slots,
             charNetrunnerGear[i].speed,
@@ -164,6 +167,11 @@ export default function NetrunnerOwnedTable() {
 
 
     return (<>
+        <Grid container>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <h1>Shop Netrunner Gear</h1>
+            </Grid>
+        </Grid>
         <h2>My Netrunner Gear</h2>
 
         <Box sx={{ width: '100%' }}>
@@ -186,7 +194,7 @@ export default function NetrunnerOwnedTable() {
                                         <TableRow hover key={row.netrunner_bridge_id}>
                                             <TableCell padding="none">{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
@@ -198,7 +206,7 @@ export default function NetrunnerOwnedTable() {
                                     <TableRow hover key={i}>
                                         <TableCell padding="none" align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>
                                     </TableRow>
                                 )

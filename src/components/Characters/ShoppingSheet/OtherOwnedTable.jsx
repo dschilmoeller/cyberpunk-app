@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 export default function OtherOwnedTable() {
     const dispatch = useDispatch()
@@ -19,6 +20,8 @@ export default function OtherOwnedTable() {
     const miscGearID = useSelector(store => store.advancementGear.miscGearID)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const euroBuck = `\u20AC$`
 
     const sellOwnedGear = (item) => {
         dispatch({ type: 'SELL_OWNED_MISC_GEAR', payload: item })
@@ -168,7 +171,11 @@ export default function OtherOwnedTable() {
 
 
     return (<>
-        <h1>Shop Other</h1>
+        <Grid container>
+                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                    <h1>Shop Other Gear</h1>
+                </Grid>
+            </Grid>
         <h2>My Other</h2>
 
         <Box sx={{ width: '100%' }}>
@@ -190,7 +197,7 @@ export default function OtherOwnedTable() {
                                     <TableRow hover key={row.char_gear_bridge_id}>
                                         <TableCell padding="none">{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
                                     </TableRow>
                                 );
@@ -200,7 +207,7 @@ export default function OtherOwnedTable() {
                                     <TableRow hover key={i}>
                                         <TableCell padding="none" align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>
                                     </TableRow>
                                 )

@@ -36,6 +36,7 @@ export default function CreationGear() {
 
     const gearbucks = useSelector(store => store.characterCreation.gearbucks)
 
+    const euroBuck = `\u20AC$`
 
     const [bank, setBank] = useState(gearbucks)
 
@@ -125,7 +126,7 @@ export default function CreationGear() {
     }
 
     return (<>
-        <h2>Cash on Hand: ${bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
+        <h2>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
         <h3>Remember: You can't take it with you. You'll have another pool of money for cyberware, also!</h3>
 
 
@@ -164,7 +165,7 @@ export default function CreationGear() {
                                 <TableCell align="left">{armor[item].name} </TableCell>
                                 <TableCell align="left">{armor[item].quality}</TableCell>
                                 <TableCell align="left">{armor[item].description}</TableCell>
-                                <TableCell align="right">${armor[item].price.toLocaleString("en-US")}</TableCell>
+                                <TableCell align="right">{euroBuck}{armor[item].price.toLocaleString("en-US")}</TableCell>
                                 <TableCell align="left"><Button onClick={() => sellArmor(armor[item].price, i)}>Return</Button></TableCell>
                             </TableRow>
                         ))}
@@ -173,7 +174,7 @@ export default function CreationGear() {
                                 <TableCell align="left">{shield[item].name} </TableCell>
                                 <TableCell align="left">{shield[item].quality}</TableCell>
                                 <TableCell align="left">{shield[item].description}</TableCell>
-                                <TableCell align="right">${shield[item].price.toLocaleString("en-US")}</TableCell>
+                                <TableCell align="right">{euroBuck}{shield[item].price.toLocaleString("en-US")}</TableCell>
                                 <TableCell align="left"><Button onClick={() => sellShield(shield[item].price, i)}>Return</Button></TableCell>
                             </TableRow>
                         ))}
@@ -201,7 +202,7 @@ export default function CreationGear() {
                                         <TableCell>{row.name} </TableCell>
                                         <TableCell align="left">{row.quality}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="left"><Button onClick={() => purchaseArmor(row.price, i)}>Purchase</Button></TableCell>
                                     </TableRow>
                                 )
@@ -214,7 +215,7 @@ export default function CreationGear() {
                                         <TableCell>{row.name} </TableCell>
                                         <TableCell align="left">{row.quality}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="left"><Button onClick={() => purchaseShield(row.price, i)}>Purchase</Button></TableCell>
                                     </TableRow>
                                 )
@@ -289,7 +290,7 @@ export default function CreationGear() {
                                         <TableCell align="center">{row.max_clip}</TableCell>
                                         <TableCell align="center">{row.hands}</TableCell>
                                         <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
                                     </TableRow>
                                 )
@@ -318,7 +319,7 @@ export default function CreationGear() {
                             <TableRow key={i}>
                                 <TableCell align="left">{miscGear[item].name} </TableCell>
                                 <TableCell align="left">{miscGear[item].description}</TableCell>
-                                <TableCell align="right">${miscGear[item].price.toLocaleString("en-US")}</TableCell>
+                                <TableCell align="right">{euroBuck}{miscGear[item].price.toLocaleString("en-US")}</TableCell>
                                 <TableCell align="left"><Button onClick={() => sellGear(miscGear[item].price, i)}>Return</Button></TableCell>
                             </TableRow>
                         ))}
@@ -342,7 +343,7 @@ export default function CreationGear() {
                             <TableRow key={row.name}>
                                 <TableCell>{row.name} </TableCell>
                                 <TableCell align="left">{row.description}</TableCell>
-                                <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                 <TableCell align="left"><Button onClick={() => purchaseGear(row.price, i)}>Purchase</Button></TableCell>
                             </TableRow>
                         ))}
@@ -437,7 +438,7 @@ export default function CreationGear() {
                                     <TableRow key={i}>
                                         <TableCell align="left">{netrunnerGear[item].name} </TableCell>
                                         <TableCell align="left">{netrunnerGear[item].description}</TableCell>
-                                        <TableCell align="center">${netrunnerGear[item].price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{netrunnerGear[item].price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center">{netrunnerGear[item].slots}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellNetrunnerGear(netrunnerGear[item].price, i)}>Return</Button></TableCell>
                                     </TableRow>
@@ -480,7 +481,7 @@ export default function CreationGear() {
                                         <TableRow key={row.name}>
                                             <TableCell>{row.name} </TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
-                                            <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                             {netrunnerValue === 'software' ? (
                                                 <>
                                                     <TableCell align='center'>{row.attack}</TableCell>

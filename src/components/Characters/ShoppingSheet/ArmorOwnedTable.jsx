@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 export default function ArmorOwnedTable() {
     const dispatch = useDispatch()
@@ -24,6 +25,8 @@ export default function ArmorOwnedTable() {
     const shieldID = useSelector(store => store.advancementGear.shieldID)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+
+    const euroBuck = `\u20AC$`
 
     const sellOwnedArmor = (item) => {
         dispatch({ type: 'SELL_OWNED_ARMOR', payload: item })
@@ -182,20 +185,24 @@ export default function ArmorOwnedTable() {
 
     const charShieldRows = []
     for (let i = 0; i < charShield.length; i++) {
-        charShieldRows.push(createCharShieldData(charShield[i].armor_mod_1, charShield[i].char_id, charShield[i].description, 
-            charShield[i].equipped, charShield[i].name, charShield[i].price, charShield[i].quality, charShield[i].shield_bridge_id, 
+        charShieldRows.push(createCharShieldData(charShield[i].armor_mod_1, charShield[i].char_id, charShield[i].description,
+            charShield[i].equipped, charShield[i].name, charShield[i].price, charShield[i].quality, charShield[i].shield_bridge_id,
             charShield[i].shield_id, charShield[i].shield_master_id))
     }
 
     const sortedCharShieldRows = React.useMemo(
-        () => 
+        () =>
             stableSort(charShieldRows, getComparator(order, orderBy)),
-            [order, orderBy, charShieldRows],
+        [order, orderBy, charShieldRows],
     );
 
     return (
         <>
-            <h1>Shop Armor</h1>
+            <Grid container>
+                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                    <h1>Shop Armor</h1>
+                </Grid>
+            </Grid>
             <h2>My Armor</h2>
 
             <Box sx={{ width: '100%' }}>
@@ -219,7 +226,7 @@ export default function ArmorOwnedTable() {
                                                 <TableCell padding="none">{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align="center"><Button onClick={() => sellOwnedArmor(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
@@ -231,7 +238,7 @@ export default function ArmorOwnedTable() {
                                             <TableCell padding="none" align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellBoughtArmor(item)}>Sell</Button></TableCell>
                                         </TableRow>
                                     )
@@ -243,7 +250,7 @@ export default function ArmorOwnedTable() {
                                                 <TableCell padding="none">{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">${Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align="center"><Button onClick={() => sellOwnedShield(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
@@ -255,7 +262,7 @@ export default function ArmorOwnedTable() {
                                             <TableCell padding="none" align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">${Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellBoughtShield(item)}>Sell</Button></TableCell>
                                         </TableRow>
                                     )

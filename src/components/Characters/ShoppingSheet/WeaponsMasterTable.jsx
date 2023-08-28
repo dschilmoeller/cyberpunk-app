@@ -28,6 +28,8 @@ export default function WeaponsMasterTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const euroBuck = `\u20AC$`
+
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -269,7 +271,7 @@ export default function WeaponsMasterTable() {
                                         <TableCell align="center">{row.max_clip}</TableCell>
                                         <TableCell align="center">{row.hands}</TableCell>
                                         <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );

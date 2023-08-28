@@ -148,6 +148,8 @@ export default function TestTable() {
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+    const euroBuck = `\u20AC$`
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('price');
     const [dense, setDense] = React.useState(true);
@@ -284,7 +286,7 @@ export default function TestTable() {
                                         <TableCell align="center">{row.max_clip}</TableCell>
                                         <TableCell align="center">{row.hands}</TableCell>
                                         <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
-                                        <TableCell align="center">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button>Buy</Button></TableCell>
                                     </TableRow>
                                 );

@@ -17,6 +17,8 @@ export default function GameMasterLanding() {
 
     const characterList = useSelector((store) => store.characterList);
 
+    const euroBuck = `\u20AC$`
+
     useEffect(() => {
         dispatch({ type: "FETCH_GM_CHARACTERS" })
     }, [])
@@ -55,7 +57,7 @@ export default function GameMasterLanding() {
                                     <TableCell align="center">{character.reflexes + character.cyber_reflexes}</TableCell>
                                     <TableCell align="center">{40 - (character.perm_humanity_loss + character.temp_humanity_loss)}</TableCell>
                                     <TableCell align="center">{character.max_xp - character.spent_xp}</TableCell>
-                                    <TableCell align="center">${commaTizer(character.bank)}</TableCell>
+                                    <TableCell align="center">{euroBuck}{commaTizer(character.bank)}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </React.Fragment>)

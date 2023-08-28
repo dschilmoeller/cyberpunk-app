@@ -25,6 +25,8 @@ export default function GameMasterSheet() {
 
     const charDetail = useSelector(store => store.characterDetail)
 
+    const euroBuck = `\u20AC$`
+
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -190,7 +192,7 @@ export default function GameMasterSheet() {
 
         <h1>Money</h1>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
-            <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: ${charDetail.bank}</Grid>
+            <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank}</Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(10)}>Add $10 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(100)}>Add $100 </Button></Grid>

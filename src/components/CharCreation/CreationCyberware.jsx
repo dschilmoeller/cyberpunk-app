@@ -23,6 +23,8 @@ export default function CreationCyberware() {
     const [selectedList, setSelectedList] = useState('fashionware')
     const [bank, setBank] = useState(cyberbucks)
 
+    const euroBuck = `\u20AC$`
+
     const handleChange = (event, newValue) => {
         setSelectedList(newValue)
     }
@@ -58,7 +60,7 @@ export default function CreationCyberware() {
     }
 
     return (<>
-        <h2>Cash on Hand: ${bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
+        <h2>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
         <h3>Remember: You can't take it with you!</h3>
         <h3>All Cyberware must be manually equipped after character creation!</h3>
 
@@ -84,7 +86,7 @@ export default function CreationCyberware() {
                                     <TableCell align="left">{cyberware[item].description}</TableCell>
                                     <TableCell align="left">{cyberware[item].humanity_loss_min} - {cyberware[item].humanity_loss_max}</TableCell>
                                     <TableCell align="left">{cyberware[item].install_level}</TableCell>
-                                    <TableCell align="right">${cyberware[item].price.toLocaleString("en-US")}</TableCell>
+                                    <TableCell align="right">{euroBuck}{cyberware[item].price.toLocaleString("en-US")}</TableCell>
                                     <TableCell align="left"><Button onClick={() => sellCyberware(cyberware[item].price, i)}>Return</Button></TableCell>
                                 </TableRow>
                             ))}
@@ -133,7 +135,7 @@ export default function CreationCyberware() {
                                         <TableCell align="left">{row.description}</TableCell>
                                         <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
                                         <TableCell align="left">{row.install_level}</TableCell>
-                                        <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="left"><Button onClick={() => purchaseCyberware(row.price, i)}>Purchase</Button></TableCell>
                                     </TableRow>
                                 </React.Fragment>)

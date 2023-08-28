@@ -11,6 +11,7 @@ const advancementGear = (state = {
     totalShieldQuality: 0,
     totalCyberwareArmorQuality: 0,
     totalCyberwareHealthBoxesCreated: 0,
+    useNomadFreebie: false,
     boughtArmor: [],
     soldArmor: [],
     armorID: 0,
@@ -57,6 +58,7 @@ const advancementGear = (state = {
             totalShieldQuality: 0,
             totalCyberwareArmorQuality: 0,
             totalCyberwareHealthBoxesCreated: 0,
+            useNomadFreebie: false,
             boughtArmor: [],
             soldArmor: [],
             armorID: 0,
@@ -96,6 +98,11 @@ const advancementGear = (state = {
         return { ...state, netrunnerGear: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_VEHICLES') {
         return { ...state, vehicles: action.payload }
+    } else if (action.type === 'SET_NOMAD_FREEBIE') {
+        return {
+            ...state,
+            useNomadFreebie: action.payload
+        }
     }
 
     if (action.type === 'EQUIP_ARMOR') {
@@ -502,9 +509,29 @@ const advancementGear = (state = {
                     price: action.payload.item.price,
                     seats: action.payload.item.seats,
                     type: action.payload.item.type,
-                    vehicle_master_id: action.payload.item.vehicle_master_id
+                    vehicle_master_id: action.payload.item.vehicle_master_id,
+                    is_nomad_vehicle: false
                 }],
                 vehicleID: state.vehicleID + 1
+            }
+        case 'BUY_NOMAD_VEHICLE':
+            return {
+                ...state,
+                boughtVehicles: [...state.boughtVehicles,
+                {
+                    description: action.payload.item.description,
+                    health: action.payload.item.health,
+                    move: action.payload.item.move,
+                    mph: action.payload.item.mph,
+                    name: action.payload.item.name,
+                    price: 0,
+                    seats: action.payload.item.seats,
+                    type: action.payload.item.type,
+                    vehicle_master_id: action.payload.item.vehicle_master_id,
+                    is_nomad_vehicle: true
+                }],
+                vehicleID: state.vehicleID + 1,
+                useNomadFreebie: false,
             }
         case 'SELL_ADVANCEMENT_VEHICLE':
             return {
