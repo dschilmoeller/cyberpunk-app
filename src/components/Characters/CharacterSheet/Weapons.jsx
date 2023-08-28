@@ -13,7 +13,6 @@ function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
 
-// change alert to a snackbar type alert!
 function Weapons() {
     const charWeapons = useSelector((store) => store.characterWeapons)
     const charDetail = useSelector((store) => store.characterDetail)

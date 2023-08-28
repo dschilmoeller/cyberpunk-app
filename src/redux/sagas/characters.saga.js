@@ -26,6 +26,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
     const characterNetrunningGear = yield axios.get(`api/characters/fetchcharacterNetrunningGear/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_NETRUNNER_GEAR', payload: characterNetrunningGear.data })
+    const characterVehicles = yield axios.get(`api/characters/fetchcharacterVehicles/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_VEHICLES', payload: characterVehicles.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -38,6 +40,9 @@ function* saveCharacterSheet(action) {
     yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
     for (let i = 0; i < action.payload.charParams.charWeapons.length; i++) {
       yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons[i])
+    }
+    for (let i = 0; i < action.payload.charParams.charVehicles.length; i++) {
+      yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles[i])
     }
   } catch (error) {
     console.log(`Error saving Character Details`, error);

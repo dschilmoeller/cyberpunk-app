@@ -15,6 +15,7 @@ import CharacterMarkers from './CharacterMarkers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 import Weapons from './Weapons';
+import CharacterVehicles from './CharacterVehicles';
 import CharacterNetrunner from './CharacterNetrunner';
 
 import Backpack from './Backpack';
@@ -23,9 +24,7 @@ function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail);
     const charStatus = useSelector(store => store.characterStatus)
     const charWeapons = useSelector((store) => store.characterWeapons)
-    const charMiscGear = useSelector(store => store.characterMiscGear)
-
-    // console.log(`Characters:`, characterList);
+    const charVehicles = useSelector((store) => store.characterVehicles)
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -34,14 +33,14 @@ function CharacterSheet() {
     useEffect(() => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_MISC_GEAR_LIST' })
+        dispatch({ type: 'FETCH_VEHICLE_MOD_LIST'})
     }, [])
 
     const saveCharacter = (useHist) => {
-        dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons } } })
+        dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles } } })
         if (useHist === 'useHist') {
             history.push('/characterlist')
         }
-
     }
 
     const [selectedInventory, setSelectedInventory] = useState('weapons')
@@ -86,6 +85,7 @@ function CharacterSheet() {
                                 <Tab value='weapons' label='Weapons' />
                                 {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                                 <Tab value='backpack' label='Backpack' />
+                                <Tab value='vehicles' label='Garage' />
                             </Tabs>
 
                             {selectedInventory === 'weapons' ? (<>
@@ -94,12 +94,16 @@ function CharacterSheet() {
                                 </Grid>
                             </>) : <></>}
 
-                            {selectedInventory === 'netrunner' ? (<>
-                                <CharacterNetrunner />
-                            </>) : <></>}
-
                             {selectedInventory === 'backpack' ? (<>
                                 <Backpack />
+                            </>) : <></>}
+
+                            {selectedInventory === 'vehicles' ? (<>
+                                <CharacterVehicles />
+                            </>) : <></> }
+
+                            {selectedInventory === 'netrunner' ? (<>
+                                <CharacterNetrunner />
                             </>) : <></>}
 
                         </>

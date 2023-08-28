@@ -34,7 +34,7 @@ router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
-            // Crude security measure to prevent accessing unauthorized chars.
+            // Crude security measure to prevent accessing unauthorized chars. disabled for the moment.
             // if (result.rows[0].user_id === req.user.id) {
             res.send(result.rows);
             // } else {
@@ -116,9 +116,28 @@ router.get('/fetchcharacterNetrunningGear/:id', rejectUnauthenticated, (req, res
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching character netrunning gear.`);
+            console.log(`Error fetching character netrunning gear:`, err);
         })
 })
+
+router.get('/fetchcharacterVehicles/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_vehicle_bridge"
+    JOIN "vehicle_master" ON "vehicle_master"."vehicle_master_id" = "char_vehicle_bridge"."vehicle_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+    .then((result) => {
+        // result.rows.map(item => 
+        // select details for mod1
+        // change mod1 integer => retrieved details
+        // repeat for 2 - 5
+
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character vehicles:`, err);
+    })
+})
+
 // use consumable from pack:
 router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
@@ -161,6 +180,21 @@ router.put('/savecharacterweapons/:id', rejectUnauthenticated, (req, res) => {
         })
         .catch(err => {
             console.log(`Error saving weapon bridge status:`, err);
+        })
+})
+
+// save vehicle health and armor damage
+router.put('/savecharactervehicles/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_vehicle_bridge"
+    SET "current_damage" = $1, "current_armor_damage" = $2
+    WHERE "char_id" = $3`
+    const sqlParams = [req.body.current_damage, req.body.current_armor_damage, req.body.char_id]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error saving character vehicle bridge status:`, err);
         })
 })
 
@@ -332,7 +366,7 @@ router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => 
     ORDER BY "type" ASC`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
-            
+
             res.send(result.rows)
         })
         .catch(err => {

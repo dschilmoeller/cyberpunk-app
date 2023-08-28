@@ -2,8 +2,7 @@ import { useState, useEffect, Fragment } from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
-import { Button, Typography } from '@mui/material';
-import CharSheetWeaponDialog from '../../Modals/CharSheetWeaponDialog';
+import { Button} from '@mui/material';
 
 export default function CharacterNetrunner() {
 

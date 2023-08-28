@@ -9,6 +9,7 @@ import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterWeapons from './characterWeapons.reducer';
 import characterMiscGear from './characterMiscGear.reducer';
+import characterVehicles from './characterVehicles.reducer';
 import characterNetrunnerGear from './characterNetrunnerGear.reducer';
 
 import characterCreation from './characterCreation.reducer';
@@ -20,6 +21,7 @@ import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
 import netrunnerGearMaster from './netrunnerMaster.reducer';
 import vehicleMaster from './vehicleMaster.reducer';
+import vehicleModMaster from './vehicleModMaster.reducer';
 
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
@@ -45,8 +47,10 @@ const rootReducer = combineReducers({
   weaponMaster, // master gear list - weapons
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware
+  characterVehicles, // master gear list - vehicles
   netrunnerGearMaster, // master gear list - netrunner
   vehicleMaster, // master gear list - vehicles
+  vehicleModMaster, // master gear list - vehicle mods
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 });

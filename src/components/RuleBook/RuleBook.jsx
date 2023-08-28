@@ -2050,7 +2050,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Feedback - If a character is connected via interface plugs and the first third of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second track fills, they immediately suffer 4 unsoakable aggravated wounds (these can overwrite the lethal wounds). If something sufficiently catastrophic happens that fills both damage tracks in a single round, the character sufers 8 unsoakable aggravated wounds.
+              Feedback - If a character is connected via interface plugs and the first half of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second track fills, they immediately suffer 4 unsoakable aggravated wounds (these can overwrite the lethal wounds). If something sufficiently catastrophic happens that fills the damage track in a single round, the character suffers the lower of the vehicles max health or 8 unsoakable aggravated wounds.
             </Typography>
           </Grid>
         </Grid>

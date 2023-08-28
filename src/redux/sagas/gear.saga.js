@@ -59,9 +59,18 @@ function* fetchNetrunner() {
 function* fetchVehicles() {
     try {
         const vehicleList = yield axios.get('/api/gear/vehicles')
-        yield put({ type: "SET_VEHICLE_LIST", payload: vehicleList.data})
+        yield put({ type: "SET_VEHICLE_LIST", payload: vehicleList.data })
     } catch (error) {
         console.log(`Error fetching vehicle list`, error);
+    }
+}
+
+function* fetchVehicleMods() {
+    try {
+        const vehicleModList = yield axios.get('/api/gear/vehicleMods')
+        yield put({ type: "SET_VEHICLE_MOD_LIST", payload: vehicleModList.data })
+    } catch (error) {
+        console.log(`Error fetching vehicle modification list:`, error);
     }
 }
 
@@ -73,6 +82,7 @@ function* gearSaga() {
     yield takeLatest('FETCH_CYBERWARE_LIST', fetchCyberware);
     yield takeLatest('FETCH_NETRUNNER_LIST', fetchNetrunner);
     yield takeLatest('FETCH_VEHICLE_LIST', fetchVehicles);
+    yield takeLatest('FETCH_VEHICLE_MOD_LIST', fetchVehicleMods)
 }
 
 export default gearSaga;
