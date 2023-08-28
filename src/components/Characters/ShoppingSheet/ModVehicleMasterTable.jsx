@@ -11,24 +11,37 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
 
-export default function OtherOwnedTable() {
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
+export default function ModVehicleMasterTable() {
     const dispatch = useDispatch()
-    const charMiscGear = useSelector(store => store.advancementGear.gear)
-    const boughtMiscGear = useSelector(store => store.advancementGear.boughtMiscGear)
-    const miscGearID = useSelector(store => store.advancementGear.miscGearID)
+
+    const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
+    const vehicleModMaster = useSelector(store => store.vehicleModMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
+
     const euroBuck = `\u20AC$`
 
-    const sellOwnedGear = (item) => {
-        dispatch({ type: 'SELL_OWNED_MISC_GEAR', payload: item })
-    }
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
-    const sellBoughtGear = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_MISC_GEAR', payload: item })
+    const buyVehicleMod = (item) => {
+        if (charDetail.bank >= item.price) {
+            dispatch({ type: 'BUY_VEHICLE_MOD', payload: { item, vehicleModID } })
+        } else {
+            setShowSnackbar(true)
+        }
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -74,21 +87,27 @@ export default function OtherOwnedTable() {
         },
         {
             id: 'description',
-            numeric: true,
+            numeric: false,
             disablePadding: false,
             label: 'Description',
+        },
+        {
+            id: 'type',
+            numeric: false,
+            disablePadding: false,
+            label: 'Type',
         },
         {
             id: 'price',
             numeric: true,
             disablePadding: false,
-            label: 'Street Price',
+            label: 'Price',
         },
         {
-            id: 'sell',
+            id: 'buy',
             numeric: false,
             disablePadding: false,
-            label: 'Sell',
+            label: 'Buy',
         },
     ];
 
@@ -105,7 +124,7 @@ export default function OtherOwnedTable() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={headCell.numeric ? 'center' : 'left'}
+                            align={'center'}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -130,7 +149,7 @@ export default function OtherOwnedTable() {
     };
 
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('name');
+    const [orderBy, setOrderBy] = React.useState('price');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -138,40 +157,39 @@ export default function OtherOwnedTable() {
         setOrderBy(property);
     };
 
-    function createCharOtherData(char_gear_bridge_id, char_id, description, misc_gear_id, misc_gear_master_id, name, price) {
+    function createVehicleModMasterData(description, name, type, price, vehicle_mod_master_id) {
         return {
-            char_gear_bridge_id,
-            char_id,
-            description,
-            misc_gear_id,
-            misc_gear_master_id,
-            name,
-            price
+            description, name, price, type, vehicle_mod_master_id
         }
     }
 
-    const charOtherRows = []
-    for (let i = 0; i < charMiscGear.length; i++) {
-        charOtherRows.push(createCharOtherData(charMiscGear[i].char_gear_bridge_id,
-            charMiscGear[i].char_id,
-            charMiscGear[i].description,
-            charMiscGear[i].misc_gear_id,
-            charMiscGear[i].misc_gear_master_id,
-            charMiscGear[i].name,
-            charMiscGear[i].price))
+    const vehicleModMasterRows = []
+    for (let i = 0; i < vehicleModMaster.length; i++) {
+        vehicleModMasterRows.push(createVehicleModMasterData(vehicleModMaster[i].description, vehicleModMaster[i].name, vehicleModMaster[i].type, vehicleModMaster[i].price, vehicleModMaster[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes to charOtherRows in case of sales.
-    const sortedCharOtherRows = React.useMemo(
+    // sort and monitor changes to charArmorRows in case of sales.
+    const sortedVehicleModMasterRows = React.useMemo(
         () =>
-            stableSort(charOtherRows, getComparator(order, orderBy)),
-        [order, orderBy, charOtherRows],
+            stableSort(vehicleModMasterRows, getComparator(order, orderBy)),
+        [order, orderBy],
     );
 
-
-
     return (<>
-        <h2>My Other</h2>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Transaction canceled due to lack of funds!
+            </Alert>
+        </Snackbar >
+
+        <h2>Buy Vehicle Mod</h2>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -187,30 +205,24 @@ export default function OtherOwnedTable() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedCharOtherRows.map((row) => {
-                                return (
-                                    <TableRow hover key={row.char_gear_bridge_id}>
-                                        <TableCell padding="none">{row.name}</TableCell>
-                                        <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
-                                    </TableRow>
-                                );
+                            {sortedVehicleModMasterRows.map((row) => {
+                                if (row.type != 'All')
+                                    return (
+                                        <TableRow hover key={row.vehicle_mod_master_id}>
+                                            <TableCell padding='normal'>{row.name}</TableCell>
+                                            <TableCell align="center">{row.description}</TableCell>
+                                            <TableCell align="center">{row.type}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center"><Button onClick={() => buyVehicleMod(row)}>Buy</Button></TableCell>
+                                        </TableRow>
+                                    );
                             })}
-                            {boughtMiscGear.map((item, i) => {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>
-                                    </TableRow>
-                                )
-                            })}
+
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
+
     </>)
 }

@@ -198,11 +198,7 @@ export default function ArmorOwnedTable() {
 
     return (
         <>
-            <Grid container>
-                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                    <h1>Shop Armor</h1>
-                </Grid>
-            </Grid>
+            
             <h2>My Armor</h2>
 
             <Box sx={{ width: '100%' }}>

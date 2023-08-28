@@ -12,9 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
+
+import ModVehicleMasterTable from './ModVehicleMasterTable'
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
@@ -29,6 +34,24 @@ export default function VehicleMasterTable() {
     const charDetail = useSelector((store) => store.advancementDetail)
     const useNomadFreebie = useSelector(store => store.advancementGear.useNomadFreebie)
 
+    const [nomadDiscount, setNomadDiscount] = React.useState(0)
+
+    const calculateNomadDiscount = () => {
+        if (charDetail.nomad > 0 && charDetail.nomad < 5) {
+            setNomadDiscount(charDetail.nomad * 10000)
+        } else if (charDetail.nomad > 4 && charDetail.nomad < 7) {
+            setNomadDiscount(charDetail.nomad * 15000)
+        } else if (charDetail.nomad > 6 && charDetail.nomad < 10) {
+            setNomadDiscount(charDetail.nomad * 20000)
+        } else {
+            setNomadDiscount(charDetail.nomad * 40000)
+        }
+    }
+
+    React.useEffect(() => {
+        calculateNomadDiscount()
+    }, [])
+
     const euroBuck = `\u20AC$`
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
@@ -37,12 +60,11 @@ export default function VehicleMasterTable() {
     });
 
     const buyVehicle = (item) => {
-        if (charDetail.bank >= item.price) {
+        if (charDetail.bank >= item.price && useNomadFreebie === false) {
             dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
         } else if (useNomadFreebie === true) {
             dispatch({ type: 'BUY_NOMAD_VEHICLE', payload: { item, vehicleID } })
-        }
-        else {
+        } else {
             setShowSnackbar(true)
         }
     }
@@ -195,12 +217,18 @@ export default function VehicleMasterTable() {
         vehicleMasterRows.push(createVehicleMasterData(vehicleMaster[i].description, vehicleMaster[i].health, vehicleMaster[i].move, vehicleMaster[i].mph, vehicleMaster[i].name, vehicleMaster[i].price, vehicleMaster[i].seats, vehicleMaster[i].type, vehicleMaster[i].vehicle_master_id))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
+    // sort and monitor changes to charvehiclerows in case of sales.
     const sortedVehicleMasterRows = React.useMemo(
         () =>
             stableSort(vehicleMasterRows, getComparator(order, orderBy)),
         [order, orderBy],
     );
+
+    // handle selection between vehicles and mods
+    const [selectedShopping, setSelectedShopping] = React.useState('vehicles')
+    const handleShoppingSelect = (event, newValue) => {
+        setSelectedShopping(newValue)
+    }
 
     return (<>
 
@@ -216,46 +244,83 @@ export default function VehicleMasterTable() {
             </Alert>
         </Snackbar >
 
-        <h2>Buy Vehicle</h2>
+        <Tabs
+            value={selectedShopping}
+            onChange={handleShoppingSelect}
+            indicatorColor='primary'
+            textColor='secondary'>
+            <Tab value='vehicles' label='Vehicles' />
+            <Tab value='mods' label='Vehicle Mods' />
+        </Tabs>
 
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                        aria-labelledby="tableTitle"
-                        size={'small'}
-                    >
-                        <EnhancedTableHead
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                            {sortedVehicleMasterRows.map((row) => {
-                                return (
-                                    <TableRow hover key={row.vehicle_master_id}>
-                                        <TableCell padding='normal'>{row.name}</TableCell>
-                                        <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{row.health}</TableCell>
-                                        <TableCell align="center">{row.seats}</TableCell>
-                                        <TableCell align="center">{row.move}</TableCell>
-                                        <TableCell align="center">{row.mph}</TableCell>
-                                        <TableCell align="center">{row.type}</TableCell>
-                                        {useNomadFreebie ? (
-                                            <TableCell align="center">{euroBuck}0</TableCell>
-                                        ) : <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>}
+        {selectedShopping === 'vehicles' ? (
+            <>
+                <h2>Buy Vehicle</h2>
+                <Box sx={{ width: '100%' }}>
+                    <Paper sx={{ width: '100%', mb: 2 }}>
+                        <TableContainer>
+                            <Table
+                                sx={{ minWidth: 750 }}
+                                aria-labelledby="tableTitle"
+                                size={'small'}
+                            >
+                                <EnhancedTableHead
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                />
+                                <TableBody>
+                                    {useNomadFreebie === true ? (<>
+                                        {sortedVehicleMasterRows.map((row) => {
+                                            if (useNomadFreebie === true && row.price < nomadDiscount) {
+                                                return (
+                                                    <TableRow hover key={row.vehicle_master_id}>
+                                                        <TableCell padding='normal'>{row.name}</TableCell>
+                                                        <TableCell align="center">{row.description}</TableCell>
+                                                        <TableCell align="center">{row.health}</TableCell>
+                                                        <TableCell align="center">{row.seats}</TableCell>
+                                                        <TableCell align="center">{row.move}</TableCell>
+                                                        <TableCell align="center">{row.mph}</TableCell>
+                                                        <TableCell align="center">{row.type}</TableCell>
+                                                        <TableCell align="center">{euroBuck}0</TableCell>
+                                                        <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
+                                                    </TableRow>
+                                                );
+                                            } else {
+                                                return (<React.Fragment key={row.vehicle_master_id}></React.Fragment>)
+                                            }
+                                        })}
 
-                                        <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                                    </>) : <></>}
 
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Paper>
-        </Box>
+                                    {useNomadFreebie === false ? (<>
+                                        {sortedVehicleMasterRows.map((row) => {
 
+                                            return (
+                                                <TableRow hover key={row.vehicle_master_id}>
+                                                    <TableCell padding='normal'>{row.name}</TableCell>
+                                                    <TableCell align="center">{row.description}</TableCell>
+                                                    <TableCell align="center">{row.health}</TableCell>
+                                                    <TableCell align="center">{row.seats}</TableCell>
+                                                    <TableCell align="center">{row.move}</TableCell>
+                                                    <TableCell align="center">{row.mph}</TableCell>
+                                                    <TableCell align="center">{row.type}</TableCell>
+                                                    <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                                    <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
+                                                </TableRow>
+                                            )
+                                        })}
+                                    </>) : <></>}
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                </Box>
+            </>) : <></>}
+
+        {selectedShopping === 'mods' ?
+            <ModVehicleMasterTable />
+            : <></>}
     </>)
 }

@@ -374,6 +374,20 @@ router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => 
         })
 })
 
+router.get('/fetchAdvancementVehicleMods/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
+    JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows)
+        })
+        .catch(err => {
+            console.log(`Error fetching advancement character vehicles:`, err);
+        })
+})
+
+
 // advancement save route
 // big one is to update the character stats, skills, and such.
 router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) => {
@@ -589,7 +603,6 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
                 }
             }
 
-            // loop through boughtArmor array, perform post on each.
             const boughtVehicles = req.body.gear.boughtVehicles
             if (boughtVehicles.length > 0) {
                 const boughtVehiclesSqlText = `INSERT INTO "char_vehicle_bridge" ("char_id", "vehicle_id")
@@ -597,6 +610,25 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
                 for (let i = 0; i < boughtVehicles.length; i++) {
                     const boughtVehiclesParmas = [req.body.char.id, boughtVehicles[i].vehicle_master_id]
                     pool.query(boughtVehiclesSqlText, boughtVehiclesParmas)
+                }
+            }
+
+            const soldVehicleMods = req.body.gear.soldVehicleMods
+            if (soldVehicleMods.length > 0) {
+                const soldVehicleModSqlText = `DELETE FROM "char_owned_vehicle_mods" WHERE "char_owned_vehicle_mods_id" = $1`
+                for (let i = 0; i < soldVehicleMods.length; i++) {
+                    const soldVehicleModsParams = [soldVehicleMods[i].char_owned_vehicle_mods_id]
+                    pool.query(soldVehicleModSqlText, soldVehicleModsParams)
+                }
+            }
+
+            const boughtVehicleMods = req.body.gear.boughtVehicleMods
+            if (boughtVehicleMods.length > 0) {
+                const boughtVehicleModsSqlText = `INSERT INTO "char_owned_vehicle_mods" ("char_id", "vehicle_mod_master_id")
+            VALUES ($1, $2);`
+                for (let i = 0; i < boughtVehicleMods.length; i++) {
+                    const boughtVehicleModsParams = [req.body.char.id, boughtVehicleMods[i].vehicle_mod_master_id]
+                    pool.query(boughtVehicleModsSqlText, boughtVehicleModsParams)
                 }
             }
 

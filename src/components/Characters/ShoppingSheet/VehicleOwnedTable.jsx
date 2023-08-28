@@ -14,12 +14,16 @@ import { Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Switch from '@mui/material/Switch';
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
+import ModVehicleOwnedTable from './ModVehicleOwnedTable';
+
 export default function VehicleOwnedTable() {
     const dispatch = useDispatch()
 
     const charVehicles = useSelector(store => store.advancementGear.vehicles)
     const boughtVehicles = useSelector(store => store.advancementGear.boughtVehicles)
-    const vehicleID = useSelector(store => store.advancementGear.vehicleID)
 
     const nomadFreebieStatus = useSelector(store => store.advancementGear.useNomadFreebie)
 
@@ -195,16 +199,18 @@ export default function VehicleOwnedTable() {
         [order, orderBy, charVehicleRows],
     );
 
-    const [useNomadFreebie, setUseNomadFreebie] = React.useState(nomadFreebieStatus);
-
     const handleNomadSelection = (event) => {
         dispatch({ type: 'SET_NOMAD_FREEBIE', payload: event.target.checked })
     };
 
+    // handle selection between vehicles and mods
+    const [selectedShopping, setSelectedShopping] = React.useState('vehicles')
+    const handleShoppingSelect = (event, newValue) => {
+        setSelectedShopping(newValue)
+    }
+
     return (
         <>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'} alignItems={'center'}><h1>Shop Vehicles</h1></Grid>
-
             {charDetail.nomad > 0 ?
                 <Grid container display={'flex'} justifyContent={'center'} alignItems={'center'}>
                     <Grid item xs={6} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -226,55 +232,73 @@ export default function VehicleOwnedTable() {
                 : <></>}
             <Grid item xs={12}><h2>My Vehicles</h2></Grid>
 
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                    <TableContainer>
-                        <Table
-                            sx={{ minWidth: 750 }}
-                            aria-labelledby="tableTitle"
-                            size={'small'}
-                        >
-                            <EnhancedTableHead
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={handleRequestSort}
-                            />
-                            <TableBody>
-                                {sortedCharVehicleRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.vehicle_bridge_id}>
-                                            <TableCell padding='normal'>{row.name}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{row.health}</TableCell>
-                                            <TableCell align="center">{row.seats}</TableCell>
-                                            <TableCell align="center">{row.move}</TableCell>
-                                            <TableCell align="center">{row.mph}</TableCell>
-                                            <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                                {boughtVehicles.map((row, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell padding='normal'>{row.name}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{row.health}</TableCell>
-                                            <TableCell align="center">{row.seats}</TableCell>
-                                            <TableCell align="center">{row.move}</TableCell>
-                                            <TableCell align="center">{row.mph}</TableCell>
-                                            <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtVehicle(row)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Paper>
-            </Box>
+            <Tabs
+                value={selectedShopping}
+                onChange={handleShoppingSelect}
+                indicatorColor='primary'
+                textColor='secondary'>
+                <Tab value='vehicles' label='Vehicles' />
+                <Tab value='mods' label='Vehicle Mods' />
+            </Tabs>
+
+            {selectedShopping === 'vehicles' ? (<>
+                <Box sx={{ width: '100%' }}>
+                    <Paper sx={{ width: '100%', mb: 2 }}>
+                        <TableContainer>
+                            <Table
+                                sx={{ minWidth: 750 }}
+                                aria-labelledby="tableTitle"
+                                size={'small'}
+                            >
+                                <EnhancedTableHead
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                />
+                                <TableBody>
+                                    {sortedCharVehicleRows.map((row) => {
+                                        return (
+                                            <TableRow hover key={row.vehicle_bridge_id}>
+                                                <TableCell padding='normal'>{row.name}</TableCell>
+                                                <TableCell align="center">{row.description}</TableCell>
+                                                <TableCell align="center">{row.health}</TableCell>
+                                                <TableCell align="center">{row.seats}</TableCell>
+                                                <TableCell align="center">{row.move}</TableCell>
+                                                <TableCell align="center">{row.mph}</TableCell>
+                                                <TableCell align="center">{row.type}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                    {boughtVehicles.map((row, i) => {
+                                        return (
+                                            <TableRow hover key={i}>
+                                                <TableCell padding='normal'>{row.name}</TableCell>
+                                                <TableCell align="center">{row.description}</TableCell>
+                                                <TableCell align="center">{row.health}</TableCell>
+                                                <TableCell align="center">{row.seats}</TableCell>
+                                                <TableCell align="center">{row.move}</TableCell>
+                                                <TableCell align="center">{row.mph}</TableCell>
+                                                <TableCell align="center">{row.type}</TableCell>
+                                                {row.is_nomad_vehicle === true ? (
+                                                    <TableCell align="center">{euroBuck}0</TableCell>
+                                                    ) : <>
+                                                    <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                                </>}
+                                                
+                                                <TableCell align="center"><Button onClick={() => sellBoughtVehicle(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                </Box>
+            </>) : <></>}
+
+            {selectedShopping === 'mods' ? <ModVehicleOwnedTable /> : <></>}
         </>
     )
 }

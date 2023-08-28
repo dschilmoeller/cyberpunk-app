@@ -41,6 +41,7 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_NETRUNNER_LIST" })
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
         dispatch({ type: "FETCH_VEHICLE_LIST" })
+        dispatch({ type: "FETCH_VEHICLE_MOD_LIST" })
     }, [])
 
     const fetchCharacterDetail = () => {

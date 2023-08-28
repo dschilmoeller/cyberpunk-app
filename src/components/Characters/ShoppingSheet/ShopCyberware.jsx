@@ -74,12 +74,6 @@ export default function ShopCyberware() {
             </Alert>
         </Snackbar >
 
-        <Grid container>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <h1>Shop Cyberware</h1>
-            </Grid>
-        </Grid>
-
         <Tabs
             value={selectedList}
             onChange={handleTabChange}

@@ -131,6 +131,10 @@ function* fetchAdvancementDetails(action) {
 
     const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_VEHICLES', payload: advancementVehicles.data })
+
+    const advancementVehicleMods = yield axios.get(`/api/characters/fetchAdvancementVehicleMods/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_VEHICLE_MODS', payload: advancementVehicleMods.data })
+    
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

@@ -220,11 +220,6 @@ export default function WeaponsOwnedTable() {
 
 
     return (<>
-        <Grid container>
-                <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                    <h1>Shop Weapons</h1>
-                </Grid>
-            </Grid>
         <h2>My Weapons</h2>
 
         <Box sx={{ width: '100%' }}>

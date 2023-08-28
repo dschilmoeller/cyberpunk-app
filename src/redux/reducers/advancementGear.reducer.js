@@ -6,6 +6,7 @@ const advancementGear = (state = {
     cyberware: [],
     netrunnerGear: [],
     vehicles: [],
+    vehicleMods: [],
     cyberwareSlots: {},
     totalArmorQuality: 0,
     totalShieldQuality: 0,
@@ -30,6 +31,9 @@ const advancementGear = (state = {
     boughtVehicles: [],
     soldVehicles: [],
     vehicleID: 0,
+    boughtVehicleMods: [],
+    soldVehicleMods: [],
+    vehicleModID: 0,
     boughtCyberware: [],
     soldCyberware: [],
     cyberwareID: 0
@@ -53,6 +57,7 @@ const advancementGear = (state = {
             cyberware: [],
             netrunnerGear: [],
             vehicles: [],
+            vehicleMods: [],
             cyberwareSlots: {},
             totalArmorQuality: 0,
             totalShieldQuality: 0,
@@ -77,6 +82,9 @@ const advancementGear = (state = {
             boughtVehicles: [],
             soldVehicles: [],
             vehicleID: 0,
+            boughtVehicleMods: [],
+            soldVehicleMods: [],
+            vehicleModID: 0,
             boughtCyberware: [],
             soldCyberware: [],
             cyberwareID: 0
@@ -98,6 +106,8 @@ const advancementGear = (state = {
         return { ...state, netrunnerGear: action.payload }
     } else if (action.type === 'SET_ADVANCEMENT_VEHICLES') {
         return { ...state, vehicles: action.payload }
+    } else if (action.type === 'SET_ADVANCEMENT_VEHICLE_MODS') {
+        return { ...state, vehicleMods: action.payload }
     } else if (action.type === 'SET_NOMAD_FREEBIE') {
         return {
             ...state,
@@ -510,7 +520,8 @@ const advancementGear = (state = {
                     seats: action.payload.item.seats,
                     type: action.payload.item.type,
                     vehicle_master_id: action.payload.item.vehicle_master_id,
-                    is_nomad_vehicle: false
+                    is_nomad_vehicle: false,
+                    vehicleID: action.payload.vehicleID
                 }],
                 vehicleID: state.vehicleID + 1
             }
@@ -528,7 +539,8 @@ const advancementGear = (state = {
                     seats: action.payload.item.seats,
                     type: action.payload.item.type,
                     vehicle_master_id: action.payload.item.vehicle_master_id,
-                    is_nomad_vehicle: true
+                    is_nomad_vehicle: true,
+                    vehicleID: action.payload.vehicleID
                 }],
                 vehicleID: state.vehicleID + 1,
                 useNomadFreebie: false,
@@ -543,6 +555,34 @@ const advancementGear = (state = {
                 ...state,
                 vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
                 soldVehicles: [...state.soldVehicles, action.payload]
+            }
+        case 'BUY_VEHICLE_MOD':
+            return {
+                ...state,
+                boughtVehicleMods: [...state.boughtVehicleMods,
+                {
+                    char_id: action.payload.item.char_id,
+                    char_owned_vehicle_mods_id: action.payload.item.char_owned_vehicle_mods_id,
+                    description: action.payload.item.description,
+                    equipped: action.payload.item.equipped,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    type: action.payload.item.type,
+                    vehicle_mod_master_id: action.payload.item.vehicle_mod_master_id,
+                    vehicleModID: action.payload.vehicleModID
+                }],
+                vehicleModID: state.vehicleModID + 1
+            }
+        case 'SELL_ADVANCEMENT_VEHICLE_MOD':
+            return {
+                ...state,
+                boughtVehicleMods: state.boughtVehicleMods.filter(mod => mod.vehicleModID !== action.payload.vehicleModID),
+            }
+        case 'SELL_OWNED_VEHICLE_MOD':
+            return {
+                ...state,
+                vehicleMods: state.vehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.char_owned_vehicle_mods_id),
+                soldVehicleMods: [...state.soldVehicleMods, action.payload]
             }
     }
     return state
