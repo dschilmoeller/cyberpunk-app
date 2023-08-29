@@ -23,6 +23,7 @@ export default function AdvancementSpecial() {
 
     const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(0)
     const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(0)
+    const [availableNomadVehicles, setAvailableNomadVehicles] = useState(0)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -83,6 +84,10 @@ export default function AdvancementSpecial() {
             if (roleName === 'maker') {
                 setAvailableMakerSkillPoints(availableMakerSkillPoints + 2)
             }
+            if (roleName === 'nomad') {
+                setAvailableNomadVehicles(availableNomadVehicles + 1)
+                dispatch({ type: 'INCREASE_NOMAD_VEHICLE_SLOTS' })
+            }
         } else {
             setShowSnackbar(true)
         }
@@ -114,7 +119,7 @@ export default function AdvancementSpecial() {
         </Snackbar >
 
         <h1>Role Abilities</h1>
-        <Grid container>
+        <Grid container spacing={1}>
             <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
             </Grid>
@@ -170,6 +175,16 @@ export default function AdvancementSpecial() {
             }} onClick={() => roleSpendExp(advancementDetails.nomad, 'nomad')}>Increase: {roleExpReturn(advancementDetails.nomad)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
+                <Item>Nomad Vehicles Available:</Item>
+            </Grid>
+            <Grid item xs={6}>
+                <Item>{roleDotReturn(advancementDetails.nomad_vehicle_slots)}</Item>
+            </Grid>
+            <Grid item xs={3}>
+                <Item>Increase Nomad Role</Item>
+            </Grid>
+
+            <Grid item xs={3}>
                 <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
             </Grid>
             <Grid item xs={6}>
@@ -183,12 +198,13 @@ export default function AdvancementSpecial() {
             }} onClick={() => roleSpendExp(advancementDetails.media, 'media')}>Increase: {roleExpReturn(advancementDetails.media)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
+                <Item sx={{ backgroundColor: '#074287' }}><RoleAbilitiesDialog prop={'Medtech'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#074287' }}>{roleDotReturn(advancementDetails.medtech)}</Item>
             </Grid>
             <Grid item xs={3}>{advancementDetails.medtech < 10 ? <Item sx={{
+                backgroundColor: '#074287',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
@@ -196,51 +212,55 @@ export default function AdvancementSpecial() {
             }} onClick={() => roleSpendExp(advancementDetails.medtech, 'medtech')}>Increase: {roleExpReturn(advancementDetails.medtech)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
+                <Item sx={{ backgroundColor: '#074287' }}><RoleAbilitiesDialog prop={'Surgery'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_surgery)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_surgery < 5 ? <Item sx={{
+                backgroundColor: '#074287',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.med_surgery, 'med_surgery')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_surgery, 'med_surgery')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item sx={{ backgroundColor: '#074287' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
+                <Item sx={{ backgroundColor: '#074287' }}><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_pharma)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_pharma < 5 ? <Item sx={{
+                backgroundColor: '#074287',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.med_pharma, 'med_pharma')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_pharma, 'med_pharma')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item sx={{ backgroundColor: '#074287' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
+                <Item sx={{ backgroundColor: '#074287' }}><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#074287' }}>{dotReturn(advancementDetails.med_cryo)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMedSkillPoints > 0 && advancementDetails.med_cryo < 5 ? <Item sx={{
+                backgroundColor: '#074287',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')}>Spend Role Points ({availableMedSkillPoints})</Item> : <Item sx={{ backgroundColor: '#074287' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
+                <Item sx={{ backgroundColor: '#02520d' }}><RoleAbilitiesDialog prop={'Maker'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker)}</Item>
             </Grid>
             <Grid item xs={3}>{advancementDetails.maker < 10 ? <Item sx={{
+                backgroundColor: '#02520d',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
@@ -248,20 +268,21 @@ export default function AdvancementSpecial() {
             }} onClick={() => roleSpendExp(advancementDetails.maker, 'maker')}>Increase: {roleExpReturn(advancementDetails.maker)}</Item> : <Item>Maxed</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
+                <Item sx={{ backgroundColor: '#02520d' }}><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_field)}</Item>
             </Grid>
             <Grid item xs={3}>{availableMakerSkillPoints > 0 && advancementDetails.maker_field < 10 ? <Item sx={{
+                backgroundColor: '#02520d',
                 cursor: 'pointer', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.maker_field, 'maker_field')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_field, 'maker_field')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item sx={{ backgroundColor: '#02520d' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
+                <Item sx={{ backgroundColor: '#02520d' }}><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_upgrade)}</Item>
@@ -271,10 +292,10 @@ export default function AdvancementSpecial() {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.maker_upgrade, 'maker_upgrade')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_upgrade, 'maker_upgrade')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item sx={{ backgroundColor: '#02520d' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
+                <Item sx={{ backgroundColor: '#02520d' }}><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_fab)}</Item>
@@ -284,10 +305,10 @@ export default function AdvancementSpecial() {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item sx={{ backgroundColor: '#02520d' }}>No Points to Spend</Item>}</Grid>
 
             <Grid item xs={3}>
-                <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
+                <Item sx={{ backgroundColor: '#02520d' }}><RoleAbilitiesDialog prop={'Invention'} /></Item>
             </Grid>
             <Grid item xs={6}>
                 <Item sx={{ backgroundColor: '#02520d' }}>{roleDotReturn(advancementDetails.maker_invent)}</Item>
@@ -297,7 +318,7 @@ export default function AdvancementSpecial() {
                     backgroundColor: '#fff',
                     color: '#000',
                 }
-            }} onClick={() => increaseRoleSkill(advancementDetails.maker_invent, 'maker_invent')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item>No Points to Spend</Item>}</Grid>
+            }} onClick={() => increaseRoleSkill(advancementDetails.maker_invent, 'maker_invent')}>Spend Role Points ({availableMakerSkillPoints})</Item> : <Item sx={{ backgroundColor: '#02520d' }}>No Points to Spend</Item>}</Grid>
         </Grid>
     </>)
 }

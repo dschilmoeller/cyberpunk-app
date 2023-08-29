@@ -272,7 +272,7 @@ export default function VehicleMasterTable() {
                                 <TableBody>
                                     {useNomadFreebie === true ? (<>
                                         {sortedVehicleMasterRows.map((row) => {
-                                            if (useNomadFreebie === true && row.price < nomadDiscount) {
+                                            if (useNomadFreebie === true && row.price <= nomadDiscount) {
                                                 return (
                                                     <TableRow hover key={row.vehicle_master_id}>
                                                         <TableCell padding='normal'>{row.name}</TableCell>

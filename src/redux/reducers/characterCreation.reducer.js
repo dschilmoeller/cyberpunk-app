@@ -13,7 +13,7 @@ const characterCreation = (state = {
     rockerboy: 0, solo: 0, netrunner: 0, nomad: 0, media: 0, medtech: 0, maker: 0,
     medSurgery: 0, medPharma: 0, medCryo: 0, isParamedical: false, paramedic: 0,
     makerField: 0, makerUpgrade: 0, makerFab: 0, makerInvent: 0,
-    availableMedSkillPoints: 0, availableMakerSkillPoints: 0,
+    availableMedSkillPoints: 0, availableMakerSkillPoints: 0, availableNomadVehicles: 0,
 
 
     armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
@@ -109,7 +109,8 @@ const characterCreation = (state = {
             makerInvent: ap.makerInvent,
             roleSelection: ap.roleSelection,
             availableMakerSkillPoints: ap.availableMakerSkillPoints,
-            availableMedSkillPoints: ap.availableMedSkillPoints
+            availableMedSkillPoints: ap.availableMedSkillPoints,
+            availableNomadVehicles: ap.availableNomadVehicles
         }
     }
     if (action.type === "CREATION_BUY_ARMOR") {

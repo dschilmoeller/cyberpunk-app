@@ -54,6 +54,8 @@ function CreationRoleAbilities() {
     const [makerUpgrade, setMakerUpgrade] = useState(charDetail.makerUpgrade);
     const [makerFab, setMakerFab] = useState(charDetail.makerFab);
     const [makerInvent, setMakerInvent] = useState(charDetail.makerInvent);
+    // Nomad - free vehicles
+    const [availableNomadVehicles, setAvailableNomadVehicles] = useState(0)
 
     // each selection resets all other role selections and zeroes out the special medtech/maker skills.
     // as well as changes isParamedical to false if not selecting medtech.
@@ -71,6 +73,7 @@ function CreationRoleAbilities() {
                 setMaker(0)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(0)
                 break;
             case 'Solo':
                 setRoleSelection('Solo')
@@ -84,6 +87,7 @@ function CreationRoleAbilities() {
                 setMaker(0)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(0)
                 break;
             case 'Netrunner':
                 setRoleSelection('Netrunner')
@@ -97,6 +101,7 @@ function CreationRoleAbilities() {
                 setMaker(0)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(0)
                 break;
             case 'Nomad':
                 setRoleSelection('Nomad')
@@ -110,6 +115,7 @@ function CreationRoleAbilities() {
                 setMaker(0)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(2)
                 break;
             case 'Media':
                 setRoleSelection('Media')
@@ -123,6 +129,7 @@ function CreationRoleAbilities() {
                 setMaker(0)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(0)
                 break;
             case 'Medtech':
                 setRoleSelection('Medtech')
@@ -137,6 +144,7 @@ function CreationRoleAbilities() {
                 setAvailableMedSkillPoints(2)
                 setIsParamedical(true)
                 setParamedic(charDetail.firstAid)
+                setAvailableNomadVehicles(0)
                 break;
             case 'Maker':
                 setRoleSelection('Maker')
@@ -151,6 +159,7 @@ function CreationRoleAbilities() {
                 setAvailableMakerSkillPoints(4)
                 setIsParamedical(false)
                 setParamedic(0)
+                setAvailableNomadVehicles(0)
                 break;
         }
     }
@@ -171,6 +180,7 @@ function CreationRoleAbilities() {
         setMakerUpgrade(0)
         setMakerFab(0)
         setMakerInvent(0)
+        setAvailableNomadVehicles(0)
     }
 
     const dotReturn = (skill) => {
@@ -194,6 +204,7 @@ function CreationRoleAbilities() {
         setMakerField(0)
         setMakerInvent(0)
         setMakerUpgrade(0)
+        setAvailableNomadVehicles(0)
     }
 
     const selectMedtechRoleSkill = (roleSkillSelection) => {
@@ -259,7 +270,8 @@ function CreationRoleAbilities() {
             makerInvent,
             roleSelection,
             availableMakerSkillPoints,
-            availableMedSkillPoints
+            availableMedSkillPoints,
+            availableNomadVehicles
         }
         if (roleSelection === 'Rockerboy' || roleSelection === 'Solo' || roleSelection === 'Netrunner' || roleSelection === 'Nomad' || roleSelection === 'Media'
             || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)

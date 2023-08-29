@@ -32,6 +32,12 @@ const advancementDetail = (state = {}, action) => {
             [action.payload.skillName]: (action.payload.currentSkillRank + 1)
         }
     }
+    if (action.type === 'INCREASE_NOMAD_VEHICLE_SLOTS') {
+        return {
+            ...state,
+            nomad_vehicle_slots: state.nomad_vehicle_slots + 1
+        }
+    }
     if (action.type === 'INCREASE_LUCK') {
         return {
             ...state,

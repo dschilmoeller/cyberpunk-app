@@ -676,7 +676,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
 		"rockerboy","solo","netrunner","nomad","media","medtech","med_surgery","med_pharma","med_cryo",
 		"maker","maker_field","maker_upgrade","maker_fab","maker_invent",
 		"perm_humanity_loss","max_luck","max_xp","spent_xp","bank",
-        "cyberdeck_slots"
+        "cyberdeck_slots", "nomad_vehicle_slots"
 	)
     VALUES ($1, $2, $3, $4, $5, 
         $6, $7, $8, $9, $10, $11, $12, $13, $14, 
@@ -686,7 +686,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
         $46, $47, $48, $49, $50, $51, $52, $53, $54, 
         $55, $56, $57, $58, $59, 
         $60, $61, $62, $63, $64,
-        $65)
+        $65, $66)
         RETURNING id;`
 
     const charParams = [req.user.id, rb.handle, rb.player, rb.campaign, rb.isParamedical,
@@ -695,7 +695,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     rb.demolitions, rb.driveLand, rb.driveExotic, rb.etiquette, rb.exoticWeapons, rb.heavyWeapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
     rb.business, rb.cryptography, rb.cyberTech, rb.firstAid, rb.paramedic, rb.investigation, rb.gambling, rb.language, rb.militaryTech, rb.science, rb.vehicleTech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.medSurgery, rb.medPharma, rb.medCryo,
-    rb.maker, rb.makerField, rb.makerUpgrade, rb.makerFab, rb.makerInvent, 0, 5, 0, 0, 300, 0]
+    rb.maker, rb.makerField, rb.makerUpgrade, rb.makerFab, rb.makerInvent, 0, 5, 0, 0, 300, 0, rb.availableNomadVehicles]
 
     pool.query(charSqlText, charParams)
         .then((result) => {

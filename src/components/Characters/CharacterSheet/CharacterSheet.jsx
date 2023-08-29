@@ -85,7 +85,7 @@ function CharacterSheet() {
                                 <Tab value='weapons' label='Weapons' />
                                 {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                                 <Tab value='backpack' label='Backpack' />
-                                <Tab value='vehicles' label='Garage' />
+                                <Tab value='vehicles' label='Vehicles' />
                             </Tabs>
 
                             {selectedInventory === 'weapons' ? (<>
