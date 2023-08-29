@@ -20,6 +20,7 @@ import AdvancementGearOther from './AdvancementGearOther';
 import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
 import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
+import AdvancementGarage from './AdvancementGarage';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -32,6 +33,7 @@ function TransitionUp(props) {
 function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
+    const modDetails = useSelector(store => store.characterModMaster)
     const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
     const dispatch = useDispatch();
     const history = useHistory();
@@ -83,8 +85,8 @@ function AdvancementSheet() {
         if (advancementDetails.perm_humanity_loss + advancementDetails.temp_humanity_loss > 39) {
             setShowSnackbar(true)
         } else {
-            dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
-            history.push('/characterlist')
+            dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails, mods: modDetails } })
+            // history.push('/characterlist')
         }
     }
 
@@ -104,15 +106,15 @@ function AdvancementSheet() {
                 </Snackbar >
                 <Grid container>
                     <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
+                        <Button variant='contained' onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                     </Grid>
                 
                     <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
+                        <Button variant='contained' onClick={() => fetchCharacterDetail()}>Reset Changes</Button>
                     </Grid>
                 
                     <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+                        <Button variant='contained' onClick={() => saveCharacterChanges()}>Save Changes</Button>
                     </Grid>
                 </Grid>
 
@@ -186,6 +188,7 @@ function AdvancementSheet() {
                         <Tab value='other' label='Other Gear' />
                         {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner Gear' />}
                         <Tab value='cyberware' label='Cyberware' />
+                        <Tab value='vehicles' label='Vehicles' />
                     </Tabs>) : <></>}
 
                 {equipmentValue === 'armor' ? (<>
@@ -213,6 +216,10 @@ function AdvancementSheet() {
 
                 {equipmentValue === 'cyberware' ? (<>
                     <AdvancementCyberware />
+                </>) : <></>}
+
+                {equipmentValue === 'vehicles' ? (<>
+                    <AdvancementGarage />
                 </>) : <></>}
 
             </div>

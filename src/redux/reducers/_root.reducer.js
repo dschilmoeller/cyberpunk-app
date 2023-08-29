@@ -23,6 +23,7 @@ import netrunnerGearMaster from './netrunnerMaster.reducer';
 import vehicleMaster from './vehicleMaster.reducer';
 import vehicleModMaster from './vehicleModMaster.reducer';
 
+import characterModMaster from './characterModMaster';
 import treasureMaster from './treasureMaster.reducer';
 
 import advancementDetail from './advancementDetail.reducer';
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
   characterWeapons, // contains active character's weapons
   characterMiscGear, // contains active character's miscellaneous gear
   characterNetrunnerGear, // contains active characters netrunning gear (if any)
+  characterModMaster, // contains details of active character's modifications to different pieces of gear.
   characterCreation, // contains details set up during character creation
   armorMaster, // master gear list - armor
   shieldMaster, // master gear list - shields

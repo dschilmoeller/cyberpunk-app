@@ -584,6 +584,11 @@ const advancementGear = (state = {
                 vehicleMods: state.vehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.char_owned_vehicle_mods_id),
                 soldVehicleMods: [...state.soldVehicleMods, action.payload]
             }
+        case 'EQUIP_VEHICLE_MOD':
+            return {
+                ...state,
+                vehicleMods: state.vehicleMods.filter(mod => mod.vehicle_mod_master_id !== action.payload.modData.vehicle_mod_master_id)
+            }
     }
     return state
 

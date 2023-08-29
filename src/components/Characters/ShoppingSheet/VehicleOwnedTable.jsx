@@ -179,16 +179,15 @@ export default function VehicleOwnedTable() {
         setOrderBy(property);
     };
 
-    function createCharVehicleData(char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, vehicle_mod_1, vehicle_mod_2, vehicle_mod_3, vehicle_mod_4, vehicle_mod_5) {
+    function createCharVehicleData(char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost) {
         return {
-            char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, vehicle_mod_1, vehicle_mod_2, vehicle_mod_3, vehicle_mod_4, vehicle_mod_5
+            char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost
         }
     }
 
     const charVehicleRows = []
     for (let i = 0; i < charVehicles.length; i++) {
-        charVehicleRows.push(createCharVehicleData(charVehicles[i].char_id, charVehicles[i].description, charVehicles[i].health, charVehicles[i].move, charVehicles[i].mph, charVehicles[i].name, charVehicles[i].price, charVehicles[i].seats, charVehicles[i].type, charVehicles[i].vehicle_bridge_id, charVehicles[i].vehicle_master_id, charVehicles[i].vehicle_mod_1, charVehicles[i].vehicle_mod_2, charVehicles[i].vehicle_mod_3, charVehicles[i].vehicle_mod_4, charVehicles[i].vehicle_mod_5
-
+        charVehicleRows.push(createCharVehicleData(charVehicles[i].char_id, charVehicles[i].description, charVehicles[i].health, charVehicles[i].move, charVehicles[i].mph, charVehicles[i].name, charVehicles[i].price, charVehicles[i].seats, charVehicles[i].type, charVehicles[i].vehicle_bridge_id, charVehicles[i].vehicle_master_id, charVehicles[i].total_mod_cost
         ))
     }
 
@@ -266,7 +265,7 @@ export default function VehicleOwnedTable() {
                                                 <TableCell align="center">{row.move}</TableCell>
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
-                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor((row.price / 4) + row.total_mod_cost).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );

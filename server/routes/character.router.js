@@ -125,17 +125,17 @@ router.get('/fetchcharacterVehicles/:id', rejectUnauthenticated, (req, res) => {
     JOIN "vehicle_master" ON "vehicle_master"."vehicle_master_id" = "char_vehicle_bridge"."vehicle_id"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
-    .then((result) => {
-        // result.rows.map(item => 
-        // select details for mod1
-        // change mod1 integer => retrieved details
-        // repeat for 2 - 5
+        .then((result) => {
+            // result.rows.map(item => 
+            // select details for mod1
+            // change mod1 integer => retrieved details
+            // repeat for 2 - 5
 
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character vehicles:`, err);
-    })
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character vehicles:`, err);
+        })
 })
 
 // use consumable from pack:
@@ -377,16 +377,30 @@ router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => 
 router.get('/fetchAdvancementVehicleMods/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
     JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
-    WHERE char_id = $1`
+    WHERE char_id = $1 AND equipped = false`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows)
         })
         .catch(err => {
-            console.log(`Error fetching advancement character vehicles:`, err);
+            console.log(`Error fetching advancement owned vehicle mods:`, err);
         })
 })
 
+router.get('/fetchAdvancementActiveVehicleMods/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_vehicle_mod_bridge"
+    JOIN "char_owned_vehicle_mods" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
+    JOIN "vehicle_mod_master" ON "vehicle_mod_master".vehicle_mod_master_id = char_owned_vehicle_mods.vehicle_mod_master_id
+    WHERE "char_id" = $1`
+
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows)
+        })
+        .catch(err => {
+            console.log(`Error fetching advancement character active vehicle mods`, err);
+        })
+})
 
 // advancement save route
 // big one is to update the character stats, skills, and such.
@@ -492,6 +506,27 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             for (let i = 0; i < netrunnerGear.length; i++) {
                 const netrunnerGearSqlParams = [netrunnerGear[i].equipped, netrunnerGear[i].netrunner_bridge_id]
                 pool.query(netrunnerGearSqlText, netrunnerGearSqlParams)
+            }
+
+            // change vehicle mod status
+            const equippedMods = req.body.mods.addedVehicleMods
+            if (equippedMods.length > 0) {
+                for (let i = 0; i < equippedMods.length; i++) {
+                    const insertEquippedModSqlText = `INSERT INTO "char_vehicle_mod_bridge" ("vehicle_bridge_id", "char_owned_vehicle_mods_id")
+                    VALUES ($1, $2)`
+                    const insertEquippedModParams = [equippedMods[i].vehicle_bridge_id, equippedMods[i].char_owned_vehicle_mods_id]
+                    const updateOwnedModSqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = true WHERE "char_owned_vehicle_mods_id" = $1`
+                    const updateOwnedModParams = [equippedMods[i].char_owned_vehicle_mods_id]
+                    const updateVehicleBridgeItemCostSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" + $1 WHERE "vehicle_bridge_id" = $2`
+                    const updateVehicleBridgeItemCostParams = [(equippedMods[i].price / 4), equippedMods[i].vehicle_bridge_id]
+                    pool.query(insertEquippedModSqlText, insertEquippedModParams)
+                        .then(
+                            pool.query(updateOwnedModSqlText, updateOwnedModParams)
+                        )
+                        .then(
+                            pool.query(updateVehicleBridgeItemCostSqlText, updateVehicleBridgeItemCostParams)
+                        )
+                }
             }
 
             // SHOPPING
