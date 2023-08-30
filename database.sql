@@ -70,6 +70,7 @@ CREATE TABLE "character" (
 	"netrunner" integer NOT NULL DEFAULT '0',
 	"cyberdeck_slots" integer NOT NULL DEFAULT '0',
 	"nomad" integer NOT NULL DEFAULT '0',
+	"nomad_vehicle_slots" integer NOT NULL DEFAULT 0
 	"media" integer NOT NULL DEFAULT '0',
 	"medtech" integer NOT NULL DEFAULT '0',
 	"maker" integer NOT NULL DEFAULT '0',
