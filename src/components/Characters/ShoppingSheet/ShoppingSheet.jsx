@@ -25,6 +25,7 @@ import ShopCyberware from './ShopCyberware';
 function ShoppingSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
+    const modDetails = useSelector(store => store.characterModMaster)
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -50,7 +51,7 @@ function ShoppingSheet() {
     }
 
     const saveCharacterChanges = () => {
-        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails } })
+        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails, mods: modDetails } })
         history.push('/characterlist')
     }
 

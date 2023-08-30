@@ -187,7 +187,6 @@ const advancementDetail = (state = {}, action) => {
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots - 1
             }
-
         case 'SELL_OWNED_VEHICLE':
             return {
                 ...state,
@@ -198,11 +197,26 @@ const advancementDetail = (state = {}, action) => {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
-            case 'RESTORE_NOMAD_SLOT':
-                return {
-                    ...state,
-                    nomad_vehicle_slots: state.nomad_vehicle_slots + 1
-                }
+        case 'RESTORE_NOMAD_SLOT':
+            return {
+                ...state,
+                nomad_vehicle_slots: state.nomad_vehicle_slots + 1
+            }
+        case 'BUY_VEHICLE_MOD':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload.item.price)
+            }
+        case 'SELL_OWNED_VEHICLE_MOD':
+            return {
+                ...state,
+                bank: Number(state.bank + Math.floor(action.payload.price / 4))
+            }
+        case 'SELL_ADVANCEMENT_VEHICLE_MOD':
+            return {
+                ...state,
+                bank: Number(state.bank + action.payload.price)
+            }
         //cyberware
         case 'BUY_CYBERWARE':
             return {

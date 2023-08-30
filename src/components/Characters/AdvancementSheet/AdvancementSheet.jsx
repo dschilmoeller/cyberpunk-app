@@ -86,7 +86,7 @@ function AdvancementSheet() {
             setShowSnackbar(true)
         } else {
             dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails, mods: modDetails } })
-            // history.push('/characterlist')
+            history.push('/characterlist')
         }
     }
 

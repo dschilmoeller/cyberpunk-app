@@ -589,6 +589,24 @@ const advancementGear = (state = {
                 ...state,
                 vehicleMods: state.vehicleMods.filter(mod => mod.vehicle_mod_master_id !== action.payload.modData.vehicle_mod_master_id)
             }
+        case 'REMOVE_VEHICLE_MOD':
+            return {
+                ...state,
+                vehicleMods: [...state.vehicleMods, action.payload.modData]
+            }
+            case 'VEHICLE_CHANGE_SEAT':
+                return {
+                    ...state,
+                    vehicles: state.vehicles.map(vehicle => {
+                        if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id) {
+                            console.log(`new seats:`, vehicle.extra_seats + action.payload.amount);
+                            return {...vehicle,
+                            extra_seats: vehicle.extra_seats + action.payload.amount}
+                        } else {
+                            return vehicle
+                        }
+                    })
+                }
     }
     return state
 

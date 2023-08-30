@@ -316,6 +316,8 @@ CREATE TABLE "char_vehicle_bridge" (
 	"current_damage" integer NOT NULL DEFAULT 0,
 	"current_armor_damage" integer NOT NULL DEFAULT 0,
 	"total_mod_cost" integer NOT NULL DEFAULT 0,
+	"has_armor" boolean NOT NULL DEFAULT false,
+	"extra_seats" integer NOT NULL DEFAULT 0,
 	CONSTRAINT "char_vehicle_bridge_pk" PRIMARY KEY ("vehicle_bridge_id")
 ) wiTH (OIDS = FALSE);
 

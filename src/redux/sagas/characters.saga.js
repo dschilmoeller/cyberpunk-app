@@ -28,6 +28,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_NETRUNNER_GEAR', payload: characterNetrunningGear.data })
     const characterVehicles = yield axios.get(`api/characters/fetchcharacterVehicles/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_VEHICLES', payload: characterVehicles.data })
+    const characterActiveVehicleMods = yield axios.get(`api/characters/characterActiveVehicleMods/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_VEHICLE_MODS', payload: characterActiveVehicleMods.data})
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -82,7 +84,6 @@ function* fetchCharacterMiscGear(action) {
   } catch (error) {
     console.log(`Error fetching in play misc gear`);
   }
-
 }
 
 // save GM changes:
@@ -136,8 +137,8 @@ function* fetchAdvancementDetails(action) {
     yield put({ type: 'SET_ADVANCEMENT_VEHICLE_MODS', payload: advancementVehicleMods.data })
 
     const advancementActiveVehicleMods = yield axios.get(`/api/characters/fetchAdvancementActiveVehicleMods/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_VEHICLE_MODS', payload: advancementActiveVehicleMods.data})
-    
+    yield put({ type: 'SET_CHARACTER_VEHICLE_MODS', payload: advancementActiveVehicleMods.data })
+
   } catch (error) {
     console.log(`Error fetching advancement details`, error);
   }

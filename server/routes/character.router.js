@@ -138,6 +138,20 @@ router.get('/fetchcharacterVehicles/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
+router.get('/characterActiveVehicleMods/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_vehicle_mod_bridge"
+    JOIN "char_owned_vehicle_mods" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
+    JOIN "vehicle_mod_master" ON "vehicle_mod_master".vehicle_mod_master_id = char_owned_vehicle_mods.vehicle_mod_master_id
+    WHERE "char_id" = $1 AND "equipped" = true`
+    pool.query(sqlText, [req.params.id])
+    .then(result => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character vehicle mods:`, err);
+    })
+})
+
 // use consumable from pack:
 router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
@@ -377,7 +391,8 @@ router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => 
 router.get('/fetchAdvancementVehicleMods/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
     JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
-    WHERE char_id = $1 AND equipped = false`
+    WHERE char_id = $1 AND equipped = false
+    ORDER BY "type"`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows)
@@ -509,25 +524,74 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             }
 
             // change vehicle mod status
+            const removedMods = req.body.mods.removedVehicleMods
             const equippedMods = req.body.mods.addedVehicleMods
-            if (equippedMods.length > 0) {
-                for (let i = 0; i < equippedMods.length; i++) {
-                    const insertEquippedModSqlText = `INSERT INTO "char_vehicle_mod_bridge" ("vehicle_bridge_id", "char_owned_vehicle_mods_id")
-                    VALUES ($1, $2)`
-                    const insertEquippedModParams = [equippedMods[i].vehicle_bridge_id, equippedMods[i].char_owned_vehicle_mods_id]
-                    const updateOwnedModSqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = true WHERE "char_owned_vehicle_mods_id" = $1`
-                    const updateOwnedModParams = [equippedMods[i].char_owned_vehicle_mods_id]
-                    const updateVehicleBridgeItemCostSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" + $1 WHERE "vehicle_bridge_id" = $2`
-                    const updateVehicleBridgeItemCostParams = [(equippedMods[i].price / 4), equippedMods[i].vehicle_bridge_id]
-                    pool.query(insertEquippedModSqlText, insertEquippedModParams)
+            if (removedMods.length > 0 || equippedMods.length > 0) {
+                for (let i = 0; i < removedMods.length; i++) {
+                    // remove row from bridge
+                    const removeEquippedModsSqlText = `DELETE FROM "char_vehicle_mod_bridge" WHERE "char_vehicle_mod_bridge_id" = $1`
+                    const removeEquippedModsParams = [removedMods[i].char_vehicle_mod_bridge_id]
+
+                    // update owned mod to read false on equpped
+                    const updateRemovedOwnedModSqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = false WHERE "char_owned_vehicle_mods_id" = $1`
+                    const updateRemovedOwnedModsParams = [removedMods[i].char_owned_vehicle_mods_id]
+
+                    // update vehicle cost and other factors (subtraction)
+                    if (removedMods[i].name === 'Armored') {
+                        const updateVehicleArmorSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" - $1, "has_armor" = false WHERE "vehicle_bridge_id" = $2`
+                        const updatedVehicleArmorParams = [(removedMods[i].price / 4), removedMods[i].vehicle_bridge_id]
+                        pool.query(updateVehicleArmorSqlText, updatedVehicleArmorParams)
+
+                    } else if (removedMods[i].name === 'Seating Upgrade') {
+                        const updateVehicleSeatSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" - $1, "extra_seats" = "extra_seats" - 1 WHERE "vehicle_bridge_id" = $2`
+                        const updatedVehicleArmorParams = [(removedMods[i].price / 4), removedMods[i].vehicle_bridge_id]
+                        pool.query(updateVehicleSeatSqlText, updatedVehicleArmorParams)
+
+                    } else {
+                        const updateVehicleBridgeItemCostSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" - $1 WHERE "vehicle_bridge_id" = $2`
+                        const updateVehicleBridgeItemCostParams = [(removedMods[i].price / 4), removedMods[i].vehicle_bridge_id]
+                        pool.query(updateVehicleBridgeItemCostSqlText, updateVehicleBridgeItemCostParams)
+
+                    }
+                    pool.query(removeEquippedModsSqlText, removeEquippedModsParams)
                         .then(
-                            pool.query(updateOwnedModSqlText, updateOwnedModParams)
-                        )
-                        .then(
-                            pool.query(updateVehicleBridgeItemCostSqlText, updateVehicleBridgeItemCostParams)
+                            pool.query(updateRemovedOwnedModSqlText, updateRemovedOwnedModsParams)
                         )
                 }
+                if (equippedMods.length > 0) {
+                    for (let i = 0; i < equippedMods.length; i++) {
+                        // inverse of above - adds row to bridge; updates owned to true, and updates vehicle cost (as addition)
+                        const insertEquippedModSqlText = `INSERT INTO "char_vehicle_mod_bridge" ("vehicle_bridge_id", "char_owned_vehicle_mods_id")
+                    VALUES ($1, $2)`
+                        const insertEquippedModParams = [equippedMods[i].vehicle_bridge_id, equippedMods[i].char_owned_vehicle_mods_id]
+
+                        const updateOwnedModSqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = true WHERE "char_owned_vehicle_mods_id" = $1`
+                        const updateOwnedModsParams = [equippedMods[i].char_owned_vehicle_mods_id]
+
+                        if (equippedMods[i].name === 'Armored') {
+                            const updateVehicleArmorSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" + $1, "has_armor" = true WHERE "vehicle_bridge_id" = $2`
+                            const updatedVehicleArmorParams = [(equippedMods[i].price / 4), equippedMods[i].vehicle_bridge_id]
+                            pool.query(updateVehicleArmorSqlText, updatedVehicleArmorParams)
+
+                        } else if (equippedMods[i].name === 'Seating Upgrade') {
+                            const updateVehicleSeatSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" + $1, "extra_seats" = "extra_seats" + 1 WHERE "vehicle_bridge_id" = $2`
+                            const updatedVehicleArmorParams = [(equippedMods[i].price / 4), equippedMods[i].vehicle_bridge_id]
+                            pool.query(updateVehicleSeatSqlText, updatedVehicleArmorParams)
+
+                        } else {
+                            const updateVehicleBridgeItemCostSqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = "total_mod_cost" + $1 WHERE "vehicle_bridge_id" = $2`
+                            const updateVehicleBridgeItemCostParams = [(equippedMods[i].price / 4), equippedMods[i].vehicle_bridge_id]
+                            pool.query(updateVehicleBridgeItemCostSqlText, updateVehicleBridgeItemCostParams)
+                        }
+                        pool.query(insertEquippedModSqlText, insertEquippedModParams)
+                            .then(
+                                pool.query(updateOwnedModSqlText, updateOwnedModsParams)
+                            )
+                    }
+                }
             }
+
+
 
             // SHOPPING
             // armor: loop through soldArmor array, perform delete command on each
