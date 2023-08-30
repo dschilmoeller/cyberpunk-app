@@ -125,9 +125,16 @@ export default function CharacterVehicles() {
                                     <Fragment key={mod.char_vehicle_mod_bridge_id}>
                                         {VehicularAmmoBuilder(mod)}
                                     </Fragment>)
+                            } else if (mod.name === 'Mounted Melee Weapon') {
+                                return (
+                                    <Fragment key={mod.char_vehicle_mod_bridge_id}>
+                                        <Grid item xs={4}><Item>{mod.name}</Item></Grid>
+                                        <Grid item xs={4}><Item>DV: {item.type === 'Bike' ? '8' : '11'}</Item></Grid>
+                                        <Grid item xs={4}><Item>ROF: 1</Item></Grid>
+                                    </Fragment>
+                                )
                             }
                         })}
-
                         <Grid item xs={6}>
                             <Grid container>
                                 <Grid item xs={12}><Item>Health</Item></Grid>
