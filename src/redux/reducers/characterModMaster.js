@@ -43,13 +43,6 @@ const characterModMaster = (state = {
                 vehicleMods: state.vehicleMods.filter(mod => mod.char_vehicle_mod_bridge_id !== action.payload.modData.char_vehicle_mod_bridge_id),
                 removedVehicleMods: [...state.removedVehicleMods, action.payload.modData]
             }
-        case 'REMOVE_RECENTLY_EQUIPPED_VEHICLE_MOD':
-            return {
-                ...state,
-                // vehicleMods - no change
-                // addedVehicleMods - remove from list
-                // removedVehicleMods - no change
-            }
         default:
             return state
     }
