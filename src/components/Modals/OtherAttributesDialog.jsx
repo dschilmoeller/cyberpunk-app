@@ -55,8 +55,8 @@ export default function OtherAttributesDialog({ prop }) {
 
                     <Grid item xs={12}>Items that affect healing:</Grid>
                     <Grid item xs={12}>Speedheal: immediately roll Body vs. DV6 to recover stun or lethal wounds at a small humanity cost.</Grid>
-                    <Grid item xs={12}>Cryopumps: While in a cryobag with a charged Cryopump, characters ignore 1s on Body rolls to recovering damage. Once inside, they also no longer need to make death saves.</Grid>
-                    <Grid item xs={12} paddingBottom={1}>Cryotanks: while in a Cryotank, difficulties for Body rolls to recover damage are 2 lower and 1s are ignored. They are considered to be receiving medical attention while in the tank.</Grid>
+                    <Grid item xs={12}>Cryopumps: While in a cryobag with a charged Cryopump, characters are unconscious, but no longer need to make death saves.</Grid>
+                    <Grid item xs={12} paddingBottom={1}>Cryotanks: while in a Cryotank, difficulties for Body rolls to recover damage are 2 lower. They are considered to be receiving medical attention while in the tank.</Grid>
 
                     <Grid item xs={12} paddingBottom={1}>
                         <b>Consciousness and Dying:</b> Characters whose damage track is filled are either unconscious or dying.

@@ -12,35 +12,31 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-export default function ArmorOwnedTable() {
+export default function GMOwnedArmor() {
     const dispatch = useDispatch()
 
     const charArmor = useSelector(store => store.advancementGear.armor)
     const boughtArmor = useSelector(store => store.advancementGear.boughtArmor)
-    const armorID = useSelector(store => store.advancementGear.armorID)
 
     const charShield = useSelector(store => store.advancementGear.shield)
     const boughtShield = useSelector(store => store.advancementGear.boughtShield)
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
-
-    const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
-    const sellOwnedArmor = (item) => {
-        dispatch({ type: 'SELL_OWNED_ARMOR', payload: item })
+    const gmRemoveArmor = (item) => {
+        dispatch({ type: 'GM_REMOVE_ARMOR', payload: item })
     }
 
-    const sellBoughtArmor = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_ARMOR', payload: item })
+    const gmRemoveGMArmor = (item) => {
+        dispatch({ type: 'GM_REMOVE_GM_ARMOR', payload: item })
     }
 
-    const sellOwnedShield = (item) => {
-        dispatch({ type: 'SELL_OWNED_SHIELD', payload: item })
+    const gmRemoveShield = (item) => {
+        dispatch({ type: 'GM_REMOVE_SHIELD', payload: item })
     }
 
-    const sellBoughtShield = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_SHIELD', payload: item })
+    const gmRemoveGMShield = (item) => {
+        dispatch({ type: 'GM_REMOVE_GM_SHIELD', payload: item })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -103,10 +99,10 @@ export default function ArmorOwnedTable() {
             label: 'Street Price',
         },
         {
-            id: 'sell',
+            id: 'remove',
             numeric: false,
             disablePadding: false,
-            label: 'Sell',
+            label: 'Remove',
         },
     ];
 
@@ -199,7 +195,6 @@ export default function ArmorOwnedTable() {
         <>
             
             <h2>My Armor</h2>
-
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <TableContainer>
@@ -218,11 +213,11 @@ export default function ArmorOwnedTable() {
                                     if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
-                                                <TableCell padding="none">{row.name}</TableCell>
+                                                <TableCell >{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedArmor(row)}>Sell</Button></TableCell>
+                                                <TableCell align="center"><Button onClick={() => gmRemoveArmor(row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
@@ -230,11 +225,11 @@ export default function ArmorOwnedTable() {
                                 {boughtArmor.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
-                                            <TableCell padding="none" align="left">{item.name} </TableCell>
+                                            <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtArmor(item)}>Sell</Button></TableCell>
+                                            <TableCell align="center"><Button onClick={() => gmRemoveGMArmor(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )
                                 })}
@@ -242,11 +237,11 @@ export default function ArmorOwnedTable() {
                                     if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
-                                                <TableCell padding="none">{row.name}</TableCell>
+                                                <TableCell>{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedShield(row)}>Sell</Button></TableCell>
+                                                <TableCell align="center"><Button onClick={() => gmRemoveShield(row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
@@ -254,11 +249,11 @@ export default function ArmorOwnedTable() {
                                 {boughtShield.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
-                                            <TableCell padding="none" align="left">{item.name} </TableCell>
+                                            <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtShield(item)}>Sell</Button></TableCell>
+                                            <TableCell align="center"><Button onClick={() => gmRemoveGMShield(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )
                                 })}

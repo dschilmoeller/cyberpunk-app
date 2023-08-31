@@ -109,6 +109,9 @@ function* fetchAdvancementDetails(action) {
     const advancementDetails = yield axios.get(`/api/characters/fetchAdvancementDetails/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_DETAIL', payload: advancementDetails.data[0] })
 
+    const characterStatus = yield axios.get(`api/characters/fetchAdvancementStatus/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_STATUS', payload: characterStatus.data[0] })
+
     const advancementArmor = yield axios.get(`/api/characters/fetchAdvancementArmor/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_ARMOR', payload: advancementArmor.data })
 

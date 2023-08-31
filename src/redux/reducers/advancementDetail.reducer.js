@@ -267,6 +267,46 @@ const advancementDetail = (state = {}, action) => {
         }
     }
 
+
+    // GM changes
+    if (action.type === 'GM_CHANGE_TEMP_HUMANITY_LOSS') {
+        return {
+            ...state,
+            temp_humanity_loss: state.temp_humanity_loss + action.payload
+        }
+    }
+
+    if (action.type === 'GM_CHANGE_PERM_HUMANITY_LOSS') {
+        return {
+            ...state,
+            perm_humanity_loss: state.perm_humanity_loss + action.payload
+        }
+    }
+    if (action.type === 'GM_CHANGE_BANK') {
+        return {
+            ...state,
+            bank: state.bank + action.payload
+        }
+    }
+    if (action.type === 'GM_CHANGE_XP') {
+        return {
+            ...state,
+            max_xp: state.max_xp + action.payload
+        }
+    }
+    if (action.type === 'GM_CHANGE_STAT') {
+        return {
+            ...state,
+            [action.payload.statToChange]: Number(action.payload.newStatAmount)
+        }
+    }
+    if (action.type === 'GM_SET_IS_PARAMEDICAL') {
+        return {
+            ...state,
+            is_paramedical: action.payload
+        }
+    }
+
     return state
 }
 

@@ -594,20 +594,80 @@ const advancementGear = (state = {
                 ...state,
                 vehicleMods: [...state.vehicleMods, action.payload.modData]
             }
-            case 'VEHICLE_CHANGE_SEAT':
-                return {
-                    ...state,
-                    vehicles: state.vehicles.map(vehicle => {
-                        if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id) {
-                            console.log(`new seats:`, vehicle.extra_seats + action.payload.amount);
-                            return {...vehicle,
-                            extra_seats: vehicle.extra_seats + action.payload.amount}
-                        } else {
-                            return vehicle
+        case 'VEHICLE_CHANGE_SEAT':
+            return {
+                ...state,
+                vehicles: state.vehicles.map(vehicle => {
+                    if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id) {
+                        console.log(`new seats:`, vehicle.extra_seats + action.payload.amount);
+                        return {
+                            ...vehicle,
+                            extra_seats: vehicle.extra_seats + action.payload.amount
                         }
-                    })
-                }
+                    } else {
+                        return vehicle
+                    }
+                })
+            }
     }
+
+
+
+    // GM change Handlers
+    // functionally identical to buying/selling armor, but with no corresponding bank change in the advancementDetail reducer - simply arbitrarily adds and removes armor.
+    switch (action.type) {
+        case 'GM_ADD_ARMOR':
+            return {
+                ...state,
+                boughtArmor: [...state.boughtArmor,
+                {
+                    armor_master_id: action.payload.item.armor_master_id,
+                    description: action.payload.item.description,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    quality: action.payload.item.quality,
+                    armorID: action.payload.armorID
+                }],
+                armorID: state.armorID + 1
+            }
+        case 'GM_REMOVE_GM_ARMOR':
+            return {
+                ...state,
+                boughtArmor: state.boughtArmor.filter(armor => armor.armorID !== action.payload.armorID),
+            }
+        case 'GM_REMOVE_ARMOR':
+            return {
+                ...state,
+                armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
+                soldArmor: [...state.soldArmor, action.payload]
+            }
+        case 'GM_ADD_SHIELD':
+            return {
+                ...state,
+                boughtShield: [...state.boughtShield,
+                {
+                    shield_master_id: action.payload.item.shield_master_id,
+                    description: action.payload.item.description,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    quality: action.payload.item.quality,
+                    shieldID: action.payload.shieldID
+                }],
+                shieldID: state.shieldID + 1
+            }
+        case 'GM_REMOVE_GM_SHIELD':
+            return {
+                ...state,
+                boughtShield: state.boughtShield.filter(shield => shield.shieldID !== action.payload.shieldID),
+            }
+        case 'GM_REMOVE_SHIELD':
+            return {
+                ...state,
+                shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
+                soldShield: [...state.soldShield, action.payload]
+            }
+    }
+
     return state
 
 }

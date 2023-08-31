@@ -125,7 +125,7 @@ export default function CharacterVehicles() {
                                     <Fragment key={mod.char_vehicle_mod_bridge_id}>
                                         {VehicularAmmoBuilder(mod)}
                                     </Fragment>)
-                            } else if (mod.name === 'Mounted Melee Weapon') {
+                            } else if (mod.name === 'Mounted Melee Weapon' && mod.vehicle_bridge_id === item.vehicle_bridge_id) {
                                 return (
                                     <Fragment key={mod.char_vehicle_mod_bridge_id}>
                                         <Grid item xs={4}><Item>{mod.name}</Item></Grid>

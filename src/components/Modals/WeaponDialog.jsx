@@ -35,7 +35,7 @@ export default function WeaponDialog({ prop }) {
             case 'ROF':
                 return (<>
                     <Grid container fontFamily={'serif'}>
-                        <Grid item padding={1} xs={12}>Rate of Fire determines how many times a weapon can be used to attack as part of a standard action. If two or more weapons are being used, the lowest rate of fire is the one which applies.</Grid>
+                        <Grid item padding={1} xs={12}>Rate of Fire determines how many times a weapon can be used to attack as part of a standard action. Attacking more than once requires splitting a character's die pool. If two or more weapons are being used, the lowest rate of fire is the one which applies.</Grid>
                     </Grid>
                 </>)
             case 'Range':

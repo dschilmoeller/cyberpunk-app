@@ -34,7 +34,7 @@ function AdvancementSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
     const equipmentDetails = useSelector(store => store.advancementGear)
     const modDetails = useSelector(store => store.characterModMaster)
-    const [heading, setHeading] = useState('Character Sheet - ADVANCEMENT/EDITING');
+
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();

@@ -144,12 +144,12 @@ router.get('/characterActiveVehicleMods/:id', rejectUnauthenticated, (req, res) 
     JOIN "vehicle_mod_master" ON "vehicle_mod_master".vehicle_mod_master_id = char_owned_vehicle_mods.vehicle_mod_master_id
     WHERE "char_id" = $1 AND "equipped" = true`
     pool.query(sqlText, [req.params.id])
-    .then(result => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character vehicle mods:`, err);
-    })
+        .then(result => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character vehicle mods:`, err);
+        })
 })
 
 // use consumable from pack:
@@ -277,6 +277,18 @@ router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => 
         })
         .catch(err => {
             console.log(`Error fetching advancement character details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementStatus/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_status"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character cyberware detials`, err);
         })
 })
 
@@ -881,17 +893,79 @@ router.get('/fetchGameMasterCharacters', rejectNonAdmin, (req, res) => {
 });
 
 router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
-    const charDetailsSqlText = `UPDATE character
-    SET handle = $1, player = $2, campaign = $3, max_xp = $4, spent_xp = $5, bank = $6, street_cred = $7, max_luck = $8, temp_humanity_loss = $9, perm_humanity_loss = $10
-    WHERE id = $11`
+    const rb = req.body.charDetail
+    const charSqlText = `UPDATE "character"
+        SET "is_paramedical" = $1,
+        "strength" = $2, "body" = $3, "reflexes" = $4, "appearance" = $5, "cool" = $6, "street_cred" = $7, "intelligence" = $8, "willpower" = $9, "technique" = $10,
+        "athletics" = $11, "brawling" = $12, "concentration" = $13, "evasion" = $14, "fast_talk" = $15, "firearms" = $16, "legerdemain" = $17, "melee_weapons" = $18, "perception" = $19, "streetwise" = $20,
+        "demolitions" = $21, "drive_land" = $22, "drive_exotic" = $23, "etiquette" = $24, "exotic_weapons" = $25, "heavy_weapons" = $26, "performance" = $27, "stealth" = $28, "survival" = $29, "tracking" = $30,
+        "business" = $31, "cryptography" = $32, "cyber_tech" = $33, "first_aid" = $34, "paramed" = $35, "investigation" = $36, "gambling" = $37, "language" = $38, "military_tech" = $39, "science" = $40, "vehicle_tech" = $41,
+        "rockerboy" = $42, "solo" = $43, "netrunner" = $44, "nomad" = $45, "media" = $46, "medtech" = $47, "med_surgery" = $48, "med_pharma" = $49, "med_cryo" = $50,
+        "maker" = $51, "maker_field" = $52, "maker_upgrade" = $53, "maker_fab" = $54, "maker_invent" = $55,
+        "perm_humanity_loss" = $56, "temp_humanity_loss" = $57, "max_luck" = $58, "max_xp" = $59, "spent_xp" = $60, "bank" = $61,
+        "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_appearance" = $65, "cyber_cool" = $66, "cyber_intelligence" = $67,
+        "cyberdeck_slots" = $68, "nomad_vehicle_slots" = $69
+        WHERE id = $70`
 
-    const charDetailUpdateParams = [req.body.handle, req.body.player, req.body.campaign, req.body.charDetail.max_xp, req.body.charDetail.spent_xp, req.body.charDetail.bank, req.body.charDetail.street_cred, req.body.charDetail.max_luck, req.body.charDetail.temp_humanity_loss, req.body.charDetail.perm_humanity_loss, req.body.charDetail.id]
-    pool.query(charDetailsSqlText, charDetailUpdateParams)
+    const charParams = [rb.is_paramedical,
+    rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
+    rb.athletics, rb.brawling, rb.concentration, rb.evasion, rb.fast_talk, rb.firearms, rb.legerdemain, rb.melee_weapons, rb.perception, rb.streetwise,
+    rb.demolitions, rb.drive_land, rb.drive_exotic, rb.etiquette, rb.exotic_weapons, rb.heavy_weapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
+    rb.business, rb.cryptography, rb.cyber_tech, rb.first_aid, rb.paramed, rb.investigation, rb.gambling, rb.language, rb.military_tech, rb.science, rb.vehicle_tech,
+    rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
+    rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.temp_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
+    rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
+    rb.cyberdeck_slots, rb.nomad_vehicle_slots,
+    rb.char_id]
+
+    pool.query(charSqlText, charParams)
         .then(result => {
-            res.sendStatus(203)
+            const soldArmor = req.body.gear.soldArmor
+            if (soldArmor.length > 0) {
+                const soldArmorSqlText = `DELETE FROM "char_armor_bridge" WHERE "armor_bridge_id" = $1`
+                for (let i = 0; i < soldArmor.length; i++) {
+                    const soldArmorSqlParams = [soldArmor[i].armor_bridge_id]
+                    pool.query(soldArmorSqlText, soldArmorSqlParams)
+                }
+            }
+
+            // loop through boughtArmor array, perform post on each.
+            const boughtArmor = req.body.gear.boughtArmor
+            if (boughtArmor.length > 0) {
+                const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
+            VALUES ($1, $2, $3, $4);`
+                for (let i = 0; i < boughtArmor.length; i++) {
+                    const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 1, false]
+                    pool.query(boughtArmorSqlText, boughtArmorParams)
+                }
+            }
+
+            const soldShield = req.body.gear.soldShield
+            if (soldShield.length > 0) {
+                const soldShieldSqlText = `DELETE FROM "char_shield_bridge" WHERE "shield_bridge_id" = $1`
+                for (let i = 0; i < soldShield.length; i++) {
+                    const soldShieldParams = [soldShield[i].shield_bridge_id]
+                    pool.query(soldShieldSqlText, soldShieldParams)
+                }
+            }
+            const boughtShield = req.body.gear.boughtShield
+            if (boughtShield.length > 0) {
+                const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "armor_mod_1", "equipped")
+            VALUES ($1, $2, $3, $4);`
+                for (let i = 0; i < boughtShield.length; i++) {
+                    const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 1, false]
+                    pool.query(boughtShieldSqlText, boughtShieldParams)
+                }
+            }
+
+
+            
+        })
+        .then((result) => {
+            res.sendStatus(201)
         })
         .catch(err => {
-            console.log(`Error updating character for GM:`, err);
+            console.log(`Error saving GM character changes,`, err);
         })
 })
 

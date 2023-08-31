@@ -8,6 +8,10 @@ const characterStatus = (state = {
     if (action.type === "SET_CHARACTER_STATUS") {
         return action.payload;
     }
+    if (action.type === "SET_ADVANCEMENT_STATUS") {
+        return action.payload;
+    }
+    
     if (action.type === "ADD_STUN_WOUND") {
         return { ...state, current_stun: state.current_stun + 1 }
     }

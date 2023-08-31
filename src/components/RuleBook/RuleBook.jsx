@@ -168,6 +168,7 @@ export default function VerticalTabs() {
 
       <TabPanel value={value} index={0}>
         <Grid container spacing={1} padding={1}>
+          
           <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial product or object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public; the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
           <Grid item xs={12}><Typography variant='h4'>Core Concepts: Dice Rolling</Typography></Grid>
@@ -177,7 +178,7 @@ export default function VerticalTabs() {
           <Grid item xs={12}><Typography variant='h6'>Roll Type</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Rolls have two primary types: Simple and Contested. A Simple roll requires a Player to score one or more successes. A Contested roll requires a Player to score <b>more</b> successes than their opponent. Most rolls are simple outside of combat, sneaking around, and lying.</Typography></Grid>
           <Grid item xs={12}><Typography variant='h6'>Difficulty Value (DV)</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>The Difficulty Value (commonly abbreviated to DV throughout this ruleset and website) is the target on a 10 sided die roll. The 'default' difficulty value is 6. Many tasks have a higher difficulty value - 7 representing something harder than average, 9 being extremely challenging. For math reasons, a DV of 10 is not used - see Glitching and Botching, below. Likewise, some tasks are easier than others - 5 being quite simple, and 4 being the lowest a difficulty value should go - lower than that and its really not worth rolling in most cases.</Typography></Grid>
+          <Grid item xs={12}><Typography variant='p'>The Difficulty Value (commonly abbreviated to DV throughout this ruleset and website) is the target on a 10 sided die roll. The 'default' difficulty value is 6. Many tasks have a higher difficulty value - 7 representing something harder than average, 9 being extremely challenging. For math reasons, a DV of 10 is not used - see Glitching and Botching, below. Likewise, some tasks are easier than others - 5 being quite simple, and 4 being the lowest a difficulty value should go - lower than that and its really not worth rolling in most cases. In cases where a difficulty would go over 10, it instead becomes 9 and a required success is added. So something that normally has a DV8 that receives a +2 DV modifier results in a DV9 (2+) - that is, a roll with a Difficulty Value of 9, requiring 2 successes to accomplish.</Typography></Grid>
           <Grid item xs={12}><Typography variant='h6'>Succeeding, Glitching and Botching</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>While rolling their die pool, any dice a Player rolls that come up equal to or higher than the Difficulty Value is called a 'success' or 'hit'. However, any dice that comes up as a 1 is called a 'glitch die', 'botch die', or a '#$%*ing 1'. In any case, both successes and 1s are totaled up.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>In a Simple roll, a player simply needs more successes than 1s to succeed. In this instance, if the player has gotten no successes and no 1s, they have simply failed at whatever they are doing. If they have more successees than 1s, they have succeeded at their task (most likely - some tasks require more than one success to achieve). If they have rolled some number of successes and an EQUAL number of 1s, the player has made a 'glitch' - they've technically succeeded, but something has gone awry - the GM is encouraged to be inventive. If their roll has MORE 1s than successes, they have Botched - not only have they failed, something else has gone wrong. Finally, if they roll and manage to score NO successes and at least one 1, they have Critically Botched - not only did they fail, but something is about to go about as wrong as humanly possible.</Typography></Grid>
@@ -544,13 +545,13 @@ export default function VerticalTabs() {
                         <TableRow>
                           <TableCell align="left">Damage Reduction</TableCell>
                           <TableCell align="left">2</TableCell>
-                          <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by 1 <b>after</b> soaking damage from one wound that would be suffered each round. These resisted wounds can be used to resist multiple wounds from a single attack, or distributed between several different sources of damage, but the Solo must declare how may wounds they are resisting when taking damage.</TableCell>
+                          <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by one <b>after</b> soaking damage from every attack this round.</TableCell>
                         </TableRow>
 
                         <TableRow>
                           <TableCell align="left">Spot Weakness</TableCell>
                           <TableCell align="left">2</TableCell>
-                          <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo can add 1 automatic wound (before soaking) to an attack made this turn. These wounds can be piled into one attack, or distributed amongst many if they have a weapon with a high ROF.</TableCell>
+                          <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo increases the base damage of any weapon they use this round by one.</TableCell>
                         </TableRow>
 
                         <TableRow>
@@ -562,7 +563,7 @@ export default function VerticalTabs() {
                         <TableRow>
                           <TableCell align="left">Fumble Recovery</TableCell>
                           <TableCell align="left">5</TableCell>
-                          <TableCell align='left'>Solos take their time and don't make the petty mistakes of amateur Edgerunners - while this is active, 1s do not subtract from successes on die rolls made in a combat situation. You can still glitch if the number of 1s is higher than the number of successes - your mistakes will be the spectacular disasters of a professional, not the careless errors of a novice.</TableCell>
+                          <TableCell align='left'>Solos take their time and don't make the petty mistakes of amateur Edgerunners - solos with this ability ignore any 1s rolled during combat. They cannot glitch or botch their roll. They can, however, critically botch by rolling one or more 1s and no successes.</TableCell>
                         </TableRow>
 
                       </TableBody>
@@ -799,7 +800,7 @@ export default function VerticalTabs() {
                 </Grid>
                 <Grid item padding={.5} xs={12}>
                   <h4>Cryotank:</h4>
-                  A cryotank is a pod that can contain a grown adult. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
+                  A cryotank is a pod that can contain a grown adult. THe name is something of a misnomer - it's a fully automated medical device that puts all nonessential functions into statis while accelerating vital healing functions. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
                 </Grid>
                 <Grid item padding={.5} xs={12}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -823,7 +824,7 @@ export default function VerticalTabs() {
 
                       <TableRow>
                         <TableCell align="left">3</TableCell>
-                        <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have two charges as you learn to operate them more efficiently.</TableCell>
+                        <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have three charges as you learn to operate them more efficiently.</TableCell>
                       </TableRow>
 
                       <TableRow>
@@ -833,7 +834,7 @@ export default function VerticalTabs() {
 
                       <TableRow>
                         <TableCell align="left">5</TableCell>
-                        <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have three charges due to your mastery of the Cryonic arts!</TableCell>
+                        <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have four charges due to your mastery of the Cryonic arts!</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -885,7 +886,7 @@ export default function VerticalTabs() {
 
                         <TableRow>
                           <TableCell align="left">Melee Weapon</TableCell>
-                          <TableCell align="left">Lightweight Material: Make a 2 handed weapon 1 handed; this decreases the damage by 1.</TableCell>
+                          <TableCell align="left">Lightweight Material: Make a 2 handed weapon 1 handed.</TableCell>
                         </TableRow>
 
                         <TableRow>
@@ -910,7 +911,7 @@ export default function VerticalTabs() {
 
                         <TableRow>
                           <TableCell align="left">Armor</TableCell>
-                          <TableCell align="left">Improved Resistance: Add 1 to armor Quality.</TableCell>
+                          <TableCell align="left">Improved Plating: Add 1 to armor Quality.</TableCell>
                         </TableRow>
 
                         <TableRow>
@@ -1068,7 +1069,7 @@ export default function VerticalTabs() {
           <Grid item xs={12}><Typography variant='p'>Weapons have a number of characteristics that affect how they behave. Click a name read more about a specific weapon.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Damage is the weapons base damage - generally, this number is added to the successes on an attack roll to determine how much damage a given attack does.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Range is how far a weapon can shoot in meters. It is the number of squares a weapon can shoot in grid based play.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>Rate of Fire is how many times a weapon can be used as a standard action. </Typography></Grid>
+          <Grid item xs={12}><Typography variant='p'>Rate of Fire is how many times a weapon can be used as part of a standard action. Attacking more than once requires splitting a character to split their die pool.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Max Clip is how many bullets the weapon holds before it must be reloaded (taking a standard action).</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'># of Hands is how many hands a weapon requires to use effectively. Some melee weapons can be used with 1 hand instead of 2 by especially strong characters.</Typography></Grid>
           <Grid item xs={12} paddingBottom={1}><Typography variant='p'>Concealable is simply whether or not a weapon can be concealed on one's person. Concealing a weapon requires a potential spotter to make a Cool + Streetwise check to locate with a search - the DV is based on how thorough they're being. High Speed Ocular Pat Downs cannot in fact spot such hardware if concealed by someone being careful.</Typography></Grid>
@@ -1283,7 +1284,7 @@ export default function VerticalTabs() {
           <Grid item xs={12}><Typography variant='p'>Netrunners don't fall unconscious while Netrunning; likewise, they can ignore wound penalties on NET actions equal to their Interface score. It is easy to push themselves into suffering massive amounts of damage, and they will fall unconscious / into making Death Saves normally once they Jack Out. What is happening is extremely apparent from the outside.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Non weapon software effects stack unless otherwise noted.</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'><i>Example of a Netrun:</i></Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'><i>Tahei has located an Access Point, and Jacks In with his interface plugs. The first level of the Architecture is a simple password prompt - he takes a few rounds to activate two Speedy programs, a See Ya, a Shield, and his Ban Hammer. Properly equipped, he uses a Pathfinder Action and scores two successes - he determines the next floor has a Scorpion waiting for him. He moves to the floor, and rolls 4 (his Interface) + 2 (one for each Speedy program), while the GM rolls the Scorpion's speed of 4. Tahei wins, and he elects to use his Ban Hammer the Scorpion - it adds two to Attack, so he easily hits the scorpion and deals 6 wounds to it - instantly de-rezzing the hostile program. Tahei performs an EyeBall on the floor, and gets three successes - but turns up nothing interesting in the data stored on this level. Satisfied this floor is useless, Tahei makes another Pathfinder check - scoring a single success and determining that the next floor consists of a fork.</i></Typography></Grid>
+          <Grid item xs={12}><Typography variant='p'><i>Tahei has located an Access Point, and Jacks In with his Interface Plugs. The first level of the Architecture is a simple password prompt - he takes a few rounds to activate two Speedy programs, a See Ya, a Shield, and his Ban Hammer. Properly equipped, he uses a Pathfinder Action and scores two successes - he determines the next floor has a Scorpion waiting for him. He moves to the floor, and rolls 4 (his Interface) + 2 (one for each Speedy program), while the GM rolls the Scorpion's speed of 4. Tahei wins, and he elects to use his Ban Hammer the Scorpion - it adds two to Attack, so he easily hits the scorpion and deals 6 wounds to it - instantly de-rezzing the hostile program. Tahei performs an EyeBall on the floor, and gets three successes - but turns up nothing interesting in the data stored on this level. Satisfied this floor is useless, Tahei makes another Pathfinder check - scoring a single success and determining that the next floor consists of a fork.</i></Typography></Grid>
           <Grid item xs={12}><Typography variant='p'><i>Tahei moves to the next floor without waiting for his actions to refresh, and realizes he missed a quartet of White ICE Wisps some joker has loaded into the floor. He's out of actions, and the Wisps immediately Voltron together into something much scarier than they normally are. They attack (their attack upped to 5) and get 3 successes to Tahei's 2 on an Interface + 0 roll - Ban Hammers are hardly defensive weapons. Tahei shield takes the hit and deactivates - he's surprised but doing alright so far. He decides messing around with Wisps is stupid, and Slides to the next floor - he gets 3 successes to the Wisps 2, and manages to shake the ICE.</i></Typography></Grid>
           <Grid item xs={12}><Typography variant='p'><i>The next floor a Password gate, and is mercifully free of interfering ICE. Tahei takes 2 actions to deactivate and reactivate his shield, and another one to crack the password. He opts to take the left fork after his PathFinder reveals the Root 2 floors down, with no more ICE in sight.</i></Typography></Grid>
           <Grid item xs={12}><Typography variant='p'><i>A few more floors and another Slide past a pair of Hellhounds finds Tahei on the Root of the Architecture. He wants to let the management know exactly what he thinks of their stupid Wisptron, and resolves to shut it down permanently. He takes a Virus action, then uses EyeBall to find the data he came here for originally.</i></Typography></Grid>
@@ -1478,7 +1479,7 @@ export default function VerticalTabs() {
                         <TableRow>
                           <TableCell>Attack</TableCell>
                           <TableCell align="left">Complex</TableCell>
-                          <TableCell align='left'>Make a number of Melee or Ranged attacks equal to the weapon's ROF.</TableCell>
+                          <TableCell align='left'>Make a number of Melee or Ranged attacks up to the weapon's ROF.</TableCell>
                         </TableRow>
 
                         <TableRow>
@@ -1598,7 +1599,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              <i>The ganger rolls 4 soak dice - 2 from their Body + 2 from their Armor, and gets 2 successes - finally, they take 5 lethal wounds. They also mark 1 point off their armor as Raff blows a big hole in it. Raff shoots them again, as their weapon has a ROF of 2 - Raff gets a whopping 5 successes on their unchanged roll, but with 5 wounds the ganger now has a 2 die wound penalty to their Reflexes roll to dodge - they roll 2 dice, and get no successs. Raff thus deals a total of 9 lethal damage. The ganger rolls 3 soak dice - their armor has been degraded, costing them a point, but their roll is otherwise unchanged by wound penalties. They get a single success - the ganger has filled their wound track, with 3 additional damage to deal with. The ganger falls, with 3 aggravated wounds overwriting their full lethal track, and the ganger is unlikely to survive much longer if they don't get prompt medical attention.</i>
+              <i>The ganger rolls 4 soak dice - 2 from their Body + 2 from their Armor, and gets 2 successes - finally, they take 5 lethal wounds. They also mark 1 point off their armor as Raff blows a big hole in it. Raff could shoot them again, as their weapon has a ROF of 2 - but Raff would have had to split their die pool earlier in order to do so. On their turn, the ganger attempts to run away, but doesn't get far enough - Raff gets a whopping 5 successes on their next attack roll, but with 5 wounds the ganger now has a 2 die wound penalty to their Reflexes roll to dodge - they roll 2 dice, and get no successs. Raff thus deals a total of 9 lethal damage. The ganger rolls 3 soak dice - their armor has been degraded, costing them a point, but their roll is unaffected by wound penalties. They get a single success - the ganger has filled their wound track, with 3 additional damage to deal with. The ganger falls, with 3 aggravated wounds overwriting their full lethal track, and the ganger is unlikely to survive much longer if they don't get prompt medical attention.</i>
             </Typography>
           </Grid>
 
@@ -2003,7 +2004,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Piloting a vehicle is usually a Reflexes (manual control) or Technique (when using interface plugs) test + the appropriate piloting skill. Basic operation of a ground or sea vehicle requires no checks if you have at least one dot in the relevant skill, and in good circumstances even without any skills a character won't have too much trouble. Air vehicles are barely less friendly in the modern era, and most can be operated without killing everyone on board at least to the nearest flat piece of ground.
+              Piloting a vehicle is usually a Reflexes (manual control) or Technique (when using Interface Plugs) test + the appropriate piloting skill. Basic operation of a ground or sea vehicle requires no checks if you have at least one dot in the relevant skill, and in good circumstances even without any skills a character won't have too much trouble. Air vehicles are barely less friendly in the modern era, and most can be operated without killing everyone on board at least to the nearest flat piece of ground.
             </Typography>
           </Grid>
 
@@ -2015,7 +2016,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Using a weapon or attempting to do anything else while driving all require the appropriate piloting skill, and generally result in a divided dice pool - select the lower of the two skill pools, and divide the dice from that pool between piloting and whatever else is happening. Even routine driving may require a check depending on what the character is doing.
+              Using a weapon or attempting to do anything else while driving all require the appropriate piloting skill, and generally results in a divided dice pool - select the lower of the two skill pools, and divide the dice from that pool between piloting and whatever else is happening. Even routine driving may require a check depending on what else the character is doing.
             </Typography>
           </Grid>
 
@@ -2027,7 +2028,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Ramming another vehicle deals a number of lethal wounds equal to the vehicles structure to BOTH the ramming vehicle and the target vehicle. This can be increased by high speed and other factors. The driver and passengers also suffer a number of stun wounds (at least) determined by the GM. Ramming a pedestrian deals a number of lethal wounds equal to the vehicles structure, and the vehicle takes a number of wounds equal to the number of the pedestrians cyberlimbs.
+              Ramming another vehicle deals a number of lethal wounds equal to the vehicles armor to BOTH the ramming vehicle and the target vehicle. This can be increased by high speed and other factors. The driver and passengers also suffer a number of stun wounds (at least) determined by the GM. Ramming a pedestrian deals a number of lethal wounds equal to the vehicles structure, and the vehicle takes a number of wounds equal to the number of the pedestrians cyberlimbs.
             </Typography>
           </Grid>
 
@@ -2039,21 +2040,41 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashier maneuvers, though there's always a risk of dangerous feedback.
+              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashier maneuvers, though there's always a risk of dangerous feedback. 
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Multi-tasking is made much easier - characters connected via interface plaugs divide the LARGER of two die pools for actions. The smaller pool cannot be larger than normal.
+              Multi-tasking is made much easier - characters connected via Interface Plugs divide the LARGER of two die pools for actions. The smaller pool cannot be larger than normal. In particular, motorcycles can be made to do some otherwise wholly unnatural things - a character operating any kind of motorcycle with Interface Plugs is treated as on foot, and uses the highest attribute available when making tests - they can use the bike's health in place of their Body stat, the bike's Move in place of their normal Move attribute, and the bike's armor in place of their normal one, as they desire. Called shots can hit the operator as normal.
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Feedback - If a character is connected via interface plugs and the first half of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second track fills, they immediately suffer 4 unsoakable aggravated wounds (these can overwrite the lethal wounds). If something sufficiently catastrophic happens that fills the damage track in a single round, the character suffers the lower of the vehicles max health or 8 unsoakable aggravated wounds.
+              Feedback - If a character is connected via Interface Plugs and the first half of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second half of the track fills, they immediately suffer 4 unsoakable aggravated wounds. If something sufficiently catastrophic happens that fills the damage track in a single round, the character suffers the lower of the vehicles max health or eight in unsoakable aggravated wounds.
             </Typography>
           </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+                    <b>Vehicle health and armor</b>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+              Vehicles generally have very large health pools, and 1/2 their health value in armor. Attacks on characters are treated as attacking the vehicle; vehicles, broadly, cannot dodge attacks; A Technique + Pilot test is required to dodge attacks, and every three successes is counted as a single success on the dodge roll. Attacking a character inside a vehicle requires a called shot, raising the DV by 2. This can stack with other called shot modifiers; a normal called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head. Finally, any character operating a vehicle with Interface Plugs gives attackers a further +1 to difficulties to hit any passenger of said vehicle.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+              A vehicle's move is reduced by 1/2 when at half health or lower. A called shot to a tire reduces a vehicle's Move by 5, and reduces its Max Speed by 25%. Hitting a tire is a standard called shot (+2 DV), and is affected by the rules for Interface Plugs (additional +1 DV to called shots).
+            </Typography>
+          </Grid>
+
+
         </Grid>
       </TabPanel>
     </Box >
