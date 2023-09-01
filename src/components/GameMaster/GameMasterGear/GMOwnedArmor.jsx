@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
 export default function GMOwnedArmor() {
+    
     const dispatch = useDispatch()
 
     const charArmor = useSelector(store => store.advancementGear.armor)
@@ -21,6 +22,7 @@ export default function GMOwnedArmor() {
     const charShield = useSelector(store => store.advancementGear.shield)
     const boughtShield = useSelector(store => store.advancementGear.boughtShield)
 
+    const charDetail = useSelector(store => store.advancementDetail)
     const euroBuck = `\u20AC$`
 
     const gmRemoveArmor = (item) => {
@@ -97,6 +99,12 @@ export default function GMOwnedArmor() {
             numeric: true,
             disablePadding: false,
             label: 'Street Price',
+        },
+        {
+            id: 'equipped',
+            numeric: false,
+            disablePadding: false,
+            label: 'Equipped?',
         },
         {
             id: 'remove',
@@ -194,7 +202,7 @@ export default function GMOwnedArmor() {
     return (
         <>
             
-            <h2>My Armor</h2>
+            <h2>{charDetail.handle}'s Armor</h2>
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <TableContainer>
@@ -210,17 +218,16 @@ export default function GMOwnedArmor() {
                             />
                             <TableBody>
                                 {sortedCharArmorRows.map((row) => {
-                                    if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
                                                 <TableCell >{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{row.equipped ? 'Y' : 'N'}</TableCell>
                                                 <TableCell align="center"><Button onClick={() => gmRemoveArmor(row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         );
-                                    }
                                 })}
                                 {boughtArmor.map((item, i) => {
                                     return (
@@ -229,22 +236,22 @@ export default function GMOwnedArmor() {
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">N</TableCell>
                                             <TableCell align="center"><Button onClick={() => gmRemoveGMArmor(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )
                                 })}
                                 {sortedCharShieldRows.map((row) => {
-                                    if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
                                                 <TableCell>{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{row.equipped ? 'Y' : 'N'}</TableCell>
                                                 <TableCell align="center"><Button onClick={() => gmRemoveShield(row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         );
-                                    }
                                 })}
                                 {boughtShield.map((item, i) => {
                                     return (
@@ -253,6 +260,7 @@ export default function GMOwnedArmor() {
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center">N</TableCell>
                                             <TableCell align="center"><Button onClick={() => gmRemoveGMShield(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )

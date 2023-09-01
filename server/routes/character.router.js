@@ -920,6 +920,30 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
 
     pool.query(charSqlText, charParams)
         .then(result => {
+
+            // change cyberware details
+            const cyberware = req.body.gear.cyberware
+            const cyberwareSqlText = `UPDATE "char_owned_cyberware"
+            SET "equipped" = $1
+            WHERE owned_cyberware_id = $2`
+
+            for (let i = 0; i < cyberware.length; i++) {
+                const cyberwareSqlParams = [cyberware[i].equipped, cyberware[i].owned_cyberware_id]
+                pool.query(cyberwareSqlText, cyberwareSqlParams)
+            }
+
+            // change slot details
+            const cyberwareSlots = req.body.gear.cyberwareSlots
+            const cyberwareSlotsSqlText = `UPDATE "char_cyberware_bridge"
+            SET "fashionware_slots" = $1, "neuralware_slots" = $2, "cyberoptic_slots" = $3, 
+            "cyberaudio_slots" = $4, "internalware_slots" = $5, "externalware_slots" = $6, 
+            "cyberarm_slots" = $7, "cyberleg_slots" = $8
+            WHERE "cyberware_bridge_id" = $9`
+            const cyberwareSlotsSqlParams = [cyberwareSlots.fashionware_slots, cyberwareSlots.neuralware_slots, cyberwareSlots.cyberoptic_slots,
+            cyberwareSlots.cyberaudio_slots, cyberwareSlots.internalware_slots, cyberwareSlots.externalware_slots,
+            cyberwareSlots.cyberarm_slots, cyberwareSlots.cyberleg_slots, cyberwareSlots.cyberware_bridge_id]
+            pool.query(cyberwareSlotsSqlText, cyberwareSlotsSqlParams)
+
             const soldArmor = req.body.gear.soldArmor
             if (soldArmor.length > 0) {
                 const soldArmorSqlText = `DELETE FROM "char_armor_bridge" WHERE "armor_bridge_id" = $1`
@@ -957,9 +981,121 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }
+            const soldWeapons = req.body.gear.soldWeapons
+            if (soldWeapons.length > 0) {
+                const soldWeaponsSqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`
+                for (let i = 0; i < soldWeapons.length; i++) {
+                    const soldWeaponsParams = [soldWeapons[i].weapon_bridge_id]
+                    pool.query(soldWeaponsSqlText, soldWeaponsParams)
+                }
+            }
 
+            const boughtWeapons = req.body.gear.boughtWeapons
+            if (boughtWeapons.length > 0) {
+                const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
+            VALUES ($1, $2, $3, $4, $5, $6);`
+                for (let i = 0; i < boughtWeapons.length; i++) {
+                    const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
+                    pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
+                }
+            }
 
-            
+            // loop through misc gear, perform delete/post on each as needed
+            const soldMiscGear = req.body.gear.soldMiscGear
+            if (soldMiscGear.length > 0) {
+                const soldMiscGearSqlText = `DELETE FROM "char_gear_bridge" where "char_gear_bridge_id" = $1`
+                for (let i = 0; i < soldMiscGear.length; i++) {
+                    const soldMiscGearParams = [soldMiscGear[i].char_gear_bridge_id]
+                    pool.query(soldMiscGearSqlText, soldMiscGearParams)
+                }
+            }
+
+            const boughtMiscGear = req.body.gear.boughtMiscGear
+            if (boughtMiscGear.length > 0) {
+                const boughtMiscGearSqlText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") 
+            VALUES ($1, $2)`
+                for (let i = 0; i < boughtMiscGear.length; i++) {
+                    const boughtMiscGearParams = [req.body.char.id, boughtMiscGear[i].misc_gear_master_id]
+                    pool.query(boughtMiscGearSqlText, boughtMiscGearParams)
+                }
+            }
+
+            const soldNetrunnerGear = req.body.gear.soldNetrunnerGear
+            if (soldNetrunnerGear.length > 0) {
+                const soldNetrunnerGearSqlText = `DELETE FROM "netrunner_bridge" where "netrunner_bridge_id" = $1`
+                for (let i = 0; i < soldNetrunnerGear.length; i++) {
+                    const soldNetrunnerGearParams = [soldNetrunnerGear[i].netrunner_bridge_id]
+                    pool.query(soldNetrunnerGearSqlText, soldNetrunnerGearParams)
+                }
+            }
+
+            const boughtNetrunnerGear = req.body.gear.boughtNetrunnerGear
+            if (boughtNetrunnerGear.length > 0) {
+                const boughtNetrunnerGearSqlText = `INSERT INTO "netrunner_bridge" ("char_id", "netrunner_master_id") 
+            VALUES ($1, $2)`
+                for (let i = 0; i < boughtNetrunnerGear.length; i++) {
+
+                    const boughtNetrunnerGearParams = [req.body.char.id, boughtNetrunnerGear[i].netrunner_master_id]
+                    pool.query(boughtNetrunnerGearSqlText, boughtNetrunnerGearParams)
+                }
+            }
+
+            const soldVehicles = req.body.gear.soldVehicles
+            if (soldVehicles.length > 0) {
+                const soldVehicleSqlText = `DELETE FROM "char_vehicle_bridge" WHERE "vehicle_bridge_id" = $1`
+                for (let i = 0; i < soldVehicles.length; i++) {
+                    const soldVehicleParams = [soldVehicles[i].vehicle_bridge_id]
+                    pool.query(soldVehicleSqlText, soldVehicleParams)
+                }
+            }
+
+            const boughtVehicles = req.body.gear.boughtVehicles
+            if (boughtVehicles.length > 0) {
+                const boughtVehiclesSqlText = `INSERT INTO "char_vehicle_bridge" ("char_id", "vehicle_id")
+            VALUES ($1, $2);`
+                for (let i = 0; i < boughtVehicles.length; i++) {
+                    const boughtVehiclesParmas = [req.body.char.id, boughtVehicles[i].vehicle_master_id]
+                    pool.query(boughtVehiclesSqlText, boughtVehiclesParmas)
+                }
+            }
+
+            const soldVehicleMods = req.body.gear.soldVehicleMods
+            if (soldVehicleMods.length > 0) {
+                const soldVehicleModSqlText = `DELETE FROM "char_owned_vehicle_mods" WHERE "char_owned_vehicle_mods_id" = $1`
+                for (let i = 0; i < soldVehicleMods.length; i++) {
+                    const soldVehicleModsParams = [soldVehicleMods[i].char_owned_vehicle_mods_id]
+                    pool.query(soldVehicleModSqlText, soldVehicleModsParams)
+                }
+            }
+
+            const boughtVehicleMods = req.body.gear.boughtVehicleMods
+            if (boughtVehicleMods.length > 0) {
+                const boughtVehicleModsSqlText = `INSERT INTO "char_owned_vehicle_mods" ("char_id", "vehicle_mod_master_id")
+            VALUES ($1, $2);`
+                for (let i = 0; i < boughtVehicleMods.length; i++) {
+                    const boughtVehicleModsParams = [req.body.char.id, boughtVehicleMods[i].vehicle_mod_master_id]
+                    pool.query(boughtVehicleModsSqlText, boughtVehicleModsParams)
+                }
+            }
+
+            const soldCyberware = req.body.gear.soldCyberware
+            if (soldCyberware.length > 0) {
+                const soldCyberwareSqlText = `DELETE FROM "char_owned_cyberware" where "owned_cyberware_id" = $1`
+                for (let i = 0; i < soldCyberware.length; i++) {
+                    const soldCyberwareParams = [soldCyberware[i].owned_cyberware_id]
+                    pool.query(soldCyberwareSqlText, soldCyberwareParams)
+                }
+            }
+
+            const boughtCyberware = req.body.gear.boughtCyberware
+            if (boughtCyberware.length > 0) {
+                const boughtCyberwareSqlText = `INSERT INTO "char_owned_cyberware" ("char_id", "cyberware_master_id") 
+            VALUES ($1, $2)`
+                for (let i = 0; i < boughtCyberware.length; i++) {
+                    const boughtCyberwareParams = [req.body.char.id, boughtCyberware[i].cyberware_master_id]
+                    pool.query(boughtCyberwareSqlText, boughtCyberwareParams)
+                }
+            }
         })
         .then((result) => {
             res.sendStatus(201)

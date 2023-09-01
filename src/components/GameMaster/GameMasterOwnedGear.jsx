@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-
 import Grid from '@mui/material/Grid';
 import Item from '../Characters/CharacterSheet/Item';
 
@@ -12,8 +11,12 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 
-import GMOwnedArmor from './GMOwnedArmor';
-
+import GMOwnedArmor from './GameMasterGear/GMOwnedArmor';
+import GMOwnedWeapons from './GameMasterGear/GMOwnedWeapons';
+import GMOtherOwned from './GameMasterGear/GMOwnedGearOther';
+import GMOwnedCyberware from './GameMasterGear/GMOwnedCyberware';
+import GMOwnedNetrunner from './GameMasterGear/GMOwnedNetrunner';
+import GMOwnedVehicles from './GameMasterGear/GMOwnedVehicles';
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
@@ -72,23 +75,33 @@ export default function GameMasterOwnedGear() {
             </>) : <></>}
 
             {selectedGear === 'weapons' ? (<>
-
+                <Grid item xs={12} padding={1}>
+                    <GMOwnedWeapons />
+                </Grid>
             </>) : <></>}
 
             {selectedGear === 'misc' ? (<>
-
+                <Grid item xs={12} padding={1}>
+                    <GMOtherOwned />
+                </Grid>
             </>) : <></>}
 
             {selectedGear === 'cyberware' ? (<>
-
+                <Grid item xs={12} padding={1}>
+                    <GMOwnedCyberware />
+                </Grid>
             </>) : <></>}
 
             {selectedGear === 'netrunner' ? (<>
-
+                <Grid item xs={12} padding={1}>
+                    <GMOwnedNetrunner />
+                </Grid>
             </>) : <></>}
 
             {selectedGear === 'vehicles' ? (<>
-
+                <Grid item xs={12} padding={1}>
+                    <GMOwnedVehicles />
+                </Grid>
             </>) : <></>}
 
 

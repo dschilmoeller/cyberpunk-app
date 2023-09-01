@@ -306,6 +306,25 @@ const advancementDetail = (state = {}, action) => {
             is_paramedical: action.payload
         }
     }
+    if (action.type === 'GM_REMOVE_CYBERWARE') {
+        return {
+            ...state,
+            perm_humanity_loss: state.perm_humanity_loss - action.payload.humanity_loss_min
+        }
+    }
+    if (action.type === 'GM_REMOVE_NETRUNNER_GEAR') {
+        return {
+            ...state,
+            cyberdeck_slots: state.cyberdeck_slots - action.slots
+        }
+
+    }
+    if (action.type === 'GM_REMOVE_NETRUNNER_DECK') {
+        return {
+            ...state,
+            cyberdeck_slots: 0
+        }
+    }
 
     return state
 }

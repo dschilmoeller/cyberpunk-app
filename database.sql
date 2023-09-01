@@ -339,19 +339,19 @@ CREATE TABLE "char_vehicle_mod_bridge"(
 
 -- links characters to owned vehicles
 ALTER TABLE "char_vehicle_bridge"
-ADD CONSTRAINT "char_vehicle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_vehicle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_vehicle_bridge"
 ADD CONSTRAINT "char_vehicle_bridge_fk1" FOREIGN KEY ("vehicle_id") REFERENCES "vehicle_master"("vehicle_master_id");
 
 -- links characters to owned vehicle mods
 ALTER TABLE "char_owned_vehicle_mods"
-ADD CONSTRAINT "char_owned_vehicle_mods_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id");
+ADD CONSTRAINT "char_owned_vehicle_mods_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_owned_vehicle_mods"
 ADD CONSTRAINT "char_owned_vehicle_mods_fk1" FOREIGN KEY ("vehicle_mod_master_id") REFERENCES "vehicle_mod_master"("vehicle_mod_master_id");
 
 -- links vehicles to mods - rows created upon equipping a mod to a vehicle.
 ALTER TABLE "char_vehicle_mod_bridge"
-ADD CONSTRAINT "char_vehicle_mod_bridge_fk0" FOREIGN KEY ("vehicle_bridge_id") REFERENCES "char_vehicle_bridge"("vehicle_bridge_id");
+ADD CONSTRAINT "char_vehicle_mod_bridge_fk0" FOREIGN KEY ("vehicle_bridge_id") REFERENCES "char_vehicle_bridge"("vehicle_bridge_id") ON DELETE CASCADE;
 ALTER TABLE "char_vehicle_mod_bridge"
 ADD CONSTRAINT "char_vehicle_mod_bridge_fk1" FOREIGN KEY ("char_owned_vehicle_mods_id") REFERENCES "char_owned_vehicle_mods"("char_owned_vehicle_mods_id");
 

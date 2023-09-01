@@ -231,7 +231,6 @@ const advancementGear = (state = {
                     item.equipped = false
                     return item
                 }
-
             }),
         }
     }
@@ -290,7 +289,6 @@ const advancementGear = (state = {
     }
 
     if (action.type === 'UNEQUIP_CYBERWARE') {
-        console.log(`cyberware:`, action.payload);
         return {
             ...state,
             cyberwareSlots: {
@@ -665,6 +663,200 @@ const advancementGear = (state = {
                 ...state,
                 shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
                 soldShield: [...state.soldShield, action.payload]
+            }
+        case 'GM_ADD_WEAPON':
+            return {
+                ...state,
+                boughtWeapons: [...state.boughtWeapons,
+                {
+                    weapon_master_id: action.payload.item.weapon_master_id,
+                    concealable: action.payload.item.concealable,
+                    damage: action.payload.item.damage,
+                    description: action.payload.item.description,
+                    max_clip: action.payload.item.max_clip,
+                    range: action.payload.item.range,
+                    rof: action.payload.item.rof,
+                    name: action.payload.item.name,
+                    hands: action.payload.item.hands,
+                    price: action.payload.item.price,
+                    weaponID: action.payload.weaponID
+                }],
+                weaponID: state.weaponID + 1
+            }
+        case 'GM_REMOVE_GM_WEAPON':
+            return {
+                ...state,
+                boughtWeapons: state.boughtWeapons.filter(weapon => weapon.weaponID !== action.payload.weaponID),
+            }
+        case 'GM_REMOVE_WEAPON':
+            return {
+                ...state,
+                weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
+                soldWeapons: [...state.soldWeapons, action.payload]
+            }
+        case 'GM_ADD_MISC_GEAR':
+            return {
+                ...state,
+                boughtMiscGear: [...state.boughtMiscGear,
+                {
+                    description: action.payload.item.description,
+                    misc_gear_master_id: action.payload.item.misc_gear_master_id,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    miscGearID: action.payload.miscGearID
+                }],
+                miscGearID: state.miscGearID + 1
+            }
+        case 'GM_REMOVE_GM_MISC_GEAR':
+            return {
+                ...state,
+                boughtMiscGear: state.boughtMiscGear.filter(gear => gear.miscGearID !== action.payload.miscGearID),
+            }
+        case 'GM_REMOVE_MISC_GEAR':
+            return {
+                ...state,
+                gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id),
+                soldMiscGear: [...state.soldMiscGear, action.payload]
+            }
+        case 'GM_ADD_NETRUNNER_GEAR':
+            return {
+                ...state,
+                boughtNetrunnerGear: [...state.boughtNetrunnerGear,
+                {
+                    attack: action.payload.item.attack,
+                    defense: action.payload.item.defense,
+                    description: action.payload.item.description,
+                    name: action.payload.item.name,
+                    netrunner_master_id: action.payload.item.netrunner_master_id,
+                    price: action.payload.item.price,
+                    rez: action.payload.item.rez,
+                    slots: action.payload.item.slots,
+                    type: action.payload.item.type,
+                    netrunnerGearID: action.payload.netrunnerGearID
+                }],
+                netrunnerGearID: state.netrunnerGearID + 1
+            }
+        case 'GM_REMOVE_GM_NETRUNNER_GEAR':
+            return {
+                ...state,
+                boughtNetrunnerGear: state.boughtNetrunnerGear.filter(gear => gear.netrunnerGearID !== action.payload.netrunnerGearID),
+            }
+        case 'GM_REMOVE_NETRUNNER_DECK':
+            return {
+                ...state,
+                soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload],
+                netrunnerGear: state.netrunnerGear.map(item => {
+                    item.equipped = false
+                    return item
+                }),
+                netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
+            }
+        case 'GM_REMOVE_NETRUNNER_GEAR':
+            return {
+                ...state,
+                netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
+                soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload]
+            }
+        case 'GM_ADD_CYBERWARE':
+            return {
+                ...state,
+                boughtCyberware: [...state.boughtCyberware,
+                {
+                    cyberware_master_id: action.payload.item.cyberware_master_id,
+                    description: action.payload.item.description,
+                    humanity_loss_max: action.payload.item.humanity_loss_max,
+                    humanity_loss_min: action.payload.item.humanity_loss_min,
+                    install_level: action.payload.item.install_level,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    type: action.payload.item.type,
+                    cyberwareID: action.payload.cyberwareID,
+                }],
+                cyberwareID: state.cyberwareID + 1
+            }
+        case 'GM_REMOVE_GM_CYBERWARE':
+            return {
+                ...state,
+                boughtCyberware: state.boughtCyberware.filter(cyberware => cyberware.cyberwareID !== action.payload.cyberwareID),
+            }
+        case 'GM_REMOVE_CYBERWARE':
+            return {
+                ...state,
+                cyberware: state.cyberware.filter(cyberware => cyberware.owned_cyberware_id !== action.payload.owned_cyberware_id),
+                soldCyberware: [...state.soldCyberware, action.payload],
+                cyberwareSlots: {
+                    ...state.cyberwareSlots,
+                    [action.payload.slot_type]: action.payload.slot_count
+                },
+            }
+        case 'GM_UNEQUIP_CYBERWARE':
+            return {
+                ...state,
+                cyberware: state.cyberware.map(item => {
+                    if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
+                        item.equipped = false
+                        return item
+                    }
+                    return item
+                })
+            }
+        case 'GM_ADD_VEHICLE':
+            return {
+                ...state,
+                boughtVehicles: [...state.boughtVehicles,
+                {
+                    description: action.payload.item.description,
+                    health: action.payload.item.health,
+                    move: action.payload.item.move,
+                    mph: action.payload.item.mph,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    seats: action.payload.item.seats,
+                    type: action.payload.item.type,
+                    vehicle_master_id: action.payload.item.vehicle_master_id,
+                    is_nomad_vehicle: false,
+                    vehicleID: action.payload.vehicleID
+                }],
+                vehicleID: state.vehicleID + 1
+            }
+        case 'GM_REMOVE_GM_VEHICLE':
+            return {
+                ...state,
+                boughtVehicles: state.boughtVehicles.filter(gear => gear.vehicleID !== action.payload.vehicleID),
+            }
+        case 'GM_REMOVE_VEHICLE':
+            return {
+                ...state,
+                vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
+                soldVehicles: [...state.soldVehicles, action.payload]
+            }
+        case 'GM_ADD_VEHICLE_MOD':
+            return {
+                ...state,
+                boughtVehicleMods: [...state.boughtVehicleMods,
+                {
+                    char_id: action.payload.item.char_id,
+                    char_owned_vehicle_mods_id: action.payload.item.char_owned_vehicle_mods_id,
+                    description: action.payload.item.description,
+                    equipped: action.payload.item.equipped,
+                    name: action.payload.item.name,
+                    price: action.payload.item.price,
+                    type: action.payload.item.type,
+                    vehicle_mod_master_id: action.payload.item.vehicle_mod_master_id,
+                    vehicleModID: action.payload.vehicleModID
+                }],
+                vehicleModID: state.vehicleModID + 1
+            }
+        case 'GM_REMOVE_GM_VEHICLE_MOD':
+            return {
+                ...state,
+                boughtVehicleMods: state.boughtVehicleMods.filter(mod => mod.vehicleModID !== action.payload.vehicleModID),
+            }
+        case 'GM_REMOVE_VEHICLE_MOD':
+            return {
+                ...state,
+                vehicleMods: state.vehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.char_owned_vehicle_mods_id),
+                soldVehicleMods: [...state.soldVehicleMods, action.payload]
             }
     }
 
