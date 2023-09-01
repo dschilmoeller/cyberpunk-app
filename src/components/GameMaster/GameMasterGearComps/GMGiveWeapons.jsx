@@ -1,4 +1,4 @@
-import { useState, useMemo, forwardRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,16 +12,19 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import WeaponDialog from '../../Modals/WeaponDialog';
 
-export default function GMGiveNetrunnerSoftware() {
+export default function GMGiveWeapons() {
     const dispatch = useDispatch()
-    const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
-    const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
+    const weaponID = useSelector(store => store.advancementGear.weaponID)
+    const weaponMaster = useSelector(store => store.weaponMaster)
+
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
-    const buyNetrunnerGear = (item) => {
-        dispatch({ type: 'BUY_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID, price: 0 } })
+    const buyWeapon = (item) => {
+            dispatch({ type: 'GM_GIVE_WEAPON', payload: { item, weaponID, price: 0 } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -66,28 +69,40 @@ export default function GMGiveNetrunnerSoftware() {
             label: 'Name',
         },
         {
-            id: 'description',
+            id: 'damage',
             numeric: true,
             disablePadding: false,
-            label: 'Description',
+            label: 'Damage',
         },
         {
-            id: 'attack',
+            id: 'range',
             numeric: true,
             disablePadding: false,
-            label: 'Attack',
+            label: 'Range',
         },
         {
-            id: 'defense',
+            id: 'rof',
             numeric: true,
             disablePadding: false,
-            label: 'Defense',
+            label: 'Rate of Fire',
         },
         {
-            id: 'rez',
+            id: 'max_clip',
             numeric: true,
             disablePadding: false,
-            label: 'Rez',
+            label: 'Max Clip',
+        },
+        {
+            id: 'hands',
+            numeric: true,
+            disablePadding: false,
+            label: '# of Hands',
+        },
+        {
+            id: 'concealable',
+            numeric: false,
+            disablePadding: false,
+            label: 'Concealable',
         },
         {
             id: 'price',
@@ -140,8 +155,11 @@ export default function GMGiveNetrunnerSoftware() {
         orderBy: PropTypes.string.isRequired,
     };
 
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name');
+
+
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState('price');
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -149,29 +167,58 @@ export default function GMGiveNetrunnerSoftware() {
         setOrderBy(property);
     };
 
-    // create OtherGear Data
+    // create weaponMaster data
 
-    function createNetrunnerGearData(attack, defense, description, name, netrunner_master_id, price, rez, slots, type) {
+    function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id) {
         return {
-            attack, defense, description, name, netrunner_master_id, price, rez, slots, type
+            concealable,
+            damage,
+            dmg_type,
+            hands,
+            max_clip,
+            name,
+            price,
+            range,
+            rof,
+            weapon_master_id
         }
     }
 
-    // take misc gear data and push into array for conversion into rows.
-    const netrunnerMasterRows = []
-    for (let i = 0; i < netrunnerGearMaster.length; i++) {
-        netrunnerMasterRows.push(createNetrunnerGearData(netrunnerGearMaster[i].attack, netrunnerGearMaster[i].defense, netrunnerGearMaster[i].description, netrunnerGearMaster[i].name, netrunnerGearMaster[i].netrunner_master_id, netrunnerGearMaster[i].price, netrunnerGearMaster[i].rez, netrunnerGearMaster[i].slots, netrunnerGearMaster[i].type))
+    // take weaponMaster data and push into array for conversion into rows.
+    const weaponMasterRows = []
+    for (let i = 0; i < weaponMaster.length; i++) {
+        let damage = 0
+        let range = 0
+
+        // precalculate strength based damage
+        if (weaponMaster[i].dmg_type === 'melee' || weaponMaster[i].dmg_type === 'bow') {
+            damage = charDetail.strength + charDetail.cyber_strength + weaponMaster[i].damage
+        } else {
+            damage = weaponMaster[i].damage
+        }
+        // precalculate strength based range
+        if (weaponMaster[i].dmg_type === 'bow') {
+            range = (charDetail.strength + charDetail.cyber_strength) * weaponMaster[i].range
+        } else {
+            range = weaponMaster[i].range
+        }
+        // return finalized weapon data (allows range and damage to sort properly)
+        weaponMasterRows.push(createMasterWeaponData(weaponMaster[i].concealable, damage, weaponMaster[i].dmg_type,
+            weaponMaster[i].hands, weaponMaster[i].max_clip, weaponMaster[i].name,
+            weaponMaster[i].price, range, weaponMaster[i].rof,
+            weaponMaster[i].weapon_master_id))
     }
 
     // sort and monitor changes. 
-    const sortedNetrunnerMasterRows = useMemo(
+    const sortedWeaponMasterRows = React.useMemo(
         () =>
-            stableSort(netrunnerMasterRows, getComparator(order, orderBy)),
-        [order, orderBy],
+            stableSort(weaponMasterRows, getComparator(order, orderBy)),
+        [order, orderBy, weaponMaster],
     );
 
     return (<>
 
+        <h2>Give {charDetail.handle} Weapons</h2>
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -186,20 +233,20 @@ export default function GMGiveNetrunnerSoftware() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedNetrunnerMasterRows.map((row) => {
-                                if (row.type === 'software') {
-                                    return (
-                                        <TableRow hover key={row.name}>
-                                            <TableCell align='left'>{row.name}</TableCell>
-                                            <TableCell align="left">{row.description}</TableCell>
-                                            <TableCell align="left">{row.attack}</TableCell>
-                                            <TableCell align="left">{row.defense}</TableCell>
-                                            <TableCell align="left">{row.rez}</TableCell>
-                                            <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="left"><Button onClick={() => buyNetrunnerGear(row)}>Give</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                }
+                            {sortedWeaponMasterRows.map((row) => {
+                                return (
+                                    <TableRow hover key={row.name}>
+                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell align="left">{row.damage}</TableCell>
+                                        <TableCell align="left">{row.range}</TableCell>
+                                        <TableCell align="left">{row.rof}</TableCell>
+                                        <TableCell align="left">{row.max_clip}</TableCell>
+                                        <TableCell align="left">{row.hands}</TableCell>
+                                        <TableCell align="left">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
+                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => buyWeapon(row)}>Give</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                         </TableBody>
                     </Table>

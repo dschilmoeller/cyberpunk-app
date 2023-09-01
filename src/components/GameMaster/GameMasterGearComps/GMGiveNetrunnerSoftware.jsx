@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
 
-export default function GMGiveNetrunnerMods() {
+export default function GMGiveNetrunnerSoftware() {
     const dispatch = useDispatch()
     const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
     const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
@@ -21,7 +21,7 @@ export default function GMGiveNetrunnerMods() {
     const euroBuck = `\u20AC$`
 
     const buyNetrunnerGear = (item) => {
-            dispatch({ type: 'BUY_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID, price: 0 } })
+        dispatch({ type: 'GM_GIVE_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID, price: 0 } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -72,10 +72,22 @@ export default function GMGiveNetrunnerMods() {
             label: 'Description',
         },
         {
-            id: 'slots',
+            id: 'attack',
             numeric: true,
             disablePadding: false,
-            label: 'Slots',
+            label: 'Attack',
+        },
+        {
+            id: 'defense',
+            numeric: true,
+            disablePadding: false,
+            label: 'Defense',
+        },
+        {
+            id: 'rez',
+            numeric: true,
+            disablePadding: false,
+            label: 'Rez',
         },
         {
             id: 'price',
@@ -85,7 +97,7 @@ export default function GMGiveNetrunnerMods() {
         },
         {
             id: 'give',
-            numeric: true,
+            numeric: false,
             disablePadding: false,
             label: 'Give',
         },
@@ -175,12 +187,14 @@ export default function GMGiveNetrunnerMods() {
                         />
                         <TableBody>
                             {sortedNetrunnerMasterRows.map((row) => {
-                                if (row.type === 'mod') {
+                                if (row.type === 'software') {
                                     return (
                                         <TableRow hover key={row.name}>
                                             <TableCell align='left'>{row.name}</TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
-                                            <TableCell align="left">{row.slots}</TableCell>
+                                            <TableCell align="left">{row.attack}</TableCell>
+                                            <TableCell align="left">{row.defense}</TableCell>
+                                            <TableCell align="left">{row.rez}</TableCell>
                                             <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                             <TableCell align="left"><Button onClick={() => buyNetrunnerGear(row)}>Give</Button></TableCell>
                                         </TableRow>

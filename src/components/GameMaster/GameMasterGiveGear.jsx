@@ -6,12 +6,12 @@ import Tab from '@mui/material/Tab';
 
 import Item from '../Characters/CharacterSheet/Item';
 
-import GMGiveArmor from './GameMasterGear/GMGiveArmor';
-import GMGiveWeapons from './GameMasterGear/GMGiveWeapons';
-import GMGiveGearOther from './GameMasterGear/GMGiveGearOther';
-import GMGiveCyberware from './GameMasterGear/GMGiveCyberware';
-import GMGiveNetrunnerMain from './GameMasterGear/GMGiveNetrunnerMain';
-import GMGiveVehicles from './GameMasterGear/GMGiveVehicles';
+import GMGiveArmor from './GameMasterGearComps/GMGiveArmor';
+import GMGiveWeapons from './GameMasterGearComps/GMGiveWeapons';
+import GMGiveGearOther from './GameMasterGearComps/GMGiveGearOther';
+import GMGiveCyberware from './GameMasterGearComps/GMGiveCyberware';
+import GMGiveNetrunnerMain from './GameMasterGearComps/GMGiveNetrunnerMain';
+import GMGiveVehicles from './GameMasterGearComps/GMGiveVehicles';
 
 export default function GameMasterGiveGear() {
 

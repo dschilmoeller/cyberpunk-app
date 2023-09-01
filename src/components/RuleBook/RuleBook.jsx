@@ -1668,6 +1668,30 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
+              <b>Weapon Specific Rules</b>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+              Certain weapons are parts of groups that share similar characteristics. SMGs and Assault Rifles, no matter their type, have access to the Automatic Fire and Suppressing Fire rules. Shotguns always have access to Shellfire. 
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+              SMGs do not deal extra damage based on the number of successes made to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die pool while making more than one attack in a round, add +1 die to each pool.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+              Assault Rifles are designed to fire very accurately and quickly - when a character splits their die pool while making more than one attack in a round, add +1 die to each pool.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
               <b>Automatic Fire</b>
             </Typography>
           </Grid>
@@ -1675,7 +1699,7 @@ export default function VerticalTabs() {
           <Grid item xs={12}>
             <Typography variant='p'>
               Characters firing a weapon in full automatic have a ROF of 1 and a base difficulty of 5 on their attack. Their weapon must have 10 or more rounds remaining in its clip. The attacker cannot perform aimed shots, and additional successes on the attack do not provide additional damage. However, the attacker can remove dice from their attack die pool. If they do so, they can force their opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> their soak roll.
-              Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4.
+              Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND successes provide additional damage.
             </Typography>
           </Grid>
 
@@ -1711,7 +1735,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Explosives damage a large area rather than hitting a specific target. Similar to shellfire, they deal damage in a large area. Landing an explosive in a specific location requires 3 successes on the attack roll - it drifts a bit on attacks that get fewer than 3 successes. Only characters with Reflexes of 6 or higher who can get out of range in a single move action have a chance of dodging explosive attacks.
+              Explosives damage a large area rather than hitting a specific target. Similar to shellfire, they deal damage in a large area. Landing an explosive in a specific location requires 3 successes on the attack roll - it drifts a bit on attacks that get fewer than 3 successes. Only characters with Reflexes of 6 or higher AND can get out of range in a single move action have a chance of dodging explosive attacks.
             </Typography>
           </Grid>
 

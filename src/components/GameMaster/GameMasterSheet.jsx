@@ -112,8 +112,6 @@ export default function GameMasterSheet() {
             {/* all owned gear, cyberware, netrunner, vehicles, etc. */}
             <Tab value='gmGear' label='Give Gear' />
             {/* arbitrary giving of standard equipment */}
-            <Tab value='treasure' label='Treasures' />
-            {/* giving gear from the Secret Table(s) */}
         </Tabs>
 
         <Grid container spacing={2} alignItems="center">
@@ -145,10 +143,6 @@ export default function GameMasterSheet() {
 
         {selectedSheet === 'gmGear' ? (<>
             <GameMasterGiveGear />
-        </>) : <> </>}
-
-        {selectedSheet === 'treasure' ? (<>
-
         </>) : <> </>}
 
     </>)

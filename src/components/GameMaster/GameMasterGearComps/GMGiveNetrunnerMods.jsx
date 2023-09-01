@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useMemo, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,26 +12,16 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-export default function GMGiveArmor() {
 
-    const dispatch = useDispatch();
-
-    const charDetail = useSelector((store) => store.advancementDetail);
+export default function GMGiveNetrunnerMods() {
+    const dispatch = useDispatch()
+    const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
+    const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
 
     const euroBuck = `\u20AC$`
 
-    const armorID = useSelector(store => store.advancementGear.armorID)
-    const armorMaster = useSelector(store => store.armorMaster)
-
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
-    const shieldMaster = useSelector(store => store.shieldMaster)
-
-    const buyArmor = (item) => {
-        dispatch({ type: 'BUY_ARMOR', payload: { item, armorID, price: 0 } })
-    }
-
-    const buyShield = (item) => {
-        dispatch({ type: 'BUY_SHIELD', payload: { item, shieldID, price: 0 } })
+    const buyNetrunnerGear = (item) => {
+            dispatch({ type: 'GM_GIVE_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID, price: 0 } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -76,16 +66,16 @@ export default function GMGiveArmor() {
             label: 'Name',
         },
         {
-            id: 'quality',
+            id: 'description',
             numeric: true,
             disablePadding: false,
-            label: 'Quality',
+            label: 'Description',
         },
         {
-            id: 'description',
-            numeric: false,
+            id: 'slots',
+            numeric: true,
             disablePadding: false,
-            label: 'Description',
+            label: 'Slots',
         },
         {
             id: 'price',
@@ -95,7 +85,7 @@ export default function GMGiveArmor() {
         },
         {
             id: 'give',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Give',
         },
@@ -138,8 +128,8 @@ export default function GMGiveArmor() {
         orderBy: PropTypes.string.isRequired,
     };
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('price');
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -147,47 +137,28 @@ export default function GMGiveArmor() {
         setOrderBy(property);
     };
 
-    function createMasterArmorData(armor_master_id, description, name, price, quality) {
+    // create OtherGear Data
+
+    function createNetrunnerGearData(attack, defense, description, name, netrunner_master_id, price, rez, slots, type) {
         return {
-            armor_master_id, description, name, price, quality
+            attack, defense, description, name, netrunner_master_id, price, rez, slots, type
         }
     }
 
-    const masterArmorRows = []
-    for (let i = 0; i < armorMaster.length; i++) {
-        masterArmorRows.push(createMasterArmorData(armorMaster[i].armor_master_id, armorMaster[i].description, armorMaster[i].name,
-            armorMaster[i].price, armorMaster[i].quality))
+    // take misc gear data and push into array for conversion into rows.
+    const netrunnerMasterRows = []
+    for (let i = 0; i < netrunnerGearMaster.length; i++) {
+        netrunnerMasterRows.push(createNetrunnerGearData(netrunnerGearMaster[i].attack, netrunnerGearMaster[i].defense, netrunnerGearMaster[i].description, netrunnerGearMaster[i].name, netrunnerGearMaster[i].netrunner_master_id, netrunnerGearMaster[i].price, netrunnerGearMaster[i].rez, netrunnerGearMaster[i].slots, netrunnerGearMaster[i].type))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
-    const sortedMasterArmorRows = React.useMemo(
+    // sort and monitor changes. 
+    const sortedNetrunnerMasterRows = useMemo(
         () =>
-            stableSort(masterArmorRows, getComparator(order, orderBy)),
+            stableSort(netrunnerMasterRows, getComparator(order, orderBy)),
         [order, orderBy],
     );
-
-    function createMasterShieldData(description, name, price, quality, shield_master_id) {
-        return {
-            description, name, price, quality, shield_master_id
-        }
-    }
-
-    const masterShieldRows = []
-    for (let i = 0; i < shieldMaster.length; i++) {
-        masterShieldRows.push(createMasterShieldData(shieldMaster[i].description, shieldMaster[i].name, shieldMaster[i].price,
-            shieldMaster[i].quality, shieldMaster[i].shield_master_id))
-    }
-
-    const sortedMasterShieldRows = React.useMemo(
-        () =>
-            stableSort(masterShieldRows, getComparator(order, orderBy)),
-        [order, orderBy],
-    );
-
 
     return (<>
-
-        <h2>Give {charDetail.handle} Armor</h2>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -203,33 +174,23 @@ export default function GMGiveArmor() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedMasterArmorRows.map((row) => {
-                                return (
-                                    <TableRow hover key={row.armor_master_id}>
-                                        <TableCell align="left">{row.name}</TableCell>
-                                        <TableCell align="left">{row.quality}</TableCell>
-                                        <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => buyArmor(row)}>Give</Button></TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                            {sortedMasterShieldRows.map((row) => {
-                                return (
-                                    <TableRow hover key={row.shield_master_id}>
-                                        <TableCell align="left">{row.name}</TableCell>
-                                        <TableCell align="left">{row.quality}</TableCell>
-                                        <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => buyShield(row)}>Give</Button></TableCell>
-                                    </TableRow>
-                                );
+                            {sortedNetrunnerMasterRows.map((row) => {
+                                if (row.type === 'mod') {
+                                    return (
+                                        <TableRow hover key={row.name}>
+                                            <TableCell align='left'>{row.name}</TableCell>
+                                            <TableCell align="left">{row.description}</TableCell>
+                                            <TableCell align="left">{row.slots}</TableCell>
+                                            <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="left"><Button onClick={() => buyNetrunnerGear(row)}>Give</Button></TableCell>
+                                        </TableRow>
+                                    );
+                                }
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
-
     </>)
 }

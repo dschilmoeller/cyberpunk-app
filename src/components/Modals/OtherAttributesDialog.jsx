@@ -138,6 +138,37 @@ export default function OtherAttributesDialog({ prop }) {
                     <Grid item xs={12} paddingBottom={1}>Characters missing 30 or more Humanity suffer from some kind of mental derangement - sociopathy is most common, but hallucinations, dissociative episodes, mistaken identity of themselves or others, and memory loss are all regular occurrences.</Grid>
                     <Grid item xs={12} paddingBottom={1}>Characters missing 40 or more humanity undergo a complete psychotic break, and are turned over to the control of the GM. If they are immediately subdued they might be able to recover, but most often this is the end of that character as anything but a dangerous opponent to themselves and everyone around them.</Grid>
                 </>)
+            case 'DMG':
+                return (
+                    <>
+                        <Grid container fontFamily={'serif'}>
+                            <Grid item padding={1} xs={12}></Grid>
+                            <Grid item padding={1} xs={12}>This is the base damage of the weapon. Any successes beyond the one needed to hit a target are added to this number (with some exceptions) when calculating total damage done on an attack. This figure is compared to a targets armor, as well, and cannot hurt them if their armor is more than 3 times the base damage.</Grid>
+                        </Grid>
+                    </>
+                )
+            case 'ROF':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>Rate of Fire determines how many times a weapon can be used to attack as part of a standard action. Attacking more than once requires splitting a character's die pool. If two or more weapons are being used, the lowest rate of fire is the one which applies.</Grid>
+                    </Grid>
+                </>)
+            case 'Range':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>Range is measured in meters. Melee weapons must be used within 1 meter of the target. In grid based play, each square is one meter. Otherwise, the GM has final say over whether a target is in range or not.</Grid>
+                        <Grid item padding={1} xs={12}>Shots fired at a target 1 or 2 meters away are considered 'point blank', and have a difficulty value 1 lower than normal to hit (typically 5).</Grid>
+                        <Grid item padding={1} xs={12}>Shots fired at a target 3 meters to their stated range are considered 'in range', and have no modifiers to the difficulty value (typically 6).</Grid>
+                        <Grid item padding={1} xs={12}>Shots fired at a target between 1 and 2 times the weapons Range are considered 'long range', and have a difficulty value 1 higher than normal to hit (typically 7).</Grid>
+                        <Grid item padding={1} xs={12}>Shots fired at a target between 2 and 3 times the weapons Range are considered 'extreme range', and have a difficulty value 3 higher than normal to hit (typically 9).</Grid>
+                    </Grid>
+                </>)
+            case 'Number of Hands':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>Range is measured in meters. Melee weapons must be used within 1 meter of the target. In grid based play, each square is one meter. Otherwise, the GM has final say over whether a target is in range or not.</Grid>
+                    </Grid>
+                </>)
         }
     }
 

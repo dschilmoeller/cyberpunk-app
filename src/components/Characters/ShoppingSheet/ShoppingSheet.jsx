@@ -55,7 +55,7 @@ function ShoppingSheet() {
         history.push('/characterlist')
     }
 
-    const [selectedShopping, setSelectedShopping] = useState('armor')
+    const [selectedShopping, setSelectedShopping] = useState(false)
     const handleShoppingSelect = (event, newValue) => {
         setSelectedShopping(newValue)
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,17 +12,26 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+export default function GMGiveArmor() {
 
-export default function GMGiveVehicleMods() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
-    const vehicleModMaster = useSelector(store => store.vehicleModMaster)
+    const charDetail = useSelector((store) => store.advancementDetail);
 
     const euroBuck = `\u20AC$`
 
-    const buyVehicleMod = (item) => {
-            dispatch({ type: 'BUY_VEHICLE_MOD', payload: { item, vehicleModID, price: 0 } })
+    const armorID = useSelector(store => store.advancementGear.armorID)
+    const armorMaster = useSelector(store => store.armorMaster)
+
+    const shieldID = useSelector(store => store.advancementGear.shieldID)
+    const shieldMaster = useSelector(store => store.shieldMaster)
+
+    const buyArmor = (item) => {
+        dispatch({ type: 'GM_GIVE_ARMOR', payload: { item, armorID } })
+    }
+
+    const buyShield = (item) => {
+        dispatch({ type: 'GM_GIVE_SHIELD', payload: { item, shieldID } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -67,16 +76,16 @@ export default function GMGiveVehicleMods() {
             label: 'Name',
         },
         {
+            id: 'quality',
+            numeric: true,
+            disablePadding: false,
+            label: 'Quality',
+        },
+        {
             id: 'description',
             numeric: false,
             disablePadding: false,
             label: 'Description',
-        },
-        {
-            id: 'type',
-            numeric: false,
-            disablePadding: false,
-            label: 'Type',
         },
         {
             id: 'price',
@@ -105,7 +114,7 @@ export default function GMGiveVehicleMods() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={'center'}
+                            align={'left'}
                             padding={'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -138,25 +147,47 @@ export default function GMGiveVehicleMods() {
         setOrderBy(property);
     };
 
-    function createVehicleModMasterData(description, name, type, price, vehicle_mod_master_id) {
+    function createMasterArmorData(armor_master_id, description, name, price, quality) {
         return {
-            description, name, price, type, vehicle_mod_master_id
+            armor_master_id, description, name, price, quality
         }
     }
 
-    const vehicleModMasterRows = []
-    for (let i = 0; i < vehicleModMaster.length; i++) {
-        vehicleModMasterRows.push(createVehicleModMasterData(vehicleModMaster[i].description, vehicleModMaster[i].name, vehicleModMaster[i].type, vehicleModMaster[i].price, vehicleModMaster[i].vehicle_mod_master_id))
+    const masterArmorRows = []
+    for (let i = 0; i < armorMaster.length; i++) {
+        masterArmorRows.push(createMasterArmorData(armorMaster[i].armor_master_id, armorMaster[i].description, armorMaster[i].name,
+            armorMaster[i].price, armorMaster[i].quality))
     }
 
     // sort and monitor changes to charArmorRows in case of sales.
-    const sortedVehicleModMasterRows = React.useMemo(
+    const sortedMasterArmorRows = React.useMemo(
         () =>
-            stableSort(vehicleModMasterRows, getComparator(order, orderBy)),
+            stableSort(masterArmorRows, getComparator(order, orderBy)),
         [order, orderBy],
     );
 
+    function createMasterShieldData(description, name, price, quality, shield_master_id) {
+        return {
+            description, name, price, quality, shield_master_id
+        }
+    }
+
+    const masterShieldRows = []
+    for (let i = 0; i < shieldMaster.length; i++) {
+        masterShieldRows.push(createMasterShieldData(shieldMaster[i].description, shieldMaster[i].name, shieldMaster[i].price,
+            shieldMaster[i].quality, shieldMaster[i].shield_master_id))
+    }
+
+    const sortedMasterShieldRows = React.useMemo(
+        () =>
+            stableSort(masterShieldRows, getComparator(order, orderBy)),
+        [order, orderBy],
+    );
+
+
     return (<>
+
+        <h2>Give {charDetail.handle} Armor</h2>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -172,19 +203,28 @@ export default function GMGiveVehicleMods() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedVehicleModMasterRows.map((row) => {
-                                if (row.type != 'All')
-                                    return (
-                                        <TableRow hover key={row.vehicle_mod_master_id}>
-                                            <TableCell padding='normal'>{row.name}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyVehicleMod(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
+                            {sortedMasterArmorRows.map((row) => {
+                                return (
+                                    <TableRow hover key={row.armor_master_id}>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="left">{row.quality}</TableCell>
+                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => buyArmor(row)}>Give</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
-
+                            {sortedMasterShieldRows.map((row) => {
+                                return (
+                                    <TableRow hover key={row.shield_master_id}>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="left">{row.quality}</TableCell>
+                                        <TableCell align="left">{row.description}</TableCell>
+                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => buyShield(row)}>Give</Button></TableCell>
+                                    </TableRow>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>

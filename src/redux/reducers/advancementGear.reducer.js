@@ -614,7 +614,7 @@ const advancementGear = (state = {
     // GM change Handlers
     // functionally identical to buying/selling armor, but with no corresponding bank change in the advancementDetail reducer - simply arbitrarily adds and removes armor.
     switch (action.type) {
-        case 'GM_ADD_ARMOR':
+        case 'GM_GIVE_ARMOR':
             return {
                 ...state,
                 boughtArmor: [...state.boughtArmor,
@@ -639,7 +639,7 @@ const advancementGear = (state = {
                 armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
                 soldArmor: [...state.soldArmor, action.payload]
             }
-        case 'GM_ADD_SHIELD':
+        case 'GM_GIVE_SHIELD':
             return {
                 ...state,
                 boughtShield: [...state.boughtShield,
@@ -664,7 +664,7 @@ const advancementGear = (state = {
                 shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
                 soldShield: [...state.soldShield, action.payload]
             }
-        case 'GM_ADD_WEAPON':
+        case 'GM_GIVE_WEAPON':
             return {
                 ...state,
                 boughtWeapons: [...state.boughtWeapons,
@@ -694,7 +694,7 @@ const advancementGear = (state = {
                 weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
                 soldWeapons: [...state.soldWeapons, action.payload]
             }
-        case 'GM_ADD_MISC_GEAR':
+        case 'GM_GIVE_MISC_GEAR':
             return {
                 ...state,
                 boughtMiscGear: [...state.boughtMiscGear,
@@ -718,7 +718,7 @@ const advancementGear = (state = {
                 gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id),
                 soldMiscGear: [...state.soldMiscGear, action.payload]
             }
-        case 'GM_ADD_NETRUNNER_GEAR':
+        case 'GM_GIVE_NETRUNNER_GEAR':
             return {
                 ...state,
                 boughtNetrunnerGear: [...state.boughtNetrunnerGear,
@@ -757,7 +757,7 @@ const advancementGear = (state = {
                 netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
                 soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload]
             }
-        case 'GM_ADD_CYBERWARE':
+        case 'GM_GIVE_CYBERWARE':
             return {
                 ...state,
                 boughtCyberware: [...state.boughtCyberware,
@@ -800,7 +800,7 @@ const advancementGear = (state = {
                     return item
                 })
             }
-        case 'GM_ADD_VEHICLE':
+        case 'GM_GIVE_VEHICLE':
             return {
                 ...state,
                 boughtVehicles: [...state.boughtVehicles,
@@ -830,7 +830,7 @@ const advancementGear = (state = {
                 vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
                 soldVehicles: [...state.soldVehicles, action.payload]
             }
-        case 'GM_ADD_VEHICLE_MOD':
+        case 'GM_GIVE_VEHICLE_MOD':
             return {
                 ...state,
                 boughtVehicleMods: [...state.boughtVehicleMods,

@@ -6,12 +6,12 @@ import Item from '../Characters/CharacterSheet/Item';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import GMOwnedArmor from './GameMasterGear/GMOwnedArmor';
-import GMOwnedWeapons from './GameMasterGear/GMOwnedWeapons';
-import GMOtherOwned from './GameMasterGear/GMOwnedGearOther';
-import GMOwnedCyberware from './GameMasterGear/GMOwnedCyberware';
-import GMOwnedNetrunner from './GameMasterGear/GMOwnedNetrunner';
-import GMOwnedVehicles from './GameMasterGear/GMOwnedVehicles';
+import GMOwnedArmor from './GameMasterGearComps/GMOwnedArmor';
+import GMOwnedWeapons from './GameMasterGearComps/GMOwnedWeapons';
+import GMOtherOwned from './GameMasterGearComps/GMOwnedGearOther';
+import GMOwnedCyberware from './GameMasterGearComps/GMOwnedCyberware';
+import GMOwnedNetrunner from './GameMasterGearComps/GMOwnedNetrunner';
+import GMOwnedVehicles from './GameMasterGearComps/GMOwnedVehicles';
 
 export default function GameMasterOwnedGear() {
     const [selectedGear, setSelectedGear] = useState('armor')

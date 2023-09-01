@@ -3,7 +3,9 @@ import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
 import { Button, Typography } from '@mui/material';
-import CharSheetWeaponDialog from '../../Modals/CharSheetWeaponDialog';
+
+import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
+import WeaponDialog from '../../Modals/WeaponDialog';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -112,10 +114,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -132,10 +134,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -151,10 +153,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -171,10 +173,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -191,10 +193,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -211,10 +213,10 @@ function Weapons() {
                         <Grid item xs={6} >
                             <Grid container>
                                 <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><CharSheetWeaponDialog prop={cyberware.name} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
                                 <Grid item xs={2}><Item>{damage}</Item></Grid>
                                 <Grid item xs={2}><Item>2</Item></Grid>
                                 <Grid item xs={2}><Item>Melee</Item></Grid>
@@ -260,10 +262,10 @@ function Weapons() {
                                     <Grid item xs={6} >
                                         <Grid container>
                                             <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                            <Grid item xs={6}><Item><CharSheetWeaponDialog prop={weapon.name} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                            <Grid item xs={6}><Item><WeaponDialog prop={weapon.name} /></Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + charDetail.cyber_strength + weapon.damage : weapon.damage}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
@@ -285,10 +287,10 @@ function Weapons() {
                                     <Grid item xs={6}>
                                         <Grid container>
                                             <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'DMG'} /></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'ROF'} /></Item></Grid>
-                                            <Grid item xs={2}><Item><CharSheetWeaponDialog prop={'Range'} /></Item></Grid>
-                                            <Grid item xs={6}><Item><CharSheetWeaponDialog prop={weapon.name} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                                            <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                                            <Grid item xs={6}><Item><WeaponDialog prop={weapon.name} /></Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + weapon.damage : weapon.damage}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>

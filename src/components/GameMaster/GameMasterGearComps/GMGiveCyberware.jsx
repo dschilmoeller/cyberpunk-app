@@ -27,7 +27,7 @@ export default function GMGiveCyberware() {
     }
 
     const buyCyberware = (item) => {
-        dispatch({ type: 'BUY_CYBERWARE', payload: { item, cyberwareID: cyberwareID, price: 0 } })
+        dispatch({ type: 'GM_GIVE_CYBERWARE', payload: { item, cyberwareID: cyberwareID, price: 0 } })
     }
 
     return (<>

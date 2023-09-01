@@ -103,6 +103,7 @@ CREATE TABLE "char_status" (
 
 CREATE TABLE "weapon_master" (
 	"weapon_master_id" serial NOT NULL,
+	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER'
 	"name" varchar NOT NULL,
 	"damage" integer NOT NULL,
 	"dmg_type" varchar NOT NULL,
@@ -112,6 +113,7 @@ CREATE TABLE "weapon_master" (
 	"hands" integer NOT NULL,
 	"concealable" bool NOT NULL,
 	"price" integer NOT NULL DEFAULT '0',
+	"is_treasure" bool NOT NULL DEFAULT false,
 	CONSTRAINT "weapons_master_pk" PRIMARY KEY ("weapon_master_id")
 ) WITH (OIDS = FALSE);
 
@@ -697,184 +699,40 @@ VALUES (
 		1000,
 		E'A full sized shield offering decent protection.'
 	)
-INSERT INTO "public"."weapon_master"(
-		"name",
-		"damage",
-		"dmg_type",
-		"range",
-		"rof",
-		"max_clip",
-		"hands",
-		"concealable",
-		"price"
-	)
-VALUES (
-		E'Light Melee Weapon',
-		0,
-		E'melee',
-		0,
-		2,
-		0,
-		1,
-		TRUE,
-		10
-	),
-	(
-		E'Medium Melee Weapon',
-		1,
-		E'melee',
-		0,
-		2,
-		0,
-		1,
-		FALSE,
-		50
-	),
-	(
-		E'Heavy Melee Weapon',
-		2,
-		E'melee',
-		0,
-		2,
-		0,
-		2,
-		FALSE,
-		100
-	),
-	(
-		E'Very Heavy Melee Weapon',
-		4,
-		E'melee',
-		0,
-		1,
-		0,
-		2,
-		FALSE,
-		500
-	),
-	(
-		E'Light Pistol',
-		4,
-		E'gun',
-		5,
-		2,
-		12,
-		1,
-		TRUE,
-		50
-	),
-	(
-		E'Heavy Pistol',
-		5,
-		E'gun',
-		10,
-		2,
-		8,
-		1,
-		TRUE,
-		100
-	),
-	(
-		E'Very Heavy Pistol',
-		6,
-		E'gun',
-		15,
-		1,
-		4,
-		1,
-		FALSE,
-		500
-	),
-	(E'Light SMG', 2, E'smg', 15, 4, 20, 1, TRUE, 100),
-	(
-		E'Heavy SMG',
-		3,
-		E'smg',
-		20,
-		3,
-		30,
-		1,
-		FALSE,
-		500
-	),
-	(
-		E'Pump Shotgun',
-		7,
-		E'shotgun',
-		10,
-		1,
-		6,
-		2,
-		FALSE,
-		100
-	),
-	(
-		E'Double Barrel',
-		7,
-		E'shotgun',
-		10,
-		2,
-		2,
-		2,
-		FALSE,
-		100
-	),
-	(
-		E'Assault Shotgun',
-		6,
-		E'shotgun',
-		10,
-		2,
-		8,
-		2,
-		FALSE,
-		500
-	),
-	(
-		E'Assault Rifle',
-		6,
-		E'assault',
-		25,
-		3,
-		30,
-		2,
-		FALSE,
-		1000
-	),
-	(
-		E'Sniper Rifle',
-		8,
-		E'rifle',
-		150,
-		1,
-		4,
-		2,
-		FALSE,
-		1000
-	),
-	(E'Bow', 2, E'bow', 10, 1, 1, 2, FALSE, 1000),
-	(
-		E'Grenade Launcher',
-		12,
-		E'explosive',
-		40,
-		1,
-		4,
-		2,
-		FALSE,
-		5000
-	),
-	(
-		E'Rocket Launcher',
-		24,
-		E'explosive',
-		120,
-		1,
-		1,
-		2,
-		FALSE,
-		10000
-	);
+
+INSERT INTO "public"."weapon_master"("name","description","damage","dmg_type","range","rof","max_clip","hands","concealable","price","is_treasure")
+VALUES
+('Light Melee Weapon','Light Melee weapons are small, easily concealed items like pocket knives and switchblades. It can also cover small improvised weapons like rocks, broken bottles, and small sticks.',0,'melee',0,2,0,1,TRUE,10,FALSE),
+('Medium Melee Weapon','Medium Melee weapons are larger, heavier, and unable to be hidden on one\'s person - they include things like truncheons, nunchaku, large daggers and small swords. This also covers larger improvised weapons like chairs and pool cues.',1,'melee',0,2,0,1,FALSE,50,FALSE),
+('Heavy Melee Weapon','Heavy Melee weapons are specialized tools of destruction - most swords, machetes, and large clubs fit into this category. Generally they are two handed propositions, though a character with 4 strength or higher can use them one handed. Only very massive or dangerous improvised weapons are considered in this category.',2,'melee',0,2,0,2,FALSE,100,FALSE),
+('Very Heavy Melee Weapon','Very Heavy Melee Weapons covers exceptionally large and/or dangerous weapons - Greatswords and Battle Axes would be typical of the category. No improvised weapon is considered Very Heavy unless it is effectively a weapon on it\'s own merit, like a piece of rebar with a chunk of cement on it. Most Very Heavy weapons cannot be used effectively by characters with less than 6 strength; characters using them with 5 or lower strength have +1 difficulty on all attack rolls. A character with 9 strength or higher can use them one-handed effectively, however.',4,'melee',0,1,0,2,FALSE,500,FALSE),
+('Light Pistol','Light Pistols are typically low caliber, high magazine weapons. They also include hold-outs and very small revolvers; they are generally not terribly accurate and only useful at very close range.',4,'gun',5,2,12,1,TRUE,50,FALSE),
+('Heavy Pistol','Heavy Pistols are the favored weapon of law enforcement, Edgerunners, and just about everyone else who can afford one - they mix the best in range, stopping power, and magazine size.',5,'gun',10,2,8,1,TRUE,100,FALSE),
+('Very Heavy Pistol','Very Heavy Pistols are favored by those looking to make a statement; the 44 Magnum or Desert Eagle being classic examples. While each shot is far more dangerous and accurate from such weapons, relatively low rates of fire and magazine size means they should only be used by experts.',6,'gun',15,1,4,1,FALSE,500,FALSE),
+('Light SMG','Light submachine guns are typically machine pistols, designed to put a lot of bullets into the air without too much concern for accuracy. Uses SMG Special Rules.',2,'smg',15,4,20,1,TRUE,100,FALSE),
+('Heavy SMG','Heavy submachine guns are typically bullpup designs, and are favored by certain special forces and well-heeled gangers. Uses SMG Special Rules.',3,'smg',20,3,30,1,FALSE,500,FALSE),
+('Pump Shotgun','Shotguns are two handed weapons that trade range for damage. Modern shotguns have a choke on the barrel that allows for the attack to be widely dispersed - in this case, the user can hit a Lot of People with a single shot if they know what they\'re doing. The pump version is slow firing but widely available.',7,'shotgun',10,1,6,2,FALSE,100,FALSE),
+('Double Barrel','Double Barrel shotguns are rarely seen in the city, but they can pack a surprising punch. A character with a double barrel can fire both simultaneously, dealing an additional 3 damage.',7,'shotgun',10,2,2,2,FALSE,500,FALSE),
+('Assault Shotgun','Assault Shotguns are extremely dangerous devices that use slightly smaller shells and provide sustained, rapid fire. They are commonly used by military forces as breaching and suppression devices.',6,'shotgun',10,2,8,2,FALSE,5000,FALSE),
+('Assault Rifle','Assault Rifles are rapid firing, extremely powerful weapons rarely seen outside the hands of trained military units. Using one in public will generally bring down an unholy shitstorm of law enforcement. Can use Automatics special rules.',7,'assault',25,3,30,2,FALSE,5000,FALSE),
+('Sniper Rifle','Sniper rifles are cumbersome, heavy weapons that provide high damage at extreme range. They have a low rate of fire and smaller magazines.',8,'rifle',150,1,4,2,FALSE,1000,FALSE),
+('Bow','Bows are muscle powered weapons that are inferior to modern firearms except in one area - they are almost completely silent. As a result, they are surprisingly common on the streets. Bows use the Exotic Weapons skill. Modern bows have adjustable tensions. Getting one for use by an extraordinarily strong character (Strength of 6 or higher) requires a special order and carries a much higher cost.',2,'bow',10,1,1,2,FALSE,1000,FALSE),
+('Grenade Launcher','High explosive weapons generally have a long range and deal extremely high damage. They are difficult to find ammunition for, and are rarely found outside the hands of highly trained military units. Using them in public is contra-indicated by the sane; using them in enclosed areas is usually the last thing someone does. High Explosive Weapons use the Heavy Weapons skill.',12,'explosive',40,1,4,2,FALSE,10000,FALSE),
+('Rocket Launcher','High explosive weapons generally have a long range and deal extremely high damage. They are difficult to find ammunition for, and are rarely found outside the hands of highly trained military units. Using them in public is contra-indicated by the sane; using them in enclosed areas is usually the last thing someone does. High Explosive Weapons use the Heavy Weapons skill.',24,'explosive',120,1,1,2,FALSE,25000,FALSE),
+('Companion Revolver','Space cowboy pistol - looks like an antique revolver with an integral suppressor and some funky sights.',5,'gun',10,2,5,1,TRUE,10000,TRUE),
+('Winchester 1873','The gun that won the West.',6,'gun',15,1,15,2,FALSE,15000,TRUE),
+('Kendachi Arms Monokatana','A crystalline blade with built in microvibrators allow this weapon to slice through, well, anything. Ignores most armor.',3,'melee',0,2,0,2,FALSE,10000,TRUE),
+('Malorian 3516','High powered, custom handgun. Requires special smart ammunition made specifically for this weapon. Can be used in melee once per reload, breathing fire from the base of the grip and dealing aggravated damage.',6,'gun',20,2,4,1,TRUE,100000,TRUE),
+('Rhinemetall EMG-86','Railgun. Requires a complex action to reload both ammunition and charge pack. Requires custom ammunition. Deals aggravated damage.',8,'gun',100,1,2,2,FALSE,250000,TRUE),
+('Magnetic Shuriken','Thrown weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has cyberlimbs. Requires repair after each use.',1,'bow',1,3,3,2,TRUE,1000,TRUE),
+('Giant Magna-Shuriken','This is an 8 pound piece of razor edged steel honed to an almost fractal level of sharpness. It is wildly dangerous to vehicles, much less people. Requires a Shuriken Battleglove to use.',8,'bow',2,1,1,1,FALSE,10000,TRUE),
+('Gun-nade','One use pistol - removing the clip is the equivalent of pulling the pin on a grenade built into the device. Who would build such a thing!?',4,'gun',5,2,8,1,TRUE,500,TRUE),
+('DB-12','Shotgun pistol - characters with a strength of 4 or lower have +1 DV to any attack beyond point blank range. Both barrels can fire together, dealing an additional 3 damage if the attack hits.',7,'shotgun',5,2,2,1,FALSE,5000,TRUE),
+('Arasaka Whistler','Full sized, pump action crossbow for rapid, silent killing. Can be broken down into a concealable device as a single complex action, or restored in two.',6,'gun',20,2,6,2,TRUE,15000,TRUE),
+('Araska Reaper','Handheld, self-recocking crossbow. Often wielded with shuriken in close combat by complete maniacs. Collapses into, or expands from, a single, inscrutable block as a simple action.',4,'gun',10,2,4,1,TRUE,20000,TRUE),
+('Bauhaus Rippercannon','Custom made, extremely bulky machine gun that fires flechette filled cartridges. Requires Strength 6 or a mount to use effectively. Stupid illegal in every jurisdiction where it has been found. Uses SMG rules.',5,'smg',30,3,60,2,FALSE,50000,TRUE),
+('Comrade Molech','Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength is 7+.',10,'gun',10,1,1,2,TRUE,100000,TRUE);
+
 INSERT INTO "public"."misc_gear_master"("name", "description", "price")
 VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
 	(
@@ -1179,3 +1037,7 @@ VALUES (
 		1000,
 		E'A full sized shield offering decent protection.'
 	);
+
+
+-- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
+-- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.

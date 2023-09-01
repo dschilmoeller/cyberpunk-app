@@ -29,7 +29,7 @@ export default function GMGiveVehicles() {
     const euroBuck = `\u20AC$`
 
     const buyVehicle = (item) => {
-        dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
+        dispatch({ type: 'GM_GIVE_VEHICLE', payload: { item, vehicleID } })
     }
 
     function descendingComparator(a, b, orderBy) {

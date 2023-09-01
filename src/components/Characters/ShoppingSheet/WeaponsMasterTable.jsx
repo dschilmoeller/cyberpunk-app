@@ -186,12 +186,14 @@ export default function WeaponsMasterTable() {
 
     // create weaponMaster data
 
-    function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id) {
+    function createMasterWeaponData(concealable, damage, description, dmg_type, hands, is_treasure, max_clip, name, price, range, rof, weapon_master_id) {
         return {
             concealable,
             damage,
+            description,
             dmg_type,
             hands,
+            is_treasure,
             max_clip,
             name,
             price,
@@ -220,8 +222,8 @@ export default function WeaponsMasterTable() {
             range = weaponMaster[i].range
         }
         // return finalized weapon data (allows range and damage to sort properly)
-        weaponMasterRows.push(createMasterWeaponData(weaponMaster[i].concealable, damage, weaponMaster[i].dmg_type,
-            weaponMaster[i].hands, weaponMaster[i].max_clip, weaponMaster[i].name,
+        weaponMasterRows.push(createMasterWeaponData(weaponMaster[i].concealable, damage, weaponMaster[i].description, weaponMaster[i].dmg_type,
+            weaponMaster[i].hands, weaponMaster[i].is_treasure, weaponMaster[i].max_clip, weaponMaster[i].name,
             weaponMaster[i].price, range, weaponMaster[i].rof,
             weaponMaster[i].weapon_master_id))
     }
@@ -262,19 +264,21 @@ export default function WeaponsMasterTable() {
                         />
                         <TableBody>
                             {sortedWeaponMasterRows.map((row) => {
-                                return (
-                                    <TableRow hover key={row.name}>
-                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
-                                        <TableCell align="center">{row.damage}</TableCell>
-                                        <TableCell align="center">{row.range}</TableCell>
-                                        <TableCell align="center">{row.rof}</TableCell>
-                                        <TableCell align="center">{row.max_clip}</TableCell>
-                                        <TableCell align="center">{row.hands}</TableCell>
-                                        <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
-                                    </TableRow>
-                                );
+                                if (row.is_treasure === false) {
+                                    return (
+                                        <TableRow hover key={row.name}>
+                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell align="center">{row.damage}</TableCell>
+                                            <TableCell align="center">{row.range}</TableCell>
+                                            <TableCell align="center">{row.rof}</TableCell>
+                                            <TableCell align="center">{row.max_clip}</TableCell>
+                                            <TableCell align="center">{row.hands}</TableCell>
+                                            <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
+                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center"><Button onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
+                                        </TableRow>
+                                    );
+                                }
                             })}
                         </TableBody>
                     </Table>

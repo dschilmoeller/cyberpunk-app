@@ -1,4 +1,4 @@
-import { useState, useMemo, forwardRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,16 +13,16 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
 
-
-export default function GMGiveNetrunnerDeck() {
+export default function GMGiveVehicleMods() {
     const dispatch = useDispatch()
-    const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
-    const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
+
+    const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
+    const vehicleModMaster = useSelector(store => store.vehicleModMaster)
 
     const euroBuck = `\u20AC$`
 
-    const buyNetrunnerGear = (item) => {
-        dispatch({ type: 'BUY_NETRUNNER_GEAR', payload: { item, netrunnerGearID: netrunnerGearID, price: 0 } })
+    const buyVehicleMod = (item) => {
+            dispatch({ type: 'GM_GIVE_VEHICLE_MOD', payload: { item, vehicleModID, price: 0 } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -68,15 +68,15 @@ export default function GMGiveNetrunnerDeck() {
         },
         {
             id: 'description',
-            numeric: true,
+            numeric: false,
             disablePadding: false,
             label: 'Description',
         },
         {
-            id: 'slots',
-            numeric: true,
+            id: 'type',
+            numeric: false,
             disablePadding: false,
-            label: 'Slots',
+            label: 'Type',
         },
         {
             id: 'price',
@@ -105,7 +105,7 @@ export default function GMGiveNetrunnerDeck() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={'left'}
+                            align={'center'}
                             padding={'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -129,8 +129,8 @@ export default function GMGiveNetrunnerDeck() {
         orderBy: PropTypes.string.isRequired,
     };
 
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name');
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState('price');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -138,28 +138,26 @@ export default function GMGiveNetrunnerDeck() {
         setOrderBy(property);
     };
 
-    // create OtherGear Data
-
-    function createNetrunnerGearData(attack, defense, description, name, netrunner_master_id, price, rez, slots, type) {
+    function createVehicleModMasterData(description, name, type, price, vehicle_mod_master_id) {
         return {
-            attack, defense, description, name, netrunner_master_id, price, rez, slots, type
+            description, name, price, type, vehicle_mod_master_id
         }
     }
 
-    // take misc gear data and push into array for conversion into rows.
-    const netrunnerMasterRows = []
-    for (let i = 0; i < netrunnerGearMaster.length; i++) {
-        netrunnerMasterRows.push(createNetrunnerGearData(netrunnerGearMaster[i].attack, netrunnerGearMaster[i].defense, netrunnerGearMaster[i].description, netrunnerGearMaster[i].name, netrunnerGearMaster[i].netrunner_master_id, netrunnerGearMaster[i].price, netrunnerGearMaster[i].rez, netrunnerGearMaster[i].slots, netrunnerGearMaster[i].type))
+    const vehicleModMasterRows = []
+    for (let i = 0; i < vehicleModMaster.length; i++) {
+        vehicleModMasterRows.push(createVehicleModMasterData(vehicleModMaster[i].description, vehicleModMaster[i].name, vehicleModMaster[i].type, vehicleModMaster[i].price, vehicleModMaster[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes. 
-    const sortedNetrunnerMasterRows = useMemo(
+    // sort and monitor changes to charArmorRows in case of sales.
+    const sortedVehicleModMasterRows = React.useMemo(
         () =>
-            stableSort(netrunnerMasterRows, getComparator(order, orderBy)),
+            stableSort(vehicleModMasterRows, getComparator(order, orderBy)),
         [order, orderBy],
     );
 
     return (<>
+
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -174,23 +172,24 @@ export default function GMGiveNetrunnerDeck() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedNetrunnerMasterRows.map((row) => {
-                                if (row.type === 'deck') {
+                            {sortedVehicleModMasterRows.map((row) => {
+                                if (row.type != 'All')
                                     return (
-                                        <TableRow hover key={row.name}>
-                                            <TableCell align='left'>{row.name}</TableCell>
-                                            <TableCell align="left">{row.description}</TableCell>
-                                            <TableCell align="left">{row.slots}</TableCell>
-                                            <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="left"><Button onClick={() => buyNetrunnerGear(row)}>Give</Button></TableCell>
+                                        <TableRow hover key={row.vehicle_mod_master_id}>
+                                            <TableCell padding='normal'>{row.name}</TableCell>
+                                            <TableCell align="center">{row.description}</TableCell>
+                                            <TableCell align="center">{row.type}</TableCell>
+                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
+                                            <TableCell align="center"><Button onClick={() => buyVehicleMod(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
-                                }
                             })}
+
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
+
     </>)
 }
