@@ -19,6 +19,7 @@ export default function GMOwnedNetrunner() {
     
     const charDetail = useSelector(store => store.advancementDetail)
     const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
+    const charBoughtNetrunnerGear = useSelector(store => store.advancementGear.boughtNetrunnerGear)
 
     const gmRemoveNetrunnerGear = (item) => {
         switch (item.type) {
@@ -35,6 +36,10 @@ export default function GMOwnedNetrunner() {
             default:
                 break;
         }
+    }
+
+    const gmRemoveGMNetrunnerGear = (item) => {
+        dispatch({ type: 'GM_REMOVE_GM_NETRUNNER_GEAR', payload: item })
     }
 
     return (<>
@@ -57,6 +62,16 @@ export default function GMOwnedNetrunner() {
                                 <TableCell align="center">{item.description}</TableCell>
                                 <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
                                 <TableCell align="center"><Button onClick={() => gmRemoveNetrunnerGear(item)}>Remove</Button></TableCell>
+                            </TableRow>
+                        )
+                    })}
+                    {charBoughtNetrunnerGear.map((item, i) => {
+                        return (
+                            <TableRow key={i}>
+                                <TableCell align="left">{item.name} </TableCell>
+                                <TableCell align="center">{item.description}</TableCell>
+                                <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
+                                <TableCell align="center"><Button onClick={() => gmRemoveGMNetrunnerGear(item)}>Remove</Button></TableCell>
                             </TableRow>
                         )
                     })}

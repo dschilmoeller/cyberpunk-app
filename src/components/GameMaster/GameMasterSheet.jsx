@@ -21,6 +21,7 @@ import GameMasterAttributes from './GameMasterAttributes';
 import GameMasterSkills from './GameMasterSkills';
 import GameMasterRoles from './GameMasterRoles';
 import GameMasterOwnedGear from './GameMasterOwnedGear';
+import GameMasterGiveGear from './GameMasterGiveGear';
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
@@ -81,12 +82,6 @@ export default function GameMasterSheet() {
         // history.push('/gamemaster/')
     }
 
-    // should be ok to leave here.
-    const deleteCharacter = () => {
-        dispatch({ type: "DELETE_CHARACTER", payload: { charDetailID: charDetail.id, user_id: charDetail.user_id } })
-        history.push('/gamemaster/')
-    }
-
     return (<>
         <Snackbar
             TransitionComponent={TransitionUp}
@@ -122,22 +117,10 @@ export default function GameMasterSheet() {
         </Tabs>
 
         <Grid container spacing={2} alignItems="center">
-
             <Grid item xs={6}><h1>Character Details: </h1></Grid>
-            <Grid item xs={6}><Item><FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
-                <FormControlLabel control={<Switch
-                    checked={allowDeleteCharacter}
-                    onChange={(e) => setAllowDeleteCharacter(e.target.checked)} />} label="Allow Character Deletion" />
-            </FormGroup>
-            </Item>
+            <Grid item xs={6} paddingRight={3}>
+                <Button fullWidth variant='contained' onClick={() => saveCharacter()}>Save Changes</Button>
             </Grid>
-            {allowDeleteCharacter ? (<>
-                <Grid item xs={6}><Item><Button variant='contained' onClick={() => saveCharacter()}>Save Changes</Button></Item></Grid>
-                <Grid item xs={6}><Item><Button variant='contained' color='error' onClick={() => deleteCharacter()}>Delete Character</Button></Item></Grid>
-
-            </>) : (<>
-                <Grid item xs={4}><Item><Button variant='contained' onClick={() => saveCharacter()}>Save Changes</Button></Item></Grid>
-            </>)}
         </Grid>
 
         {selectedSheet === 'GM' ? (<>
@@ -161,7 +144,7 @@ export default function GameMasterSheet() {
         </>) : <> </>}
 
         {selectedSheet === 'gmGear' ? (<>
-
+            <GameMasterGiveGear />
         </>) : <> </>}
 
         {selectedSheet === 'treasure' ? (<>

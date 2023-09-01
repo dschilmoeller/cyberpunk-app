@@ -143,7 +143,7 @@ export default function GMOwnedCyberware() {
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
                                     <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                    <TableCell align="center">'N'</TableCell>
+                                    <TableCell align="center">N</TableCell>
                                     <TableCell align="center"><Button onClick={() => gmRemoveGMCyberware(item)}>Remove</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)

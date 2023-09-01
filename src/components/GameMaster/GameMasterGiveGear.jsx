@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-
+import * as React from 'react';
 import Grid from '@mui/material/Grid';
-import Item from '../Characters/CharacterSheet/Item';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import GMOwnedArmor from './GameMasterGear/GMOwnedArmor';
-import GMOwnedWeapons from './GameMasterGear/GMOwnedWeapons';
-import GMOtherOwned from './GameMasterGear/GMOwnedGearOther';
-import GMOwnedCyberware from './GameMasterGear/GMOwnedCyberware';
-import GMOwnedNetrunner from './GameMasterGear/GMOwnedNetrunner';
-import GMOwnedVehicles from './GameMasterGear/GMOwnedVehicles';
+import Item from '../Characters/CharacterSheet/Item';
 
-export default function GameMasterOwnedGear() {
-    const [selectedGear, setSelectedGear] = useState('armor')
+import GMGiveArmor from './GameMasterGear/GMGiveArmor';
+import GMGiveWeapons from './GameMasterGear/GMGiveWeapons';
+import GMGiveGearOther from './GameMasterGear/GMGiveGearOther';
+import GMGiveCyberware from './GameMasterGear/GMGiveCyberware';
+import GMGiveNetrunnerMain from './GameMasterGear/GMGiveNetrunnerMain';
+import GMGiveVehicles from './GameMasterGear/GMGiveVehicles';
+
+export default function GameMasterGiveGear() {
+
+    const [selectedGear, setSelectedGear] = React.useState('armor')
     const handleSelectedGearChange = (event, newValue) => {
         setSelectedGear(newValue)
     }
 
     return (<>
-
         <Grid container paddingTop={3} spacing={3} alignContent={'center'}>
 
             <Grid item xs={12} padding={3}>
@@ -42,48 +42,41 @@ export default function GameMasterOwnedGear() {
 
             {selectedGear === 'armor' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOwnedArmor />
+                    <GMGiveArmor />
                 </Grid>
             </>) : <></>}
 
             {selectedGear === 'weapons' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOwnedWeapons />
+                    <GMGiveWeapons />
                 </Grid>
             </>) : <></>}
 
             {selectedGear === 'misc' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOtherOwned />
+                    <GMGiveGearOther />
                 </Grid>
             </>) : <></>}
 
             {selectedGear === 'cyberware' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOwnedCyberware />
+                    <GMGiveCyberware />
                 </Grid>
             </>) : <></>}
 
             {selectedGear === 'netrunner' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOwnedNetrunner />
+                    <GMGiveNetrunnerMain />
                 </Grid>
             </>) : <></>}
 
             {selectedGear === 'vehicles' ? (<>
                 <Grid item xs={12} padding={1}>
-                    <GMOwnedVehicles />
+                    <GMGiveVehicles />
                 </Grid>
             </>) : <></>}
 
 
-
-            <Grid item xs={12}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>Hooboy...</Grid>
-
-                </Grid>
-            </Grid>
-        </Grid >
+        </Grid>
     </>)
 }

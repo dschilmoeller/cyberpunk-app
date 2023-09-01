@@ -12,25 +12,19 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-import WeaponDialog from '../../Modals/WeaponDialog'
+import WeaponDialog from '../../Modals/WeaponDialog';
 
-export default function GMOwnedWeapons() {
-
-    const dispatch = useDispatch();
-    
-    const charWeapons = useSelector(store => store.advancementGear.weapons)
-    const boughtWeapons = useSelector(store => store.advancementGear.boughtWeapons)
+export default function GMGiveWeapons() {
+    const dispatch = useDispatch()
+    const weaponID = useSelector(store => store.advancementGear.weaponID)
+    const weaponMaster = useSelector(store => store.weaponMaster)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
-    const gmRemoveWeapon = (item) => {
-        dispatch({ type: 'GM_REMOVE_WEAPON', payload: item })
-    }
-
-    const gmRemoveGMWeapon = (item) => {
-        dispatch({ type: 'GM_REMOVE_GM_WEAPON', payload: item })
+    const buyWeapon = (item) => {
+            dispatch({ type: 'BUY_WEAPON', payload: { item, weaponID, price: 0 } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -114,19 +108,13 @@ export default function GMOwnedWeapons() {
             id: 'price',
             numeric: true,
             disablePadding: false,
-            label: 'Street Price',
+            label: 'Price',
         },
         {
-            id: 'equipped',
+            id: 'give',
             numeric: false,
             disablePadding: false,
-            label: 'Equipped?',
-        },
-        {
-            id: 'remove',
-            numeric: false,
-            disablePadding: false,
-            label: 'Remove',
+            label: 'Give',
         },
     ];
 
@@ -143,8 +131,8 @@ export default function GMOwnedWeapons() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            align={'left'}
+                            padding={'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -167,8 +155,11 @@ export default function GMOwnedWeapons() {
         orderBy: PropTypes.string.isRequired,
     };
 
+
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('price');
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -176,59 +167,58 @@ export default function GMOwnedWeapons() {
         setOrderBy(property);
     };
 
-    function createCharWeaponData(char_id, concealable, current_shots_fired,
-        damage, dmg_type, equipped,
-        hands, max_clip, name,
-        price, range, rof,
-        weapon_bridge_id, weapon_id, weapon_master_id,
-        weapon_mod_1, weapon_mod_2) {
+    // create weaponMaster data
+
+    function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id) {
         return {
-            char_id, concealable, current_shots_fired,
-            damage, dmg_type, equipped,
-            hands, max_clip, name,
-            price, range, rof,
-            weapon_bridge_id, weapon_id, weapon_master_id,
-            weapon_mod_1, weapon_mod_2
+            concealable,
+            damage,
+            dmg_type,
+            hands,
+            max_clip,
+            name,
+            price,
+            range,
+            rof,
+            weapon_master_id
         }
     }
 
-    const charWeaponRows = []
-    for (let i = 0; i < charWeapons.length; i++) {
+    // take weaponMaster data and push into array for conversion into rows.
+    const weaponMasterRows = []
+    for (let i = 0; i < weaponMaster.length; i++) {
         let damage = 0
         let range = 0
 
-        if (charWeapons[i].dmg_type === 'melee' || charWeapons[i].dmg_type === 'bow') {
-            damage = charDetail.strength + charDetail.cyber_strength + charWeapons[i].damage
+        // precalculate strength based damage
+        if (weaponMaster[i].dmg_type === 'melee' || weaponMaster[i].dmg_type === 'bow') {
+            damage = charDetail.strength + charDetail.cyber_strength + weaponMaster[i].damage
         } else {
-            damage = charWeapons[i].damage
+            damage = weaponMaster[i].damage
         }
-
-        if (charWeapons[i].dmg_type === 'bow') {
-            range = (charDetail.strength + charDetail.cyber_strength) * charWeapons[i].range
+        // precalculate strength based range
+        if (weaponMaster[i].dmg_type === 'bow') {
+            range = (charDetail.strength + charDetail.cyber_strength) * weaponMaster[i].range
         } else {
-            range = charWeapons[i].range
+            range = weaponMaster[i].range
         }
-
-        charWeaponRows.push(createCharWeaponData(charWeapons[i].char_id, charWeapons[i].concealable, charWeapons[i].current_shots_fired,
-            damage, charWeapons[i].dmg_type, charWeapons[i].equipped,
-            charWeapons[i].hands, charWeapons[i].max_clip, charWeapons[i].name,
-            charWeapons[i].price, range, charWeapons[i].rof,
-            charWeapons[i].weapon_bridge_id, charWeapons[i].weapon_id, charWeapons[i].weapon_master_id,
-            charWeapons[i].weapon_mod_1, charWeapons[i].weapon_mod_2))
+        // return finalized weapon data (allows range and damage to sort properly)
+        weaponMasterRows.push(createMasterWeaponData(weaponMaster[i].concealable, damage, weaponMaster[i].dmg_type,
+            weaponMaster[i].hands, weaponMaster[i].max_clip, weaponMaster[i].name,
+            weaponMaster[i].price, range, weaponMaster[i].rof,
+            weaponMaster[i].weapon_master_id))
     }
 
-    // sort and monitor changes to charWeaponRows in case of sales.
-    const sortedCharWeaponRows = React.useMemo(
+    // sort and monitor changes. 
+    const sortedWeaponMasterRows = React.useMemo(
         () =>
-            stableSort(charWeaponRows, getComparator(order, orderBy)),
-        [order, orderBy, charWeaponRows],
+            stableSort(weaponMasterRows, getComparator(order, orderBy)),
+        [order, orderBy, weaponMaster],
     );
 
-
-
     return (<>
-        <h2>{charDetail.handle}'s Weapons</h2>
 
+        <h2>Give {charDetail.handle} Weapons</h2>
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
@@ -243,43 +233,25 @@ export default function GMOwnedWeapons() {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {sortedCharWeaponRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.weapon_bridge_id}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
-                                            <TableCell align="center">{row.damage}</TableCell>
-                                            <TableCell align="center">{row.range}</TableCell>
-                                            <TableCell align="center">{row.rof}</TableCell>
-                                            <TableCell align="center">{row.max_clip}</TableCell>
-                                            <TableCell align="center">{row.hands}</TableCell>
-                                            <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center">{row.equipped ? 'Y' : 'N'}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => gmRemoveWeapon(row)}>Remove</Button></TableCell>
-                                        </TableRow>
-                                    );
-                            })}
-                            {boughtWeapons.map((item, i) => {
+                            {sortedWeaponMasterRows.map((row) => {
                                 return (
-                                    <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                        <TableCell align="center">{item.range}</TableCell>
-                                        <TableCell align="center">{item.rof}</TableCell>
-                                        <TableCell align="center">{item.max_clip}</TableCell>
-                                        <TableCell align="center">{item.hands}</TableCell>
-                                        <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">{euroBuck}{item.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center">N</TableCell>
-                                        <TableCell align="center"><Button onClick={() => gmRemoveGMWeapon(item)}>Remove</Button></TableCell>
+                                    <TableRow hover key={row.name}>
+                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell align="left">{row.damage}</TableCell>
+                                        <TableCell align="left">{row.range}</TableCell>
+                                        <TableCell align="left">{row.rof}</TableCell>
+                                        <TableCell align="left">{row.max_clip}</TableCell>
+                                        <TableCell align="left">{row.hands}</TableCell>
+                                        <TableCell align="left">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
+                                        <TableCell align="left">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => buyWeapon(row)}>Give</Button></TableCell>
                                     </TableRow>
-                                )
+                                );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
-
     </>)
 }

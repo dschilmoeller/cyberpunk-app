@@ -959,7 +959,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtArmor.length; i++) {
-                    const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 1, false]
+                    const boughtArmorParams = [req.body.charDetail.id, boughtArmor[i].armor_master_id, 1, false]
                     pool.query(boughtArmorSqlText, boughtArmorParams)
                 }
             }
@@ -977,7 +977,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "armor_mod_1", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtShield.length; i++) {
-                    const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 1, false]
+                    const boughtShieldParams = [req.body.charDetail.id, boughtShield[i].shield_master_id, 1, false]
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }
@@ -995,7 +995,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
             VALUES ($1, $2, $3, $4, $5, $6);`
                 for (let i = 0; i < boughtWeapons.length; i++) {
-                    const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
+                    const boughtWeaponsParams = [req.body.charDetail.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
                 }
             }
@@ -1015,7 +1015,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtMiscGearSqlText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") 
             VALUES ($1, $2)`
                 for (let i = 0; i < boughtMiscGear.length; i++) {
-                    const boughtMiscGearParams = [req.body.char.id, boughtMiscGear[i].misc_gear_master_id]
+                    const boughtMiscGearParams = [req.body.charDetail.id, boughtMiscGear[i].misc_gear_master_id]
                     pool.query(boughtMiscGearSqlText, boughtMiscGearParams)
                 }
             }
@@ -1035,7 +1035,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
             VALUES ($1, $2)`
                 for (let i = 0; i < boughtNetrunnerGear.length; i++) {
 
-                    const boughtNetrunnerGearParams = [req.body.char.id, boughtNetrunnerGear[i].netrunner_master_id]
+                    const boughtNetrunnerGearParams = [req.body.charDetail.id, boughtNetrunnerGear[i].netrunner_master_id]
                     pool.query(boughtNetrunnerGearSqlText, boughtNetrunnerGearParams)
                 }
             }
@@ -1054,7 +1054,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtVehiclesSqlText = `INSERT INTO "char_vehicle_bridge" ("char_id", "vehicle_id")
             VALUES ($1, $2);`
                 for (let i = 0; i < boughtVehicles.length; i++) {
-                    const boughtVehiclesParmas = [req.body.char.id, boughtVehicles[i].vehicle_master_id]
+                    const boughtVehiclesParmas = [req.body.charDetail.id, boughtVehicles[i].vehicle_master_id]
                     pool.query(boughtVehiclesSqlText, boughtVehiclesParmas)
                 }
             }
@@ -1073,7 +1073,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtVehicleModsSqlText = `INSERT INTO "char_owned_vehicle_mods" ("char_id", "vehicle_mod_master_id")
             VALUES ($1, $2);`
                 for (let i = 0; i < boughtVehicleMods.length; i++) {
-                    const boughtVehicleModsParams = [req.body.char.id, boughtVehicleMods[i].vehicle_mod_master_id]
+                    const boughtVehicleModsParams = [req.body.charDetail.id, boughtVehicleMods[i].vehicle_mod_master_id]
                     pool.query(boughtVehicleModsSqlText, boughtVehicleModsParams)
                 }
             }
@@ -1092,7 +1092,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 const boughtCyberwareSqlText = `INSERT INTO "char_owned_cyberware" ("char_id", "cyberware_master_id") 
             VALUES ($1, $2)`
                 for (let i = 0; i < boughtCyberware.length; i++) {
-                    const boughtCyberwareParams = [req.body.char.id, boughtCyberware[i].cyberware_master_id]
+                    const boughtCyberwareParams = [req.body.charDetail.id, boughtCyberware[i].cyberware_master_id]
                     pool.query(boughtCyberwareSqlText, boughtCyberwareParams)
                 }
             }
