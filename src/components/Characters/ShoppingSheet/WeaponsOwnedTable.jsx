@@ -132,7 +132,7 @@ export default function WeaponsOwnedTable() {
 
         return (
             <TableHead>
-                <TableRow>
+                <TableRow hover>
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
@@ -279,7 +279,7 @@ export default function WeaponsOwnedTable() {
         {/* <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Damage</TableCell>
                         <TableCell align="center">Range</TableCell>
@@ -295,7 +295,7 @@ export default function WeaponsOwnedTable() {
                     {charWeapons.map(item => {
                         if (item.equipped === false) {
                             return (<React.Fragment key={item.weapon_bridge_id}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                     <TableCell align="center">{item.range}</TableCell>
@@ -311,7 +311,7 @@ export default function WeaponsOwnedTable() {
                     })}
                     {boughtWeapons.map((item, i) => {
                         return (<React.Fragment key={i}>
-                            <TableRow>
+                            <TableRow hover>
                                 <TableCell align="left">{item.name} </TableCell>
                                 <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                 <TableCell align="center">{item.range}</TableCell>

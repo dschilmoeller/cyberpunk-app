@@ -81,7 +81,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">1-2</TableCell>
                                         <TableCell align='left'>Small clubs & Church Basements</TableCell>
                                         <TableCell align='center'>Small Favor</TableCell>
@@ -89,7 +89,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableCell align='center'>You can't reach a huge group</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">3-4</TableCell>
                                         <TableCell align='left'>Medium clubs & local churches</TableCell>
                                         <TableCell align='center'>Medium Favor</TableCell>
@@ -97,7 +97,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableCell align='center'>Attend shows</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">5-6</TableCell>
                                         <TableCell align='left'>Large Clubs & Churches</TableCell>
                                         <TableCell align='center'>Large Favor</TableCell>
@@ -105,7 +105,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableCell align='center'>Temporary Small Favor Horde</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">7-8</TableCell>
                                         <TableCell align='left'>Concert Halls & Megachurches</TableCell>
                                         <TableCell align='center'>Huge Favor</TableCell>
@@ -113,7 +113,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableCell align='center'>Temporary Medium Favor Horde</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">9</TableCell>
                                         <TableCell align='left'>Stadiums & Int'l Video Feeds</TableCell>
                                         <TableCell align='center'>Die without Question</TableCell>
@@ -121,7 +121,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableCell align='center'>Temporary Large Favor Horde</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">10</TableCell>
                                         <TableCell align='left'>Stadiums & Int'l Video Feeds</TableCell>
                                         <TableCell align='center'>Die without Question</TableCell>
@@ -149,7 +149,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="left">Points</TableCell>
                                             <TableCell align="left">Description</TableCell>
@@ -157,37 +157,37 @@ export default function RoleAbilitiesDialog({ prop }) {
                                     </TableHead>
                                     <TableBody>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Threat Detection</TableCell>
                                             <TableCell align="left">1</TableCell>
                                             <TableCell align='left'>Solos develop a sixth sense about danger - each point in this ability adds 1 die to any Perception roll the Solo makes.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Instant Reflexes</TableCell>
                                             <TableCell align="left">1</TableCell>
                                             <TableCell align='left'>Solos react to danger almost instantly - for every point in this skill, add 1 automatic success to any initiative roll.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Damage Reduction</TableCell>
                                             <TableCell align="left">2</TableCell>
                                             <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by 1 <b>after</b> soaking damage from one wound that would be suffered each round. These resisted wounds can be used to resist multiple wounds from a single attack, or distributed between several different sources of damage, but the Solo must declare how may wounds they are resisting when taking damage.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Spot Weakness</TableCell>
                                             <TableCell align="left">2</TableCell>
                                             <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo can add 1 automatic wound (before soaking) to an attack made this turn. These wounds can be piled into one attack, or distributed amongst many if they have a weapon with a high ROF.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Precision Attack</TableCell>
                                             <TableCell align="left">3</TableCell>
                                             <TableCell align='left'>Solos are trained to aim carefully - for every 3 points in this ability, the Solo gets an automatic success on any attack rolls made this round, including aimed shots.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Fumble Recovery</TableCell>
                                             <TableCell align="left">5</TableCell>
                                             <TableCell align='left'>Solos take their time and don't make the petty mistakes of amateur Edgerunners - while this is active, 1s do not subtract from successes on die rolls made in a combat situation. You can still glitch if the number of 1s is higher than the number of successes - your mistakes will be the spectacular disasters of a professional, not the careless errors of a novice.</TableCell>
@@ -233,29 +233,29 @@ export default function RoleAbilitiesDialog({ prop }) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Rank</TableCell>
                                             <TableCell align="left">Vehicles availabe</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">1-4</TableCell>
                                             <TableCell align="left">Compact Groundcar, Gyrocopter, Jetski, Roadbike</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">5-6</TableCell>
                                             <TableCell align="left">Helicopter, High performance groundcar, Speedboat</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">7-8</TableCell>
                                             <TableCell align="left">AV-4, Cigarette Boat, Cabin Cruiser, Superbike</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">9-10</TableCell>
                                             <TableCell align="left">Aerozep, AV-9, Super Groundcar, Yacht</TableCell>
                                         </TableRow>
@@ -281,7 +281,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Rumor Quality</TableCell>
                                             <TableCell align="left">Description</TableCell>
                                             <TableCell align="left">Passive DV</TableCell>
@@ -290,7 +290,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell>Vague</TableCell>
                                             <TableCell>Rumor is hazy and has only the bare minimum information needed to look into it further.</TableCell>
                                             <TableCell>5</TableCell>
@@ -298,7 +298,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                             <TableCell>7</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell>Typical</TableCell>
                                             <TableCell>The rumor contains minimal information, but does offer a concrete lead on where to find more information.</TableCell>
                                             <TableCell>6</TableCell>
@@ -306,7 +306,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                             <TableCell>8</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell>Substantial</TableCell>
                                             <TableCell>As a typical rumor, but some details of the subject may be available. Multiple avenues to follow up may be included, along with names, places, dates, or times.</TableCell>
                                             <TableCell>7</TableCell>
@@ -314,7 +314,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                             <TableCell>9</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell>Details</TableCell>
                                             <TableCell>Contains enough information to be published on its own - either someone got sloppy and left too many tracks, or a Deep Throat in the organization spawning the rumor is looking to get the story out.</TableCell>
                                             <TableCell>8</TableCell>
@@ -346,34 +346,34 @@ export default function RoleAbilitiesDialog({ prop }) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Pharmaceutical</TableCell>
                                             <TableCell align="left">Effect</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Antibiotic</TableCell>
                                             <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Rapi-Detox</TableCell>
                                             <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Speedheal</TableCell>
                                             <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they'd rested for the appropriate length of time. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Stim</TableCell>
                                             <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Surge</TableCell>
                                             <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. For each consecutive dose a user takes in without taking a week off, they lose 2 additional humanity (3 for the second, 5 for the 3rd dose, and so on).</TableCell>
                                         </TableRow>
@@ -396,34 +396,34 @@ export default function RoleAbilitiesDialog({ prop }) {
                         <Grid item padding={.5} xs={12}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Cryogenics Level</TableCell>
                                         <TableCell align="left">Benefit</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">1</TableCell>
                                         <TableCell align="left">Gain one standard Cryopump.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">2</TableCell>
                                         <TableCell align="left">Become a registered Cryotank technician and gain unlimited 24/7 access to a Cryotank at a corporate or government operated facility.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">3</TableCell>
                                         <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have two charges as you learn to operate them more efficiently.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">4</TableCell>
                                         <TableCell align="left">Refurbish an additional Cryotank, and install in a location of your choosing.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">5</TableCell>
                                         <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have three charges due to your mastery of the Cryonic arts!</TableCell>
                                     </TableRow>
@@ -454,59 +454,59 @@ export default function RoleAbilitiesDialog({ prop }) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Item Type</TableCell>
                                             <TableCell align="left">Effect</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Melee Weapon</TableCell>
                                             <TableCell align="left">Embiggen: Make a 1 handed weapon 2 handed; this increases the damage by 2.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Melee Weapon</TableCell>
                                             <TableCell align="left">Lightweight Material: Make a 2 handed weapon 1 handed; this decreases the damage by 1.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Weapon</TableCell>
                                             <TableCell align="left">Dangerous: Increase damage by 1.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Standard Ranged Weapon</TableCell>
                                             <TableCell align="left">Ballistics: Increase range by 25%.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Any Weapon</TableCell>
                                             <TableCell align="left">Collapsible: Make a non-concealable weapon conceable. It takes 2 standard actions to reassemble a concealed weapon for use.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Any weapon with ammunition</TableCell>
                                             <TableCell align="left">Bigger Clip: Increase base clip by 25% or +3, whichever is higher.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Armor</TableCell>
                                             <TableCell align="left">Improved Resistance: Add 1 to armor Quality.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Armor</TableCell>
                                             <TableCell align="left">Reactive Coating: Reduce Stealth difficulty values by 1.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Shield</TableCell>
                                             <TableCell align="left">Thicker Materials: add 1 to shield quality.</TableCell>
                                         </TableRow>
 
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Any Item</TableCell>
                                             <TableCell align="left">Simplify: Time and material costs to repair item are reduced by 50%.</TableCell>
                                         </TableRow>
@@ -523,7 +523,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                         <TableHead>
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Item Base Cost</TableCell>
                                                 <TableCell align="left">DV</TableCell>
                                                 <TableCell align="left">Interval</TableCell>
@@ -531,43 +531,43 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         </TableHead>
                                         <TableBody>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Cheap</TableCell>
                                                 <TableCell align='left'>5 (2+)</TableCell>
                                                 <TableCell align="left">1 hour.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Costly</TableCell>
                                                 <TableCell align='left'>6 (2+)</TableCell>
                                                 <TableCell align="left">6 hours.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Preem</TableCell>
                                                 <TableCell align='left'>6 (4+)</TableCell>
                                                 <TableCell align="left">1 day.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Expensive</TableCell>
                                                 <TableCell align='left'>7 (2+)</TableCell>
                                                 <TableCell align="left">3 days.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Valuable</TableCell>
                                                 <TableCell align='left'>7 (4+)</TableCell>
                                                 <TableCell align="left">1 week.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Luxury</TableCell>
                                                 <TableCell align='left'>7 (8+)</TableCell>
                                                 <TableCell align="left">1 month.</TableCell>
                                             </TableRow>
 
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell align="left">Extravagant</TableCell>
                                                 <TableCell align='left'>8 (2 successes / 10,000 of base cost)</TableCell>
                                                 <TableCell align="left">1 week / 10,000 of base cost.</TableCell>
@@ -604,34 +604,34 @@ export default function RoleAbilitiesDialog({ prop }) {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Pharmaceutical</TableCell>
                                         <TableCell align="left">Effect</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Antibiotic</TableCell>
                                         <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Rapi-Detox</TableCell>
                                         <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Speedheal</TableCell>
                                         <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Stim</TableCell>
                                         <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Surge</TableCell>
                                         <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties.</TableCell>
                                     </TableRow>
@@ -657,34 +657,34 @@ export default function RoleAbilitiesDialog({ prop }) {
                     <Grid item padding={.5} xs={12}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">Cryogenics Level</TableCell>
                                     <TableCell align="left">Benefit</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
 
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">1</TableCell>
                                     <TableCell align="left">Gain one standard Cryopump.</TableCell>
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">2</TableCell>
                                     <TableCell align="left">Become a registered Cryotank technician and gain unlimited 24/7 access to a Cryotank at a corporate or government operated facility.</TableCell>
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">3</TableCell>
                                     <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have two charges as you learn to operate them more efficiently.</TableCell>
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">4</TableCell>
                                     <TableCell align="left">Refurbish an additional Cryotank, and install in a location of your choosing.</TableCell>
                                 </TableRow>
 
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">5</TableCell>
                                     <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have three charges due to your mastery of the Cryonic arts!</TableCell>
                                 </TableRow>
@@ -712,59 +712,59 @@ export default function RoleAbilitiesDialog({ prop }) {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Item Type</TableCell>
                                         <TableCell align="left">Effect</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Melee Weapon</TableCell>
                                         <TableCell align="left">Embiggen: Make a 1 handed weapon 2 handed; this increases the damage by 2.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Melee Weapon</TableCell>
                                         <TableCell align="left">Lightweight Material: Make a 2 handed weapon 1 handed; this decreases the damage by 1.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Weapon</TableCell>
                                         <TableCell align="left">Dangerous: Increase damage by 1.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Standard Ranged Weapon</TableCell>
                                         <TableCell align="left">Ballistics: Increase range by 25%.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Any Weapon</TableCell>
                                         <TableCell align="left">Collapsible: Make a non-concealable weapon conceable. It takes 2 standard actions to reassemble a concealed weapon for use.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Any weapon with ammunition</TableCell>
                                         <TableCell align="left">Bigger Clip: Increase base clip by 25% or +3, whichever is higher.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Armor</TableCell>
                                         <TableCell align="left">Improved Resistance: Add 1 to armor Quality.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Armor</TableCell>
                                         <TableCell align="left">Reactive Coating: Reduce Stealth difficulty values by 1.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Shield</TableCell>
                                         <TableCell align="left">Thicker Materials: add 1 to shield quality.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Any Item</TableCell>
                                         <TableCell align="left">Simplify: Time and material costs to repair item are reduced by 50%.</TableCell>
                                     </TableRow>
@@ -784,7 +784,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Item Base Cost</TableCell>
                                         <TableCell align="left">DV</TableCell>
                                         <TableCell align="left">Interval</TableCell>
@@ -792,43 +792,43 @@ export default function RoleAbilitiesDialog({ prop }) {
                                 </TableHead>
                                 <TableBody>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Cheap ($1 - $50)</TableCell>
                                         <TableCell align='left'>5 (2+)</TableCell>
                                         <TableCell align="left">1 hour.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Costly ($51 - $100)</TableCell>
                                         <TableCell align='left'>6 (2+)</TableCell>
                                         <TableCell align="left">6 hours.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Preem ($101 - $500)</TableCell>
                                         <TableCell align='left'>6 (4+)</TableCell>
                                         <TableCell align="left">1 day.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Expensive ($501 - $2,500)</TableCell>
                                         <TableCell align='left'>7 (2+)</TableCell>
                                         <TableCell align="left">3 days.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Valuable ($2501 - $5,000)</TableCell>
                                         <TableCell align='left'>7 (4+)</TableCell>
                                         <TableCell align="left">1 week.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Luxury ($5001 - $10,0000)</TableCell>
                                         <TableCell align='left'>7 (8+)</TableCell>
                                         <TableCell align="left">1 month.</TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Extravagant ($10,001+)</TableCell>
                                         <TableCell align='left'>8 (2 successes / 10,000 of base cost)</TableCell>
                                         <TableCell align="left">1 week / 10,000 of base cost.</TableCell>

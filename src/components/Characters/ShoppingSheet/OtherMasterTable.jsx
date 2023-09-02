@@ -113,7 +113,7 @@ export default function OtherMasterTable() {
 
         return (
             <TableHead>
-                <TableRow>
+                <TableRow hover>
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}

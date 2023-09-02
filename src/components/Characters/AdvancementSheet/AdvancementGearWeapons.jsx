@@ -32,7 +32,7 @@ export default function AdvancementGearWeapons() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Damage</TableCell>
                         <TableCell align="center">Range</TableCell>
@@ -47,7 +47,7 @@ export default function AdvancementGearWeapons() {
                     {characterWeapons.map((item, i) => {
                         if (item.equipped === true) {
                             return (
-                                <TableRow key={i}>
+                                <TableRow hover key={i}>
                                     <TableCell align="left"><WeaponDialog prop={item.name} /></TableCell>
                                     <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
@@ -68,7 +68,7 @@ export default function AdvancementGearWeapons() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Damage</TableCell>
                         <TableCell align="center">Range</TableCell>
@@ -83,7 +83,7 @@ export default function AdvancementGearWeapons() {
                     {characterWeapons.map((item, i) => {
                         if (item.equipped === false) {
                             return (
-                                <TableRow key={i}>
+                                <TableRow hover key={i}>
                                     <TableCell align="left"><WeaponDialog prop={item.name} /></TableCell>
                                     <TableCell align="center">{item.dmg_type === 'melee' || item.dmg_type === 'bow' ? `${charDetail.strength + charDetail.cyber_strength + item.damage}` : `${item.damage}`}</TableCell>
                                     <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>

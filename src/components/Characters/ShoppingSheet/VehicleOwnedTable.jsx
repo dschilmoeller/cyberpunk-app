@@ -142,7 +142,7 @@ export default function VehicleOwnedTable() {
 
         return (
             <TableHead>
-                <TableRow>
+                <TableRow hover>
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}

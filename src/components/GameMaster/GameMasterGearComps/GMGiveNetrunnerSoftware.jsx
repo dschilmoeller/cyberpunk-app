@@ -112,7 +112,7 @@ export default function GMGiveNetrunnerSoftware() {
 
         return (
             <TableHead>
-                <TableRow>
+                <TableRow hover>
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}

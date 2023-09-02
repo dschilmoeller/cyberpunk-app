@@ -93,7 +93,7 @@ function CharacterList() {
 
     return (
       <TableHead>
-        <TableRow>
+        <TableRow hover>
           {headCells.map((headCell) => {
             if (headCell.id === 'handle' || headCell.id === 'campaign') {
               return (

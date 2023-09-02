@@ -60,7 +60,7 @@ export default function AdvancementGearArmor() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="left">Quality</TableCell>
                         <TableCell align="left">Description</TableCell>
@@ -100,7 +100,7 @@ export default function AdvancementGearArmor() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="left">Quality</TableCell>
                         <TableCell align="left">Description</TableCell>

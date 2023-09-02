@@ -95,7 +95,7 @@ export default function ShopCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Humanity Cost</TableCell>
@@ -108,7 +108,7 @@ export default function ShopCyberware() {
                     {charCyberware.map(item => {
                         if (item.equipped === false && item.type === selectedList) {
                             return (<React.Fragment key={item.owned_cyberware_id}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
@@ -122,7 +122,7 @@ export default function ShopCyberware() {
                     {boughtCyberware.map((item, i) => {
                         if (item.type === selectedList) {
                             return (<React.Fragment key={i}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
@@ -142,7 +142,7 @@ export default function ShopCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Humanity Cost</TableCell>
@@ -157,7 +157,7 @@ export default function ShopCyberware() {
                             <React.Fragment key={item.cyberware_master_id}>
                                 {item.type === selectedList ? (
                                     <React.Fragment key={item.cyberware_master_id}>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>

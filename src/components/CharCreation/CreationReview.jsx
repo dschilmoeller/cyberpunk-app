@@ -504,7 +504,7 @@ export default function CreationReview() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="left">Quality</TableCell>
                                             <TableCell align="left">Description</TableCell>
@@ -513,7 +513,7 @@ export default function CreationReview() {
                                     </TableHead>
                                     <TableBody>
                                         {charDetail.armor.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{armor[item].name} </TableCell>
                                                 <TableCell align="left">{armor[item].quality}</TableCell>
                                                 <TableCell align="left">{armor[item].description}</TableCell>
@@ -521,7 +521,7 @@ export default function CreationReview() {
                                             </TableRow>
                                         ))}
                                         {charDetail.shield.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{shield[item].name} </TableCell>
                                                 <TableCell align="left">{shield[item].quality}</TableCell>
                                                 <TableCell align="left">{shield[item].description}</TableCell>
@@ -538,7 +538,7 @@ export default function CreationReview() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="center">Damage</TableCell>
                                             <TableCell align="center">Range</TableCell>
@@ -551,7 +551,7 @@ export default function CreationReview() {
                                     </TableHead>
                                     <TableBody>
                                         {charDetail.weapons.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{weapons[item].name}</TableCell>
                                                 <TableCell align="center">{weapons[item].dmg_type === 'melee' || weapons[item].dmg_type === 'bow' ? `Str + ${weapons[item].damage}` : `${weapons[item].damage}`}</TableCell>
                                                 <TableCell align="center">{weapons[item].dmg_type === 'bow' ? `Str * ${weapons[item].range}` : `${weapons[item].range}`}</TableCell>
@@ -572,7 +572,7 @@ export default function CreationReview() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="left">Description</TableCell>
                                             <TableCell align="center">Price</TableCell>
@@ -580,7 +580,7 @@ export default function CreationReview() {
                                     </TableHead>
                                     <TableBody>
                                         {charDetail.gear.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{miscGear[item].name} </TableCell>
                                                 <TableCell align="left">{miscGear[item].description}</TableCell>
                                                 <TableCell align="center">{miscGear[item].price}$</TableCell>
@@ -596,7 +596,7 @@ export default function CreationReview() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="left">Description</TableCell>
                                             <TableCell align="center">Price</TableCell>
@@ -604,7 +604,7 @@ export default function CreationReview() {
                                     </TableHead>
                                     <TableBody>
                                         {charDetail.netrunnerGear.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{netrunnerMaster[item].name}</TableCell>
                                                 <TableCell align="left">{netrunnerMaster[item].description}</TableCell>
                                                 <TableCell align="center">{netrunnerMaster[item].price}$</TableCell>
@@ -624,7 +624,7 @@ export default function CreationReview() {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow hover>
                                             <TableCell align="left">Name</TableCell>
                                             <TableCell align="left">Description</TableCell>
                                             <TableCell align="left">Humanity Loss</TableCell>
@@ -633,7 +633,7 @@ export default function CreationReview() {
                                     </TableHead>
                                     <TableBody>
                                         {charDetail.cyberware.map((item, i) => (
-                                            <TableRow key={i}>
+                                            <TableRow hover key={i}>
                                                 <TableCell align="left">{cyberware[item].name} </TableCell>
                                                 <TableCell align="left">{cyberware[item].description}</TableCell>
                                                 <TableCell align="left">{Math.floor(cyberware[item].humanity_loss_max / 2)}</TableCell>

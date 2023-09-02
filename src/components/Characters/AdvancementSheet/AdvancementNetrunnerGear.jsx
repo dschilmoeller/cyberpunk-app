@@ -114,7 +114,7 @@ export default function AdvancementNetrunnerGear() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Unequip?</TableCell>
@@ -124,7 +124,7 @@ export default function AdvancementNetrunnerGear() {
                     {charNetrunnerGear.map((item, i) => {
                         if (item.equipped === true) {
                             return (
-                                <TableRow key={i}>
+                                <TableRow hover key={i}>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center"><Button onClick={() => unequipNetrunnerGear(item)}>Unequip</Button></TableCell>
@@ -141,7 +141,7 @@ export default function AdvancementNetrunnerGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
                             <TableCell align="center">Slots</TableCell>
@@ -152,7 +152,7 @@ export default function AdvancementNetrunnerGear() {
                         {charNetrunnerGear.map((item, i) => {
                             if (item.type === 'deck' && item.equipped === false) {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{item.slots}</TableCell>
@@ -170,7 +170,7 @@ export default function AdvancementNetrunnerGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
                             <TableCell align="center">Attack</TableCell>
@@ -182,7 +182,7 @@ export default function AdvancementNetrunnerGear() {
                         {charNetrunnerGear.map((item, i) => {
                             if (item.type === 'software' && item.equipped === false) {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{item.attack}</TableCell>
@@ -201,7 +201,7 @@ export default function AdvancementNetrunnerGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Description</TableCell>
                             <TableCell align="center">Slots</TableCell>
@@ -212,7 +212,7 @@ export default function AdvancementNetrunnerGear() {
                         {charNetrunnerGear.map((item, i) => {
                             if (item.type === 'mod' && item.equipped === false) {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{item.slots}</TableCell>

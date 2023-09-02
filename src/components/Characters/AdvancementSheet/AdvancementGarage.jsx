@@ -60,7 +60,7 @@ export default function AdvancementGarage() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell padding='normal'>Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Health</TableCell>
@@ -74,7 +74,7 @@ export default function AdvancementGarage() {
                     {characterVehicles.map((row, i) => {
                         return (
                             <React.Fragment key={row.vehicle_bridge_id}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell padding='normal'><b>{row.name}</b></TableCell>
                                     <TableCell align="center">{row.description}</TableCell>
                                     <TableCell align="center">{row.health}</TableCell>
@@ -86,7 +86,7 @@ export default function AdvancementGarage() {
                                 {characterEquippedVehicleMods.map((mod, i) => {
                                     if (mod.vehicle_bridge_id === row.vehicle_bridge_id) {
                                         return (<React.Fragment key={i}>
-                                            <TableRow>
+                                            <TableRow hover>
                                                 <TableCell>{row.name} Mod:</TableCell>
                                                 <TableCell align="center">{mod.name}</TableCell>
                                                 <TableCell colSpan={4} >{mod.description}</TableCell>
@@ -108,7 +108,7 @@ export default function AdvancementGarage() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell padding='normal'>Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Type</TableCell>
@@ -119,7 +119,7 @@ export default function AdvancementGarage() {
                     {characterVehicleMods.map((row, i) => {
 
                         return (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell padding='normal'>{row.name}</TableCell>
                                 <TableCell align="center">{row.description}</TableCell>
                                 <TableCell align="center">{row.type}</TableCell>

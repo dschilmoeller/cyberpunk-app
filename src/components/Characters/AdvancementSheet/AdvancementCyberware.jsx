@@ -480,7 +480,7 @@ export default function AdvancementCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableBody>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align='center'>Permanent Humanity Loss: {charDetails.perm_humanity_loss}</TableCell>
                         <TableCell align='center'>Temporary Humanity Loss: {charDetails.temp_humanity_loss}</TableCell>
                         {(charDetails.perm_humanity_loss + charDetails.temp_humanity_loss) > 39 ? <TableCell sx={{ color: 'red', backgroundColor: 'black' }} align='center'>Total Humanity Loss: {charDetails.perm_humanity_loss + charDetails.temp_humanity_loss}</TableCell>
@@ -488,7 +488,7 @@ export default function AdvancementCyberware() {
                     </TableRow>
 
                     {selectedList === 'fashionware' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Fashionware Requirements: None</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Fashionware Slots: {fashionSlots}</TableCell>
@@ -496,7 +496,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'cyberaudio' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Cyberaudio Requirements: Cyber Audio Suite</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberaudio Slots: {cyberaudioSlots}</TableCell>
@@ -504,7 +504,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'neuralware' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Neuralware Requirements: Neural Link</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Neuralware Slots: {neuralSlots}</TableCell>
@@ -512,7 +512,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'cyberoptics' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Optics Requirements: Cybereyes</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberoptic Slots: {opticSlots}</TableCell>
@@ -520,7 +520,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'internalware' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Internalware Requirements: None</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Internalware Slots: {internalwareSlots}</TableCell>
@@ -528,7 +528,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'externalware' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Externalware Requirements: None</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Externalware Slots: {externalwareSlots}</TableCell>
@@ -536,7 +536,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'cyberarm' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Cyberarm Requirements: Cyberarm</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberarm Slots: {cyberarmSlots}</TableCell>
@@ -544,7 +544,7 @@ export default function AdvancementCyberware() {
                     ) : <></>}
 
                     {selectedList === 'cyberleg' ? (
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align='center'>Cyberleg Requirements: Cyberleg</TableCell>
                             <TableCell></TableCell>
                             <TableCell align='center'>Available Cyberleg Slots: {cyberlegSlots}</TableCell>
@@ -559,7 +559,7 @@ export default function AdvancementCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Install Requirement</TableCell>
@@ -573,7 +573,7 @@ export default function AdvancementCyberware() {
                             return (
                                 <React.Fragment key={i}>
                                     {item.type === selectedList ? (
-                                        <TableRow key={i}>
+                                        <TableRow hover key={i}>
                                             <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
@@ -591,7 +591,7 @@ export default function AdvancementCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align='center'>Humanity Cost</TableCell>
@@ -606,7 +606,7 @@ export default function AdvancementCyberware() {
                             return (
                                 <React.Fragment key={i}>
                                     {item.type === selectedList ? (
-                                        <TableRow key={i}>
+                                        <TableRow hover key={i}>
                                             <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>

@@ -151,7 +151,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Quality</TableCell>
                             <TableCell align="left">Description</TableCell>
@@ -161,7 +161,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {charArmor.map((item, i) => (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{armor[item].name} </TableCell>
                                 <TableCell align="left">{armor[item].quality}</TableCell>
                                 <TableCell align="left">{armor[item].description}</TableCell>
@@ -170,7 +170,7 @@ export default function CreationGear() {
                             </TableRow>
                         ))}
                         {charShield.map((item, i) => (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{shield[item].name} </TableCell>
                                 <TableCell align="left">{shield[item].quality}</TableCell>
                                 <TableCell align="left">{shield[item].description}</TableCell>
@@ -186,7 +186,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell>Name</TableCell>
                             <TableCell align="left">Quality</TableCell>
                             <TableCell align="left">Description</TableCell>
@@ -198,7 +198,7 @@ export default function CreationGear() {
                         {armor.map((row, i) => {
                             if (row.price < 5000) {
                                 return (
-                                    <TableRow key={row.name}>
+                                    <TableRow hover key={row.name}>
                                         <TableCell>{row.name} </TableCell>
                                         <TableCell align="left">{row.quality}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
@@ -211,7 +211,7 @@ export default function CreationGear() {
                         {shield.map((row, i) => {
                             if (row.price < 5000) {
                                 return (
-                                    <TableRow key={row.name}>
+                                    <TableRow hover key={row.name}>
                                         <TableCell>{row.name} </TableCell>
                                         <TableCell align="left">{row.quality}</TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
@@ -232,7 +232,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Damage</TableCell>
                             <TableCell align="center">Range</TableCell>
@@ -246,7 +246,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {charWeapons.map((item, i) => (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{weapons[item].name}</TableCell>
                                 <TableCell align="center">{weapons[item].dmg_type === 'melee' || weapons[item].dmg_type === 'bow' ? `Str + ${weapons[item].damage}` : `${weapons[item].damage}`}</TableCell>
                                 <TableCell align="center">{weapons[item].dmg_type === 'bow' ? `Str * ${weapons[item].range}` : `${weapons[item].range}`}</TableCell>
@@ -266,7 +266,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="center">Damage</TableCell>
                             <TableCell align="center">Range</TableCell>
@@ -282,7 +282,7 @@ export default function CreationGear() {
                         {weapons.map((row, i) => {
                             if (row.price < 5000) {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
                                         <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
@@ -307,7 +307,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Description</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -316,7 +316,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {charGear.map((item, i) => (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{miscGear[item].name} </TableCell>
                                 <TableCell align="left">{miscGear[item].description}</TableCell>
                                 <TableCell align="right">{euroBuck}{miscGear[item].price.toLocaleString("en-US")}</TableCell>
@@ -331,7 +331,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell>Name</TableCell>
                             <TableCell align="left">Description</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -340,7 +340,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {miscGear.map((row, i) => (
-                            <TableRow key={row.name}>
+                            <TableRow hover key={row.name}>
                                 <TableCell>{row.name} </TableCell>
                                 <TableCell align="left">{row.description}</TableCell>
                                 <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
@@ -357,7 +357,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Description</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -366,7 +366,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {charGear.map((item, i) => (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{miscGear[item].name} </TableCell>
                                 <TableCell align="left">{miscGear[item].description}</TableCell>
                                 <TableCell align="right">${miscGear[item].price.toLocaleString("en-US")}</TableCell>
@@ -381,7 +381,7 @@ export default function CreationGear() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell>Name</TableCell>
                             <TableCell align="left">Description</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -390,7 +390,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {miscGear.map((row, i) => (
-                            <TableRow key={row.name}>
+                            <TableRow hover key={row.name}>
                                 <TableCell>{row.name} </TableCell>
                                 <TableCell align="left">{row.description}</TableCell>
                                 <TableCell align="right">${row.price.toLocaleString("en-US")}</TableCell>
@@ -424,7 +424,7 @@ export default function CreationGear() {
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
-                            <TableRow>
+                            <TableRow hover>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Description</TableCell>
                                 <TableCell align="center">Price</TableCell>
@@ -435,7 +435,7 @@ export default function CreationGear() {
                         <TableBody>
                             {charNetrunnerGear.map((item, i) => {
                                 return (
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell align="left">{netrunnerGear[item].name} </TableCell>
                                         <TableCell align="left">{netrunnerGear[item].description}</TableCell>
                                         <TableCell align="center">{euroBuck}{netrunnerGear[item].price.toLocaleString("en-US")}</TableCell>
@@ -453,7 +453,7 @@ export default function CreationGear() {
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
-                            <TableRow>
+                            <TableRow hover>
                                 <TableCell>Name</TableCell>
                                 <TableCell align="left">Description</TableCell>
                                 <TableCell align="center">Price</TableCell>
@@ -478,7 +478,7 @@ export default function CreationGear() {
                             {netrunnerGear.map((row, i) => {
                                 if (row.type === netrunnerValue && row.price < 2000) {
                                     return (
-                                        <TableRow key={row.name}>
+                                        <TableRow hover key={row.name}>
                                             <TableCell>{row.name} </TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>

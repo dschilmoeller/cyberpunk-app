@@ -722,7 +722,7 @@ VALUES
 ('Companion Revolver','Space cowboy pistol - looks like an antique revolver with an integral suppressor and some funky sights.',5,'gun',10,2,5,1,TRUE,10000,TRUE),
 ('Winchester 1873','The gun that won the West.',6,'gun',15,1,15,2,FALSE,15000,TRUE),
 ('Kendachi Arms Monokatana','A crystalline blade with built in microvibrators allow this weapon to slice through, well, anything. Ignores most armor.',3,'melee',0,2,0,2,FALSE,10000,TRUE),
-('Malorian 3516','High powered, custom handgun. Requires special smart ammunition made specifically for this weapon. Can be used in melee once per reload, breathing fire from the base of the grip and dealing aggravated damage.',6,'gun',20,2,4,1,TRUE,100000,TRUE),
+('Malorian 3516','High powered, custom handgun. Requires special smart ammunition made specifically for this weapon. Base DV is 9 if character does not have either a Cyberarm with a smart grip or Strength of 8+. Can be used in melee once per reload, breathing fire from the base of the grip and dealing aggravated damage.',8,'gun',20,1,4,1,TRUE,100000,TRUE),
 ('Rhinemetall EMG-86','Railgun. Requires a complex action to reload both ammunition and charge pack. Requires custom ammunition. Deals aggravated damage.',8,'gun',100,1,2,2,FALSE,250000,TRUE),
 ('Magnetic Shuriken','Thrown weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has cyberlimbs. Requires repair after each use.',1,'bow',1,3,3,2,TRUE,1000,TRUE),
 ('Giant Magna-Shuriken','This is an 8 pound piece of razor edged steel honed to an almost fractal level of sharpness. It is wildly dangerous to vehicles, much less people. Requires a Shuriken Battleglove to use.',8,'bow',2,1,1,1,FALSE,10000,TRUE),
@@ -731,7 +731,7 @@ VALUES
 ('Arasaka Whistler','Full sized, pump action crossbow for rapid, silent killing. Can be broken down into a concealable device as a single complex action, or restored in two.',6,'gun',20,2,6,2,TRUE,15000,TRUE),
 ('Araska Reaper','Handheld, self-recocking crossbow. Often wielded with shuriken in close combat by complete maniacs. Collapses into, or expands from, a single, inscrutable block as a simple action.',4,'gun',10,2,4,1,TRUE,20000,TRUE),
 ('Bauhaus Rippercannon','Custom made, extremely bulky machine gun that fires flechette filled cartridges. Requires Strength 6 or a mount to use effectively. Stupid illegal in every jurisdiction where it has been found. Uses SMG rules.',5,'smg',30,3,60,2,FALSE,50000,TRUE),
-('Comrade Molech','Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength is 7+.',10,'gun',10,1,1,2,TRUE,100000,TRUE);
+('Comrade Molech','Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength of 8+.',10,'gun',10,1,1,2,TRUE,100000,TRUE);
 
 INSERT INTO "public"."misc_gear_master"("name", "description", "price")
 VALUES (E'Agent', E'Adaptive AI Smartphone', 100),

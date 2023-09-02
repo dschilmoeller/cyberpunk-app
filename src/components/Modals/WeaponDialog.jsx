@@ -11,6 +11,7 @@ import { Grid } from '@mui/material';
 
 export default function WeaponDialog({ prop }) {
     const weaponMaster = useSelector(store => store.weaponMaster)
+    const cyberwareMaster = useSelector(store => store.cyberwareMaster)
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
@@ -94,6 +95,17 @@ export default function WeaponDialog({ prop }) {
                         if (item.name === prop) {
                             return (
                                 <React.Fragment key={item.weapon_master_id}>
+                                    <Grid container fontFamily={'serif'}>
+                                        <Grid item padding={1} xs={12}>{item.description}</Grid>
+                                    </Grid>
+                                </React.Fragment>
+                            )
+                        }
+                    })}
+                    {cyberwareMaster.map(item => {
+                        if (item.name === prop) {
+                            return (
+                                <React.Fragment key={item.cyberware_master_id}>
                                     <Grid container fontFamily={'serif'}>
                                         <Grid item padding={1} xs={12}>{item.description}</Grid>
                                     </Grid>

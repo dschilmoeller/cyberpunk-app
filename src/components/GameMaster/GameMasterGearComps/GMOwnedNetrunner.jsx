@@ -47,7 +47,7 @@ export default function GMOwnedNetrunner() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Equipped?</TableCell>
@@ -57,7 +57,7 @@ export default function GMOwnedNetrunner() {
                 <TableBody>
                     {charNetrunnerGear.map((item, i) => {
                         return (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{item.name} </TableCell>
                                 <TableCell align="center">{item.description}</TableCell>
                                 <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
@@ -67,7 +67,7 @@ export default function GMOwnedNetrunner() {
                     })}
                     {charBoughtNetrunnerGear.map((item, i) => {
                         return (
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                                 <TableCell align="left">{item.name} </TableCell>
                                 <TableCell align="center">{item.description}</TableCell>
                                 <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>

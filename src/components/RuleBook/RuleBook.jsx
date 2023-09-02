@@ -435,7 +435,7 @@ export default function VerticalTabs() {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">Rank</TableCell>
                         <TableCell align="left">Venue</TableCell>
                         <TableCell align="center">Single Fan</TableCell>
@@ -444,7 +444,7 @@ export default function VerticalTabs() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">1-2</TableCell>
                         <TableCell align='left'>Small clubs & Church Basements</TableCell>
                         <TableCell align='center'>Small Favor</TableCell>
@@ -452,7 +452,7 @@ export default function VerticalTabs() {
                         <TableCell align='center'>You can't reach a huge group</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">3-4</TableCell>
                         <TableCell align='left'>Medium clubs & local churches</TableCell>
                         <TableCell align='center'>Medium Favor</TableCell>
@@ -460,7 +460,7 @@ export default function VerticalTabs() {
                         <TableCell align='center'>Attend shows</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">5-6</TableCell>
                         <TableCell align='left'>Large Clubs & Churches</TableCell>
                         <TableCell align='center'>Large Favor</TableCell>
@@ -468,7 +468,7 @@ export default function VerticalTabs() {
                         <TableCell align='center'>Temporary Small Favor Horde</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">7-8</TableCell>
                         <TableCell align='left'>Concert Halls & Megachurches</TableCell>
                         <TableCell align='center'>Huge Favor</TableCell>
@@ -476,7 +476,7 @@ export default function VerticalTabs() {
                         <TableCell align='center'>Temporary Medium Favor Horde</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">9</TableCell>
                         <TableCell align='left'>Stadiums & Int'l Video Feeds</TableCell>
                         <TableCell align='center'>Die without Question</TableCell>
@@ -484,7 +484,7 @@ export default function VerticalTabs() {
                         <TableCell align='center'>Temporary Large Favor Horde</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">10</TableCell>
                         <TableCell align='left'>Stadiums & Int'l Video Feeds</TableCell>
                         <TableCell align='center'>Die without Question</TableCell>
@@ -522,7 +522,7 @@ export default function VerticalTabs() {
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Name</TableCell>
                           <TableCell align="left">Points</TableCell>
                           <TableCell align="left">Description</TableCell>
@@ -530,37 +530,37 @@ export default function VerticalTabs() {
                       </TableHead>
                       <TableBody>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Threat Detection</TableCell>
                           <TableCell align="left">1</TableCell>
                           <TableCell align='left'>Solos develop a sixth sense about danger - each point in this ability adds 1 die to any Perception roll the Solo makes.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Instant Reflexes</TableCell>
                           <TableCell align="left">1</TableCell>
                           <TableCell align='left'>Solos react to danger almost instantly - for every point in this skill, add 1 automatic success to any initiative roll.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Damage Reduction</TableCell>
                           <TableCell align="left">2</TableCell>
                           <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by one <b>after</b> soaking damage from every attack this round.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Spot Weakness</TableCell>
                           <TableCell align="left">2</TableCell>
                           <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo increases the base damage of any weapon they use this round by one.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Precision Attack</TableCell>
                           <TableCell align="left">3</TableCell>
                           <TableCell align='left'>Solos are trained to aim carefully - for every 3 points in this ability, the Solo gets an automatic success on any attack rolls made this round, including aimed shots.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Fumble Recovery</TableCell>
                           <TableCell align="left">5</TableCell>
                           <TableCell align='left'>Solos take their time and don't make the petty mistakes of amateur Edgerunners - solos with this ability ignore any 1s rolled during combat. They cannot glitch or botch their roll. They can, however, critically botch by rolling one or more 1s and no successes.</TableCell>
@@ -624,29 +624,29 @@ export default function VerticalTabs() {
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Rank</TableCell>
                           <TableCell align="left">Vehicles availabe</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">1-4</TableCell>
                           <TableCell align="left">Compact Groundcar, Gyrocopter, Jetski, Roadbike</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">5-6</TableCell>
                           <TableCell align="left">Helicopter, High performance groundcar, Speedboat</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">7-8</TableCell>
                           <TableCell align="left">AV-4, Cigarette Boat, Cabin Cruiser, Superbike</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">9-10</TableCell>
                           <TableCell align="left">Aerozep, AV-9, Super Groundcar, Yacht</TableCell>
                         </TableRow>
@@ -681,7 +681,7 @@ export default function VerticalTabs() {
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Rumor Quality</TableCell>
                           <TableCell align="left">Description</TableCell>
                           <TableCell align="left">Passive DV</TableCell>
@@ -690,7 +690,7 @@ export default function VerticalTabs() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Vague</TableCell>
                           <TableCell>Rumor is hazy and has only the bare minimum information needed to look into it further.</TableCell>
                           <TableCell>5</TableCell>
@@ -698,7 +698,7 @@ export default function VerticalTabs() {
                           <TableCell>7</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Typical</TableCell>
                           <TableCell>The rumor contains minimal information, but does offer a concrete lead on where to find more information.</TableCell>
                           <TableCell>6</TableCell>
@@ -706,7 +706,7 @@ export default function VerticalTabs() {
                           <TableCell>8</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Substantial</TableCell>
                           <TableCell>As a typical rumor, but some details of the subject may be available. Multiple avenues to follow up may be included, along with names, places, dates, or times.</TableCell>
                           <TableCell>7</TableCell>
@@ -714,7 +714,7 @@ export default function VerticalTabs() {
                           <TableCell>9</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Details</TableCell>
                           <TableCell>Contains enough information to be published on its own - either someone got sloppy and left too many tracks, or a Deep Throat in the organization spawning the rumor is looking to get the story out.</TableCell>
                           <TableCell>8</TableCell>
@@ -755,34 +755,34 @@ export default function VerticalTabs() {
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Pharmaceutical</TableCell>
                           <TableCell align="left">Effect</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Antibiotic</TableCell>
                           <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Rapi-Detox</TableCell>
                           <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Speedheal</TableCell>
                           <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they'd rested for the appropriate length of time. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Stim</TableCell>
                           <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Surge</TableCell>
                           <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. For each consecutive dose a user takes in without taking a week off, they lose 2 additional humanity (3 for the second, 5 for the 3rd dose, and so on).</TableCell>
                         </TableRow>
@@ -805,34 +805,34 @@ export default function VerticalTabs() {
                 <Grid item padding={.5} xs={12}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">Cryogenics Level</TableCell>
                         <TableCell align="left">Benefit</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">1</TableCell>
                         <TableCell align="left">Gain one standard Cryopump.</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">2</TableCell>
                         <TableCell align="left">Become a registered Cryotank technician and gain unlimited 24/7 access to a Cryotank at a corporate or government operated facility.</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">3</TableCell>
                         <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have three charges as you learn to operate them more efficiently.</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">4</TableCell>
                         <TableCell align="left">Refurbish an additional Cryotank, and install in a location of your choosing.</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">5</TableCell>
                         <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have four charges due to your mastery of the Cryonic arts!</TableCell>
                       </TableRow>
@@ -872,59 +872,59 @@ export default function VerticalTabs() {
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Item Type</TableCell>
                           <TableCell align="left">Effect</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Melee Weapon</TableCell>
                           <TableCell align="left">Embiggen: Make a 1 handed weapon 2 handed; this increases the damage by 2.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Melee Weapon</TableCell>
                           <TableCell align="left">Lightweight Material: Make a 2 handed weapon 1 handed.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Weapon</TableCell>
                           <TableCell align="left">Dangerous: Increase damage by 1.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Standard Ranged Weapon</TableCell>
                           <TableCell align="left">Ballistics: Increase range by 25%.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Any Weapon</TableCell>
                           <TableCell align="left">Collapsible: Make a non-concealable weapon conceable. It takes 2 standard actions to reassemble a concealed weapon for use.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Any weapon with ammunition</TableCell>
                           <TableCell align="left">Bigger Clip: Increase base clip by 25% or +3, whichever is higher.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Armor</TableCell>
                           <TableCell align="left">Improved Plating: Add 1 to armor Quality.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Armor</TableCell>
                           <TableCell align="left">Reactive Coating: Reduce Stealth difficulty values by 1.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Shield</TableCell>
                           <TableCell align="left">Thicker Materials: add 1 to shield quality.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell align="left">Any Item</TableCell>
                           <TableCell align="left">Simplify: Time and material costs to repair item are reduced by 50%.</TableCell>
                         </TableRow>
@@ -941,7 +941,7 @@ export default function VerticalTabs() {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Item Base Cost</TableCell>
                             <TableCell align="left">DV</TableCell>
                             <TableCell align="left">Interval</TableCell>
@@ -949,43 +949,43 @@ export default function VerticalTabs() {
                         </TableHead>
                         <TableBody>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Cheap</TableCell>
                             <TableCell align='left'>5 (2+)</TableCell>
                             <TableCell align="left">1 hour.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Costly</TableCell>
                             <TableCell align='left'>6 (2+)</TableCell>
                             <TableCell align="left">6 hours.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Preem</TableCell>
                             <TableCell align='left'>6 (4+)</TableCell>
                             <TableCell align="left">1 day.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Expensive</TableCell>
                             <TableCell align='left'>7 (2+)</TableCell>
                             <TableCell align="left">3 days.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Valuable</TableCell>
                             <TableCell align='left'>7 (4+)</TableCell>
                             <TableCell align="left">1 week.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Luxury</TableCell>
                             <TableCell align='left'>7 (8+)</TableCell>
                             <TableCell align="left">1 month.</TableCell>
                           </TableRow>
 
-                          <TableRow>
+                          <TableRow hover>
                             <TableCell align="left">Extravagant</TableCell>
                             <TableCell align='left'>8 (2 successes / 10,000 of base cost)</TableCell>
                             <TableCell align="left">1 week / 10,000 of base cost.</TableCell>
@@ -1029,7 +1029,7 @@ export default function VerticalTabs() {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell>Name</TableCell>
                         <TableCell align="left">Quality</TableCell>
                         <TableCell align="left">Description</TableCell>
@@ -1039,7 +1039,7 @@ export default function VerticalTabs() {
                     <TableBody>
                       {armorMaster.map((row, i) => {
                         return (
-                          <TableRow key={row.name}>
+                          <TableRow hover key={row.name}>
                             <TableCell>{row.name}</TableCell>
                             <TableCell align="left">{row.quality}</TableCell>
                             <TableCell align="left">{row.description}</TableCell>
@@ -1049,7 +1049,7 @@ export default function VerticalTabs() {
                       })}
                       {shieldMaster.map((row, i) => {
                         return (
-                          <TableRow key={row.name}>
+                          <TableRow hover key={row.name}>
                             <TableCell>{row.name}</TableCell>
                             <TableCell align="left">{row.quality}</TableCell>
                             <TableCell align="left">{row.description}</TableCell>
@@ -1087,7 +1087,7 @@ export default function VerticalTabs() {
                 <TableContainer component={Paper}>
                   <Table sx={{ width: 1 }} size="small" aria-label="a dense table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Damage</TableCell>
                         <TableCell align="center">Range</TableCell>
@@ -1101,7 +1101,7 @@ export default function VerticalTabs() {
                     <TableBody>
                       {weaponMaster.map((row, i) => {
                         return (
-                          <TableRow key={i}>
+                          <TableRow hover key={i}>
                             <TableCell align="left"><CharSheetWeaponDialog prop={row.name} /></TableCell>
                             <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
                             <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
@@ -1135,7 +1135,7 @@ export default function VerticalTabs() {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow hover>
                         <TableCell>Name</TableCell>
                         <TableCell align="left">Description</TableCell>
                         <TableCell align="left">Price</TableCell>
@@ -1143,7 +1143,7 @@ export default function VerticalTabs() {
                     </TableHead>
                     <TableBody>
                       {miscGearMaster.map((row, i) => (
-                        <TableRow key={row.name}>
+                        <TableRow hover key={row.name}>
                           <TableCell>{row.name}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
                           <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
@@ -1203,7 +1203,7 @@ export default function VerticalTabs() {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Name</TableCell>
                       <TableCell align="left">Description</TableCell>
                       <TableCell align="left">Humanity Loss</TableCell>
@@ -1216,7 +1216,7 @@ export default function VerticalTabs() {
                       if (row.type === cyberwareValue) {
                         return (
                           <Fragment key={i}>
-                            <TableRow key={i}>
+                            <TableRow hover key={i}>
                               <TableCell>{row.name}</TableCell>
                               <TableCell align="left">{row.description}</TableCell>
                               <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
@@ -1318,7 +1318,7 @@ export default function VerticalTabs() {
               <TableContainer sx={{ minWidth: 1 }} component={Paper}>
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Name</TableCell>
                       <TableCell align="left">Description</TableCell>
                       {netrunnerValue === 'deck' ? (
@@ -1343,7 +1343,7 @@ export default function VerticalTabs() {
                       if (row.type === netrunnerValue) {
                         return (
                           <Fragment key={i}>
-                            <TableRow key={row.name}>
+                            <TableRow hover key={row.name}>
                               <TableCell>{row.name} </TableCell>
                               <TableCell align="left">{row.description}</TableCell>
                               {netrunnerValue === 'software' ? (
@@ -1415,110 +1415,110 @@ export default function VerticalTabs() {
                   <TableContainer sx={{ minWidth: 1 }} component={Paper}>
                     <Table size="small" aria-label="a dense table">
                       <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Action</TableCell>
                           <TableCell align="left">Action Type</TableCell>
                           <TableCell align='left'>Description</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Move</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Normal move action</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Reload</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Fully reload a firearm. Requires a free hand.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Equip Item</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Bring a weapon, shield, or other item to hand from pocket/bag/harness.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Stow Item</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Put a weapon, shield, or other item from hand into pocket, bag, or harness.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Hit the Deck</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Drop prone and move up to 1 meter.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Get into Vehicle</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Get into a vehicle.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Start Vehicle</TableCell>
                           <TableCell align="left">Simple</TableCell>
                           <TableCell align='left'>Turn a vehicle on and put into gear.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Drop Item</TableCell>
                           <TableCell align="left">Free</TableCell>
                           <TableCell align='left'>Drop item in hand to ground.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Run</TableCell>
                           <TableCell align="left">Complex</TableCell>
                           <TableCell align='left'>Take a second move action. Can optionally roll Reflexes + Athletics and move additional 1 meter per success.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Attack</TableCell>
                           <TableCell align="left">Complex</TableCell>
                           <TableCell align='left'>Make a number of Melee or Ranged attacks up to the weapon's ROF.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Get Up</TableCell>
                           <TableCell align="left">Complex</TableCell>
                           <TableCell align='left'>Recover from being <b>prone</b>.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Grab</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Grab opponent on succesful Brawl attack.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Choke</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Choke a grabbed opponent, dealing (Strength) stun wounds with no soak roll.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Human Shield</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Turn a grabbed opponent into a human shield, and use grabbed opponent wound track and armor in place of one's own.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Throw</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Throw grabbed opponent to floor, or (Strength) meters.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Vehicle Maneuver</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Perform dangerous or challenging maneuver in a vehicle.</TableCell>
                         </TableRow>
 
-                        <TableRow>
+                        <TableRow hover>
                           <TableCell>Netrunner Actions</TableCell>
                           <TableCell align='left'>Complex</TableCell>
                           <TableCell align="left">Perform a number of NET actions based on character's Netrunner skill.</TableCell>
@@ -1639,23 +1639,23 @@ export default function VerticalTabs() {
               <TableContainer sx={{ minWidth: 1 }} component={Paper}>
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Target</TableCell>
                       <TableCell align="left">Effect</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Head</TableCell>
                       <TableCell align="left">If target doesn't have helmet or hardened armor, damage is mulitplied by 2 before soaking.</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Held Item</TableCell>
                       <TableCell align="left">If damage is not completely soaked, item is dropped.</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Critical Injury</TableCell>
                       <TableCell align="left">Select and inflict chosen critical injury from table below. Injury must make sense given the weapon - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're in melee range.</TableCell>
                     </TableRow>
@@ -1906,7 +1906,7 @@ export default function VerticalTabs() {
               <TableContainer sx={{ minWidth: 1 }} component={Paper}>
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>Roll</TableCell>
                       <TableCell align="left">Injury</TableCell>
                       <TableCell align="left">Effect</TableCell>
@@ -1915,7 +1915,7 @@ export default function VerticalTabs() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>1</TableCell>
                       <TableCell>Broken/Dismembered Arm</TableCell>
                       <TableCell>The limb cannot be used. Any gear in arm is dropped.</TableCell>
@@ -1923,7 +1923,7 @@ export default function VerticalTabs() {
                       <TableCell>Surgery, DV7, replacement limb</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>2</TableCell>
                       <TableCell>Broken/Dismembered Leg</TableCell>
                       <TableCell>The limb cannot be used. -3 move stat, min 1. Character is knocked <b>prone</b>.</TableCell>
@@ -1931,7 +1931,7 @@ export default function VerticalTabs() {
                       <TableCell>Surgery, DV7, replacement limb</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>3</TableCell>
                       <TableCell>Collapsed Lung</TableCell>
                       <TableCell>-2 to Move, begin making death saves as though track is filled with Lethal Damage.</TableCell>
@@ -1939,7 +1939,7 @@ export default function VerticalTabs() {
                       <TableCell>Surgery DV7</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>4</TableCell>
                       <TableCell>Foreign Object</TableCell>
                       <TableCell>If the character uses a move action, take 1 unsoakable lethal damage per meter moved.</TableCell>
@@ -1947,7 +1947,7 @@ export default function VerticalTabs() {
                       <TableCell>Quick fix removes injury, or Surgery DV6</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>5</TableCell>
                       <TableCell>Torn Muscle</TableCell>
                       <TableCell>All wound penalties increased by 2.</TableCell>
@@ -1955,7 +1955,7 @@ export default function VerticalTabs() {
                       <TableCell>Paramedic DV8, Surgery DV7</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>6</TableCell>
                       <TableCell>Spinal Injury</TableCell>
                       <TableCell>Can only take 1 Complex action each round.</TableCell>
@@ -1964,7 +1964,7 @@ export default function VerticalTabs() {
                     </TableRow>
 
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>7</TableCell>
                       <TableCell>Lost Aye</TableCell>
                       <TableCell>Avast, ye be having -3 dice to yer ranged attacks!</TableCell>
@@ -1972,7 +1972,7 @@ export default function VerticalTabs() {
                       <TableCell>Surgery, DV7, Replacement Eye</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>8</TableCell>
                       <TableCell>Concussion</TableCell>
                       <TableCell>+1 DV to any roll involving a Skill</TableCell>
@@ -1980,7 +1980,7 @@ export default function VerticalTabs() {
                       <TableCell>Quick fix removes injury.</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>9</TableCell>
                       <TableCell>Broken Jaw</TableCell>
                       <TableCell>Character cannot speak.</TableCell>
@@ -1988,7 +1988,7 @@ export default function VerticalTabs() {
                       <TableCell>Paramedic DV7, Surgery DV6</TableCell>
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow hover>
                       <TableCell>10</TableCell>
                       <TableCell>Crushed Windpipe</TableCell>
                       <TableCell>Cannot speak. Begin making death saves as though track is filled with Lethal Damage.</TableCell>

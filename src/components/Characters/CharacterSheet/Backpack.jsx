@@ -98,7 +98,7 @@ export default function Backpack() {
 
         return (
             <TableHead>
-                <TableRow>
+                <TableRow hover>
                     {headCells.map((headCell) => {
                         if (headCell.id != 'consume') {
                             return (

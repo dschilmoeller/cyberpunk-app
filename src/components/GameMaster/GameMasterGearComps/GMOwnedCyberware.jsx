@@ -108,7 +108,7 @@ export default function GMOwnedCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell align="left">Name</TableCell>
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Humanity Cost</TableCell>
@@ -122,7 +122,7 @@ export default function GMOwnedCyberware() {
                     {charCyberware.map(item => {
                         if (item.type === selectedList && item.equipped === false || item.type === selectedList && allowDeleteEquipped === true) {
                             return (<React.Fragment key={item.owned_cyberware_id}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
@@ -137,7 +137,7 @@ export default function GMOwnedCyberware() {
                     {boughtCyberware.map((item, i) => {
                         if (item.type === selectedList) {
                             return (<React.Fragment key={i}>
-                                <TableRow>
+                                <TableRow hover>
                                     <TableCell align="left">{item.name} </TableCell>
                                     <TableCell align="center">{item.description}</TableCell>
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>

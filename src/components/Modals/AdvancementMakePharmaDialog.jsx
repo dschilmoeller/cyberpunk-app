@@ -211,7 +211,7 @@ export default function AdvancementMakePharmaDialog() {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Pharmaceutical</TableCell>
                                         <TableCell align="left">Effect</TableCell>
                                         {/* <TableCell align="left">Qty Owned</TableCell> */}
@@ -220,35 +220,35 @@ export default function AdvancementMakePharmaDialog() {
                                 </TableHead>
                                 <TableBody>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Antibiotic</TableCell>
                                         <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
                                         {/* <TableCell align="left">{numberAntibiotic}</TableCell> */}
                                         <TableCell align='left'><Button onClick={() => makePharma('Antibiotic', reagentCost)}>Create</Button></TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Rapi-Detox</TableCell>
                                         <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
                                         {/* <TableCell align="left">{numberRapiDetox}</TableCell> */}
                                         <TableCell align='left'><Button onClick={() => makePharma('Rapi-Detox', reagentCost)}>Create</Button></TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Speedheal</TableCell>
                                         <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
                                         {/* <TableCell align="left">{numberSpeedheal}</TableCell> */}
                                         <TableCell align='left'><Button onClick={() => makePharma('Speedheal', reagentCost)}>Create</Button></TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Stim</TableCell>
                                         <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
                                         {/* <TableCell align="left">{numberStim}</TableCell> */}
                                         <TableCell align='left'><Button onClick={() => makePharma('Stim', reagentCost)}>Create</Button></TableCell>
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow hover>
                                         <TableCell align="left">Surge</TableCell>
                                         <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties.</TableCell>
                                         {/* <TableCell align="left">{numberSurge}</TableCell> */}

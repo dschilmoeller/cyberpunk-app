@@ -37,7 +37,7 @@ export default function GameMasterLanding() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow hover>
                             <TableCell align="center">Name</TableCell>
                             <TableCell align="center">Player</TableCell>
                             <TableCell align="center">Cool + Perception</TableCell>

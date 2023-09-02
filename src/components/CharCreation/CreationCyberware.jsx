@@ -70,7 +70,7 @@ export default function CreationCyberware() {
                     <h3>My Cyberware</h3>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
-                            <TableRow>
+                            <TableRow hover>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Description</TableCell>
                                 <TableCell align="left">Humanity Loss</TableCell>
@@ -81,7 +81,7 @@ export default function CreationCyberware() {
                         </TableHead>
                         <TableBody>
                             {charCyberware.map((item, i) => (
-                                <TableRow key={i}>
+                                <TableRow hover key={i}>
                                     <TableCell align="left">{cyberware[item].name} </TableCell>
                                     <TableCell align="left">{cyberware[item].description}</TableCell>
                                     <TableCell align="left">{cyberware[item].humanity_loss_min} - {cyberware[item].humanity_loss_max}</TableCell>
@@ -115,7 +115,7 @@ export default function CreationCyberware() {
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow hover>
                         <TableCell>Name</TableCell>
                         <TableCell align="left">Description</TableCell>
                         <TableCell align="left">Humanity Loss</TableCell>
@@ -130,7 +130,7 @@ export default function CreationCyberware() {
                         if (row.price < 5000 && row.type === selectedList) {
                             return (
                                 <React.Fragment key={i}>
-                                    <TableRow key={i}>
+                                    <TableRow hover key={i}>
                                         <TableCell>{row.name} </TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
                                         <TableCell align="left">{row.humanity_loss_min} - {row.humanity_loss_max}</TableCell>
