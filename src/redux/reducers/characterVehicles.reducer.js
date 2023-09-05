@@ -1,9 +1,11 @@
 const characterVehicles = (state = [], action) => {
-    if (action.type === "SET_CHARACTER_VEHICLES") {
-        return action.payload;
+    if (action.type === "CLEAR_CHARACTER_VEHICLES") {
+        return [];
     }
 
     switch (action.type) {
+        case "SET_CHARACTER_VEHICLES":
+            return action.payload;
         case "VEHICLE_ADD_ONE_DAMAGE":
             return state.map(vehicle => {
                 if (vehicle.vehicle_bridge_id === action.payload) {

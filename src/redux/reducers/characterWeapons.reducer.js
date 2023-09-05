@@ -1,8 +1,10 @@
 const characterWeapons = (state = [], action) => {
-    if (action.type === "SET_CHARACTER_WEAPONS") {
-        return action.payload;
-    }
+    
     switch (action.type) {
+        case 'CLEAR_CHARACTER_WEAPONS':
+            return [];
+        case 'SET_CHARACTER_WEAPONS':
+            return action.payload;
         case 'FIRE_ONE_SHOT':
             // map through current weapons
             return state.map(weapon => {

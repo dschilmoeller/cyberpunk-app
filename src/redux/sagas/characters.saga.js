@@ -29,7 +29,7 @@ function* fetchCharacterDetail(action) {
     const characterVehicles = yield axios.get(`api/characters/fetchcharacterVehicles/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_VEHICLES', payload: characterVehicles.data })
     const characterActiveVehicleMods = yield axios.get(`api/characters/characterActiveVehicleMods/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_VEHICLE_MODS', payload: characterActiveVehicleMods.data})
+    yield put({ type: 'SET_CHARACTER_VEHICLE_MODS', payload: characterActiveVehicleMods.data })
   } catch (error) {
     console.log(`Error fetching character details`, error);
   }
@@ -150,7 +150,16 @@ function* fetchAdvancementDetails(action) {
 function* saveAdvancementDetails(action) {
   console.log(`action.payload:`, action.payload);
   try {
-    yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload)
+    yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload);
+    yield put({ type: 'CLEAR_ADVANCEMENT_DETAIL' });
+    yield put({ type: 'CLEAR_VEHICLE_MODS' });
+    yield put({ type: 'CLEAR_CREATION_DETAILS' });
+    yield put({ type: 'CLEAR_CHARACTER_DETAIL'});
+    yield put({ type: 'CLEAR_CHARACTER_CYBER_DETAILS'});
+    yield put({ type: 'CLEAR_CHARACTER_NETRUNNER_GEAR'});
+    yield put({ type: 'CLEAR_CHARACTER_VEHICLES'});
+    yield put({ type: 'CLEAR_CHARACTER_STATUS'});
+    yield put({ type: 'CLEAR_CHARACTER_WEAPONS'});
   } catch (error) {
     console.log(`Error saving advancement Character Details:`, error);
   }

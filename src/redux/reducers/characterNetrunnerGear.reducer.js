@@ -1,4 +1,7 @@
 const characterNetrunnerGear = (state = [], action) => {
+    if (action.type === 'CLEAR_CHARACTER_NETRUNNER_GEAR') {
+        return [];
+    }
     if (action.type === "SET_CHARACTER_NETRUNNER_GEAR") {
         return action.payload
     }

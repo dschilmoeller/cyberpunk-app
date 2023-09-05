@@ -1,6 +1,6 @@
 const characterCreation = (state = {
     creationStep: 'first_steps',
-    handle: '', player: '', campaign: '', 
+    handle: '', player: '', campaign: '',
 
     strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
@@ -22,10 +22,33 @@ const characterCreation = (state = {
 },
     action) => {
     const ap = action.payload
+    if (action.type === 'CLEAR_CREATION_DETAILS') {
+        return {
+            creationStep: 'first_steps',
+            handle: '', player: '', campaign: '',
+
+            strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
+
+            skillNumber: 4,
+            athletics: 0, brawling: 0, concentration: 0, evasion: 0, fastTalk: 0, firearms: 0, legerdemain: 0, meleeWeapons: 0, perception: 0, streetwise: 0,
+            demolitions: 0, driveLand: 0, driveExotic: 0, etiquette: 0, exoticWeapons: 0, heavyWeapons: 0, performance: 0, stealth: 0, survival: 0, tracking: 0,
+            business: 0, cryptography: 0, cyberTech: 0, firstAid: 0, investigation: 0, gambling: 0, language: 0, militaryTech: 0, science: 0, vehicleTech: 0,
+
+            roleSelection: '',
+            rockerboy: 0, solo: 0, netrunner: 0, nomad: 0, media: 0, medtech: 0, maker: 0,
+            medSurgery: 0, medPharma: 0, medCryo: 0, isParamedical: false, paramedic: 0,
+            makerField: 0, makerUpgrade: 0, makerFab: 0, makerInvent: 0,
+            availableMedSkillPoints: 0, availableMakerSkillPoints: 0, availableNomadVehicles: 0,
+
+
+            armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
+
+            gearbucks: 1500, cyberbucks: 2500
+        }
+    }
     if (action.type === "SET_CREATION_STEP") {
         return { ...state, creationStep: action.payload }
     }
-
     if (action.type === "SET_CREATION_FIRST_STEPS") {
         return {
             ...state,
@@ -51,7 +74,7 @@ const characterCreation = (state = {
     if (action.type === "SET_CREATION_SKILLS") {
         return {
             ...state,
-            
+
             skillNumber: ap.skillNumber,
 
             athletics: ap.athletics,
@@ -64,7 +87,7 @@ const characterCreation = (state = {
             meleeWeapons: ap.meleeWeapons,
             perception: ap.perception,
             streetwise: ap.streetwise,
-            
+
             demolitions: ap.demolitions,
             driveLand: ap.driveLand,
             driveExotic: ap.driveExotic,
@@ -129,7 +152,6 @@ const characterCreation = (state = {
             gearbucks: action.newBank
         }
     }
-
     if (action.type === "CREATION_BUY_SHIELD") {
         return {
             ...state,
@@ -146,7 +168,6 @@ const characterCreation = (state = {
             gearbucks: action.newBank
         }
     }
-
     if (action.type === "CREATION_BUY_WEAPON") {
         return {
             ...state,

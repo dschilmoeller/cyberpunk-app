@@ -23,8 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Item from '../Characters/CharacterSheet/Item.jsx'
 import AttributesDialog from '../Modals/AttributesDialog'
 import SkillsDialog from '../Modals/SkillsDialog.jsx';
-import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog.jsx'
-import CharSheetWeaponDialog from '../Modals/CharSheetWeaponDialog.jsx'
+import WeaponDialog from '../Modals/WeaponDialog.jsx';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -168,7 +167,7 @@ export default function VerticalTabs() {
 
       <TabPanel value={value} index={0}>
         <Grid container spacing={1} padding={1}>
-          
+
           <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
           <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial product or object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public; the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
           <Grid item xs={12}><Typography variant='h4'>Core Concepts: Dice Rolling</Typography></Grid>
@@ -1100,18 +1099,20 @@ export default function VerticalTabs() {
                     </TableHead>
                     <TableBody>
                       {weaponMaster.map((row, i) => {
-                        return (
-                          <TableRow hover key={i}>
-                            <TableCell align="left"><CharSheetWeaponDialog prop={row.name} /></TableCell>
-                            <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
-                            <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
-                            <TableCell align="center">{row.rof}</TableCell>
-                            <TableCell align="center">{row.max_clip}</TableCell>
-                            <TableCell align="center">{row.hands}</TableCell>
-                            <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
-                            <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                          </TableRow>
-                        )
+                        if (row.is_treasure === false) {
+                          return (
+                            <TableRow hover key={i}>
+                              <TableCell align="left"><WeaponDialog prop={row.name} /></TableCell>
+                              <TableCell align="center">{row.dmg_type === 'melee' || row.dmg_type === 'bow' ? `Str + ${row.damage}` : `${row.damage}`}</TableCell>
+                              <TableCell align="center">{row.dmg_type === 'bow' ? `Str * ${row.range}` : `${row.range}`}</TableCell>
+                              <TableCell align="center">{row.rof}</TableCell>
+                              <TableCell align="center">{row.max_clip}</TableCell>
+                              <TableCell align="center">{row.hands}</TableCell>
+                              <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
+                              <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                            </TableRow>
+                          )
+                        }
                       })}
                     </TableBody>
                   </Table>
@@ -1674,7 +1675,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Certain weapons are parts of groups that share similar characteristics. SMGs and Assault Rifles, no matter their type, have access to the Automatic Fire and Suppressing Fire rules. Shotguns always have access to Shellfire. 
+              Certain weapons are parts of groups that share similar characteristics. SMGs and Assault Rifles, no matter their type, have access to the Automatic Fire and Suppressing Fire rules. Shotguns always have access to Shellfire.
             </Typography>
           </Grid>
 
@@ -2064,7 +2065,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashier maneuvers, though there's always a risk of dangerous feedback. 
+              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashier maneuvers, though there's always a risk of dangerous feedback.
             </Typography>
           </Grid>
 
@@ -2082,7 +2083,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-                    <b>Vehicle health and armor</b>
+              <b>Vehicle health and armor</b>
             </Typography>
           </Grid>
 

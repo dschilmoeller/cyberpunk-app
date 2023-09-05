@@ -4,6 +4,12 @@ const characterModMaster = (state = {
     removedVehicleMods: [],
 }, action) => {
     switch (action.type) {
+        case 'CLEAR_VEHICLE_MODS':
+            return {
+                vehicleMods: [],
+                addedVehicleMods: [],
+                removedVehicleMods: [],
+            }
         case 'SET_CHARACTER_VEHICLE_MODS':
             return {
                 ...state,

@@ -179,15 +179,27 @@ export default function VehicleOwnedTable() {
         setOrderBy(property);
     };
 
-    function createCharVehicleData(char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost) {
+    function createCharVehicleData(char_id, description, extra_seats, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost) {
         return {
-            char_id, description, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost
+            char_id, description, extra_seats, health, move, mph, name, price, seats, type, vehicle_bridge_id, vehicle_master_id, total_mod_cost
         }
     }
 
     const charVehicleRows = []
     for (let i = 0; i < charVehicles.length; i++) {
-        charVehicleRows.push(createCharVehicleData(charVehicles[i].char_id, charVehicles[i].description, charVehicles[i].health, charVehicles[i].move, charVehicles[i].mph, charVehicles[i].name, charVehicles[i].price, charVehicles[i].seats, charVehicles[i].type, charVehicles[i].vehicle_bridge_id, charVehicles[i].vehicle_master_id, charVehicles[i].total_mod_cost
+        charVehicleRows.push(createCharVehicleData(charVehicles[i].char_id,
+            charVehicles[i].description,
+            charVehicles[i].extra_seats,
+            charVehicles[i].health,
+            charVehicles[i].move,
+            charVehicles[i].mph,
+            charVehicles[i].name,
+            charVehicles[i].price,
+            charVehicles[i].seats,
+            charVehicles[i].type,
+            charVehicles[i].vehicle_bridge_id,
+            charVehicles[i].vehicle_master_id,
+            charVehicles[i].total_mod_cost
         ))
     }
 
@@ -256,12 +268,13 @@ export default function VehicleOwnedTable() {
                                 />
                                 <TableBody>
                                     {sortedCharVehicleRows.map((row) => {
+                                        console.log(`extra seats`, row);
                                         return (
                                             <TableRow hover key={row.vehicle_bridge_id}>
                                                 <TableCell padding='normal'>{row.name}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{row.health}</TableCell>
-                                                <TableCell align="center">{row.seats}</TableCell>
+                                                <TableCell align="center">{row.seats + row.extra_seats}</TableCell>
                                                 <TableCell align="center">{row.move}</TableCell>
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
@@ -276,16 +289,16 @@ export default function VehicleOwnedTable() {
                                                 <TableCell padding='normal'>{row.name}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{row.health}</TableCell>
-                                                <TableCell align="center">{row.seats}</TableCell>
+                                                <TableCell align="center">{row.seats + row.extra_seats}</TableCell>
                                                 <TableCell align="center">{row.move}</TableCell>
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
                                                 {row.is_nomad_vehicle === true ? (
                                                     <TableCell align="center">{euroBuck}0</TableCell>
-                                                    ) : <>
+                                                ) : <>
                                                     <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
                                                 </>}
-                                                
+
                                                 <TableCell align="center"><Button onClick={() => sellBoughtVehicle(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         )

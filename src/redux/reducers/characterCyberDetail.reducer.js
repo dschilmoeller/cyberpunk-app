@@ -2,6 +2,12 @@ const characterCyberDetail = (state = [{
     armor_level: 0,
     cyber_limb_count: 0
 }], action) => {
+    if (action.type === "CLEAR_CHARACTER_CYBER_DETAILS") {
+        return [{
+            armor_level: 0,
+            cyber_limb_count: 0
+        }]
+    }
     if (action.type === "SET_CHARACTER_CYBER_DETAIL") {
         return action.payload;
     }
