@@ -7,6 +7,9 @@ import { Button, Typography } from '@mui/material';
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 import WeaponDialog from '../../Modals/WeaponDialog';
 
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -21,36 +24,27 @@ function Weapons() {
     const charCyberDetail = useSelector((store) => store.characterCyberDetail)
 
     const dispatch = useDispatch();
-    const unhurtMarker = `\u2610`;
-    const aggMarker = `\u2718`;
+    const unhurtMarker = <CircleOutlinedIcon />;
+    const aggMarker = <CancelIcon />;
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
-    // handles clicking an ammo box manually. simply converts one box from checked to unchecked and vice versa
-    const ammoBoxChanger = (e, incomingKey) => {
-        if (e.target.innerText === unhurtMarker) {
-            dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
-        } else if (e.target.innerText === aggMarker) {
-            dispatch({ type: "RELOAD_ONE_SHOT", payload: incomingKey })
-        }
-    }
-
     // builds the array of boxes out of the max clip (total boxes) and shotsFired (checked boxes)
-    const clipBuilder = (maxClip, shotsFired, incomingKey) => {
+    const clipBuilder = (maxClip, shotsFired) => {
         let clipArray = []
         // starts by adding a checked box to the array
         for (let i = 0; i < shotsFired; i++) {
             // key is good until something with more than 100 bullets in the clip comes along
-            clipArray.push(<Grid item key={i + 100} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{aggMarker}</Item></Grid>)
+            clipArray.push(<Grid item key={i + 100} xs={1.2}><Item >{aggMarker}</Item></Grid>)
         }
         // next adds blank boxes to the array to the end of the list.
         if (clipArray.length < maxClip) {
             let remainder = maxClip - shotsFired
             for (let i = 0; i < remainder; i++) {
-                clipArray.push(<Grid item key={i + 200} xs={1.2}><Item onClick={(e) => ammoBoxChanger(e, incomingKey)}>{unhurtMarker}</Item></Grid>)
+                clipArray.push(<Grid item key={i + 200} xs={1.2}><Item >{unhurtMarker}</Item></Grid>)
             }
         }
         return clipArray
@@ -300,7 +294,7 @@ function Weapons() {
 
                                         </Grid>
                                         <Grid container justifyContent={'center'}>
-                                            {clipBuilder(weapon.max_clip, weapon.current_shots_fired, weapon.weapon_bridge_id)}
+                                            {clipBuilder(weapon.max_clip, weapon.current_shots_fired)}
                                         </Grid>
                                     </Grid>
                                 </React.Fragment>

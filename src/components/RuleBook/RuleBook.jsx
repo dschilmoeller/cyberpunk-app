@@ -25,13 +25,11 @@ import AttributesDialog from '../Modals/AttributesDialog'
 import SkillsDialog from '../Modals/SkillsDialog.jsx';
 import WeaponDialog from '../Modals/WeaponDialog.jsx';
 
-import { useSelector, useDispatch } from 'react-redux';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
-// accordion showings for various rule sets
-// sub-accordians for e.g. roles, individual skills, etc.
-// tables for some data.
-// FAQ section.
-// 
+import { useSelector, useDispatch } from 'react-redux';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -134,9 +132,9 @@ export default function VerticalTabs() {
   }
 
   // marker special characters
-  const stunMarker = `\u2736`;
-  const lethalMarker = `\uFE45`;
-  const aggMarker = `\u2718`;
+  const stunMarker = <HorizontalRuleOutlinedIcon />;
+  const lethalMarker = <CloseOutlinedIcon />
+  const aggMarker = <AcUnitIcon />;
   const euroBuck = `\u20AC$`
 
   return (
@@ -324,13 +322,16 @@ export default function VerticalTabs() {
                 <Grid item xs={3}>Damage Type</Grid>
                 <Grid item xs={9} paddingBottom={1}>Description</Grid>
 
-                <Grid item xs={3}>Stun Damage: {stunMarker}</Grid>
+                <Grid item xs={2} display={'flex'}>Stun Damage:</Grid>
+                <Grid item xs={1} display={'flex'}>{stunMarker}</Grid>
                 <Grid item xs={9} paddingBottom={1}>Stun damage comes from clubs, fists, and other fairly superficial sources. Characters can recover from stun damage pretty quickly, recovering their Body stat in stun wounds each hour when resting.</Grid>
 
-                <Grid item xs={3}>Lethal Damage: {lethalMarker}</Grid>
+                <Grid item xs={2} display={'flex'}>Lethal Damage:</Grid>
+                <Grid item xs={1} display={'flex'}>{lethalMarker}</Grid>
                 <Grid item xs={9} paddingBottom={1}>Lethal damage is far more severe than stun, and comes from blades, bullets, and many other hazards frequently encountered by Edgerunners. Characters going about their business make a Body roll each week at difficulty 6 (1s do not affect this roll); they recover a number of lethal wounds equal to the successes rolled. If a character is resting and receiving constant medical attention (4+ hours a day), this roll can be made once per day.</Grid>
 
-                <Grid item xs={3}>Aggravated Damage: {aggMarker}</Grid>
+                <Grid item xs={2} display={'flex'}>Aggravated Damage:</Grid>
+                <Grid item xs={1} display={'flex'}>{aggMarker}</Grid>
                 <Grid item xs={9} paddingBottom={1}>Aggravated damage is the most severe kind of damage a character can receive, and usually comes from fire, electricity, or other extreme sources of damage. Characters cannot recover Aggravated wounds without daily medical attention (8+ hours a day); if they are receiving care they can make a body roll at difficulty 8 once per week and recover a number of aggravated wounds equal to the successes rolled.</Grid>
                 <Grid item xs={12}><Typography variant='h4'>Wound Penalties:</Typography></Grid>
                 <Grid item xs={12}><Typography variant='p'>Characters suffer penalties to most Rolls as they become more and more injured. This penalty applies to any roll that does not specifically mention otherwise. Primarily, Soaking damage and Death Saves are the main exceptions to wound penalties.</Typography></Grid>
@@ -579,7 +580,7 @@ export default function VerticalTabs() {
               aria-controls="netrunner-content"
               id="panel3-header"
             >
-              <Typography>Netrunner - </Typography>
+              <Typography>Netrunner - Interface </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Grid container>

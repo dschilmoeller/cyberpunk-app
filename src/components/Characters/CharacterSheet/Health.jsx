@@ -5,6 +5,11 @@ import Item from './Item';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+
 function Health() {
     const charStatus = useSelector((store) => store.characterStatus)
     const charCyber = useSelector(store => store.characterCyberDetail)
@@ -14,18 +19,18 @@ function Health() {
     const dispatch = useDispatch();
 
     // shorthand for different special characters
-    const unhurtMarker = `\u2610`;
-    const stunMarker = `\u2736`;
-    const lethalMarker = `\uFE45`;
-    const aggMarker = `\u2718`;
+    const unhurtMarker = <CircleOutlinedIcon />
+    const stunMarker = <HorizontalRuleOutlinedIcon />;
+    const lethalMarker = <CloseOutlinedIcon />
+    const aggMarker = <AcUnitIcon />;
 
     // handles changing marks on character sheet, affects characterStatus reducer
-    const healthBoxChanger = (e) => {
-        if (e.target.innerText === unhurtMarker) {
+    const healthBoxChanger = (b) => {
+        if (b === 'unhurt') {
             dispatch({ type: "ADD_STUN_WOUND" })
-        } else if (e.target.innerText === stunMarker) {
+        } else if (b === 'stun') {
             dispatch({ type: "ADD_LETHAL_WOUND" })
-        } else if (e.target.innerText === lethalMarker) {
+        } else if (b === 'lethal') {
             dispatch({ type: "ADD_AGG_WOUND" })
         } else {
             dispatch({ type: "REMOVE_WOUND" })
@@ -77,12 +82,38 @@ function Health() {
                 <Grid key={i} item xs={4}><Item><OtherAttributesDialog prop={healthWords[i]} /></Item></Grid>
             )
             if (cyberBoxes > i) {
+                let woundtype = ''
+                if (healthArray[healthArraySpot] === unhurtMarker) {
+                    woundtype = 'unhurt'
+                } else if (healthArray[healthArraySpot] === stunMarker) {
+                    woundtype = 'stun'
+                } else if (healthArray[healthArraySpot] === lethalMarker) {
+                    woundtype = 'lethal'
+                } else if (healthArray[healthArraySpot] === aggMarker) {
+                    woundtype = 'agg'
+                } else {
+                    console.log(`Error!`);
+                }
+                let woundtype2 = ''
+                if (healthArray[healthArraySpot + 1] === unhurtMarker) {
+                    woundtype2 = 'unhurt'
+                } else if (healthArray[healthArraySpot + 1] === stunMarker) {
+                    woundtype2 = 'stun'
+                } else if (healthArray[healthArraySpot + 1] === lethalMarker) {
+                    woundtype2 = 'lethal'
+                } else if (healthArray[healthArraySpot + 1] === aggMarker) {
+                    woundtype2 = 'agg'
+                } else {
+                    console.log(`Error!`);
+                }
+
                 healthBoxes.push(
                     <React.Fragment key={i + 50}>
-                        <Grid item xs={2}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot]}</Item></Grid>
-                        <Grid item xs={2}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot + 1]}</Item></Grid>
+                        <Grid item xs={2}><Item onClick={() => healthBoxChanger(woundtype)}>{healthArray[healthArraySpot]}</Item></Grid>
+                        <Grid item xs={2}><Item onClick={() => healthBoxChanger(woundtype2)}>{healthArray[healthArraySpot + 1]}</Item></Grid>
                     </React.Fragment>
                 )
+
                 if (healthArray[healthArraySpot] === stunMarker ||
                     healthArray[healthArraySpot] === lethalMarker ||
                     healthArray[healthArraySpot] === aggMarker) {
@@ -91,7 +122,20 @@ function Health() {
 
                 healthArraySpot += 2
             } else {
-                healthBoxes.push(<Grid key={i + 100} item xs={4}><Item onClick={(e) => healthBoxChanger(e)}>{healthArray[healthArraySpot]}</Item></Grid>)
+                let woundtype
+                if (healthArray[healthArraySpot] === unhurtMarker) {
+                    woundtype = 'unhurt'
+                } else if (healthArray[healthArraySpot] === stunMarker) {
+                    woundtype = 'stun'
+                } else if (healthArray[healthArraySpot] === lethalMarker) {
+                    woundtype = 'lethal'
+                } else if (healthArray[healthArraySpot] === aggMarker) {
+                    woundtype = 'agg'
+                } else {
+                    console.log(`Error!`);
+                }
+
+                healthBoxes.push(<Grid key={i + 100} item xs={4}><Item onClick={() => healthBoxChanger(woundtype)}>{healthArray[healthArraySpot]}</Item></Grid>)
                 if (healthArray[healthArraySpot] === stunMarker ||
                     healthArray[healthArraySpot] === lethalMarker ||
                     healthArray[healthArraySpot] === aggMarker) {
@@ -102,12 +146,10 @@ function Health() {
             }
 
             // add die penalties; highlight as one goes down list.
-
             diePenaltySpot > i ?
-                healthBoxes.push(<Grid key={i + 150} item xs={4}><Item sx={{ backgroundColor:'#E11845', color:'aqua' }}>{painPenalty[i]}</Item></Grid>)
-                : healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
-            // healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
-
+                healthBoxes.push(<Grid key={i + 150} item xs={4}><Item sx={{ backgroundColor: '#E11845', color: 'aqua' }}>{painPenalty[i]}</Item></Grid>)
+                :
+                healthBoxes.push(<Grid key={i + 150} item xs={4}><Item>{painPenalty[i]}</Item></Grid>)
         }
 
         return healthBoxes

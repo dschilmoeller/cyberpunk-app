@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SkillsDialog from '../Modals/SkillsDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -16,8 +19,9 @@ function TransitionUp(props) {
 
 function CreationSkills() {
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fulldot = <CircleIcon />
+    const emptydot = <CircleOutlinedIcon />
+    
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
 
@@ -70,13 +74,13 @@ function CreationSkills() {
     const [vehicleTech, setVehicleTech] = useState(charDetail.vehicleTech)
 
     const dotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fulldot);
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptydot)
         }
         return returnedDots
     }

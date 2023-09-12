@@ -10,6 +10,9 @@ import AttributesDialog from '../Modals/AttributesDialog';
 import SkillsDialog from '../Modals/SkillsDialog';
 import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -32,8 +35,8 @@ export default function CreationReview() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fulldot = <CircleIcon />
+    const emptydot = <CircleOutlinedIcon />
 
     // physical attributes
     const [strengthAtt, setStrengthAtt] = useState(charDetail.strength);
@@ -109,26 +112,26 @@ export default function CreationReview() {
     const [makerInvent, setMakerInvent] = useState(charDetail.makerInvent);
 
     const attDotReturn = (attribute) => {
-        let returnedDots = ''
+        let returnedDots = []
 
         for (let i = 0; i < attribute; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fulldot);
         }
         let j = attribute
         for (j; j <= 9; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptydot);
         }
         return returnedDots
     }
 
     const skillDotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fulldot);
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptydot);
         }
         return returnedDots
     }

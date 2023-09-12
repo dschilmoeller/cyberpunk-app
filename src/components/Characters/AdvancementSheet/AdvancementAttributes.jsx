@@ -23,7 +23,7 @@ export default function AdvancementAttributes() {
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
-    const fulldot = ` \u2b24`
+    const fulldot = `\u2b24`
     const emptydot = ` \u25ef`
 
     const attDotReturn = (attribute, max) => {

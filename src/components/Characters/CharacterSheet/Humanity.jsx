@@ -5,15 +5,18 @@ import Item from './Item';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
-// To Do: import charDetailProp correctly
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function Humanity(charDetailProp) {
     const temp_humanity_loss = charDetailProp.charDetailProp.temp_humanity_loss
     const perm_humanity_loss = charDetailProp.charDetailProp.perm_humanity_loss
-    const dispatch = useDispatch();
-    const unhurtMarker = `\u2610`;
-    const stunMarker = `\u2736`;
-    const aggMarker = `\u2718`;
+
+    const unhurtMarker = <CircleOutlinedIcon />
+    const stunMarker = <CloseOutlinedIcon />
+    const aggMarker = <CancelIcon />;
+
 
     const humanityArrayBuilder = (tempHumanityLoss, permHumanityLoss) => {
         let humanityArray = []

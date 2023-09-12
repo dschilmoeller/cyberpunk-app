@@ -1,100 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Item from './Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
 import MakePharmaDialog from '../../Modals/MakePharmaDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 function CharacterRoleAbilities(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
-
-    useEffect(() => {
-        setSpecialSkills();
-    })
-
-    // role abilities
-    const [rockerboy, setRockerboy] = useState(0);
-    const [solo, setSolo] = useState(0);
-    const [netrunner, setNetrunner] = useState(0);
-    const [nomad, setNomad] = useState(0);
-    const [media, setMedia] = useState(0);
-    const [medtech, setMedtech] = useState(0);
-    const [maker, setMaker] = useState(0);
-
-    // special role skills - Medtech
-    const [medSurgery, setMedSurgery] = useState(0);
-    const [medPharma, setMedPharma] = useState(0);
-    const [medCryo, setMedCryo] = useState(0);
-    // special role skills - Maker
-    const [makerField, setMakerField] = useState(0);
-    const [makerUpgrade, setMakerUpgrade] = useState(0);
-    const [makerFab, setMakerFab] = useState(0);
-    const [makerInvent, setMakerInvent] = useState(0);
-
-    const setSpecialSkills = () => {
-
-        setRockerboy(roleDotReturn(charDetail.rockerboy))
-        setSolo(roleDotReturn(charDetail.solo))
-        setNetrunner(roleDotReturn(charDetail.netrunner))
-        setNomad(roleDotReturn(charDetail.nomad))
-        setMedia(roleDotReturn(charDetail.media))
-        setMedtech(roleDotReturn(charDetail.medtech))
-        setMaker(roleDotReturn(charDetail.maker))
-
-        setMedSurgery(dotReturn(charDetail.med_surgery))
-        setMedPharma(dotReturn(charDetail.med_pharma))
-        setMedCryo(dotReturn(charDetail.med_cryo))
-        setMakerField(makerDotReturn(charDetail.maker_field))
-        setMakerUpgrade(makerDotReturn(charDetail.maker_upgrade))
-        setMakerFab(makerDotReturn(charDetail.maker_fab))
-        setMakerInvent(makerDotReturn(charDetail.maker_invent))
-    }
+    const fulldot = <CircleIcon />
+    const emptydot = <CircleOutlinedIcon />
 
     const dotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
 
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(<React.Fragment key={j + 10}>{emptydot}</React.Fragment>)
         }
         return returnedDots
     }
 
     const roleDotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
         if (skill != 0) {
             for (let i = 0; i < skill; i++) {
-                returnedDots += fulldot;
+                returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
             }
             let j = skill
             for (j; j <= 9; j++) {
-                returnedDots += emptydot
+                returnedDots.push(<React.Fragment key={j + 10}>{emptydot}</React.Fragment>)
             }
         }
         return returnedDots
     }
 
     const makerDotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
 
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
         }
         let j = skill
         for (j; j <= 9; j++) {
-            returnedDots += emptydot
+            returnedDots.push(<React.Fragment key={j + 10}>{emptydot}</React.Fragment>)
         }
         return returnedDots
     }
-
-    const medEmptySkill = (emptydot + emptydot + emptydot + emptydot + emptydot)
-    const makerEmptySkill = (emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot + emptydot)
 
     return (
         <>
@@ -105,125 +63,126 @@ function CharacterRoleAbilities(charDetailProp) {
                     <Grid item xs={12}>
                         <Item>Role Abilities</Item>
                     </Grid>
-                    {rockerboy != '' ? (<>
+                    {charDetail.rockerboy != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{rockerboy}</Item>
+                            <Item>{roleDotReturn(charDetail.rockerboy)}</Item>
                         </Grid></>) : <></>}
 
-                    {solo != '' ? (<>
+                    {charDetail.solo != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Solo'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{solo}</Item>
+                            <Item>{roleDotReturn(charDetail.solo)}</Item>
                         </Grid></>) : <></>}
 
-                    {netrunner != '' ? (<>
+                    {charDetail.netrunner != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{netrunner}</Item>
+                            <Item>{roleDotReturn(charDetail.netrunner)}</Item>
                         </Grid></>) : <></>}
 
-                    {nomad != '' ? (<>
+                    {charDetail.nomad != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Nomad'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{nomad}</Item>
+                            <Item>{roleDotReturn(charDetail.nomad)}</Item>
                         </Grid></>) : <></>}
 
-                    {media != '' ? (<>
+                    {charDetail.media != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Media'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{media}</Item>
+                            <Item>{roleDotReturn(charDetail.media)}</Item>
                         </Grid></>) : <></>}
 
-                    {medtech != '' ? (<>
+                    {charDetail.medtech != 0 ? (<>
                         <Grid item xs={4.5}>
                             <Item><RoleAbilitiesDialog prop={'Medtech'} /></Item>
                         </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{medtech}</Item>
+                            <Item>{roleDotReturn(charDetail.medtech)}</Item>
                         </Grid>
 
-                        {medSurgery != medEmptySkill ? (<>
+                        {charDetail.med_surgery != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Surgery'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{medSurgery}</Item>
+                                <Item>{dotReturn(charDetail.med_surgery)}</Item>
                             </Grid>
                         </>) : <></>}
 
-                        {medPharma != medEmptySkill ? (<>
+                        {charDetail.med_cryo != 0 ? (<>
+                            <Grid item xs={4.5}>
+                                <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
+                            </Grid>
+                            <Grid item xs={7.5}>
+                                <Item>{dotReturn(charDetail.med_cryo)}</Item>
+                            </Grid>
+                        </>) : <> </>}
+                        
+                        {charDetail.med_pharma != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{medPharma}</Item>
+                                <Item>{dotReturn(charDetail.med_pharma)}</Item>
                             </Grid>
                             <Grid item xs={12}>
                                 <MakePharmaDialog />
                             </Grid>
                         </>) : <> </>}
 
-                        {medCryo != medEmptySkill ? (<>
-                            <Grid item xs={4.5}>
-                                <Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item>
-                            </Grid>
-                            <Grid item xs={7.5}>
-                                <Item>{medCryo}</Item>
-                            </Grid>
-                        </>) : <> </>}
                     </>) : <></>}
 
-                    {maker != '' ? (<><Grid item xs={4.5}>
+                    {charDetail.maker != 0 ? (<><Grid item xs={4.5}>
                         <Item><RoleAbilitiesDialog prop={'Maker'} /></Item>
                     </Grid>
                         <Grid item xs={7.5}>
-                            <Item>{maker}</Item>
+                            <Item>{roleDotReturn(charDetail.maker)}</Item>
                         </Grid>
 
-                        {makerField != makerEmptySkill ? (<>
+                        {charDetail.maker_field != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{makerField}</Item>
+                                <Item>{makerDotReturn(charDetail.maker_field)}</Item>
                             </Grid>
                         </>) : <> </>}
 
-                        {makerUpgrade != makerEmptySkill ? (<>
+                        {charDetail.maker_upgrade != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{makerUpgrade}</Item>
+                                <Item>{makerDotReturn(charDetail.maker_upgrade)}</Item>
                             </Grid>
                         </>) : <> </>}
 
-                        {makerFab != makerEmptySkill ? (<>
+                        {charDetail.maker_fab != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Fabrication'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{makerFab}</Item>
+                                <Item>{makerDotReturn(charDetail.maker_fab)}</Item>
                             </Grid>
                         </>) : <></>}
 
-                        {makerInvent != makerEmptySkill ? (<>
+                        {charDetail.maker_invent != 0 ? (<>
                             <Grid item xs={4.5}>
                                 <Item><RoleAbilitiesDialog prop={'Invention'} /></Item>
                             </Grid>
                             <Grid item xs={7.5}>
-                                <Item>{makerInvent}</Item>
+                                <Item>{makerDotReturn(charDetail.maker_invent)}</Item>
                             </Grid>
                         </>) : <> </>}
                     </>) : <></>}

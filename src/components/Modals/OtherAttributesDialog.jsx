@@ -3,12 +3,16 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { Grid } from '@mui/material';
 
 import { useSelector, useDispatch } from 'react-redux';
+
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 export default function OtherAttributesDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
@@ -23,10 +27,10 @@ export default function OtherAttributesDialog({ prop }) {
         setOpen(false);
     };
 
-    const unhurtMarker = `\u2610`;
-    const stunMarker = `\u2736`;
-    const lethalMarker = `\uFE45`;
-    const aggMarker = `\u2718`;
+    const unhurtMarker = <CircleOutlinedIcon />
+    const stunMarker =  <HorizontalRuleOutlinedIcon />;
+    const lethalMarker = <CloseOutlinedIcon />
+    const aggMarker = <AcUnitIcon />;
 
     const dispatch = useDispatch();
 
@@ -44,13 +48,16 @@ export default function OtherAttributesDialog({ prop }) {
                     <Grid item xs={3}>Damage Type</Grid>
                     <Grid item xs={9} paddingBottom={1}>Description</Grid>
 
-                    <Grid item xs={3}>Stun Damage: {stunMarker}</Grid>
+                    <Grid item xs={2} display={'flex'}>Stun Damage:</Grid>
+                    <Grid item xs={1} display={'flex'}>{stunMarker}</Grid>
                     <Grid item xs={9} paddingBottom={1}>Stun damage comes from clubs, fists, and other fairly superficial sources. Characters can recover from stun damage pretty quickly, recovering their Body stat in stun wounds each hour when resting.</Grid>
 
-                    <Grid item xs={3}>Lethal Damage: {lethalMarker}</Grid>
+                    <Grid item xs={2} display={'flex'}>Lethal Damage:</Grid>
+                    <Grid item xs={1} display={'flex'}>{lethalMarker}</Grid>
                     <Grid item xs={9} paddingBottom={1}>Lethal damage is far more severe than stun, and comes from blades, bullets, and many other hazards frequently encountered by Edgerunners. Characters going about their business make a Body roll each week at difficulty 6 (1s do not affect this roll); they recover a number of lethal wounds equal to the successes rolled. If a character is resting and receiving constant medical attention (4+ hours a day), this roll can be made once per day.</Grid>
 
-                    <Grid item xs={3}>Aggravated Damage: {aggMarker}</Grid>
+                    <Grid item xs={2} display={'flex'}>Aggravated Damage:</Grid>
+                    <Grid item xs={1} display={'flex'}>{aggMarker}</Grid>
                     <Grid item xs={9} paddingBottom={1}>Aggravated damage is the most severe kind of damage a character can receive, and usually comes from fire, electricity, or other extreme sources of damage. Characters cannot recover Aggravated wounds without daily medical attention (8+ hours a day); if they are receiving care they can make a body roll at difficulty 8 once per week and recover a number of aggravated wounds equal to the successes rolled.</Grid>
 
                     <Grid item xs={12}>Items that affect healing:</Grid>
@@ -82,10 +89,10 @@ export default function OtherAttributesDialog({ prop }) {
             case 'Marks':
                 return (<>
                     <Grid item xs={12}>Marks indicate the kind of damage a character has received, and there are four states a given health box can be in. A more severe wound overwrites a less severe one - a character with six stun wounds who receives three lethal wounds now has three stun and three lethal wounds.</Grid>
-                    <Grid item xs={12}>{unhurtMarker} - Unhurt: A character has suffered no damage.</Grid>
-                    <Grid item xs={12}>{stunMarker} - Stun: A light and easily recovered wound. Recovers at a rate of (Body) stat per hour of rest.</Grid>
-                    <Grid item xs={12}>{lethalMarker} - Lethal: A serious injury. Recover a rate of (successes on a Body roll at DV6) per week, or per day if receiving frequent medical attention. </Grid>
-                    <Grid item xs={12}>{aggMarker} - Aggravated: A very serious injury that requires medical attention to recover from. Recovered at a rate of (successes on a Body roll at DV8) per week, provided character is receiving daily medical attention.</Grid>
+                    <Grid item xs={12} display={'flex'}>{unhurtMarker} - Unhurt: A character has suffered no damage.</Grid>
+                    <Grid item xs={12} display={'flex'}>{stunMarker} - Stun: A light and easily recovered wound. Recovers at a rate of (Body) stat per hour of rest.</Grid>
+                    <Grid item xs={12} display={'flex'}>{lethalMarker} - Lethal: A serious injury. Recover a rate of (successes on a Body roll at DV6) per week, or per day if receiving frequent medical attention. </Grid>
+                    <Grid item xs={12} display={'flex'}>{aggMarker} - Aggravated: A very serious injury that requires medical attention to recover from. Recovered at a rate of (successes on a Body roll at DV8) per week, provided character is receiving daily medical attention.</Grid>
                 </>)
             case 'Status':
             case 'Bruised':

@@ -46,5 +46,9 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "options": {
+    "allowedHosts": ["localhost", ".localhost"],
+    "proxy": "https://localhost:3000/"
+  },
   "heroku-run-build-script": true
 }

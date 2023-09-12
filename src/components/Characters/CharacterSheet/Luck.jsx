@@ -5,18 +5,21 @@ import Item from './Item';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+
 function Luck(charDetailProp) {
     const charDetailLuck = charDetailProp.charDetailProp.max_luck
     const charStatus = useSelector(store => store.characterStatus)
 
     const dispatch = useDispatch();
-    const unhurtMarker = `\u2610`;
-    const aggMarker = `\u2718`;
+    const unhurtMarker = <CircleOutlinedIcon />;
+    const aggMarker = <AcUnitIcon />;
 
-    const luckBoxChanger = (e) => {
-        if (e.target.innerText === unhurtMarker) {
+    const luckBoxChanger = (luckStatus) => {
+        if (luckStatus === 'lucky') {
             dispatch({ type: "REMOVE_ONE_LUCK" })
-        } else if (e.target.innerText === aggMarker) {
+        } else if (luckStatus === 'noDice') {
             dispatch({ type: "ADD_ONE_LUCK" })
         }
     }
@@ -39,9 +42,16 @@ function Luck(charDetailProp) {
         let luckBoxes = []
         let luckArray = luckDamageBuilder(charStatus.current_luck_loss)
         for (let i = 0; i < charDetailLuck; i++) {
+            let luckStatus
+            if (luckArray[i] === unhurtMarker) {
+                luckStatus = 'lucky'
+            } else if (luckArray[i] === aggMarker) {
+                luckStatus = 'noDice'
+            }
+
             luckBoxes.push(
                 <React.Fragment key={i}>
-                    <Grid item xs={2.4}><Item onClick={(e) => luckBoxChanger(e)}>{luckArray[i]}</Item></Grid>
+                    <Grid item xs={2.4}><Item onClick={() => luckBoxChanger(luckStatus)}>{luckArray[i]}</Item></Grid>
                 </React.Fragment>
             )
         }

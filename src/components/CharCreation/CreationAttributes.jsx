@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import AttributesDialog from '../Modals/AttributesDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -15,8 +18,8 @@ function TransitionUp(props) {
 }
 
 function CreationAttributes() {
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fulldot = <CircleIcon />
+    const emptydot = <CircleOutlinedIcon />
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
 
@@ -48,14 +51,14 @@ function CreationAttributes() {
     const [techniqueAtt, setTechniqueAtt] = useState(charDetail.technique)
 
     const dotReturn = (attribute) => {
-        let returnedDots = ''
+        let returnedDots = []
 
         for (let i = 0; i < attribute; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fulldot);
         }
         let j = attribute
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptydot);
         }
         return returnedDots
     }

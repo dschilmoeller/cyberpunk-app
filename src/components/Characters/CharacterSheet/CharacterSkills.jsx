@@ -3,6 +3,9 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 import { useSelector } from 'react-redux';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import SkillsDialog from '../../Modals/SkillsDialog';
 
 // prop should be changed to use-store to remove the setskills function's neccessity at some point.
@@ -10,13 +13,13 @@ function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
     const charCyber = useSelector(store => store.characterCyberDetail)
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fulldot = <CircleIcon />
+    const emptydot = <CircleOutlinedIcon />
 
-    useEffect(() => {
-        setSkills();
-        skillChipChecker();
-    })
+        useEffect(() => {
+            setSkills();
+            skillChipChecker();
+        })
 
     // Streetwise Skills
     const [athletics, setAthletics] = useState(0)
@@ -99,13 +102,13 @@ function CharacterSkills(charDetailProp) {
 
     // creates list of dots of either the filled or empty variety to show character stats.
     const dotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>)
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(<React.Fragment key={j + 10}>{emptydot}</React.Fragment>)
         }
         return returnedDots
     }
@@ -183,7 +186,7 @@ function CharacterSkills(charDetailProp) {
     return (
         <>
             <Grid item xs={12}>
-            <Item sx={{fontSize:'1.8em', padding: 0}}>Skills</Item>
+                <Item sx={{ fontSize: '1.8em', padding: 0 }}>Skills</Item>
             </Grid>
             <Grid item xs={4}>
                 <Grid container>
