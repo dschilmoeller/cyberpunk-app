@@ -11,6 +11,10 @@ import TableRow from '@mui/material/TableRow';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
+import Typography from '@mui/material/Typography';
+import Item from '../Characters/CharacterSheet/Item';
+import { Grid } from '@mui/material';
+
 import { Button } from '@mui/material';
 
 export default function CreationCyberware() {
@@ -57,28 +61,31 @@ export default function CreationCyberware() {
 
     const savePurchases = () => {
         dispatch({ type: "SET_CREATION_STEP", payload: 'review' })
+        dispatch({ type: "CREATION_REVIEW_REACHED"})
     }
 
     return (<>
-        <h2>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
-        <h3>Remember: You can't take it with you!</h3>
-        <h3>All Cyberware must be manually equipped after character creation!</h3>
+        <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+            <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></Typography></Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Remember: You can't take it with you.</Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Note: All Cyberware must be manually equipped after character creation.</Item></Grid>
+        </Grid>
 
-        {charCyberware.length ? (
-            <>
-                <TableContainer component={Paper}>
-                    <h3>My Cyberware</h3>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow hover>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Description</TableCell>
-                                <TableCell align="left">Humanity Loss</TableCell>
-                                <TableCell align="left">Install Requirement</TableCell>
-                                <TableCell align="left">Price</TableCell>
-                                <TableCell align="left">Return?</TableCell>
-                            </TableRow>
-                        </TableHead>
+        <TableContainer component={Paper}>
+            <h3>My Cyberware</h3>
+            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <TableHead>
+                    <TableRow hover>
+                        <TableCell align="left">Name</TableCell>
+                        <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">Humanity Loss</TableCell>
+                        <TableCell align="left">Install Requirement</TableCell>
+                        <TableCell align="left">Price</TableCell>
+                        <TableCell align="left">Return?</TableCell>
+                    </TableRow>
+                </TableHead>
+                {charCyberware.length ? (
+                    <>
                         <TableBody>
                             {charCyberware.map((item, i) => (
                                 <TableRow hover key={i}>
@@ -91,10 +98,10 @@ export default function CreationCyberware() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </Table>
-                </TableContainer>
-            </>
-        ) : <></>}
+                    </>
+                ) : <></>}
+            </Table>
+        </TableContainer>
 
         <Tabs
             value={selectedList}

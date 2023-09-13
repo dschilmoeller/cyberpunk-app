@@ -3,11 +3,13 @@ import { Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
 
 function CreationFirstSteps() {
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
+    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
     const [handle, setHandle] = useState(charDetail.handle)
     const [player, setPlayer] = useState(charDetail.player)
@@ -26,8 +28,14 @@ function CreationFirstSteps() {
             player,
             campaign,
         }
+        
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
-        dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
+
+        if (creationReviewReached === false) {
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'attributes' })
+        } else {
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
+        }
     }
     // quick fill for faster demo/testing purposes.
     // const instaFill = () => {
@@ -36,14 +44,19 @@ function CreationFirstSteps() {
     //     setCampaign('Gatti Ombre')
     // }
     return (<>
-        <h1>First Steps:</h1>
+        <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+            <Grid item padding={3} xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>First Steps</Typography></Item></Grid>
+        </Grid>
+
         {/* <Button onClick={()=> instaFill()}>Instafill</Button> */}
 
         <form onSubmit={handleSubmit}>
             <Grid container>
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Handle: What is your character's Street Name?</Typography></Item>
+                    <Item><Typography variant='h5'>Handle</Typography></Item>
+                    <Item><Typography variant='subtitle1'>What is your character's Street Name?</Typography></Item>
                 </Grid>
+
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
                     <TextField
                         label="Handle"
@@ -57,8 +70,10 @@ function CreationFirstSteps() {
                 </Grid>
 
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Player: Who is playing the character?</Typography></Item>
+                    <Item><Typography variant='h5'>Player</Typography></Item>
+                    <Item><Typography variant='subtitle1'>Who is playing the character?</Typography></Item>
                 </Grid>
+
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
                     <TextField
                         label="Player"
@@ -71,7 +86,8 @@ function CreationFirstSteps() {
                 </Grid>
 
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={1}>
-                    <Item><Typography variant='subtitle1'>Campaign: What campaign is the character playing in?</Typography></Item>
+                    <Item><Typography variant='h5'>Campaign</Typography></Item>
+                    <Item><Typography variant='subtitle1'>What campaign is the character playing in?</Typography></Item>
                 </Grid>
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
                     <TextField

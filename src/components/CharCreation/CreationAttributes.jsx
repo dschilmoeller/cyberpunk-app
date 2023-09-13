@@ -9,6 +9,7 @@ import AttributesDialog from '../Modals/AttributesDialog';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
+import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -20,8 +21,11 @@ function TransitionUp(props) {
 function CreationAttributes() {
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
+
     const dispatch = useDispatch()
+    
     const charDetail = useSelector(store => store.characterCreation)
+    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -187,7 +191,13 @@ function CreationAttributes() {
                 technique: techniqueAtt
             }
             dispatch({ type: 'SET_CREATION_ATTRIBUTES', payload: attributes })
-            dispatch({ type: 'SET_CREATION_STEP', payload: 'skills' })
+            
+            if (creationReviewReached === false) {
+                dispatch({ type: 'SET_CREATION_STEP', payload: 'skills' })
+            } else {
+                dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
+            }
+            
         } else {
             setShowSnackbar(true)
         }
@@ -224,11 +234,13 @@ function CreationAttributes() {
             </Snackbar >
 
 
-            <h2>Attributes:</h2>
-            <h3>Attributes are the fundamental traits of your character - almost all rolls in Cyberpumpkin use one Attribute + a skill or other trait.</h3>
-            <h3>One Attribute is selected at 4; three more are at 3. Then, select three more at 2 - this is about average for most humans - and finally one attribute is selected at 1.</h3>
-            <h3>Movement is always derived from Reflexes, and all characters start with 1 Street Cred.</h3>
-            <h3>Click an attribute name to learn more about it, including examples!</h3>
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Attributes:</Typography></Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Attributes are the fundamental traits of your character - almost all rolls in Cyberpumpkin use one Attribute + a skill or other trait.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Selections: One attribute is your primary, and is selected at 4 - this is your most outstanding attribute, far beyond the average person. Three additional attributes are selected at 3; these are your characters other above average traits. Three additional attributes are selected at 2 - this is about average for most humans - and finally one attribute is selected at 1 - you can't excel at everything, unfortunately.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Special Attributes: Movement is always derived from Reflexes, and all characters start with 1 Street Cred - don't worry about these for the time being.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Click an attribute name to learn more about it, including examples of what different ranks might look like!</Item></Grid>
+            </Grid>
 
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>

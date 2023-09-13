@@ -18,7 +18,9 @@ const characterCreation = (state = {
 
     armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
 
-    gearbucks: 1500, cyberbucks: 2500
+    gearbucks: 1500, cyberbucks: 2500,
+
+    creationReviewReached: false
 },
     action) => {
     const ap = action.payload
@@ -43,11 +45,19 @@ const characterCreation = (state = {
 
             armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
 
-            gearbucks: 1500, cyberbucks: 2500
+            gearbucks: 1500, cyberbucks: 2500,
+
+            creationReviewReached: false
         }
     }
     if (action.type === "SET_CREATION_STEP") {
         return { ...state, creationStep: action.payload }
+    }
+    if (action.type === "CREATION_REVIEW_REACHED") {
+        return {
+            ...state,
+            creationReviewReached: true
+        }
     }
     if (action.type === "SET_CREATION_FIRST_STEPS") {
         return {

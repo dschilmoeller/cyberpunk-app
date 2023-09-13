@@ -43,14 +43,14 @@ export default function GameMasterAttributes() {
         }
         let j = attribute
         for (j; j <= 4; j++) {
-            returnedDots.push(<React.Fragment key={j+5}>{emptyCircle}</React.Fragment>)
+            returnedDots.push(<React.Fragment key={j + 5}>{emptyCircle}</React.Fragment>)
         }
         for (let b = 0; b < cyberAtt; b++) {
-            returnedDots.push(<React.Fragment key={b+10}>{fullBox}</React.Fragment>)
+            returnedDots.push(<React.Fragment key={b + 10}>{fullBox}</React.Fragment>)
         }
         let k = cyberAtt
         for (k; k <= 4; k++) {
-            returnedDots.push(<React.Fragment key={k+15}>{boxOutline}</React.Fragment>)
+            returnedDots.push(<React.Fragment key={k + 15}>{boxOutline}</React.Fragment>)
         }
         return returnedDots
     }
@@ -68,37 +68,64 @@ export default function GameMasterAttributes() {
     }
 
     const attLevelChange = (statToChange, currentStat, changeType) => {
+        let newTotalExp
+        let newSpentTotalExp
         if (currentStat < 5 && changeType === 'increase') {
+            newTotalExp = charDetail.max_xp + ((currentStat + 1) * 5)
+            newSpentTotalExp = charDetail.spent_xp + ((currentStat + 1) * 5)
             currentStat += 1
+            dispatch({
+                type: "GM_INCREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    newTotalExp: newTotalExp,
+                    newSpentTotalExp: newSpentTotalExp
+                }
+            })
         } else if (currentStat > 1 && changeType === 'decrease') {
+            // newTotalExp = charDetail.max_xp + ((currentStat) * 5)
             currentStat -= 1
+            dispatch({
+                type: "GM_DECREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    // newTotalExp: newTotalExp
+                }
+            })
         } else {
             setShowSnackbar(true)
         }
 
-        dispatch({
-            type: "GM_CHANGE_STAT", payload: {
-                statToChange: statToChange,
-                newStatAmount: currentStat,
-            }
-        })
     }
 
     const tenPointAttLevelChange = (statToChange, currentStat, changeType) => {
+        let newTotalExp
+        let newSpentTotalExp
         if (currentStat < 10 && changeType === 'increase') {
+            newTotalExp = charDetail.max_xp + ((currentStat + 1) * 5)
+            newSpentTotalExp = charDetail.spent_xp + ((currentStat + 1) * 5)
             currentStat += 1
+            dispatch({
+                type: "GM_INCREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    newTotalExp: newTotalExp,
+                    newSpentTotalExp: newSpentTotalExp
+                }
+            })
         } else if (currentStat > 1 && changeType === 'decrease') {
+            // newTotalExp = charDetail.max_xp + ((currentStat) * 5)
             currentStat -= 1
+            dispatch({
+                type: "GM_DECREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    // newTotalExp: newTotalExp
+                }
+            })
         } else {
             setShowSnackbar(true)
         }
-
-        dispatch({
-            type: "GM_CHANGE_STAT", payload: {
-                statToChange: statToChange,
-                newStatAmount: currentStat,
-            }
-        })
     }
 
 

@@ -42,9 +42,8 @@ export default function GameMasterMain() {
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
 
     useEffect(() => {
-        // fetch initial details
-        dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
-        // required to make inputs default to existing data
+        // fetch initial details - commented - don't refetch every time page is loaded, was causing issues with other GM increases.
+        // dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         setHandle(charDetail.handle)
         setPlayer(charDetail.player)
         setCampaign(charDetail.campaign)

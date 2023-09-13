@@ -294,7 +294,15 @@ const advancementDetail = (state = {}, action) => {
             max_xp: state.max_xp + action.payload
         }
     }
-    if (action.type === 'GM_CHANGE_STAT') {
+    if (action.type === 'GM_INCREASE_STAT') {
+        return {
+            ...state,
+            [action.payload.statToChange]: Number(action.payload.newStatAmount),
+            max_xp: Number(action.payload.newTotalExp),
+            spent_xp: Number(action.payload.newSpentTotalExp)
+        }
+    }
+    if (action.type === 'GM_DECREASE_STAT') {
         return {
             ...state,
             [action.payload.statToChange]: Number(action.payload.newStatAmount)

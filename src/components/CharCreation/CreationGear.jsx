@@ -13,10 +13,13 @@ import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Item from '../Characters/CharacterSheet/Item';
 
 export default function CreationGear() {
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
+    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
     const armor = useSelector(store => store.armorMaster)
     const shield = useSelector(store => store.shieldMaster)
@@ -122,13 +125,18 @@ export default function CreationGear() {
     }
 
     const savePurchases = () => {
-        dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })
+        if (creationReviewReached === false) {
+            dispatch({ type: "SET_CREATION_STEP", payload: 'cyberware' })
+        } else {
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
+        }
     }
 
     return (<>
-        <h2>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></h2>
-        <h3>Remember: You can't take it with you. You'll have another pool of money for cyberware, also!</h3>
-
+        <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+            <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></Typography></Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Remember: You can't take it with you. You'll have a different pool of money for cyberware next!</Item></Grid>
+        </Grid>
 
         <Grid container>
             <Tabs
@@ -146,8 +154,11 @@ export default function CreationGear() {
 
         {value === 'Armor' ? (<>
 
-            <h3>My Armor:</h3>
-            <h4>Note: Armor must be equipped from the advancement sheet.</h4>
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item>My Armor</Item></Grid>
+                <Grid item xs={12}><Item>Note: Armor must be equipped from the advancement sheet.</Item></Grid>
+            </Grid>
+
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -227,8 +238,11 @@ export default function CreationGear() {
         </>) : <></>}
 
         {value === 'Weapons' ? (<>
-            <h3>My Weapons:</h3>
-            <h4>Note: Weapons are automatically equipped.</h4>
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item>My Weapons</Item></Grid>
+                <Grid item xs={12}><Item>Note: Weapons are automatically equipped.</Item></Grid>
+            </Grid>
+
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -303,7 +317,9 @@ export default function CreationGear() {
 
         {value === 'Misc' ? (<>
 
-            <h3>My Misc Gear:</h3>
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item>My Misc Gear</Item></Grid>
+            </Grid>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>

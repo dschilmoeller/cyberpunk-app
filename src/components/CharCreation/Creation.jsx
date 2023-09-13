@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import CreationFirstSteps from './CreationFirstStep';
@@ -23,6 +23,7 @@ function Creation() {
     })
 
     const creationStep = useSelector((store) => store.characterCreation.creationStep)
+
     return (
         <>
             {creationStep != 'review' ? <h2>Character Creation</h2> : <></>}
@@ -33,7 +34,6 @@ function Creation() {
             {creationStep === 'gear' ? <CreationGear /> : <></>}
             {creationStep === 'cyberware' ? <CreationCyberware /> : <></>}
             {creationStep === 'review' ? <CreationReview /> : <></>}
-            
         </>
     )
 }

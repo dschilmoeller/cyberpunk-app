@@ -10,6 +10,7 @@ import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
+import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -21,9 +22,10 @@ function TransitionUp(props) {
 function CreationRoleAbilities() {
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
-    
+
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.characterCreation)
+    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -281,7 +283,12 @@ function CreationRoleAbilities() {
             || (roleSelection === 'Maker' && availableMakerSkillPoints === 0)
             || (roleSelection === 'Medtech' && availableMedSkillPoints === 0)) {
             dispatch({ type: "SET_CREATION_ROLE_ABILITIES", payload: ability })
-            dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })
+
+            if (creationReviewReached === false) {
+                dispatch({ type: "SET_CREATION_STEP", payload: 'gear' })
+            } else {
+                dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
+            }
         } else {
             setShowSnackbar(true)
         }
@@ -319,10 +326,13 @@ function CreationRoleAbilities() {
             </Alert>
         </Snackbar >
 
-        <h1>Select Role</h1>
-        <h3>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</h3>
-        <h3>Roles selected during creation start with 2 ranks, and represent the specialization your character has chosen up to date, as well as their primary means of making a living on a day to day basis.</h3>
-        <h3>Note that Medtech and Maker roles have special skills associated with them - you'll have to make some additional selections.</h3>
+        <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+            <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Select Role</Typography></Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Roles are the niche Edgerunners occupy, and grant special abilities. Click the name to find out more!</Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Roles selected during creation start with 2 ranks, and represent the specialization your character has chosen up to date, as well as their primary means of making a living on a day to day basis.</Item></Grid>
+            <Grid item xs={12}><Item sx={{ height: 1 }}>Note that Medtech and Maker roles have special skills associated with them - you'll have to make some additional selections.</Item></Grid>
+        </Grid>
+
         <Grid container>
             <Grid item xs={12} textAlign={'center'}>
                 <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetRoleAbility()}>Reset Role Selection</Button>

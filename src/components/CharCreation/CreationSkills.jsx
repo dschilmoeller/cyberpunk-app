@@ -9,6 +9,7 @@ import SkillsDialog from '../Modals/SkillsDialog';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
+import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -21,9 +22,10 @@ function CreationSkills() {
 
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
-    
+
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
+    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -432,36 +434,46 @@ function CreationSkills() {
                 demolitions, driveLand, driveExotic, etiquette, exoticWeapons, heavyWeapons, performance, stealth, survival, tracking,
                 business, cryptography, cyberTech, firstAid, investigation, gambling, language, militaryTech, science, vehicleTech
             }
+            
             dispatch({ type: 'SET_CREATION_SKILLS', payload: skills })
-            dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
+            
+            if (creationReviewReached === false) {
+                dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
+            } else {
+                dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
+            }
         } else {
             setShowSnackbar(true)
         }
     }
 
     // quick fill for faster demo/testing purposes.
-    // const quickSelect = () => {
-    //     setAthletics(4)
-    //     setBrawling(4)
-    //     setConcentration(3)
-    //     setEvasion(3)
-    //     setFastTalk(3)
-    //     setFirearms(3)
-    //     setMeleeWeapons(2)
-    //     setLegerdemain(2)
-    //     setPerception(2)
-    //     setStreetwise(2)
-    //     setDemolitions(2)
-    //     setDriveLand(2)
-    //     setDriveExotic(1)
-    //     setEtiquette(1)
-    //     setExoticWeapons(1)
-    //     setHeavyWeapons(1)
-    //     setPerformance(1)
-    //     setStealth(1)
-    //     setSkillNumber(0)
-    //     setSkillCounter(19)
-    // }
+    const quickSelect = () => {
+        setFirstAid(4)
+        setEvasion(4)
+
+        setEtiquette(3)
+        setCyberTech(3)
+        setScience(3)
+        setStreetwise(3)
+
+        setPerception(2)
+        setStealth(2)
+        setFastTalk(2)
+        setFirearms(2)
+        setDriveLand(2)
+        setConcentration(2)
+
+        setMilitaryTech(1)
+        setVehicleTech(1)
+        setInvestigation(1)
+        setAthletics(1)
+        setBusiness(1)
+        setPerformance(1)
+
+        setSkillNumber(0)
+        setSkillCounter(19)
+    }
 
     return (
         <>
@@ -478,18 +490,26 @@ function CreationSkills() {
                 </Alert>
             </Snackbar >
 
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Skill Selection:</Typography></Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Skills are the specific areas that your character excels in - or not. Similar to Attributes, they are selected in descending order of priority.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Selections: Two skills are selected at 4 - again, these the traits in which your character excels far beyond most people in.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Four more skills are selected at 3 - these are additional areas in which your character is a professional; Next, six skills each are selected at 2 and 1. These are skills in which your character has some familiarity, but perhaps is less impressively skilled at.</Item></Grid>
+                <Grid item xs={12}><Item sx={{ height: 1 }}>Click a skill name to learn more about it! Click column headers for special notes involving all the skills in a column.</Item></Grid>
+            </Grid>
 
-            <h1>Skill Selection</h1>
-            <h3>Skills are the specific areas that your character excels in - or not. Similar to Attributes, they are selected in descending order of priority.</h3>
-            <h3>Two skills are selected at 4; four skills are selected at 3; and six skills each are selected at 2 and 1.</h3>
-            <h3>Click a skill name to learn more about it. Click column headers for special notes involving all the skills in a column.</h3>
+
+            <h1></h1>
+            <h3></h3>
+            <h3></h3>
+            <h3></h3>
             <h3></h3>
 
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetSkillSelection()}>Reset Skill Selection</Button>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchSkills()}>Save Skill Selection</Button>
-                    {/* <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button> */}
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button>
                 </Grid>
             </Grid>
             <Grid container>
