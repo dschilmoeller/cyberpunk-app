@@ -68,8 +68,9 @@ export default function GameMasterAttributes() {
     }
 
     const attLevelChange = (statToChange, currentStat, changeType) => {
-        let newTotalExp
-        let newSpentTotalExp
+        let newTotalExp;
+        let newSpentTotalExp;
+        
         if (currentStat < 5 && changeType === 'increase') {
             newTotalExp = charDetail.max_xp + ((currentStat + 1) * 5)
             newSpentTotalExp = charDetail.spent_xp + ((currentStat + 1) * 5)
@@ -83,6 +84,8 @@ export default function GameMasterAttributes() {
                 }
             })
         } else if (currentStat > 1 && changeType === 'decrease') {
+            // should generate enough XP to cover any changes made. Only good if the rest of the calculations are bulletproof.
+            // leave for now.
             // newTotalExp = charDetail.max_xp + ((currentStat) * 5)
             currentStat -= 1
             dispatch({

@@ -14,6 +14,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 
 export default function RoleAbilitiesDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
@@ -203,7 +204,125 @@ export default function RoleAbilitiesDialog({ prop }) {
                 return (
                     <Grid container fontFamily={'serif'}>
                         <Grid item xs={12}>
-                            Look I'm not doing this yet.
+                            <h1>Interface</h1>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid item xs={12}><Typography variant='h5'>Actions per Meatspace Round:</Typography></Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650, fontFamily: 'serif' }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow sx={{ fontFamily: 'serif' }}>
+                                            <TableCell align="left">Rank</TableCell>
+                                            <TableCell align="left">Net Actions per turn</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow hover>
+                                            <TableCell align="left">1-3</TableCell>
+                                            <TableCell align='left'>2</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align="left">4-6</TableCell>
+                                            <TableCell align='left'>3</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align="left">7-9</TableCell>
+                                            <TableCell align='left'>4</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align="left">10</TableCell>
+                                            <TableCell align='left'>5</TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <Grid item xs={12}><Typography variant='h5'>Interface Actions:</Typography></Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650, fontFamily: 'serif' }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow sx={{ fontFamily: 'serif' }}>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="left">Description</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow hover>
+                                            <TableCell align="left">Scanner</TableCell>
+                                            <TableCell align='left'>Uses 1 Meatspace action to find the locations of any Access Points in range of the Netrunner's deck. The difficulty of this roll may be affected (for the better) by a particularly open area or (for the worse) by large amounts of electronic interference, heavy metal structures, etc between the AP and the Netrunner.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>PathFinder</TableCell>
+                                            <TableCell align='left'>Allows the Netrunner to map the Architecture they're jacked into. Each success reveals another floor or some information on the same. Cannot be used to see past Password Obstructions.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Change Floors</TableCell>
+                                            <TableCell align='left'>Change Floors: The Netrunner can move to any floor in the Architecture they've already been to as a single NET action.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Slide</TableCell>
+                                            <TableCell align='left'>Allows the Netrunner to flee Net combat or avoid it entirely. Roll Interface (+ any software bonuses) against Program Perception. If successful, the Netrunner moves up or down one floor. Can only be done once per turn; can be done pre-emptively if hostile software has been revealed with Pathfinder Action.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Backdoor</TableCell>
+                                            <TableCell align='left'>Netrunner breaks through a Password barrier. DV is based on quality of the Password Software.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Zap</TableCell>
+                                            <TableCell align='left'>Allows Netrunner to make an unmodified attack on enemy program/Netrunner. Deals Netrunners Interface score in damage. Deals Stun damage to Netrunners.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Control</TableCell>
+                                            <TableCell align='left'>Cause one item connected to the Architecture to perform an action.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>EyeBall</TableCell>
+                                            <TableCell align='left'>Identify and assess a single piece of Data found on the Architecture. This action is typically automatic, but some Data may require a knowledge roll to assess properly (decyphering payroll accounts to find out who's embezzling may require an Intelligence + Business roll, for example).</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Virus</TableCell>
+                                            <TableCell align='left'>Once in the Root of an Architecture, the Netrunner can make a Virus to make changes or perform scripted actions that will persist beyond when a Netrunner Jacks Out. Viruses require a number of successes to make based on the complexity and number of changes being made, and may require the Netrunner to make an extended roll to achieve the required number.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell align='left'>Cloak</TableCell>
+                                            <TableCell align='left'>Once a Netrunner makes changes, they tend to be painfully obvious to the owner's sysadmins and tame script kiddies. Cloak actions conceal the Netrunner's activity - they roll against a DV of 6, and other Netrunners must make a Pathfinder roll and get more successes than the Cloaking Netrunner to find their changes.</TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+
+                        <Grid container spacing={1}>
+
+                            <Grid item xs={12} marginTop={1}><Typography variant='h5'>Net Combat:</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>ICE has nothing better to do than wait around to ambush unwary Netrunners, and rolls it's Speed vs. the Netrunner's Interface score (+ any applicable bonuses). If more than one piece of ICE is involved, they use the highest Speed attribute - slower, more dangerous programs are often paired with quicker ones for this very purpose.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Once combat commences, attacks are made as follows:</Typography></Grid>
+                            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Interface + Software Attack or ICE Attack Attribute</i></Typography></Grid>
+                            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>vs.</i></Typography></Grid>
+                            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Interface + Software Defense or ICE Defense Attribute</i></Typography></Grid>
+
+                            <Grid item xs={12}><Typography variant='p'>Damage from ICE is soaked normally, but uses Willpower in place of the Body Attribute. White ICE causes stun damage, while Black ICE deals Lethal wounds.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Netrunners and ICE can attack each other directly, or they can attack Netrunner Programs. Software uses the REZ attribute as a wound track; if it fills the program is said to be De-Rezzed and requires 2 Net actions to restore. Some ICE makes a point of destroying software, and can delete a Netrunner's programs permanently.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>A Netrunner can only have one Weapon Software active each round, but it adds it's Attack both to rolls to hit enemy software. Likewise, its Defensive attribute is added to Interface rolls to defend against enemy attacks.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Damage consists of the Netrunner's Interface score + Weapon Software Attack Rating</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>A Netrunner can flee ICE by using the Slide action - they can attempt this automatically if they already know ICE is waiting via the Pathfinder action.</Typography></Grid>
+
+                            <Grid item xs={12}><Typography variant='h5'>Final Notes on Netrunning:</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Only a limited amount of software can be activated each round - equal to the number of slots in the deck divided by 3 (rounded down). This makes the first level of most Architecture the most dangerous, as the Netrunner has to deal with ICE with only a limited selection of their software active.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Netrunners don't fall unconscious while Netrunning; likewise, they can ignore wound penalties on NET actions equal to their Interface score. It is easy to push themselves into suffering massive amounts of damage, and they will fall unconscious / into making Death Saves normally once they Jack Out. What is happening is extremely apparent from the outside.</Typography></Grid>
+                            <Grid item xs={12}><Typography variant='p'>Non weapon software effects stack unless otherwise noted.</Typography></Grid>
                         </Grid>
                     </Grid>
                 )

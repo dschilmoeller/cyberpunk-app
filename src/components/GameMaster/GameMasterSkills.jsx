@@ -45,20 +45,40 @@ export default function GameMasterSkills() {
     }
 
     const attLevelChange = (statToChange, currentStat, changeType) => {
+        let newTotalExp;
+        let newSpentTotalExp;
         if (currentStat < 5 && changeType === 'increase') {
+            newTotalExp = charDetail.max_xp + ((currentStat + 1) * 2)
+            newSpentTotalExp = charDetail.spent_xp + ((currentStat + 1) * 2)
             currentStat += 1
+            dispatch({
+                type: "GM_INCREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    newTotalExp: newTotalExp,
+                    newSpentTotalExp: newSpentTotalExp
+                }
+            })
         } else if (currentStat > 0 && changeType === 'decrease') {
             currentStat -= 1
+            // newTotalExp = charDetail.max_xp + ((currentStat) * 2)
+            dispatch({
+                type: "GM_DECREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                    // newTotalExp: newTotalExp
+                }
+            })
         } else {
             setShowSnackbar(true)
         }
 
-        dispatch({
-            type: "GM_CHANGE_STAT", payload: {
-                statToChange: statToChange,
-                newStatAmount: currentStat,
-            }
-        })
+        // dispatch({
+        //     type: "GM_CHANGE_STAT", payload: {
+        //         statToChange: statToChange,
+        //         newStatAmount: currentStat,
+        //     }
+        // })
     }
 
     return (<>
