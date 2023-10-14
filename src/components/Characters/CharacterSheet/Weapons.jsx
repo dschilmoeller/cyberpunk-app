@@ -14,6 +14,8 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 
+import WeaponsGrenades from './WeaponsGrenades';
+
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
@@ -80,7 +82,7 @@ function Weapons() {
     // identical to clicking a box in the relevant area.
     const handleOneShot = (incomingKey, max_clip, current_shots_fired) => {
         if ((max_clip - current_shots_fired) > 0) {
-        dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
+            dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
         } else {
             setShowSnackbar(true)
         }
@@ -302,6 +304,12 @@ function Weapons() {
                         }
                     }
                 })}
+
+
+                <Grid item xs={12}>
+                    <WeaponsGrenades />
+                </Grid>
+
             </Grid>
         </>
     )

@@ -34,8 +34,9 @@ function CharacterSheet() {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_MISC_GEAR_LIST' });
         dispatch({ type: 'FETCH_VEHICLE_MOD_LIST'});
-        dispatch({ type: 'FETCH_WEAPON_LIST'})
-        dispatch({ type: 'FETCH_CYBERWARE_LIST'})
+        dispatch({ type: 'FETCH_WEAPON_LIST'});
+        dispatch({ type: 'FETCH_GRENADE_LIST'});
+        dispatch({ type: 'FETCH_CYBERWARE_LIST'});
         dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id});
     }, [])
 

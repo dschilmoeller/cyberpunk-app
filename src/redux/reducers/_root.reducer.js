@@ -8,6 +8,7 @@ import characterDetail from './characterDetail.reducer';
 import characterCyberDetail from './characterCyberDetail.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterWeapons from './characterWeapons.reducer';
+import characterGrenades from './characterGrenades.reducer';
 import characterMiscGear from './characterMiscGear.reducer';
 import characterVehicles from './characterVehicles.reducer';
 import characterNetrunnerGear from './characterNetrunnerGear.reducer';
@@ -17,6 +18,7 @@ import characterCreation from './characterCreation.reducer';
 import armorMaster from './armorMaster.reducer';
 import shieldMaster from './shieldMaster.reducer';
 import weaponMaster from './weaponMaster.reducer';
+import grenadeMaster from './grenadeMaster.reducer';
 import miscGearMaster from './miscGearMaster.reducer';
 import cyberwareMaster from './cyberwareMaster.reducer';
 import netrunnerGearMaster from './netrunnerMaster.reducer';
@@ -42,6 +44,7 @@ const rootReducer = combineReducers({
   characterCyberDetail, // contains data of relevant bridge table row for character
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterWeapons, // contains active character's weapons
+  characterGrenades, // contains active character's grenades
   characterMiscGear, // contains active character's miscellaneous gear
   characterNetrunnerGear, // contains active characters netrunning gear (if any)
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
@@ -49,6 +52,7 @@ const rootReducer = combineReducers({
   armorMaster, // master gear list - armor
   shieldMaster, // master gear list - shields
   weaponMaster, // master gear list - weapons
+  grenadeMaster, // master gear list - grenades
   miscGearMaster, // master gear list - misc
   cyberwareMaster, // master gear list - cyberware
   characterVehicles, // master gear list - vehicles

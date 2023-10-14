@@ -40,6 +40,19 @@ router.get('/weapon', (req, res) => {
         });
 });
 
+// Fetch Grenade List
+router.get('/grenades', (req, res) => {
+    const sqlText = `SELECT * FROM "grenade_master"`
+
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching grenade list:`, err);
+        })
+})
+
 // Fetch miscellaneous gear list.
 router.get('/miscgear', (req, res) => {
     const sqlText = `SELECT * FROM "misc_gear_master" order by "misc_gear_master_id"`

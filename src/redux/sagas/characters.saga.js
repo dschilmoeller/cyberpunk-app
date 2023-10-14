@@ -22,6 +22,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_WEAPONS', payload: characterWeapons.data })
+    const characterGrenades = yield axios.get(`api/characters/fetchcharactergrenades/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_GRENADES', payload: characterGrenades.data})
     const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
     const characterNetrunningGear = yield axios.get(`api/characters/fetchcharacterNetrunningGear/${action.payload}`)
@@ -64,6 +66,11 @@ function* saveCharacterBank(action) {
 function* useConsumableFromPack(action) {
   yield axios.delete(`/api/characters/useConsumable/${action.payload.char_gear_bridge_id}`)
   yield put({ type: 'CONSUMABLE_USED', payload: action.payload })
+}
+
+function* useGrenade(action) {
+  yield axios.delete(`/api/characters/useGrenade/${action.payload.grenade_bridge_id}`)
+  yield put({ type: 'GRENADE_USED', payload: action.payload })
 }
 
 // making pharmaceutical compounds
@@ -120,6 +127,9 @@ function* fetchAdvancementDetails(action) {
 
     const advancementWeapons = yield axios.get(`/api/characters/fetchAdvancementWeapons/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_WEAPONS', payload: advancementWeapons.data })
+
+    const advancementGrenades = yield axios.get(`/api/characters/fetchAdvancementGrenades/${action.payload}`)
+    yield put({ type: 'SET_ADVANCEMENT_GRENADES', payload: advancementGrenades.data})
 
     const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload}`)
     yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data })
@@ -187,6 +197,7 @@ function* characterSaga() {
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
+  yield takeLatest('USE_GRENADE', useGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
   yield takeLatest('FETCH_CHARACTER_MISC_GEAR', fetchCharacterMiscGear);
   yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)

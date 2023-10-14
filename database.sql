@@ -103,7 +103,7 @@ CREATE TABLE "char_status" (
 
 CREATE TABLE "weapon_master" (
 	"weapon_master_id" serial NOT NULL,
-	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER'
+	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER',
 	"name" varchar NOT NULL,
 	"damage" integer NOT NULL,
 	"dmg_type" varchar NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE "weapon_mod2_master" (
 CREATE TABLE "grenade_master" (
 	"grenade_master_id" serial NOT NULL,
 	"name" varchar NOT NULL,
-	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER'
+	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER',
 	"price" integer NOT NULL DEFAULT '0',
 	"is_treasure" bool NOT NULL DEFAULT false,
 	CONSTRAINT "grenade_master_pk" PRIMARY KEY ("grenade_master_id")
@@ -201,22 +201,21 @@ CREATE TABLE "char_grenade_bridge" (
 	"grenade_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
 	"grenade_id" integer NOT NULL,
-	"quantity" integer NOT NULL,
 	CONSTRAINT "char_grenade_bridge_pk" PRIMARY KEY ("grenade_bridge_id")
 ) WITH (OIDS = FALSE);
 
 ALTER TABLE "char_grenade_bridge"
-ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
-ALTER TABLE "char_weapons_bridge"
-ADD CONSTRAINT "char_weapons_bridge_fk1" FOREIGN KEY ("grenade_id") REFERENCES "grenade_master"("grenade_master_id") ON DELETE CASCADE;
+ADD CONSTRAINT "char_grenade_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "char_grenade_bridge"
+ADD CONSTRAINT "char_grenade_bridge_fk1" FOREIGN KEY ("grenade_id") REFERENCES "grenade_master"("grenade_master_id") ON DELETE CASCADE;
 
 INSERT INTO "grenade_master" ("name", "description", "price", "is_treasure")
 VALUES
 ('Fragmentation', 'Deals 12 lethal damage in a 4x4 meter area, and half that in an 8x8 meter area.', 100, false),
-('Flashbang', 'Deals 10 stun damage in a 6x6 meter area.', 100, false),
-('Smoke', 'Creates a cloud of thick, noxious smoke that fills a 4x4 meter area, and spreads 1 meter a turn for 20 turns. Can fill an enclosed space, otherwise stops at a 10x10 meter area.', 100, false),
-('EMP', 'Releases a disruptive electrical charge')
-
+('Flashbang', 'Deals 10 stun damage in a 6x6 meter area.', 50, false),
+('Smoke', 'Creates a cloud of thick, noxious smoke that fills a 4x4 meter area, and spreads 1 meter a turn for 20 turns. Can fill an enclosed space, otherwise stops at a 10x10 meter area.', 50, false),
+('EMP', 'Releases a disruptive electrical charge. Deals 8 stun damage to most people, but convert one wound to lethal for each health box created by cyberware. Deals lethal damage to drones and robots; their armor cannot be hardened against this damage.', 500, false),
+('"Holy Water"', 'A glass vessel filled with a volatile acid. Deals 3 Aggravated damage in a 2x2 area.', 500, true);
 
 CREATE TABLE "cyberware_master" (
 	"cyberware_master_id" serial NOT NULL,

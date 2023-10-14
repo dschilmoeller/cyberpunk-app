@@ -91,6 +91,21 @@ router.get('/fetchcharacterweapons/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
+// fetch character grenades for in play character sheet
+router.get('/fetchcharactergrenades/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_grenade_bridge"
+    JOIN "grenade_master" ON "grenade_master"."grenade_master_id" = "char_grenade_bridge"."grenade_id"
+    WHERE char_id = $1
+    ORDER BY "name" DESC`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character grenade details`, err);
+        })
+})
+
 // fetch character misc gear for in play character sheet
 router.get('/fetchCharacterMiscGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_gear_bridge"
@@ -162,6 +177,19 @@ router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
         })
         .catch(err => {
             console.log(`Error using consumable:`, err);
+        })
+})
+
+// use grenade from pack:
+router.delete('/useGrenade/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`
+    const sqlParams = [req.params.id]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error using Grenade:`, err);
         })
 })
 
@@ -329,6 +357,19 @@ router.get('/fetchAdvancementWeapons/:id', rejectUnauthenticated, (req, res) => 
         })
         .catch(err => {
             console.log(`Error fetching equipped weapon details:`, err);
+        })
+})
+
+router.get('/fetchAdvancementGrenades/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_grenade_bridge"
+    JOIN "grenade_master" ON "grenade_master"."grenade_master_id" = "char_grenade_bridge"."grenade_id"
+    WHERE "char_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned grenade details:`, err)
         })
 })
 
@@ -662,6 +703,26 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
                 for (let i = 0; i < boughtWeapons.length; i++) {
                     const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
+                }
+            }
+
+            // loop through bought/sold grenades, perform delete/post on each
+            const soldGrenades = req.body.gear.soldGrenades
+            if (soldGrenades.length > 0) {
+                const soldGrenadeSqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`
+                for (let i = 0; i < soldGrenades.length; i++) {
+                    const soldGrenadesParams = [soldGrenades[i].grenade_bridge_id]
+                    pool.query(soldGrenadeSqlText, soldGrenadesParams)
+                }
+            }
+
+            const boughtGrenades = req.body.gear.boughtGrenades
+            if (boughtGrenades.length > 0) {
+                const boughtGrenadeSqlText = `INSERT INTO "char_grenade_bridge" ("char_id", "grenade_id")
+                VALUES ($1, $2);`
+                for (let i = 0; i < boughtGrenades.length; i++) {
+                    const boughtGrenadesParams = [req.body.char.id, boughtGrenades[i].grenade_master_id]
+                    pool.query(boughtGrenadeSqlText, boughtGrenadesParams)
                 }
             }
 

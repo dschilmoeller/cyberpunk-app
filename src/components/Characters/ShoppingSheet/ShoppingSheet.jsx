@@ -13,6 +13,8 @@ import ArmorOwnedTable from './ArmorOwnedTable';
 import ArmorMasterTable from './ArmorMasterTable';
 import WeaponsOwnedTable from './WeaponsOwnedTable';
 import WeaponsMasterTable from './WeaponsMasterTable';
+import GrenadeOwnedTable from './GrenadeOwnedTable';
+import GrenadeMasterTable from './GrenadeMasterTable';
 import OtherOwnedTable from './OtherOwnedTable';
 import OtherMasterTable from './OtherMasterTable';
 import NetrunnerOwnedTable from './NetrunnerOwnedTable';
@@ -38,6 +40,7 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_ARMOR_LIST" })
         dispatch({ type: "FETCH_SHIELD_LIST" })
         dispatch({ type: "FETCH_WEAPON_LIST" })
+        dispatch({ type: "FETCH_GRENADE_LIST" })
         dispatch({ type: "FETCH_MISC_GEAR_LIST" })
         dispatch({ type: "FETCH_NETRUNNER_LIST" })
         dispatch({ type: "FETCH_CYBERWARE_LIST" })
@@ -104,6 +107,7 @@ function ShoppingSheet() {
                         textColor='secondary'>
                         <Tab value='armor' label='Armor' />
                         <Tab value='weapons' label='Weapons' />
+                        <Tab value='grenades' label='Grenades' />
                         <Tab value='other' label='Other Gear' />
                         {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                         <Tab value='cyberware' label='Cyberware' />
@@ -119,6 +123,11 @@ function ShoppingSheet() {
                 {selectedShopping === 'weapons' ? (<>
                     <WeaponsOwnedTable />
                     <WeaponsMasterTable />
+                </>) : <></>}
+
+                {selectedShopping === 'grenades' ? (<>
+                    <GrenadeOwnedTable />
+                    <GrenadeMasterTable />
                 </>) : <></>}
 
                 {selectedShopping === 'other' ? (<>

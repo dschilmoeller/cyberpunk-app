@@ -146,6 +146,22 @@ const advancementDetail = (state = {}, action) => {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
+        //grenades
+        case 'BUY_GRENADE':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload.item.price)
+            }
+        case 'SELL_OWNED_GRENADE':
+            return {
+                ...state,
+                bank: Number(state.bank + Math.floor(action.payload.price / 4))
+            }
+        case 'SELL_ADVANCEMENT_GRENADE':
+            return {
+                ...state,
+                bank: Number(state.bank + action.payload.price)
+            }
         //othergear
         case 'BUY_MISC_GEAR':
             return {
