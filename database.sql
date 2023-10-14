@@ -188,6 +188,36 @@ CREATE TABLE "weapon_mod2_master" (
 	CONSTRAINT "weapon_mod2_master_pk" PRIMARY KEY ("weapon_mod2_master_id")
 ) WITH (OIDS = FALSE);
 
+CREATE TABLE "grenade_master" (
+	"grenade_master_id" serial NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL DEFAULT 'PLACEHOLDER'
+	"price" integer NOT NULL DEFAULT '0',
+	"is_treasure" bool NOT NULL DEFAULT false,
+	CONSTRAINT "grenade_master_pk" PRIMARY KEY ("grenade_master_id")
+) WITH (OIDS = FALSE);
+
+CREATE TABLE "char_grenade_bridge" (
+	"grenade_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"grenade_id" integer NOT NULL,
+	"quantity" integer NOT NULL,
+	CONSTRAINT "char_grenade_bridge_pk" PRIMARY KEY ("grenade_bridge_id")
+) WITH (OIDS = FALSE);
+
+ALTER TABLE "char_grenade_bridge"
+ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
+ALTER TABLE "char_weapons_bridge"
+ADD CONSTRAINT "char_weapons_bridge_fk1" FOREIGN KEY ("grenade_id") REFERENCES "grenade_master"("grenade_master_id") ON DELETE CASCADE;
+
+INSERT INTO "grenade_master" ("name", "description", "price", "is_treasure")
+VALUES
+('Fragmentation', 'Deals 12 lethal damage in a 4x4 meter area, and half that in an 8x8 meter area.', 100, false),
+('Flashbang', 'Deals 10 stun damage in a 6x6 meter area.', 100, false),
+('Smoke', 'Creates a cloud of thick, noxious smoke that fills a 4x4 meter area, and spreads 1 meter a turn for 20 turns. Can fill an enclosed space, otherwise stops at a 10x10 meter area.', 100, false),
+('EMP', 'Releases a disruptive electrical charge')
+
+
 CREATE TABLE "cyberware_master" (
 	"cyberware_master_id" serial NOT NULL,
 	"name" varchar NOT NULL,
