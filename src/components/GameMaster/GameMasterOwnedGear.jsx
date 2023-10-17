@@ -8,6 +8,7 @@ import Tab from '@mui/material/Tab';
 
 import GMOwnedArmor from './GameMasterGearComps/GMOwnedArmor';
 import GMOwnedWeapons from './GameMasterGearComps/GMOwnedWeapons';
+import GMOwnedGrenade from './GameMasterGearComps/GMOwnedGrenade';
 import GMOtherOwned from './GameMasterGearComps/GMOwnedGearOther';
 import GMOwnedCyberware from './GameMasterGearComps/GMOwnedCyberware';
 import GMOwnedNetrunner from './GameMasterGearComps/GMOwnedNetrunner';
@@ -32,6 +33,7 @@ export default function GameMasterOwnedGear() {
                         textColor='secondary'>
                         <Tab value='armor' label='Armor' />
                         <Tab value='weapons' label='Weapons' />
+                        <Tab value='grenades' label='Grenades' />
                         <Tab value='misc' label='Misc Gear' />
                         <Tab value='cyberware' label='Cyberware' />
                         <Tab value='netrunner' label='Netrunner' />
@@ -51,6 +53,12 @@ export default function GameMasterOwnedGear() {
                     <GMOwnedWeapons />
                 </Grid>
             </>) : <></>}
+
+            {selectedGear === 'grenades' ? (<>
+                <Grid item xs={12} padding={1}>
+                    <GMOwnedGrenade />
+                </Grid>
+            </>): <></>}
 
             {selectedGear === 'misc' ? (<>
                 <Grid item xs={12} padding={1}>

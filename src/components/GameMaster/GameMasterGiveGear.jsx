@@ -8,6 +8,7 @@ import Item from '../Characters/CharacterSheet/Item';
 
 import GMGiveArmor from './GameMasterGearComps/GMGiveArmor';
 import GMGiveWeapons from './GameMasterGearComps/GMGiveWeapons';
+import GMGiveGrenade from './GameMasterGearComps/GMGiveGrenade';
 import GMGiveGearOther from './GameMasterGearComps/GMGiveGearOther';
 import GMGiveCyberware from './GameMasterGearComps/GMGiveCyberware';
 import GMGiveNetrunnerMain from './GameMasterGearComps/GMGiveNetrunnerMain';
@@ -32,6 +33,7 @@ export default function GameMasterGiveGear() {
                         textColor='secondary'>
                         <Tab value='armor' label='Armor' />
                         <Tab value='weapons' label='Weapons' />
+                        <Tab value='grenades' label='Grenades' />
                         <Tab value='misc' label='Misc Gear' />
                         <Tab value='cyberware' label='Cyberware' />
                         <Tab value='netrunner' label='Netrunner' />
@@ -49,6 +51,12 @@ export default function GameMasterGiveGear() {
             {selectedGear === 'weapons' ? (<>
                 <Grid item xs={12} padding={1}>
                     <GMGiveWeapons />
+                </Grid>
+            </>) : <></>}
+
+            {selectedGear === 'grenades' ? (<>
+                <Grid item xs={12} padding={1}>
+                    <GMGiveGrenade />
                 </Grid>
             </>) : <></>}
 

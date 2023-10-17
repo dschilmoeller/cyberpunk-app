@@ -1042,6 +1042,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }
+
             const soldWeapons = req.body.gear.soldWeapons
             if (soldWeapons.length > 0) {
                 const soldWeaponsSqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`
@@ -1054,10 +1055,29 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
             const boughtWeapons = req.body.gear.boughtWeapons
             if (boughtWeapons.length > 0) {
                 const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
-            VALUES ($1, $2, $3, $4, $5, $6);`
+                VALUES ($1, $2, $3, $4, $5, $6);`
                 for (let i = 0; i < boughtWeapons.length; i++) {
                     const boughtWeaponsParams = [req.body.charDetail.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
+                }
+            }
+
+            const soldGrenades = req.body.gear.soldGrenades
+            if (soldGrenades.length > 0) {
+                const soldGrenadeSqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`
+                for (let i = 0; i < soldGrenades.length; i++) {
+                    const soldGrenadeParams = [soldGrenades[i].grenade_bridge_id]
+                    pool.query(soldGrenadeSqlText, soldGrenadeParams)
+                }
+            }
+
+            const boughtGrenades = req.body.gear.boughtGrenades
+            if (boughtGrenades.length > 0) {
+                const boughtGrenadeSqlText = `INSERT INTO "char_grenade_bridge" ("char_id", "grenade_id")
+                VALUES ($1, $2)`
+                for (let i = 0; i < boughtGrenades.length; i++) {
+                    const boughtGrenadesParams = [req.body.charDetail.id, boughtGrenades[i].grenade_master_id]
+                    pool.query(boughtGrenadeSqlText, boughtGrenadesParams)
                 }
             }
 
