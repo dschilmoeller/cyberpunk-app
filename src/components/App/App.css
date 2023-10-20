@@ -9,6 +9,17 @@ body {
   margin: 0px;
 }
 
+.navBarLock {
+  position: fixed;
+  top:0;
+  width: 100%;
+  background-color: black;
+  z-index: 2;
+}
+
+.contentPadder {
+  padding-top: 100px;
+}
 
 img {
   display: inline-block;

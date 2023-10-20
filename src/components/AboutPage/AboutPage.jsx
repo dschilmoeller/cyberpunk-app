@@ -8,7 +8,6 @@ export default function AboutPage() {
   return (
     <>
       <Grid container spacing={1} >
-        <Grid item xs={3} />
         <Grid item xs={6}>This page was created by David Schilmoeller in 2023. After finishing an intensive boot camp, he thought he would bang out a quick bit of software to help him spend time with his friends. Stop if you've heard this story - it got way out of hand and now is this monument to dorkiness.</Grid>
         <Grid item xs={3} />
         <Grid item xs={3} />
@@ -25,7 +24,7 @@ export default function AboutPage() {
         <Grid item xs={3} />
         <Grid item xs={6} display={'flex'}>
           <GitHubIcon />
-          <Link href='https://https://github.com/dschilmoeller' target='_blank'>
+          <Link href='https://github.com/dschilmoeller' target='_blank'>
             Github
           </Link>
         </Grid>
