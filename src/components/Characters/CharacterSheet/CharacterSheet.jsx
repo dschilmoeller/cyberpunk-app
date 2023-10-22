@@ -30,17 +30,44 @@ function CharacterSheet() {
     const history = useHistory();
     const params = useParams();
 
+    const FiveMinutesMillisecs = 300000;
+
+    // run once on page load and fetch character detail and master item lists.
     useEffect(() => {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_MISC_GEAR_LIST' });
-        dispatch({ type: 'FETCH_VEHICLE_MOD_LIST'});
-        dispatch({ type: 'FETCH_WEAPON_LIST'});
-        dispatch({ type: 'FETCH_GRENADE_LIST'});
-        dispatch({ type: 'FETCH_CYBERWARE_LIST'});
-        dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id});
+        dispatch({ type: 'FETCH_VEHICLE_MOD_LIST' });
+        dispatch({ type: 'FETCH_WEAPON_LIST' });
+        dispatch({ type: 'FETCH_GRENADE_LIST' });
+        dispatch({ type: 'FETCH_CYBERWARE_LIST' });
+        dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id });
+
     }, [])
 
+    // run on page load and start again when a change is made.
+    useEffect(() => {
+        console.log(`Use effect triggered.`);
+        const interval = setInterval(() => {
+            console.log('Logs every five minutes');
+            saveCharacter();
+        }, FiveMinutesMillisecs);
+
+        return () => clearInterval(interval);
+        // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, [charStatus])
+
+    // const handleTabClosing = () => {
+    //     saveCharacter()
+    // }
+
+    // const alertUser = (event:any) => {
+    //     event.preventDefault()
+    //     event.returnValue = ''
+    // }
+
     const saveCharacter = (useHist) => {
+        const test = charStatus
+        console.log(`charStatus Test:`, test);
         dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles } } })
         if (useHist === 'useHist') {
             history.push('/characterlist')
@@ -104,7 +131,7 @@ function CharacterSheet() {
 
                             {selectedInventory === 'vehicles' ? (<>
                                 <CharacterVehicles />
-                            </>) : <></> }
+                            </>) : <></>}
 
                             {selectedInventory === 'netrunner' ? (<>
                                 <CharacterNetrunner />

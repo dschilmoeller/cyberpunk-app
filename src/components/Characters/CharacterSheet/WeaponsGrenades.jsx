@@ -49,7 +49,7 @@ export default function WeaponsGrenades() {
             <Grid item xs={12}><Item>Grenades</Item></Grid>
             {charGrenades.map(grenade => {
 
-                return (<>
+                return (
                     <React.Fragment key={grenade.grenade_bridge_id}>
                         <Grid item xs={4} padding={1} >
                             <Grid container>
@@ -60,7 +60,7 @@ export default function WeaponsGrenades() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
-                </>)
+                )
             })}
         </Grid>
     </>)

@@ -23,6 +23,18 @@ function Creation() {
         dispatch({type: "FETCH_NETRUNNER_LIST"})
     })
 
+    useEffect(() => {
+        window.addEventListener('beforeunload', alertUser)
+        return () => {
+            window.removeEventListener('beforeunload', alertUser)
+        }
+    })
+    
+    const alertUser = (event) => {
+        event.preventDefault()
+        event.returnValue = ''
+    }
+
     const creationStep = useSelector((store) => store.characterCreation.creationStep)
 
     return (

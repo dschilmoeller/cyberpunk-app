@@ -162,7 +162,7 @@ export default function DieRollDialog() {
     return (
         <>
 
-            <div className='navLink' fullWidth onClick={handleClickOpen('paper')}>Roll Some Dice</div>
+            <div className='navLink' fullwidth="true" onClick={handleClickOpen('paper')}>Roll Some Dice</div>
             <Dialog
                 open={open}
                 onClose={handleClose}
