@@ -68,7 +68,7 @@ export default function DieRollDialog() {
             return Math.floor(Math.random() * (max - min) + min);
         }
 
-        // as above, but sorted
+        // Sorts randomInt
         function rollDiceSorted(amount) {
             let dieArray = []
             for (let i = 0; i < amount; i++) {
@@ -77,7 +77,7 @@ export default function DieRollDialog() {
             return dieArray.sort((a, b) => (a - b));
         }
 
-        // reroll 10s! 
+        // Sorts randomInt and increases number of dice rolled for each 10 that occurs
         function explodingDiceSorted(amount) {
             let dieArray = []
             for (let i = 0; i < amount; i++) {
@@ -105,14 +105,29 @@ export default function DieRollDialog() {
 
         let outcome = 0;
 
+        // always being plural is annoying, time to make some more variables.
+        let hitWord = ''
+        let glitchWord = ''
+
+        if (successes.length == 1){
+            hitWord = 'hit'
+        } else {
+            hitWord = 'hits'
+        }
+        if (glitches.length == 1){
+            glitchWord = 'glitch'
+        } else {
+            glitchWord = 'glitches'
+        }
+
         if (successes.length > glitches.length) {
-            outcome = `Success with ${successes.length - glitches.length} hits.`
+            outcome = `SUCCESS with ${successes.length - glitches.length} ${hitWord}.`
             // outcome = 0
         } else if (successes.length == glitches.length) {
-            outcome = `Failure with ${successes.length} hits and ${glitches.length} glitches.`
+            outcome = `FAILURE with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
             // outcome = 1
         } else {
-            outcome = `Botch with ${successes.length} hits and ${glitches.length} glitches.`
+            outcome = `BOTCH with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
             // outcome = 2
         }
 
@@ -129,7 +144,7 @@ export default function DieRollDialog() {
             }
         }
 
-        setRollresult(`${dieResultText}. This resulted in a ${outcome}`)
+        setRollresult(`${dieResultText}. This is a ${outcome}`)
         setUsingLuck(false)
     }
 

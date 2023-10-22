@@ -357,7 +357,7 @@ export default function VerticalTabs() {
               <Grid container>
                 <Grid item xs={12} >Luck has a number of uses for a character. Characters can expend a point of temporary luck to do any of the following. A character cannot spend more than one point of luck each round.</Grid>
                 <Grid item xs={12} ><b>Just Plain Lucky:</b> A character can add a single success - basically add a die that came up 10.</Grid>
-                <Grid item xs={12} ><b>Finger on the Scale:</b> A character can reroll a number of dice up to their maximum luck score. They must take the new results, including any additional 1s that come up.</Grid>
+                <Grid item xs={12} ><b>Finger on the Scale:</b> Declared before rolling, a character can reroll any 10s that come up.</Grid>
                 <Grid item xs={12} ><b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
                 <Grid item xs={12} ><b>Trust in The Lady:</b> Before making a roll, once per session, a character can trust in their luck and use their <b>maximum</b> luck in place of an attribute for a single roll. However, any 1s rolled are counted twice - Luck is a fickle mistress.</Grid>
               </Grid>
