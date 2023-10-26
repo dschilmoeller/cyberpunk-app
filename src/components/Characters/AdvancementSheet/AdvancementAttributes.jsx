@@ -8,10 +8,12 @@ import Slide from '@mui/material/Slide';
 
 import AttributesDialog from '../../Modals/AttributesDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
-
 
 export default function AdvancementAttributes() {
 
@@ -23,17 +25,17 @@ export default function AdvancementAttributes() {
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
-    const fulldot = `\u2b24`
-    const emptydot = ` \u25ef`
+    const fullCircle = <CircleIcon />
+    const emptyCircle = <CircleOutlinedIcon />
 
     const attDotReturn = (attribute, max) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < attribute; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fullCircle)
         }
         let j = attribute
         for (j; j <= (max - 1); j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptyCircle)
         }
         return returnedDots
     }

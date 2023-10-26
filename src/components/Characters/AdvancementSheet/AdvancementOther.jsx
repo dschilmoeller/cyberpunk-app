@@ -2,7 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
+
 import SpecialModal from '../../Modals/SpecialModal';
+
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -17,9 +23,9 @@ export default function AdvancementOther() {
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
-    const unhurtMarker = `\u2610`;
-    const stunMarker = `\u2736`;
-    const aggMarker = `\u2718`;
+    const unhurtMarker = <CircleOutlinedIcon />
+    const stunMarker = <HorizontalRuleOutlinedIcon />;
+    const aggMarker = <AcUnitIcon />;
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {

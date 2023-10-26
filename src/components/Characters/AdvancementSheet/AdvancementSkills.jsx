@@ -5,6 +5,9 @@ import Item from '../CharacterSheet/Item';
 
 import SkillsDialog from '../../Modals/SkillsDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -18,8 +21,8 @@ export default function AdvancementSkills() {
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fullCircle = <CircleIcon />
+    const emptyCircle = <CircleOutlinedIcon />
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -27,13 +30,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
     const skillDotReturn = (skill) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fullCircle)
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptyCircle)
         }
         return returnedDots
     }

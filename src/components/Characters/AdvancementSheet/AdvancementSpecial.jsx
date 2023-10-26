@@ -5,6 +5,9 @@ import Item from '../CharacterSheet/Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
 
+import CircleIcon from '@mui/icons-material/Circle';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -18,8 +21,8 @@ export default function AdvancementSpecial() {
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
-    const fulldot = ` \u2b24`
-    const emptydot = ` \u25ef`
+    const fullCircle = <CircleIcon />
+    const emptyCircle = <CircleOutlinedIcon />
 
     const [availableMedSkillPoints, setAvailableMedSkillPoints] = useState(0)
     const [availableMakerSkillPoints, setAvailableMakerSkillPoints] = useState(0)
@@ -31,26 +34,26 @@ export default function AdvancementSpecial() {
     });
 
     const roleDotReturn = (role) => {
-        let returnedDots = ''
+        let returnedDots = []
         for (let i = 0; i < role; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fullCircle)
         }
         let j = role
         for (j; j < 10; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptyCircle)
         }
         return returnedDots
     }
 
     const dotReturn = (role) => {
-        let returnedDots = ''
+        let returnedDots = []
 
         for (let i = 0; i < role; i++) {
-            returnedDots += fulldot;
+            returnedDots.push(fullCircle);
         }
         let j = role
         for (j; j <= 4; j++) {
-            returnedDots += emptydot
+            returnedDots.push(emptyCircle)
         }
         return returnedDots
     }
