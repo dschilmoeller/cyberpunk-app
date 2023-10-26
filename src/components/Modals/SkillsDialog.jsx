@@ -68,7 +68,7 @@ export default function SkillsDialog({ prop }) {
             case 'Stealth':
                 return `Stealth is a character's ability to move undetected. It can also cover camoflauging ones person or equipment.`
             case 'Survival':
-                return `Survival is a character's ability to survive in a harsh, non-urban environment. Outdoor survivalists, nomadds, and the like use this skill regularly, mostly to tell whether or not the cactus water is going to make them see things again.`
+                return `Survival is a character's ability to survive in a harsh, non-urban environment. Outdoor survivalists, nomads, and the like use this skill regularly, mostly to tell whether or not the cactus water is going to make them see things again.`
             case 'Tracking':
                 return `Tracking is a character's ability to follow signs and evidence to locate prey of some kind. Bounty Hunters and Big Game Enthusiasts alike have many uses for this skill.`
 

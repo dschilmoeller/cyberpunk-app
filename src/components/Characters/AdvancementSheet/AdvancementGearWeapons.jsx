@@ -27,7 +27,6 @@ export default function AdvancementGearWeapons() {
     }
 
     return (<>
-        <h1>Weapons!</h1>
         <h1>Equipped Weapons</h1>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
