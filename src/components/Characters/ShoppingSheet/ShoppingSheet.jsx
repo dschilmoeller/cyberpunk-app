@@ -88,7 +88,7 @@ function ShoppingSheet() {
                                 <Item>Player: {advancementDetails.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Campaign: {advancementDetails.campaign} </Item>
+                                <Item>Campaign: {advancementDetails.campaign_name} </Item>
                             </Grid>
                         </Grid>
 

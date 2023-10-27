@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -14,8 +13,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
-
-// TURN INTO A FREAKING TABLE I GUESS
 
 function CharacterList() {
   const characterList = useSelector((store) => store.characterList);
@@ -141,16 +138,16 @@ function CharacterList() {
     setOrderBy(property);
   };
 
-  function createCharListData(handle, id, campaign) {
+  function createCharListData(handle, id, campaign, campaign_name) {
     return {
-      handle, id, campaign
+      handle, id, campaign, campaign_name
     }
   }
 
   // take charMiscGear data and push into array for conversion into rows.
   const charListRows = []
   for (let i = 0; i < characterList.length; i++) {
-    charListRows.push(createCharListData(characterList[i].handle, characterList[i].id, characterList[i].campaign))
+    charListRows.push(createCharListData(characterList[i].handle, characterList[i].id, characterList[i].campaign, characterList[i].campaign_name  ))
   }
 
   const sortedCharListRows = React.useMemo(
@@ -175,6 +172,8 @@ function CharacterList() {
     history.push(`/shopSheet/${id}`)
   }
 
+
+
   return (<>
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -194,7 +193,7 @@ function CharacterList() {
                 return (
                   <TableRow hover key={row.id}>
                     <TableCell align='center' padding="none"><Button fullWidth variant='contained' onClick={() => moveToCharacterSheet(row.id)}>{row.handle}</Button></TableCell>
-                    <TableCell align='center' padding="none">{row.campaign}</TableCell>
+                    <TableCell align='center' padding="none">{row.campaign_name}</TableCell>
                     <TableCell padding="none"><Button fullWidth onClick={() => moveToAdvancementSheet(row.id)}>Spend XP & Equip Gear </Button></TableCell>
                     <TableCell padding="none"><Button fullWidth variant='outlined' onClick={() => moveToShopSheet(row.id)}>Shopping </Button></TableCell>
                   </TableRow>

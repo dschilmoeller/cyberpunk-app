@@ -101,7 +101,7 @@ function CharacterSheet() {
                                 <Item>Player: {charDetail.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Campaign: {charDetail.campaign} </Item>
+                                <Item>Campaign: {charDetail.campaign_name} </Item>
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />

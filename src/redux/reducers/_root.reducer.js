@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 
 import characterList from './characterList.reducer';
+import campaigns from './campaigns.reducer';
 
 import characterDetail from './characterDetail.reducer';
 import characterCyberDetail from './characterCyberDetail.reducer';
@@ -39,6 +40,7 @@ import advancementGear from './advancementGear.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
+  campaigns, // list of available campaigns to play in
   characterList, // contains list of character names & ids
   characterDetail, // contains details of active character
   characterCyberDetail, // contains data of relevant bridge table row for character

@@ -4,7 +4,8 @@ import Item from '../Characters/CharacterSheet/Item';
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
-
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 function CreationFirstSteps() {
     const dispatch = useDispatch()
@@ -14,12 +15,18 @@ function CreationFirstSteps() {
     const [handle, setHandle] = useState(charDetail.handle)
     const [player, setPlayer] = useState(charDetail.player)
     const [campaign, setCampaign] = useState(charDetail.campaign)
+    const [campaignName, setCampaignName] = useState('')
 
-    const campaigns = [
-        { label: 'Gatti Ombre', id: 1 },
-        { label: 'Test Campaign', id: 2 },
-        { label: 'Just Fizz-Bizz', id: 3 }
-    ]
+    const campaignList = useSelector(store => store.campaigns)
+
+    const selectCampaign = (value) => {
+        setCampaign(value)
+        campaignList.map(campaign => {
+            if (value == campaign.campaign_id) {
+                setCampaignName(campaign.campaign_name)
+            }
+        })
+    }
 
     const handleSubmit = () => {
         event.preventDefault();
@@ -27,8 +34,10 @@ function CreationFirstSteps() {
             handle,
             player,
             campaign,
+            campaignName
         }
-        
+        console.log(`CampaignName:`, campaignName);
+
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
 
         if (creationReviewReached === false) {
@@ -41,7 +50,6 @@ function CreationFirstSteps() {
     // const instaFill = () => {
     //     setHandle('Mad Maxine')
     //     setPlayer('Schwami')
-    //     setCampaign('Gatti Ombre')
     // }
     return (<>
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
@@ -90,14 +98,14 @@ function CreationFirstSteps() {
                     <Item><Typography variant='subtitle1'>What campaign is the character playing in?</Typography></Item>
                 </Grid>
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
-                    <TextField
-                        label="Campaign"
-                        onChange={e => setCampaign(e.target.value)}
-                        required
-                        type='text'
+                    <Select
                         value={campaign}
                         fullWidth
-                    />
+                        onChange={e => selectCampaign(e.target.value)}>
+                        {campaignList.map(campaign => {
+                                return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
+                        })}
+                    </Select>
                 </Grid>
 
                 <Grid item xs={12}>

@@ -210,7 +210,7 @@ export default function CreationReview() {
                             <Item>Player: {charDetail.player}</Item>
                         </Grid>
                         <Grid item xs={4}>
-                            <Item>Campaign: {charDetail.campaign} </Item>
+                            <Item>Campaign: {charDetail.campaignName} </Item>
                         </Grid>
 
                         <Grid item xs={12}><Item>

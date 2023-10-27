@@ -10,12 +10,23 @@ const { rejectNonAdmin } = require('../modules/rejectNonAdmin')
 // add res.send(error) to catch statements.
 // Eventually - GM section or change commands to allow for user type.
 
-
+// Fetch campaigns
+router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "campaigns" ORDER BY campaign_id ASC`
+    pool.query(sqlText)
+    .then((result) => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching campaigns`, err);
+    })
+})
 
 // fetch characters list route
 router.get('/fetchallcharacters', rejectUnauthenticated, (req, res) => {
-    const sqlText = `SELECT id, handle, campaign
+    const sqlText = `SELECT id, handle, campaign, campaign_name
     FROM "character"
+    JOIN "campaigns" ON "campaigns"."campaign_id" = "character"."campaign"
     WHERE user_id = $1
     ORDER BY id ASC
     `
@@ -31,6 +42,7 @@ router.get('/fetchallcharacters', rejectUnauthenticated, (req, res) => {
 
 router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
+    JOIN "campaigns" ON "character"."campaign" = "campaigns"."campaign_id"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
@@ -298,6 +310,7 @@ router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
 router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
     JOIN "char_status" ON "char_status"."char_id" = "character"."id"
+    JOIN "campaigns" ON "campaigns"."campaign_id" = "character"."campaign"
     WHERE id = $1`
     pool.query(sqlText, [req.params.id])
         .then((result) => {

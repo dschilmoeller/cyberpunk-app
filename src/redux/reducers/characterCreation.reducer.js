@@ -1,6 +1,6 @@
 const characterCreation = (state = {
     creationStep: 'first_steps',
-    handle: '', player: '', campaign: '',
+    handle: '', player: '', campaign: 1, campaign_name: 'Unknown/Undecided',
 
     strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
@@ -27,7 +27,7 @@ const characterCreation = (state = {
     if (action.type === 'CLEAR_CREATION_DETAILS') {
         return {
             creationStep: 'first_steps',
-            handle: '', player: '', campaign: '',
+            handle: '', player: '', campaign: 1, campaign_name: 'Unknown/Undecided',
 
             strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0,
 
@@ -65,6 +65,7 @@ const characterCreation = (state = {
             handle: ap.handle,
             player: ap.player,
             campaign: ap.campaign,
+            campaignName: ap.campaignName
         }
     }
     if (action.type === "SET_CREATION_ATTRIBUTES") {

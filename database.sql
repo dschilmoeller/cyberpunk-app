@@ -10,7 +10,7 @@ CREATE TABLE "character" (
 	"user_id" integer NOT NULL,
 	"handle" varchar NOT NULL,
 	"player" varchar NOT NULL,
-	"campaign" varchar NOT NULL,
+	"campaign" INT NOT NULL,
 	"is_paramedical" bool NOT NULL DEFAULT false,
 	"strength" integer NOT NULL DEFAULT '1',
 	"cyber_strength" integer NOT NULL DEFAULT '0',
@@ -85,6 +85,19 @@ CREATE TABLE "character" (
 
 ALTER TABLE "character"
 ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
+
+ALTER TABLE "character"
+ADD CONSTRAINT "char_fk1" FOREIGN KEY ("campaign") REFERENCES "campaigns"("campaign_id");
+
+CREATE TABLE "campaigns" (
+	"campaign_id" SERIAL PRIMARY KEY,
+	"campaign_name" VARCHAR NOT NULL,
+	CONSTRAINT "campaign_pk" PRIMARY KEY ("campaign_id")
+) WITH (OIDS = FALSE);
+
+INSERT INTO "campaigns" ("name")
+VALUES
+("Unknown/Not Decided");
 
 CREATE TABLE "char_status" (
 	"char_status_id" serial NOT NULL,
@@ -1039,6 +1052,7 @@ INSERT INTO "weapon_mod2_master" ("mod_2_name")
 VALUES ('Not Modded');
 INSERT INTO "armor_mod_master" ("name")
 VALUES ('Not Modded');
+
 
 INSERT INTO "public"."armor_master"("armor_master_id","name","quality","price","description")
 VALUES (1,E'Clothes',1,10,E'Standard clothing with mild antiballistic properties.'),
