@@ -16,6 +16,14 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Item from '../Characters/CharacterSheet/Item';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function CreationGear() {
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
@@ -43,6 +51,11 @@ export default function CreationGear() {
 
     const [bank, setBank] = useState(gearbucks)
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     // value/handleChange are for tabs.
     const [value, setValue] = useState('Armor')
     const [netrunnerValue, setNetrunnerValue] = useState('deck')
@@ -59,7 +72,7 @@ export default function CreationGear() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_ARMOR", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -73,7 +86,7 @@ export default function CreationGear() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_SHIELD", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -87,7 +100,7 @@ export default function CreationGear() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_WEAPON", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -101,7 +114,7 @@ export default function CreationGear() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_GEAR", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -115,7 +128,7 @@ export default function CreationGear() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_NETRUNNER_GEAR", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -133,6 +146,19 @@ export default function CreationGear() {
     }
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient Funds!
+            </Alert>
+        </Snackbar >
+
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
             <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></Typography></Item></Grid>
             <Grid item xs={12}><Item sx={{ height: 1 }}>Remember: You can't take it with you. You'll have a different pool of money for cyberware next!</Item></Grid>

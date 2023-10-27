@@ -594,6 +594,8 @@ export default function CreationReview() {
                             </TableContainer>
                         </Grid>
 
+                        { charDetail.netrunnerGear.length > 0 ? 
+                        <>
                         <Grid container spacing={1} padding={2}>
                             <Grid item display={'flex'} justifyContent={'center'} xs={12}>Netrunner Gear</Grid>
                             <TableContainer component={Paper}>
@@ -617,6 +619,7 @@ export default function CreationReview() {
                                 </Table>
                             </TableContainer>
                         </Grid>
+                        </> : <></> }
 
                         <Grid container spacing={1} padding={2}>
                             <Grid item display={'flex'} justifyContent={'center'} xs={12}>

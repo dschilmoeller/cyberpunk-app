@@ -17,6 +17,14 @@ import { Grid } from '@mui/material';
 
 import { Button } from '@mui/material';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 export default function CreationCyberware() {
 
     const dispatch = useDispatch();
@@ -29,9 +37,15 @@ export default function CreationCyberware() {
 
     const euroBuck = `\u20AC$`
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
     const handleChange = (event, newValue) => {
         setSelectedList(newValue)
     }
+
     const cyberwareTableList = []
     const cyberwareTableBuilder = () => {
         const createCyberwareData = (cyberware_master_id, name, price, description, humanity_loss_min, humanity_loss_max, install_level, type) => {
@@ -50,7 +64,7 @@ export default function CreationCyberware() {
             setBank(bank - price)
             dispatch({ type: "CREATION_BUY_CYBERWARE", payload: index, newBank: (bank - price) })
         } else {
-            alert("Insufficient funds")
+            setShowSnackbar(true)
         }
     }
 
@@ -61,10 +75,23 @@ export default function CreationCyberware() {
 
     const savePurchases = () => {
         dispatch({ type: "SET_CREATION_STEP", payload: 'review' })
-        dispatch({ type: "CREATION_REVIEW_REACHED"})
+        dispatch({ type: "CREATION_REVIEW_REACHED" })
     }
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient Funds!
+            </Alert>
+        </Snackbar >
+
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
             <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></Typography></Item></Grid>
             <Grid item xs={12}><Item sx={{ height: 1 }}>Remember: You can't take it with you.</Item></Grid>
