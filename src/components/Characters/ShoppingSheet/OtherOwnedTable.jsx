@@ -86,7 +86,7 @@ export default function OtherOwnedTable() {
         },
         {
             id: 'sell',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Sell',
         },
@@ -106,7 +106,7 @@ export default function OtherOwnedTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -190,7 +190,7 @@ export default function OtherOwnedTable() {
                             {sortedCharOtherRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.char_gear_bridge_id}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell >{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
@@ -200,7 +200,7 @@ export default function OtherOwnedTable() {
                             {boughtMiscGear.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
+                                        <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>

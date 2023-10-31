@@ -195,7 +195,7 @@ export default function GMGiveGrenade() {
                             {sortedGrenadeMasterRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.name}>
-                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">Strength * 5 Meters</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>

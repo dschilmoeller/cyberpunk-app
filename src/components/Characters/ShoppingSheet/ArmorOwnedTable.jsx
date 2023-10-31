@@ -92,7 +92,7 @@ export default function ArmorOwnedTable() {
         },
         {
             id: 'description',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Description',
         },
@@ -104,7 +104,7 @@ export default function ArmorOwnedTable() {
         },
         {
             id: 'sell',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Sell',
         },
@@ -123,8 +123,8 @@ export default function ArmorOwnedTable() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={headCell.numeric ? 'center' : 'center'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            align={headCell.numeric ? 'center' : 'left'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -218,7 +218,7 @@ export default function ArmorOwnedTable() {
                                     if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
-                                                <TableCell padding="none">{row.name}</TableCell>
+                                                <TableCell >{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
@@ -230,7 +230,7 @@ export default function ArmorOwnedTable() {
                                 {boughtArmor.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
-                                            <TableCell padding="none" align="left">{item.name} </TableCell>
+                                            <TableCell  align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
@@ -242,7 +242,7 @@ export default function ArmorOwnedTable() {
                                     if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
-                                                <TableCell padding="none">{row.name}</TableCell>
+                                                <TableCell>{row.name}</TableCell>
                                                 <TableCell align="center">{row.quality}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
@@ -254,7 +254,7 @@ export default function ArmorOwnedTable() {
                                 {boughtShield.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
-                                            <TableCell padding="none" align="left">{item.name} </TableCell>
+                                            <TableCell align="left">{item.name} </TableCell>
                                             <TableCell align="center">{item.quality}</TableCell>
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>

@@ -10,6 +10,9 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -27,6 +30,7 @@ export default function GameMasterMain() {
     const params = useParams();
 
     const charDetail = useSelector(store => store.advancementDetail)
+    const campaignList = useSelector(store => store.campaigns)
 
     const euroBuck = `\u20AC$`
 
@@ -38,17 +42,42 @@ export default function GameMasterMain() {
     const [handle, setHandle] = useState(charDetail.handle)
     const [player, setPlayer] = useState(charDetail.player)
     const [campaign, setCampaign] = useState(charDetail.campaign)
+    const [campaignName, setCampaignName] = useState(charDetail.campaign_name)
     const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
 
+    const [campaignWords, setCampaignWords] = useState(charDetail.campaignWords)
+
     useEffect(() => {
-        // fetch initial details - commented - don't refetch every time page is loaded, was causing issues with other GM increases.
-        // dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         setHandle(charDetail.handle)
         setPlayer(charDetail.player)
         setCampaign(charDetail.campaign)
-    }, [charDetail.id])
+        effectChangeCampaign(charDetail.campaign)
+    }, [charDetail.id, charDetail.campaign])
 
+    useEffect(() => {
+        dispatch({ type: "FETCH_CAMPAIGNS" })
+    }, [])
+
+    const effectChangeCampaign = (value) => {
+        campaignList.map(campaign => {
+            if (value == campaign.campaign_id) {
+                setCampaignName(campaign.campaign_name)
+                setCampaign(value)
+            }
+        })
+    }
+
+    const changeCampaign = (value) => {
+        campaignList.map(campaign => {
+            if (value == campaign.campaign_id) {
+                setCampaignName(campaign.campaign_name)
+                setCampaign(value)
+                dispatch({ type: "GM_CHANGE_CAMPAIGN", payload: { campaign: campaign.campaign_id, campaign_name: campaign.campaign_name, campaignWords: ' (changed)' } })
+            }
+        })
+        setCampaignWords(' (changed)')
+    }
 
     const changeHumanity = (type, amount) => {
         if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
@@ -101,11 +130,20 @@ export default function GameMasterMain() {
             <Grid item xs={2.5} textAlign={'center'}>Player: {charDetail.player}</Grid>
             <Grid item xs={2.5} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
 
-            <Grid item xs={2.5} textAlign={'center'}>Campaign: {charDetail.campaign}</Grid>
-            <Grid item xs={2.5} marginRight={2}><TextField fullWidth variant='standard' label='Change Campaign' value={campaign || ''} onChange={(event) => { setCampaign(event.target.value) }} /></Grid>
+            <Grid item xs={3.5} textAlign={'center'}>Campaign{campaignWords}: {campaignName}</Grid>
+            <Grid item xs={3.5} marginRight={2}>
+                <Select
+                    value={campaign}
+                    fullWidth
+                    onChange={e => changeCampaign(e.target.value)}>
+                    {campaignList.map(campaign => {
+                        return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
+                    })}
+                </Select>
+            </Grid>
 
 
-            <Grid item xs={6}>
+            <Grid item xs={4}>
                 <Item>
                     <FormGroup>
                         <FormControlLabel control={<Switch

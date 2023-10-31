@@ -80,7 +80,7 @@ export default function GameMasterSheet() {
     // move handle, player, campaign to reducer.
     const saveCharacter = () => {
         dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, gear: equipmentDetails, mods: modDetails, handle: handle, player: player, campaign: campaign } })
-        // history.push('/gamemaster/')
+        history.push('/gamemaster/')
     }
 
     return (<>

@@ -105,7 +105,7 @@ export default function ArmorMasterTable() {
         },
         {
             id: 'description',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Description',
         },
@@ -137,7 +137,7 @@ export default function ArmorMasterTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -240,7 +240,7 @@ export default function ArmorMasterTable() {
                             {sortedMasterArmorRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.armor_master_id}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell padding="left">{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
@@ -251,7 +251,7 @@ export default function ArmorMasterTable() {
                             {sortedMasterShieldRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.shield_master_id}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell padding="left">{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>

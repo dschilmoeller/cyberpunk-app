@@ -192,7 +192,7 @@ export default function NetrunnerOwnedTable() {
                                 if (row.equipped === 'false') {
                                     return (
                                         <TableRow hover key={row.netrunner_bridge_id}>
-                                            <TableCell padding="none">{row.name}</TableCell>
+                                            <TableCell >{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
@@ -204,7 +204,7 @@ export default function NetrunnerOwnedTable() {
                             {boughtNetrunnerGear.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
+                                        <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => sellBoughtGear(item)}>Sell</Button></TableCell>

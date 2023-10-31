@@ -1,9 +1,9 @@
-const advancementDetail = (state = {}, action) => {
+const advancementDetail = (state = {campaign: 1, campaignWords: ''}, action) => {
     if (action.type === "SET_ADVANCEMENT_DETAIL") {
         return action.payload;
     }
     if (action.type === 'CLEAR_ADVANCEMENT_DETAIL') {
-        return [{ name: '' }]
+        return [{ name: '', campaign: 1, campaignWords: ''}]
     }
     if (action.type === 'INCREASE_ATTRIBUTE') {
         return {
@@ -285,6 +285,14 @@ const advancementDetail = (state = {}, action) => {
 
 
     // GM changes
+    if (action.type === 'GM_CHANGE_CAMPAIGN') {
+        return {
+            ...state,
+            campaign: action.payload.campaign,
+            campaign_name: action.payload.campaign_name,
+            campaignWords: action.payload.campaignWords
+        }
+    }
     if (action.type === 'GM_CHANGE_TEMP_HUMANITY_LOSS') {
         return {
             ...state,

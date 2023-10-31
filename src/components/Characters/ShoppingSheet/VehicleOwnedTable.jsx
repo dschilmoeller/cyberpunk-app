@@ -289,7 +289,7 @@ export default function VehicleOwnedTable() {
                                                 <TableCell padding='normal'>{row.name}</TableCell>
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{row.health}</TableCell>
-                                                <TableCell align="center">{row.seats + row.extra_seats}</TableCell>
+                                                <TableCell align="center">{row.seats}</TableCell>
                                                 <TableCell align="center">{row.move}</TableCell>
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>

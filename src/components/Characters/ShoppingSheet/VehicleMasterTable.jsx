@@ -173,8 +173,8 @@ export default function VehicleMasterTable() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={'center'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            align={headCell.numeric ? 'center' : 'left'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel

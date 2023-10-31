@@ -246,7 +246,7 @@ export default function GMOwnedWeapons() {
                             {sortedCharWeaponRows.map((row) => {
                                     return (
                                         <TableRow hover key={row.weapon_bridge_id}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.damage}</TableCell>
                                             <TableCell align="center">{row.range}</TableCell>
                                             <TableCell align="center">{row.rof}</TableCell>
@@ -262,7 +262,7 @@ export default function GMOwnedWeapons() {
                             {boughtWeapons.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
+                                        <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                         <TableCell align="center">{item.range}</TableCell>
                                         <TableCell align="center">{item.rof}</TableCell>

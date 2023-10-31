@@ -75,7 +75,7 @@ export default function GrenadeOwnedTable() {
         },
         {
             id: 'description',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Description',
         },
@@ -93,7 +93,7 @@ export default function GrenadeOwnedTable() {
         },
         {
             id: 'sell',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Sell',
         },
@@ -113,7 +113,7 @@ export default function GrenadeOwnedTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -201,7 +201,7 @@ export default function GrenadeOwnedTable() {
                             {sortedCharGrenadeRows.map((row) => {
                                     return (
                                         <TableRow hover key={row.grenade_bridge_id}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
@@ -212,7 +212,7 @@ export default function GrenadeOwnedTable() {
                             {boughtGrenades.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
+                                        <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>

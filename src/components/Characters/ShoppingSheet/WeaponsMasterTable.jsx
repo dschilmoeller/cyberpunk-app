@@ -81,7 +81,7 @@ export default function WeaponsMasterTable() {
     const headCells = [
         {
             id: 'name',
-            numeric: false,
+            numeric: true,
             disablePadding: true,
             label: 'Name',
         },
@@ -149,7 +149,7 @@ export default function WeaponsMasterTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -267,7 +267,7 @@ export default function WeaponsMasterTable() {
                                 if (row.is_treasure === false) {
                                     return (
                                         <TableRow hover key={row.name}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.damage}</TableCell>
                                             <TableCell align="center">{row.range}</TableCell>
                                             <TableCell align="center">{row.rof}</TableCell>

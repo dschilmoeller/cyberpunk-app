@@ -978,8 +978,8 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
         "maker" = $51, "maker_field" = $52, "maker_upgrade" = $53, "maker_fab" = $54, "maker_invent" = $55,
         "perm_humanity_loss" = $56, "temp_humanity_loss" = $57, "max_luck" = $58, "max_xp" = $59, "spent_xp" = $60, "bank" = $61,
         "cyber_strength" = $62, "cyber_body" = $63, "cyber_reflexes" = $64, "cyber_appearance" = $65, "cyber_cool" = $66, "cyber_intelligence" = $67,
-        "cyberdeck_slots" = $68, "nomad_vehicle_slots" = $69
-        WHERE id = $70`
+        "cyberdeck_slots" = $68, "nomad_vehicle_slots" = $69, "campaign" = $70
+        WHERE id = $71`
 
     const charParams = [rb.is_paramedical,
     rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
@@ -989,7 +989,7 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.med_surgery, rb.med_pharma, rb.med_cryo,
     rb.maker, rb.maker_field, rb.maker_upgrade, rb.maker_fab, rb.maker_invent, rb.perm_humanity_loss, rb.temp_humanity_loss, rb.max_luck, rb.max_xp, rb.spent_xp, rb.bank,
     rb.cyber_strength, rb.cyber_body, rb.cyber_reflexes, rb.cyber_appearance, rb.cyber_cool, rb.cyber_intelligence,
-    rb.cyberdeck_slots, rb.nomad_vehicle_slots,
+    rb.cyberdeck_slots, rb.nomad_vehicle_slots, rb.campaign,
     rb.char_id]
 
     pool.query(charSqlText, charParams)

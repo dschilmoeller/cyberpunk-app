@@ -125,7 +125,7 @@ export default function GrenadeMasterTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -224,7 +224,7 @@ export default function GrenadeMasterTable() {
                                 if (row.is_treasure === false) {
                                     return (
                                         <TableRow hover key={row.name}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell align="left"><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">Strength * 5 Meters</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>

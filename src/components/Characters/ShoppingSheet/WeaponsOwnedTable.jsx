@@ -105,7 +105,7 @@ export default function WeaponsOwnedTable() {
         },
         {
             id: 'concealable',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Concealable',
         },
@@ -117,7 +117,7 @@ export default function WeaponsOwnedTable() {
         },
         {
             id: 'sell',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Sell',
         },
@@ -137,7 +137,7 @@ export default function WeaponsOwnedTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -240,7 +240,7 @@ export default function WeaponsOwnedTable() {
                                 if (row.equipped === false) {
                                     return (
                                         <TableRow hover key={row.weapon_bridge_id}>
-                                            <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.damage}</TableCell>
                                             <TableCell align="center">{row.range}</TableCell>
                                             <TableCell align="center">{row.rof}</TableCell>
@@ -256,7 +256,7 @@ export default function WeaponsOwnedTable() {
                             {boughtWeapons.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none" align="left">{item.name} </TableCell>
+                                        <TableCell align="left">{item.name} </TableCell>
                                         <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
                                         <TableCell align="center">{item.range}</TableCell>
                                         <TableCell align="center">{item.rof}</TableCell>

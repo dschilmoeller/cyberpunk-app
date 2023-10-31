@@ -202,7 +202,7 @@ export default function GMOwnedGrenade() {
                             {sortedCharGrenadeRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.grenade_bridge_id}>
-                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
@@ -213,7 +213,7 @@ export default function GMOwnedGrenade() {
                             {boughtGrenades.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
-                                        <TableCell padding="none"><WeaponDialog prop={item.name} /></TableCell>
+                                        <TableCell><WeaponDialog prop={item.name} /></TableCell>
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>

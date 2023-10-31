@@ -236,7 +236,7 @@ export default function GMGiveWeapons() {
                             {sortedWeaponMasterRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.name}>
-                                        <TableCell padding="none"><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell ><WeaponDialog prop={row.name} /></TableCell>
                                         <TableCell align="left">{row.damage}</TableCell>
                                         <TableCell align="left">{row.range}</TableCell>
                                         <TableCell align="left">{row.rof}</TableCell>

@@ -176,7 +176,7 @@ export default function GMGiveGearOther() {
                             {sortedOtherMasterRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.name}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Give</Button></TableCell>

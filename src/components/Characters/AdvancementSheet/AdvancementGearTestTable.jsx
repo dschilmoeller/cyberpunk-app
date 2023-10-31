@@ -279,7 +279,7 @@ export default function TestTable() {
                             {sortedCharWeaponRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.weapon_bridge_id}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.damage}</TableCell>
                                         <TableCell align="center">{row.range}</TableCell>
                                         <TableCell align="center">{row.rof}</TableCell>

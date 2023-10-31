@@ -98,7 +98,7 @@ export default function OtherMasterTable() {
         },
         {
             id: 'purchase',
-            numeric: false,
+            numeric: true,
             disablePadding: false,
             label: 'Purchase',
         },
@@ -118,7 +118,7 @@ export default function OtherMasterTable() {
                         <TableCell
                             key={headCell.id}
                             align={headCell.numeric ? 'center' : 'left'}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            padding={headCell.disablePadding ? 'normal' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -206,7 +206,7 @@ export default function OtherMasterTable() {
                             {sortedOtherMasterRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.name}>
-                                        <TableCell padding="none">{row.name}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
