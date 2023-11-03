@@ -141,70 +141,74 @@ export default function VerticalTabs() {
   return (
     <Box
       sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 1 }}
+
     >
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Chapter Tabs"
+      <Box position={"fixed"}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          aria-label="Chapter Tabs"
+          sx={{ borderRight: 1, borderColor: 'divider', minWidth: '11rem', maxWidth: '11rem' }}
+        >
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="1 - Introduction" {...a11yProps(0)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="2 - Attributes and Skills" {...a11yProps(1)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="3 - Roles" {...a11yProps(2)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="4 - Gear" {...a11yProps(3)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="5 - Cyberware" {...a11yProps(4)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="6 - Netrunning" {...a11yProps(5)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="7 - Actions & Combat" {...a11yProps(6)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="8 - Injuries & Dying" {...a11yProps(7)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="9 - Vehicles" {...a11yProps(8)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="10 - Character Generation" {...a11yProps(9)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="11 - Character Advancement" {...a11yProps(10)} />
+        </Tabs>
+      </Box>
 
-        sx={{ borderRight: 1, borderColor: 'divider', minWidth: '11rem', maxWidth: '11rem' }}
-      >
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="1 - Introduction" {...a11yProps(0)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="2 - Attributes and Skills" {...a11yProps(1)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="3 - Roles" {...a11yProps(2)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="4 - Gear" {...a11yProps(3)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="5 - Cyberware" {...a11yProps(4)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="6 - Netrunning" {...a11yProps(5)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="7 - Actions & Combat" {...a11yProps(6)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="8 - Injuries & Dying" {...a11yProps(7)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="9 - Vehicles" {...a11yProps(8)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="10 - Character Generation" {...a11yProps(9)} />
-        <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="11 - Character Advancement" {...a11yProps(10)} />
-      </Tabs>
+      <Box paddingLeft={'11rem'}>
+        <TabPanel value={value} index={0}>
+          <Grid container spacing={1} padding={1}>
 
-      <TabPanel value={value} index={0}>
-        <Grid container spacing={1} padding={1}>
+            <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial product or object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public; the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='h4'>Core Concepts: Dice Rolling</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Generally, the GM will tell players when to roll dice, and provide three pieces of information: the Parameters of the roll, the Type of roll is happening, and the Difficulty Value.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='h6'>Roll Parameters & Die Pool</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Most rolls will consist of one or two parameters. Typically, this is an Attribute + something else, such as a skill, role ability, or other stat. The combination of a character's score in the Parameters is the number of 10 sided dice they can roll. This is commonly referred to as a Player's <b>Die Pool</b>.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='h6'>Roll Type</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Rolls have two primary types: Simple and Contested. A Simple roll requires a Player to score one or more successes. A Contested roll requires a Player to score <b>more</b> successes than their opponent. Most rolls are simple outside of combat, sneaking around, and lying.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='h6'>Difficulty Value (DV)</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>The Difficulty Value (commonly abbreviated to DV throughout this ruleset and website) is the target on a 10 sided die roll. The 'default' difficulty value is 6. Many tasks have a higher difficulty value - 7 representing something harder than average, 9 being extremely challenging. For math reasons, a DV of 10 is not used - see Glitching and Botching, below. Likewise, some tasks are easier than others - 5 being quite simple, and 4 being the lowest a difficulty value should go - lower than that and its really not worth rolling in most cases. In cases where a difficulty would go over 10, it instead becomes 9 and a required success is added. So something that normally has a DV8 that receives a +2 DV modifier results in a DV9 (2+) - that is, a roll with a Difficulty Value of 9, requiring 2 successes to accomplish.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='h6'>Succeeding, Glitching and Botching</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>While rolling their die pool, any dice a Player rolls that come up equal to or higher than the Difficulty Value is called a 'success' or 'hit'. However, any dice that comes up as a 1 is called a 'glitch die', 'botch die', or a '#$%*ing 1'. In any case, both successes and 1s are totaled up.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>In a Simple roll, a player simply needs more successes than 1s to succeed. In this instance, if the player has gotten no successes and no 1s, they have simply failed at whatever they are doing. If they have more successees than 1s, they have succeeded at their task (most likely - some tasks require more than one success to achieve). If they have rolled some number of successes and an EQUAL number of 1s, the player has made a 'glitch' - they've technically succeeded, but something has gone awry - the GM is encouraged to be inventive. If their roll has MORE 1s than successes, they have Botched - not only have they failed, something else has gone wrong. Finally, if they roll and manage to score NO successes and at least one 1, they have Critically Botched - not only did they fail, but something is about to go about as wrong as humanly possible.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>In a Contested roll, things are similar - the player wants to roll as many hits as possible and avoid 1s. The key difference is that they may need more than 1 success - the number is determined by how many successes their opponent got on their roll.</Typography></Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'><i>Examples:</i></Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'><i>Simple Roll: Tahei is trying to find a place to crash on the streets. The GM determines the Parameters of the roll to be Intelligence & Streetwise. Tahei's player consults his sheet, and notes his total - 5 dice. As he is in a relatively decent part of town, the GM declares it is a Simple roll against the standard DV (6). Tahei rolls 5 dice, and gets 1, 3, 6, 7, and 10. That's 3 hits and 1 glitch; Tahei has successfully found an unattended nook and can sleep undisturbed.</i></Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'><i>Contested Roll: Ace is trying to charm a bouncer into letting them into a Nightclub without paying the cover. The GM determines the bouncer is going to be difficult about it. The parameters are Cool + Fast Talk, which happens to be Ace's specialty - they roll a whopping 8 dice. The bouncer will be rolling Willpower + Streetwise, with a pool of 4 dice. However, Ace's DV is 7 - this is not an easy thing they're doing; while the bouncer's is only 5 - denying people entry is about half of what they do. Ace gets 1,1,3,5,6,8,8,9 - only 3 successes. The bouncer gets a 2,3,5,7 - A total of 2 successes. Ace manages to talk the bouncer into letting them into the club.</i></Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'><i>Glitched Roll: Mad Maxine is trying sneak past a group of Gangers she owes money to. The GM determines the Parameters of the roll to be Reflexes + Stealth. Maxine consults her sheet, notes the total - only 3 dice. Thankfully, the Gangers aren't very alert. Rather than making a contested roll, the GM decides this is easier to handle with a simple roll at DV 5. Maxine rolls a 1, 2, 5 - a glitch. She manages to sneak past the Gangers, but can't help but dropping one of her trademark purple and red glowsticks on the path behind them. The gangers soon know she was in the area, and are going to be looking for her.</i></Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'><i>Botched Roll: Dr Chill has been kidnapped and is forced to perform a heart transplant on a Tyger Claw boss. The GM decides this will be an extended contested roll - the Dr needs to get 5 successes, but can roll Technique + Surgery as many times as it requires, with each roll representing an hour of surgery. His DV is 9, however - the task is extremly challenging. Dr Chill gets to it, rolling a 1, 2, 7, 9, and 10 - he's got 1 glitch and 2 successes. Great start. Shortly, he makes another roll, and gets 1, 1, 2, 4, 6. Consulting his chart, the Dr realizes he has 3 botches and 2 successes - in an extended roll or a standard one, this ends his activity in abject failure, and in this case the patient expires messily. This was, however, a Botch - not only is the patient dead, but (the GM thinks fast here!) another Doctor has just arrived with a Tyger Claw's lieutenant. The lieutenant recognizes Dr Chill as the son of a man the Boss and Lieutenant executed all those years ago, and demands the other doctor investigate the Boss' death. Sure enough - Dr Chill is an extremely talented, #1 surgeon, and has a Die Pool of 8 for the task he was performing, but only used 5 dice per roll! He killed the Boss intentionally - things are looking quite bad for Dr Chill...</i> Side Note: In the text, this challenge would be written as 'DV9 (5+).'</Typography>
+            </Grid>
 
-          <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial product or object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public; the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='h4'>Core Concepts: Dice Rolling</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>Generally, the GM will tell players when to roll dice, and provide three pieces of information: the Parameters of the roll, the Type of roll is happening, and the Difficulty Value.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='h6'>Roll Parameters & Die Pool</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>Most rolls will consist of one or two parameters. Typically, this is an Attribute + something else, such as a skill, role ability, or other stat. The combination of a character's score in the Parameters is the number of 10 sided dice they can roll. This is commonly referred to as a Player's <b>Die Pool</b>.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='h6'>Roll Type</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>Rolls have two primary types: Simple and Contested. A Simple roll requires a Player to score one or more successes. A Contested roll requires a Player to score <b>more</b> successes than their opponent. Most rolls are simple outside of combat, sneaking around, and lying.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='h6'>Difficulty Value (DV)</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>The Difficulty Value (commonly abbreviated to DV throughout this ruleset and website) is the target on a 10 sided die roll. The 'default' difficulty value is 6. Many tasks have a higher difficulty value - 7 representing something harder than average, 9 being extremely challenging. For math reasons, a DV of 10 is not used - see Glitching and Botching, below. Likewise, some tasks are easier than others - 5 being quite simple, and 4 being the lowest a difficulty value should go - lower than that and its really not worth rolling in most cases. In cases where a difficulty would go over 10, it instead becomes 9 and a required success is added. So something that normally has a DV8 that receives a +2 DV modifier results in a DV9 (2+) - that is, a roll with a Difficulty Value of 9, requiring 2 successes to accomplish.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='h6'>Succeeding, Glitching and Botching</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>While rolling their die pool, any dice a Player rolls that come up equal to or higher than the Difficulty Value is called a 'success' or 'hit'. However, any dice that comes up as a 1 is called a 'glitch die', 'botch die', or a '#$%*ing 1'. In any case, both successes and 1s are totaled up.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>In a Simple roll, a player simply needs more successes than 1s to succeed. In this instance, if the player has gotten no successes and no 1s, they have simply failed at whatever they are doing. If they have more successees than 1s, they have succeeded at their task (most likely - some tasks require more than one success to achieve). If they have rolled some number of successes and an EQUAL number of 1s, the player has made a 'glitch' - they've technically succeeded, but something has gone awry - the GM is encouraged to be inventive. If their roll has MORE 1s than successes, they have Botched - not only have they failed, something else has gone wrong. Finally, if they roll and manage to score NO successes and at least one 1, they have Critically Botched - not only did they fail, but something is about to go about as wrong as humanly possible.</Typography></Grid>
-          <Grid item xs={12}><Typography variant='p'>In a Contested roll, things are similar - the player wants to roll as many hits as possible and avoid 1s. The key difference is that they may need more than 1 success - the number is determined by how many successes their opponent got on their roll.</Typography></Grid>
-          <Grid item xs={12}>
-            <Typography variant='p'><i>Examples:</i></Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='p'><i>Simple Roll: Tahei is trying to find a place to crash on the streets. The GM determines the Parameters of the roll to be Intelligence & Streetwise. Tahei's player consults his sheet, and notes his total - 5 dice. As he is in a relatively decent part of town, the GM declares it is a Simple roll against the standard DV (6). Tahei rolls 5 dice, and gets 1, 3, 6, 7, and 10. That's 3 hits and 1 glitch; Tahei has successfully found an unattended nook and can sleep undisturbed.</i></Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='p'><i>Contested Roll: Ace is trying to charm a bouncer into letting them into a Nightclub without paying the cover. The GM determines the bouncer is going to be difficult about it. The parameters are Cool + Fast Talk, which happens to be Ace's specialty - they roll a whopping 8 dice. The bouncer will be rolling Willpower + Streetwise, with a pool of 4 dice. However, Ace's DV is 7 - this is not an easy thing they're doing; while the bouncer's is only 5 - denying people entry is about half of what they do. Ace gets 1,1,3,5,6,8,8,9 - only 3 successes. The bouncer gets a 2,3,5,7 - A total of 2 successes. Ace manages to talk the bouncer into letting them into the club.</i></Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='p'><i>Glitched Roll: Mad Maxine is trying sneak past a group of Gangers she owes money to. The GM determines the Parameters of the roll to be Reflexes + Stealth. Maxine consults her sheet, notes the total - only 3 dice. Thankfully, the Gangers aren't very alert. Rather than making a contested roll, the GM decides this is easier to handle with a simple roll at DV 5. Maxine rolls a 1, 2, 5 - a glitch. She manages to sneak past the Gangers, but can't help but dropping one of her trademark purple and red glowsticks on the path behind them. The gangers soon know she was in the area, and are going to be looking for her.</i></Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='p'><i>Botched Roll: Dr Chill has been kidnapped and is forced to perform a heart transplant on a Tyger Claw boss. The GM decides this will be an extended contested roll - the Dr needs to get 5 successes, but can roll Technique + Surgery as many times as it requires, with each roll representing an hour of surgery. His DV is 9, however - the task is extremly challenging. Dr Chill gets to it, rolling a 1, 2, 7, 9, and 10 - he's got 1 glitch and 2 successes. Great start. Shortly, he makes another roll, and gets 1, 1, 2, 4, 6. Consulting his chart, the Dr realizes he has 3 botches and 2 successes - in an extended roll or a standard one, this ends his activity in abject failure, and in this case the patient expires messily. This was, however, a Botch - not only is the patient dead, but (the GM thinks fast here!) another Doctor has just arrived with a Tyger Claw's lieutenant. The lieutenant recognizes Dr Chill as the son of a man the Boss and Lieutenant executed all those years ago, and demands the other doctor investigate the Boss' death. Sure enough - Dr Chill is an extremely talented, #1 surgeon, and has a Die Pool of 8 for the task he was performing, but only used 5 dice per roll! He killed the Boss intentionally - things are looking quite bad for Dr Chill...</i> Side Note: In the text, this challenge would be written as 'DV9 (5+).'</Typography>
-          </Grid>
+            <Grid item xs={12}>
+              <Typography variant='p'>
+                Grid vs Narrative play - Cyberpumpkin can be played on a game mat; in which case events are more regulated and movement, range, and the like are easier to comprehend. Narrative play is more free-form, and puts more of an onus on the GM to describe and track what's going on; that being said it doesn't require as much prep and is faster and less tactical.
+              </Typography>
+            </Grid>
 
-          <Grid item xs={12}>
-            <Typography variant='p'>
-              Grid vs Narrative play - Cyberpumpkin can be played on a game mat; in which case events are more regulated and movement, range, and the like are easier to comprehend. Narrative play is more free-form, and puts more of an onus on the GM to describe and track what's going on; that being said it doesn't require as much prep and is faster and less tactical.
-            </Typography>
           </Grid>
-
-        </Grid>
-      </TabPanel>
+        </TabPanel>
+      
 
       <TabPanel value={value} index={1}>
         <Grid container spacing={1} padding={1}>
@@ -2099,7 +2103,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-            Attacking a character inside a vehicle requires a called shot, raising the DV by 2 as per normal called shot rules. This can be stacked with other called shot modifiers; a called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head.
+              Attacking a character inside a vehicle requires a called shot, raising the DV by 2 as per normal called shot rules. This can be stacked with other called shot modifiers; a called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head.
             </Typography>
           </Grid>
 
@@ -2111,7 +2115,9 @@ export default function VerticalTabs() {
 
 
         </Grid>
+        
       </TabPanel>
+      </Box>
     </Box >
   );
 }
