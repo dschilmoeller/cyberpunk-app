@@ -619,12 +619,49 @@ const advancementGear = (state = {
         case 'EQUIP_VEHICLE_MOD':
             return {
                 ...state,
-                vehicleMods: state.vehicleMods.filter(mod => mod.vehicle_mod_master_id !== action.payload.modData.vehicle_mod_master_id)
+                // this removes the mod from the list, instead of changing it's equipped state from f => t
+                vehicleMods: state.vehicleMods.map(mod => {
+                    if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
+                        mod.equipped = true
+                        return mod
+                    } else {
+                        return mod
+                    }
+                }),
+
+                vehicles: state.vehicles.map(vehicle => {
+                    if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id && action.payload.modData.name === "Armored") {
+                        return {
+                            ...vehicle,
+                            has_armor: true
+                        }
+                    } else {
+                        return vehicle
+                    }
+                })
             }
         case 'REMOVE_VEHICLE_MOD':
+        case 'REMOVE_NEW_VEHICLE_MOD':
             return {
                 ...state,
-                vehicleMods: [...state.vehicleMods, action.payload.modData]
+                vehicleMods: state.vehicleMods.map(mod => {
+                    if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
+                        mod.equipped = false
+                        return mod
+                    } else {
+                        return mod
+                    }
+                }),
+                vehicles: state.vehicles.map(vehicle => {
+                    if (vehicle.vehicle_bridge_id === action.payload.modData.vehicle_bridge_id && action.payload.modData.name === "Armored") {
+                        return {
+                            ...vehicle,
+                            has_armor: false
+                        }
+                    } else {
+                        return vehicle
+                    }
+                })
             }
         case 'VEHICLE_CHANGE_SEAT':
             return {
@@ -728,7 +765,7 @@ const advancementGear = (state = {
                 weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
                 soldWeapons: [...state.soldWeapons, action.payload]
             }
-            case 'GM_GIVE_GRENADE':
+        case 'GM_GIVE_GRENADE':
             return {
                 ...state,
                 boughtGrenades: [...state.boughtGrenades,

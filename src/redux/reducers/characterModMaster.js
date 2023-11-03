@@ -18,19 +18,8 @@ const characterModMaster = (state = {
         case 'EQUIP_VEHICLE_MOD':
             return {
                 ...state,
-                // holding area for changed mods for PUT 
+                // holding area for mods added to a vehicle for saving at end of session.
                 addedVehicleMods: [...state.addedVehicleMods, {
-                    char_id: action.payload.modData.char_id,
-                    char_owned_vehicle_mods_id: action.payload.modData.char_owned_vehicle_mods_id,
-                    description: action.payload.modData.description,
-                    equipped: true,
-                    name: action.payload.modData.name,
-                    price: action.payload.modData.price,
-                    type: action.payload.modData.type,
-                    vehicle_mod_master_id: action.payload.modData.vehicle_mod_master_id,
-                    vehicle_bridge_id: action.payload.vehicle_bridge_id,
-                }],
-                vehicleMods: [...state.vehicleMods, {
                     char_id: action.payload.modData.char_id,
                     char_owned_vehicle_mods_id: action.payload.modData.char_owned_vehicle_mods_id,
                     description: action.payload.modData.description,
@@ -45,9 +34,15 @@ const characterModMaster = (state = {
         case 'REMOVE_VEHICLE_MOD':
             return {
                 ...state,
-                // vehicleMods: [] - filter mod out of list
+                // removes mod from main list and adds to removed list for saving at end of session.
                 vehicleMods: state.vehicleMods.filter(mod => mod.char_vehicle_mod_bridge_id !== action.payload.modData.char_vehicle_mod_bridge_id),
                 removedVehicleMods: [...state.removedVehicleMods, action.payload.modData]
+            }
+        case 'REMOVE_NEW_VEHICLE_MOD':
+            // unlike the above EQUIP/REMOVE_VEHICLE_MOD, this simply handles removing a mod added and removed in the same session.
+            return { 
+                ...state,
+                addedVehicleMods: state.addedVehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.modData.char_owned_vehicle_mods_id)
             }
         default:
             return state

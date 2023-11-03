@@ -1662,7 +1662,7 @@ export default function VerticalTabs() {
 
                     <TableRow hover>
                       <TableCell>Critical Injury</TableCell>
-                      <TableCell align="left">Select and inflict chosen critical injury from table below. Injury must make sense given the weapon - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're in melee range.</TableCell>
+                      <TableCell align="left">Select and inflict a Critical Injury from the table (see 8 - Injuries and Dying). Injury must make sense given the weapon - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're using the wrong end.</TableCell>
                     </TableRow>
 
                   </TableBody>
@@ -2069,7 +2069,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashier maneuvers, though there's always a risk of dangerous feedback.
+              Interface plugs allow, amongst other things, operating a vehicle with one's mind. This allows for some rather flashy maneuvers, though there's always a risk of dangerous feedback.
             </Typography>
           </Grid>
 
@@ -2081,7 +2081,7 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Feedback - If a character is connected via Interface Plugs and the first half of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second half of the track fills, they immediately suffer 4 unsoakable aggravated wounds. If something sufficiently catastrophic happens that fills the damage track in a single round, the character suffers the lower of the vehicles max health or eight in unsoakable aggravated wounds.
+              Feedback - If a character is connected via Interface Plugs and the first half of the vehicles damage track is filled, they immediately suffer 4 unsoakable lethal wounds. If the second half of the track fills, they immediately suffer 4 unsoakable aggravated wounds. If something sufficiently catastrophic happens that fills the damage track in a single hit, the character suffers the lower of the vehicles max health or eight in unsoakable aggravated wounds.
             </Typography>
           </Grid>
 
@@ -2093,7 +2093,13 @@ export default function VerticalTabs() {
 
           <Grid item xs={12}>
             <Typography variant='p'>
-              Vehicles generally have very large health pools, and 1/2 their health value in armor. Attacks on characters are treated as attacking the vehicle; vehicles, broadly, cannot dodge attacks; A Technique + Pilot test is required to dodge attacks, and every three successes is counted as a single success on the dodge roll. Attacking a character inside a vehicle requires a called shot, raising the DV by 2. This can stack with other called shot modifiers; a normal called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head. Finally, any character operating a vehicle with Interface Plugs gives attackers a further +1 to difficulties to hit any passenger of said vehicle.
+              Vehicles generally have very large health pools. They also have 1/2 their health value in armor as standard. Attacks on characters are treated as attacking the vehicle; vehicles, broadly, cannot dodge. A Technique + Pilot test is required to attempt to have a vehicle dodge an attack, and every three successes is counted as a single success on the dodge roll. If the driver has interface plugs, this is changed to two successes on a Technique + Pilot roll counting as a success on the dodge roll.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant='p'>
+            Attacking a character inside a vehicle requires a called shot, raising the DV by 2 as per normal called shot rules. This can be stacked with other called shot modifiers; a called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head.
             </Typography>
           </Grid>
 

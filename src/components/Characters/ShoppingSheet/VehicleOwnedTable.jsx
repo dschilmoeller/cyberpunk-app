@@ -268,7 +268,6 @@ export default function VehicleOwnedTable() {
                                 />
                                 <TableBody>
                                     {sortedCharVehicleRows.map((row) => {
-                                        console.log(`extra seats`, row);
                                         return (
                                             <TableRow hover key={row.vehicle_bridge_id}>
                                                 <TableCell padding='normal'>{row.name}</TableCell>

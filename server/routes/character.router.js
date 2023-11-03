@@ -457,7 +457,7 @@ router.get('/fetchAdvancementVehicle/:id', rejectUnauthenticated, (req, res) => 
 router.get('/fetchAdvancementVehicleMods/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
     JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
-    WHERE char_id = $1 AND equipped = false
+    WHERE char_id = $1
     ORDER BY "type"`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
