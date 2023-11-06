@@ -852,6 +852,8 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
 router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     const rb = req.body
+    console.log(`rb.paramedic:`, rb.paramedic);
+    console.log(`rb.investigation`, rb.investigation);
     const charSqlText = `INSERT INTO "character" (
 		"user_id","handle","player","campaign","is_paramedical",
 		"strength","body","reflexes","appearance","cool","street_cred","intelligence","willpower","technique",
@@ -878,7 +880,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     rb.strength, rb.body, rb.reflexes, rb.appearance, rb.cool, rb.street_cred, rb.intelligence, rb.willpower, rb.technique,
     rb.athletics, rb.brawling, rb.concentration, rb.evasion, rb.fastTalk, rb.firearms, rb.legerdemain, rb.meleeWeapons, rb.perception, rb.streetwise,
     rb.demolitions, rb.driveLand, rb.driveExotic, rb.etiquette, rb.exoticWeapons, rb.heavyWeapons, rb.performance, rb.stealth, rb.survival, rb.tracking,
-    rb.business, rb.cryptography, rb.cyberTech, rb.firstAid, rb.paramedic, rb.investigation, rb.gambling, rb.language, rb.militaryTech, rb.science, rb.vehicleTech,
+    rb.business, rb.cryptography, rb.cyberTech, rb.investigation, rb.firstAid, rb.paramedic, rb.gambling, rb.language, rb.militaryTech, rb.science, rb.vehicleTech,
     rb.rockerboy, rb.solo, rb.netrunner, rb.nomad, rb.media, rb.medtech, rb.medSurgery, rb.medPharma, rb.medCryo,
     rb.maker, rb.makerField, rb.makerUpgrade, rb.makerFab, rb.makerInvent, 0, 5, 0, 0, 300, 0, rb.availableNomadVehicles]
 

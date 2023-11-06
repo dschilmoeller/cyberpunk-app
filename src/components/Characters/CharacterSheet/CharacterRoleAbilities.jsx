@@ -56,7 +56,7 @@ function CharacterRoleAbilities(charDetailProp) {
 
     return (
         <>
-            <Grid item xs={12}><Item sx={{ fontSize: '1.4em', padding: 0 }}>Special Skills and Other Information</Item></Grid>
+            <Grid item xs={12}><Item sx={{ fontSize: '1.3em', padding: 0 }}>Special Skills and Other Information</Item></Grid>
             <Grid item xs={4}>
                 <Grid container>
 

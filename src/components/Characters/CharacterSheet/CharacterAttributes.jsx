@@ -62,7 +62,7 @@ function CharacterAttributes(charDetailProp) {
 
     return (
         <>
-            <Grid item xs={12}><Item sx={{ fontSize: '1.8em', padding: 0 }}>Attributes</Item></Grid>
+            <Grid item xs={12}><Item sx={{ fontSize: '1.3em', padding: 0 }}>Attributes</Item></Grid>
             <Grid item xs={4}>
                 <Grid container spacing={1}>
                     <Grid item xs={4}>

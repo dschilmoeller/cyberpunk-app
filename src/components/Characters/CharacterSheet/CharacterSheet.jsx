@@ -95,13 +95,13 @@ function CharacterSheet() {
                     {charDetail ? (
                         <>
                             <Grid item xs={4}>
-                                <Item>Name: {charDetail.handle}</Item>
+                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Name: {charDetail.handle}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Player: {charDetail.player}</Item>
+                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Player: {charDetail.player}</Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Campaign: {charDetail.campaign_name} </Item>
+                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Campaign: {charDetail.campaign_name} </Item>
                             </Grid>
                             <CharacterAttributes charDetail={charDetail} />
                             <CharacterSkills charDetail={charDetail} />
