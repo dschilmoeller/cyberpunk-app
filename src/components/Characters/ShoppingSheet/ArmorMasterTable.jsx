@@ -240,7 +240,7 @@ export default function ArmorMasterTable() {
                             {sortedMasterArmorRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.armor_master_id}>
-                                        <TableCell padding="left">{row.name}</TableCell>
+                                        <TableCell padding={'normal'}>{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
@@ -251,7 +251,7 @@ export default function ArmorMasterTable() {
                             {sortedMasterShieldRows.map((row) => {
                                 return (
                                     <TableRow hover key={row.shield_master_id}>
-                                        <TableCell padding="left">{row.name}</TableCell>
+                                        <TableCell padding="normal">{row.name}</TableCell>
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>

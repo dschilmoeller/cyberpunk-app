@@ -61,15 +61,7 @@ export default function GameMasterSheet() {
         // fetch character gear - using charDetail, so will continue using in play material.
 
         // fetch all master gear lists:
-        dispatch({ type: "FETCH_ARMOR_LIST" })
-        dispatch({ type: "FETCH_SHIELD_LIST" })
-        dispatch({ type: "FETCH_WEAPON_LIST" })
-        dispatch({ type: "FETCH_GRENADE_LIST" })
-        dispatch({ type: "FETCH_MISC_GEAR_LIST" })
-        dispatch({ type: "FETCH_NETRUNNER_LIST" })
-        dispatch({ type: "FETCH_CYBERWARE_LIST" })
-        dispatch({ type: "FETCH_VEHICLE_LIST" })
-        dispatch({ type: "FETCH_VEHICLE_MOD_LIST" })
+        dispatch({ type: "FETCH_MASTER_LISTS" })
 
         // required to make inputs default to existing data
         setHandle(charDetail.handle)
