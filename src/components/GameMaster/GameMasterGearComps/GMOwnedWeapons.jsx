@@ -167,8 +167,8 @@ export default function GMOwnedWeapons() {
         orderBy: PropTypes.string.isRequired,
     };
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('price');
+    const [order, setOrder] = React.useState('desc');
+    const [orderBy, setOrderBy] = React.useState('equipped');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';

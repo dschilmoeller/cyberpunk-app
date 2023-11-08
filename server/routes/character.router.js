@@ -852,8 +852,6 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
 router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     const rb = req.body
-    console.log(`rb.paramedic:`, rb.paramedic);
-    console.log(`rb.investigation`, rb.investigation);
     const charSqlText = `INSERT INTO "character" (
 		"user_id","handle","player","campaign","is_paramedical",
 		"strength","body","reflexes","appearance","cool","street_cred","intelligence","willpower","technique",
@@ -954,7 +952,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
 
 // GM Routes
 router.get('/fetchGameMasterCharacters', rejectNonAdmin, (req, res) => {
-    const sqlText = `SELECT id, handle, player, max_xp, spent_xp, bank, cool, cyber_cool, perception, perm_humanity_loss, temp_humanity_loss, reflexes, cyber_reflexes
+    const sqlText = `SELECT id, handle, player, campaign, max_xp, spent_xp, bank, cool, cyber_cool, perception, perm_humanity_loss, temp_humanity_loss, reflexes, cyber_reflexes
     FROM "character"
     ORDER BY player ASC
     `

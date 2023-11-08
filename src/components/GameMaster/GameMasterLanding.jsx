@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@mui/material';
@@ -12,6 +12,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
+
+import Grid from '@mui/material/Grid';
+
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
 
 export default function GameMasterLanding() {
     const dispatch = useDispatch();
@@ -31,6 +37,26 @@ export default function GameMasterLanding() {
             return 0
         } else {
             return incoming.toLocaleString()
+        }
+    }
+
+    const campaignList = useSelector(store => store.campaigns)
+    const [campaign, setCampaign] = useState(0)
+    const [campaignName, setCampaignName] = useState('')
+
+    const changeCampaign = (value) => {
+        if (value == 0) {
+            setCampaignName('All Campaigns')
+            setCampaign(value)
+        } else {
+            campaignList.map(campaign => {
+                {
+                   if (value == campaign.campaign_id) {
+                       setCampaignName(campaign.campaign_name)
+                   }
+                   setCampaign(value)
+               }
+           })
         }
     }
 
@@ -68,8 +94,9 @@ export default function GameMasterLanding() {
         return stabilizedThis.map((el) => el[0]);
     }
 
-    
+
     const headCells = [
+        // these ids have to match the object keys to sort properly.
         {
             id: 'handle',
             numeric: false,
@@ -83,7 +110,7 @@ export default function GameMasterLanding() {
             label: 'Player',
         },
         {
-            id: 'coolperc',
+            id: 'perception',
             numeric: true,
             disablePadding: false,
             label: 'Cool + Perception',
@@ -95,22 +122,22 @@ export default function GameMasterLanding() {
             label: 'Reflexes',
         },
         {
-            id: 'remainingHumanity',
+            id: 'humanityLoss',
             numeric: true,
             disablePadding: false,
             label: 'Humanity Remaining',
         },
         {
-            id: 'xp',
+            id: 'availableExp',
             numeric: true,
             disablePadding: false,
             label: 'Available XP',
         },
         {
-            id: 'money',
+            id: 'bank',
             numeric: false,
             disablePadding: false,
-            label: 'Funds',
+            label: 'Bank',
         },
     ];
 
@@ -127,7 +154,7 @@ export default function GameMasterLanding() {
                     {headCells.map((headCell) => (
                         <TableCell
                             key={headCell.id}
-                            align={'left'}
+                            align={headCell.numeric ? 'center' : 'center'}
                             padding={'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
@@ -163,21 +190,22 @@ export default function GameMasterLanding() {
         setOrderBy(property);
     };
 
-    function createTableData(id, handle, player, perception, reflexes, humanityLoss, availableExp, bank) {
+    function createTableData(id, handle, player, campaign, perception, reflexes, humanityLoss, availableExp, bank) {
         return {
             id,
-            handle, 
-            player,  
-            perception, 
-            reflexes, 
-            humanityLoss, 
+            handle,
+            player,
+            campaign,
+            perception,
+            reflexes,
+            humanityLoss,
             availableExp,
             bank
         }
     }
 
     const characterDataRows = []
-    
+
     for (let i = 0; i < characterList.length; i++) {
         let perc = characterList[i].cool + characterList[i].cyber_cool + characterList[i].perception
         let totalReflexees = characterList[i].reflexes + characterList[i].cyber_reflexes
@@ -187,16 +215,16 @@ export default function GameMasterLanding() {
         // return finalized weapon data (allows range and damage to sort properly)
         characterDataRows.push(createTableData(
             characterList[i].id,
-            characterList[i].handle, 
+            characterList[i].handle,
             characterList[i].player,
+            characterList[i].campaign,
             perc,
             totalReflexees,
-            remainingHumanity, 
+            remainingHumanity,
             availableExp,
             characterList[i].bank
-            ))
+        ))
     }
-    console.log(characterDataRows);
 
     // sort and monitor changes. 
     const sortedCharacterListRows = React.useMemo(
@@ -206,17 +234,35 @@ export default function GameMasterLanding() {
     );
 
     return (<>
+
+        <Grid container>
+            <Grid item xs={12}><h2>Select Campaign</h2></Grid>
+            <Grid item xs={12} marginRight={2}>
+                <Select
+                    value={campaign}
+                    fullWidth
+                    onChange={e => changeCampaign(e.target.value)}>
+                    {<MenuItem key={0} value={0}>All Campaigns</MenuItem>}
+                    {campaignList.map(campaign => {
+                        return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
+                    })}
+                </Select>
+            </Grid>
+        </Grid>
+
         <h2>Select Character to Review</h2>
+
         {characterList.length ? (<>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <EnhancedTableHead
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={handleRequestSort}
-                        />
-                    
+                    <EnhancedTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                    />
+
                     {sortedCharacterListRows.map(character => {
+                        if (character.campaign == campaign || campaign == 0) {
                         return (<React.Fragment key={character.id}>
                             <TableBody>
                                 <TableRow hover>
@@ -230,6 +276,7 @@ export default function GameMasterLanding() {
                                 </TableRow>
                             </TableBody>
                         </React.Fragment>)
+                        }
                     })}
                 </Table>
             </TableContainer>
