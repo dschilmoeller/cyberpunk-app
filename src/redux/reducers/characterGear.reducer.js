@@ -21,14 +21,22 @@ const characterGear = (state = {
                 vehicles: [],
                 vehicleMods: [],
             }
-        // weapon handlers
-        case 'CLEAR_CHARACTER_WEAPONS':
-            return [];
-        case 'SET_CHARACTER_WEAPONS':
-            // data returned from DB lookup.
+        case 'SET_CHARACTER_EQUIPMENT':
             return {
                 ...state,
-                weapons: action.payload
+                weapons: action.payload.weapons,
+                grenades: action.payload.grenades,
+                gear: action.payload.miscGear,
+                cyberware: action.payload.cyberware,
+                netrunnerGear: action.payload.netrunnerGear,
+                vehicles: action.payload.vehicles,
+                vehicleMods: action.payload.vehicleMods
+            }
+        // weapon handlers
+        case 'CLEAR_CHARACTER_WEAPONS':
+            return {
+                ...state,
+                weapons: []
             }
         case 'FIRE_ONE_SHOT':
             // map through current weapons and increase shots fired - logic to allow this or not is handled on front end.
@@ -85,13 +93,6 @@ const characterGear = (state = {
                 gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id)
             }
         }
-
-        // Grenade Handlers
-        case "SET_CHARACTER_GRENADES":
-            return {
-                ...state,
-                grenades: action.payload
-            }
         case 'GRENADE_USED':
             return {
                 ...state,
@@ -117,11 +118,6 @@ const characterGear = (state = {
             return {
                 ...state,
                 netrunnerGear: []
-            }
-        case 'SET_CHARACTER_NETRUNNER_GEAR':
-            return {
-                ...state,
-                netrunnerGear: action.payload
             }
         case 'PREP_CHARACTER_NETRUNNER_GEAR':
             return {
@@ -214,11 +210,6 @@ const characterGear = (state = {
             return {
                 ...state,
                 vehicles: []
-            }
-        case "SET_CHARACTER_VEHICLES":
-            return {
-                ...state,
-                vehicles: action.payload
             }
         case "VEHICLE_ADD_ONE_DAMAGE":
             return {

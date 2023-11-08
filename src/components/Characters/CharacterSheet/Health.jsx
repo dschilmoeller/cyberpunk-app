@@ -155,23 +155,21 @@ function Health() {
         return healthBoxes
     }
 
-    if (characterCyberware.length) {
-        return (
-            <>
-                <Grid item xs={4}>
-                    <Grid container>
-                        <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
-                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
-                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
-                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
-    
-                        {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
-                    </Grid>
+    return (
+        <>
+            <Grid item xs={4}>
+                <Grid container>
+                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
+                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
+
+                    {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
                 </Grid>
-            </>
-        )
-    }
-    
+            </Grid>
+        </>
+    )
+
 }
 
 export default Health;
