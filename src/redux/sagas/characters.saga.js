@@ -41,6 +41,7 @@ function* fetchCharacterDetail(action) {
 
 function* saveCharacterSheet(action) {
   try {
+    console.log(`action.payload:`, action.payload);
     yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
     for (let i = 0; i < action.payload.charParams.charWeapons.length; i++) {
       yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons[i])
@@ -158,14 +159,13 @@ function* fetchAdvancementDetails(action) {
 }
 
 function* saveAdvancementDetails(action) {
-  console.log(`action.payload:`, action.payload);
   try {
     yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload);
     yield put({ type: 'CLEAR_ADVANCEMENT_DETAIL' });
     yield put({ type: 'CLEAR_VEHICLE_MODS' });
     yield put({ type: 'CLEAR_CREATION_DETAILS' });
     yield put({ type: 'CLEAR_CHARACTER_DETAIL'});
-    yield put({ type: 'CLEAR_CHARACTER_CYBER_DETAILS'});
+    yield put({ type: 'CLEAR_CHARACTER_CYBER_DETAIL'});
     yield put({ type: 'CLEAR_CHARACTER_NETRUNNER_GEAR'});
     yield put({ type: 'CLEAR_CHARACTER_VEHICLES'});
     yield put({ type: 'CLEAR_CHARACTER_STATUS'});

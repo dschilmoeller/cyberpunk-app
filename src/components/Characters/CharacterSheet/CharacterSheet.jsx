@@ -23,8 +23,8 @@ import Backpack from './Backpack';
 function CharacterSheet() {
     const charDetail = useSelector((store) => store.characterDetail);
     const charStatus = useSelector(store => store.characterStatus)
-    const charWeapons = useSelector((store) => store.characterWeapons)
-    const charVehicles = useSelector((store) => store.characterVehicles)
+    const charWeapons = useSelector((store) => store.characterGear.weapons)
+    const charVehicles = useSelector((store) => store.characterGear.vehicles)
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -79,70 +79,72 @@ function CharacterSheet() {
         setSelectedInventory(newValue)
     }
 
-    return (
-        <>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container>
-                    <Grid item display={'flex'} justifyContent={'center'} xs={6}>
-                        <Button onClick={() => saveCharacter('useHist')}>Back to Character List</Button>
+    if (charDetail.id) {
+        return (
+            <>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container>
+                        <Grid item display={'flex'} justifyContent={'center'} xs={6}>
+                            <Button onClick={() => saveCharacter('useHist')}>Back to Character List</Button>
+                        </Grid>
+                        <Grid item display={'flex'} justifyContent={'center'} xs={6}>
+                            <Button onClick={() => saveCharacter()}>Save Current Status</Button>
+                        </Grid>
                     </Grid>
-                    <Grid item display={'flex'} justifyContent={'center'} xs={6}>
-                        <Button onClick={() => saveCharacter()}>Save Current Status</Button>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1}>
+                    <Grid container spacing={1}>
 
-                    {charDetail ? (
-                        <>
-                            <Grid item xs={4}>
-                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Name: {charDetail.handle}</Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Player: {charDetail.player}</Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item sx={{ fontSize: '1.5em', padding: 0 }}>Campaign: {charDetail.campaign_name} </Item>
-                            </Grid>
-                            <CharacterAttributes charDetail={charDetail} />
-                            <CharacterSkills charDetail={charDetail} />
-                            <CharacterRoleAbilities charDetail={charDetail} />
-                            <CharacterMarkers charDetail={charDetail} />
-
-                            <Tabs
-                                value={selectedInventory}
-                                onChange={handleInventorySelect}
-                                indicatorColor='primary'
-                                textColor='secondary'>
-                                <Tab value='weapons' label='Weapons' />
-                                {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
-                                <Tab value='backpack' label='Backpack' />
-                                <Tab value='vehicles' label='Vehicles' />
-                            </Tabs>
-
-                            {selectedInventory === 'weapons' ? (<>
-                                <Grid item xs={12}>
-                                    <Weapons />
+                        {charDetail ? (
+                            <>
+                                <Grid item xs={4}>
+                                    <Item sx={{ fontSize: '1.5em', padding: 0 }}>Name: {charDetail.handle}</Item>
                                 </Grid>
-                            </>) : <></>}
+                                <Grid item xs={4}>
+                                    <Item sx={{ fontSize: '1.5em', padding: 0 }}>Player: {charDetail.player}</Item>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Item sx={{ fontSize: '1.5em', padding: 0 }}>Campaign: {charDetail.campaign_name} </Item>
+                                </Grid>
+                                <CharacterAttributes charDetail={charDetail} />
+                                <CharacterSkills charDetail={charDetail} />
+                                <CharacterRoleAbilities charDetail={charDetail} />
+                                <CharacterMarkers charDetail={charDetail} />
 
-                            {selectedInventory === 'backpack' ? (<>
-                                <Backpack />
-                            </>) : <></>}
+                                <Tabs
+                                    value={selectedInventory}
+                                    onChange={handleInventorySelect}
+                                    indicatorColor='primary'
+                                    textColor='secondary'>
+                                    <Tab value='weapons' label='Weapons' />
+                                    {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
+                                    <Tab value='backpack' label='Backpack' />
+                                    <Tab value='vehicles' label='Vehicles' />
+                                </Tabs>
 
-                            {selectedInventory === 'vehicles' ? (<>
-                                <CharacterVehicles />
-                            </>) : <></>}
+                                {selectedInventory === 'weapons' ? (<>
+                                    <Grid item xs={12}>
+                                        <Weapons />
+                                    </Grid>
+                                </>) : <></>}
 
-                            {selectedInventory === 'netrunner' ? (<>
-                                <CharacterNetrunner />
-                            </>) : <></>}
+                                {selectedInventory === 'backpack' ? (<>
+                                    <Backpack />
+                                </>) : <></>}
 
-                        </>
-                    ) : <></>}
-                </Grid>
-            </Box>
-        </>
-    )
+                                {selectedInventory === 'vehicles' ? (<>
+                                    <CharacterVehicles />
+                                </>) : <></>}
+
+                                {selectedInventory === 'netrunner' ? (<>
+                                    <CharacterNetrunner />
+                                </>) : <></>}
+
+                            </>
+                        ) : <></>}
+                    </Grid>
+                </Box>
+            </>
+        )
+    }
 }
 
 export default CharacterSheet;

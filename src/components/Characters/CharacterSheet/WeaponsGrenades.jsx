@@ -17,7 +17,7 @@ function TransitionUp(props) {
 
 export default function WeaponsGrenades() {
     const charDetail = useSelector((store) => store.characterDetail)
-    const charGrenades = useSelector((store) => store.characterGrenades)
+    const charGrenades = useSelector((store) => store.characterGear.grenades)
     const dispatch = useDispatch();
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);

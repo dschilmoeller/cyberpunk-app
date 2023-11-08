@@ -14,7 +14,7 @@ function UserPage() {
     dispatch({ type: 'CLEAR_VEHICLE_MODS' });
     dispatch({ type: 'CLEAR_CREATION_DETAILS' });
     dispatch({ type: 'CLEAR_CHARACTER_DETAIL'});
-    dispatch({ type: 'CLEAR_CHARACTER_CYBER_DETAILS'});
+    dispatch({ type: 'CLEAR_CHARACTER_CYBER_DETAIL'});
     dispatch({ type: 'CLEAR_CHARACTER_NETRUNNER_GEAR'});
     dispatch({ type: 'CLEAR_CHARACTER_VEHICLES'});
     dispatch({ type: 'CLEAR_CHARACTER_STATUS'});

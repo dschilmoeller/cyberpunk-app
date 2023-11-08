@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 // list vehicles. Damage track. Mods -> Weapons.
 
 export default function CharacterVehicles() {
-    const charVehicles = useSelector((store) => store.characterVehicles)
+    const charVehicles = useSelector((store) => store.characterGear.vehicles)
     const charVehicleMods = useSelector((store => store.characterModMaster.vehicleMods))
     const dispatch = useDispatch();
 

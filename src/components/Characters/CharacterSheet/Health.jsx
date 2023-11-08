@@ -12,7 +12,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 function Health() {
     const charStatus = useSelector((store) => store.characterStatus)
-    const charCyber = useSelector(store => store.characterCyberDetail)
+    const characterCyberware = useSelector(store => store.characterGear.cyberware)
     // base health of 10 + health boxes created by cyberware
     const totalHealth = 10 + charStatus.current_cyberware_health_boxes
 
@@ -63,7 +63,7 @@ function Health() {
         // create standard wound penalties
         let painPenalty = [0, 0, -1, -1, -2, -2, -3, -3, -5, -8]
         // check for presence of equipped pain editor, and if there is one change die penalties
-        charCyber.map(cyberware => {
+        characterCyberware.map(cyberware => {
             if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
                 painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -4]
             }
@@ -155,20 +155,23 @@ function Health() {
         return healthBoxes
     }
 
-    return (
-        <>
-            <Grid item xs={4}>
-                <Grid container>
-                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
-                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
-                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
-                    <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
-
-                    {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
+    if (characterCyberware.length) {
+        return (
+            <>
+                <Grid item xs={4}>
+                    <Grid container>
+                        <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
+                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
+                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
+                        <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
+    
+                        {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
+                    </Grid>
                 </Grid>
-            </Grid>
-        </>
-    )
+            </>
+        )
+    }
+    
 }
 
 export default Health;

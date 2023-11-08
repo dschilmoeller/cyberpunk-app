@@ -6,7 +6,7 @@ import { Button} from '@mui/material';
 
 export default function CharacterNetrunner() {
 
-    const charNetrunnerGear = useSelector((store) => store.characterNetrunnerGear)
+    const charNetrunnerGear = useSelector((store) => store.characterGear.netrunnerGear)
     const charDetail = useSelector((store) => store.characterDetail)
 
     const unhurtMarker = `\u2610`;

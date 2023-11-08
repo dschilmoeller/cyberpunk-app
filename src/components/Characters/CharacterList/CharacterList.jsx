@@ -159,6 +159,8 @@ function CharacterList() {
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_CHARACTERS" })
     dispatch({ type: "CLEAR_ADVANCEMENT_DETAIL" })
+    dispatch({ type: "CLEAR_CHARACTER_DETAIL"})
+    dispatch({ type: "CLEAR_CHARACTER_GEAR_DETAILS"})
   }, [])
 
   const moveToCharacterSheet = (id) => {
