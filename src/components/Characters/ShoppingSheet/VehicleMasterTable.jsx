@@ -29,7 +29,7 @@ export default function VehicleMasterTable() {
     const dispatch = useDispatch()
 
     const vehicleID = useSelector(store => store.advancementGear.vehicleID)
-    const vehicleMaster = useSelector(store => store.vehicleMaster)
+    const vehicleMaster = useSelector(store => store.gearMaster.vehicles)
 
     const charDetail = useSelector((store) => store.advancementDetail)
     const useNomadFreebie = useSelector(store => store.advancementGear.useNomadFreebie)

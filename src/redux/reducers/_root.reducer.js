@@ -11,20 +11,13 @@ import characterStatus from './characterStatus.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
-import armorMaster from './armorMaster.reducer';
-import shieldMaster from './shieldMaster.reducer';
-import weaponMaster from './weaponMaster.reducer';
-import grenadeMaster from './grenadeMaster.reducer';
-import miscGearMaster from './miscGearMaster.reducer';
-import cyberwareMaster from './cyberwareMaster.reducer';
-import netrunnerGearMaster from './netrunnerMaster.reducer';
-import vehicleMaster from './vehicleMaster.reducer';
-import vehicleModMaster from './vehicleModMaster.reducer';
+import gearMaster from './gearMaster.reducer';
 
 import characterModMaster from './characterModMaster';
 
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
+
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -37,15 +30,7 @@ const rootReducer = combineReducers({
   
   campaigns, // list of available campaigns to play in
   
-  armorMaster, // master gear list - armor
-  shieldMaster, // master gear list - shields
-  weaponMaster, // master gear list - weapons
-  grenadeMaster, // master gear list - grenades
-  miscGearMaster, // master gear list - misc
-  cyberwareMaster, // master gear list - cyberware
-  netrunnerGearMaster, // master gear list - netrunner
-  vehicleMaster, // master gear list - vehicles
-  vehicleModMaster, // master gear list - vehicle mods
+  gearMaster, // master gear lists
   
   characterList, // contains list of character names & ids
   characterDetail, // active character sheet details

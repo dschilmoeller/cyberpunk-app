@@ -24,7 +24,7 @@ export default function ModVehicleMasterTable() {
     const dispatch = useDispatch()
 
     const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
-    const vehicleModMaster = useSelector(store => store.vehicleModMaster)
+    const vehicleModMaster = useSelector(store => store.gearMaster.vehicleMods)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

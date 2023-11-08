@@ -24,7 +24,7 @@ function TransitionUp(props) {
 export default function GrenadeMasterTable() {
     const dispatch = useDispatch()
     const grenadeID = useSelector(store => store.advancementGear.grenadeID)
-    const grenadeMaster = useSelector(store => store.grenadeMaster)
+    const grenadeMaster = useSelector(store => store.gearMaster.grenades)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

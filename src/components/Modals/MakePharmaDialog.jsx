@@ -51,7 +51,7 @@ export default function MakePharmaDialog() {
     const charDetail = useSelector(store => store.characterDetail)
     // set the below to default of 0; use it to lock onto to the current amounts. Preferably without infinite loops or crashing the page.
     const charMiscGear = useSelector(store => store.characterMiscGear)
-    const miscGearList = useSelector(store => store.miscGearMaster)
+    const miscGearList = useSelector(store => store.gearMaster.miscGear)
 
     const [reagentCost, setReagentCost] = React.useState(200)
     const [quantityPharmaCreated, setQuantityPharmaCreated] = React.useState(0)

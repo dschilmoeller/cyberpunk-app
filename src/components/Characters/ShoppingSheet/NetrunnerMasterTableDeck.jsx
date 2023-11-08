@@ -23,7 +23,7 @@ function TransitionUp(props) {
 export default function NetrunnerMasterTableDeck() {
     const dispatch = useDispatch()
     const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
-    const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
+    const netrunnerGearMaster = useSelector(store => store.gearMaster.netrunnerGear)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

@@ -16,7 +16,7 @@ import { Button } from '@mui/material';
 export default function GMGiveNetrunnerSoftware() {
     const dispatch = useDispatch()
     const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
-    const netrunnerGearMaster = useSelector(store => store.netrunnerGearMaster)
+    const netrunnerGearMaster = useSelector(store => store.gearMaster.netrunnerGear)
 
     const euroBuck = `\u20AC$`
 

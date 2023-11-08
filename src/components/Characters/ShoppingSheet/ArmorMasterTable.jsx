@@ -24,10 +24,10 @@ export default function ArmorMasterTable() {
     const dispatch = useDispatch()
 
     const armorID = useSelector(store => store.advancementGear.armorID)
-    const armorMaster = useSelector(store => store.armorMaster)
+    const armorMaster = useSelector(store => store.gearMaster.armor)
 
     const shieldID = useSelector(store => store.advancementGear.shieldID)
-    const shieldMaster = useSelector(store => store.shieldMaster)
+    const shieldMaster = useSelector(store => store.gearMaster.shields)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

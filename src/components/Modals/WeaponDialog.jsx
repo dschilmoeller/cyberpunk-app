@@ -10,9 +10,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Grid } from '@mui/material';
 
 export default function WeaponDialog({ prop }) {
-    const weaponMaster = useSelector(store => store.weaponMaster)
-    const cyberwareMaster = useSelector(store => store.cyberwareMaster)
-    const grenadeMaster = useSelector(store => store.grenadeMaster)
+    const weaponMaster = useSelector(store => store.gearMaster.weapons)
+    const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
+    const grenadeMaster = useSelector(store => store.gearMaster.grenades)
 
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');

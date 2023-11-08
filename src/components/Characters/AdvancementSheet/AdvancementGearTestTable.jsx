@@ -165,7 +165,7 @@ export default function TestTable() {
     };
 
     // create weaponMaster data
-    const weaponMaster = useSelector(store => store.weaponMaster)
+    const weaponMaster = useSelector(store => store.gearMaster.weapons)
     function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id) {
         return {
             concealable,

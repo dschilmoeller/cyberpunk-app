@@ -12,23 +12,26 @@ function* fetchGear() {
 
 function* fetchMasterLists() {
     const armorList = yield axios.get('/api/gear/armor')
-    yield put({ type: "SET_ARMOR_LIST", payload: armorList.data });
     const shieldList = yield axios.get('/api/gear/shield')
-        yield put({ type: "SET_SHIELD_LIST", payload: shieldList.data });
-        const weaponList = yield axios.get('/api/gear/weapon')
-        yield put({ type: "SET_WEAPON_LIST", payload: weaponList.data })
-        const grenadeList = yield axios.get('/api/gear/grenades')
-        yield put({ type: "SET_GRENADE_LIST", payload: grenadeList.data })
-        const gearList = yield axios.get('/api/gear/miscgear')
-        yield put({ type: "SET_MISC_GEAR_LIST", payload: gearList.data })
-        const cyberList = yield axios.get('/api/gear/cyberware')
-        yield put({ type: "SET_CYBERWARE_LIST", payload: cyberList.data })
-        const netrunnerList = yield axios.get('/api/gear/netrunner')
-        yield put({ type: "SET_NETRUNNER_LIST", payload: netrunnerList.data })
-        const vehicleList = yield axios.get('/api/gear/vehicles')
-        yield put({ type: "SET_VEHICLE_LIST", payload: vehicleList.data })
-        const vehicleModList = yield axios.get('/api/gear/vehicleMods')
-        yield put({ type: "SET_VEHICLE_MOD_LIST", payload: vehicleModList.data })
+    const weaponList = yield axios.get('/api/gear/weapon')
+    const grenadeList = yield axios.get('/api/gear/grenades')
+    const gearList = yield axios.get('/api/gear/miscgear')
+    const cyberList = yield axios.get('/api/gear/cyberware')
+    const netrunnerList = yield axios.get('/api/gear/netrunner')
+    const vehicleList = yield axios.get('/api/gear/vehicles')
+    const vehicleModList = yield axios.get('/api/gear/vehicleMods')
+
+    yield put({ type: 'SET_MASTER_EQUIPMENT_LISTS', payload: {
+        armor: armorList.data,
+        shields: shieldList.data,
+        weapons: weaponList.data,
+        grenades: grenadeList.data,
+        miscGear: gearList.data,
+        cyberware: cyberList.data,
+        netrunnerGear: netrunnerList.data,
+        vehicles: vehicleList.data,
+        vehicleMods: vehicleModList.data,
+    }})
 }
 
 function* gearSaga() {

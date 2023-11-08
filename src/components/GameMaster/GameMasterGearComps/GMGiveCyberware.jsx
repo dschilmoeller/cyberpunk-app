@@ -15,7 +15,7 @@ import Tab from '@mui/material/Tab';
 export default function GMGiveCyberware() {
     const dispatch = useDispatch()
     const cyberwareID = useSelector(store => store.advancementGear.cyberwareID)
-    const cyberwareMaster = useSelector(store => store.cyberwareMaster)
+    const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
