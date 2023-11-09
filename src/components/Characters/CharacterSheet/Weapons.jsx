@@ -21,9 +21,9 @@ function TransitionUp(props) {
 }
 
 function Weapons() {
-    const charWeapons = useSelector((store) => store.characterWeapons)
+    const charWeapons = useSelector((store) => store.characterGear.weapons)
     const charDetail = useSelector((store) => store.characterDetail)
-    const charCyberDetail = useSelector((store) => store.characterCyberDetail)
+    const characterCyberware = useSelector((store) => store.characterGear.cyberware)
 
     const dispatch = useDispatch();
     const unhurtMarker = <CircleOutlinedIcon />;
@@ -245,7 +245,7 @@ function Weapons() {
                 <Grid item xs={12}><Item>Equipped Weapons</Item></Grid>
                 {/* cycle through weapons and list melee weapons up top */}
                 {/* Starting with cyberweapons */}
-                {charCyberDetail.map(cyberware => {
+                {characterCyberware.map(cyberware => {
                     if (cyberware.equipped === true) {
                         return cyberWeaponData(cyberware)
                     }

@@ -151,7 +151,7 @@ export default function Backpack() {
 
 
     // create charMiscGear data
-    const charMiscGear = useSelector(store => store.characterMiscGear)
+    const charMiscGear = useSelector(store => store.characterGear.gear)
     function createMiscGearData(name, description, char_gear_bridge_id) {
         return {
             name, description, char_gear_bridge_id

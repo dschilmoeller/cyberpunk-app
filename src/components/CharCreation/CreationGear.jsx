@@ -29,11 +29,11 @@ export default function CreationGear() {
     const charDetail = useSelector(store => store.characterCreation)
     const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
 
-    const armor = useSelector(store => store.armorMaster)
-    const shield = useSelector(store => store.shieldMaster)
-    const weapons = useSelector(store => store.weaponMaster)
-    const miscGear = useSelector(store => store.miscGearMaster)
-    const netrunnerGear = useSelector(store => store.netrunnerGearMaster)
+    const armor = useSelector(store => store.gearMaster.armor)
+    const shield = useSelector(store => store.gearMaster.shields)
+    const weapons = useSelector(store => store.gearMaster.weapons)
+    const miscGear = useSelector(store => store.gearMaster.miscGear)
+    const netrunnerGear = useSelector(store => store.gearMaster.netrunnerGear)
 
     // const lifestyle = useSelector(store => store.lifestyleMaster)
 

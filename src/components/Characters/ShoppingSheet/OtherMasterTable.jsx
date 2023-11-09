@@ -23,7 +23,7 @@ function TransitionUp(props) {
 export default function OtherMasterTable() {
     const dispatch = useDispatch()
     const miscGearID = useSelector(store => store.advancementGear.miscGearID)
-    const gearMaster = useSelector(store => store.miscGearMaster)
+    const gearMaster = useSelector(store => store.gearMaster.miscGear)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

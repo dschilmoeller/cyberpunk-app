@@ -29,7 +29,7 @@ export default function CreationCyberware() {
 
     const dispatch = useDispatch();
 
-    const cyberware = useSelector(store => store.cyberwareMaster)
+    const cyberware = useSelector(store => store.gearMaster.cyberware)
     const charCyberware = useSelector(store => store.characterCreation.cyberware)
     const cyberbucks = useSelector(store => store.characterCreation.cyberbucks)
     const [selectedList, setSelectedList] = useState('fashionware')

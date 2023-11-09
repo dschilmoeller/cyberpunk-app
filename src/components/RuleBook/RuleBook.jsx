@@ -71,20 +71,15 @@ export default function VerticalTabs() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ARMOR_LIST" })
-    dispatch({ type: "FETCH_SHIELD_LIST" })
-    dispatch({ type: "FETCH_WEAPON_LIST" })
-    dispatch({ type: "FETCH_GRENADE_LIST" })
-    dispatch({ type: "FETCH_MISC_GEAR_LIST" })
-    dispatch({ type: "FETCH_CYBERWARE_LIST" })
-    dispatch({ type: "FETCH_NETRUNNER_LIST" })
+    dispatch({ type: "FETCH_MASTER_LISTS" })
   }, [])
-  const armorMaster = useSelector(store => store.armorMaster)
-  const shieldMaster = useSelector(store => store.shieldMaster)
-  const weaponMaster = useSelector(store => store.weaponMaster)
-  const miscGearMaster = useSelector(store => store.miscGearMaster)
-  const cyberwareMaster = useSelector(store => store.cyberwareMaster)
-  const netrunnerMaster = useSelector(store => store.netrunnerGearMaster)
+  
+  const armorMaster = useSelector(store => store.gearMaster.armor)
+  const shieldMaster = useSelector(store => store.gearMaster.shields)
+  const weaponMaster = useSelector(store => store.gearMaster.weapons)
+  const miscGearMaster = useSelector(store => store.gearMaster.miscGear)
+  const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
+  const netrunnerMaster = useSelector(store => store.gearMaster.netrunnerGear)
 
   // handles tab changes
   const [value, setValue] = useState(0);

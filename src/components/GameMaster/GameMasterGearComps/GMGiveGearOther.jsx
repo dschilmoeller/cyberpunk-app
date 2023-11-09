@@ -15,7 +15,7 @@ import { Button } from '@mui/material';
 export default function GMGiveGearOther() {
     const dispatch = useDispatch()
     const miscGearID = useSelector(store => store.advancementGear.miscGearID)
-    const gearMaster = useSelector(store => store.miscGearMaster)
+    const gearMaster = useSelector(store => store.gearMaster.miscGear)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 

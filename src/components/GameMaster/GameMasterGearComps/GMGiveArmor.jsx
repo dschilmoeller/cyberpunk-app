@@ -21,10 +21,10 @@ export default function GMGiveArmor() {
     const euroBuck = `\u20AC$`
 
     const armorID = useSelector(store => store.advancementGear.armorID)
-    const armorMaster = useSelector(store => store.armorMaster)
+    const armorMaster = useSelector(store => store.gearMaster.armor)
 
     const shieldID = useSelector(store => store.advancementGear.shieldID)
-    const shieldMaster = useSelector(store => store.shieldMaster)
+    const shieldMaster = useSelector(store => store.gearMaster.shields)
 
     const buyArmor = (item) => {
         dispatch({ type: 'GM_GIVE_ARMOR', payload: { item, armorID } })

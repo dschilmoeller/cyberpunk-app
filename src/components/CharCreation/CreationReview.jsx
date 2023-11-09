@@ -25,12 +25,12 @@ import TableRow from '@mui/material/TableRow';
 export default function CreationReview() {
 
     const charDetail = useSelector(store => store.characterCreation)
-    const armor = useSelector(store => store.armorMaster)
-    const shield = useSelector(store => store.shieldMaster)
-    const weapons = useSelector(store => store.weaponMaster)
-    const miscGear = useSelector(store => store.miscGearMaster)
-    const netrunnerMaster = useSelector(store => store.netrunnerGearMaster)
-    const cyberware = useSelector(store => store.cyberwareMaster)
+    const armor = useSelector(store => store.gearMaster.armor)
+    const shield = useSelector(store => store.gearMaster.shields)
+    const weapons = useSelector(store => store.gearMaster.weapons)
+    const miscGear = useSelector(store => store.gearMaster.miscGear)
+    const netrunnerMaster = useSelector(store => store.gearMaster.netrunnerGear)
+    const cyberware = useSelector(store => store.gearMaster.cyberware)
     
     const dispatch = useDispatch();
     const history = useHistory();

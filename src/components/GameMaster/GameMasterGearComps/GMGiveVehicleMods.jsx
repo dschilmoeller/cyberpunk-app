@@ -17,7 +17,7 @@ export default function GMGiveVehicleMods() {
     const dispatch = useDispatch()
 
     const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
-    const vehicleModMaster = useSelector(store => store.vehicleModMaster)
+    const vehicleModMaster = useSelector(store => store.gearMaster.vehicleMods)
 
     const euroBuck = `\u20AC$`
 

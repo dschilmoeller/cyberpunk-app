@@ -11,7 +11,7 @@ import SkillsDialog from '../../Modals/SkillsDialog';
 // prop should be changed to use-store to remove the setskills function's neccessity at some point.
 function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
-    const charCyber = useSelector(store => store.characterCyberDetail)
+    const characterCyberware = useSelector(store => store.characterGear.cyberware)
 
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
@@ -117,7 +117,7 @@ function CharacterSkills(charDetailProp) {
     // run through owned cyberware and see if any skill chips are installed.
     // if they are, assign them at rank 2
     const skillChipChecker = () => {
-        charCyber.map(cyberware => {
+        characterCyberware.map(cyberware => {
             switch (cyberware.name) {
                 case 'Skill Chip - Athletics':
                     if (cyberware.equipped === true) {

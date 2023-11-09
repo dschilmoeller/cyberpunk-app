@@ -10,7 +10,7 @@ const characterModMaster = (state = {
                 addedVehicleMods: [],
                 removedVehicleMods: [],
             }
-        case 'SET_CHARACTER_VEHICLE_MODS':
+        case 'SET_ONE_CHARACTER_VEHICLE_MODS':
             return {
                 ...state,
                 vehicleMods: action.payload

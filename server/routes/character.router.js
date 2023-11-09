@@ -14,12 +14,12 @@ const { rejectNonAdmin } = require('../modules/rejectNonAdmin')
 router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "campaigns" ORDER BY campaign_id ASC`
     pool.query(sqlText)
-    .then((result) => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching campaigns`, err);
-    })
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching campaigns`, err);
+        })
 })
 
 // fetch characters list route
@@ -227,14 +227,17 @@ router.put('/savecharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     SET "current_shots_fired" = $1
     WHERE "weapon_bridge_id" = $2`
 
-    const sqlParams = [req.body.current_shots_fired, req.body.weapon_bridge_id]
-    pool.query(sqlText, sqlParams)
-        .then((result) => {
+    for (let i = 0; i < req.body.length; i++) {
+        const sqlParams = [req.body[i].current_shots_fired, req.body[i].weapon_bridge_id]
+        pool.query(sqlText, sqlParams)
+            .catch(err => {
+                console.log(`Error saving weapons`, err);
+            })
+        if (i == req.body.length - 1) {
             res.sendStatus(202)
-        })
-        .catch(err => {
-            console.log(`Error saving weapon bridge status:`, err);
-        })
+        }
+    }
+
 })
 
 // save vehicle health and armor damage
@@ -242,14 +245,17 @@ router.put('/savecharactervehicles/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_vehicle_bridge"
     SET "current_damage" = $1, "current_armor_damage" = $2
     WHERE "char_id" = $3`
-    const sqlParams = [req.body.current_damage, req.body.current_armor_damage, req.body.char_id]
-    pool.query(sqlText, sqlParams)
-        .then((result) => {
+
+    for (let i = 0; i < req.body.length; i++) {
+        const sqlParams = [req.body[i].current_damage, req.body[i].current_armor_damage, req.body[i].char_id]
+        pool.query(sqlText, sqlParams)
+            .catch(err => {
+                console.log(`Error saving vehicles`, err);
+            })
+        if (i == req.body.length - 1) {
             res.sendStatus(202)
-        })
-        .catch(err => {
-            console.log(`Error saving character vehicle bridge status:`, err);
-        })
+        }
+    }
 })
 
 // handle permanent luck changes made by burning one luck.
@@ -994,7 +1000,15 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
 
     pool.query(charSqlText, charParams)
         .then(result => {
+            // change status e.g. from removing armor/shield
+            const charStatusSqlText = `UPDATE "char_status"
+            SET "current_armor_quality"= $1, "current_shield_quality" = $2, "current_cyberware_armor_quality" = $3, "current_cyberware_health_boxes" = $4
+            WHERE char_status_id = $5`
 
+            const charStatusParams = [req.body.gear.totalArmorQuality, req.body.gear.totalShieldQuality, req.body.gear.totalCyberwareArmorQuality, req.body.gear.totalCyberwareHealthBoxesCreated, rb.char_status_id]
+            pool.query(charStatusSqlText, charStatusParams)
+        })
+        .then(result => {
             // change cyberware details
             const cyberware = req.body.gear.cyberware
             const cyberwareSqlText = `UPDATE "char_owned_cyberware"

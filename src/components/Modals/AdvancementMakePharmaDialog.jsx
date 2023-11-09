@@ -51,7 +51,7 @@ export default function AdvancementMakePharmaDialog() {
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.advancementDetail)
     const charMiscGear = useSelector(store => store.characterMiscGear)
-    const miscGearList = useSelector(store => store.miscGearMaster)
+    const miscGearList = useSelector(store => store.gearMaster.miscGear)
 
     const [reagentCost, setReagentCost] = React.useState(200)
     const [quantityPharmaCreated, setQuantityPharmaCreated] = React.useState(0)
