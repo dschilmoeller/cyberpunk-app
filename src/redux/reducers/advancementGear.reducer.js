@@ -683,7 +683,8 @@ const advancementGear = (state = {
             return {
                 ...state,
                 armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
-                soldArmor: [...state.soldArmor, action.payload]
+                soldArmor: [...state.soldArmor, action.payload],
+                totalArmorQuality: action.payload.equipped ? state.totalArmorQuality - action.payload.quality : state.totalArmorQuality
             }
         case 'GM_GIVE_SHIELD':
             return {
@@ -708,7 +709,8 @@ const advancementGear = (state = {
             return {
                 ...state,
                 shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
-                soldShield: [...state.soldShield, action.payload]
+                soldShield: [...state.soldShield, action.payload],
+                totalShieldQuality: action.payload.equipped ? state.totalShieldQuality - action.payload.quality : state.totalShieldQuality
             }
         case 'GM_GIVE_WEAPON':
             return {

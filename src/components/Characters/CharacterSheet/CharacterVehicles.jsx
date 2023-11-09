@@ -3,12 +3,13 @@ import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
 import { Button } from '@mui/material';
+import VehicleModDialog from '../../Modals/VehicleModDialog';
 
 // list vehicles. Damage track. Mods -> Weapons.
 
 export default function CharacterVehicles() {
     const charVehicles = useSelector((store) => store.characterGear.vehicles)
-    const charVehicleMods = useSelector((store => store.characterModMaster.vehicleMods))
+    const charVehicleMods = useSelector((store => store.characterGear.vehicleMods))
     const dispatch = useDispatch();
 
     const unhurtMarker = `\u2610`;
@@ -89,7 +90,7 @@ export default function CharacterVehicles() {
             bulletArray.push(<Grid item key={i} xs={xsNumber}><Item onClick={(e) => handleVehicleWeaponShot(e)}>{unhurtMarker}</Item></Grid>)
         }
         return (<>
-            <Grid item xs={3}><Item>{mod.name}</Item></Grid>
+            <Grid item xs={3}><Item><VehicleModDialog prop={mod.name} /></Item></Grid>
             <Grid item xs={2}><Item>DV: {damageValue}</Item></Grid>
             <Grid item xs={2}><Item>ROF: 1</Item></Grid>
             <Grid item xs={1}><Item>Ammo:</Item></Grid>
@@ -114,10 +115,10 @@ export default function CharacterVehicles() {
             {charVehicles.map(item => {
                 return (
                     <Fragment key={item.vehicle_bridge_id}>
-                        <Grid item xs={3}><Item><b>{item.name}</b></Item></Grid>
-                        <Grid item xs={3}><Item>Move: {item.move}</Item></Grid>
-                        <Grid item xs={3}><Item>Top Speed (mph): {item.mph}</Item></Grid>
-                        <Grid item xs={3}><Item>Seats: {item.seats + item.extra_seats}</Item></Grid>
+                        <Grid item xs={12}><Item><b>{item.name}</b></Item></Grid>
+                        <Grid item xs={4}><Item>Move: {item.move}</Item></Grid>
+                        <Grid item xs={4}><Item>Top Speed (mph): {item.mph}</Item></Grid>
+                        <Grid item xs={4}><Item>Seats: {item.seats + item.extra_seats}</Item></Grid>
 
                         {charVehicleMods.map(mod => {
                             if ((mod.name === 'Onboard Flamethrower' || mod.name === 'Onboard Machine Gun' || mod.name === 'Rocket Pod' || mod.name === 'Heavy Weapon Mount') && mod.vehicle_bridge_id === item.vehicle_bridge_id) {
@@ -135,6 +136,19 @@ export default function CharacterVehicles() {
                                 )
                             }
                         })}
+                        <Grid item xs={12} paddingBottom={1}><Item>All Equipped Vehicle Mods:</Item></Grid>
+                        <Grid container>
+                            {charVehicleMods.map(mod => {
+                                if (mod.vehicle_bridge_id === item.vehicle_bridge_id) {
+                                    return (
+                                        <Fragment key={mod.char_vehicle_mod_bridge_id}>
+                                            <Grid paddingLeft={1} item xs={3}><Item><VehicleModDialog prop={mod.name} /></Item></Grid>
+                                        </Fragment>
+                                    )
+                                }
+                            })}
+                        </Grid>
+
                         <Grid item xs={6}>
                             <Grid container>
                                 <Grid item xs={12}><Item>Health</Item></Grid>

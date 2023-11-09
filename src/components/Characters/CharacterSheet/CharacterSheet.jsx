@@ -40,9 +40,9 @@ function CharacterSheet() {
     }, [])
 
     // run on page load and start again when a change is made.
+    // this should in principle create a periodic 'autosave' feature. Seems to work.
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('Logs every five minutes');
             saveCharacter();
         }, FiveMinutesMillisecs);
 
@@ -53,7 +53,6 @@ function CharacterSheet() {
 
     const saveCharacter = (useHist) => {
         const test = charStatus
-        console.log(`charStatus Test:`, test);
         dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles } } })
         if (useHist === 'useHist') {
             history.push('/characterlist')

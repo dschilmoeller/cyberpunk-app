@@ -43,17 +43,13 @@ function* fetchCharacterDetail(action) {
   }
 };
 
-// Character Changes (put) 
+// Character Changes (put) from in play sheet.
 
 function* saveCharacterSheet(action) {
   try {
     yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
-    for (let i = 0; i < action.payload.charParams.charWeapons.length; i++) {
-      yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons[i])
-    }
-    for (let i = 0; i < action.payload.charParams.charVehicles.length; i++) {
-      yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles[i])
-    }
+    yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons)
+    yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles)
   } catch (error) {
     console.log(`Error saving Character Details`, error);
   }
@@ -106,7 +102,7 @@ function* deleteGameMasterCharacter(action) {
   }
 }
 
-
+// advancement sheet - spending xp, shopping, equipping gear.
 function* fetchAdvancementDetails(action) {
   try {
     const advancementDetails = yield axios.get(`/api/characters/fetchAdvancementDetails/${action.payload}`)
