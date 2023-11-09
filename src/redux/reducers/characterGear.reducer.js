@@ -1,5 +1,5 @@
 const characterGear = (state = {
-    // only armor qualities that we care about are handled directly in the character detail reducer.
+    // only armor qualities that we care about atm are handled directly in the character detail reducer. These are here as a reminder that they will probably be needed at some future point if e.g. armor mods make an appearance.
     // armor: [],
     // shield: [],
     weapons: [],
@@ -101,7 +101,7 @@ const characterGear = (state = {
 
 
         // Cyberware Handlers
-        case "CLEAR_CHARACTER_CYBER_DETAIL":
+        case 'CLEAR_CHARACTER_CYBER_DETAIL':
             return {
                 ...state,
                 cyberware: []
@@ -206,12 +206,12 @@ const characterGear = (state = {
 
 
         // vehicle handlers
-        case "CLEAR_CHARACTER_VEHICLES":
+        case 'CLEAR_CHARACTER_VEHICLES':
             return {
                 ...state,
                 vehicles: []
             }
-        case "VEHICLE_ADD_ONE_DAMAGE":
+        case 'VEHICLE_ADD_ONE_DAMAGE':
             return {
                 ...state,
                 vehicles: state.vehicles.map(vehicle => {
@@ -221,7 +221,7 @@ const characterGear = (state = {
                     return vehicle;
                 })
             }
-        case "VEHICLE_REMOVE_ONE_DAMAGE":
+        case 'VEHICLE_REMOVE_ONE_DAMAGE':
             return {
                 ...state,
                 vehicles: state.vehicles.map(vehicle => {
@@ -231,7 +231,7 @@ const characterGear = (state = {
                     return vehicle;
                 })
             }
-        case "VEHICLE_ADD_ONE_ARMOR_DAMAGE":
+        case 'VEHICLE_ADD_ONE_ARMOR_DAMAGE':
             return {
                 ...state,
                 vehicles: state.vehicles.map(vehicle => {
@@ -241,7 +241,7 @@ const characterGear = (state = {
                     return vehicle;
                 })
             }
-        case "VEHICLE_REMOVE_ONE_ARMOR_DAMAGE":
+        case 'VEHICLE_REMOVE_ONE_ARMOR_DAMAGE':
             return {
                 ...state,
                 vehicles: state.vehicles.map(vehicle => {
@@ -251,7 +251,6 @@ const characterGear = (state = {
                     return vehicle;
                 })
             }
-
         default: return state
     }
 

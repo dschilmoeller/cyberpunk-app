@@ -1,33 +1,29 @@
 const characterDetail = (state = {}, action) => {
-    if (action.type === "SET_CHARACTER_DETAIL") {
-        return action.payload;
-    }
-    if (action.type === 'CLEAR_CHARACTER_DETAIL') {
-        return {}
-    }
+    switch (action.type) {
+        case 'SET_CHARACTER_DETAIL':
+            return action.payload;
+        case 'CLEAR_CHARACTER_DETAIL':
+            return {}
 
-    if (action.type === 'PLAYER_BURN_ONE_LUCK') {
-        return {
-            ...state,
-            max_luck: state.max_luck - 1
-        }
-    }
 
-    if (action.type === 'MAKE_PHARMACEUTICAL') {
-        return {
-            ...state,
-            bank: action.payload.newBank
-        }
+        case 'PLAYER_BURN_ONE_LUCK':
+            return {
+                ...state,
+                max_luck: state.max_luck - 1
+            }
+        case 'MAKE_PHARMACEUTICAL':
+            return {
+                ...state,
+                bank: action.payload.newBank
+            }
+        case 'ARBITRARY_BANK_CHANGE':
+            return {
+                ...state,
+                bank: action.payload
+            }
+        default:
+            return state
     }
-
-    if (action.type === 'ARBITRARY_BANK_CHANGE') {
-        return {
-            ...state,
-            bank: action.payload
-        }
-    }
-
-    return state
 }
 
 export default characterDetail;

@@ -33,6 +33,7 @@ const rootReducer = combineReducers({
   gearMaster, // master gear lists
   
   characterList, // contains list of character names & ids
+
   characterDetail, // active character sheet details
   characterGear, // active character sheet equipment details
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
