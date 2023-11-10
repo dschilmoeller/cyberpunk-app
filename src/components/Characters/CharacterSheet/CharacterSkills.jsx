@@ -120,62 +120,62 @@ function CharacterSkills(charDetailProp) {
         characterCyberware.map(cyberware => {
             switch (cyberware.name) {
                 case 'Skill Chip - Athletics':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.athletics <= 2) {
                         setAthletics(2)
                     }
                     break;
                 case 'Skill Chip - Brawling':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.brawling <= 2) {
                         setBrawling(2)
                     }
                     break;
                 case 'Skill Chip - Evasion':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.evasion <= 2) {
                         setEvasion(2)
                     }
                     break;
                 case 'Skill Chip - Fast Talk':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.fastTalk <= 2) {
                         setFastTalk(2)
                     }
                     break;
                 case 'Skill Chip - Firearms':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.firearms <= 2) {
                         setFirearms(2)
                     }
                     break;
                 case 'Skill Chip - Melee Weapons':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.melee_weapons <= 2) {
                         setMeleeWeapons(2)
                     }
                     break;
                 case 'Skill Chip - Drive Land':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.drive_land <= 2) {
                         setDriveLand(2)
                     }
                     break;
                 case 'Skill Chip - Performance':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.performance <= 2) {
                         setPerformance(2)
                     }
                     break;
                 case 'Skill Chip - Cryptography':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.cryptography <= 2) {
                         setCryptography(2)
                     }
                     break;
                 case 'Skill Chip - First Aid':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.first_aid <= 2) {
                         setFirstAid(2)
                     }
                     break;
                 case 'Skill Chip - Gambling':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.gambling <=2) {
                         setGambling(2)
                     }
                     break;
                 case 'Skill Chip - Language':
-                    if (cyberware.equipped === true) {
+                    if (cyberware.equipped === true && charDetail.language <= 2) {
                         setLanguage(2)
                     }
                     break;

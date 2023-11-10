@@ -69,9 +69,10 @@ export default function CharacterNetrunner() {
             } else {
                 dispatch({ type: 'LOSE_ONE_REZ', payload: netrunner_bridge_id })
             }
-        } else if (e.target.innerText === aggMarker) {
-            e.target.innerText = unhurtMarker
-        }
+        } 
+        // else if (e.target.innerText === aggMarker) {
+        //     e.target.innerText = unhurtMarker
+        // }
     }
 
     // handles active status changes for given piece of software

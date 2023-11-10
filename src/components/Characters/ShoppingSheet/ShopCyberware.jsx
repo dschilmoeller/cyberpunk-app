@@ -89,7 +89,7 @@ export default function ShopCyberware() {
             <Tab value='cyberleg' label='Cyberleg' />
             <Tab value='borgware' label='Borgware (Beta)' />
         </Tabs>
-        
+
         <h2>My Cyberware</h2>
 
         <TableContainer component={Paper}>
@@ -153,21 +153,24 @@ export default function ShopCyberware() {
                 </TableHead>
                 <TableBody>
                     {cyberwareMaster.map(item => {
-                        return (
-                            <React.Fragment key={item.cyberware_master_id}>
-                                {item.type === selectedList ? (
-                                    <React.Fragment key={item.cyberware_master_id}>
-                                        <TableRow hover>
-                                            <TableCell align="left">{item.name} </TableCell>
-                                            <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
-                                            <TableCell align="center">{item.install_level}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    </React.Fragment>
-                                ) : <></>}
-                            </React.Fragment>)
+                        if (item.is_treasure != true) {
+
+                            return (
+                                <React.Fragment key={item.cyberware_master_id}>
+                                    {item.type === selectedList ? (
+                                        <React.Fragment key={item.cyberware_master_id}>
+                                            <TableRow hover>
+                                                <TableCell align="left">{item.name} </TableCell>
+                                                <TableCell align="center">{item.description}</TableCell>
+                                                <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
+                                                <TableCell align="center">{item.install_level}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center"><Button onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
+                                            </TableRow>
+                                        </React.Fragment>
+                                    ) : <></>}
+                                </React.Fragment>)
+                        }
                     })}
                 </TableBody>
             </Table>

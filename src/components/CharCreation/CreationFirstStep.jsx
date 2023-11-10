@@ -36,7 +36,6 @@ function CreationFirstSteps() {
             campaign,
             campaignName
         }
-        console.log(`CampaignName:`, campaignName);
 
         dispatch({ type: 'SET_CREATION_FIRST_STEPS', payload: character })
 
@@ -98,14 +97,14 @@ function CreationFirstSteps() {
                     <Item><Typography variant='subtitle1'>What campaign is the character playing in?</Typography></Item>
                 </Grid>
                 <Grid item xs={12} marginLeft={4} marginRight={4} marginBottom={4}>
-                    <Select
+                    {campaignList.length > 0 ? <Select
                         value={campaign}
                         fullWidth
                         onChange={e => selectCampaign(e.target.value)}>
                         {campaignList.map(campaign => {
-                                return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
+                            return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
                         })}
-                    </Select>
+                    </Select> : <></>}
                 </Grid>
 
                 <Grid item xs={12}>
