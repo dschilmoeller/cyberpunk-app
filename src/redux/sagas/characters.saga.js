@@ -79,7 +79,7 @@ function* characterCreatePharmaceutical(action) {
   try {
     yield axios.put('api/characters/charactercreatepharmaceutical/', action.payload)
     const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload.characterID}`)
-    yield put({ type: 'SET_ADVANCEMENT_GEAR', payload: advancementGear.data })
+    yield put({ type: 'SET_ADVANCEMENT_MISC_GEAR', payload: advancementGear.data })
   } catch (error) {
     console.log(`Error creating pharmaceutical compound.`);
   }

@@ -113,6 +113,11 @@ const advancementGear = (state = {
                 vehicles: action.payload.vehicles,
                 vehicleMods: action.payload.vehicleMods
             }
+        case 'SET_ADVANCEMENT_MISC_GEAR':
+            return {
+                ...state,
+                gear: action.payload
+            }
         case 'SET_NOMAD_FREEBIE':
             return {
                 ...state,
