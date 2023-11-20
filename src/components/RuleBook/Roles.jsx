@@ -187,7 +187,7 @@ export default function RulebookRoles() {
                                         <TableRow hover>
                                             <TableCell align="left">Damage Reduction</TableCell>
                                             <TableCell align="left">2</TableCell>
-                                            <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by one <b>after</b> soaking damage from every attack this round.</TableCell>
+                                            <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the damage of any attack targeting them this round by 1. This applies before armor is checked, and can reduce incoming attacks to 0 damage.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>

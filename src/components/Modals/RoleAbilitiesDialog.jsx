@@ -173,13 +173,13 @@ export default function RoleAbilitiesDialog({ prop }) {
                                         <TableRow hover>
                                             <TableCell align="left">Damage Reduction</TableCell>
                                             <TableCell align="left">2</TableCell>
-                                            <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the number of wounds taken by 1 <b>after</b> soaking damage from one wound that would be suffered each round. These resisted wounds can be used to resist multiple wounds from a single attack, or distributed between several different sources of damage, but the Solo must declare how may wounds they are resisting when taking damage.</TableCell>
+                                            <TableCell align='left'>Solos are highly resistant to damage - for every 2 points spent in this ability, decrease the damage of any attack targeting them this round by 1. This applies before armor is checked, and can reduce incoming attacks to 0 damage.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
                                             <TableCell align="left">Spot Weakness</TableCell>
                                             <TableCell align="left">2</TableCell>
-                                            <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo can add 1 automatic wound (before soaking) to an attack made this turn. These wounds can be piled into one attack, or distributed amongst many if they have a weapon with a high ROF.</TableCell>
+                                            <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo can add 1 automatic wound to an attack made this turn. These wounds can be piled into one attack, or distributed amongst many if they have a weapon with a high ROF.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>

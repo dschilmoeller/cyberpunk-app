@@ -40,7 +40,7 @@ export default function RulebookGear() {
         <Grid container padding={1} spacing={1}>
 
             <Grid item xs={12}><Typography variant='h4'>Armor & Shields</Typography></Grid>
-            <Grid item xs={12}><Typography variant='p'>Armor has a quality rating, which reflects both how many dice it grants to a user to soak damage and how much ablation it can stand before it is rendered useless.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Armor has a quality rating, which reflects both how well it allows the wearer to soak damage and how much ablation it can stand before it is rendered useless.</Typography></Grid>
             <Grid item xs={12}><Typography variant='p'>Shields can be used in conjunction with armor, and have seen a resurgence in the modern era. They require a free hand, but add their quality to a character's armor rating when used.</Typography></Grid>
             <Grid item xs={12}>
                 <Accordion disableGutters expanded={expandedGearAccordion === 'panel1'} onChange={handleGearAccordionChange('panel1')}>

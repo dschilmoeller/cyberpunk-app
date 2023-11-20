@@ -144,7 +144,7 @@ export default function RulebookCombat() {
                                         <TableRow hover>
                                             <TableCell>Choke</TableCell>
                                             <TableCell align='left'>Complex</TableCell>
-                                            <TableCell align="left">Choke a grabbed opponent, dealing (Strength) stun wounds with no soak roll.</TableCell>
+                                            <TableCell align="left">Choke a grabbed opponent, dealing (Strength) stun wounds and bypassing any non-hardened armor.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
@@ -215,8 +215,8 @@ export default function RulebookCombat() {
                 </Typography>
             </Grid>
 
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>After determining damage; roll Body + Current Armor against DV6. Each success reduces wounds suffered by 1.</i></Typography></Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Wound penalties do not apply to this roll, and 1s are disregarded.</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>After determining damage, reduce wounds taken by (Body + Armor) divided by 2 (round down).</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Generally, lower armor by 1 or more depending on the weapon.</i></Typography></Grid>
 
 
 
@@ -246,7 +246,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <i>The ganger rolls 4 soak dice - 2 from their Body + 2 from their Armor, and gets 2 successes - finally, they take 5 lethal wounds. They also mark 1 point off their armor as Raff blows a big hole in it. Raff could shoot them again, as their weapon has a ROF of 2 - but Raff would have had to split their die pool earlier in order to do so. On their turn, the ganger attempts to run away, but doesn't get far enough - Raff gets a whopping 5 successes on their next attack roll, but with 5 wounds the ganger now has a 2 die wound penalty to their Reflexes roll to dodge - they roll 2 dice, and get no successs. Raff thus deals a total of 9 lethal damage. The ganger rolls 3 soak dice - their armor has been degraded, costing them a point, but their roll is unaffected by wound penalties. They get a single success - the ganger has filled their wound track, with 3 additional damage to deal with. The ganger falls, with 3 aggravated wounds overwriting their full lethal track, and the ganger is unlikely to survive much longer if they don't get prompt medical attention.</i>
+                    <i>The ganger reduces the incoming damage by 2 - their Body is 2 and their armor is 3, so 5/2 (rounded down) is 2 - so they take 5 lethal wounds - half their wound track! They also mark 1 point off their armor as Raff blows a big hole in it. Raff could shoot them again, as their weapon has a ROF of 2 - but Raff would have had to have decided to do this before attacking, as it requires splitting their die pool. On their turn, the ganger attempts to run away, but doesn't get far enough - They're still in range, and Raf shoots again getting a whopping 5 successes on their attack roll. With 5 wounds from the first attack, the ganger now has a 2 die wound penalty to their Reflexes roll to dodge - they roll 2 dice, and get no successs. Raff thus deals a total of 9 lethal damage - 4 from the weapon's base damage and 5 more from successes. The ganger reduces this by 2 - their armor has been ablated by 1, but it is still Body 2 + Armor 2. 7 more damage has filled their wound track, with 2 additional damage to deal with. The ganger now has 2 aggravated and 8 lethal wounds. They are unlikely to survive much longer without prompt medical attention.</i>
                 </Typography>
             </Grid>
 
@@ -294,7 +294,7 @@ export default function RulebookCombat() {
                             <TableBody>
                                 <TableRow hover>
                                     <TableCell>Head</TableCell>
-                                    <TableCell align="left">If target doesn't have helmet or hardened armor, damage is mulitplied by 2 before soaking.</TableCell>
+                                    <TableCell align="left">If target doesn't have a helmet or hardened armor, damage is mulitplied by 2 after soaking rules are applied.</TableCell>
                                 </TableRow>
 
                                 <TableRow hover>
@@ -345,10 +345,10 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Characters firing a weapon in full automatic have a ROF of 1 and a base difficulty of 5 on their attack. Their weapon must have 10 or more rounds remaining in its clip. The attacker cannot perform aimed shots, and additional successes on the attack do not provide additional damage. However, the attacker can remove dice from their attack die pool. If they do so, they can force their opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> their soak roll.
-                    Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND successes provide additional damage.
+                    Characters firing a weapon in full automatic have a ROF of 1 and a base difficulty of 5 on their attack. Their weapon must have 10 or more rounds remaining in its clip. The attacker cannot perform aimed shots, and additional successes on the attack do not provide additional damage. However, the attacker can elect to remove one or more dice from their attack die pool. If they do so, they can force their opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> increase the amount of armor lost by the target by the number of dice removed, provided they hit the target at all. Removing additional armor does not work if the target's armor is <i>Hardened</i>.
+                    <Grid item xs={12}>Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND trades dice at a 1:2 ratio - for every die they remove, their opponent loses 2 from the selected roll(s).</Grid>
                 </Typography>
-            </Grid>
+            </Grid >
 
             <Grid item xs={12}>
                 <Typography variant='p'>
@@ -459,6 +459,6 @@ export default function RulebookCombat() {
                 </Typography>
             </Grid>
 
-        </Grid>
+        </Grid >
     </>)
 }
