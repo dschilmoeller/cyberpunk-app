@@ -22,12 +22,14 @@ import { Grid } from '@mui/material';
 import DiceTenBase from '../Dice/DiceTenBase';
 import DiceTenHighlighted from '../Dice/DiceTenHighlighted';
 
+import './animation.css'
+
 export default function DieRollDialog() {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
     const charDetails = useSelector(store => store.characterDetail)
-    const charStatus =  useSelector(store => store.characterStatus)
+    const charStatus = useSelector(store => store.characterStatus)
     const characterCyberware = useSelector(store => store.characterGear.cyberware)
 
     const handleClickOpen = (scrollType) => () => {
@@ -37,18 +39,24 @@ export default function DieRollDialog() {
     };
 
     // short timer to prevent rapid re-rolling (or 'cheating' to call a spade a spade.)
-    const threeSeconds = 3000;
+    const threeSeconds = 1500;
     const [allowRoll, setAllowRoll] = React.useState(true);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
-            setAllowRoll(true)
-            console.log(`allowRoll:`, allowRoll);
+            if (allowRoll == false) {
+                setAllowRoll(true)
+                setDieClass('not-spinning')
+            }
+
         }, threeSeconds);
 
         // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
         return () => clearInterval(interval);
-    }, [])
+    }, [allowRoll])
+
+    // handle making the dice spin
+    const [dieClass, setDieClass] = React.useState('not-spinning')
 
     const handleClose = () => {
         setOpen(false);
@@ -68,102 +76,107 @@ export default function DieRollDialog() {
     const [rollResult, setRollresult] = React.useState('')
 
     function difficultyRoll(amount, isExploding, difficulty) {
-
-        // Gets a number b/w 1 and 10
-        function getRandomInt() {
-            const min = Math.ceil(1);
-            const max = Math.floor(11);
-            return Math.floor(Math.random() * (max - min) + min);
-        }
-
-        // Sorts randomInt
-        function rollDiceSorted(amount) {
-            let dieArray = []
-            for (let i = 0; i < amount; i++) {
-                dieArray.push(getRandomInt());
+        // see if a roll has occurred recently
+        if (allowRoll == true) {
+            // Gets a number b/w 1 and 10
+            function getRandomInt() {
+                const min = Math.ceil(1);
+                const max = Math.floor(11);
+                return Math.floor(Math.random() * (max - min) + min);
             }
-            return dieArray.sort((a, b) => (a - b));
-        }
 
-        // Sorts randomInt and increases number of dice rolled for each 10 that occurs
-        function explodingDiceSorted(amount) {
-            let dieArray = []
-            for (let i = 0; i < amount; i++) {
-                let dieRolled = getRandomInt()
-                if (dieRolled == 10) {
-                    amount += 1
+            // Sorts randomInt
+            function rollDiceSorted(amount) {
+                let dieArray = []
+                for (let i = 0; i < amount; i++) {
+                    dieArray.push(getRandomInt());
                 }
-                dieArray.push(dieRolled)
+                return dieArray.sort((a, b) => (a - b));
             }
-            return dieArray.sort((a, b) => (a - b));
-        }
 
-        let resultArray;
-        let successes = 0;
-        let glitches = 0;
+            // Sorts randomInt and increases number of dice rolled for each 10 that occurs
+            function explodingDiceSorted(amount) {
+                let dieArray = []
+                for (let i = 0; i < amount; i++) {
+                    let dieRolled = getRandomInt()
+                    if (dieRolled == 10) {
+                        amount += 1
+                    }
+                    dieArray.push(dieRolled)
+                }
+                return dieArray.sort((a, b) => (a - b));
+            }
 
-        if (isExploding === true) {
-            resultArray = explodingDiceSorted(amount)
-        } else {
-            resultArray = rollDiceSorted(amount)
-        }
+            let resultArray;
+            let successes = 0;
+            let glitches = 0;
 
-        successes = resultArray.filter((die) => die >= difficulty);
-        glitches = resultArray.filter((die) => die == 1);
-
-        let outcome = 0;
-
-        // always being plural is annoying, time to make some more variables.
-        let hitWord = ''
-        let glitchWord = ''
-
-        if (successes.length == 1) {
-            hitWord = 'hit'
-        } else {
-            hitWord = 'hits'
-        }
-        if (glitches.length == 1) {
-            glitchWord = 'glitch'
-        } else {
-            glitchWord = 'glitches'
-        }
-
-        if (successes.length > glitches.length) {
-            outcome = `SUCCESS with ${successes.length - glitches.length} ${hitWord}.`
-            // outcome = 0
-        } else if (successes.length == glitches.length) {
-            outcome = `FAILURE with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
-            // outcome = 1
-        } else {
-            outcome = `BOTCH with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
-            // outcome = 2
-        }
-
-        setShowResult(true);
-        // You rolled the following: [], resulting in {successes} hits and {glitches} glitches. Your have {outcome}!
-
-        // list dice results:
-        let dieResultText = 'You rolled '
-        for (let i = 0; i < resultArray.length; i++) {
-            if (i < resultArray.length - 1) {
-                dieResultText += `${resultArray[i]}, `
+            if (isExploding === true) {
+                resultArray = explodingDiceSorted(amount)
             } else {
-                dieResultText += `${resultArray[i]}`
+                resultArray = rollDiceSorted(amount)
             }
-        }
 
-        setRollresult(`${dieResultText}. This is a ${outcome}`)
-        setUsingLuck(false)
+            successes = resultArray.filter((die) => die >= difficulty);
+            glitches = resultArray.filter((die) => die == 1);
+
+            let outcome = 0;
+
+            // always being plural is annoying, time to make some more variables.
+            let hitWord = ''
+            let glitchWord = ''
+
+            if (successes.length == 1) {
+                hitWord = 'hit'
+            } else {
+                hitWord = 'hits'
+            }
+            if (glitches.length == 1) {
+                glitchWord = 'glitch'
+            } else {
+                glitchWord = 'glitches'
+            }
+
+            if (successes.length > glitches.length) {
+                outcome = `SUCCESS with ${successes.length - glitches.length} ${hitWord}.`
+                // outcome = 0
+            } else if (successes.length == glitches.length) {
+                outcome = `FAILURE with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
+                // outcome = 1
+            } else {
+                outcome = `BOTCH with ${successes.length} ${hitWord} and ${glitches.length} ${glitchWord}.`
+                // outcome = 2
+            }
+
+            setShowResult(true);
+
+            // list dice results:
+            let dieResultText = 'You rolled '
+            for (let i = 0; i < resultArray.length; i++) {
+                if (i < resultArray.length - 1) {
+                    dieResultText += `${resultArray[i]}, `
+                } else {
+                    dieResultText += `${resultArray[i]}`
+                }
+            }
+
+            // Display: You rolled the following: [], resulting in {successes} hits and {glitches} glitches. You have {outcome}!
+            setRollresult(`${dieResultText}. This is a ${outcome}`)
+            // clean up luck, prevent rolling for a momment, and make the dice spin (prevention & rolling timer reset in UseEffect)
+            setUsingLuck(false)
+            setAllowRoll(false)
+            setDieClass('spin-die')
+        }
     }
 
     function diceBuilder(selectedIndex) {
-        // needs to return array of SVGs, highlighted and unhighlighted die outlines.
+        // return array of SVGs, highlighted and unhighlighted die outlines.
         let diceSVGArray = []
         for (let i = 0; i < selectedIndex; i++) {
             diceSVGArray.push(
                 <React.Fragment key={i}>
                     <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, usingLuck, selectedDifficulty)} onMouseEnter={() => setSelectedDieIndex(i + 1)}>
-                        <DiceTenHighlighted />
+                        <DiceTenHighlighted prop={{class_id: dieClass}}/>
                     </Grid>
                 </React.Fragment>
             )
@@ -181,7 +194,7 @@ export default function DieRollDialog() {
     }
 
     const quickRoll = (att, cyberAtt, skill, isExploding, difficultyValue, penalty) => {
-        if (allowRoll){
+        if (allowRoll) {
             difficultyRoll(((att + cyberAtt + skill) + penalty), isExploding, difficultyValue)
             setAllowRoll(false)
         }
@@ -191,7 +204,7 @@ export default function DieRollDialog() {
         let woundAggregator = stun + lethal + agg
         let painPenalty = [0, 0, 0, -1, -1, -2, -2, -3, -3, -5, -8]
         let finalPain = 0
-        
+
         characterCyberware.map(cyberware => {
             if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
                 painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -4]
