@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import { Grid } from '@mui/material';
@@ -24,37 +23,37 @@ export default function SkillsDialog({ prop }) {
     const dialogText = (prop) => {
         switch (prop) {
             case 'Streets':
-                return 'Skills learned in the rough and tumble streets. Tests involving these skills can be used untrained.'
+                return 'Skills learned in the rough and tumble streets. Tests involving these skills can be used untrained with no penalty - simply roll the associated attribute.'
             case 'Tekhne':
-                return 'Skills with some technical and training requirements. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value or require additional successes.'
+                return 'Skills with some technical and training requirements. Tests involving these skills might be able to be attempted without any dots in the skill, but will probably have a higher difficulty value or require additional successes to succeed.'
             case 'Knowledge':
-                return 'Skills reflecting a fair amount of study. Tests involving these skills usually cannot be attempted without at least one dot in the relevant skill.'
+                return 'Skills reflecting a fair amount of study or broad knowledge of a given subject. Tests involving these skills usually cannot be attempted without at least one dot in the relevant skill.'
             // street skills
             case 'Athletics':
-                return `Athletics is a character's skill in all manner of sport and physical activity, from acrobatics and rock climbing to parkour and swimming.`
+                return `Athletics is a character's skill in all manner of sport and physical activity, from acrobatics and rock climbing to parkour and swimming. Common tests involve perform feats of dexterity or strength such as sprinting or leaping over an obstacle. It also covers throwing items.`
             case 'Brawling':
-                return `Whether dirty street fighting or classic hapkido, Brawling represents a character's ability to engage in physical violence without weaponry.`
+                return `Whether dirty street fighting or classic hapkido, Brawling represents a character's ability to engage in physical violence without weaponry. While one dot might reflect a self-taught backroom bruiser, four or five indicates someone who dismantles people with their hands for a living.`
             case 'Concentration':
-                return `Concentration is a character's ability to maintain focus even in trying circumstances.`
+                return `Concentration is a character's ability to maintain focus even in trying circumstances. It is commonly used to perform difficult tasks under pressure (time, mid-firefight, etc), or to continue a dull task for an extended period of time without making mistakes, such as coding overly elaborate character management systems.`
             case 'Evasion':
-                return `Evasion is a character's ability to dodge and avoid attacks.`
+                return `Evasion represents a character's ability to dodge and avoid attacks.`
             case 'Fast Talk':
-                return `Fast Talk is used to charm, deceive, or hornswaggle.`
+                return `Fast Talk is used to charm, deceive, or hornswaggle other folks - sometimes all three at once. It can be used from everything from getting a good deal at the local night market to convincing a local ganger you were sent by their boss.`
             case 'Firearms':
-                return `Firearms is a character's skill with most ranged weapons that rely on gunpowder.`
+                return `Firearms is a character's skill with most ranged weapons that rely on gunpowder or, because the future, magnets or whatever.`
             case 'Legerdemain':
-                return `Legerdemain allows a character to perform acts of physical dexterity, and covers a variety of crime-adjacent activities, including lock picking, picking pockets. It also can be used for close up magic.`
+                return `Legerdemain allows a character to perform acts of fine physical dexterity, and covers a variety of crime-adjacent activities, including lock picking and casual theft. It also can be used for close up magic. It is also useful for detecting people engaged in the same.`
             case 'Melee Weapons':
-                return `Melee Weapons is a character's skill with most hand held weapons that aren't guns.`
+                return `Melee Weapons is a character's skill with pretty much everything that isn't a gun or cyberware - from the trusty lead pipe to a crystal edged, vibrating monokatana.`
             case 'Perception':
-                return `Perception is a character's ability to observe that which is concealed or hidden, and is commonly used in opposition to other characters.`
+                return `Perception is a character's ability to observe that which is concealed or hidden, and is commonly used in opposition to other characters sneaking around. Common rolls include detecting ambushes, spotting fake walls, or noticing the last five people to come into the bar belong to the local killgangs.`
             case 'Streetwise':
                 return `Streetwise is a character's knowledge of the streets. It represents a character's ability to survive in an urban environment. It also represents the ability to find information, scrounge materials, or even a couch for the night.`
             // Tekhne Skills
             case 'Demolitions':
-                return `Demolitions is a character's skill with emplaced explosives, as well as their ability to disarm the same.`
+                return `Demolitions is a character's skill with emplaced explosives, as well as their ability to safely handle and disarm the same.`
             case 'Drive Land Vehicle':
-                return `Drive Land Vehicles is a character's ability to pilot land vehicles, including cars and motorcycles.`
+                return `Drive Land Vehicles is a character's ability to pilot groundcraft, including cars and motorcycles.`
             case 'Drive Exotic Vehicle':
                 return `Drive Exotic Vehicles is a character's ability to pilot all other vehicles, from speedboats to airplanes to submarines to zeppelins.`
             case 'Etiquette':

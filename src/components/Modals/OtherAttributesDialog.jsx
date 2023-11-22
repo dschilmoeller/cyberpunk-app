@@ -113,7 +113,7 @@ export default function OtherAttributesDialog({ prop }) {
                 return (<>
                     <Grid item xs={12} paddingBottom={1}>Armor reflects a combination of worn armor, shields, and cyberware that provide some protection against injury. When receiving an injury, characters roll Body + Armor to resist the damage against a difficulty value of 6. 1s are ignored on this roll.</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires the Military Tech (worn armor) or Cybertech (cyberware armor) skill to repair.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires the Military Tech (worn armor) or Cybertech (cyberware armor) skill to repair, along with time, materials, and an appropriate work area or tool kit.</Grid>
 
                     <Grid item xs={12} paddingBottom={1}>Weapons whose base damage is one third or less of a target's combined armor value cannot damage that target - their armor is simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware.
                     </Grid>
@@ -128,12 +128,11 @@ export default function OtherAttributesDialog({ prop }) {
 
                 return (<>
                     <Grid item xs={12} paddingBottom={1}>Luck has a number of uses for a character. Characters can expend a point of temporary luck to do any of the following. A character cannot spend more than one point of luck each round.</Grid>
-                    <Grid item xs={12} ><b>Just Plain Lucky:</b> A character can add a single success - basically add a die that came up 10.</Grid>
-                    <Grid item xs={12} ><b>Finger on the Scale:</b> A character can reroll a number of dice up to their maximum luck score. They must take the new results, including any additional 1s that come up.</Grid>
-                    <Grid item xs={12} ><b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
-                    <Grid item xs={12} ><b>Trust in The Lady:</b> Before making a roll, once per session, a character can trust in their luck and use their <b>maximum</b> luck in place of an attribute for a single roll. However, any 1s rolled are counted twice - Luck is a fickle mistress.</Grid>
-
-                    <Grid item xs={12}>Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
+                    <Grid item xs={12}><b>Just Plain Lucky:</b> A character can add a single success - basically add a die that came up 9.</Grid>
+                    <Grid item xs={12}><b>Finger on the Scale:</b> A character can reroll a number of dice up to their maximum luck score. They must take the new results, including any additional 1s that come up.</Grid>
+                    <Grid item xs={12}><b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
+                    <Grid item xs={12}><b>Trust in The Lady:</b> Before making a roll, once per session, a character can trust in their luck and use their <b>maximum</b> luck in place of an attribute for a single roll. However, any 1s rolled are counted twice - Luck is a fickle mistress.</Grid>
+                    <Grid item xs={12}><b>A Kiss While Dying:</b> Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
                     <Grid item xs={12} display={'flex'} justifyContent={'center'}><Button onClick={() => burnOneLuck(charStatus.id, charStatus.max_luck)}>Burn 1 Luck - This Cannot Be Undone</Button></Grid>
                 </>)
             case 'Humanity':

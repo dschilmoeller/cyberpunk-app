@@ -3,12 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
-import SpecialModal from '../../Modals/SpecialModal';
+import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -115,7 +114,7 @@ export default function AdvancementOther() {
 
             <Grid item xs={6}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SpecialModal prop={'Luck'} /></Item></Grid>
+                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Luck'} /></Item></Grid>
                     <Grid item xs={12}>
                         {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Maximum Luck: {luckExpReturn()} </Item>
                             :
@@ -128,7 +127,7 @@ export default function AdvancementOther() {
 
             <Grid item xs={6}>
                 <Grid container>
-                    <Grid item xs={12}><Item><SpecialModal prop={'Humanity'} /></Item></Grid>
+                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Humanity'} /></Item></Grid>
                     <Grid item xs={12}>
                         {advancementDetails.temp_humanity_loss > 0 ?
                             <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>

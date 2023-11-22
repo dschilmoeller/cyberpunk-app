@@ -6,7 +6,6 @@ import { TextField, Button } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import Paper from '@mui/material/Paper';
@@ -50,57 +49,10 @@ export default function AdvancementMakePharmaDialog() {
 
     const dispatch = useDispatch()
     const charDetail = useSelector(store => store.advancementDetail)
-    const charMiscGear = useSelector(store => store.characterMiscGear)
     const miscGearList = useSelector(store => store.gearMaster.miscGear)
 
     const [reagentCost, setReagentCost] = React.useState(200)
     const [quantityPharmaCreated, setQuantityPharmaCreated] = React.useState(0)
-
-    const [numberAntibiotic, setNumberAntibiotic] = React.useState(0)
-    const [numberRapiDetox, setNumberRapiDetox] = React.useState(0)
-    const [numberSpeedheal, setNumberSpeedheal] = React.useState(0)
-    const [numberStim, setNumberStim] = React.useState(0)
-    const [numberSurge, setNumberSurge] = React.useState(0)
-
-
-    // TODO: add to advancement sheet - See Other Gear - Add 'Create Drugs' button on full width right below selection. 
-    // figure out why the commented out section is not working for doing a stupid count of existing pharmaceuticals. 
-    // 
-
-    // React.useEffect(() => {
-    //     countPharma();
-    // }, [charMiscGear])
-
-    // console.log(`number Anti:`, numberAntibiotic);
-    // console.log(`number rapid:`, numberRapiDetox);
-    // console.log(`number speed`, numberSpeedheal);
-    // console.log(`number stim`, numberStim);
-    // console.log(`Number surge:`, numberSurge);
-
-    // Not working at all as expected. Odd.
-    // const countPharma = () => {
-    //     charMiscGear.map(item => {
-    //         switch (item.name) {
-    //             case 'Antibiotic':
-    //                 setNumberAntibiotic(numberAntibiotic + 1)
-    //                 break;
-    //             case 'Rapi-Detox':
-    //                 setNumberRapiDetox(numberRapiDetox + 1)
-    //                 break;
-    //             case 'Speedheal':
-    //                 setNumberSpeedheal(numberSpeedheal + 1)
-    //                 break;
-    //             case 'Stim':
-    //                 setNumberStim(numberStim + 1)
-    //                 break;
-    //             case 'Surge':
-    //                 setNumberSurge(numberSurge + 1)
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     })
-    // }
 
     const makePharma = (pharmName) => {
         if (charDetail.bank > reagentCost && reagentCost > -1) {

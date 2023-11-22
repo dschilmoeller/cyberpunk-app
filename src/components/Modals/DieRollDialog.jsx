@@ -1,15 +1,11 @@
 import * as React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { TextField, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -18,14 +14,6 @@ import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 
 import { Grid } from '@mui/material';
 
@@ -44,8 +32,6 @@ export default function DieRollDialog() {
     const handleClose = () => {
         setOpen(false);
     };
-
-    const dispatch = useDispatch()
 
     const [selectedDieIndex, setSelectedDieIndex] = React.useState(0)
     const [selectedDifficulty, setSelectedDifficulty] = React.useState(6)

@@ -81,7 +81,7 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Body is a measure of phsyical toughness and general good health. Characters with a very low body are generally not in very good health, while characters with a high body tend to be extremely fit.</Grid>
-                            <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and of course Body + Armor is used for resisting damage. </Grid>
+                            <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and Body + Armor is used for resisting damage. </Grid>
                         </Grid>
                     </>
                 )
@@ -90,6 +90,7 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Reflexes measure how flexible and agile a character is.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 2 is average; Reflexes 5 is a olympian gymnast.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include combat related tests, including attacking and dodging, as well as any test requiring physical finesse that isn't related to a technical skill.</Grid>
                         </Grid>
                     </>
@@ -99,6 +100,7 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Appearance is the physical attractiveness and/or measure of how striking a character looks</Grid>
+                            <Grid item padding={1} xs={12}>An appearance of 2 is a fairly average and forgettable person, while someone with appearance of 5 has supermodel level good looks or an almost supernaturally intense stare.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include making a strong first impression and getting your way by sheer animal magnetism. Frequently paired with Fast Talk, Etiquette, or Business</Grid>
                         </Grid>
                     </>
@@ -108,7 +110,7 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Cool is a combination of charisma, sociability, the ability to impress and influence others. It also reflects a character's composure and ability to remain calm under pressure</Grid>
-                            <Grid item padding={1} xs={12}>It is only rarely partnered with a skill by default (Fast Talk is the only skill it pairs with by default), but Cool can be used in many situations where another attribute would normally appear due to the <b>Rule of Cool.</b></Grid>
+                            <Grid item padding={1} xs={12}>Cool is combined with some skills such as Fast Talk or Etiquette, but it can also be used in many situations where another attribute would normally appear due to the <b>Rule of Cool.</b></Grid>
                             <Grid item padding={1} xs={12}><b>The Rule of Cool</b></Grid>
                             <Grid item padding={1} xs={12}>Cyberpumpkins live and die by how cool they are. To reflect this, once per scene, they can use their Cool attribute in lieu of any other attribute in a roll. This can only be done if what they are doing is Fucking Awesome.
                                 The GM has final say on what can be subbed, but they are encouraged to be generous.</Grid>
@@ -127,7 +129,8 @@ export default function AttributesDialog({ prop }) {
                 return (
                     <>
                         <Grid container fontFamily={'serif'}>
-                            <Grid item xs={12}>Simply put, how good your name is on the street - a measure of your underworld notoriety.</Grid>
+                            <Grid item xs={12}>Simply put, how good your name is on the street - a measure of your underworld notoriety. The average 'Runner might have 1-2 Street Cred. 4-5 represents a 'runner who is known throughout the city or region, while 8+ reflects a level of worldwide fame - videos of their exploits can fetch a fair price on the street.</Grid>
+                            <Grid item padding={1} xs={12}>Street Cred is useful when negotiating pay for a job, and affects what kinds of jobs a runner can expect to get in the first place. It can also be used with Streetwise to impress other runners, gangers, corpos, and other lowlifes.</Grid>
                             <Grid item xs={12}>Street cred cannot be purchased with experience, and is granted during play as the runner pulls off especially daring and/or stupid jobs.</Grid>
                         </Grid>
                     </>
@@ -136,8 +139,9 @@ export default function AttributesDialog({ prop }) {
                 return (
                     <>
                         <Grid container fontFamily={'serif'}>
-                            <Grid item xs={12}>How mentally sharp someone is, as well as describing their level of book learning.</Grid>
-                            <Grid item xs={12}>Common used in academic skill tests. A character can use a raw intelligence test to recall specific events or items.</Grid>
+                            <Grid item xs={12}>How mentally sharp someone is, as well as describing their level of academic achievement or "book learning".</Grid>
+                            <Grid item padding={1} xs={12}>Netrunners use Intelligence for most net tests.</Grid>
+                            <Grid item xs={12}>Commonly used in academic skill tests. A character can use a raw intelligence test to recall specific events or items, as well.</Grid>
                         </Grid>
                     </>
                 )
@@ -145,8 +149,9 @@ export default function AttributesDialog({ prop }) {
                 return (
                     <>
                         <Grid container fontFamily={'serif'}>
-                            <Grid item xs={12}>A person's level of mental toughness and willingness to persevere in the face of adversity.</Grid>
-                            <Grid item xs={12}>Commonly used as a solo test to deal with terrifying situations, and may be paired with other skills in some situations (Concentration is the most common, but Demolitions, Etiquette, and Gambling are likewise common enough pairings)</Grid>
+                            <Grid item xs={12}>A person's level of mental toughness and willingness to persevere in the face of adversity. Can be thought of as the Body attribute for the brain.</Grid>
+                            <Grid item padding={1} xs={12}>Netrunners use Willpower in place of Body when encountering damage on the 'net.</Grid>
+                            <Grid item xs={12}>Commonly used as a solo test to deal with terrifying situations, and may be paired with other skills in some situations (Concentration is the most common, but Demolitions, Etiquette, and Gambling are likewise common enough pairings).</Grid>
                         </Grid>
                     </>
                 )
@@ -154,7 +159,7 @@ export default function AttributesDialog({ prop }) {
                 return (
                     <>
                         <Grid container fontFamily={'serif'}>
-                            <Grid item xs={12}>A person's level of skill and manual dexterity, generally with mechanical or more practical matters than Intelligence.</Grid>
+                            <Grid item xs={12}>A person's level of skilled manual dexterity, generally with mechanical or more practical matters than Intelligence. Hotwiring a car, performing surgery, and playing an instrument all use the Technique skill.</Grid>
                             <Grid item xs={12}>Commonly used with Tech skills, as well Performance, Drive Vehicles, and Gambling (when trying to cheat)</Grid>
                         </Grid>
                     </>
@@ -165,19 +170,19 @@ export default function AttributesDialog({ prop }) {
                         <Grid container fontFamily={'serif'}>
                             <Grid item xs={12} padding={1}>The speed a person moves at. In grid-based play, this the number of squares (1 meter) a character can move each round as a standard action during combat or other contested situations.</Grid>
                             <Grid item xs={12} padding={1}>Generally, this can be used as a comparison as to whether two characters move faster/slower than each other, or at roughly the same speed.</Grid>
-                            <Grid item xs={12} padding={1}>A successful Reflexes + Athletics test allows for more movement in a round, particularly when moving is all a character is doing that turn.</Grid>
+                            <Grid item xs={12} padding={1}>Movement is one part of a character's actions each round. They can opt to move during their normal move action as well, doubling their movement for one turn. If they do this, they can elect to roll Reflexes + Athletics, and move an additional amount equal to the successes rolled. This does open the character up to failing and botching, of course.</Grid>
+                            <Grid item padding={1} xs={12}>The GM may also decide that a similar roll is called for to make any moves at all. Alternately, moving under fire (such as when someone is blindly firing an automatic weapon around) may require a different test to perform even normal movements, such as Willpower + Concentration</Grid>
                         </Grid>
                     </>
                 )
             case 'Luck':
                 return (<>
                     <Grid item xs={12} paddingBottom={1}>Luck has a number of uses for a character. Characters can expend a point of temporary luck to do any of the following. A character cannot spend more than one point of luck each round.</Grid>
-                    <Grid item xs={12} ><b>Just Plain Lucky:</b> A character can add a single success - basically add a die that came up 10.</Grid>
-                    <Grid item xs={12} ><b>Finger on the Scale:</b> A character can reroll a number of dice up to their maximum luck score. They must take the new results, including any additional 1s that come up.</Grid>
-                    <Grid item xs={12} ><b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
-                    <Grid item xs={12} ><b>Trust in The Lady:</b> Before making a roll, once per session, a character can trust in their luck and use their <b>maximum</b> luck in place of an attribute for a single roll. However, any 1s rolled are counted twice - Luck is a fickle mistress.</Grid>
-
-                    <Grid item xs={12}>Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
+                    <Grid item xs={12}><b>Just Plain Lucky:</b> A character can add a single success - basically add a die that came up 9.</Grid>
+                    <Grid item xs={12}><b>Finger on the Scale:</b> A character can reroll a number of dice up to their maximum luck score. They must take the new results, including any additional 1s that come up.</Grid>
+                    <Grid item xs={12}><b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
+                    <Grid item xs={12}><b>Trust in The Lady:</b> Before making a roll, once per session, a character can trust in their luck and use their <b>maximum</b> luck in place of an attribute for a single roll. However, any 1s rolled are counted twice - Luck is a fickle mistress.</Grid>
+                    <Grid item xs={12}><b>A Kiss While Dying:</b> Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
                 </>)
             default:
                 return ''
