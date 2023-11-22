@@ -118,6 +118,18 @@ export default function RulebookCombat() {
                                         </TableRow>
 
                                         <TableRow hover>
+                                            <TableCell>Dodge</TableCell>
+                                            <TableCell align="left">Free</TableCell>
+                                            <TableCell align='left'>Attempt to jerk out of the way of a single attack. Roll Reflexes against DV6 and subtract total from next attack. Use same total minus 1 for each additional attack in a round.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>Parry</TableCell>
+                                            <TableCell align="left">Free</TableCell>
+                                            <TableCell align='left'>Identical to Dodge, but requires both attacker and defender to be wielding a melee weapon. Roll Reflexes + Melee Weapons.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
                                             <TableCell>Run</TableCell>
                                             <TableCell align="left">Complex</TableCell>
                                             <TableCell align='left'>Take a second move action. Can optionally roll Reflexes + Athletics and move additional 1 meter per success.</TableCell>
@@ -127,6 +139,12 @@ export default function RulebookCombat() {
                                             <TableCell>Attack</TableCell>
                                             <TableCell align="left">Complex</TableCell>
                                             <TableCell align='left'>Make a number of Melee or Ranged attacks up to the weapon's ROF.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>Evade</TableCell>
+                                            <TableCell align="left">Complex</TableCell>
+                                            <TableCell align='left'>Choose life. Roll Reflexes + Evasion against DV6 and subtract successes from all incoming attacks this round.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
@@ -199,15 +217,16 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='h6'>
-                    Attack Rolls
+                    Attack Rolls - Typical
                 </Typography>
             </Grid>
 
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Attacker Reflexes + Weapon Skill</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>vs</i></Typography></Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Defender Reflexes (+ Weapons skill if both characters are using melee weapons)</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Defender Reflexes (+ Melee Weapons skill if both characters are using melee weapons)</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Base DV for both is 6; modified by distance, called shots, and other modifiers. Defender wins ties.</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Attacker damage is equal to weapons base damage + number of successes on attack, minus number of defender successes.</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Defender can Dodge (above), Parry, or spend their next complex action to Evade.</i></Typography></Grid>
 
             <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Typography variant='p'>
