@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function DiceTenBase(selected) {
-    console.log(`Selected`, selected);
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <polygon points="256,512,0,256,256,0,512,256" fill="#9013fe" ç="1">

@@ -33,7 +33,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    A 'round' covers about 4 - 5 seconds. When combat starts, everyone rolls initiative. The higher one's initiative is, the sooner they go. If two character's tie, the one with higher reflexes goes first. Each round, each character gets a turn, consisting of a Simple Action and a Complex Action. There are also a very limited number of free actions. If desired, a character can a second simple action in place of their complex action. If a character elects to move, they can perform a combination of movements and other actions - a character with Move 3 and a ROF 2 weapon can move 1 meter, shoot a weapon, then move 2 more meters, and shoot again.
+                    A 'round' covers about 4 - 5 seconds. When combat starts, everyone rolls initiative. The higher one's initiative is, the sooner they go. If two character's tie, the one with higher reflexes goes first. Each round, each character gets a turn, consisting of a Simple Action and a Complex Action. There are also a very limited number of free actions. If desired, a character can perform a second simple action in place of their complex action. If a character elects to move, they can perform a combination of movements and other actions - a character with Move 3 and a ROF 2 weapon can move 1 meter, shoot a weapon, then move 2 more meters, and shoot again.
                 </Typography>
             </Grid>
 

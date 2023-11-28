@@ -97,18 +97,30 @@ export default function GameMasterRoles() {
     const fiveAttLevelChange = (statToChange, currentStat, changeType) => {
         if (currentStat < 5 && changeType === 'increase') {
             currentStat += 1
+            dispatch({
+                type: "GM_INCREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                }
+            })
         } else if (currentStat > 0 && changeType === 'decrease') {
             currentStat -= 1
+            dispatch({
+                type: "GM_DECREASE_STAT", payload: {
+                    statToChange: statToChange,
+                    newStatAmount: currentStat,
+                }
+            })
         } else {
             setShowSnackbar(true)
         }
 
-        dispatch({
-            type: "GM_CHANGE_STAT", payload: {
-                statToChange: statToChange,
-                newStatAmount: currentStat,
-            }
-        })
+        // dispatch({
+        //     type: "GM_CHANGE_STAT", payload: {
+        //         statToChange: statToChange,
+        //         newStatAmount: currentStat,
+        //     }
+        // })
     }
 
     const changeParamedic = (input) => {

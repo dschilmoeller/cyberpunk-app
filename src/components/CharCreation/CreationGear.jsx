@@ -320,7 +320,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {weapons.map((row, i) => {
-                            if (row.price < 5000) {
+                            if (row.price < 5000 && row.is_treasure != true) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{row.name}</TableCell>

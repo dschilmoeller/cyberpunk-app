@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
@@ -31,6 +31,8 @@ export default function DieRollDialog() {
     const charDetails = useSelector(store => store.characterDetail)
     const charStatus = useSelector(store => store.characterStatus)
     const characterCyberware = useSelector(store => store.characterGear.cyberware)
+
+    const dispatch = useDispatch();
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -70,7 +72,11 @@ export default function DieRollDialog() {
     };
 
     const [usingLuck, setUsingLuck] = React.useState(false)
-
+    // prevent using luck if none is available - character sheet only.
+    const checkUsingLuck = (incoming) => {
+        if ((charStatus.current_luck_loss < charDetails.max_luck) || charDetails.max_luck == undefined)
+        setUsingLuck(incoming)
+    }
 
     const [showResult, setShowResult] = React.useState(false)
     const [rollResult, setRollresult] = React.useState('')
@@ -162,10 +168,15 @@ export default function DieRollDialog() {
 
             // Display: You rolled the following: [], resulting in {successes} hits and {glitches} glitches. You have {outcome}!
             setRollresult(`${dieResultText}. This is a ${outcome}`)
-            // clean up luck, prevent rolling for a momment, and make the dice spin (prevention & rolling timer reset in UseEffect)
+            // clean up 'using luck', prevent rolling for a momment, and make the dice spin (prevention & rolling timer reset in UseEffect)
             setUsingLuck(false)
             setAllowRoll(false)
             setDieClass('spin-die')
+            // burn one luck if allowed.
+            if (usingLuck == true && (charStatus.current_luck_loss < charDetails.max_luck)) {
+                dispatch({ type: 'REMOVE_ONE_LUCK' })
+            }
+
         }
     }
 
@@ -176,7 +187,7 @@ export default function DieRollDialog() {
             diceSVGArray.push(
                 <React.Fragment key={i}>
                     <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, usingLuck, selectedDifficulty)} onMouseEnter={() => setSelectedDieIndex(i + 1)}>
-                        <DiceTenHighlighted prop={{class_id: dieClass}}/>
+                        <DiceTenHighlighted prop={{ class_id: dieClass }} />
                     </Grid>
                 </React.Fragment>
             )
@@ -193,9 +204,9 @@ export default function DieRollDialog() {
         return diceSVGArray
     }
 
-    const quickRoll = (att, cyberAtt, skill, isExploding, difficultyValue, penalty) => {
+    const quickRoll = (totalDice, isExploding, difficultyValue) => {
         if (allowRoll) {
-            difficultyRoll(((att + cyberAtt + skill) + penalty), isExploding, difficultyValue)
+            difficultyRoll(totalDice, isExploding, difficultyValue)
             setAllowRoll(false)
         }
     }
@@ -203,7 +214,7 @@ export default function DieRollDialog() {
     const painPenalty = (stun, lethal, agg, cyberBoxes) => {
         let woundAggregator = stun + lethal + agg
         let painPenalty = [0, 0, 0, -1, -1, -2, -2, -3, -3, -5, -8]
-        let finalPain = 0
+        let finalPain;
 
         characterCyberware.map(cyberware => {
             if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
@@ -211,12 +222,31 @@ export default function DieRollDialog() {
             }
         })
 
-        if (woundAggregator - cyberBoxes < 1) {
-            painPenalty = 0
+        if (woundAggregator == 0) {
+            finalPain = 0
+        } else if (woundAggregator / 2 <= cyberBoxes) {
+            // console.log(`pain w/ cyber: `, painPenalty[Math.ceil(woundAggregator / 2)]);
+            finalPain = painPenalty[Math.ceil(woundAggregator / 2)]
         } else {
+            // console.log(`position is, of 10,`, (woundAggregator - cyberBoxes));
+            // console.log(`pain past cyber: `, painPenalty[Math.ceil(woundAggregator / 2) + cyberBoxes]);
             finalPain = painPenalty[woundAggregator - cyberBoxes]
         }
+
+        // if (woundAggregator - cyberBoxes < 1) {
+        //     painPenalty = 0
+        // } else {
+        //     finalPain = painPenalty[woundAggregator - cyberBoxes]
+        // }
         return finalPain
+    }
+
+    const dieChecker = (total) => {
+        if (total <= 0) {
+            return 1
+        } else {
+            return total
+        }
     }
 
     return (
@@ -241,7 +271,7 @@ export default function DieRollDialog() {
                             <FormGroup>
                                 <FormControlLabel control={<Switch
                                     checked={usingLuck}
-                                    onChange={(e) => setUsingLuck(e.target.checked)} />} label="10s Explode?" />
+                                    onChange={(e) => checkUsingLuck(e.target.checked)} />} label="10s Explode?" />
                             </FormGroup>
                         </h3>
                         </Grid>
@@ -252,35 +282,35 @@ export default function DieRollDialog() {
                                     <Grid item xs={12} display={'flex'} justifyContent={'center'}><h4 style={{ margin: 0 }}>Quick Actions:</h4></Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(charDetails.reflexes, charDetails.cyber_reflexes, charDetails.melee_weapons, usingLuck, selectedDifficulty, painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty,)}
                                     >
                                         <Button fullWidth
-                                            onMouseEnter={() => setSelectedDieIndex((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                            onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
                                         >
-                                            Melee Attack / Parry - {(charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)}d10 @ DV {selectedDifficulty}</Button>
+                                            Melee Attack / Parry - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(charDetails.reflexes, charDetails.cyber_reflexes, charDetails.firearms, usingLuck, selectedDifficulty, painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes), usingLuck, selectedDifficulty))}
                                     >
                                         <Button fullWidth
-                                            onMouseEnter={() => setSelectedDieIndex((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                            onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
                                         >
-                                            Firearms Attack - {(charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)}d10 @ DV {selectedDifficulty}</Button>
+                                            Firearms Attack - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(charDetails.reflexes, charDetails.cyber_reflexes, 0, usingLuck, selectedDifficulty, painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + 0) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
                                     >
-                                        <Button fullWidth onMouseEnter={() => setSelectedDieIndex((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}>
-                                            Quick Dodge - {(charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)}d10 @ DV {selectedDifficulty}</Button>
+                                        <Button fullWidth onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}>
+                                            Quick Dodge - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(charDetails.reflexes, charDetails.cyber_reflexes, charDetails.evasion, usingLuck, selectedDifficulty, painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
                                     >
-                                        <Button fullWidth onMouseEnter={() => setSelectedDieIndex((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}>
-                                            Evade - {(charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)}d10 @ DV {selectedDifficulty}</Button>
+                                        <Button fullWidth onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}>
+                                            Evade - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
                                 </Grid>
                             </>) : <></>}
