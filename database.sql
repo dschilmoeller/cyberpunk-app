@@ -599,7 +599,7 @@ VALUES
 ('Radio Communicator',100,'Allows user to communicate via radio. Approximate range of 1 mile.',0,0,'Clinic','cyberaudio', false),
 ('Voice Stress Analyzer',500,'Runs sophisticated analysis on incoming speech patterns, giving reduced difficulties to efforts to detect lies.',0,0,'Clinic','cyberaudio'), false,
 ('AudioVox',500,'Voice synthesizer. Can be programmed in a variety of useful ways, most commonly used by speech-givers and musicians to achieve flawless verbalization.',1,4,'Clinic','internalware', false),
-('Contraceptive Implant',10,'Prevents unwanted pregnancy for approxiamtely 4 years.',0,0,'Mall','internalware', false),
+('Contraceptive Implant',10,'Prevents unwanted pregnancy for approximately 4 years.',0,0,'Mall','internalware', false),
 ('Platelet Booster',500,'Advanced nanotech that lowers healing difficulty values by 1.',1,4,'Clinic','internalware', false),
 ('Nanotech Hive',5000,'Small, self-propogating device that allows for rapid and dramatic healing. User recovers from wounds as though they were in a cryotank if they get at least 8 hours of sleep a day.',1,4,'Hospital','internalware', false),
 ('Vampyres',500,'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a small resevoir. If the user grapples a victim first, the damage is aggravated',1,4,'Clinic','internalware', false),
