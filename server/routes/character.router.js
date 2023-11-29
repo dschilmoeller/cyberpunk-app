@@ -85,6 +85,34 @@ router.get('/fetchcharacterstatus/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
+// fetch character armor & shields for in play sheet
+router.get('/fetchcharacterarmor/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_armor_bridge"
+    JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
+    WHERE char_id = $1 AND equipped = true`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character armor details`, err);
+        })
+})
+
+router.get('/fetchcharactershield/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_shield_bridge"
+    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
+    WHERE char_id = $1 AND equipped = true`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character shield details`, err);
+        })
+})
+
+
 // fetch character weapons for in play character sheet
 router.get('/fetchcharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge"
@@ -208,9 +236,9 @@ router.delete('/useGrenade/:id', rejectUnauthenticated, (req, res) => {
 // save changes made on in play character sheet.
 router.put('/savecharacter/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status"
-    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_armor_loss" = $4, "current_luck_loss" = $5
+    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_cyberware_armor_loss" = $4, "current_luck_loss" = $5
     WHERE "char_id" = $6;`
-    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_armor_loss, req.body.current_luck_loss, req.params.id]
+    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_cyberware_armor_loss, req.body.current_luck_loss, req.params.id]
 
     pool.query(sqlText, sqlParams)
         .then((result) => {
@@ -219,6 +247,35 @@ router.put('/savecharacter/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => {
             console.log(`Error saving character status:`, err);
         })
+})
+
+// save damage to armor / shield from in play sheet
+router.put('/savecharacterarmor/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_armor_bridge"
+    SET "this_armor_loss" = $1
+    WHERE "armor_bridge_id" = $2`
+    const sqlParams = [req.body.this_armor_loss, req.body.armor_bridge_id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {
+        res.sendStatus(202)
+    })
+    .catch(err => {
+        console.log(`Error saving character Armor Details`, err);
+    })
+})
+
+router.put('/savecharactershield/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_shield_bridge"
+    SET "this_shield_loss" = $1
+    WHERE "shield_bridge_id" = $2`
+    const sqlParams = [req.body.this_shield_loss, req.body.shield_bridge_id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {
+        res.sendStatus(202)
+    })
+    .catch(err => {
+        console.log(`Error saving character shield Details`, err);
+    })
 })
 
 // save shots fired on in play character sheet.
@@ -521,32 +578,32 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
         .then(result => {
             // query to save character status!
             const charStatusSqlText = `UPDATE "char_status"
-        SET "current_armor_quality"= $1, "current_shield_quality" = $2, "current_cyberware_armor_quality" = $3, "current_cyberware_health_boxes" = $4
-        WHERE char_status_id = $5`
+        SET "current_armor_quality"= $1, "current_shield_quality" = $2, "current_cyberware_armor_quality" = $3, "current_cyberware_health_boxes" = $4, "current_cyberware_armor_loss" = $5
+        WHERE char_status_id = $6`
 
-            const charStatusParams = [req.body.gear.totalArmorQuality, req.body.gear.totalShieldQuality, req.body.gear.totalCyberwareArmorQuality, req.body.gear.totalCyberwareHealthBoxesCreated, rb.char_status_id]
+            const charStatusParams = [req.body.gear.totalArmorQuality, req.body.gear.totalShieldQuality, req.body.gear.totalCyberwareArmorQuality, req.body.gear.totalCyberwareHealthBoxesCreated, rb.current_cyberware_armor_loss, rb.char_status_id]
             pool.query(charStatusSqlText, charStatusParams)
         })
         .then(result => {
             // change armor mod, equipped status
             const armor = req.body.gear.armor
             const armorSqlText = `UPDATE "char_armor_bridge"
-            SET "armor_mod_1" = $1, "equipped" = $2
+            SET "equipped" = $1, "this_armor_loss" = $2
             WHERE armor_bridge_id = $3`
 
             for (let i = 0; i < armor.length; i++) {
-                const armorSqlParams = [armor[i].armor_mod_1, armor[i].equipped, armor[i].armor_bridge_id]
+                const armorSqlParams = [armor[i].equipped, armor[i].this_armor_loss, armor[i].armor_bridge_id]
                 pool.query(armorSqlText, armorSqlParams)
             }
 
             // change shield mod, equipped status
             const shield = req.body.gear.shield
             const shieldSqlText = `UPDATE "char_shield_bridge"
-            SET "armor_mod_1" = $1, "equipped" = $2
+            SET "equipped" = $1, "this_shield_loss" = $2
             WHERE shield_bridge_id = $3`
 
             for (let i = 0; i < shield.length; i++) {
-                const shieldSqlParams = [shield[i].armor_mod_1, shield[i].equipped, shield[i].shield_bridge_id]
+                const shieldSqlParams = [shield[i].equipped, shield[i].this_shield_loss, shield[i].shield_bridge_id]
                 pool.query(shieldSqlText, shieldSqlParams)
             }
 
@@ -679,10 +736,10 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             // loop through boughtArmor array, perform post on each.
             const boughtArmor = req.body.gear.boughtArmor
             if (boughtArmor.length > 0) {
-                const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
+                const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "this_armor_loss", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtArmor.length; i++) {
-                    const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 1, false]
+                    const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 0, false]
                     pool.query(boughtArmorSqlText, boughtArmorParams)
                 }
             }
@@ -697,10 +754,10 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             }
             const boughtShield = req.body.gear.boughtShield
             if (boughtShield.length > 0) {
-                const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "armor_mod_1", "equipped")
+                const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "this_shield_loss", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtShield.length; i++) {
-                    const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 1, false]
+                    const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 0, false]
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }
@@ -892,16 +949,16 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
         .then((result) => {
             for (let i = 0; i < req.body.armor.length; i++) {
                 const armorSqlText = `INSERT INTO "char_armor_bridge" 
-                ("char_id", "armor_id", "armor_mod_1", "equipped")
+                ("char_id", "armor_id", "this_armor_loss", "equipped")
                 VALUES ($1, $2, $3, $4)`
-                const armorSqlParams = [result.rows[0].id, rb.armor[i], 1, false]
+                const armorSqlParams = [result.rows[0].id, rb.armor[i], 0, false]
                 pool.query(armorSqlText, armorSqlParams)
             }
             for (let i = 0; i < req.body.shield.length; i++) {
                 const shieldSqlText = `INSERT INTO "char_shield_bridge" 
-                ("char_id", "shield_id", "armor_mod_1", "equipped")
+                ("char_id", "shield_id", "this_armor_loss", "equipped")
                 VALUES ($1, $2, $3, $4)`
-                const shieldSqlParams = [result.rows[0].id, rb.shield[i], 1, false]
+                const shieldSqlParams = [result.rows[0].id, rb.shield[i], 0, false]
                 pool.query(shieldSqlText, shieldSqlParams)
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
@@ -934,7 +991,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
             }
 
             const bridgeSqlText = `INSERT INTO "char_status" ("char_id", "current_stun", "current_lethal","current_agg",
-            "current_armor_loss","current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes")
+            "current_luck_loss", "current_armor_quality", "current_shield_quality", "current_cyberware_armor_quality", "current_cyberware_health_boxes", "current_cyberware_armor_loss")
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
             const bridgeParams = [result.rows[0].id, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             pool.query(bridgeSqlText, bridgeParams)
@@ -1044,10 +1101,10 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
             // loop through boughtArmor array, perform post on each.
             const boughtArmor = req.body.gear.boughtArmor
             if (boughtArmor.length > 0) {
-                const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "armor_mod_1", "equipped")
+                const boughtArmorSqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "this_armor_loss", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtArmor.length; i++) {
-                    const boughtArmorParams = [req.body.charDetail.id, boughtArmor[i].armor_master_id, 1, false]
+                    const boughtArmorParams = [req.body.charDetail.id, boughtArmor[i].armor_master_id, 0, false]
                     pool.query(boughtArmorSqlText, boughtArmorParams)
                 }
             }
@@ -1062,10 +1119,10 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
             }
             const boughtShield = req.body.gear.boughtShield
             if (boughtShield.length > 0) {
-                const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "armor_mod_1", "equipped")
+                const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "this_shield_loss", "equipped")
             VALUES ($1, $2, $3, $4);`
                 for (let i = 0; i < boughtShield.length; i++) {
-                    const boughtShieldParams = [req.body.charDetail.id, boughtShield[i].shield_master_id, 1, false]
+                    const boughtShieldParams = [req.body.charDetail.id, boughtShield[i].shield_master_id, 0, false]
                     pool.query(boughtShieldSqlText, boughtShieldParams)
                 }
             }

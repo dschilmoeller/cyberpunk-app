@@ -19,6 +19,8 @@ function* fetchCharacterDetail(action) {
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
 
+    const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload}`)
+    const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload}`)
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
     const characterGrenades = yield axios.get(`api/characters/fetchcharactergrenades/${action.payload}`)
     const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
@@ -29,6 +31,8 @@ function* fetchCharacterDetail(action) {
     yield put({
       type: 'SET_CHARACTER_EQUIPMENT',
       payload: {
+        armor: characterArmor.data[0],
+        shield: characterShield.data[0],
         weapons: characterWeapons.data,
         grenades: characterGrenades.data,
         miscGear: characterMiscGear.data,
@@ -48,6 +52,8 @@ function* fetchCharacterDetail(action) {
 function* saveCharacterSheet(action) {
   try {
     yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
+    yield axios.put(`api/characters/savecharacterarmor/${action.payload.charID}`, action.payload.charParams.charArmor)
+    yield axios.put(`api/characters/savecharactershield/${action.payload.charID}`, action.payload.charParams.charShield)
     yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons)
     yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles)
   } catch (error) {

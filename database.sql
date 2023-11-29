@@ -105,11 +105,12 @@ CREATE TABLE "char_status" (
 	"current_stun" integer NOT NULL,
 	"current_lethal" integer NOT NULL,
 	"current_agg" integer NOT NULL,
-	"current_armor_loss" integer NOT NULL,
+	-- "current_armor_loss" integer NOT NULL,
 	"current_luck_loss" integer NOT NULL,
 	"current_armor_quality" integer NOT NULL DEFAULT 0,
 	"current_shield_quality" integer NOT NULL DEFAULT 0,
 	"current_cyberware_armor_quality" integer NOT NULL DEFAULT 0,
+	"current_cyberware_armor_loss" integer NOT NULL DEFAULT 0,
 	"current_cyberware_health_boxes" integer NOT NULL DEFAULT 0,
 	CONSTRAINT "char_status_pk" PRIMARY KEY ("char_status_id")
 ) WITH (OIDS = FALSE);
@@ -163,8 +164,9 @@ CREATE TABLE "char_armor_bridge" (
 	"armor_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
 	"armor_id" integer NOT NULL,
-	"armor_mod_1" integer NOT NULL,
-	"armor_mod_2" integer NOT NULL,
+	-- "armor_mod_1" integer NOT NULL,
+	-- "armor_mod_2" integer NOT NULL,
+	"this_armor_loss" integer NOT NULL DEFAULT '0', 
 	"equipped" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "char_armor_bridge_pk" PRIMARY KEY ("armor_bridge_id")
 ) WITH (OIDS = FALSE);
@@ -173,7 +175,8 @@ CREATE TABLE "char_shield_bridge" (
 	"shield_bridge_id" serial NOT NULL,
 	"char_id" integer NOT NULL,
 	"shield_id" integer NOT NULL,
-	"armor_mod_1" integer NOT NULL default '1',
+	-- "armor_mod_1" integer NOT NULL default '1',
+	"this_shield_loss" integer NOT NULL DEFAULT '0',
 	"equipped" boolean NOT NULL DEFAULT false,
 	CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
 ) WITH (OIDS = FALSE);
@@ -181,8 +184,8 @@ ALTER TABLE "char_shield_bridge"
 ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_shield_bridge"
 ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master"("shield_master_id");
-ALTER TABLE "char_shield_bridge"
-ADD CONSTRAINT "char_shield_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master");
+-- ALTER TABLE "char_shield_bridge"
+-- ADD CONSTRAINT "char_shield_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master");
 
 CREATE TABLE "armor_mod_master" (
 	"armor_mod_master_id" serial NOT NULL,
@@ -527,10 +530,10 @@ ALTER TABLE "char_armor_bridge"
 ADD CONSTRAINT "char_armor_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_armor_bridge"
 ADD CONSTRAINT "char_armor_bridge_fk1" FOREIGN KEY ("armor_id") REFERENCES "armor_master"("armor_master_id");
-ALTER TABLE "char_armor_bridge"
-ADD CONSTRAINT "char_armor_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master_id");
-ALTER TABLE "char_armor_bridge"
-ADD CONSTRAINT "char_armor_bridge_fk3" FOREIGN KEY ("armor_mod_2") REFERENCES "armor_mod_master"("armor_mod_master_id");
+-- ALTER TABLE "char_armor_bridge"
+-- ADD CONSTRAINT "char_armor_bridge_fk2" FOREIGN KEY ("armor_mod_1") REFERENCES "armor_mod_master"("armor_mod_master_id");
+-- ALTER TABLE "char_armor_bridge"
+-- ADD CONSTRAINT "char_armor_bridge_fk3" FOREIGN KEY ("armor_mod_2") REFERENCES "armor_mod_master"("armor_mod_master_id");
 ALTER TABLE "char_status"
 ADD CONSTRAINT "char_status_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 ALTER TABLE "char_cyberware_bridge"
@@ -663,6 +666,12 @@ VALUES
 
 INSERT INTO "public"."armor_master"("name", "quality", "price", "description")
 VALUES (
+	E'No Armor',
+	0,
+	0,
+	E'No Armor Equipped'
+	),
+	(
 		E'Clothes',
 		1,
 		10,
@@ -729,7 +738,14 @@ VALUES (
 		E'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Armor is considered Hardened (see rules)'
 	);
 INSERT INTO "public"."shield_master"("name", "quality", "price", "description")
-VALUES (
+VALUES 
+	(
+		E'No Shield',
+		0,
+		0,
+		E'No Shield Equipped'
+	),
+	(
 		E'Runner\'s Buckler',
 		1,
 		500,

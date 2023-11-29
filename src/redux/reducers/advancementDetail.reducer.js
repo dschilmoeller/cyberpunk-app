@@ -98,6 +98,11 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
                 // sells armor for full value, ie. 'returns' it.
                 bank: Number(state.bank + action.payload.price)
             }
+        case 'REPAIR_ARMOR':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload.this_armor_loss * (action.payload.price / 10))
+            }
         // Repeat as for armor for other kinds of gear.
         case 'BUY_SHIELD':
             return {
@@ -113,6 +118,11 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
             return {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
+            }
+        case 'REPAIR_SHIELD':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload.this_shield_loss * (action.payload.price / 10))
             }
         //weapons
         case 'BUY_WEAPON':
@@ -233,6 +243,12 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
             return {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
+            }
+        case 'REPAIR_CYBERWARE':
+            return {
+                ...state,
+                bank: Number(state.bank - action.payload),
+                current_cyberware_armor_loss: 0
             }
         case 'MAKE_PHARMACEUTICAL':
             // this is just spending money on reagents for making a pharmaceutical compound.
