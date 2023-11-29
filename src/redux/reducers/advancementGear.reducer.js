@@ -151,6 +151,9 @@ const advancementGear = (state = {
                     if (item.armor_bridge_id === action.payload.armor_bridge_id) {
                         item.equipped = false
                         return item
+                    } else if (item.name == 'No Armor') {
+                        item.equipped = true
+                        return item
                     } else {
                         return item
                     }
@@ -181,10 +184,39 @@ const advancementGear = (state = {
                     if (item.shield_bridge_id === action.payload.shield_bridge_id) {
                         item.equipped = false
                         return item
+                    } else if (item.name == 'No Shield') {
+                        item.equipped = true
+                        return item
+                    } else {
+                        return item
                     }
-                    return item
                 }),
                 equippedShieldQuality: 0
+            }
+        // Repair of Armor/Shields
+        case 'REPAIR_ARMOR':
+            return {
+                ...state,
+                armor: state.armor.map(item => {
+                    if (item.armor_bridge_id === action.payload.armor_bridge_id) {
+                        item.this_armor_loss = 0;
+                        return item
+                    } else {
+                        return item
+                    }
+                })
+            }
+        case 'REPAIR_SHIELD':
+            return {
+                ...state,
+                shield: state.shield.map(item => {
+                    if (item.shield_bridge_id === action.payload.shield_bridge_id) {
+                        item.this_shield_loss = 0;
+                        return item
+                    } else {
+                        return item
+                    }
+                })
             }
         // Weapons - similar to armor, except any number of weapons can be equipped.
         case 'EQUIP_WEAPON':

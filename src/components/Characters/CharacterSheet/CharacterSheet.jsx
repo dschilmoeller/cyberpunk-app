@@ -21,10 +21,12 @@ import CharacterNetrunner from './CharacterNetrunner';
 import Backpack from './Backpack';
 
 function CharacterSheet() {
-    const charDetail = useSelector((store) => store.characterDetail);
-    const charStatus = useSelector(store => store.characterStatus)
-    const charWeapons = useSelector((store) => store.characterGear.weapons)
-    const charVehicles = useSelector((store) => store.characterGear.vehicles)
+    const charDetail = useSelector(store => store.characterDetail);
+    const charStatus = useSelector(store => store.characterStatus);
+    const charWeapons = useSelector(store => store.characterGear.weapons);
+    const charVehicles = useSelector(store => store.characterGear.vehicles);
+    const charArmor = useSelector(store => store.characterGear.armor);
+    const charShield = useSelector(store => store.characterGear.shield);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -53,7 +55,7 @@ function CharacterSheet() {
 
     const saveCharacter = (useHist) => {
         const test = charStatus
-        dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles } } })
+        dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles, charArmor: charArmor, charShield: charShield } } })
         if (useHist === 'useHist') {
             history.push('/characterlist')
         }

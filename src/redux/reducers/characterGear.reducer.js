@@ -1,7 +1,6 @@
 const characterGear = (state = {
-    // only armor qualities that we care about atm are handled directly in the character detail reducer. These are here as a reminder that they will probably be needed at some future point if e.g. armor mods make an appearance.
-    // armor: [],
-    // shield: [],
+    armor: [],
+    shield: [],
     weapons: [],
     grenades: [],
     gear: [],
@@ -13,6 +12,8 @@ const characterGear = (state = {
     switch (action.type) {
         case 'CLEAR_CHARACTER_GEAR_DETAILS':
             return {
+                armor: [],
+                shield: [],
                 weapons: [],
                 grenades: [],
                 gear: [],
@@ -24,6 +25,8 @@ const characterGear = (state = {
         case 'SET_CHARACTER_EQUIPMENT':
             return {
                 ...state,
+                armor: action.payload.armor,
+                shield: action.payload.shield,
                 weapons: action.payload.weapons,
                 grenades: action.payload.grenades,
                 gear: action.payload.miscGear,
@@ -74,6 +77,24 @@ const characterGear = (state = {
                     };
                     return weapon;
                 })
+            }
+
+        // handle shield and armor losses
+        case 'CHARACTER_LOSE_ONE_SHIELD_QUALITY':
+            return {
+                ...state,
+                shield: {
+                    ...state.shield,
+                    this_shield_loss: state.shield.this_shield_loss + 1
+                }
+            }
+        case 'CHARACTER_LOSE_ONE_ARMOR_QUALITY':
+            return {
+                ...state,
+                armor: {
+                    ...state.armor,
+                    this_armor_loss: state.armor.this_armor_loss + 1
+                }
             }
 
         // Misc gear handlers

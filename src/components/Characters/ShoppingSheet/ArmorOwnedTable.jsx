@@ -215,7 +215,7 @@ export default function ArmorOwnedTable() {
                             />
                             <TableBody>
                                 {sortedCharArmorRows.map((row) => {
-                                    if (row.equipped === false) {
+                                    if (row.equipped === false && row.name != 'No Armor') {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
                                                 <TableCell >{row.name}</TableCell>
@@ -239,7 +239,7 @@ export default function ArmorOwnedTable() {
                                     )
                                 })}
                                 {sortedCharShieldRows.map((row) => {
-                                    if (row.equipped === false) {
+                                    if (row.equipped === false && row.name != 'No Shield') {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
                                                 <TableCell>{row.name}</TableCell>

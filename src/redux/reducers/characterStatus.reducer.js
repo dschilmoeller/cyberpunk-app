@@ -2,7 +2,6 @@ const characterStatus = (state = {
     current_stun: 0,
     current_lethal: 0,
     current_agg: 0,
-    current_armor_loss: 0,
     current_luck_loss: 0,
 }, action) => {
     switch (action.type) {
@@ -11,7 +10,6 @@ const characterStatus = (state = {
                 current_stun: 0,
                 current_lethal: 0,
                 current_agg: 0,
-                current_armor_loss: 0,
                 current_luck_loss: 0,
             }
         case 'SET_CHARACTER_STATUS':
@@ -26,10 +24,8 @@ const characterStatus = (state = {
             return { ...state, current_lethal: state.current_lethal - 1, current_agg: state.current_agg + 1 }
         case 'REMOVE_WOUND':
             return { ...state, current_agg: state.current_agg - 1 }
-        case 'REMOVE_ONE_ARMOR':
-            return { ...state, current_armor_loss: state.current_armor_loss + 1 }
-        case 'ADD_ONE_ARMOR':
-            return { ...state, current_armor_loss: state.current_armor_loss - 1 }
+        case 'CHARACTER_LOSE_ONE_CYBERARMOR_QUALITY':
+            return { ...state, current_cyberware_armor_loss: state.current_cyberware_armor_loss + 1}
         case 'REMOVE_ONE_LUCK':
             return { ...state, current_luck_loss: state.current_luck_loss + 1 }
         case 'ADD_ONE_LUCK':
