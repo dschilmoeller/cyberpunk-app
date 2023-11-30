@@ -456,9 +456,9 @@ ALTER TABLE "netrunner_bridge"
 ADD CONSTRAINT "netrunner_bridge_fk1" FOREIGN KEY ("netrunner_master_id") REFERENCES "netrunner_master"("netrunner_master_id");
 INSERT INTO "netrunner_master"("name", "description", "price", "type", "slots", "perception", "speed", "attack", "defense", "rez")
 VALUES
-('Cyberdeck Alpha', 'A basic Deck for Netrunning. Roughly the size of a pack of cigarettes. Provides 5 slots.', 500, 'deck', 5, 0,0,0,0,0),
-('Cyberdeck Beta', 'An advanced Deck for Netrunning. Slightly larger, more rugged, and much more powerful. Provides 6 slots.', 2500, 'deck', 6, 0,0,0,0,0),
-('Cyberdeck Delta', 'A sophisticated Deck for Netrunning, with milspec components and a quantum processor. About the size of paperback book, and as rugged as a piece of steel of the same size. Provides 7 slots.', 10000, 'deck', 7, 0,0,0,0,0),
+('Cyberdeck Alpha', 'A basic Deck for Netrunning. Roughly the size of a pack of cigarettes.', 500, 'deck', 4, 0,0,0,0,0),
+('Cyberdeck Beta', 'An advanced Deck for Netrunning. Slightly larger, more rugged, and much more powerful.', 2500, 'deck', 5, 0,0,0,0,0),
+('Cyberdeck Delta', 'A sophisticated Deck for Netrunning, with milspec components and a quantum processor. About the size of paperback book, and as rugged as a piece of steel of the same size.', 10000, 'deck', 6, 0,0,0,0,0),
 ('Eraser', '+1 Dice to Cloak Actions', 50, 'software', 1, 0,0,0,0,3),
 ('See Ya', '+1 Dice to Pathfinder Actions', 50, 'software', 1, 0,0,0,0,3),
 ('Speedy', '+1 Dice to Initiative Actions', 50, 'software', 1, 0,0,0,0,3),
@@ -780,7 +780,7 @@ VALUES
 ('Companion Revolver','Space cowboy pistol - looks like an antique revolver with an integral suppressor and some funky sights.',5,'gun',10,2,5,1,TRUE,10000,TRUE),
 ('Winchester 1873','The gun that won the West.',6,'gun',15,1,15,2,FALSE,15000,TRUE),
 ('Kendachi Arms Monokatana','A crystalline blade with built in microvibrators allow this weapon to slice through, well, anything. Ignores most armor.',3,'melee',0,2,0,2,FALSE,10000,TRUE),
-('Malorian 3516','High powered, custom handgun. Requires special smart ammunition made specifically for this weapon. Base DV is 9 if character does not have either a Cyberarm with a smart grip or Strength of 8+. Can be used in melee once per reload, breathing fire from the base of the grip and dealing aggravated damage.',8,'gun',20,1,4,1,TRUE,100000,TRUE),
+('Malorian 3516','High powered, custom handgun. Requires special smart ammunition made specifically for this weapon. Can be used in melee as a medium melee weapon once per reload, breathing fire from the base of the grip and dealing aggravated damage.',8,'gun',20,1,4,1,TRUE,100000,TRUE),
 ('Rhinemetall EMG-86','Railgun. Requires a complex action to reload both ammunition and charge pack. Requires custom ammunition. Deals aggravated damage.',8,'gun',100,1,2,2,FALSE,250000,TRUE),
 ('Magnetic Shuriken','Thrown weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has cyberlimbs. Requires repair after each use.',1,'bow',1,3,3,1,TRUE,1000,TRUE),
 ('Giant Magna-Shuriken','This is an 8 pound piece of razor edged steel honed to an almost fractal level of sharpness. It is wildly dangerous to vehicles, much less people. Requires a Shuriken Battleglove to use.',8,'bow',2,1,1,1,FALSE,10000,TRUE),
@@ -857,21 +857,6 @@ VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
 		E'Cryotank',
 		E'An installed tank and associated hardware. See Role Abilities: Medtech',
 		5000
-	),
-	(
-		E'Cyberdeck Alpha',
-		E'Basic Deck for Netrunning. 5 slots.',
-		100
-	),
-	(
-		E'Cyberdeck Beta',
-		E'Sophisticated Deck for Netrunning. 7 slots.',
-		2500
-	),
-	(
-		E'Cyberdeck Delta',
-		E'Advanced Deck for Netrunning. 9 slots.',
-		7500
 	),
 	(
 		E'Disposable Cell Phone',

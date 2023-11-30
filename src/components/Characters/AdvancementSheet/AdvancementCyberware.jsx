@@ -204,6 +204,8 @@ export default function AdvancementCyberware() {
                         case 'Nervous System Siliconization V':
                             dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 5 } })
                             break;
+                        default:
+                            break;
                     }
                     break;
                 } else {
@@ -214,7 +216,11 @@ export default function AdvancementCyberware() {
 
             // handle externalware
             case 'externalware':
-                if (externalwareSlots > 0) {
+                if (charDetails.current_cyberware_armor_loss > 0) {
+                    setToastText(`Externalware must be repaired before it can be removed or swapped. See "Armor" tab for repairs.`)
+                    setShowSnackbar(true)
+                    break;
+                } else if (externalwareSlots > 0) {
                     setExternalwareSlots(externalwareSlots - 1)
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots - 1 } })
                     dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
@@ -370,6 +376,17 @@ export default function AdvancementCyberware() {
                 } else {
                     setNeuralSlots(neuralSlots + 1)
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: neuralSlots + 1 } })
+                    switch (incomingCyber.name) {
+                        case 'Algernonic Subprocessors I':
+                        case 'Algernonic Subprocessors II':
+                        case 'Algernonic Subprocessors III':
+                        case 'Algernonic Subprocessors IV':
+                        case 'Algernonic Subprocessors V':
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 0 } })
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 }
             case 'cyberoptics':
@@ -393,19 +410,50 @@ export default function AdvancementCyberware() {
                 setInternalwareSlots(internalwareSlots + 1)
                 dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'internalware_slots', slot_count: internalwareSlots + 1 } })
                 dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                break;
-            case 'externalware':
-                setExternalwareSlots(externalwareSlots + 1)
-                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots + 1 } })
-                dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                if (incomingCyber.name === 'Skin Weave') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -2, healthBoxes: -1 } })
-                } else if (incomingCyber.name === 'Subdermal Armor') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
-                } else if (incomingCyber.name === 'Body Plating') {
-                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
+                switch (incomingCyber.name) {
+                    case 'Grafted Muscles I':
+                    case 'Grafted Muscles II':
+                    case 'Grafted Muscles III':
+                    case 'Grafted Muscles IV':
+                    case 'Grafted Muscles V':
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 0 } })
+                        break;
+                    case 'Bone Lacing I':
+                    case 'Bone Lacing II':
+                    case 'Bone Lacing III':
+                    case 'Bone Lacing IV':
+                    case 'Bone Lacing V':
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 0 } })
+                        break;
+                    case 'Nervous System Siliconization I':
+                    case 'Nervous System Siliconization II':
+                    case 'Nervous System Siliconization III':
+                    case 'Nervous System Siliconization IV':
+                    case 'Nervous System Siliconization V':
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 1 } })
+                        break;
+                    default:
+                        break;
                 }
                 break;
+            case 'externalware':
+                if (charDetails.current_cyberware_armor_loss > 0) {
+                    setToastText(`Externalware must be repaired before it can be removed or swapped. See "Armor" tab for repairs.`)
+                    setShowSnackbar(true)
+                    break;
+                } else {
+                    setExternalwareSlots(externalwareSlots + 1)
+                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots + 1 } })
+                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    if (incomingCyber.name === 'Skin Weave') {
+                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -2, healthBoxes: -1 } })
+                    } else if (incomingCyber.name === 'Subdermal Armor') {
+                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
+                    } else if (incomingCyber.name === 'Body Plating') {
+                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
+                    }
+                    break;
+                }
             case 'cyberarm':
                 if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
                     setCyberarmSlots(cyberarmSlots - 4)

@@ -7,7 +7,7 @@ import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
+import SquareIcon from '@mui/icons-material/Square';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -26,7 +26,7 @@ function Armor() {
     const dispatch = useDispatch();
     const unhurtMarker = <CircleOutlinedIcon />;
     const aggMarker = <AcUnitIcon />;
-    const bodyMarker = <CheckBoxOutlineBlankOutlinedIcon />;
+    const bodyMarker = <SquareIcon />;
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {

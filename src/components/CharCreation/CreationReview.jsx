@@ -145,12 +145,24 @@ export default function CreationReview() {
             // go to armor at index: chardetail.armor[i] and fetch master id.
             armor_master_array.push(armor[charDetail.armor[i]].armor_master_id)
         }
+        // temp fix to insert 'no armor' into array
+        armor.map(item => {
+            if (item.name === 'No Armor') {
+                armor_master_array.push(item.armor_master_id)
+            }
+        })
         updatedCharDetail.armor = armor_master_array
         
         let shield_master_array = []
         for (let i = 0; i < charDetail.shield.length; i++ ) {
             shield_master_array.push(shield[charDetail.shield[i]].shield_master_id)
         }
+        // temp fix to insert 'no shield' into array
+        shield.map(item => {
+            if (item.name == 'No Shield') {
+                shield_master_array.push(item.shield_master_id)
+            }
+        })
         updatedCharDetail.shield = shield_master_array
 
         let weapon_master_array = []

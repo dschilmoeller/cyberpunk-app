@@ -5,11 +5,6 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 const { rejectNonAdmin } = require('../modules/rejectNonAdmin')
 
-
-// rewrite SQL requests to limit characters to those belonging to logged in user (req.user.id?)
-// add res.send(error) to catch statements.
-// Eventually - GM section or change commands to allow for user type.
-
 // Fetch campaigns
 router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "campaigns" ORDER BY campaign_id ASC`
@@ -81,7 +76,7 @@ router.get('/fetchcharacterstatus/:id', rejectUnauthenticated, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching character cyberware detials`, err);
+            console.log(`Error fetching character status detials`, err);
         })
 })
 
@@ -956,7 +951,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
             }
             for (let i = 0; i < req.body.shield.length; i++) {
                 const shieldSqlText = `INSERT INTO "char_shield_bridge" 
-                ("char_id", "shield_id", "this_armor_loss", "equipped")
+                ("char_id", "shield_id", "this_shield_loss", "equipped")
                 VALUES ($1, $2, $3, $4)`
                 const shieldSqlParams = [result.rows[0].id, rb.shield[i], 0, false]
                 pool.query(shieldSqlText, shieldSqlParams)

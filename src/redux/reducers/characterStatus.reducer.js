@@ -30,14 +30,6 @@ const characterStatus = (state = {
             return { ...state, current_luck_loss: state.current_luck_loss + 1 }
         case 'ADD_ONE_LUCK':
             return { ...state, current_luck_loss: state.current_luck_loss - 1 }
-        case 'CLEAR_CHARACTER_STATUS':
-            return {
-                current_stun: 0,
-                current_lethal: 0,
-                current_agg: 0,
-                current_armor_loss: 0,
-                current_luck_loss: 0,
-            };
         default:
             return state
     }

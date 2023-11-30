@@ -26,11 +26,9 @@ export default function AttributesDialog({ prop }) {
             case 'Strength':
                 return <>
                     <Grid container fontFamily={'serif'}>
-                        <Grid item padding={.5} paddingBottom={2} xs={12}>Strength determines how strong a character is. A test is an example of a task that requires effort but is not especially impressive; a feat of strength is something that would represent a high difficulty roll, possibly requiring additional successes for the character with that strength.
-
-                        </Grid>
-                        <Grid item padding={.5} paddingBottom={3} xs={12}>Generally, what is a test for one character is not rolled for a character with 1 more dot in strength. Likewise, a feat for one character is a test for a character with one more dot in strength, and a roll is not required for a character with 2 more dots in strength.</Grid>
-
+                        <Grid item padding={.5} paddingBottom={2} xs={12}>Shockingly, strength is a measure of how strong a character is. A test is an example of a task that requires effort but is not especially impressive; a feat of strength is something that would represent a high difficulty roll, possibly requiring additional successes for the character with that strength.</Grid>
+                        <Grid item padding={.5} paddingBottom={3} xs={12}>Generally, what is a test for one character is not rolled for a character with 1 more dot in strength. Likewise, a feat for one character is a test for a character with one more dot in strength, and a roll is not required for a character with 2 more dots in strength. For example, a character with Strength 3 would have to get 2 successes on a strength test at DV8 to punch through a wooden plank. A character with Strength 4 would only need a single success at DV6 to do the same. A character with Strength 5 wouldn't need to roll - they would simply perform the action.</Grid>
+                        
                         <Grid item padding={.5} xs={2}><b>Rating</b></Grid>
                         <Grid item padding={.5} xs={6}><b>Example Test / Feet of Strength</b></Grid>
                         <Grid item padding={.5} xs={4}><b>Dead Lift Weight in kilos</b></Grid>
@@ -81,6 +79,10 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Body is a measure of phsyical toughness and general good health. Characters with a very low body are generally not in very good health, while characters with a high body tend to be extremely fit.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Body 1 is sickly, while Body 2 is fairly average.</Grid>
+                            <Grid item padding={1} xs={12}>Characters with Body 3 are likely at least amateur athletes or body builders, and are in the pink of health.</Grid>
+                            <Grid item padding={1} xs={12}>Characters with a Body of 4 are likely professional athletes or special forces troops. Characters with Body of 5 are unbelievably tough, and include professional ultramarathon runners, cave divers, and similar lunatics.</Grid>
+                            <Grid item padding={1} xs={12}>Characters with a Body of 6+ are almost supernaturally tough - they can go for days without sleep, hike across the sahara, and react strangely when people claim to be suffering from a cold.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and Body + Armor is used for resisting damage. </Grid>
                         </Grid>
                     </>
@@ -90,7 +92,12 @@ export default function AttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}>Reflexes measure how flexible and agile a character is.</Grid>
-                            <Grid item padding={1} xs={12}>A character with Reflexes of 2 is average; Reflexes 5 is a olympian gymnast.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 1 is a bit ham-handed and fairly uncoordinated</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 2 is fairly average - they're not going to impress anyone, but they can walk and chew gum at the same time.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 3 is a skilled amateur at some kind of sport, be it polo or HEMA; alternately, they may just have unusually good hand-eye coordination</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 4 is probably a professional athlete of some kind, and trains regularly to keep themselves sharp.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 5 has reached the pinnacle of what most people can achieve, and could be a professional sportsperson or a renowned ninja.</Grid>
+                            <Grid item padding={1} xs={12}>A character with Reflexes of 6+ has reached a level beyond what most people are capable of - they can fit themselves through a hole the size of their head faster than most can get through a narrow doorway, can scale cliffs freehand, and similar feats.</Grid>
                             <Grid item padding={1} xs={12}>Common rolls include combat related tests, including attacking and dodging, as well as any test requiring physical finesse that isn't related to a technical skill.</Grid>
                         </Grid>
                     </>

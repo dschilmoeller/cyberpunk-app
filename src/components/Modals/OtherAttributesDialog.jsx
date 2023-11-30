@@ -13,6 +13,7 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import SquareIcon from '@mui/icons-material/Square';
 
 export default function OtherAttributesDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
@@ -27,10 +28,11 @@ export default function OtherAttributesDialog({ prop }) {
         setOpen(false);
     };
 
-    const unhurtMarker = <CircleOutlinedIcon />
-    const stunMarker =  <HorizontalRuleOutlinedIcon />;
-    const lethalMarker = <CloseOutlinedIcon />
+    const unhurtMarker = <CircleOutlinedIcon />;
+    const stunMarker = <HorizontalRuleOutlinedIcon />;
+    const lethalMarker = <CloseOutlinedIcon />;
     const aggMarker = <AcUnitIcon />;
+    const bodyArmorIcon = <SquareIcon />;
 
     const dispatch = useDispatch();
 
@@ -111,15 +113,19 @@ export default function OtherAttributesDialog({ prop }) {
 
             case 'Armor':
                 return (<>
-                    <Grid item xs={12} paddingBottom={1}>Armor reflects a combination of a character's natural toughness, worn armor, shields, and cyberware that provide some protection against injury. When receiving damage, that damage is reduced by 1/2 of the total Armor a character has.</Grid>
+                    <Grid item xs={12} paddingBottom={1}>Armor reflects a combination of a character's natural toughness, worn armor, shields, and cyberware that provide some protection against injury. When receiving damage, that damage is reduced by 1/2 (rounded down) of the total of Body + Armor + Shield + Cyberware Armor a character has.</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires the Military Tech (worn armor) or Cybertech (cyberware armor) skill to repair, along with time, materials, and an appropriate work area or tool kit.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Armor Ablation:</b> any attack that is not disregarded (see below) damages armor, weakening it slowly. Each hit reduces current armor by 1. Repairing armor requires the Military Tech (worn armor) or Cybertech (cyberware armor) skill to repair, along with time, materials, and an appropriate work area or tool kit. A character's Body cannot be ablated, and is represented by a full square: {bodyArmorIcon}</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}>Weapons whose base damage is one third or less of a target's armor + cyberware armor value (rounded down and NOT including Body or Shields) cannot damage that target - their armor is simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware.</Grid>
+                    <Grid item xs={12} paddingBottom={1}>All other armor, when fully repaired, is represented by an open circle icon: {unhurtMarker}</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is vastly tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced military equipment, full body cyberware conversions, and military issue armor. Characters (or cover) with any amount of hardened armor ignore attacks whose base damage is 1/2 or less of their armor value rather than 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor. However, some ammunition and even specific weapons allow characters to ignore the <i>Hardened</i> property.</Grid>
+                    <Grid item xs={12} paddingBottom={1}>As armor is ablated, it is ticked off similar to health: {aggMarker}</Grid>
 
-                    <Grid item xs={12}>Hardened armor typically does not stack with other kinds armor - putting a kevlar jacket on over Powered Military Armor is gilding the lily somewhat. The GM has final say on whether or not armors can be worn together.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Ignoring Damage:</b> Weapons whose damage total is one third or less of a target's armor + cyberware armor value (rounded down and NOT including Body or Shields) cannot damage that target - their armor is simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware. A character's successes factor into this, as they can try and find gaps in the armor or weak points. As always, the GM has final say on whether an attack can damage a target.</Grid>
+
+                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is much tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced military equipment, full body cyberware conversions, and military issue armor. Characters (or cover) with any amount of hardened armor ignore attacks whose base damage is 1/2 or less of their armor value rather than 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor. However, some ammunition and even specific weapons allow characters to ignore the <i>Hardened</i> property.</Grid>
+
+                    <Grid item xs={12}>Hardened armor typically does not stack with other kinds armor - putting a kevlar jacket on over Powered Military Armor is going to have little effect (and is gilding the lily somewhat). The GM has final say on whether or not armors can be worn together.</Grid>
                 </>)
 
             case 'Luck':
