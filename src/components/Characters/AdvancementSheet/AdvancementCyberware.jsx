@@ -68,7 +68,7 @@ export default function AdvancementCyberware() {
                     break;
                 } else {
                     // warning in case character is too fashionable for their own good.
-                    setToastText('Not enough slots - try getting being less fashionable!')
+                    setToastText('Not enough slots - try being less fashionable!')
                     setShowSnackbar(true)
                     break;
                 }
@@ -332,7 +332,7 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots - 1 } })
                     break;
                 } else {
-                    setToastText("Not enough slots - make sure you have a cyberarm or two and they aren't already full!")
+                    setToastText("Not enough slots - make sure you have a cyberleg or two and they aren't already full!")
                     setShowSnackbar(true)
                     break;
                 }
@@ -349,6 +349,14 @@ export default function AdvancementCyberware() {
             case 'fashionware':
                 dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'fashionware_slots', slot_count: fashionSlots + 1 } })
                 setFashionSlots(fashionSlots + 1)
+                switch (incomingCyber.name) {
+                    case 'Light Tattoo':
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 0 } })
+                    case 'Techhair':
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 0 } })
+                    default:
+                        break;
+                }
                 break;
             case 'cyberaudio':
                 if (incomingCyber.name === 'Basic Cyberaudio Suite') {
