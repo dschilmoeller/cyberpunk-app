@@ -971,7 +971,6 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
                     const shieldSqlParams = [result.rows[0].id, rb.shield[i], 0, false]
                     pool.query(shieldSqlText, shieldSqlParams)
                 }
-
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
@@ -979,6 +978,13 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
                 VALUES ($1, $2, $3, $4, $5, $6)`
                 const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 1, 1, 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
+            }
+            for (let i = 0; i < req.body.grenades.length; i++){
+                const grenadeSqlText = `INSERT INTO "char_grenade_bridge"
+                ("char_id", "grenade_id")
+                VALUES ($1, $2)`
+                const grenadeSqlParams = [result.rows[0].id, rb.grenades[i]]
+                pool.query(grenadeSqlText, grenadeSqlParams)
             }
             for (let i = 0; i < req.body.gear.length; i++) {
                 const gearSqlText = `INSERT INTO "char_gear_bridge" 

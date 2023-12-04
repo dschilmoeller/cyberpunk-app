@@ -28,6 +28,7 @@ export default function CreationReview() {
     const armor = useSelector(store => store.gearMaster.armor)
     const shield = useSelector(store => store.gearMaster.shields)
     const weapons = useSelector(store => store.gearMaster.weapons)
+    const grenades = useSelector(store => store.gearMaster.grenades)
     const miscGear = useSelector(store => store.gearMaster.miscGear)
     const netrunnerMaster = useSelector(store => store.gearMaster.netrunnerGear)
     const cyberware = useSelector(store => store.gearMaster.cyberware)
@@ -138,8 +139,8 @@ export default function CreationReview() {
 
     const saveCharacter = () => {
         let updatedCharDetail = charDetail
-        // convert index to master ids. is there a way to do this directly in the logic so that index === id? not without total conversion. see if this will fix for now.
-        // this allows for table indices not to match perfectly.
+        // convert item indices to master ids. 
+        // this allows for table indices not to match perfectly with indexes of gear table items. Shouldn't be necessary for most uses but if table is modified will correct.
         let armor_master_array = []
         for (let i = 0; i < charDetail.armor.length; i++ ) {
             // go to armor at index: chardetail.armor[i] and fetch master id.
@@ -171,6 +172,12 @@ export default function CreationReview() {
         }
         updatedCharDetail.weapons = weapon_master_array
 
+        let grenade_master_array = []
+        for (let i = 0; i < charDetail.grenades.length; i++) {
+            grenade_master_array.push(grenades[charDetail.grenades[i]].grenade_master_id)
+        }
+        updatedCharDetail.grenades = grenade_master_array
+
         let misc_gear_master_array = []
         for (let i = 0; i < charDetail.gear.length; i++ ) {
             misc_gear_master_array.push(miscGear[charDetail.gear[i]].misc_gear_master_id)
@@ -189,6 +196,7 @@ export default function CreationReview() {
         }
         updatedCharDetail.cyberware = cyberware_master_array
 
+        console.log(updatedCharDetail);
         dispatch({ type: "SAVE_CREATION_CHARACTER", payload: updatedCharDetail })
         history.push('/characterlist')
     }
@@ -575,6 +583,30 @@ export default function CreationReview() {
                                                 <TableCell align="center">{weapons[item].hands}</TableCell>
                                                 <TableCell align="center">{weapons[item].concealable ? 'Yes' : 'No'}</TableCell>
                                                 <TableCell align="center">{weapons[item].price}$</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+
+                        <Grid container spacing={1} padding={2}>
+                            <Grid item display={'flex'} justifyContent={'center'} xs={12}>Grenades</Grid>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow hover>
+                                            <TableCell align="left">Name</TableCell>
+                                            <TableCell align="center">Description</TableCell>
+                                            <TableCell align="center">Price</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {charDetail.grenades.map((item, i) => (
+                                            <TableRow hover key={i}>
+                                                <TableCell align="left">{grenades[item].name}</TableCell>
+                                                <TableCell align="center">{grenades[item].description}</TableCell>
+                                                <TableCell align="center">{grenades[item].price}$</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

@@ -32,6 +32,7 @@ export default function CreationGear() {
     const armor = useSelector(store => store.gearMaster.armor)
     const shield = useSelector(store => store.gearMaster.shields)
     const weapons = useSelector(store => store.gearMaster.weapons)
+    const grenades = useSelector(store => store.gearMaster.grenades)
     const miscGear = useSelector(store => store.gearMaster.miscGear)
     const netrunnerGear = useSelector(store => store.gearMaster.netrunnerGear)
 
@@ -40,6 +41,7 @@ export default function CreationGear() {
     const charArmor = useSelector(store => store.characterCreation.armor)
     const charShield = useSelector(store => store.characterCreation.shield)
     const charWeapons = useSelector(store => store.characterCreation.weapons)
+    const charGrenades = useSelector(store => store.characterCreation.grenades)
     const charGear = useSelector(store => store.characterCreation.gear)
     const charNetrunnerGear = useSelector(store => store.characterCreation.netrunnerGear)
 
@@ -109,6 +111,20 @@ export default function CreationGear() {
         dispatch({ type: "CREATION_SELL_WEAPON", payload: index, newBank: (bank + price) })
     }
 
+    const purchaseGrenade = (price, index) => {
+        if (bank >= price) {
+            setBank(bank - price)
+            dispatch({ type: "CREATION_BUY_GRENADE", payload: index, newBank: (bank - price) })
+        } else {
+            setShowSnackbar(true)
+        }
+    }
+
+    const sellGrenade = (price, index) => {
+        setBank(bank + price)
+        dispatch({ type: "CREATION_SELL_GRENADE", payload: index, newBank: (bank + price) })
+    }
+
     const purchaseGear = (price, index) => {
         if (bank >= price) {
             setBank(bank - price)
@@ -172,6 +188,7 @@ export default function CreationGear() {
             >
                 <Tab value='Armor' label='Armor' />
                 <Tab value='Weapons' label='Weapons' />
+                <Tab value='Grenades' label='Grenades' />
                 <Tab value='Misc' label='Misc Gear' />
                 {charDetail.netrunner > 0 ? <Tab value='Netrunner' label='Netrunner Equipment' /> : <Tab value='Netrunner' label='Netrunner Equipment' disabled />}
             </Tabs>
@@ -332,6 +349,64 @@ export default function CreationGear() {
                                         <TableCell align="center">{row.concealable ? 'Yes' : 'No'}</TableCell>
                                         <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         <TableCell align="left"><Button onClick={() => purchaseWeapon(row.price, i)}>Purchase</Button></TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>) : <></>}
+
+        {value === 'Grenades' ? (<>
+            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+                <Grid item xs={12}><Item>My Grenades</Item></Grid>
+            </Grid>
+
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow hover>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Price</TableCell>
+                            <TableCell align="left">Return?</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {charGrenades.map((item, i) => (
+                            <TableRow hover key={i}>
+                                <TableCell align="left">{grenades[item].name}</TableCell>
+                                <TableCell align="center">{grenades[item].description}</TableCell>
+                                <TableCell align="center">{grenades[item].price}</TableCell>
+                                <TableCell align="right">${grenades[item].price.toLocaleString("en-US")}</TableCell>
+                                <TableCell align="left"><Button onClick={() => sellGrenade(grenades[item].price, i)}>Return</Button></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <h3>Grenades</h3>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <TableHead>
+                        <TableRow hover>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="center">Description</TableCell>
+                            <TableCell align="center">Price</TableCell>
+                            <TableCell align="left">Return?</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {grenades.map((row, i) => {
+                            if (row.price < 5000 && row.is_treasure != true) {
+                                return (
+                                    <TableRow hover key={i}>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="left"><Button onClick={() => purchaseGrenade(row.price, i)}>Purchase</Button></TableCell>
                                     </TableRow>
                                 )
                             }

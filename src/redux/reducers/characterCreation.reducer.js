@@ -16,7 +16,7 @@ const characterCreation = (state = {
     availableMedSkillPoints: 0, availableMakerSkillPoints: 0, availableNomadVehicles: 0,
 
 
-    armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
+    armor: [], shield: [], weapons: [], grenades: [], gear: [], cyberware: [], netrunnerGear: [],
 
     gearbucks: 1500, cyberbucks: 2500,
 
@@ -45,7 +45,7 @@ const characterCreation = (state = {
                 availableMedSkillPoints: 0, availableMakerSkillPoints: 0, availableNomadVehicles: 0,
 
 
-                armor: [], shield: [], weapons: [], gear: [], cyberware: [], netrunnerGear: [],
+                armor: [], shield: [], weapons: [], grenades: [], gear: [], cyberware: [], netrunnerGear: [],
 
                 gearbucks: 1500, cyberbucks: 2500,
 
@@ -185,6 +185,20 @@ const characterCreation = (state = {
                 weapons: [
                     ...state.weapons.slice(0, action.payload),
                     ...state.weapons.slice(action.payload + 1)],
+                gearbucks: action.newBank
+            }
+        case 'CREATION_BUY_GRENADE':
+            return {
+                ...state,
+                grenades: [...state.grenades, action.payload],
+                gearbucks: action.newBank
+            }
+        case 'CREATION_SELL_GRENADE':
+            return {
+                ...state,
+                grenades: [
+                    ...state.grenades.slice(0, action.payload),
+                    ...state.grenades.slice(action.payload + 1)],
                 gearbucks: action.newBank
             }
         case 'CREATION_BUY_GEAR':
