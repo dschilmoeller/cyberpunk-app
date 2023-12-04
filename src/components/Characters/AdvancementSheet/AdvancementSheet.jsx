@@ -71,6 +71,18 @@ function AdvancementSheet() {
         dispatch({ type: "FETCH_MASTER_LISTS" })
     }, [])
 
+    useEffect(() => {
+        window.addEventListener('beforeunload', alertUser)
+        return () => {
+            window.removeEventListener('beforeunload', alertUser)
+        }
+    })
+
+    const alertUser = (event) => {
+        event.preventDefault()
+        event.returnValue = ''
+    }
+
     const fetchCharacterDetail = () => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         window.location.reload(true);

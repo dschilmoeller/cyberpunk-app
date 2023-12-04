@@ -282,7 +282,7 @@ export default function DieRollDialog() {
                                     <Grid item xs={12} display={'flex'} justifyContent={'center'}><h4 style={{ margin: 0 }}>Quick Actions:</h4></Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty,)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
                                     >
                                         <Button fullWidth
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
@@ -291,7 +291,7 @@ export default function DieRollDialog() {
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes), usingLuck, selectedDifficulty))}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
                                     >
                                         <Button fullWidth
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}

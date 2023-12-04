@@ -256,7 +256,7 @@ export default function Backpack() {
 
             <Grid container>
                 <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
                 <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
                     label="Add/Remove Amount"
                     onChange={e => setBankChange(e.target.value)}
@@ -266,7 +266,7 @@ export default function Backpack() {
                     fullWidth
                 />
                 </Grid>
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
             </Grid>
 
             <TableContainer>

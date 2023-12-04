@@ -65,7 +65,7 @@ export default function SkillsDialog({ prop }) {
             case 'Performance':
                 return `Performance is skill at some kind of artistic pursuit, generally one designed to be played to a crowd. Singing, musical instruments, or dancing are typical applications of this skill.`
             case 'Stealth':
-                return `Stealth is a character's ability to move undetected. It can also cover camoflauging ones person or equipment.`
+                return `Stealth is a character's ability to move undetected. It can also cover camouflauging ones person or equipment.`
             case 'Survival':
                 return `Survival is a character's ability to survive in a harsh, non-urban environment. Outdoor survivalists, nomads, and the like use this skill regularly, mostly to tell whether or not the cactus water is going to make them see things again.`
             case 'Tracking':

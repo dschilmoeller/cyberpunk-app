@@ -7,7 +7,7 @@ import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import SquareIcon from '@mui/icons-material/Square';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -26,7 +26,7 @@ function Armor() {
     const dispatch = useDispatch();
     const unhurtMarker = <CircleOutlinedIcon />;
     const aggMarker = <AcUnitIcon />;
-    const bodyMarker = <SquareIcon />;
+    const bodyMarker = <CheckBoxOutlineBlankOutlinedIcon />;
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -57,17 +57,14 @@ function Armor() {
 
     // builds array of damaged / undamaged armor
     const armorDamageBuilder = (ablated, armorTotal) => {
-        let ablatedArray = []
+        let armorArray = []
+        for (let i = 0; i < armorTotal - ablated; i++) {
+            armorArray.push(unhurtMarker)
+        }
         for (let i = 0; i < ablated; i++) {
-            ablatedArray.push(aggMarker)
+            armorArray.push(aggMarker)
         }
-        if (ablatedArray.length < armorTotal) {
-            let remainder = armorTotal - ablated
-            for (let i = 0; i < remainder; i++) {
-                ablatedArray.push(unhurtMarker)
-            }
-        }
-        return ablatedArray
+        return armorArray
     }
 
     const ablateOneArmor = () => {
