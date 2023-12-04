@@ -69,18 +69,15 @@ const characterCreation = (state = {
                 campaign: ap.campaign,
                 campaignName: ap.campaignName
             }
-        case 'SET_CREATION_ATTRIBUTES':
+        case 'CREATION_UPDATE_ATT':
             return {
                 ...state,
-                strength: ap.strength,
-                body: ap.body,
-                reflexes: ap.reflexes,
-                appearance: ap.appearance,
-                cool: ap.cool,
-                street_cred: ap.street_cred,
-                intelligence: ap.intelligence,
-                willpower: ap.willpower,
-                technique: ap.technique
+                [action.payload.att]: action.payload.value,
+            }
+        case 'CREATION_RESET_ATTRIBUTES':
+            return {
+                ...state,
+                strength: 0, body: 0, reflexes: 0, appearance: 0, cool: 0, street_cred: 1, intelligence: 0, willpower: 0, technique: 0
             }
         case 'SET_CREATION_SKILLS':
             return {
