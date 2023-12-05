@@ -32,447 +32,151 @@ function CreationSkills() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    const [skillArray, setSkillArray] = useState([])
+
+    useEffect(() => {
+        setSkillArray([
+            { skillName: 'Athletics', value: charDetail.athletics },
+            { skillName: 'Demolitions', value: charDetail.demolitions },
+            { skillName: 'Business', value: charDetail.business },
+            { skillName: 'Brawling', value: charDetail.brawling },
+            { skillName: 'Drive Land Vehicle', skillDataName: 'driveLand', value: charDetail.driveLand },
+            { skillName: 'Cryptography', value: charDetail.cryptography },
+            { skillName: 'Concentration', value: charDetail.concentration },
+            { skillName: 'Drive Exotic Vehicle', skillDataName: 'driveExotic', value: charDetail.driveExotic },
+            { skillName: 'Cyber Tech', skillDataName: 'cyberTech', value: charDetail.cyberTech },
+            { skillName: 'Evasion', value: charDetail.evasion },
+            { skillName: 'Etiquette', value: charDetail.etiquette },
+            { skillName: 'Investigation', value: charDetail.investigation },
+            { skillName: 'Fast Talk', skillDataName: 'fastTalk', value: charDetail.fastTalk },
+            { skillName: 'Heavy Weapons', skillDataName: 'heavyWeapons', value: charDetail.heavyWeapons },
+            { skillName: 'First Aid', skillDataName: 'firstAid', value: charDetail.firstAid },
+            { skillName: 'Firearms', value: charDetail.firearms },
+            { skillName: 'Exotic Weapons', skillDataName: 'exoticWeapons', value: charDetail.exoticWeapons },
+            { skillName: 'Gambling', value: charDetail.gambling },
+            { skillName: 'Legerdemain', value: charDetail.legerdemain },
+            { skillName: 'Performance', value: charDetail.performance },
+            { skillName: 'Language', value: charDetail.language },
+            { skillName: 'Melee Weapons', skillDataName: 'meleeWeapons', value: charDetail.meleeWeapons },
+            { skillName: 'Stealth', value: charDetail.stealth },
+            { skillName: 'Military Tech', skillDataName: 'militaryTech', value: charDetail.militaryTech },
+            { skillName: 'Perception', value: charDetail.perception },
+            { skillName: 'Survival', value: charDetail.survival },
+            { skillName: 'Science', value: charDetail.science },
+            { skillName: 'Streetwise', value: charDetail.streetwise },
+            { skillName: 'Tracking', value: charDetail.tracking },
+            { skillName: 'Vehicle Tech', skillDataName: 'vehicleTech', value: charDetail.vehicleTech }
+        ])
+        setSkillSelectionOrder(charDetail.skillSelectionHistory)
+        setSkillNumber(charDetail.skillNumber)
+        setSkillCounter(charDetail.skillCounter)
+    }, [charDetail])
+
+    const [skillSelectionOrder, setSkillSelectionOrder] = useState(charDetail.skillSelectionHistory)
 
     // functions more or less identically to the attributes, except the skill number is tracked via the reducer
     // for what I'm sure was a good reason.
     const [skillNumber, setSkillNumber] = useState(charDetail.skillNumber)
-    const [skillCounter, setSkillCounter] = useState(1)
+    const [skillCounter, setSkillCounter] = useState(charDetail.skillCounter)
 
-    // Streetwise Skills
-    const [athletics, setAthletics] = useState(charDetail.athletics)
-    const [brawling, setBrawling] = useState(charDetail.brawling)
-    const [concentration, setConcentration] = useState(charDetail.concentration)
-    const [evasion, setEvasion] = useState(charDetail.evasion)
-    const [fastTalk, setFastTalk] = useState(charDetail.fastTalk)
-    const [firearms, setFirearms] = useState(charDetail.firearms)
-    const [legerdemain, setLegerdemain] = useState(charDetail.legerdemain)
-    const [meleeWeapons, setMeleeWeapons] = useState(charDetail.meleeWeapons)
-    const [perception, setPerception] = useState(charDetail.perception)
-    const [streetwise, setStreetwise] = useState(charDetail.streetwise)
-
-    // Tekhne skills
-
-    const [demolitions, setDemolitions] = useState(charDetail.demolitions)
-    const [driveLand, setDriveLand] = useState(charDetail.driveLand)
-    const [driveExotic, setDriveExotic] = useState(charDetail.driveExotic)
-    const [etiquette, setEtiquette] = useState(charDetail.etiquette)
-    const [heavyWeapons, setHeavyWeapons] = useState(charDetail.heavyWeapons)
-    const [exoticWeapons, setExoticWeapons] = useState(charDetail.exoticWeapons)
-    const [performance, setPerformance] = useState(charDetail.performance)
-    const [stealth, setStealth] = useState(charDetail.stealth)
-    const [survival, setSurvival] = useState(charDetail.survival)
-    const [tracking, setTracking] = useState(charDetail.tracking)
-
-    // Knowledge Skills
-    const [business, setBusiness] = useState(charDetail.business)
-    const [cryptography, setCryptography] = useState(charDetail.cryptography)
-    const [cyberTech, setCyberTech] = useState(charDetail.cyberTech)
-    const [investigation, setInvestigation] = useState(charDetail.investigation)
-    const [firstAid, setFirstAid] = useState(charDetail.firstAid)
-    const [gambling, setGambling] = useState(charDetail.gambling)
-    const [language, setLanguage] = useState(charDetail.language)
-    const [militaryTech, setMilitaryTech] = useState(charDetail.militaryTech)
-    const [science, setScience] = useState(charDetail.science)
-    const [vehicleTech, setVehicleTech] = useState(charDetail.vehicleTech)
 
     const dotReturn = (skill) => {
         let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots.push(fulldot);
+            returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots.push(emptydot)
+            returnedDots.push(<React.Fragment key={j + 5}>{emptydot}</React.Fragment>);
         }
         return returnedDots
     }
 
     const skillSelector = (skill) => {
-        switch (skill) {
-            // Streetwise Skills
-            case 'Athletics':
-                if (athletics === 0) {
-                    setAthletics(skillNumber)
-                    dealWithCounter()
-                    break;
-                } else {
-                    alert('Already selected!')
-                    break;
-                }
-            case 'Brawling':
-                if (brawling === 0) {
-                    setBrawling(skillNumber)
-                    dealWithCounter()
-                    break;
-                } else {
-                    alert('Already selected!')
-                    break;
-                }
-            case 'Concentration':
-                if (concentration === 0) {
-                    setConcentration(skillNumber)
-                    dealWithCounter()
-                    break;
-                } else {
-                    alert('Already selected!')
-                    break;
-                }
-            case 'Evasion':
-                if (evasion === 0) {
-                    setEvasion(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-            case 'Fast Talk':
-                if (fastTalk === 0) {
-                    setFastTalk(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
+        if (skill.skillDataName) {
+            dispatch({ type: 'CREATION_SELECT_SKILL', payload: { skill: skill.skillDataName, value: skillNumber } })
+        } else {
+            dispatch({ type: 'CREATION_SELECT_SKILL', payload: { skill: skill.skillName.toLowerCase(), value: skillNumber } })
+        }
+        increaseCounter()
+    }
 
-            case 'Legerdemain':
-                if (legerdemain === 0) {
-                    setLegerdemain(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-            case 'Melee Weapons':
-                if (meleeWeapons === 0) {
-                    setMeleeWeapons(skillNumber)
-                    dealWithCounter()
-                    break;
-                } else {
-                    alert('Already selected!')
-                    break;
-                }
-            case 'Perception':
-                if (perception === 0) {
-                    setPerception(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Firearms':
-                if (firearms === 0) {
-                    setFirearms(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Streetwise':
-                if (streetwise === 0) {
-                    setStreetwise(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            // Tekhne Skills
-            case 'Demolitions':
-                if (demolitions === 0) {
-                    setDemolitions(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Drive Land Vehicle':
-                if (driveLand === 0) {
-                    setDriveLand(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Drive Exotic Vehicle':
-                if (driveExotic === 0) {
-                    setDriveExotic(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Etiquette':
-                if (etiquette === 0) {
-                    setEtiquette(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Exotic Weapons':
-                if (exoticWeapons === 0) {
-                    setExoticWeapons(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Heavy Weapons':
-                if (heavyWeapons === 0) {
-                    setHeavyWeapons(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Performance':
-                if (performance === 0) {
-                    setPerformance(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Stealth':
-                if (stealth === 0) {
-                    setStealth(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Tracking':
-                if (tracking === 0) {
-                    setTracking(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Survival':
-                if (survival === 0) {
-                    setSurvival(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            // Knowledge Skills
-            case 'Business':
-                if (business === 0) {
-                    setBusiness(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Cryptography':
-                if (cryptography === 0) {
-                    setCryptography(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Cyber Tech':
-                if (cyberTech === 0) {
-                    setCyberTech(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Investigation':
-                if (investigation === 0) {
-                    setInvestigation(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'First Aid':
-                if (firstAid === 0) {
-                    setFirstAid(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Gambling':
-                if (gambling === 0) {
-                    setGambling(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Language':
-                if (language === 0) {
-                    setLanguage(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Military Tech':
-                if (militaryTech === 0) {
-                    setMilitaryTech(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-
-            case 'Science':
-                if (science === 0) {
-                    setScience(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!');
-                }
-                break;
-            case 'Vehicle Tech':
-                if (vehicleTech === 0) {
-                    setVehicleTech(skillNumber);
-                    dealWithCounter();
-                } else {
-                    alert('Already selected!')
-                }
-            default:
-                console.log(`Skill Selector Whoopsie!`, skill);
-                break;
+    const increaseCounter = () => {
+        if (skillCounter < 1) {
+            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 4 })
+        } else if (skillCounter >= 1 && skillCounter <= 4) {
+            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 3 })
+            return;
+        } else if (skillCounter > 4 && skillCounter <= 10) {
+            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 2 })
+        } else if (skillCounter > 10 && skillCounter <= 16) {
+            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 1 })
+            setSkillCounter(skillCounter + 1);
+        } else if (skillCounter > 16) {
+            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 0 })
+        } else {
+            console.log(`error increasing skill counter`);
         }
     }
 
-    const dealWithCounter = () => {
-        setSkillCounter(skillCounter + 1);
-        if (skillCounter > 1) {
-            setSkillNumber(3)
+    const decreaseCounter = () => {
+        if (skillCounter === 0) {
+            console.log(`Error - no skill selection made`);
+            return;
+        } else if (skillCounter > 0 && skillCounter <= 2) {
+            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 4 })
+            return;
+        } else if (skillCounter > 2 && skillCounter <= 6) {
+            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 3 })
+            return;
+        } else if (skillCounter > 6 && skillCounter <= 12) {
+            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 2 })
+            return;
+        } else if (skillCounter > 12 && skillCounter <= 18) {
+            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 1 })
+            return;
+        } else {
+            console.log(`Error decreasing counter`);
         }
-        if (skillCounter > 5) {
-            setSkillNumber(2)
-        }
-        if (skillCounter > 11) {
-            setSkillNumber(1)
-        }
-        if (skillCounter > 17) {
-            setSkillNumber(0)
+    }
+
+    const undoLastSkillSelection = () => {
+        if (skillSelectionOrder.length < 1) {
+            console.log(`Error - no skills selected!`);
+            return;
+        } else if (skillSelectionOrder.slice(-1)[0].skillDataName) {
+            dispatch({ type: 'CREATION_UNDO_LAST_SKILL', payload: skillSelectionOrder.pop() })
+            decreaseCounter();
+        } else {
+            dispatch({ type: 'CREATION_UNDO_LAST_SKILL', payload: skillSelectionOrder.pop() })
+            decreaseCounter();
         }
     }
 
     const resetSkillSelection = () => {
-        setSkillNumber(4)
-        setSkillCounter(1)
-
-        setAthletics(0)
-        setBrawling(0)
-        setConcentration(0)
-        setEvasion(0)
-        setFastTalk(0)
-        setLegerdemain(0)
-        setMeleeWeapons(0)
-        setPerception(0)
-        setFirearms(0)
-        setStreetwise(0)
-
-        setDemolitions(0)
-        setDriveLand(0)
-        setDriveExotic(0)
-        setEtiquette(0)
-        setExoticWeapons(0)
-        setHeavyWeapons(0)
-        setPerformance(0)
-        setStealth(0)
-        setSurvival(0)
-        setTracking(0)
-
-        setBusiness(0)
-        setCryptography(0)
-        setCyberTech(0)
-        setInvestigation(0)
-        setFirstAid(0)
-        setGambling(0)
-        setLanguage(0)
-        setMilitaryTech(0)
-        setScience(0)
-        setVehicleTech(0)
+        dispatch({ type: 'CREATION_RESET_SKILLS' })
     }
 
     const selectVerbiage = () => {
-        if (skillCounter < 19) {
+        if (skillNumber > 0) {
             return 'Select at Rank' + ' ' + skillNumber
         } else {
             return 'No more selections remaining.'
         }
-
     }
 
-    const dispatchSkills = () => {
-        if (skillNumber === 0) {
-            const skills = {
-                skillNumber,
-                athletics, brawling, concentration, evasion, fastTalk, firearms, legerdemain, meleeWeapons, perception, streetwise,
-                demolitions, driveLand, driveExotic, etiquette, exoticWeapons, heavyWeapons, performance, stealth, survival, tracking,
-                business, cryptography, cyberTech, firstAid, investigation, gambling, language, militaryTech, science, vehicleTech
-            }
-            
-            dispatch({ type: 'SET_CREATION_SKILLS', payload: skills })
-            
-            if (creationReviewReached === false) {
-                dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
-            } else {
-                dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
-            }
+    const saveSkills = () => {
+        let counter = 0;
+
+        skillArray.map(item => item.value > 0 ? counter += 1 : counter += 0);
+
+        if (skillCounter == 18 && creationReviewReached === false) {
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
+        } else if (counter == 18 && creationReviewReached === true) {
+            dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
         } else {
             setShowSnackbar(true)
         }
-    }
-
-    // quick fill for faster demo/testing purposes.
-    const quickSelect = () => {
-        setFirstAid(4)
-        setEvasion(4)
-
-        setEtiquette(3)
-        setCyberTech(3)
-        setScience(3)
-        setStreetwise(3)
-
-        setPerception(2)
-        setStealth(2)
-        setFastTalk(2)
-        setFirearms(2)
-        setDriveLand(2)
-        setConcentration(2)
-
-        setMilitaryTech(1)
-        setVehicleTech(1)
-        setInvestigation(1)
-        setAthletics(1)
-        setBusiness(1)
-        setPerformance(1)
-
-        setSkillNumber(0)
-        setSkillCounter(19)
     }
 
     return (
@@ -498,21 +202,32 @@ function CreationSkills() {
                 <Grid item xs={12}><Item sx={{ height: 1 }}>Click a skill name to learn more about it! Click column headers for special notes involving all the skills in a column.</Item></Grid>
             </Grid>
 
-
-            <h1></h1>
-            <h3></h3>
-            <h3></h3>
-            <h3></h3>
-            <h3></h3>
-
             <Grid container>
                 <Grid item xs={12} textAlign={'center'}>
                     <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetSkillSelection()}>Reset Skill Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => dispatchSkills()}>Save Skill Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => quickSelect()}>Quick Skill Selection</Button>
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => saveSkills()}>Save Skill Selection</Button>
+                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => undoLastSkillSelection()}>Undo Last Selection</Button>
                 </Grid>
             </Grid>
+
             <Grid container>
+                {skillArray.map(skill => {
+                    return (
+                        <React.Fragment key={skill.skillName}>
+                            <Grid item xs={1.333}><Item><SkillsDialog prop={skill.skillName} /></Item></Grid>
+                            {skill.value === 0 ? <Grid xs={2.666} item>
+                                {skillNumber > 0 ? <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector(skill)}>{selectVerbiage()}</Item> : <Item>{selectVerbiage()}</Item>}
+                                {/* <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector(skill)}>{selectVerbiage()}</Item> */}
+                            </Grid> : <><Grid xs={2.666} item><Item>{dotReturn(skill.value)}</Item></Grid></>}
+                        </React.Fragment>
+                    )
+                })}
+            </Grid>
+
+
+
+
+            {/* <Grid container>
                 <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
                         <Grid item xs={12}><Item><SkillsDialog prop={'Streets'} /></Item></Grid>
@@ -676,7 +391,7 @@ function CreationSkills() {
                         </Grid> : <><Grid xs={8} item><Item>{dotReturn(vehicleTech)}</Item></Grid></>}
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </>
     )
 }
