@@ -28,7 +28,7 @@ function CreationFirstSteps() {
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         const character = {
             handle,
@@ -45,11 +45,7 @@ function CreationFirstSteps() {
             dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
         }
     }
-    // quick fill for faster demo/testing purposes.
-    // const instaFill = () => {
-    //     setHandle('Mad Maxine')
-    //     setPlayer('Schwami')
-    // }
+    
     return (<>
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
             <Grid item padding={3} xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>First Steps</Typography></Item></Grid>

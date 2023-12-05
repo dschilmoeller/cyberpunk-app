@@ -19,6 +19,7 @@ function TransitionUp(props) {
 }
 
 function CreationAttributes() {
+
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
 
@@ -32,15 +33,16 @@ function CreationAttributes() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
-    // state for tracking amount to apply to each attribute, and how many have been selected.
-    const [attributeNumber, setAttributeNumber] = useState(4)
-    const [attributeCounter, setAttributeCounter] = useState(1)
+    // state for tracking amount (attributeNumber) to apply to each attribute, and how many have been selected (attributeCounter).
+    const [attributeNumber, setAttributeNumber] = useState(charDetail.attributeNumber)
+    const [attributeCounter, setAttributeCounter] = useState(charDetail.attributeCounter)
 
-    // New method of tracking stats.
-    const [statTracker, setStatTracker] = useState([])
+    const [attributeArray, setAttributeArray] = useState([])
+    
+    const [attributeSelectionHistory, setAttributeSelectionHistory] = useState(charDetail.attributeSelectionHistory)
 
     useEffect(() => {
-        setStatTracker([
+        setAttributeArray([
             { attName: 'Strength', value: charDetail.strength },
             { attName: 'Appearance', value: charDetail.appearance },
             { attName: 'Intelligence', value: charDetail.intelligence },
@@ -51,9 +53,11 @@ function CreationAttributes() {
             { attName: 'Street Cred', value: 1 },
             { attName: 'Technique', value: charDetail.technique },
         ])
+        setAttributeCounter(charDetail.attributeCounter)
+        setAttributeNumber(charDetail.attributeNumber)
+        setAttributeSelectionHistory(charDetail.attributeSelectionHistory)
     }, [charDetail])
-
-    const [statSelectionOrder, setStatSelectionOrder] = useState([])
+    
 
     const dotReturn = (attribute) => {
         let returnedDots = []
@@ -70,50 +74,47 @@ function CreationAttributes() {
     }
 
     const AttributeSelector = (attribute) => {
-        dispatch({ type: 'CREATION_UPDATE_ATT', payload: { att: attribute.toLowerCase(), value: attributeNumber } })
+        dispatch({ type: 'CREATION_SELECT_ATT', payload: { att: attribute.toLowerCase(), value: attributeNumber } })
         increaseCounter()
-        setStatSelectionOrder([...statSelectionOrder, attribute.toLowerCase()])
     }
-    
+
     const undoLastSelection = () => {
-        dispatch({ type: 'CREATION_UPDATE_ATT', payload: { att: statSelectionOrder.pop(), value: 0 } })
-        decreaseCounter();
+        if (attributeSelectionHistory.length < 1) {
+            console.log(`Error - no attributes selected!`);
+            return;
+        } else {
+            dispatch({ type: 'CREATION_UNDO_SELECT_ATT', payload: attributeSelectionHistory.pop() })
+            decreaseCounter();
+        }
     }
 
     const increaseCounter = () => {
-        if (attributeCounter >= 1 && attributeCounter <= 3) {
-            setAttributeNumber(3)
-            setAttributeCounter(attributeCounter + 1);
+        if (attributeCounter >= 0 && attributeCounter <= 2) {
+            dispatch({ type: 'INCREASE_ATT_COUNTER', payload: 3 })
             return;
-        } else if (attributeCounter > 3 && attributeCounter <= 6) {
-            setAttributeNumber(2)
-            setAttributeCounter(attributeCounter + 1);
+        } else if (attributeCounter > 2 && attributeCounter <= 5) {
+            dispatch({ type: 'INCREASE_ATT_COUNTER', payload: 2 })
             return;
-        } else if (attributeCounter > 6) {
-            setAttributeNumber(1)
-            setAttributeCounter(attributeCounter + 1);
+        } else if (attributeCounter > 5) {
+            dispatch({ type: 'INCREASE_ATT_COUNTER', payload: 1 })
             return;
         }
     }
 
     const decreaseCounter = () => {
-        if (attributeCounter === 1){
+        if (attributeCounter === 0) {
             console.log(`Error - no selection made`);
             return;
-        } else if (attributeCounter === 2) {
-            setAttributeCounter(attributeCounter - 1)
-            setAttributeNumber(4)
+        } else if (attributeCounter === 1) {
+            dispatch({type: 'DECREASE_ATT_COUNTER', payload: 4})
             return;
-        } else if (attributeCounter > 2 && attributeCounter <= 5) {
-            setAttributeCounter(attributeCounter - 1)
-            setAttributeNumber(3)
+        } else if (attributeCounter >= 2 && attributeCounter <= 4) {
+            dispatch({type: 'DECREASE_ATT_COUNTER', payload: 3})
             return;
-        } else if (attributeCounter > 5 && attributeCounter <= 8) {
-            setAttributeCounter(attributeCounter - 1)
-            setAttributeNumber(2)
-        } else if (attributeCounter > 8) {
-            setAttributeCounter(attributeCounter - 1)
-            setAttributeNumber(1)
+        } else if (attributeCounter > 4 && attributeCounter <= 7) {
+            dispatch({type: 'DECREASE_ATT_COUNTER', payload: 2})
+        } else if (attributeCounter > 7) {
+            dispatch({type: 'DECREASE_ATT_COUNTER', payload: 1})
         } else {
             console.log(`Error decreasing counter`);
         }
@@ -127,7 +128,7 @@ function CreationAttributes() {
 
     const saveAttributes = () => {
 
-        const attValueArray = statTracker.map(item => item.value > 0)
+        const attValueArray = attributeArray.map(item => item.value > 0)
         const checker = arr => arr.every(v => v === true);
 
         if (attributeCounter >= 9 && creationReviewReached === false) {
@@ -139,7 +140,6 @@ function CreationAttributes() {
         }
     }
 
-    
     return (
         <>
 
@@ -174,7 +174,7 @@ function CreationAttributes() {
             </Grid>
 
             <Grid container>
-                {statTracker.map(stat => {
+                {attributeArray.map(stat => {
                     return (
                         <React.Fragment key={stat.attName}>
                             <Grid item xs={4}>
