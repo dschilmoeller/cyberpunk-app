@@ -57,7 +57,8 @@ router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
 router.get('/fetchcharactercyberdetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware"
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
-    WHERE char_id = $1`
+    WHERE char_id = $1
+    ORDER BY "type"`
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows);

@@ -17,7 +17,7 @@ import CharacterRoleAbilities from './CharacterRoleAbilities';
 import Weapons from './Weapons';
 import CharacterVehicles from './CharacterVehicles';
 import CharacterNetrunner from './CharacterNetrunner';
-
+import CharacterSheetCyberware from './Cyberware';
 import Backpack from './Backpack';
 
 function CharacterSheet() {
@@ -104,6 +104,7 @@ function CharacterSheet() {
                                     <Tab value='weapons' label='Weapons' />
                                     {charDetail.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                                     <Tab value='backpack' label='Backpack' />
+                                    <Tab value='cyberware' label='Cyberware' />
                                     <Tab value='vehicles' label='Vehicles' />
                                 </Tabs>
 
@@ -115,6 +116,10 @@ function CharacterSheet() {
 
                                 {selectedInventory === 'backpack' ? (<>
                                     <Backpack />
+                                </>) : <></>}
+
+                                {selectedInventory === 'cyberware' ? (<>
+                                    <CharacterSheetCyberware />
                                 </>) : <></>}
 
                                 {selectedInventory === 'vehicles' ? (<>
