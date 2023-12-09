@@ -4,8 +4,6 @@ const characterDetail = (state = {}, action) => {
             return action.payload;
         case 'CLEAR_CHARACTER_DETAIL':
             return {}
-
-
         case 'PLAYER_BURN_ONE_LUCK':
             return {
                 ...state,

@@ -19,6 +19,7 @@ import CharacterVehicles from './CharacterVehicles';
 import CharacterNetrunner from './CharacterNetrunner';
 import CharacterSheetCyberware from './Cyberware';
 import Backpack from './Backpack';
+import CharacterSheetNotes from './Notes';
 
 function CharacterSheet() {
     const charDetail = useSelector(store => store.characterDetail);
@@ -106,6 +107,7 @@ function CharacterSheet() {
                                     <Tab value='backpack' label='Backpack' />
                                     <Tab value='cyberware' label='Cyberware' />
                                     <Tab value='vehicles' label='Vehicles' />
+                                    <Tab value='notes' label='My Notes' />
                                 </Tabs>
 
                                 {selectedInventory === 'weapons' ? (<>
@@ -128,6 +130,10 @@ function CharacterSheet() {
 
                                 {selectedInventory === 'netrunner' ? (<>
                                     <CharacterNetrunner />
+                                </>) : <></>}
+
+                                {selectedInventory === 'notes' ? (<>
+                                    <CharacterSheetNotes />
                                 </>) : <></>}
 
                             </>

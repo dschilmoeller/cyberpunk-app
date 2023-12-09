@@ -16,10 +16,10 @@ function CharacterSkills(charDetailProp) {
     const fulldot = <CircleIcon />
     const emptydot = <CircleOutlinedIcon />
 
-        useEffect(() => {
-            setSkills();
-            skillChipChecker();
-        })
+    useEffect(() => {
+        setSkills();
+        skillChipChecker();
+    }, [])
 
     // Streetwise Skills
     const [athletics, setAthletics] = useState(0)
@@ -170,7 +170,7 @@ function CharacterSkills(charDetailProp) {
                     }
                     break;
                 case 'Skill Chip - Gambling':
-                    if (cyberware.equipped === true && charDetail.gambling <=2) {
+                    if (cyberware.equipped === true && charDetail.gambling <= 2) {
                         setGambling(2)
                     }
                     break;

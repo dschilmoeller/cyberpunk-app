@@ -203,6 +203,19 @@ router.get('/characterActiveVehicleMods/:id', rejectUnauthenticated, (req, res) 
         })
 })
 
+router.get('/fetchCharacterNotes/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM char_notes
+    WHERE char_id = $1
+    ORDER BY "char_note_id"`
+    pool.query(sqlText, [req.params.id])
+        .then(result => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character notes:`, err);
+        })
+})
+
 // use consumable from pack:
 router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`
@@ -351,16 +364,55 @@ router.put('/charactercreatepharmaceutical/', rejectUnauthenticated, (req, res) 
 router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
     const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
     const bankSqlParams = [req.body.newBank, req.body.id]
-
     pool.query(updateBankSqlText, bankSqlParams)
-        .then((results) => [
+        .then(result => {
             res.sendStatus(200)
-        ])
+        })
         .catch(err => {
-            console.log(`arbitrarily updating bank:`, err);
+            console.log(`error arbitrarily updating bank:`, err);
         })
 })
 
+// create in play character note
+router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `INSERT INTO char_notes ("char_id", "title", "body")
+    VALUES ($1, $2, $3)`
+    const sqlParams = [req.body.char_id, req.body.title, req.body.body]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(201)
+        })
+        .catch(err => {
+            console.log(`error creating new note`, err);
+        })
+})
+
+// save in play character note edit
+router.put('/updateCharacterNote', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_notes"
+    SET "title" = $1, "body" = $2
+    WHERE "char_note_id" = $3`
+    const sqlParams = [req.body.title, req.body.body, req.body.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`Error updating note`, err);
+        })
+})
+
+// delete in play character note
+router.delete('/deleteCharacterNote/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `DELETE FROM "char_notes" WHERE "char_note_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`Error deleting note:`, err);
+        })
+})
 // Character Advancement Routes
 // routes having to do with spending experience, equipping/unequipping gear and cyberware,
 // and purchasing and selling gear and cyberware
@@ -980,7 +1032,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
                 const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 1, 1, 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
-            for (let i = 0; i < req.body.grenades.length; i++){
+            for (let i = 0; i < req.body.grenades.length; i++) {
                 const grenadeSqlText = `INSERT INTO "char_grenade_bridge"
                 ("char_id", "grenade_id")
                 VALUES ($1, $2)`

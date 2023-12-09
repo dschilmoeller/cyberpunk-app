@@ -8,6 +8,7 @@ import campaigns from './campaigns.reducer';
 import characterDetail from './characterDetail.reducer';
 import characterGear from './characterGear.reducer';
 import characterStatus from './characterStatus.reducer';
+import characterNotes from './characterNotes.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   characterGear, // active character sheet equipment details
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
+  characterNotes, // player created notes.
   
   characterCreation, // contains details set up during character creation
   

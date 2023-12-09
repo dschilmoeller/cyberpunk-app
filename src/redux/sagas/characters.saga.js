@@ -18,6 +18,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_DETAIL', payload: characterDetail.data[0] });
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
 
     const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload}`)
     const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload}`)
@@ -90,6 +92,33 @@ function* characterCreatePharmaceutical(action) {
     yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
   } catch (error) {
     console.log(`Error creating pharmaceutical compound.`);
+  }
+}
+// Save new character note
+function* createCharacterNote(action) {
+  try {
+    yield axios.post('api/characters/createCharacterNote/', action.payload)
+    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload.char_id}`)
+    yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
+  } catch (error) {
+    console.log(`Error creating character note:`, error);
+  }
+}
+
+// Update Character Note
+function* updateCharacterNote(action) {
+  try {
+    yield axios.put('api/characters/updateCharacterNote/', action.payload)
+  } catch (error) {
+    console.log(`Error saving character note:`, error);
+  }
+}
+
+function* deleteCharacterNote(action) {
+  try {
+    yield axios.delete(`api/characters/deleteCharacterNote/${action.payload}`)
+  } catch (error) {
+    console.log(`Error deleting character note:`, error);
   }
 }
 
@@ -196,7 +225,9 @@ function* characterSaga() {
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
   yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
-
+  yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote)
+  yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote)
+  yield takeLatest('CHARACTER_DELETE_NOTE', deleteCharacterNote)
   // permanent luck reduction
   yield takeLatest('PLAYER_BURN_ONE_LUCK', characterBurnLuck);
 

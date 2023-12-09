@@ -1082,6 +1082,16 @@ VALUES (
 		E'A full sized shield offering decent protection.'
 	);
 
+CREATE TABLE char_notes (
+	char_note_id SERIAL NOT NULL,
+	char_id int NOT NULL,
+	title varchar(400),
+	body text,
+	CONSTRAINT char_note_pk PRIMARY KEY (char_note_id)
+) WITH (OIDS = FALSE);
+ALTER TABLE char_notes
+ADD CONSTRAINT char_notes_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
+
 
 -- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
 -- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.
