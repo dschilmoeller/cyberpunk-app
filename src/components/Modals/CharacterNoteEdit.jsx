@@ -9,6 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GradeIcon from '@mui/icons-material/Grade';
 import { Grid } from '@mui/material';
 
 export default function CharacterNoteEdit({ prop }) {
@@ -38,10 +39,10 @@ export default function CharacterNoteEdit({ prop }) {
     const handleClose = () => {
         setShowRealDelete(false)
         if (isNew === false) {
-            dispatch({ type: 'CHARACTER_NOTE_UPDATE', payload: { title: titleText, body: bodyText, id: prop.char_note_id, char_id: prop.char_id } })
+            dispatch({ type: 'CHARACTER_NOTE_UPDATE', payload: { title: titleText, body: bodyText, id: prop.char_note_id, char_id: prop.char_id, favorite: favoriteStatus } })
             setOpen(false);
         } else {
-            dispatch({ type: 'CHARACTER_NEW_NOTE', payload: { title: titleText, body: bodyText, char_id: prop } })
+            dispatch({ type: 'CHARACTER_NEW_NOTE', payload: { title: titleText, body: bodyText, char_id: prop, favorite: favoriteStatus } })
             setOpen(false);
         }
     };
@@ -53,13 +54,17 @@ export default function CharacterNoteEdit({ prop }) {
         setShowRealDelete(true)
     }
     const actuallyDelete = () => {
-        console.log(`payload:`, prop.char_note_id);
         dispatch({ type: 'CHARACTER_DELETE_NOTE', payload: prop.char_note_id })
         setOpen(false)
     }
 
+    const favoriteNote = () => {
+        setFavoriteStatus(!favoriteStatus)
+    }
+
     const [titleText, setTitleText] = React.useState(prop.title !== undefined ? prop.title : '')
     const [bodyText, setBodyText] = React.useState(prop.body !== undefined ? prop.body : '')
+    const [favoriteStatus, setFavoriteStatus] = React.useState(prop.favorite)
 
     return (
         <>
@@ -74,14 +79,24 @@ export default function CharacterNoteEdit({ prop }) {
                 aria-describedby="scroll-dialog-description"
             >
                 <DialogTitle id="scroll-dialog-title">Edit Note</DialogTitle>
+                <IconButton
+                    aria-label="favorite"
+                    onClick={favoriteNote}
+                    sx={{
+                        position: 'absolute',
+                        right: 50,
+                        top: 8,
+                        color: favoriteStatus ? 'yellow' : 'white'
+                    }}
+                >
+                    <GradeIcon /></IconButton>
                 {showRealDelete ? <IconButton
                     aria-label="close"
                     onClick={actuallyDelete}
                     sx={{
                         position: 'absolute',
                         right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
+                        top: 8
                     }}
                 >
                     <DeleteIcon color='error' />

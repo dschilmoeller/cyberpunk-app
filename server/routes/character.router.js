@@ -206,7 +206,7 @@ router.get('/characterActiveVehicleMods/:id', rejectUnauthenticated, (req, res) 
 router.get('/fetchCharacterNotes/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM char_notes
     WHERE char_id = $1
-    ORDER BY "char_note_id"`
+    ORDER BY "favorite" DESC, "char_note_id"`
     pool.query(sqlText, [req.params.id])
         .then(result => {
             res.send(result.rows);
@@ -375,9 +375,9 @@ router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
 
 // create in play character note
 router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
-    const sqlText = `INSERT INTO char_notes ("char_id", "title", "body")
-    VALUES ($1, $2, $3)`
-    const sqlParams = [req.body.char_id, req.body.title, req.body.body]
+    const sqlText = `INSERT INTO char_notes ("char_id", "title", "body", "favorite")
+    VALUES ($1, $2, $3, $4)`
+    const sqlParams = [req.body.char_id, req.body.title, req.body.body, req.body.favorite]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(201)
@@ -390,9 +390,9 @@ router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
 // save in play character note edit
 router.put('/updateCharacterNote', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_notes"
-    SET "title" = $1, "body" = $2
-    WHERE "char_note_id" = $3`
-    const sqlParams = [req.body.title, req.body.body, req.body.id]
+    SET "title" = $1, "body" = $2, "favorite" = $3
+    WHERE "char_note_id" = $4`
+    const sqlParams = [req.body.title, req.body.body, req.body.favorite, req.body.id]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(200)

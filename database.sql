@@ -1087,6 +1087,7 @@ CREATE TABLE char_notes (
 	char_id int NOT NULL,
 	title varchar(400),
 	body text,
+	favorite bool NOT NULL DEFAULT false,
 	CONSTRAINT char_note_pk PRIMARY KEY (char_note_id)
 ) WITH (OIDS = FALSE);
 ALTER TABLE char_notes

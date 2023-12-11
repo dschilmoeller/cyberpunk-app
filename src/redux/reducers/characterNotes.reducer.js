@@ -11,7 +11,8 @@ const characterNotes = (state = [], action) => {
                         char_note_id: action.payload.id,
                         char_id: action.payload.char_id,
                         title: action.payload.title,
-                        body: action.payload.body
+                        body: action.payload.body,
+                        favorite: action.payload.favorite
                     }
                 } else {
                     return note
