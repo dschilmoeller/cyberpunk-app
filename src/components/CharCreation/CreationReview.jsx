@@ -23,6 +23,7 @@ import TableRow from '@mui/material/TableRow';
 
 
 export default function CreationReview() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const charDetail = useSelector(store => store.characterCreation)
     const armor = useSelector(store => store.gearMaster.armor)

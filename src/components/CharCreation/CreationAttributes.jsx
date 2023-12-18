@@ -131,7 +131,7 @@ function CreationAttributes() {
         const attValueArray = attributeArray.map(item => item.value > 0)
         const checker = arr => arr.every(v => v === true);
 
-        if (attributeCounter >= 9 && creationReviewReached === false) {
+        if (attributeCounter >= 8 && creationReviewReached === false) {
             dispatch({ type: 'SET_CREATION_STEP', payload: 'skills' })
         } else if (checker(attValueArray) === true && creationReviewReached === true) {
             dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })

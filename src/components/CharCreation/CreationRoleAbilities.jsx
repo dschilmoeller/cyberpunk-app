@@ -347,7 +347,7 @@ function CreationRoleAbilities() {
             </>)
                 : (<>
                     <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Rockerboy'} /></Item></Grid>
-                    <Grid item xs={6}><Item onClick={() => selectRole('Rockerboy')}>Select</Item></Grid>
+                    <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Rockerboy')}>Select</Item></Grid>
                 </>)}
 
 
@@ -355,42 +355,42 @@ function CreationRoleAbilities() {
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>SOLO SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Solo'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Solo')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Solo')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Netrunner' ? (<>
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>NETRUNNER SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Netrunner'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Netrunner')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Netrunner')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Nomad' ? (<>
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>NOMAD SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Nomad'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Nomad')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Nomad')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Media' ? (<>
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MEDIA SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Media'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Media')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Media')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Medtech' ? (<>
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MEDTECH SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Medtech'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Medtech')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Medtech')}>Select</Item></Grid>
             </>)}
 
             {roleSelection === 'Maker' ? (<>
                 <Grid item xs={12}><Item sx={{ backgroundColor: '#607d8b' }}>MAKER SELECTED</Item></Grid>
             </>) : (<>
                 <Grid item xs={6}><Item><RoleAbilitiesDialog prop={'Maker'} /></Item></Grid>
-                <Grid item xs={6}><Item onClick={() => selectRole('Maker')}>Select</Item></Grid>
+                <Grid item xs={6}><Item sx={{ cursor: 'pointer' }} onClick={() => selectRole('Maker')}>Select</Item></Grid>
             </>)}
         </Grid>
 
@@ -403,7 +403,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Surgery'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(medSurgery)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Surgery')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMedtechRoleSkill('Surgery')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -412,7 +412,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Pharmaceuticals'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(medPharma)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Pharmaceuticals')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMedtechRoleSkill('Pharmaceuticals')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -420,7 +420,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Cryogenics'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(medCryo)}</Item></Grid>
                 {availableMedSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMedtechRoleSkill('Cryogenics')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMedtechRoleSkill('Cryogenics')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -444,7 +444,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Field Expertise'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(makerField)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Field Expertise')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMakerRoleSkill('Field Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -452,7 +452,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Upgrade Expertise'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(makerUpgrade)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Upgrade Expertise')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMakerRoleSkill('Upgrade Expertise')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -460,7 +460,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Fabrication Expertise'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(makerFab)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Fabrication')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMakerRoleSkill('Fabrication')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}
@@ -468,7 +468,7 @@ function CreationRoleAbilities() {
                 <Grid item xs={4}><Item><RoleAbilitiesDialog prop={'Invention Expertise'} /></Item></Grid>
                 <Grid item xs={4}><Item>{dotReturn(makerInvent)}</Item></Grid>
                 {availableMakerSkillPoints > 0 ? (<>
-                    <Grid item xs={4}><Item onClick={() => selectMakerRoleSkill('Invention')}>Select Skill</Item></Grid>
+                    <Grid item xs={4}><Item sx={{ cursor: 'pointer' }} onClick={() => selectMakerRoleSkill('Invention')}>Select Skill</Item></Grid>
                 </>) : (<>
                     <Grid item xs={4}><Item>No More Selections Available</Item></Grid>
                 </>)}

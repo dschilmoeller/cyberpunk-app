@@ -377,7 +377,13 @@ router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
 router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
     const sqlText = `INSERT INTO char_notes ("char_id", "title", "body", "favorite")
     VALUES ($1, $2, $3, $4)`
-    const sqlParams = [req.body.char_id, req.body.title, req.body.body, req.body.favorite]
+    let noteFavBool;
+    if (req.body.favorite != null) {
+        noteFavBool = req.body.favorite;
+    }  else {
+        noteFavBool = false;
+    }
+    const sqlParams = [req.body.char_id, req.body.title, req.body.body, noteFavBool]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(201)

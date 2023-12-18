@@ -26,6 +26,7 @@ function TransitionUp(props) {
 }
 
 export default function CreationCyberware() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const dispatch = useDispatch();
 

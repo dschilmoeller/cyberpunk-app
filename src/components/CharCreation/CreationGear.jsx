@@ -25,6 +25,8 @@ function TransitionUp(props) {
 }
 
 export default function CreationGear() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const dispatch = useDispatch();
     const charDetail = useSelector(store => store.characterCreation)
     const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
