@@ -309,8 +309,8 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
             return {
                 ...state,
                 [action.payload.statToChange]: Number(action.payload.newStatAmount),
-                max_xp: Number(action.payload.newTotalExp),
-                spent_xp: Number(action.payload.newSpentTotalExp)
+                // max_xp: Number(action.payload.newTotalExp),
+                // spent_xp: Number(action.payload.newSpentTotalExp)
             }
         case 'GM_DECREASE_STAT':
             return {

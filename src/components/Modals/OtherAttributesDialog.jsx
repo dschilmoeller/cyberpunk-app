@@ -14,6 +14,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SquareIcon from '@mui/icons-material/Square';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
 
 export default function OtherAttributesDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
@@ -32,7 +33,7 @@ export default function OtherAttributesDialog({ prop }) {
     const stunMarker = <HorizontalRuleOutlinedIcon />;
     const lethalMarker = <CloseOutlinedIcon />;
     const aggMarker = <AcUnitIcon />;
-    const bodyArmorIcon = <SquareIcon />;
+    const bodyArmorIcon = <CheckBoxOutlineBlankOutlinedIcon />;
 
     const dispatch = useDispatch();
 

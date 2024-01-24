@@ -79,8 +79,8 @@ export default function GameMasterAttributes() {
                 type: "GM_INCREASE_STAT", payload: {
                     statToChange: statToChange,
                     newStatAmount: currentStat,
-                    newTotalExp: newTotalExp,
-                    newSpentTotalExp: newSpentTotalExp
+                    // newTotalExp: newTotalExp,
+                    // newSpentTotalExp: newSpentTotalExp
                 }
             })
         } else if (currentStat > 1 && changeType === 'decrease') {

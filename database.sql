@@ -785,11 +785,12 @@ VALUES
 ('Magnetic Shuriken','Thrown weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has cyberlimbs. Requires repair after each use.',1,'bow',1,3,3,1,TRUE,1000,TRUE),
 ('Giant Magna-Shuriken','This is an 8 pound piece of razor edged steel honed to an almost fractal level of sharpness. It is wildly dangerous to vehicles, much less people. Requires a Shuriken Battleglove to use.',8,'bow',2,1,1,1,FALSE,10000,TRUE),
 ('Gun-nade','One use pistol - removing the clip is the equivalent of pulling the pin on a grenade built into the device. Who would build such a thing!?',4,'gun',5,2,8,1,TRUE,500,TRUE),
-('DB-12','Shotgun pistol - characters with a strength of 4 or lower have +1 DV to any attack beyond point blank range. Both barrels can fire together, dealing an additional 3 damage if the attack hits.',7,'shotgun',5,2,2,1,FALSE,5000,TRUE),
+('DB-12','Shotgun pistol - characters with a strength of 4 or lower have +1 DV when attacking. Both barrels can fire together, dealing an additional 3 damage if the attack hits. Takes a full standard action to reload.',7,'shotgun',5,2,2,2,FALSE,5000,TRUE),
 ('Arasaka Whistler','Full sized, pump action crossbow for rapid, silent killing. Can be broken down into a concealable device as a single complex action, or restored in two.',6,'gun',20,2,6,2,TRUE,15000,TRUE),
 ('Araska Reaper','Handheld, self-recocking crossbow. Often wielded with shuriken in close combat by complete maniacs. Collapses into, or expands from, a single, inscrutable block as a simple action.',4,'gun',10,2,4,1,TRUE,20000,TRUE),
 ('Bauhaus Rippercannon','Custom made, extremely bulky machine gun that fires flechette filled cartridges. Requires Strength 6 or a mount to use effectively. Stupid illegal in every jurisdiction where it has been found. Uses SMG rules.',5,'smg',30,3,60,2,FALSE,50000,TRUE),
-('Comrade Molech','Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength of 8+.',10,'gun',10,1,1,2,TRUE,100000,TRUE);
+('Comrade Molech','Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength of 8+.',10,'gun',10,1,1,2,TRUE,100000,TRUE),
+('Tactical Selfie Stick', 'A spring loaded, carbon fiber selfie stick.',0,'melee',0,2,0,1,TRUE,10,TRUE);
 
 INSERT INTO "public"."misc_gear_master"("name", "description", "price")
 VALUES (E'Agent', E'Adaptive AI Smartphone', 100),
