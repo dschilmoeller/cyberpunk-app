@@ -1,4 +1,4 @@
-const characterDetail = (state = {}, action) => {
+const characterDetail = (state = { saved: false }, action) => {
     switch (action.type) {
         case 'SET_CHARACTER_DETAIL':
             return action.payload;
@@ -18,6 +18,21 @@ const characterDetail = (state = {}, action) => {
             return {
                 ...state,
                 bank: action.payload
+            }
+        case 'SAVE_CHARACTER_SHEET':
+            return {
+                ...state,
+                saved: false
+            }
+        case 'SET_SAVED_FALSE':
+            return {
+                ...state,
+                saved: false
+            }
+        case 'CHARACTER_SHEET_SAVE_SUCCESSFUL':
+            return {
+                ...state,
+                saved: true
             }
         default:
             return state

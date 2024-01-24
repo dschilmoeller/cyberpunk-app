@@ -58,6 +58,8 @@ function* saveCharacterSheet(action) {
     yield axios.put(`api/characters/savecharactershield/${action.payload.charID}`, action.payload.charParams.charShield)
     yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons)
     yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles)
+    yield put({ type: "CHARACTER_SHEET_SAVE_SUCCESSFUL"})
+    
   } catch (error) {
     console.log(`Error saving Character Details`, error);
   }

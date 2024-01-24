@@ -209,7 +209,7 @@ export default function Backpack() {
     const [bankChange, setBankChange] = React.useState(0)
 
     const addMoney = (change) => {
-        if ((change) > 0) {
+        if ((change) > 0 && change < 10000) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) + parseFloat(change) })
             dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change)) } })
             setBankChange(0)
@@ -219,7 +219,7 @@ export default function Backpack() {
     }
 
     const spendMoney = (change) => {
-        if ((change) > 0) {
+        if ((change) > 0 && change < 10000) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) - parseFloat(change) })
             dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change)) } })
             setBankChange(0)
@@ -238,7 +238,7 @@ export default function Backpack() {
                 anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                    Cannot perform negative changes!
+                    None of that nonsense now!
                 </Alert>
             </Snackbar >
 
@@ -255,9 +255,13 @@ export default function Backpack() {
             </Snackbar >
 
             <Grid container>
-                <Grid item xs={5} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' fullWidth onClick={() => addMoney(bankChange)}>Add Eddies</Button></Grid>
-                <Grid item xs={3} display={'flex'} justifyContent={'center'}><TextField
+                <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
+                {/* <Grid item xs={2} /> */}
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+                {/* <Grid item xs={2} /> */}
+
+                {/* <Grid item xs={8} /> */}
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><TextField
                     label="Add/Remove Amount"
                     onChange={e => setBankChange(e.target.value)}
                     required
@@ -266,7 +270,12 @@ export default function Backpack() {
                     fullWidth
                 />
                 </Grid>
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+                {/* <Grid item xs={2} /> */}
+
+                {/* <Grid item xs={8} /> */}
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
+                
+                {/* <Grid item xs={2} /> */}
             </Grid>
 
             <TableContainer>

@@ -265,9 +265,9 @@ function Health() {
             <Grid item xs={4}>
                 <Grid container>
                     <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>Stun</Button></Item></Grid>
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>Lethal</Button></Item></Grid> 
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>Agg</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>+Stun</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>+Lethal</Button></Item></Grid> 
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>+Agg</Button></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>

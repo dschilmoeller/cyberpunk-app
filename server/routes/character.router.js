@@ -293,17 +293,20 @@ router.put('/savecharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     SET "current_shots_fired" = $1
     WHERE "weapon_bridge_id" = $2`
 
-    for (let i = 0; i < req.body.length; i++) {
-        const sqlParams = [req.body[i].current_shots_fired, req.body[i].weapon_bridge_id]
-        pool.query(sqlText, sqlParams)
-            .catch(err => {
-                console.log(`Error saving weapons`, err);
-            })
-        if (i == req.body.length - 1) {
-            res.sendStatus(202)
+    if (req.body.length === 0) {
+        res.sendStatus(202)
+    } else {
+        for (let i = 0; i < req.body.length; i++) {
+            const sqlParams = [req.body[i].current_shots_fired, req.body[i].weapon_bridge_id]
+            pool.query(sqlText, sqlParams)
+                .catch(err => {
+                    console.log(`Error saving weapons`, err);
+                })
+            if (i == req.body.length - 1) {
+                res.sendStatus(202)
+            }
         }
     }
-
 })
 
 // save vehicle health and armor damage
@@ -312,14 +315,18 @@ router.put('/savecharactervehicles/:id', rejectUnauthenticated, (req, res) => {
     SET "current_damage" = $1, "current_armor_damage" = $2
     WHERE "char_id" = $3`
 
-    for (let i = 0; i < req.body.length; i++) {
-        const sqlParams = [req.body[i].current_damage, req.body[i].current_armor_damage, req.body[i].char_id]
-        pool.query(sqlText, sqlParams)
-            .catch(err => {
-                console.log(`Error saving vehicles`, err);
-            })
-        if (i == req.body.length - 1) {
-            res.sendStatus(202)
+    if (req.body.length === 0) {
+        res.sendStatus(202)
+    } else {
+        for (let i = 0; i < req.body.length; i++) {
+            const sqlParams = [req.body[i].current_damage, req.body[i].current_armor_damage, req.body[i].char_id]
+            pool.query(sqlText, sqlParams)
+                .catch(err => {
+                    console.log(`Error saving vehicles`, err);
+                })
+            if (i == req.body.length - 1) {
+                res.sendStatus(202)
+            }
         }
     }
 })
@@ -380,7 +387,7 @@ router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
     let noteFavBool;
     if (req.body.favorite != null) {
         noteFavBool = req.body.favorite;
-    }  else {
+    } else {
         noteFavBool = false;
     }
     const sqlParams = [req.body.char_id, req.body.title, req.body.body, noteFavBool]

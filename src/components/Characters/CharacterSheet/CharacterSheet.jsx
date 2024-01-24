@@ -21,6 +21,14 @@ import CharacterSheetCyberware from './Cyberware';
 import Backpack from './Backpack';
 import CharacterSheetNotes from './Notes';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 function CharacterSheet() {
     const charDetail = useSelector(store => store.characterDetail);
     const charStatus = useSelector(store => store.characterStatus);
@@ -40,7 +48,18 @@ function CharacterSheet() {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id });
         dispatch({ type: "FETCH_MASTER_LISTS" })
+        dispatch({ type: "SET_SAVED_FALSE"})
     }, [])
+
+    useEffect(() => {
+        if (charDetail.saved){
+            setShowSnackbar(true)
+            console.log(`saved now.`);
+        } else {
+            console.log(`Not Saved`);
+        }
+        
+    }, [charDetail])
 
     // run on page load and start again when a change is made.
     // this should in principle create a periodic 'autosave' feature. Seems to work.
@@ -53,9 +72,12 @@ function CharacterSheet() {
         return () => clearInterval(interval);
     }, [charStatus])
 
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const saveCharacter = (useHist) => {
-        const test = charStatus
         dispatch({ type: "SAVE_CHARACTER_SHEET", payload: { charID: params.id, charParams: { charStatus: charStatus, charWeapons: charWeapons, charVehicles: charVehicles, charArmor: charArmor, charShield: charShield } } })
         if (useHist === 'useHist') {
             history.push('/characterlist')
@@ -70,21 +92,35 @@ function CharacterSheet() {
     if (charDetail.id) {
         return (
             <>
+            <Snackbar
+                TransitionComponent={TransitionUp}
+                autoHideDuration={2000}
+                open={showSnackbar}
+                onClose={() => setShowSnackbar(false)}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            >
+                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                    Character Save Successful
+                </Alert>
+            </Snackbar >
+
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container>
-                        <Grid item display={'flex'} justifyContent={'center'} xs={6}>
+                    <Grid container marginBottom={2}>
+                        {/* <Grid item display={'flex'} justifyContent={'center'} xs={6}>
                             <Button onClick={() => saveCharacter('useHist')}>Back to Character List</Button>
-                        </Grid>
-                        <Grid item display={'flex'} justifyContent={'center'} xs={6}>
-                            <Button onClick={() => saveCharacter()}>Save Current Status</Button>
+                        </Grid> */}
+                        <Grid item xs={8} />
+                        <Grid item display={'flex'} justifyContent={'center'} xs={4}>
+                            <Button variant='contained' onClick={() => saveCharacter()}>Save Current Status</Button>
                         </Grid>
                     </Grid>
+
                     <Grid container spacing={1}>
 
                         {charDetail ? (
                             <>
                                 <Grid item xs={4}>
-                                    <Item sx={{ fontSize: '1.5em', padding: 0 }}>Name: {charDetail.handle}</Item>
+                                    <Item sx={{ fontSize: '1.5em', padding: 0 }}>Handle: {charDetail.handle}</Item>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Item sx={{ fontSize: '1.5em', padding: 0 }}>Player: {charDetail.player}</Item>
