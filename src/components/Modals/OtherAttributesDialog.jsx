@@ -122,11 +122,11 @@ export default function OtherAttributesDialog({ prop }) {
 
                     <Grid item xs={12} paddingBottom={1}>As armor is ablated, it is ticked off similar to health: {aggMarker}</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Ignoring Damage:</b> Weapons whose damage total is one third or less of a target's armor + cyberware armor value (rounded down and NOT including Body or Shields) cannot damage that target - their armor is simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware. A character's successes factor into this, as they can try and find gaps in the armor or weak points. As always, the GM has final say on whether an attack can damage a target.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Ignoring Damage:</b> Weapons whose base damage is 1/4 or less of a target's armor + cyberware armor value (rounded down) cannot damage that target - they are simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds of cover and certain super-heavy cyberware. A character's successes factor into this, as they can try and find gaps in the armor or weak points. As always, the GM has final say on whether an attack can damage a target.</Grid>
 
-                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is much tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced military equipment, full body cyberware conversions, and military issue armor. Characters (or cover) with any amount of hardened armor ignore attacks whose base damage is 1/2 or less of their armor value rather than 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor. However, some ammunition and even specific weapons allow characters to ignore the <i>Hardened</i> property.</Grid>
-
-                    <Grid item xs={12}>Hardened armor typically does not stack with other kinds armor - putting a kevlar jacket on over Powered Military Armor is going to have little effect (and is gilding the lily somewhat). The GM has final say on whether or not armors can be worn together.</Grid>
+                    <Grid item xs={12} paddingBottom={1}><b>Hardened Armor:</b> Some armor is vastly tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced military equipment, full body cyberware conversions, and military grade vehicle armor. Characters (or cover) with hardened armor reduce damage by the Body + Armor - not divided by 2. They also ignore attacks whose base damage is 1/3 or less of their armor value rather than the normal 1/3. Further, many attacks that would do aggravated damage to a character with normal armor are only lethal against a character with hardened armor. However, some ammunition and even specific weapons allow characters to ignore the <i>Hardened</i> property.</Grid>
+                    
+                    <Grid item xs={12}>Hardened armor typically does not stack with other kinds armor - putting a kevlar jacket on over Powered Military Armor is gilding the lily somewhat. The GM has final say on whether or not armors can be worn together.</Grid>
                 </>)
 
             case 'Luck':
@@ -154,7 +154,7 @@ export default function OtherAttributesDialog({ prop }) {
                     <>
                         <Grid container fontFamily={'serif'}>
                             <Grid item padding={1} xs={12}></Grid>
-                            <Grid item padding={1} xs={12}>This is the base damage of the weapon. Any successes beyond the one needed to hit a target are added to this number (with some exceptions) when calculating total damage done on an attack. This figure is compared to a targets armor, as well, and cannot hurt them if their armor is more than 3 times the base damage.</Grid>
+                            <Grid item padding={1} xs={12}>This is the base damage of the weapon. Any successes beyond the one needed to hit a target are added to this number (with some exceptions) when calculating total damage done on an attack. This figure is compared to a targets armor, as well, and cannot hurt them if their armor is more than 3 times this base damage.</Grid>
                         </Grid>
                     </>
                 )

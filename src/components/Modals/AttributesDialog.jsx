@@ -83,7 +83,7 @@ export default function AttributesDialog({ prop }) {
                             <Grid item padding={1} xs={12}>Characters with Body 3 are likely at least amateur athletes or body builders, and are in the pink of health.</Grid>
                             <Grid item padding={1} xs={12}>Characters with a Body of 4 are likely professional athletes or special forces troops. Characters with Body of 5 are unbelievably tough, and include professional ultramarathon runners, cave divers, and similar lunatics.</Grid>
                             <Grid item padding={1} xs={12}>Characters with a Body of 6+ are almost supernaturally tough - they can go for days without sleep, hike across the sahara, and react strangely when people claim to be suffering from a cold.</Grid>
-                            <Grid item padding={1} xs={12}>Common rolls include checking for fatiguing tasks with Body + Survival, and Body + Armor is used for resisting damage. </Grid>
+                            <Grid item padding={1} xs={12}>Example rolls include checking for fatiguing tasks with Body + Survival or doing physically exhausting activities with Body + Athletics.</Grid>
                         </Grid>
                     </>
                 )

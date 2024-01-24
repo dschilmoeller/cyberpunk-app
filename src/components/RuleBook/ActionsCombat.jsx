@@ -328,7 +328,7 @@ export default function RulebookCombat() {
                             <TableBody>
                                 <TableRow hover>
                                     <TableCell>Head</TableCell>
-                                    <TableCell align="left">If target doesn't have a helmet or hardened armor, damage is mulitplied by 2 after soaking rules are applied.</TableCell>
+                                    <TableCell align="left">If target doesn't have a helmet or hardened armor, any damage left after applying armor reduction is multiplied by 2.</TableCell>
                                 </TableRow>
 
                                 <TableRow hover>
@@ -477,7 +477,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    If a character has someone in a grapple, they can choke the defender as a complex action. This deals [Strength] stun wounds. This damage is not able to be soaked. Characters wearing Hardened Armor cannot be choked.
+                    If a character has someone in a grapple, they can choke the defender as a complex action. This deals [Strength] stun wounds. This damage is not resisted by armor or body. Characters wearing Hardened Armor cannot be choked.
                 </Typography>
             </Grid>
 

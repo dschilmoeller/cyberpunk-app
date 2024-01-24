@@ -30,6 +30,8 @@ const characterStatus = (state = {
             return { ...state, current_agg: state.current_agg - 1 }
         case 'CHARACTER_LOSE_ONE_CYBERARMOR_QUALITY':
             return { ...state, current_cyberware_armor_loss: state.current_cyberware_armor_loss + 1}
+        case 'CHARACTER_ADD_ONE_CYBERARMOR_QUALITY':
+            return { ...state, current_cyberware_armor_loss: state.current_cyberware_armor_loss - 1}
         case 'REMOVE_ONE_LUCK':
             return { ...state, current_luck_loss: state.current_luck_loss + 1 }
         case 'ADD_ONE_LUCK':

@@ -50,7 +50,8 @@ function Humanity(charDetailProp) {
         <>
             <Item><OtherAttributesDialog prop={'Humanity'} /></Item>
             <Grid container>
-                {humanityBuilder()}
+                {/* {humanityBuilder()} */}
+                <Grid item xs={12}><Item sx={{color: 'white'}}>Current Humanity: {40 - (temp_humanity_loss + perm_humanity_loss)} / 40</Item></Grid>
             </Grid>
         </>
     )

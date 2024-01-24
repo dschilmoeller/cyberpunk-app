@@ -568,7 +568,7 @@ VALUES
 ('Miilitech "Kali"',25000,'Speedware that artifically boosts a users experiential sense of time. Increases Move by 3 and adds 3 die to most combat rolls for one scene when activated. Deals the user 6 lethal damage when the effect wears off.',0,0,'Chip','neuralware', false),
 ('Memory chip',10,'Memory storage chip. Approximate capacity of 2 Exabytes, or 2 Billion Gigabytes for you old timers.',0,0,'Chip','neuralware', false),
 ('Olfactory Boost',100,'Chip that assists in decoding scents and boosts a users sense of smell to dog-like levels. Allows tracking via scent, amongst other tricks.',0,0,'Chip','neuralware', false),
-('Pain Editor',5000,'Chip that overrides the users ability to feel pain. Dramatically reduces wound-based die penalties.',0,0,'Chip','neuralware', false),
+('Pain Editor',5000,'Chip that overrides the users ability to feel pain. Dramatically reduces wound-based die penalties. Character does not fall unconscious when wound track is filled with stun damage.',0,0,'Chip','neuralware', false),
 ('Skill Chip - Athletics',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware', false),
 ('Skill Chip - Brawling',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware', false),
 ('Skill Chip - Evasion',500,'Chip that overrides a users muscle memory, gives access to internal databanks, and otherwise gives a user skills they might not otherwise have access to.',0,0,'Chip','neuralware', false),

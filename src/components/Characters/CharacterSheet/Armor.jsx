@@ -67,14 +67,14 @@ function Armor() {
         return armorArray
     }
 
+    const charShieldQuality = charShield.quality
+    const charShieldLoss = charShield.this_shield_loss
+    const charArmorQuality = charArmor.quality
+    const charArmorLoss = charArmor.this_armor_loss
+    const charCyberArmorQuality = charStatus.current_cyberware_armor_quality
+    const charCyberArmorLoss = charStatus.current_cyberware_armor_loss
     const ablateOneArmor = () => {
         // take total armor, and add +1 damage to appropriate source - shield, then armor, then cyberware.
-        const charShieldQuality = charShield.quality
-        const charShieldLoss = charShield.this_shield_loss
-        const charArmorQuality = charArmor.quality
-        const charArmorLoss = charArmor.this_armor_loss
-        const charCyberArmorQuality = charStatus.current_cyberware_armor_quality
-        const charCyberArmorLoss = charStatus.current_cyberware_armor_loss
 
         if (charShieldLoss < charShieldQuality) {
             dispatch({ type: "CHARACTER_LOSE_ONE_SHIELD_QUALITY" })
@@ -86,6 +86,22 @@ function Armor() {
             setShowSnackbar(true)
         }
     }
+
+    const recoverOneArmor = () => {
+        // as ablate, but in reverse - heals shield, then armor, then cyberware.
+        if (charShieldLoss > 0) {
+            dispatch({ type: "CHARACTER_ADD_ONE_SHIELD_QUALITY" })
+        } else if (charArmorLoss > 0) {
+            dispatch({ type: "CHARACTER_ADD_ONE_ARMOR_QUALITY" })
+        } else if (charCyberArmorLoss > 0) {
+            dispatch({ type: "CHARACTER_ADD_ONE_CYBERARMOR_QUALITY" })
+        } else {
+            console.log(`No armor to fix!`);
+        }
+    }
+
+    const damageReduction = Math.floor((charDetails.body + charDetails.cyber_body + (charArmorQuality - charArmorLoss) + (charShieldQuality - charShieldLoss) + (charCyberArmorQuality - charCyberArmorLoss)) / 2)
+
     return (
         <>
             <Snackbar
@@ -103,10 +119,28 @@ function Armor() {
             {charArmor && charShield && charStatus ? (
                 <>
                     <Item><OtherAttributesDialog prop={'Armor'} /></Item>
-                    <Item><Button fullWidth onClick={() => ablateOneArmor()}>Ablate One Armor</Button></Item>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Item>
+                                <Button color='secondary' variant='contained' fullWidth size='small' sx={{fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Item>
+                            <Button variant='contained' size='small' fullWidth onClick={() => recoverOneArmor()}>Recover Armor</Button>
+                            </Item>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Item sx={{color: 'white', fontWeight: 800, fontSize: {xs: '0.7em', md: '0.9em'}}}>
+                            Total Damage Reduction: {damageReduction}
+                            </Item>
+                        </Grid>
+                    </Grid>
+
                     <Grid container>
                         {armorBuilder()}
                     </Grid>
+                    
                 </>
             ) : <></>}
         </>

@@ -79,7 +79,7 @@ const characterGear = (state = {
                 })
             }
 
-        // handle shield and armor losses
+        // handle shield and armor losses / repairs from in play sheet
         case 'CHARACTER_LOSE_ONE_SHIELD_QUALITY':
             return {
                 ...state,
@@ -88,12 +88,28 @@ const characterGear = (state = {
                     this_shield_loss: state.shield.this_shield_loss + 1
                 }
             }
+        case 'CHARACTER_ADD_ONE_SHIELD_QUALITY':
+            return {
+                ...state,
+                shield: {
+                    ...state.shield,
+                    this_shield_loss: state.shield.this_shield_loss - 1
+                }
+            }
         case 'CHARACTER_LOSE_ONE_ARMOR_QUALITY':
             return {
                 ...state,
                 armor: {
                     ...state.armor,
                     this_armor_loss: state.armor.this_armor_loss + 1
+                }
+            }
+        case 'CHARACTER_ADD_ONE_ARMOR_QUALITY':
+            return {
+                ...state,
+                armor: {
+                    ...state.armor,
+                    this_armor_loss: state.armor.this_armor_loss - 1
                 }
             }
 

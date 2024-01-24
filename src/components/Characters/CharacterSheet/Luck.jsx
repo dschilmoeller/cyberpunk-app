@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
-
+import { Button } from '@mui/material';
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -16,13 +16,13 @@ function Luck(charDetailProp) {
     const unhurtMarker = <CircleOutlinedIcon />;
     const aggMarker = <AcUnitIcon />;
 
-    const luckBoxChanger = (luckStatus) => {
-        if (luckStatus === 'lucky') {
-            dispatch({ type: "REMOVE_ONE_LUCK" })
-        } else if (luckStatus === 'noDice') {
-            dispatch({ type: "ADD_ONE_LUCK" })
-        }
-    }
+    // const luckBoxChanger = (luckStatus) => {
+    //     if (luckStatus === 'lucky') {
+    //         dispatch({ type: "REMOVE_ONE_LUCK" })
+    //     } else if (luckStatus === 'noDice') {
+    //         dispatch({ type: "ADD_ONE_LUCK" })
+    //     }
+    // }
 
     const luckDamageBuilder = (usedLuck) => {
         let usedLuckArray = []
@@ -51,18 +51,48 @@ function Luck(charDetailProp) {
 
             luckBoxes.push(
                 <React.Fragment key={i}>
-                    <Grid item xs={2.4}><Item onClick={() => luckBoxChanger(luckStatus)}>{luckArray[i]}</Item></Grid>
+                    {/* <Grid item xs={2.4}><Item onClick={() => luckBoxChanger(luckStatus)}>{luckArray[i]}</Item></Grid> */}
+                    <Grid item xs={2.4}><Item>{luckArray[i]}</Item></Grid>
                 </React.Fragment>
             )
         }
         return luckBoxes
     }
 
+    const useOneLuck = () => {
+        if (charStatus.current_luck_loss < charDetailLuck) {
+            dispatch({ type: "REMOVE_ONE_LUCK" })
+        } else {
+            console.log(`You're out of luck!`);
+        }
+    }
+
+    const recoverOneLuck = () => {
+        if (charStatus.current_luck_loss > 0) {
+            dispatch({ type: "ADD_ONE_LUCK" })
+        } else {
+            console.log(`You're full up!`);
+        }
+
+    }
+
     return (
         <>
             <Item><OtherAttributesDialog prop={'Luck'} /></Item>
             <Grid container>
-                {luckBuilder()}
+                <Grid item xs={6}>
+                    <Item>
+                        <Button variant='contained' fullWidth color='secondary' onClick={() => useOneLuck()} >Use Luck</Button>
+                    </Item>
+                </Grid>
+                <Grid item xs={6}>
+                    <Item>
+                        <Button variant='contained' fullWidth color='primary' onClick={() => recoverOneLuck()}>Recover Luck</Button>
+                    </Item>
+                </Grid>
+                <Grid container>
+                    {luckBuilder()}
+                </Grid>
             </Grid>
         </>
     )

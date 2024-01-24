@@ -86,9 +86,13 @@ export default function DieRollDialog() {
         if (allowRoll == true) {
             // Gets a number b/w 1 and 10
             function getRandomInt() {
-                const min = Math.ceil(1);
-                const max = Math.floor(11);
-                return Math.floor(Math.random() * (max - min) + min);
+                // const min = Math.ceil(1);
+                // const max = Math.floor(11);
+                // return Math.floor(Math.random() * (max - min) + min);
+                // It would be wrong to increase the chance of failure to 14.3%, right?
+                const arr = [1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10]
+                console.log(arr.length);
+                return arr[Math.floor(Math.random() * arr.length)];
             }
 
             // Sorts randomInt
@@ -232,7 +236,7 @@ export default function DieRollDialog() {
 
         characterCyberware.map(cyberware => {
             if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
-                painPenalty = [0, 0, 0, 0, -1, -1, -2, -2, -3, -4]
+                painPenalty = [0, 0, 0, 0, 0, -1, -1, -2, -2, -3, -4]
             }
         })
 
