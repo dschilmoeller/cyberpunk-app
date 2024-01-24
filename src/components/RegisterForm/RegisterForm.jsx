@@ -30,7 +30,7 @@ function RegisterForm() {
       )}
       <div>
         <label htmlFor="username">
-          Username:
+          Create Username:
           <input
             type="text"
             name="username"
@@ -42,7 +42,7 @@ function RegisterForm() {
       </div>
       <div>
         <label htmlFor="password">
-          Password:
+          Create Password:
           <input
             type="password"
             name="password"

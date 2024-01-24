@@ -19,10 +19,14 @@ const characterStatus = (state = {
         case 'ADD_STUN_WOUND':
             return { ...state, current_stun: state.current_stun + 1 }
         case 'ADD_LETHAL_WOUND':
-            return { ...state, current_stun: state.current_stun - 1, current_lethal: state.current_lethal + 1 }
+            return { ...state, current_lethal: state.current_lethal + 1 }
         case 'ADD_AGG_WOUND':
-            return { ...state, current_lethal: state.current_lethal - 1, current_agg: state.current_agg + 1 }
-        case 'REMOVE_WOUND':
+            return { ...state, current_agg: state.current_agg + 1 }
+        case 'REMOVE_STUN_WOUND':
+            return { ...state, current_stun: state.current_stun - 1 }
+        case 'REMOVE_LETHAL_WOUND':
+            return { ...state, current_lethal: state.current_lethal - 1 }
+        case 'REMOVE_AGG_WOUND':
             return { ...state, current_agg: state.current_agg - 1 }
         case 'CHARACTER_LOSE_ONE_CYBERARMOR_QUALITY':
             return { ...state, current_cyberware_armor_loss: state.current_cyberware_armor_loss + 1}

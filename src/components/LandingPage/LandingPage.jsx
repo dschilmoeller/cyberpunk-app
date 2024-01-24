@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Card } from '@mui/material';
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -28,14 +27,18 @@ function LandingPage() {
 
 
       <Grid container>
-        <Grid item display={'flex'} justifyContent={'center'} xs={12}>
 
-          <h4>Already a Member?</h4>
+        <Grid item display={'flex'} justifyContent={'center'} alignContent={'center'} xs={12}>
 
-          <Button className="btn btn_sizeSm" onClick={onLogin}>Login</Button>
+          <h2>Already a Member?</h2>
 
         </Grid>
+
+        <Grid item display={'flex'} justifyContent={'center'} alignContent={'center'} xs={12}>
+          <Button className="btn btn_sizeSm" variant='contained' color='success' onClick={onLogin}>Login</Button>
+        </Grid>
       </Grid>
+
     </>
   );
 }

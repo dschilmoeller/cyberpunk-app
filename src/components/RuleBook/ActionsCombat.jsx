@@ -237,7 +237,22 @@ export default function RulebookCombat() {
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>After determining damage, reduce wounds taken by (Body + Armor) divided by 2 (round down).</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Generally, lower armor by 1 or more depending on the weapon.</i></Typography></Grid>
 
+            <Grid item xs={12}>
+                <Typography variant='h6'>
+                    Dodging
+                </Typography>
+            </Grid>
 
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Defenders should only make a single defense roll per round (except in the case of melee weapon parrying, below). A character will generally roll their Reflexes alone. They take their successes on this roll and compare it to the attackers successes. Should they be attacked again in the same round, simply reduce their previous successes by one.
+                </Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    A character has the option of sacrificing their next complex action to roll their Reflexes + Evasion. If they elect to do so, they 
+                </Typography>
+            </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='h6'>
