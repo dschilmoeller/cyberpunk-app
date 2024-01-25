@@ -93,6 +93,7 @@ function Luck(charDetailProp) {
                 <Grid container>
                     {luckBuilder()}
                 </Grid>
+                <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
             </Grid>
         </>
     )

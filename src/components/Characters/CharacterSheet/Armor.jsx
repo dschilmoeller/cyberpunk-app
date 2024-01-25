@@ -33,9 +33,11 @@ function Armor() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    const charTotalArmor = charArmor.quality + charShield.quality + charStatus.current_cyberware_armor_quality
+    
     // Builds armor total from various sources
     const armorBuilder = () => {
-        const charTotalArmor = charArmor.quality + charShield.quality + charStatus.current_cyberware_armor_quality
+        
         let armorBoxes = []
         let armorArray = armorDamageBuilder(charStatus.current_cyberware_armor_loss + charArmor.this_armor_loss + charShield.this_shield_loss, charTotalArmor)
         for (let i = 0; i < charDetails.body + charDetails.cyber_body; i++) {
@@ -140,6 +142,33 @@ function Armor() {
                     <Grid container>
                         {armorBuilder()}
                     </Grid>
+
+                    {charTotalArmor + charDetails.body + charDetails.cyber_body <= 5 ? (<>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                    </>) : <></>}
+
+                    {charTotalArmor + charDetails.body + charDetails.cyber_body >= 6
+                        && charTotalArmor + charDetails.body + charDetails.cyber_body < 11 ? (<>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                    </>) : <></>}
+
+                    {charTotalArmor + charDetails.body + charDetails.cyber_body >= 11 
+                        && charTotalArmor + charDetails.body + charDetails.cyber_body <= 15 ? (<>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                    </>) : <></>}
+
+                    {charTotalArmor + charDetails.body + charDetails.cyber_body >= 16 
+                        && charTotalArmor + charDetails.body + charDetails.cyber_body <= 20 ? (<>
+                        <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
+                    </>) : <></>}
+
+                    
                     
                 </>
             ) : <></>}

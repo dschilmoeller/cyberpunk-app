@@ -4,6 +4,9 @@ import Grid from '@mui/material/Grid';
 import { Button } from '@mui/material';
 import Item from './Item';
 
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material';
+
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -23,13 +26,13 @@ function Health() {
     // shorthand for different special characters
     const unhurtMarker = <CircleOutlinedIcon />
     const stunMarker = <HorizontalRuleOutlinedIcon
-        sx={{ backgroundColor: '#ce93d8', color: 'black' }}
+        sx={{ backgroundColor: '#ce93d8', color: 'black', borderRadius: '16px' }}
     />;
     const lethalMarker = <CloseOutlinedIcon
-        sx={{ backgroundColor: '#90caf9', color: 'black' }}
+        sx={{ backgroundColor: '#90caf9', color: 'black', borderRadius: '16px' }}
     />
     const aggMarker = <AcUnitIcon
-        sx={{ backgroundColor: '#f44336', color: 'black' }}
+        sx={{ backgroundColor: '#f44336', color: 'black', borderRadius: '16px' }}
     />;
 
     // handles changing marks on character sheet, affects characterStatus reducer
@@ -213,8 +216,8 @@ function Health() {
                 }
                 break;
             case 'heal':
-                if (charStatus.current_stun > 0){
-                    dispatch({ type: "REMOVE_STUN_WOUND"})
+                if (charStatus.current_stun > 0) {
+                    dispatch({ type: "REMOVE_STUN_WOUND" })
                 }
         }
     }
@@ -224,8 +227,8 @@ function Health() {
             case 'harm':
                 if (totalDamage < totalHealth) {
                     dispatch({ type: "ADD_LETHAL_WOUND" })
-                    if (charStatus.current_stun > 0){
-                        dispatch({ type: "REMOVE_STUN_WOUND"})
+                    if (charStatus.current_stun > 0) {
+                        dispatch({ type: "REMOVE_STUN_WOUND" })
                     }
                 } else if (totalDamage >= totalHealth) {
                     handleAgg(healOrHarm)
@@ -234,8 +237,8 @@ function Health() {
                 }
                 break;
             case 'heal':
-                if (charStatus.current_lethal > 0){
-                    dispatch({ type: "REMOVE_LETHAL_WOUND"})
+                if (charStatus.current_lethal > 0) {
+                    dispatch({ type: "REMOVE_LETHAL_WOUND" })
                 }
         }
     }
@@ -246,7 +249,7 @@ function Health() {
                 if (totalDamage < totalHealth) {
                     dispatch({ type: "ADD_AGG_WOUND" })
                     if (charStatus.current_lethal > 0) {
-                        dispatch({ type: "REMOVE_LETHAL_WOUND"})
+                        dispatch({ type: "REMOVE_LETHAL_WOUND" })
                     }
                 } else {
                     console.log(`Error applying AGG damage OR damage track filled`);
@@ -254,8 +257,8 @@ function Health() {
                 }
                 break;
             case 'heal':
-                if (charStatus.current_agg > 0){
-                    dispatch({ type: "REMOVE_AGG_WOUND"})
+                if (charStatus.current_agg > 0) {
+                    dispatch({ type: "REMOVE_AGG_WOUND" })
                 }
         }
     }
@@ -265,18 +268,30 @@ function Health() {
             <Grid item xs={4}>
                 <Grid container>
                     <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>+Stun</Button></Item></Grid>
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>+Lethal</Button></Item></Grid> 
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%'}} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>+Agg</Button></Item></Grid>
+
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>+Stun</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Chip avatar={<HorizontalRuleOutlinedIcon sx={{ color: 'black'}}/>} label="Stun Damage" sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor:'#ce93d8', color:'black'}} /></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' color='secondary' onClick={() => woundHandler('stun', 'heal')}>Heal Stun</Button></Item></Grid>
+
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>+Lethal</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Chip avatar={lethalMarker} label="Lethal Damage" sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor: '#90caf9', color:'black'}} /></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' onClick={() => woundHandler('lethal', 'heal')}>Heal Lethal</Button></Item></Grid>
+
+                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>+Agg</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Chip avatar={aggMarker} label="Agg Damage"sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor: '#f44336', color:'black'}} /></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' color='error' onClick={() => woundHandler('agg', 'heal')}>Heal Agg</Button></Item></Grid>
+
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Die Penalty'} /></Item></Grid>
 
                     {charStatus.char_id ? healthBuilder(totalHealth) : <></>}
 
-                    <Grid item xs={4} ><Item><Button size='small' sx={{ height: '125%'}} fullWidth variant='contained' color='secondary' onClick={() => woundHandler('stun', 'heal')}>Heal Stun</Button></Item></Grid>
-                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%'}} fullWidth variant='contained' onClick={() => woundHandler('lethal', 'heal')}>Heal Lethal</Button></Item></Grid>
-                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%'}} fullWidth variant='contained' color='error' onClick={() => woundHandler('agg', 'heal')}>Heal Agg</Button></Item></Grid>
+                    {/* #ce93d8
+                        #90caf9
+                        #f44336
+                    */}
+
                 </Grid>
             </Grid>
         </>
