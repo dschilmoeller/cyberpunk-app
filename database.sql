@@ -1106,5 +1106,32 @@ CREATE TABLE char_contacts (
 ALTER TABLE char_contacts
 ADD CONSTRAINT char_contacts_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
 
+CREATE TABLE contact_master (
+	contact_master_id SERIAL NOT NULL,
+	campaign_id int NOT NULL,
+	name varchar(400),
+	connection int NOT NULL DEFAULT 0,
+	description text,
+	CONSTRAINT contact_master_pk PRIMARY KEY (contact_master_id)
+) WITH (OIDS = FALSE);
+-- links contacts to relevant campaign.
+ALTER TABLE contact_master
+ADD CONSTRAINT contact_master_pk0 FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id);
+
+CREATE TABLE char_contact_bridge (
+	char_contact_id SERIAL NOT NULL,
+	char_id int NOT NULL,
+	contact_id int NOT NULL,
+	loyalty int NOT NULL DEFAULT 0,
+	notes text,
+	CONSTRAINT char_contact_bridge_pk PRIMARY KEY (char_contact_id)
+) WITH (OIDS = FALSE);
+-- connect bridge to chars, when char is deleted relevent bridge entries also go away.
+ALTER TABLE char_contact_bridge
+ADD CONSTRAINT char_id_pk0 FOREIGN KEY (char_id) REFERENCES character(id) ON DELETE CASCADE;
+-- connect bridge to master contacts; when master contact is deleted relevent bridge entries are also deleted.
+ALTER TABLE char_contact_bridge
+ADD CONSTRAINT contact_id_pk1 FOREIGN KEY (contact_id) REFERENCES contact_master(contact_master_id) ON DELETE CASCADE;           
+
 -- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
 -- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.

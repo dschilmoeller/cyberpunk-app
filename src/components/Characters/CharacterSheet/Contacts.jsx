@@ -25,32 +25,32 @@ export default function CharacterSheetContacts() {
         <>
             <Grid item xs={12}>
                 <Grid container spacing={1}>
-                    <Grid item xs={3}></Grid>
-                    <Grid item xs={6} display={'flex'} justifyContent={'center'}>
-                        <CharacterContactEdit prop={charDetailID} />
-                    </Grid>
-                    <Grid item xs={3}></Grid>
                     {charContacts.map(contact => {
                         return (
                             <React.Fragment key={contact.char_contact_id}>
                                 <Grid item xs={6}>
                                     <Card>
-                                        {contact.favorite == true ? (
-                                            <CardHeader
-                                                action={
-                                                    <Icon aria-label="settings">
-                                                        <GradeIcon sx={{
-                                                            color: contact.favorite ? 'yellow' : 'white'
-                                                        }} />
-                                                    </Icon>
-                                                }
-                                                title={contact.title} />
-                                        ) : <CardHeader
-                                            title={contact.title} />}
+                                        <CardHeader title={contact.name} />
                                         <CardContent>
-                                            <Typography sx={{ whiteSpace: "pre-wrap" }} variant="body2">
-                                                {contact.body}
-                                            </Typography>
+                                            <Grid container>
+                                                <Grid item xs={6}>
+                                                    <Typography variant='body1'>Connection: {contact.connection}</Typography>
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <Typography variant='body1'>Loyalty: {contact.loyalty}</Typography>
+                                                </Grid>
+                                                <Grid item xs={12} marginTop={1}>
+                                                    <Typography sx={{ whiteSpace: "pre-wrap" }} variant="body1">
+                                                        {contact.description}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} marginTop={1}>
+                                                    <Typography variant='body1'>
+                                                        {contact.notes}
+                                                    </Typography>
+                                                </Grid>
+
+                                            </Grid>
                                         </CardContent>
                                         <CardActions>
                                             <Grid container justifyContent={'center'}>

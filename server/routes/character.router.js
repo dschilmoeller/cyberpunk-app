@@ -219,7 +219,8 @@ router.get('/fetchCharacterNotes/:id', rejectUnauthenticated, (req, res) => {
 
 // get character contacts
 router.get('/fetchCharacterContacts/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `SELECT * FROM char_contacts
+    const sqlText = `SELECT * FROM char_contact_bridge
+    JOIN "contact_master" ON "contact_master"."contact_master_id" = "char_contact_bridge"."contact_id"
     WHERE char_id = $1
     ORDER BY "name" ASC`
     pool.query(sqlText, [req.params.id])
@@ -227,7 +228,7 @@ router.get('/fetchCharacterContacts/:id', rejectUnauthenticated, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching character notes:`, err);
+            console.log(`Error fetching character contacts:`, err);
         })
 })
 
@@ -442,27 +443,27 @@ router.delete('/deleteCharacterNote/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-// create in play character contact
-router.post('/createCharacterContact/', rejectUnauthenticated, (req, res) => {
-    const sqlText = `INSERT INTO char_contacts ("char_id", "name", "connection", "loyalty", "description")
-    VALUES ($1, $2, $3, $4, $5)`
+// create in play character contact - can't do this.
+// router.post('/createCharacterContact/', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `INSERT INTO char_contacts ("char_id", "name", "connection", "loyalty", "description")
+//     VALUES ($1, $2, $3, $4, $5)`
 
-    const sqlParams = [req.body.char_id, req.body.name, req.body.connection, req.body.loyalty, req.body.description]
-    pool.query(sqlText, sqlParams)
-        .then(result => {
-            res.sendStatus(201)
-        })
-        .catch(err => {
-            console.log(`error creating new contact`, err);
-        })
-})
+//     const sqlParams = [req.body.char_id, req.body.name, req.body.connection, req.body.loyalty, req.body.description]
+//     pool.query(sqlText, sqlParams)
+//         .then(result => {
+//             res.sendStatus(201)
+//         })
+//         .catch(err => {
+//             console.log(`error creating new contact`, err);
+//         })
+// })
 
-// save in play character contact edit
+// save in play character contact loyalty/note edit.
 router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_contacts"
-    SET "name" = $1, "connection" = $2, "loyalty" = $3, "description" = $4
-    WHERE "char_note_id" = $5`
-    const sqlParams = [req.body.name, req.body.connection, req.body.loyalty, req.body.description, req.body.id]
+    SET "loyalty" = $1, "notes" = $2
+    WHERE "char_contact_id" = $3`
+    const sqlParams = [req.body.loyalty, req.body.notes, req.body.id]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(200)
@@ -472,17 +473,17 @@ router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
         })
 })
 
-// delete in play character contact
-router.delete('/deleteCharacterContact/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `DELETE FROM "char_contacts" WHERE "char_contacts_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => {
-            res.sendStatus(200)
-        })
-        .catch(err => {
-            console.log(`Error deleting note:`, err);
-        })
-})
+// delete in play character contact - chars can't do this, needs GM route.
+// router.delete('/deleteCharacterContact/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `DELETE FROM "char_contacts" WHERE "char_contacts_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => {
+//             res.sendStatus(200)
+//         })
+//         .catch(err => {
+//             console.log(`Error deleting note:`, err);
+//         })
+// })
 
 // Character Advancement Routes
 // routes having to do with spending experience, equipping/unequipping gear and cyberware,
