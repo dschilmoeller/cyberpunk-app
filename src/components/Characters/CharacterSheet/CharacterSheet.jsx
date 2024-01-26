@@ -20,6 +20,7 @@ import CharacterNetrunner from './CharacterNetrunner';
 import CharacterSheetCyberware from './Cyberware';
 import Backpack from './Backpack';
 import CharacterSheetNotes from './Notes';
+import CharacterSheetContacts from './Contacts';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -144,6 +145,7 @@ function CharacterSheet() {
                                     <Tab value='cyberware' label='Cyberware' />
                                     <Tab value='vehicles' label='Vehicles' />
                                     <Tab value='notes' label='My Notes' />
+                                    <Tab value='contacts' label='Contacts' />
                                 </Tabs>
 
                                 {selectedInventory === 'weapons' ? (<>
@@ -170,6 +172,10 @@ function CharacterSheet() {
 
                                 {selectedInventory === 'notes' ? (<>
                                     <CharacterSheetNotes />
+                                </>) : <></>}
+
+                                {selectedInventory === 'contacts' ? (<>
+                                    <CharacterSheetContacts />
                                 </>) : <></>}
 
                             </>

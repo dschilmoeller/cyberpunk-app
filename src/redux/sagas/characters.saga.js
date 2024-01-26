@@ -20,6 +20,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
     const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
+    const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
 
     const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload}`)
     const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload}`)
@@ -58,8 +60,8 @@ function* saveCharacterSheet(action) {
     yield axios.put(`api/characters/savecharactershield/${action.payload.charID}`, action.payload.charParams.charShield)
     yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons)
     yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles)
-    yield put({ type: "CHARACTER_SHEET_SAVE_SUCCESSFUL"})
-    
+    yield put({ type: "CHARACTER_SHEET_SAVE_SUCCESSFUL" })
+
   } catch (error) {
     console.log(`Error saving Character Details`, error);
   }
@@ -121,6 +123,34 @@ function* deleteCharacterNote(action) {
     yield axios.delete(`api/characters/deleteCharacterNote/${action.payload}`)
   } catch (error) {
     console.log(`Error deleting character note:`, error);
+  }
+}
+
+function* createCharacterContact(action) {
+  try {
+    yield axios.post('api/characters/createCharacterContact/', action.payload)
+    const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload.char_id}`)
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
+  } catch (error) {
+    console.log(`Error creating character contact:`, error);
+  }
+}
+
+// Update Character Note
+function* updateCharacterContact(action) {
+  try {
+    yield axios.put('api/characters/updateCharacterContact/', action.payload)
+  } catch (error) {
+    console.log(`Error updating character contact:`, error);
+  }
+}
+
+// delete character contact
+function* deleteCharacterContact(action) {
+  try {
+    yield axios.delete(`api/characters/deleteCharacterContact/${action.payload}`)
+  } catch (error) {
+    console.log(`Error deleting character contact:`, error);
   }
 }
 
@@ -219,7 +249,7 @@ function* characterBurnLuck(action) {
 }
 
 function* characterSaga() {
-  // in play fetch/save
+  // in play fetch/save actions
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
@@ -227,9 +257,13 @@ function* characterSaga() {
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
   yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
-  yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote)
-  yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote)
-  yield takeLatest('CHARACTER_DELETE_NOTE', deleteCharacterNote)
+  yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote);
+  yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote);
+  yield takeLatest('CHARACTER_DELETE_NOTE', deleteCharacterNote);
+  yield takeLatest('CHARACTER_NEW_CONTACT', createCharacterContact);
+  yield takeLatest('CHARACTER_CONTACT_UPDATE', updateCharacterContact);
+  yield takeLatest('CHARACTER_DELETE_CONTACT', deleteCharacterContact);
+
   // permanent luck reduction
   yield takeLatest('PLAYER_BURN_ONE_LUCK', characterBurnLuck);
 

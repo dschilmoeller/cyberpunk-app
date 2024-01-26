@@ -12,6 +12,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import GradeIcon from '@mui/icons-material/Grade';
 import { Grid } from '@mui/material';
 
+/* contact parts =
+Name
+Loyalty
+Connection
+Description
+*/
+
+// number inputs require validation function to get rid of -, + non-number entries. 
+
 export default function CharacterContactEdit({ prop }) {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
@@ -26,8 +35,8 @@ export default function CharacterContactEdit({ prop }) {
 
     // clearing out between contact edits / after saving new contact.
     React.useEffect(() => {
-        setTitleText(prop.title !== undefined ? prop.title : '')
-        setBodyText(prop.body !== undefined ? prop.body : '')
+        setNameText(prop.name !== undefined ? prop.name : '')
+        setDescriptionText(prop.description !== undefined ? prop.description : '')
     }, [notes])
 
     const handleClickOpen = (scrollType) => () => {
@@ -39,13 +48,14 @@ export default function CharacterContactEdit({ prop }) {
     const handleClose = () => {
         setShowRealDelete(false)
         if (isNew === false) {
-            dispatch({ type: 'CHARACTER_NOTE_UPDATE', payload: { title: titleText, body: bodyText, id: prop.char_note_id, char_id: prop.char_id, favorite: favoriteStatus } })
+            dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: { name: nameText, connection: connectionAmount, loyalty: loyaltyAmount, description: descriptionText, id: prop.char_contact_id, char_id: prop.char_id } })
             setOpen(false);
         } else {
-            dispatch({ type: 'CHARACTER_NEW_NOTE', payload: { title: titleText, body: bodyText, char_id: prop, favorite: favoriteStatus } })
+            dispatch({ type: 'CHARACTER_NEW_CONTACT', payload: { name: nameText, connection: connectionAmount, loyalty: loyaltyAmount, description: descriptionText, char_id: prop } })
             setOpen(false);
         }
     };
+
     const handleCancel = () => {
         setOpen(false)
         setShowRealDelete(false)
@@ -62,13 +72,14 @@ export default function CharacterContactEdit({ prop }) {
         setFavoriteStatus(!favoriteStatus)
     }
 
-    const [titleText, setTitleText] = React.useState(prop.title !== undefined ? prop.title : '')
-    const [bodyText, setBodyText] = React.useState(prop.body !== undefined ? prop.body : '')
-    const [favoriteStatus, setFavoriteStatus] = React.useState(prop.favorite)
+    const [nameText, setNameText] = React.useState(prop.title !== undefined ? prop.title : '');
+    const [connectionAmount, setConnectionAmount] = React.useState(prop.connection !== undefined ? prop.connection : 0);
+    const [loyaltyAmount, setLoyaltyAmount] = React.useState(prop.loyalty !== undefined ? prop.loyalty : 0);
+    const [descriptionText, setDescriptionText] = React.useState(prop.description !== undefined ? prop.description : '');
 
     return (
         <>
-            <Button onClick={handleClickOpen('paper')} variant='contained'>{prop.title !== undefined ? 'Edit Note' : 'New Note'}</Button>
+            <Button onClick={handleClickOpen('paper')} variant='contained'>{prop.title !== undefined ? 'Edit Contact' : 'New Contact'}</Button>
             <Dialog
                 open={open}
                 onClose={handleCancel}
@@ -78,18 +89,8 @@ export default function CharacterContactEdit({ prop }) {
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
-                <DialogTitle id="scroll-dialog-title">Edit Note</DialogTitle>
-                <IconButton
-                    aria-label="favorite"
-                    onClick={favoriteNote}
-                    sx={{
-                        position: 'absolute',
-                        right: 50,
-                        top: 8,
-                        color: favoriteStatus ? 'yellow' : 'white'
-                    }}
-                >
-                    <GradeIcon /></IconButton>
+                <DialogTitle id="scroll-dialog-title">Edit Contact</DialogTitle>
+
                 {showRealDelete ? <IconButton
                     aria-label="close"
                     onClick={actuallyDelete}
@@ -103,26 +104,48 @@ export default function CharacterContactEdit({ prop }) {
                 </IconButton> : <></>}
                 <DialogContent dividers={scroll === 'paper'}>
 
-                    <Grid container>
+                    <Grid container alignItems={'center'}>
                         <Grid item xs={12} padding={2}>
-                            Title:
+                            Name:
                             <TextField
-                                onChange={e => setTitleText(e.target.value)}
+                                onChange={e => setNameText(e.target.value)}
                                 required
                                 type='text'
-                                value={titleText}
+                                value={nameText}
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={12} padding={2}>
-                            Body:
+                        <Grid item xs={1} paddingLeft={2} paddingBottom={2}>Connection</Grid>
+                        <Grid item xs={5} paddingLeft={2} paddingBottom={2}>
                             <TextField
-                                onChange={e => setBodyText(e.target.value)}
+                                onChange={e => setConnectionAmount(e.target.value)}
+                                required
+                                type='number'
+                                value={connectionAmount}
+                                label='Connection'
+                            />
+                        </Grid>
+
+                        <Grid item xs={1} paddingLeft={2} paddingBottom={2}>Loyalty</Grid>
+                        <Grid item xs={5} paddingLeft={2} paddingBottom={2}>
+                            <TextField
+                                fullWidth
+                                onChange={e => setConnectionAmount(e.target.value)}
+                                required
+                                type='number'
+                                value={connectionAmount}
+                                label='Connection'
+                            />
+                        </Grid>
+                        <Grid item xs={12} padding={2}>
+                            Description:
+                            <TextField
+                                onChange={e => setDescriptionText(e.target.value)}
                                 required
                                 multiline
                                 rows={8}
                                 type='text'
-                                value={bodyText}
+                                value={descriptionText}
                                 fullWidth
                             />
                         </Grid>

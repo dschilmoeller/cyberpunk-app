@@ -10,11 +10,15 @@ import Typography from '@mui/material/Typography';
 import { Icon } from '@mui/material';
 import GradeIcon from '@mui/icons-material/Grade';
 
-import CharacterNoteEdit from '../../Modals/CharacterNoteEdit';
+import CharacterContactEdit from '../../Modals/CharacterContactEdit';
 
-export default function CharacterSheetNotes() {
+/* 
+contacts - always display alphabetically. Display 2-3 per row; only show limited amount of the description if possible.
+*/
 
-    const charNotes = useSelector(store => store.characterNotes)
+export default function CharacterSheetContacts() {
+
+    const charContacts = useSelector(store => store.characterContacts)
     const charDetailID = useSelector(store => store.characterDetail.id)
 
     return (
@@ -23,34 +27,34 @@ export default function CharacterSheetNotes() {
                 <Grid container spacing={1}>
                     <Grid item xs={3}></Grid>
                     <Grid item xs={6} display={'flex'} justifyContent={'center'}>
-                        <CharacterNoteEdit prop={charDetailID} />
+                        <CharacterContactEdit prop={charDetailID} />
                     </Grid>
                     <Grid item xs={3}></Grid>
-                    {charNotes.map(note => {
+                    {charContacts.map(contact => {
                         return (
-                            <React.Fragment key={note.char_note_id}>
+                            <React.Fragment key={contact.char_contact_id}>
                                 <Grid item xs={6}>
                                     <Card>
-                                        {note.favorite == true ? (
+                                        {contact.favorite == true ? (
                                             <CardHeader
                                                 action={
                                                     <Icon aria-label="settings">
                                                         <GradeIcon sx={{
-                                                            color: note.favorite ? 'yellow' : 'white'
+                                                            color: contact.favorite ? 'yellow' : 'white'
                                                         }} />
                                                     </Icon>
                                                 }
-                                                title={note.title} />
+                                                title={contact.title} />
                                         ) : <CardHeader
-                                            title={note.title} />}
+                                            title={contact.title} />}
                                         <CardContent>
                                             <Typography sx={{ whiteSpace: "pre-wrap" }} variant="body2">
-                                                {note.body}
+                                                {contact.body}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
                                             <Grid container justifyContent={'center'}>
-                                                <CharacterNoteEdit prop={note} />
+                                                <CharacterContactEdit prop={contact} />
                                             </Grid>
 
                                         </CardActions>

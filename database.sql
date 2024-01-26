@@ -1094,6 +1094,17 @@ CREATE TABLE char_notes (
 ALTER TABLE char_notes
 ADD CONSTRAINT char_notes_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
 
+CREATE TABLE char_contacts (
+	char_contact_id SERIAL NOT NULL,
+	char_id int NOT NULL,
+	name varchar(400),
+	loyalty int,
+	connection int,
+	description text,
+	CONSTRAINT char_contact_pk PRIMARY KEY (char_contact_id)
+) WITH (OIDS = FALSE);
+ALTER TABLE char_contacts
+ADD CONSTRAINT char_contacts_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
 
 -- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
 -- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.

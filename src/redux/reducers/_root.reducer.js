@@ -9,6 +9,7 @@ import characterDetail from './characterDetail.reducer';
 import characterGear from './characterGear.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterNotes from './characterNotes.reducer';
+import characterContacts from './characterContacts.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
@@ -28,11 +29,11 @@ import advancementGear from './advancementGear.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
-  
+
   campaigns, // list of available campaigns to play in
-  
+
   gearMaster, // master gear lists
-  
+
   characterList, // contains list of character names & ids
 
   characterDetail, // active character sheet details
@@ -40,9 +41,10 @@ const rootReducer = combineReducers({
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
   characterNotes, // player created notes.
-  
+  characterContacts, // player created contacts
+
   characterCreation, // contains details set up during character creation
-  
+
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 });

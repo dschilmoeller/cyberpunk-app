@@ -203,10 +203,25 @@ router.get('/characterActiveVehicleMods/:id', rejectUnauthenticated, (req, res) 
         })
 })
 
+// get character notes
 router.get('/fetchCharacterNotes/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM char_notes
     WHERE char_id = $1
     ORDER BY "favorite" DESC, "char_note_id"`
+    pool.query(sqlText, [req.params.id])
+        .then(result => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character notes:`, err);
+        })
+})
+
+// get character contacts
+router.get('/fetchCharacterContacts/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM char_contacts
+    WHERE char_id = $1
+    ORDER BY "name" ASC`
     pool.query(sqlText, [req.params.id])
         .then(result => {
             res.send(result.rows);
@@ -426,6 +441,49 @@ router.delete('/deleteCharacterNote/:id', rejectUnauthenticated, (req, res) => {
             console.log(`Error deleting note:`, err);
         })
 })
+
+// create in play character contact
+router.post('/createCharacterContact/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `INSERT INTO char_contacts ("char_id", "name", "connection", "loyalty", "description")
+    VALUES ($1, $2, $3, $4, $5)`
+
+    const sqlParams = [req.body.char_id, req.body.name, req.body.connection, req.body.loyalty, req.body.description]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(201)
+        })
+        .catch(err => {
+            console.log(`error creating new contact`, err);
+        })
+})
+
+// save in play character contact edit
+router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_contacts"
+    SET "name" = $1, "connection" = $2, "loyalty" = $3, "description" = $4
+    WHERE "char_note_id" = $5`
+    const sqlParams = [req.body.name, req.body.connection, req.body.loyalty, req.body.description, req.body.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`Error updating contact`, err);
+        })
+})
+
+// delete in play character contact
+router.delete('/deleteCharacterContact/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `DELETE FROM "char_contacts" WHERE "char_contacts_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`Error deleting note:`, err);
+        })
+})
+
 // Character Advancement Routes
 // routes having to do with spending experience, equipping/unequipping gear and cyberware,
 // and purchasing and selling gear and cyberware
