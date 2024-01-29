@@ -1123,7 +1123,7 @@ CREATE TABLE char_contact_bridge (
 	char_id int NOT NULL,
 	contact_id int NOT NULL,
 	loyalty int NOT NULL DEFAULT 0,
-	notes text,
+	notes text NOT NULL DEFAULT 'My Notes here.',
 	CONSTRAINT char_contact_bridge_pk PRIMARY KEY (char_contact_id)
 ) WITH (OIDS = FALSE);
 -- connect bridge to chars, when char is deleted relevent bridge entries also go away.

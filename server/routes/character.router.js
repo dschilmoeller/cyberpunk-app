@@ -460,10 +460,10 @@ router.delete('/deleteCharacterNote/:id', rejectUnauthenticated, (req, res) => {
 
 // save in play character contact loyalty/note edit.
 router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_contacts"
+    const sqlText = `UPDATE "char_contact_bridge"
     SET "loyalty" = $1, "notes" = $2
     WHERE "char_contact_id" = $3`
-    const sqlParams = [req.body.loyalty, req.body.notes, req.body.id]
+    const sqlParams = [req.body.loyalty, req.body.notes, req.body.char_contact_id]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(200)

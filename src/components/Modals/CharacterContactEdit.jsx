@@ -37,7 +37,7 @@ export default function CharacterContactEdit({ prop }) {
     };
 
     const handleClose = () => {
-            dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: {loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
+            dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: {char_contact_id: prop.char_contact_id, loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
             setOpen(false);
     };
 
@@ -48,7 +48,7 @@ export default function CharacterContactEdit({ prop }) {
 
     return (
         <>
-            <Button onClick={handleClickOpen('paper')} variant='contained'>{prop.name !== undefined ? 'Edit Contact' : 'New Contact'}</Button>
+            <Button onClick={handleClickOpen('paper')} variant='contained'>{'Edit Contact'}</Button>
             <Dialog
                 open={open}
                 onClose={()=>setOpen(false)}
@@ -63,10 +63,11 @@ export default function CharacterContactEdit({ prop }) {
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <Grid container alignItems={'center'}>
-                        <Grid item xs={6} paddingLeft={2} paddingBottom={2}>Connection: {prop.connection}</Grid>
+                        <Grid item xs={6} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color:'black' }}
+                        display={'flex'} alignItems={'center'} marginLeft={2} padding={1} >Connection: {prop.connection}</Grid>
 
-                        <Grid item xs={1} paddingLeft={2} paddingBottom={2}>Loyalty:</Grid>
-                        <Grid item xs={5} paddingLeft={2} paddingBottom={2} paddingRight={2}>
+                        <Grid item xs={1} marginLeft={1} padding={1}>Loyalty:</Grid>
+                        <Grid item xs={4} padding={1}>
                             <TextField
                                 fullWidth
                                 onChange={e => setLoyaltyAmount(e.target.value)}
@@ -77,7 +78,7 @@ export default function CharacterContactEdit({ prop }) {
                             />
                         </Grid>
 
-                        <Grid item xs={12} sx={{ border: 'gray', borderStyle: 'solid' }} marginRight={2} marginLeft={2} padding={1}>{prop.description}</Grid>
+                        <Grid item xs={12} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color:'black' }} marginRight={2} marginLeft={2} padding={1}>{prop.description}</Grid>
 
                         <Grid item xs={12} padding={2}>
                             <h3>My Notes:</h3>
