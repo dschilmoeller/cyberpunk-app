@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Item from './Item';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Icon } from '@mui/material';
-import GradeIcon from '@mui/icons-material/Grade';
 
 import CharacterContactEdit from '../../Modals/CharacterContactEdit';
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
 
 /* 
 contacts - always display alphabetically. Display 2-3 per row; only show limited amount of the description if possible.
@@ -23,6 +23,9 @@ export default function CharacterSheetContacts() {
 
     return (
         <>
+            <Grid item xs={12}>
+                    <Item><CharacterSheetHeaderDialog prop={'Contacts'} /></Item>
+            </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={1}>
                     {charContacts.map(contact => {

@@ -41,6 +41,15 @@ export default function CharacterContactEdit({ prop }) {
             setOpen(false);
     };
 
+    const loyaltyAmountHandler = (newLoyalty) => {
+        if (newLoyalty < 0) {
+            newLoyalty = 0;
+        } else if (newLoyalty > 9) {
+            newLoyalty = 9;
+        }
+        setLoyaltyAmount(newLoyalty);
+    }
+
     // const [loyaltyAmount, setLoyaltyAmount] = React.useState(prop.loyalty !== undefined ? prop.loyalty : 0);
     const [loyaltyAmount, setLoyaltyAmount] = React.useState(prop.loyalty);
     // const [noteText, setNoteText] = React.useState(prop.notes !== undefined ? prop.notes : '');
@@ -70,7 +79,7 @@ export default function CharacterContactEdit({ prop }) {
                         <Grid item xs={4} padding={1}>
                             <TextField
                                 fullWidth
-                                onChange={e => setLoyaltyAmount(e.target.value)}
+                                onChange={e => loyaltyAmountHandler(e.target.value)}
                                 required
                                 type='number'
                                 value={loyaltyAmount}

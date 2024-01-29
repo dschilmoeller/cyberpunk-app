@@ -16,6 +16,8 @@ import Slide from '@mui/material/Slide';
 
 import WeaponsGrenades from './WeaponsGrenades';
 
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
+
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
@@ -239,10 +241,12 @@ function Weapons() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     Insufficient Ammo!
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             <Grid container spacing={2}>
-                <Grid item xs={12}><Item>Equipped Weapons</Item></Grid>
+            <Grid item xs={12}>
+                    <Item><CharacterSheetHeaderDialog prop={'Weapons'} /></Item>
+            </Grid>
                 {/* cycle through weapons and list melee weapons up top */}
                 {/* Starting with cyberweapons */}
                 {characterCyberware.map(cyberware => {
