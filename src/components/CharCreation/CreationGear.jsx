@@ -175,7 +175,7 @@ export default function CreationGear() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Insufficient Funds!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
             <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Cash on Hand: {euroBuck}{bank} <Button fullWidth onClick={() => savePurchases()}>Save Purchases</Button></Typography></Item></Grid>

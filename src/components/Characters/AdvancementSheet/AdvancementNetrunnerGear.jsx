@@ -93,7 +93,7 @@ export default function AdvancementNetrunnerGear() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Not enough slots - you'll need a different deck.
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Tabs
             value={value}

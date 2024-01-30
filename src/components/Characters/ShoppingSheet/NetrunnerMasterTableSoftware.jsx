@@ -201,7 +201,7 @@ export default function NetrunnerMasterTableSoftware() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Transaction canceled due to lack of funds!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>

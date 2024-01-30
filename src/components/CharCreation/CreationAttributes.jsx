@@ -153,7 +153,7 @@ function CreationAttributes() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     Please ensure you have selected all the necessary attributes!
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
 
             <Grid container display={'flex'} justifyContent={'center'} spacing={1}>

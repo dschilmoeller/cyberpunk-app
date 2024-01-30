@@ -108,7 +108,7 @@ export default function AdvancementOther() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Insufficient Experience
             </Alert>
-        </Snackbar >
+        </Snackbar>
         <h1>Other Traits</h1>
         <Grid container>
 

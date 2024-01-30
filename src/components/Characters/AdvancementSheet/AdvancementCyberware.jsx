@@ -531,7 +531,7 @@ export default function AdvancementCyberware() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 {toastText}
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

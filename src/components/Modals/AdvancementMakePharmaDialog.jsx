@@ -82,7 +82,7 @@ export default function AdvancementMakePharmaDialog() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     {alertText}
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             <Button sx={{
                 justifyContent: 'center',

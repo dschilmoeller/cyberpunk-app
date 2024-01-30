@@ -69,7 +69,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
         Insufficient XP
     </Alert>
-</Snackbar >
+</Snackbar>
 
         <h1>Skills</h1>
         <Grid container>

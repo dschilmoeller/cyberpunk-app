@@ -121,7 +121,7 @@ export default function GameMasterMain() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Can't make selected change!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Grid container paddingTop={3} spacing={2} alignItems="center">
 

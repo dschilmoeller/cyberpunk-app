@@ -69,7 +69,7 @@ export default function AdvancementAttributes() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Insufficient XP
             </Alert>
-        </Snackbar >
+        </Snackbar>
         
         <Grid container>
             <Grid item xs={12}>

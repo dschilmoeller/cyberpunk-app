@@ -187,7 +187,7 @@ export default function ModVehicleMasterTable() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Transaction canceled due to lack of funds!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <h2>Buy Vehicle Mod</h2>
 

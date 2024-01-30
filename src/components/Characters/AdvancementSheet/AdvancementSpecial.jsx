@@ -119,7 +119,7 @@ export default function AdvancementSpecial() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Insufficient XP
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <h1>Role Abilities</h1>
         <Grid container spacing={1}>

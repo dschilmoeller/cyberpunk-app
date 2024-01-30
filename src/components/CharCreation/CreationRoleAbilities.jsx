@@ -324,7 +324,7 @@ function CreationRoleAbilities() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Please ensure you have selected a Role and any related skills!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
             <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Select Role</Typography></Item></Grid>

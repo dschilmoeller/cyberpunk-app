@@ -151,7 +151,7 @@ export default function AdvancementGearArmor() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     {alertText}
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             <Grid container>
                 <Grid container spacing={2} padding={1} item xs={12}>

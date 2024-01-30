@@ -116,7 +116,7 @@ function Armor() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     No Armor Remaining!
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             {charArmor && charShield && charStatus ? (
                 <>

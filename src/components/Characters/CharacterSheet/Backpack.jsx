@@ -240,7 +240,7 @@ export default function Backpack() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                     None of that nonsense now!
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             <Snackbar
                 TransitionComponent={TransitionUp}
@@ -252,7 +252,7 @@ export default function Backpack() {
                 <Alert onClose={() => setShowSnackSnackBar(false)} severity="success" sx={{ width: '100%' }}>
                     NOM NOM NOM!
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
             <Grid container>
                 <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>

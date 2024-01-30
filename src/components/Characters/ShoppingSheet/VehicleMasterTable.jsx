@@ -242,7 +242,7 @@ export default function VehicleMasterTable() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Transaction canceled due to lack of funds!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Tabs
             value={selectedShopping}

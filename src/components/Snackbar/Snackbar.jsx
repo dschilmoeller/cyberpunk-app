@@ -21,7 +21,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
     Transaction canceled due to lack of funds!
     </Alert>
-</Snackbar >
+</Snackbar>
 
 
 // Transaction canceled due to lack of funds!

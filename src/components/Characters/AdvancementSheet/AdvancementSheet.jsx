@@ -110,7 +110,7 @@ function AdvancementSheet() {
                     <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                         You cannot save! Your character will undergo immediate cyberpsychosis if you don't have at least 1 humanity remaining!
                     </Alert>
-                </Snackbar >
+                </Snackbar>
                 <Grid container>
                     <Grid item display={'flex'} justifyContent={'center'} xs={4}>
                         <Button variant='contained' onClick={() => history.push('/characterlist')}>Back to Character List</Button>

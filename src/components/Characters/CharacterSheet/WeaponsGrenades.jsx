@@ -43,7 +43,7 @@ export default function WeaponsGrenades() {
             <Alert onClose={() => setShowSnackbar(false)} severity="error" sx={{ width: '100%' }}>
                 Kaboom!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Grid container>
             <Grid item xs={12}><Item>Grenades</Item></Grid>

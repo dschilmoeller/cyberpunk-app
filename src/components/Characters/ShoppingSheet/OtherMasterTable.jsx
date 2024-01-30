@@ -186,7 +186,7 @@ export default function OtherMasterTable() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Transaction canceled due to lack of funds!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <h2>Buy Other</h2>
         <Box sx={{ width: '100%' }}>

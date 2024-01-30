@@ -103,7 +103,7 @@ function CharacterSheet() {
                 <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
                     Character Save Successful
                 </Alert>
-            </Snackbar >
+            </Snackbar>
 
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container marginBottom={2}>
