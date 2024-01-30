@@ -22,6 +22,7 @@ import GameMasterSkills from './GameMasterSkills';
 import GameMasterRoles from './GameMasterRoles';
 import GameMasterOwnedGear from './GameMasterOwnedGear';
 import GameMasterGiveGear from './GameMasterGiveGear';
+import GameMasterCharContacts from './GameMasterCharContacts';
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
@@ -41,6 +42,7 @@ export default function GameMasterSheet() {
     const charDetail = useSelector(store => store.advancementDetail)
     const equipmentDetails = useSelector(store => store.advancementGear)
     const modDetails = useSelector(store => store.characterModMaster)
+    const contacts = useSelector(store => store.characterContacts)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -62,6 +64,7 @@ export default function GameMasterSheet() {
 
         // fetch all master gear lists:
         dispatch({ type: "FETCH_MASTER_LISTS" })
+        dispatch({ type: "FETCH_GM_SINGLE_CHAR_CONTACTS", payload: params.id })
 
         // required to make inputs default to existing data
         setHandle(charDetail.handle)
@@ -71,7 +74,7 @@ export default function GameMasterSheet() {
 
     // move handle, player, campaign to reducer.
     const saveCharacter = () => {
-        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, gear: equipmentDetails, mods: modDetails, handle: handle, player: player, campaign: campaign } })
+        dispatch({ type: "SAVE_GM_CHANGES", payload: { charDetail: charDetail, gear: equipmentDetails, mods: modDetails, handle: handle, player: player, campaign: campaign, contacts: contacts } })
         history.push('/gamemaster/')
     }
 
@@ -86,25 +89,27 @@ export default function GameMasterSheet() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Can't make selected change!
             </Alert>
-        </Snackbar >
+        </Snackbar>
 
         <Tabs
             value={selectedSheet}
             onChange={handleTabChange}
             indicatorColor='primary'
             textColor='secondary'>
-            <Tab value='GM' label='GM Main' />
             {/* Humanity, Money, and Experience */}
-            <Tab value='attributes' label='Attributes' />
+            <Tab value='GM' label='GM Main' />
             {/* Atts, also Street Cred & Luck */}
-            <Tab value='skills' label='Skills' />
+            <Tab value='attributes' label='Attributes' />
             {/* Skills */}
-            <Tab value='role' label='Role' />
+            <Tab value='skills' label='Skills' />
             {/* Role abilities and skills, include manual IsParamedical */}
-            <Tab value='gear' label='Owned Gear' />
+            <Tab value='role' label='Role' />
             {/* all owned gear, cyberware, netrunner, vehicles, etc. */}
-            <Tab value='gmGear' label='Give Gear' />
+            <Tab value='gear' label='Owned Gear' />
             {/* arbitrary giving of standard equipment */}
+            <Tab value='gmGear' label='Give Gear' />
+            {/* see contacts and edit loyalty */}
+            <Tab value='gmCharContacts' label='Manage Contacts' />
         </Tabs>
 
         <Grid container spacing={2} alignItems="center">
@@ -136,6 +141,10 @@ export default function GameMasterSheet() {
 
         {selectedSheet === 'gmGear' ? (<>
             <GameMasterGiveGear />
+        </>) : <> </>}
+
+        {selectedSheet === 'gmCharContacts' ? (<>
+            <GameMasterCharContacts />
         </>) : <> </>}
 
     </>)

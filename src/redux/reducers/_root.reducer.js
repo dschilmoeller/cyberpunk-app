@@ -20,6 +20,8 @@ import characterModMaster from './characterModMaster';
 import advancementDetail from './advancementDetail.reducer';
 import advancementGear from './advancementGear.reducer';
 
+import contactMaster from './contactMaster.reducer';
+import contactBridge from './contactBridge.reducer';
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -31,6 +33,8 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
 
   campaigns, // list of available campaigns to play in
+  contactMaster, // contact master list.
+  contactBridge, // contact bridge data
 
   gearMaster, // master gear lists
 
@@ -41,12 +45,14 @@ const rootReducer = combineReducers({
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
   characterNotes, // player created notes.
-  characterContacts, // player created contacts
+  characterContacts, // player owned contacts
 
   characterCreation, // contains details set up during character creation
 
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
+
+  
 });
 
 export default rootReducer;

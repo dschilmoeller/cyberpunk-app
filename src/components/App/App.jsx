@@ -28,6 +28,7 @@ import ShoppingSheet from '../Characters/ShoppingSheet/ShoppingSheet';
 
 import GameMasterLanding from '../GameMaster/GameMasterLanding';
 import GameMasterSheet from '../GameMaster/GameMasterSheet';
+import GameMasterContacts from '../GameMaster/GamemasterContacts';
 
 import './App.css';
 
@@ -162,6 +163,14 @@ function App() {
             >
               <GameMasterSheet />
             </ProtectedRoute>
+
+            <ProtectedRoute
+              exact
+              path="/gamemastercontacts"
+            >
+              <GameMasterContacts />
+            </ProtectedRoute>
+
             <Route
               exact
               path="/home"

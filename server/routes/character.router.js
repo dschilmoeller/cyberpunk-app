@@ -443,20 +443,101 @@ router.delete('/deleteCharacterNote/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-// create in play character contact - can't do this.
-// router.post('/createCharacterContact/', rejectUnauthenticated, (req, res) => {
-//     const sqlText = `INSERT INTO char_contacts ("char_id", "name", "connection", "loyalty", "description")
-//     VALUES ($1, $2, $3, $4, $5)`
+// fetch GM contacts
+router.get('/fetchgamemastercontacts/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "contact_master"
+    JOIN "campaigns" ON "campaigns"."campaign_id" = "contact_master"."campaign_id"
+    ORDER BY "contact_master"."campaign_id" ASC, "name" ASC`
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching GM master contact list:`, err);
+        })
+})
 
-//     const sqlParams = [req.body.char_id, req.body.name, req.body.connection, req.body.loyalty, req.body.description]
-//     pool.query(sqlText, sqlParams)
-//         .then(result => {
-//             res.sendStatus(201)
-//         })
-//         .catch(err => {
-//             console.log(`error creating new contact`, err);
-//         })
+// contact updating - fetch all char ids and camp ids, 
+// router.get('/fetchcharacteidandcampaignid', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `SELECT "id", "campaign" FROM "character"`
+//     pool.query(sqlText)
+//     .then((result) => {
+//         res.send(result.rows);
+//     })
+//     .catch(err => {
+//         console.log(`Error fetching id & campaign ID from character`);
+//     })
 // })
+
+// fetch all char_contact_bridge data
+router.get('/fetchgamemastercontactbridgedata', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_contact_bridge"`
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching char_contact_bridge data`);
+        })
+})
+
+// GM Insert contact into char_contact_bridge
+router.post('/insertcharcontactbridge/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `INSERT INTO char_contact_bridge ("char_id", "contact_id", "loyalty", "notes")
+    VALUES ($1, $2, $3, $4)`
+    const sqlParams = [req.body.characterID, req.body.contactID, 0, 'Your notes here!']
+    pool.query(sqlText, sqlParams)
+    .then((result) => {
+        res.sendStatus(201)
+    })
+    .catch(err => {
+        console.log(`error inserting contact into char contact bridge`, err);
+        console.log(`error is with char ID`, req.body.charID, `and contact id`, req.body.contactID);
+    })
+})
+
+// GM Create Contact
+router.post('/creategamemastercontact/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `INSERT INTO contact_master ("campaign_id", "name", "connection", "description")
+    VALUES ($1, $2, $3, $4)`
+
+    const sqlParams = [req.body.campaign_id, req.body.name, req.body.connection, req.body.description]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(201)
+        })
+        .catch(err => {
+            console.log(`error creating new contact`, err);
+        })
+})
+
+// GM update contact
+router.put('/savegamemastercontact/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "contact_master"
+    SET campaign_id = $1, name = $2, connection = $3, description = $4
+    WHERE "contact_master_id" = $5`
+    const sqlParams = [req.body.campaign_id, req.body.name, req.body.connection, req.body.description, req.body.contact_master_id]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`error updating contact (GM):`, err);
+        })
+})
+
+// gm delete contact
+router.delete('/deletegamemastercontact/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `DELETE FROM "contact_master" WHERE "contact_master_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => {
+            res.sendStatus(200)
+        })
+        .catch(err => {
+            console.log(`Error deleting contact (GM)`, err);
+        })
+})
 
 // save in play character contact loyalty/note edit.
 router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
@@ -469,7 +550,7 @@ router.put('/updateCharacterContact', rejectUnauthenticated, (req, res) => {
             res.sendStatus(200)
         })
         .catch(err => {
-            console.log(`Error updating contact`, err);
+            console.log(`Error updating contact (player)`, err);
         })
 })
 
@@ -1402,6 +1483,18 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
                 for (let i = 0; i < boughtCyberware.length; i++) {
                     const boughtCyberwareParams = [req.body.charDetail.id, boughtCyberware[i].cyberware_master_id]
                     pool.query(boughtCyberwareSqlText, boughtCyberwareParams)
+                }
+            }
+
+            const contactDetails = req.body.contacts
+            if (contactDetails.length > 0){
+                const changeContactLoyaltySqlText = `UPDATE "char_contact_bridge"
+                SET "loyalty" = $1
+                WHERE "char_contact_id" = $2`
+                for (let i = 0; i < contactDetails.length; i++){
+                    if (contactDetails[i].modified === true) {
+                        pool.query(changeContactLoyaltySqlText, [contactDetails[i].loyalty, contactDetails[i].char_contact_id])
+                    }
                 }
             }
         })

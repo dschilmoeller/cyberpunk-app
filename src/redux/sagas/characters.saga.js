@@ -159,7 +159,7 @@ function* saveGameMasterCharacter(action) {
   try {
     yield axios.put(`api/characters/savegamemastercharacter/${action.payload.charDetail.id}`, action.payload)
   } catch (error) {
-    console.log(`Error saving GM changes:`, error);
+    console.log(`Error saving GM character changes:`, error);
   }
 }
 
@@ -170,6 +170,42 @@ function* deleteGameMasterCharacter(action) {
     console.log(`Error delete character (GM):`, error);
   }
 }
+
+function* saveGameMasterContact(action) {
+  try {
+    yield axios.put(`api/characters/savegamemastercontact/${action.payload.campaign_id}`, action.payload)
+    yield put({ type: "FETCH_GM_CONTACTS" })
+  } catch (error) {
+    console.log(`Error saving GM contact changes:`, error);
+  }
+}
+
+function* createGameMasterContacts(action) {
+  try {
+    yield axios.post(`api/characters/creategamemastercontact/`, action.payload)
+    yield put({ type: "FETCH_GM_CONTACTS" })
+  } catch (error) {
+    console.log(`Error creating GM contact:`, error);
+  }
+}
+
+function* deleteGameMasterContact(action) {
+  try {
+    yield axios.delete(`/api/characters/deletegamemastercontact/${action.payload}`)
+    yield put({ type: "FETCH_GM_CONTACTS" })
+  } catch (error) {
+    console.log(`Error delete Contact (GM):`, error);
+  }
+}
+
+function* assignContactChar(action) {
+  try {
+    yield axios.post('api/characters/insertcharcontactbridge/', action.payload)
+  } catch (error) {
+    console.log(`Error assigning contact to characters in campaign`);
+  }
+}
+
 
 // advancement sheet - spending xp, shopping, equipping gear.
 function* fetchAdvancementDetails(action) {
@@ -240,6 +276,26 @@ function* fetchGameMasterCharacters() {
   }
 }
 
+function* fetchGameMasterContacts() {
+  try {
+    const allContacts = yield axios.get('/api/characters/fetchgamemastercontacts')
+    yield put({ type: 'SET_CONTACT_LIST', payload: allContacts.data });
+    const contactBridgeData = yield axios.get('/api/characters/fetchgamemastercontactbridgedata')
+    yield put({ type: "SET_CONTACT_BRIDGE_DATA", payload: contactBridgeData.data})
+  } catch (error) {
+    console.log(`Error fetching master contact list for gamemaster`, error);
+  }
+}
+
+function* fetchGameMasterSingleCharContacts(action){
+  try {
+    const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data})
+  } catch (error) {
+    console.log(`Error fetching character contacts for GM page.`);
+  }
+}
+
 function* characterBurnLuck(action) {
   try {
     axios.put(`/api/characters/characterBurnOneLuck/${action.payload.charID}`, action.payload)
@@ -275,6 +331,12 @@ function* characterSaga() {
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
   yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
   yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
+  yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)
+  yield takeLatest('FETCH_GM_SINGLE_CHAR_CONTACTS', fetchGameMasterSingleCharContacts)
+  yield takeLatest('GM_CREATE_CONTACT', createGameMasterContacts)
+  yield takeLatest('SAVE_GM_CONTACT', saveGameMasterContact)
+  yield takeLatest('GM_DELETE_CONTACT', deleteGameMasterContact)
+  yield takeLatest('ASSIGN_CONTACT_CAMPAIGN_CHARS', assignContactChar)
 }
 
 export default characterSaga;

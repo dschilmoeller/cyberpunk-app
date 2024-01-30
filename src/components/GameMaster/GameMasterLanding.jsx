@@ -51,12 +51,12 @@ export default function GameMasterLanding() {
         } else {
             campaignList.map(campaign => {
                 {
-                   if (value == campaign.campaign_id) {
-                       setCampaignName(campaign.campaign_name)
-                   }
-                   setCampaign(value)
-               }
-           })
+                    if (value == campaign.campaign_id) {
+                        setCampaignName(campaign.campaign_name)
+                    }
+                    setCampaign(value)
+                }
+            })
         }
     }
 
@@ -236,8 +236,23 @@ export default function GameMasterLanding() {
     return (<>
 
         <Grid container>
+
+            <Grid item xs={6} padding={1}>
+                <Button fullWidth variant='contained' onClick={()=> history.push('/gamemastercontacts/')}>Manage Contacts</Button>
+            </Grid>
+            <Grid item xs={6} padding={1}>
+                <Button fullWidth variant='contained' color='error'>Button #2</Button>
+            </Grid>
+            <Grid item xs={6} padding={1}>
+                <Button fullWidth variant='contained' color='error'>Manage Campaigns</Button>
+            </Grid>
+            <Grid item xs={6} padding={1}>
+                <Button fullWidth variant='contained' color='error'>Buton #4</Button>
+            </Grid>
+
+            {/* <Grid item xs={6} padding={1}> */}
             <Grid item xs={12}><h2>Select Campaign</h2></Grid>
-            <Grid item xs={12} marginRight={2}>
+            <Grid item xs={12}>
                 <Select
                     value={campaign}
                     fullWidth
@@ -248,6 +263,8 @@ export default function GameMasterLanding() {
                     })}
                 </Select>
             </Grid>
+            {/* </Grid> */}
+
         </Grid>
 
         <h2>Select Character to Review</h2>
@@ -263,19 +280,19 @@ export default function GameMasterLanding() {
 
                     {sortedCharacterListRows.map(character => {
                         if (character.campaign == campaign || campaign == 0) {
-                        return (<React.Fragment key={character.id}>
-                            <TableBody>
-                                <TableRow hover>
-                                    <TableCell align="center"><Button fullWidth variant='contained' sx={{ m: 1 }} onClick={() => history.push(`/gamemastersheet/${character.id}`)}>{character.handle}</Button></TableCell>
-                                    <TableCell align="center">{character.player}</TableCell>
-                                    <TableCell align="center">{character.perception}</TableCell>
-                                    <TableCell align="center">{character.reflexes}</TableCell>
-                                    <TableCell align="center">{character.humanityLoss}</TableCell>
-                                    <TableCell align="center">{character.availableExp}</TableCell>
-                                    <TableCell align="center">{euroBuck}{commaTizer(character.bank)}</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </React.Fragment>)
+                            return (<React.Fragment key={character.id}>
+                                <TableBody>
+                                    <TableRow hover>
+                                        <TableCell align="center"><Button fullWidth variant='contained' sx={{ m: 1 }} onClick={() => history.push(`/gamemastersheet/${character.id}`)}>{character.handle}</Button></TableCell>
+                                        <TableCell align="center">{character.player}</TableCell>
+                                        <TableCell align="center">{character.perception}</TableCell>
+                                        <TableCell align="center">{character.reflexes}</TableCell>
+                                        <TableCell align="center">{character.humanityLoss}</TableCell>
+                                        <TableCell align="center">{character.availableExp}</TableCell>
+                                        <TableCell align="center">{euroBuck}{commaTizer(character.bank)}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </React.Fragment>)
                         }
                     })}
                 </Table>
