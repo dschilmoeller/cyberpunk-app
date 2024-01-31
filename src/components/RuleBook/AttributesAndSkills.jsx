@@ -130,7 +130,8 @@ export default function RulebookAttSkills() {
                         <Grid container padding={1} spacing={1}>
                             <Grid item xs={12}>Character health is expressed in a number of boxes. Every character has a minimum of 10 health boxes. Health can be increased with different kinds of cyberware. Most commonly, Externalware is usually armor grafted directly to the character and provides 1 or more health boxes along with some armor. Cyberlimbs each grant an additional health box as well.</Grid>
                             <Grid item xs={12} paddingBottom={1}>Health is reduced by damage, also called 'wounds', which comes in three different types. Each type overwrites the previous - so a character with two stun wounds who receives a single lethal wound would now have a single lethal wound and a single stun wound. If they then take an aggravated wound, they would have a stun wound and an aggravated wound; the aggravated wound has overwritten the lethal wound.</Grid>
-
+                            <Grid item xs={12} paddingBottom={1}>Recovery: Healing different kinds of wounds requires different levels of attention - see each wound type. Characters in a Cryotank have a -2 modifier to the DV of Body rolls to recover health. Characters with Platelet Booster cyberware get a -1 modifier to the DV of Body rolls to recover health. Cryotank and platelet booster effects can stack. Characters with a Nanotech hive are considered to be receiving medical attention and inside a cryotank if they get regular rest each day.</Grid>
+                            
                             <Grid item xs={3}>Damage Type</Grid>
                             <Grid item xs={9} paddingBottom={1}>Description</Grid>
 
@@ -140,11 +141,11 @@ export default function RulebookAttSkills() {
 
                             <Grid item xs={2} display={'flex'}>Lethal Damage:</Grid>
                             <Grid item xs={1} display={'flex'}>{lethalMarker}</Grid>
-                            <Grid item xs={9} paddingBottom={1}>Lethal damage is far more severe than stun, and comes from blades, bullets, and many other hazards frequently encountered by Edgerunners. Characters going about their business make a Body roll each week at difficulty 6 (1s do not affect this roll); they recover a number of lethal wounds equal to the successes rolled. If a character is resting and receiving constant medical attention (4+ hours a day), this roll can be made once per day.</Grid>
+                            <Grid item xs={9} paddingBottom={1}>Lethal damage is far more severe than stun, and comes from blades, bullets, and many other hazards frequently encountered by Edgerunners. Characters going about their business make a Body roll each week at difficulty 6 (1s do not affect this roll); they recover a number of lethal wounds equal to the successes rolled. If a character is resting and receiving frequent medical attention (4+ hours a day), this roll can be made once per day.</Grid>
 
                             <Grid item xs={2} display={'flex'}>Aggravated Damage:</Grid>
                             <Grid item xs={1} display={'flex'}>{aggMarker}</Grid>
-                            <Grid item xs={9} paddingBottom={1}>Aggravated damage is the most severe kind of damage a character can receive, and usually comes from fire, electricity, or other extreme sources of damage. Characters cannot recover Aggravated wounds without daily medical attention (8+ hours a day); if they are receiving care they can make a body roll at difficulty 8 once per week and recover a number of aggravated wounds equal to the successes rolled.</Grid>
+                            <Grid item xs={9} paddingBottom={1}>Aggravated damage is the most severe kind of damage a character can receive, and usually comes from fire, electricity, or other extreme sources of damage. Characters cannot recover Aggravated wounds without constant medical attention (8+ hours a day); if they are receiving this care they can make a body roll at difficulty 8 once per week and recover a number of aggravated wounds equal to the successes rolled.</Grid>
                             <Grid item xs={12}><Typography variant='h4'>Wound Penalties:</Typography></Grid>
                             <Grid item xs={12}><Typography variant='p'>Characters suffer penalties to most Rolls as they become more and more injured. This penalty applies to any roll that does not specifically mention otherwise. Death Saves are the main exceptions to wound penalties, though most rolls involving the Body attribute are exempt as well.</Typography></Grid>
                         </Grid>

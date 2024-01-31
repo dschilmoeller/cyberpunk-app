@@ -661,8 +661,8 @@ VALUES
 ('Artificial Shoulder Mount',1000,'Allows user to mount an additional pair of cyberlimbs under their normal arms.',3,9,'Hospital','borgware', false),
 ('MultiOptic Mount',1000,'(BETA - Does not work) Gives user 5 additional cybereye slots.',3,9,'Hospital','borgware', true),
 ('Sensor Array',1000,'(BETA - Does not work) Gives user 5 additional cyberear slots.',3,9,'Hospital','borgware', true),
-('Linear Frame Alpha',50000,'(BETA - Does not work) Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 2. Decreases Reflexes by 1. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',3,9,'Hospital','borgware', true),
-('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 2. Not compatible with External Cyberarmor. Not compatible with Grafted Muscles or Bone Lacing.',4,12,'Hospital','borgware', true);
+('Linear Frame Alpha',50000,'Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',5,15,'Hospital','borgware', true),
+('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 4 health boxes. Increases Strength and Body by 4. Decreases Reflexes by 2. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',6,18,'Hospital','borgware', true);
 
 INSERT INTO "public"."armor_master"("name", "quality", "price", "description")
 VALUES (

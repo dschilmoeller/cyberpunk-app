@@ -49,6 +49,146 @@ export default function AdvancementCyberware() {
     });
     const [toastText, setToastText] = React.useState('')
 
+    // before equipping 'ware, detect if identical cyberware is already equipped OR if incompatible gear is equipped.
+    const cyberwareEquippedCheck = (incomingCyber) => {
+        // first check for attribute enhancing type duplication eg. grafted muscles I & II
+        let alreadyEquipped = false;
+        let equippedItemName = '';
+
+        // regex expressions to check against
+        let algernonic = /Alger/;
+        let grafted = /Grafted Musc/;
+        let boneLaced = /Bone Lac/;
+        let siliconize = /Nervous System Silicon/;
+
+        if (algernonic.test(incomingCyber.name) === true) {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (algernonic.test(charCyberware[i].name) == true && (charCyberware[i].equipped === true)) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+            // charCyberware.map(cyberware => {
+            //     if (algernonic.test(cyberware.name) === true && (cyberware.equipped === true)) {
+            //         alreadyEquipped = true;
+            //         equippedItemName = cyberware.name
+            //     }
+            // })
+        } else if (grafted.test(incomingCyber.name) === true) {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (grafted.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+        } else if (boneLaced.test(incomingCyber.name) === true) {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (boneLaced.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+        } else if (siliconize.test(incomingCyber.name) === true) {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (siliconize.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+            // checking against different speedwares.
+        } else if (incomingCyber.name === 'Kerenzikov'
+            || incomingCyber.name === 'Sandevistan'
+            || incomingCyber.name === 'Miilitech "Kali"') {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (
+                    (charCyberware[i].name === 'Kerenzikov'
+                        || charCyberware[i].name === 'Sandevistan'
+                        || charCyberware[i].name === 'Miilitech "Kali"')
+                    && charCyberware[i].equipped === true) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+            // checking anti poison ware
+        } else if (incomingCyber.name === 'Toxin Binders'
+            || incomingCyber.name === 'Nasal Filters') {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (
+                    (charCyberware[i].name === 'Toxin Binders'
+                        || charCyberware[i].name === 'Nasal Filters')
+                    && charCyberware[i].equipped === true) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+            // checking heal ware
+        } else if (incomingCyber.name === 'Platelet Booster'
+            || incomingCyber.name === 'Nanotech Hive') {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (
+                    (charCyberware[i].name === 'Platelet Booster'
+                        || charCyberware[i].name === 'Nanotech Hive')
+                    && charCyberware[i].equipped === true) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+        } else if (incomingCyber.name === 'Linear Frame Alpha') {
+            for (let i = 0; i < charCyberware.length; i++) {
+                if ((charCyberware[i].name === 'Linear Frame Alpha'
+                    || charCyberware[i].name === 'Linear Frame Beta'
+                    || grafted.test(charCyberware[i].name) === true
+                    || boneLaced.test(charCyberware[i].name) === true
+                    || siliconize.test(charCyberware[i].name) === true
+                    || charCyberware[i].type === 'externalware'
+                    || charCyberware[i].name === 'Cyberarm - Right'
+                    || charCyberware[i].name === 'Cyberarm - Left'
+                    || charCyberware[i].name === 'Cyberleg - Right'
+                    || charCyberware[i].name === 'Cyberleg - Left'
+                ) && charCyberware[i].equipped === true) {
+                    alreadyEquipped = true;
+                    equippedItemName = charCyberware[i].name
+                    break;
+                }
+            }
+            if (charDetails.reflexes <= 1) {
+                alreadyEquipped = true;
+                equippedItemName = 'Reflexes too low!'
+            }
+        } else {
+            // Checks if purely identical 'ware is already equipped.
+            // allowed duplicates are ignored (memory chips); some such as cyberarms w/ Borg Shoulders are checked in equipCyber() below already.
+            for (let i = 0; i < charCyberware.length; i++) {
+                if (charCyberware[i].cyberware_master_id === incomingCyber.cyberware_master_id && charCyberware[i].equipped === true) {
+                    if (charCyberware[i].name === 'Memory chip'
+                        || charCyberware[i].name === 'Cyberarm - Right'
+                        || charCyberware[i].name === 'Cyberarm - Left') {
+                        alreadyEquipped = false
+                    } else {
+                        alreadyEquipped = true;
+                        equippedItemName = charCyberware[i].name
+                    }
+                }
+            }
+        }
+
+        // finallly, assuming one of the above did not set already equipped to true run equip ware function.
+        if (alreadyEquipped === false) {
+            equipCyber(incomingCyber)
+        } else {
+            // alreadyEquipped === true - inform user of issue with equipping attempt.
+            setToastText(`Incompatible cyberware ${equippedItemName} detected`)
+            setShowSnackbar(true)
+        }
+    }
+
     const equipCyber = (incomingCyber) => {
 
         switch (incomingCyber.type) {
@@ -337,8 +477,27 @@ export default function AdvancementCyberware() {
                     break;
                 }
             case 'borgware':
-                dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
-                dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                switch (incomingCyber.name) {
+                    case 'Artificial Shoulder Mount':
+                        dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
+                        dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                        break;
+                    case 'Linear Frame Alpha':
+                        dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
+                        dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                        // ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED (attribute/amount)
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 3 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 3 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: -1 } })
+                        // CYBERWARE_ARMOR_EQUIPPED (health/armor)
+                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 5, healthBoxes: 4 } })
+                        break;
+                    default:
+                        setToastText('Unknown Error!')
+                        setShowSnackbar(true)
+                        break;
+                }
+
             default:
                 break;
         }
@@ -438,7 +597,7 @@ export default function AdvancementCyberware() {
                     case 'Nervous System Siliconization III':
                     case 'Nervous System Siliconization IV':
                     case 'Nervous System Siliconization V':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 1 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 0 } })
                         break;
                     default:
                         break;
@@ -493,6 +652,14 @@ export default function AdvancementCyberware() {
             case 'borgware':
                 dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
                 dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                if (incomingCyber.name === 'Linear Frame Alpha') {
+                    // ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED (attribute/amount)
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 0 } })
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 0 } })
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 0 } })
+                    // CYBERWARE_ARMOR_EQUIPPED (health/armor)
+                    dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -4 } })
+                }
             default:
                 break;
         }
@@ -667,7 +834,7 @@ export default function AdvancementCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => equipCyber(item)}>Equip</Button></TableCell>
+                                            <TableCell align="center"><Button onClick={() => cyberwareEquippedCheck(item)}>Equip</Button></TableCell>
                                         </TableRow>
                                     ) : <></>}</React.Fragment>)
                         }

@@ -17,22 +17,38 @@ function CharacterAttributes(charDetailProp) {
     const boxOutline = <CheckBoxOutlineBlankOutlinedIcon />
 
     const dotReturn = (attribute, cyberAtt) => {
-        let returnedDots = []
-        for (let i = 0; i < attribute; i++) {
-            returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
+        if (cyberAtt >= 0){
+            let returnedDots = []
+            for (let i = 0; i < attribute; i++) {
+                returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
+            }
+            for (let b = 0; b < cyberAtt; b++) {
+                returnedDots.push(<React.Fragment key={b + 10}>{fullBox}</React.Fragment>)
+            }
+            let j = attribute
+            for (j; j <= 4; j++) {
+                returnedDots.push(<React.Fragment key={j + 5}>{emptyCircle}</React.Fragment>)
+            }
+            let k = cyberAtt
+            for (k; k <= 4; k++) {
+                returnedDots.push(<React.Fragment key={k + 15}>{boxOutline}</React.Fragment>)
+            }
+            return returnedDots
+        } else {
+            let returnedDots = []
+            for (let i = 0; i < attribute + cyberAtt; i++) {
+                returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
+            }
+            let j = attribute
+            for (j; j <= 9 - (attribute + cyberAtt); j++) {
+                returnedDots.push(<React.Fragment key={j + 5}>{emptyCircle}</React.Fragment>)
+            }
+            for (let k = 0; k <= 4; k++){
+                returnedDots.push(<React.Fragment key={k + 15}>{boxOutline}</React.Fragment>)   
+            }
+            return returnedDots
         }
-        for (let b = 0; b < cyberAtt; b++) {
-            returnedDots.push(<React.Fragment key={b + 10}>{fullBox}</React.Fragment>)
-        }
-        let j = attribute
-        for (j; j <= 4; j++) {
-            returnedDots.push(<React.Fragment key={j + 5}>{emptyCircle}</React.Fragment>)
-        }
-        let k = cyberAtt
-        for (k; k <= 4; k++) {
-            returnedDots.push(<React.Fragment key={k + 15}>{boxOutline}</React.Fragment>)
-        }
-        return returnedDots
+        
     }
 
     const tenPointAttRetrun = (attribute) => {
