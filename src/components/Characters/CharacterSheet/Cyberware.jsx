@@ -11,10 +11,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
+
 export default function CharacterSheetCyberware() {
 
     const characterCyberware = useSelector(store => store.characterGear.cyberware)
+    
     return (<>
+        <Grid container>
+            <Grid item xs={12}>
+                <Item><CharacterSheetHeaderDialog prop={'Cyberware'} /></Item>
+            </Grid>
+        </Grid>
         <Grid item xs={12}>
             <TableContainer component={Paper}>
                 <h3>My Cyberware</h3>
@@ -23,7 +31,7 @@ export default function CharacterSheetCyberware() {
                         <TableRow hover>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Type</TableCell>
+                            
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -34,7 +42,7 @@ export default function CharacterSheetCyberware() {
                                         <TableRow hover key={i}>
                                             <TableCell>{row.name} </TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
-                                            <TableCell>{row.type} </TableCell>
+                                            
                                         </TableRow>
                                     </React.Fragment>)
                             }

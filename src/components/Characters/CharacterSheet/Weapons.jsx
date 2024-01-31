@@ -243,10 +243,13 @@ function Weapons() {
                 </Alert>
             </Snackbar>
 
-            <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid container>
+                <Grid item xs={12} paddingBottom={2}>
                     <Item><CharacterSheetHeaderDialog prop={'Weapons'} /></Item>
+                </Grid>
             </Grid>
+
+            <Grid container spacing={2}>
                 {/* cycle through weapons and list melee weapons up top */}
                 {/* Starting with cyberweapons */}
                 {characterCyberware.map(cyberware => {

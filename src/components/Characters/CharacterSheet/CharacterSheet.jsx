@@ -49,17 +49,17 @@ function CharacterSheet() {
         dispatch({ type: "FETCH_CHARACTER_DETAIL", payload: params.id })
         dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id });
         dispatch({ type: "FETCH_MASTER_LISTS" })
-        dispatch({ type: "SET_SAVED_FALSE"})
+        dispatch({ type: "SET_SAVED_FALSE" })
     }, [])
 
     useEffect(() => {
-        if (charDetail.saved){
+        if (charDetail.saved) {
             setShowSnackbar(true)
             console.log(`saved now.`);
         } else {
             console.log(`Not Saved`);
         }
-        
+
     }, [charDetail])
 
     // run on page load and start again when a change is made.
@@ -93,17 +93,17 @@ function CharacterSheet() {
     if (charDetail.id) {
         return (
             <>
-            <Snackbar
-                TransitionComponent={TransitionUp}
-                autoHideDuration={2000}
-                open={showSnackbar}
-                onClose={() => setShowSnackbar(false)}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            >
-                <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
-                    Character Save Successful
-                </Alert>
-            </Snackbar>
+                <Snackbar
+                    TransitionComponent={TransitionUp}
+                    autoHideDuration={2000}
+                    open={showSnackbar}
+                    onClose={() => setShowSnackbar(false)}
+                    anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                >
+                    <Alert onClose={() => setShowSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                        Character Save Successful
+                    </Alert>
+                </Snackbar>
 
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container marginBottom={2}>
@@ -149,9 +149,7 @@ function CharacterSheet() {
                                 </Tabs>
 
                                 {selectedInventory === 'weapons' ? (<>
-                                    <Grid item xs={12}>
-                                        <Weapons />
-                                    </Grid>
+                                    <Weapons />
                                 </>) : <></>}
 
                                 {selectedInventory === 'backpack' ? (<>

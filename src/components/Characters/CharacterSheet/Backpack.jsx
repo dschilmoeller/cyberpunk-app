@@ -12,6 +12,9 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { Grid } from '@mui/material';
 
+import Item from './Item';
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -122,7 +125,7 @@ export default function Backpack() {
                                 <TableCell key={headCell.id}
                                     align={'left'}
                                     padding={'normal'}
-                                    >
+                                >
                                     {headCell.label}
                                 </TableCell>
                             )
@@ -253,6 +256,11 @@ export default function Backpack() {
                     NOM NOM NOM!
                 </Alert>
             </Snackbar>
+            <Grid container>
+                <Grid item xs={12} paddingBottom={4}>
+                    <Item><CharacterSheetHeaderDialog prop={'Backpack'} /></Item>
+                </Grid>
+            </Grid>
 
             <Grid container>
                 <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
@@ -274,7 +282,7 @@ export default function Backpack() {
 
                 {/* <Grid item xs={8} /> */}
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
-                
+
                 {/* <Grid item xs={2} /> */}
             </Grid>
 

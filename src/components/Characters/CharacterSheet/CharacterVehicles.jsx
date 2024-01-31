@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Item from './Item';
 import { Button } from '@mui/material';
 import VehicleModDialog from '../../Modals/VehicleModDialog';
-
-// list vehicles. Damage track. Mods -> Weapons.
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
 
 export default function CharacterVehicles() {
     const charVehicles = useSelector((store) => store.characterGear.vehicles)
@@ -111,6 +110,12 @@ export default function CharacterVehicles() {
     }
 
     return (<>
+        <Grid container>
+            <Grid item xs={12} paddingBottom={2}>
+                <Item><CharacterSheetHeaderDialog prop={'Vehicles'} /></Item>
+            </Grid>
+        </Grid>
+
         <Grid container spacing={1}>
             {charVehicles.map(item => {
                 return (

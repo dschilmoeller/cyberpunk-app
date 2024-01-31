@@ -59,6 +59,32 @@ export default function CharacterSheetHeaderDialog({ prop }) {
                         <Grid item padding={1} xs={12}>Below weapons grenades are listed; these include the name and range they can be thrown, based on the character's strength.</Grid>
                     </Grid>
                 </>)
+            case 'Backpack':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>This is your backpack! Miscellaneous items can be found and consumed here, including food, pharmaceuticals, and other consumables.</Grid>
+                        <Grid item padding={1} xs={12}>For the convenience of your GM, you can add and remove arbitrary amounts of money from your backpack as well.</Grid>
+                    </Grid>
+                </>)
+            case 'Cyberware':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>This is simple, alphabetical list of your equipped cyberware.</Grid>
+                    </Grid>
+                </>)
+            case 'Vehicles':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>This lists your vehicle's vital stats, as well as their equipped mods. Vehicular weapons are also listed.</Grid>
+                    </Grid>
+                </>)
+            case 'Notes':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>This area is for your personal notes. They can be added, edited, deleted, and favorited.</Grid>
+                        <Grid item padding={1} xs={12}>Notes will appear in order created; favorited notes will be at the top.</Grid>
+                    </Grid>
+                </>)
             default:
                 return 'default'
         }

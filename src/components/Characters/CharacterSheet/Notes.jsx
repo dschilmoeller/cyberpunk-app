@@ -11,6 +11,8 @@ import { Icon } from '@mui/material';
 import GradeIcon from '@mui/icons-material/Grade';
 
 import CharacterNoteEdit from '../../Modals/CharacterNoteEdit';
+import Item from './Item';
+import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
 
 export default function CharacterSheetNotes() {
 
@@ -19,6 +21,11 @@ export default function CharacterSheetNotes() {
 
     return (
         <>
+        <Grid container>
+                <Grid item xs={12} paddingBottom={2}>
+                    <Item><CharacterSheetHeaderDialog prop={'Notes'} /></Item>
+                </Grid>
+            </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={1}>
                     <Grid item xs={3}></Grid>

@@ -23,8 +23,10 @@ export default function CharacterSheetContacts() {
 
     return (
         <>
-            <Grid item xs={12}>
+            <Grid container>
+                <Grid item xs={12} paddingBottom={1}>
                     <Item><CharacterSheetHeaderDialog prop={'Contacts'} /></Item>
+                </Grid>
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={1}>
