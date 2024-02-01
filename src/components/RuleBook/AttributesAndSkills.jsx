@@ -168,10 +168,10 @@ export default function RulebookAttSkills() {
                     <Grid item xs={12}><Typography variant='h4'>Other Attributes: Luck</Typography>
                         <Grid container>
                             <Grid item xs={12}>Luck has a number of uses for a character. Characters can expend a point of temporary luck to do any of the following. A character cannot spend more than one point of luck each round.</Grid>
-                            <Grid item xs={12}><b>Just Plain Lucky:</b>A character can add a single success - add a die that came up 10. This can be declared after the result of a roll is known.</Grid>
-                            <Grid item xs={12}><b>Doesn't Even Sting:</b>This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
-                            <Grid item xs={12}><b>Trust in The Lady:</b>A character can redo a single roll - they have to take the new result.</Grid>
-                            <Grid item xs={12}><b>A Kiss While Dying:</b> Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
+                            <Grid item xs={12}><b>Just Plain Lucky: </b>A character can add a single success - add a die that came up 9. This <b>can</b> be declared after the result of a roll is known.</Grid>
+                            <Grid item xs={12}><b>Doesn't Even Sting: </b>This must be declared before rolling. A character can ignore any wound penalties they have for one turn.</Grid>
+                            <Grid item xs={12}><b>Trust in The Lady: </b>A character can redo a single roll - they have to take the new result.</Grid>
+                            <Grid item xs={12}><b>A Kiss While Dying: </b> Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
                         </Grid>
                         <Grid item xs={12}>Characters can also expend one point of luck <b>permanently</b> to perform a single action while incapacitated. They cannot spend temporary luck in the same turn.</Grid>
                     </Grid>
