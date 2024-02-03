@@ -310,16 +310,16 @@ export default function RulebookRoles() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container>
-                        <Grid item padding={.5} xs={12}>
+                    <Grid item padding={.5} xs={12}>
                             <h1>Credibility</h1>
-                            A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, gain additional contacts, and assists in digging up new information, rumors..
+                            A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, gain additional contacts, and assists in digging up new information.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Rumors:</h3>
-                            Medias are deeply plugged into (often suspect) information networks, rumor mills, and bullshit factories. They have hosts of friends, contacts, acquaintances, and drinking buddies. Assuming they're not intentionally staying off grid, simply maintaining these networks requires the GM to make secret rolls to see what kinds of information makes its way into the Media's hot little hands each week. This is the same kind of information that any character can find by hitting the street (ie. using Streetwise or Investigation to track down information), but requires no legwork on the Media's part.
+                            Medias are deeply plugged into (often suspect) information networks, rumor mills, and bullshit factories. They have hosts of friends, contacts, acquaintances, and drinking buddies. Assuming they're not intentionally staying off grid, the GM should make a passive data collection roll for the Media periodically - they'll pick up all kinds of strange information over time, and it's the GM's call whether any of it relevant to the campaign generally or any job they're working more specifically.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
-                            Like other characters, a Media can attempt to find information out intentionally. For each week of game time, the GM should make a passive data collection roll for the Media - they'll pick up all kinds of strange information over time, and it's the GM's call whether any of it relevant to the campaign generally or any job they're working more specifically.
+                            This is the same kind of information that any character can find by hitting the street (ie. using Streetwise or Investigation to track down information), but requires no legwork on the Media's part. Like other characters, a Media can attempt to find information out intentionally.
                         </Grid>
                         <Grid item padding={.5} marginBottom={1} xs={12}>
                             Depending on their style, Medias roll Credibility, plus one of Cool + Streetwise (Citizen Reporter), Technique + Etiquette (Professional Journalism), or Appearance + Performance (Social Media Maven) in order to gather information. Their base DV is 9, and the result is based on the number of successes. The kinds of rumors they'll pick up should be influenced by their style - A citizen reporter is going to get an ants-eye view of the universe from low level workers, while the ProJo is going more likely to find a Deep Throat board memmber. The Social Media tends to find more out about the personal lives of people they're looking into. The base DV is lowered depending on how much time the Media is able to spend looking into a subject (person, place, product, corp, etc) - as a guideline, DV9 is about 15 minutes of digging. Spending a couple hours on a subject should be DV8, a whole day should be DV7, and a week DV6.

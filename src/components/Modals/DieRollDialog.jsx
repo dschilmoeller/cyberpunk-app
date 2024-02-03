@@ -71,17 +71,19 @@ export default function DieRollDialog() {
         setSelectedDifficulty(event.target.value);
     };
 
-    const [usingLuck, setUsingLuck] = React.useState(false)
+    // const [usingLuck, setUsingLuck] = React.useState(false)
+
     // prevent using luck if none is available - character sheet only.
-    const checkUsingLuck = (incoming) => {
-        if ((charStatus.current_luck_loss < charDetails.max_luck) || charDetails.max_luck == undefined)
-            setUsingLuck(incoming)
-    }
+    // const checkUsingLuck = (incoming) => {
+    //     if ((charStatus.current_luck_loss < charDetails.max_luck) || charDetails.max_luck == undefined)
+    //         setUsingLuck(incoming)
+    // }
 
     const [showResult, setShowResult] = React.useState(false)
     const [rollResult, setRollresult] = React.useState('')
 
-    function difficultyRoll(amount, isExploding, difficulty) {
+    // function difficultyRoll(amount, isExploding, difficulty) {
+    function difficultyRoll(amount, isInitiative, difficulty) {
         // see if a roll has occurred recently
         if (allowRoll == true) {
             // Gets a number b/w 1 and 10
@@ -90,7 +92,7 @@ export default function DieRollDialog() {
                 // const max = Math.floor(11);
                 // return Math.floor(Math.random() * (max - min) + min);
                 // It would be wrong to increase the chance of failure to 14.3%, right?
-                const arr = [1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10]
+                const arr = [1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
                 console.log(arr.length);
                 return arr[Math.floor(Math.random() * arr.length)];
             }
@@ -105,33 +107,33 @@ export default function DieRollDialog() {
             }
 
             // Sorts randomInt and increases number of dice rolled for each 10 that occurs
-            function explodingDiceSorted(amount) {
-                let dieArray = []
-                for (let i = 0; i < amount; i++) {
-                    let dieRolled = getRandomInt()
-                    if (dieRolled == 10) {
-                        amount += 1
-                    }
-                    dieArray.push(dieRolled)
-                }
-                return dieArray.sort((a, b) => (a - b));
-            }
+            // function explodingDiceSorted(amount) {
+            //     let dieArray = []
+            //     for (let i = 0; i < amount; i++) {
+            //         let dieRolled = getRandomInt()
+            //         if (dieRolled == 10) {
+            //             amount += 1
+            //         }
+            //         dieArray.push(dieRolled)
+            //     }
+            //     return dieArray.sort((a, b) => (a - b));
+            // }
 
             let resultArray;
             let successes = 0;
             let glitches = 0;
 
-            if (isExploding === true) {
-                resultArray = explodingDiceSorted(amount)
-            } else {
+            // if (isExploding === true) {
+            //     resultArray = explodingDiceSorted(amount)
+            // } else {
                 resultArray = rollDiceSorted(amount)
-            }
+            // }
 
             let totalTens = 0;
 
             successes = resultArray.filter((die) => die >= difficulty);
             successes.map(success => {
-                if (success == 10){
+                if (success == 10) {
                     totalTens += 1;
                     if (totalTens == 2) {
                         totalTens = 0;
@@ -143,7 +145,6 @@ export default function DieRollDialog() {
 
             glitches = resultArray.filter((die) => die == 1);
 
-            console.log(`Successes:`, successes);
             let outcome = 0;
 
             // always being plural makes my eye twitch.
@@ -184,16 +185,24 @@ export default function DieRollDialog() {
                 }
             }
 
+            // list initiative outcome
+            let initiativeResult = charDetails.reflexes + charDetails.cyber_reflexes + successes.length - glitches.length
+
             // Display: You rolled the following: [], resulting in {successes} hits and {glitches} glitches. You have {outcome}!
-            setRollresult(`${dieResultText}. This is a ${outcome}`)
+            if (isInitiative === true) {
+                setRollresult(`${dieResultText}. Your initiative is ${initiativeResult}.`)
+            } else {
+                setRollresult(`${dieResultText}. This is a ${outcome}`)
+            }
+            
             // clean up 'using luck', prevent rolling for a momment, and make the dice spin (prevention & rolling timer reset in UseEffect)
-            setUsingLuck(false)
+            // setUsingLuck(false)
             setAllowRoll(false)
             setDieClass('spin-die')
             // burn one luck if allowed.
-            if (usingLuck == true && (charStatus.current_luck_loss < charDetails.max_luck)) {
-                dispatch({ type: 'REMOVE_ONE_LUCK' })
-            }
+            // if (usingLuck == true && (charStatus.current_luck_loss < charDetails.max_luck)) {
+            //     dispatch({ type: 'REMOVE_ONE_LUCK' })
+            // }
 
         }
     }
@@ -204,7 +213,8 @@ export default function DieRollDialog() {
         for (let i = 0; i < selectedIndex; i++) {
             diceSVGArray.push(
                 <React.Fragment key={i}>
-                    <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, usingLuck, selectedDifficulty)} onMouseEnter={() => setSelectedDieIndex(i + 1)}>
+                    {/* <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, usingLuck, selectedDifficulty)} onMouseEnter={() => setSelectedDieIndex(i + 1)}> */}
+                    <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, false, selectedDifficulty)} onMouseEnter={() => setSelectedDieIndex(i + 1)}>
                         <DiceTenHighlighted prop={{ class_id: dieClass }} />
                     </Grid>
                 </React.Fragment>
@@ -272,17 +282,17 @@ export default function DieRollDialog() {
 
             <div className='navLink' fullwidth="true" onClick={handleClickOpen('paper')}>Roll Some Dice</div>
             <Dialog
-            PaperProps={{
-                sx: {
-                    minHeight: '80vh'
-                }
-            }}
+                PaperProps={{
+                    sx: {
+                        minHeight: '80vh'
+                    }
+                }}
                 open={open}
                 onClose={handleClose}
                 scroll={scroll}
                 maxWidth='lg'
                 fullWidth
-                
+
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
@@ -307,7 +317,8 @@ export default function DieRollDialog() {
 
                                     <Grid item xs={3} />
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        // onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), true, selectedDifficulty)}
                                     >
                                         <Button fullWidth variant='contained' color='secondary'
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
@@ -317,16 +328,16 @@ export default function DieRollDialog() {
                                     <Grid item xs={3} />
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), false, selectedDifficulty)}
                                     >
-                                        <Button fullWidth variant='contained' 
+                                        <Button fullWidth variant='contained'
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
                                         >
                                             Melee Attack / Parry - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), false, selectedDifficulty)}
                                     >
                                         <Button fullWidth variant='contained'
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.firearms) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}
@@ -335,14 +346,14 @@ export default function DieRollDialog() {
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + 0) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + 0) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), false, selectedDifficulty)}
                                     >
                                         <Button fullWidth variant='contained' onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}>
                                             Quick Dodge - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>
                                     </Grid>
 
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), false, selectedDifficulty)}
                                     >
                                         <Button fullWidth variant='contained' onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}>
                                             Evade - {dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.evasion) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes))}d10 @ DV {selectedDifficulty}</Button>

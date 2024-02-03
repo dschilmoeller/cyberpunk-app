@@ -385,65 +385,137 @@ export default function RoleAbilitiesDialog({ prop }) {
                 )
             case 'Media':
                 return (
-                    <Grid container fontFamily={'serif'}>
+                    <Grid container>
                         <Grid item padding={.5} xs={12}>
                             <h1>Credibility</h1>
-                            A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, and assists in digging up new information, rumors, and the like.
+                            A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, gain additional contacts, and assists in digging up new information.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Rumors:</h3>
-                            Medias are deeply plugged into (often suspect) information networks, rumor mills, and bullshit factories. They have hosts of friends, contacts, acquaintances, and drinking buddies. Assuming they're not intentionally staying off grid, simply maintaining these networks requires the GM to make secret rolls to see what kinds of information makes its way into the Media's hot little hands each week. This is the same kind of information that any character can find by hitting the street (ie. using Streetwise or Investigation to track down information), but requires no legwork on the Media's part.
+                            Medias are deeply plugged into (often suspect) information networks, rumor mills, and bullshit factories. They have hosts of friends, contacts, acquaintances, and drinking buddies. Assuming they're not intentionally staying off grid, the GM should make a passive data collection roll for the Media periodically - they'll pick up all kinds of strange information over time, and it's the GM's call whether any of it relevant to the campaign generally or any job they're working more specifically.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
-                            Like other characters, a Media can attempt to find information out intentionally. The passive DV is lower, but only occurs 1/week of in game time - they might hear a lot more, but only one item will likely be credible.
+                            This is the same kind of information that any character can find by hitting the street (ie. using Streetwise or Investigation to track down information), but requires no legwork on the Media's part. Like other characters, a Media can attempt to find information out intentionally.
+                        </Grid>
+                        <Grid item padding={.5} marginBottom={1} xs={12}>
+                            Depending on their style, Medias roll Credibility, plus one of Cool + Streetwise (Citizen Reporter), Technique + Etiquette (Professional Journalism), or Appearance + Performance (Social Media Maven) in order to gather information. Their base DV is 9, and the result is based on the number of successes. The kinds of rumors they'll pick up should be influenced by their style - A citizen reporter is going to get an ants-eye view of the universe from low level workers, while the ProJo is going more likely to find a Deep Throat board memmber. The Social Media tends to find more out about the personal lives of people they're looking into. The base DV is lowered depending on how much time the Media is able to spend looking into a subject (person, place, product, corp, etc) - as a guideline, DV9 is about 15 minutes of digging. Spending a couple hours on a subject should be DV8, a whole day should be DV7, and a week DV6.
+                        </Grid>
+                        <Grid item padding={.5} xs={12}>
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
                                         <TableRow hover>
+                                            <TableCell align="left">Successes</TableCell>
                                             <TableCell align="left">Rumor Quality</TableCell>
                                             <TableCell align="left">Description</TableCell>
-                                            <TableCell align="left">Passive DV</TableCell>
-                                            <TableCell align="left">Active DV (Media)</TableCell>
-                                            <TableCell align="left">Active DV (All others)</TableCell>
+
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         <TableRow hover>
+                                            <TableCell>0</TableCell>
+                                            <TableCell>No result</TableCell>
+                                            <TableCell>The character makes no progress on finding information relevant to the subject they're investigating.</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>1-2</TableCell>
                                             <TableCell>Vague</TableCell>
-                                            <TableCell>Rumor is hazy and has only the bare minimum information needed to look into it further.</TableCell>
-                                            <TableCell>5</TableCell>
-                                            <TableCell>6</TableCell>
-                                            <TableCell>7</TableCell>
+                                            <TableCell>The character finds something on the subject, but it's of dubious use - finding out the public history of a given person or place, someone's professional CV, etc..</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
+                                            <TableCell>3-4</TableCell>
                                             <TableCell>Typical</TableCell>
-                                            <TableCell>The rumor contains minimal information, but does offer a concrete lead on where to find more information.</TableCell>
-                                            <TableCell>6</TableCell>
-                                            <TableCell>7</TableCell>
-                                            <TableCell>8</TableCell>
+                                            <TableCell>The character finds a decent amount of information; they are also able to better filter the information out. They are able to find out a bit more about the subject of their investigation, including some things they might not necessarily want everyone to know. Some of it is likely inaccurate, but there should be a nugget of something useful.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
+                                            <TableCell>5-6</TableCell>
                                             <TableCell>Substantial</TableCell>
-                                            <TableCell>As a typical rumor, but some details of the subject may be available. Multiple avenues to follow up may be included, along with names, places, dates, or times.</TableCell>
-                                            <TableCell>7</TableCell>
-                                            <TableCell>8</TableCell>
-                                            <TableCell>9</TableCell>
+                                            <TableCell>The character has found out a lot about their subject, including something that will absolutely be directly useful to the mission at hand - whether they know it or not. GMs are encouraged to be devious on the subject. They also likely find out quite a lot of nonsense on the subject. They should further be able to ask a couple of follow up questions to the GM.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
-                                            <TableCell>Details</TableCell>
-                                            <TableCell>Contains enough information to be published on its own - either someone got sloppy and left too many tracks, or a Deep Throat in the organization spawning the rumor is looking to get the story out.</TableCell>
-                                            <TableCell>8</TableCell>
-                                            <TableCell>9</TableCell>
-                                            <TableCell>9 (3+ hits)</TableCell>
+                                            <TableCell>7+</TableCell>
+                                            <TableCell>Detailed</TableCell>
+                                            <TableCell>The character is able to put together something genuinely useful and informative on their subject. The GM should volunteer 1-2 pieces of useful data, and answer any reasonable questions the PC has on the subject.</TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Grid>
+
+                        <Grid item xs={12} padding={.5}>
+                            <h3>Contacts:</h3>
+                            Characters gain contacts each time they gain a rank in Media. The GM is encouraged to be creative when handing these out; that being said they shouldn't be wholly useless. Medias gain a pool of points each rank based on their Credibility score; new contacts split the points between Connection and Loyalty up to the maximums in the table below.
+                        </Grid>
+                        <Grid item xs={12} padding={.5} marginBottom={1}>
+                            Making new connections is what being a Media is all about - just about anyone they interact with is a potential contact. They should always be on the lookout for new contacts, and the GM is encouraged to be liberal with their distribution.
+                        </Grid>
+                        <Grid item xs={6} padding={.5}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                    <TableHead>
+                                        <TableRow hover>
+                                            <TableCell align="left">Credibility</TableCell>
+                                            <TableCell align="left">Points to spend (each rank)</TableCell>
+                                            <TableCell align="left">Max Connection</TableCell>
+                                            <TableCell align="left">Max Loyalty</TableCell>
+
+
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow hover>
+                                            <TableCell>1</TableCell>
+                                            <TableCell>4</TableCell>
+                                            <TableCell>2</TableCell>
+                                            <TableCell>0</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>2-3</TableCell>
+                                            <TableCell>6</TableCell>
+                                            <TableCell>3</TableCell>
+                                            <TableCell>1</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>4-5</TableCell>
+                                            <TableCell>10</TableCell>
+                                            <TableCell>4</TableCell>
+                                            <TableCell>2</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>6-7</TableCell>
+                                            <TableCell>14</TableCell>
+                                            <TableCell>5</TableCell>
+                                            <TableCell>3</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>8-9</TableCell>
+                                            <TableCell>18</TableCell>
+                                            <TableCell>6</TableCell>
+                                            <TableCell>4</TableCell>
+                                        </TableRow>
+
+                                        <TableRow hover>
+                                            <TableCell>10</TableCell>
+                                            <TableCell>24</TableCell>
+                                            <TableCell>7</TableCell>
+                                            <TableCell>5</TableCell>
+                                        </TableRow>
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
                     </Grid>
+
                 )
             case 'Medtech':
                 return (
