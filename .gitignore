@@ -13,6 +13,7 @@ yarn-debug.log*
 yarn-error.log*
 notes.txt
 notes2.txt
+bugreports.txt
 database2.sql
 
 # Runtime data

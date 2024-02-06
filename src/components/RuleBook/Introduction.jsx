@@ -4,8 +4,7 @@ import { Grid } from '@mui/material';
 export default function RulebookIntroduction() {
 
     return (
-
-
+        
         <Grid container spacing={1} padding={1}>
 
             <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
