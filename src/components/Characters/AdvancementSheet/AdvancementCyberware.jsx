@@ -164,7 +164,8 @@ export default function AdvancementCyberware() {
             }
         } else {
             // Checks if purely identical 'ware is already equipped.
-            // allowed duplicates are ignored (memory chips); some such as cyberarms w/ Borg Shoulders are checked in equipCyber() below already.
+            // allowed duplicates are ignored (memory chips); 
+            // cyberarms are checked as they have conditional allowance (ie Borg Shoulders) and are checked in equipCyber() below already.
             for (let i = 0; i < charCyberware.length; i++) {
                 if (charCyberware[i].cyberware_master_id === incomingCyber.cyberware_master_id && charCyberware[i].equipped === true) {
                     if (charCyberware[i].name === 'Memory chip'
@@ -201,9 +202,11 @@ export default function AdvancementCyberware() {
                     // check if attribute enhancing cyberware has been equipped and inform reducer if so.
                     switch (incomingCyber.name) {
                         case 'Light Tattoo':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance + 1) } })
+                            break;
                         case 'Techhair':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 1 } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool + 1) } })
+                            break;
                     }
                     break;
                 } else {
@@ -266,6 +269,9 @@ export default function AdvancementCyberware() {
                             break;
                         case 'Algernonic Subprocessors V':
                             dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 5 } })
+                            break;
+                        case 'Nervous System Regulator':
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool + 1 ) } })
                             break;
                     }
                     break;
@@ -368,6 +374,9 @@ export default function AdvancementCyberware() {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 2, healthBoxes: 1 } })
                     } else if (incomingCyber.name === 'Subdermal Armor') {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 3, healthBoxes: 2 } })
+                    } else if (incomingCyber.name === 'Chromed Exo-Armor') {
+                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 4, healthBoxes: 2 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance + 1) } })
                     } else if (incomingCyber.name === 'Body Plating') {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 5, healthBoxes: 3 } })
                     }
@@ -510,9 +519,11 @@ export default function AdvancementCyberware() {
                 setFashionSlots(fashionSlots + 1)
                 switch (incomingCyber.name) {
                     case 'Light Tattoo':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 0 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance - 1) } })
+                        break;
                     case 'Techhair':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 0 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool - 1) } })
+                        break;
                     default:
                         break;
                 }
@@ -550,6 +561,9 @@ export default function AdvancementCyberware() {
                         case 'Algernonic Subprocessors IV':
                         case 'Algernonic Subprocessors V':
                             dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 0 } })
+                            break;
+                        case 'Nervous System Regulator':
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool - 1 ) } })
                             break;
                         default:
                             break;
@@ -616,6 +630,9 @@ export default function AdvancementCyberware() {
                         dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -2, healthBoxes: -1 } })
                     } else if (incomingCyber.name === 'Subdermal Armor') {
                         dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
+                    } else if (incomingCyber.name === 'Chromed Exo-Armor') {
+                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: -4, healthBoxes: -2 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance - 1) } })
                     } else if (incomingCyber.name === 'Body Plating') {
                         dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
                     }
@@ -641,7 +658,9 @@ export default function AdvancementCyberware() {
                 if (incomingCyber.name === 'Cyberleg - Right' || incomingCyber.name === 'Cyberleg - Left') {
                     setCyberlegSlots(cyberlegSlots - 3)
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots - 3 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { 
+                        totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), 
+                        minLoss: Number(incomingCyber.humanity_loss_min) } })
                     dispatch({ type: 'CYBERLIMB_REMOVED' })
                     break;
                 } else {
@@ -666,7 +685,15 @@ export default function AdvancementCyberware() {
     }
 
     const humanityLossCalculator = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1) + min)
+        // This will generate a number b/w min and max values. This can generate a 0, but the final return should always be at least 1.
+        // the advancementDetail reducer -> Humanity_loss_cyberware handles sorting between permanent and temp humanity losses.
+        const loss = Math.floor(Math.random() * (max - min + 1) + min)
+        if (loss > 0){
+            return loss
+        } else {
+            return 1
+        }
+        
     }
 
     return (<>

@@ -588,6 +588,7 @@ VALUES
 ('Algernonic Subprocessors III',25000,'A highly advanced intelligence booster chip. Contains a Small helper AI to assist with cognitive loads.',0,0,'Chip','neuralware', true),
 ('Algernonic Subprocessors IV',75000,'An extremely advanced intelligence booster chip. Can make an average dullard into a Weapons Grade Savant.',0,0,'Chip','neuralware', true),
 ('Algernonic Subprocessors V',1000000,'If this existed it would definitely be used to cheat at Jeapordy.',0,0,'Chip','neuralware', true),
+('Nervous System Regulator', 25000,'A chip that seizes control of much of the users autonomic nervous system, bringing heart rate, breathing, blood pressure, and the like under manual control. Grants +1 Cool.',0,0,'Chip','neuralware',true),
 ('Basic Cybereyes',100,'A pair of artificial eyes with 3 option slots. Includes the ability to change colors and patterns, a HUD, simple video recordings, and viewing Augmented Reality.',1,4,'Clinic','cyberoptics', false),
 ('Anti-Dazzle System',100,'Makes the user immune to the effects of flashes and strobes.',0,0,'Mall','cyberoptics', false),
 ('Dartgun',500,'Single shot dart that can be loaded with poison.',0,0,'Clinic','cyberoptics', false),
@@ -630,6 +631,7 @@ VALUES
 ('Nasal Filters',5000,'Makes owner immune to most airborne toxins and gases.',1,6,'Hospital','internalware', false),
 ('Skin Weave',500,'Weaves resistant material directly into the skin. Increases armor by 2 and adds 1 health box.',1,4,'Hospital','externalware', false),
 ('Subdermal Armor',1000,'Implanted armor beneath the skin. Increases armor by 3 and adds 2 health boxes.',1,4,'Hospital','externalware', false),
+('Chromed Exo-Armor',25000,'Armor mounted to surgically implanted hard points across the users body, and polished to a high shine. May include fiber optic light designs, chameleon coatings, and the like. Grants +1 Appearance, +4 Armor, and +2 Health Boxes.',2,6,'Hospital','externalware',true),
 ('Body Plating',50000,'Bonds armor plating directly to the user\'s bone in an extremely unsettling way. Generally considered the last step before one goes full cyborg. Increases armor by 5 and adds 3 health boxes. This armor is also considered Hardened (rules).',2,6,'Hospital','externalware', false),
 ('Cyberarm - Right',500,'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.',2,6,'Hospital','cyberarm', false),
 ('Cyberarm - Left',500,'Replacement arm. Standard issue looks like an angular robotic limb. Grants 1 additional health box.',2,6,'Hospital','cyberarm', false),
@@ -661,8 +663,8 @@ VALUES
 ('Artificial Shoulder Mount',1000,'Allows user to mount an additional pair of cyberlimbs under their normal arms.',3,9,'Hospital','borgware', false),
 ('MultiOptic Mount',1000,'(BETA - Does not work) Gives user 5 additional cybereye slots.',3,9,'Hospital','borgware', true),
 ('Sensor Array',1000,'(BETA - Does not work) Gives user 5 additional cyberear slots.',3,9,'Hospital','borgware', true),
-('Linear Frame Alpha',50000,'Grafted exoskeleton with built in power supply. Adds 5 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',5,15,'Hospital','borgware', true),
-('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply. Adds 6 armor and 4 health boxes. Increases Strength and Body by 4. Decreases Reflexes by 2. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',6,18,'Hospital','borgware', true);
+('Linear Frame Alpha',50000,'Grafted exoskeleton with built in power supply for heavy manual labor. Adds 5 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',5,15,'Hospital','borgware', true),
+('Linear Frame Beta',150000,'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply, designed for combat. Adds 8 armor and 6 health boxes. Increases Strength and Body by 4. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',6,18,'Hospital','borgware', true);
 
 INSERT INTO "public"."armor_master"("name", "quality", "price", "description")
 VALUES (
@@ -1135,3 +1137,4 @@ ADD CONSTRAINT contact_id_pk1 FOREIGN KEY (contact_id) REFERENCES contact_master
 
 -- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
 -- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.
+

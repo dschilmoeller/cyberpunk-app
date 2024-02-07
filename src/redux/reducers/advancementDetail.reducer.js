@@ -48,17 +48,16 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
                 temp_humanity_loss: action.payload,
                 spent_xp: Number(state.spent_xp + 1)
             }
-        // this is from equipping / removing cyberware.
+        // this is from equipping / removing cyberware. MinLoss is the permanent humanity loss; 
+        // total loss is MinLoss + a variable number determined by the cyberware's max humanity loss rating.
         case 'HUMANITY_LOSS_CYBERWARE':
             return {
                 ...state,
                 perm_humanity_loss: Number(state.perm_humanity_loss + action.payload.minLoss),
-                // the -1 is a choice, I guess. Comes from Advancement Cyberware humanityLossCalculator() function which adds a 1 somewhere.
-                temp_humanity_loss: Number(state.temp_humanity_loss + action.payload.totalLoss - 1)
+                temp_humanity_loss: Number(state.temp_humanity_loss + (action.payload.totalLoss - action.payload.minLoss))
             }
         case 'HUMANITY_RECOVERY_CYBERWARE':
-            // determine total of current temp humanity loss + payload
-            let newTotalTempHumanityLoss = (state.temp_humanity_loss - (action.payload.totalLoss - 1))
+            let newTotalTempHumanityLoss = (state.temp_humanity_loss - (action.payload.totalLoss - action.payload.minLoss))
             // if newTotalTempHumanityLoss is > 0, tempHumanityLost is newTotal
             let tempHumanityLoss = 0
             if (newTotalTempHumanityLoss > 0) {
