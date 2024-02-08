@@ -199,7 +199,7 @@ export default function GameMasterMain() {
 
         <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
-            <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank}</Grid>
+            <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank.toLocaleString()}</Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(10)}>Add $10 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(100)}>Add $100 </Button></Grid>

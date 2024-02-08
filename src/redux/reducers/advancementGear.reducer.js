@@ -8,6 +8,7 @@ const advancementGear = (state = {
     netrunnerGear: [],
     vehicles: [],
     vehicleMods: [],
+    clothes: [],
     cyberwareSlots: {},
     totalArmorQuality: 0,
     totalShieldQuality: 0,
@@ -40,7 +41,10 @@ const advancementGear = (state = {
     vehicleModID: 0,
     boughtCyberware: [],
     soldCyberware: [],
-    cyberwareID: 0
+    cyberwareID: 0,
+    boughtClothes: [],
+    soldClothes: [],
+    clothingID: 0
 }, action) => {
     switch (action.type) {
         // Set initial state from DB
@@ -64,6 +68,7 @@ const advancementGear = (state = {
                 netrunnerGear: [],
                 vehicles: [],
                 vehicleMods: [],
+                clothes: [],
                 cyberwareSlots: {},
                 totalArmorQuality: 0,
                 totalShieldQuality: 0,
@@ -96,7 +101,10 @@ const advancementGear = (state = {
                 vehicleModID: 0,
                 boughtCyberware: [],
                 soldCyberware: [],
-                cyberwareID: 0
+                cyberwareID: 0,
+                boughtClothes: [],
+                soldClothes: [],
+                clothingID: 0
             }
 
         case 'SET_ADVANCEMENT_GEAR':
@@ -111,7 +119,8 @@ const advancementGear = (state = {
                 cyberwareSlots: action.payload.cyberwareSlots,
                 netrunnerGear: action.payload.netrunnerGear,
                 vehicles: action.payload.vehicles,
-                vehicleMods: action.payload.vehicleMods
+                vehicleMods: action.payload.vehicleMods,
+                clothes: action.payload.clothes
             }
         case 'SET_ADVANCEMENT_MISC_GEAR':
             return {
@@ -352,7 +361,54 @@ const advancementGear = (state = {
                 ...state,
                 totalCyberwareHealthBoxesCreated: state.totalCyberwareHealthBoxesCreated - 1
             }
-
+        case 'EQUIP_CLOTHES':
+            return {
+                ...state,
+                clothes: state.clothes.map(item => {
+                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
+                        item.equipped = true
+                        return item
+                    } else {
+                        return item
+                    }
+                }),
+            }
+        case 'UNEQUIP_CLOTHES':
+            return {
+                ...state,
+                clothes: state.clothes.map(item => {
+                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
+                        item.equipped = false
+                        return item
+                    } else {
+                        return item
+                    }
+                }),
+            }
+        case 'IMPROVE_CLOTHING':
+            return {
+                ...state,
+                clothes: state.clothes.map(item => {
+                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
+                        item.rank = action.payload.rank + 1
+                        return item
+                    } else {
+                        return item
+                    }
+                })
+            }
+        case 'DEGRADE_CLOTHING':
+            return {
+                ...state,
+                clothes: state.clothes.map(item => {
+                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
+                        item.rank = action.payload.rank - 1
+                        return item
+                    } else {
+                        return item
+                    }
+                })
+            }
         // SHOPPING
         // when buying armor, put into a new area of the reducer for use with a PUT command
         case 'BUY_ARMOR':
@@ -693,6 +749,33 @@ const advancementGear = (state = {
                     }
 
                 })
+            }
+        case 'BUY_CLOTHING':
+            return {
+                ...state,
+                boughtClothes: [...state.boughtClothes,
+                {
+                    description: action.payload.item.description,
+                    clothing_master_id: action.payload.item.clothing_master_id,
+                    name: action.payload.item.name,
+                    // note different than others as price is the result of an equation (10*quality^2*rank^2) rather than inherent to the master item.
+                    price: action.payload.price,
+                    quality: action.payload.item.quality,
+                    clothingID: action.payload.clothingID,
+                    rank: action.payload.rank
+                }],
+                clothingID: state.clothingID + 1
+            }
+        case 'SELL_ADVANCEMENT_CLOTHING':
+            return {
+                ...state,
+                boughtClothes: state.boughtClothes.filter(clothing => clothing.clothingID !== action.payload.clothingID)
+            }
+        case 'SELL_OWNED_CLOTHING':
+            return {
+                ...state,
+                clothes: state.clothes.filter(clothing => clothing.clothing_bridge_id !== action.payload.clothing_bridge_id),
+                soldClothes: [...state.soldClothes, action.payload]
             }
 
         // GM change Handlers

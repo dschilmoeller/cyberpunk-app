@@ -21,6 +21,7 @@ import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
 import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
 import AdvancementGarage from './AdvancementGarage';
+import AdvancementClothes from './AdvancementClothes';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -141,7 +142,7 @@ function AdvancementSheet() {
 
                         <Grid container>
                             <Grid item xs={6}><Item><h2>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h2></Item></Grid>
-                            <Grid item xs={6}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
+                            <Grid item xs={6}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank.toLocaleString()}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
@@ -196,6 +197,7 @@ function AdvancementSheet() {
                         {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner Gear' />}
                         <Tab value='cyberware' label='Cyberware' />
                         <Tab value='vehicles' label='Vehicles' />
+                        <Tab value='clothes' label='Clothes' />
                     </Tabs>) : <></>}
 
                 {equipmentValue === 'armor' ? (<>
@@ -227,6 +229,10 @@ function AdvancementSheet() {
 
                 {equipmentValue === 'vehicles' ? (<>
                     <AdvancementGarage />
+                </>) : <></>}
+
+                {equipmentValue === 'clothes' ? (<>
+                    <AdvancementClothes />
                 </>) : <></>}
 
             </div>

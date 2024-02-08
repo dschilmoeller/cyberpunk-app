@@ -74,7 +74,16 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
                 is_paramedical: true
             }
         case 'ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED':
-            // This type will be one of cyber_appearance, cyber_reflexes, etc and the quality will be a flat number.
+            // This type will be one of cyber_appearance, cyber_reflexes, etc and the quality is the modification. 
+            // used mainly for cyber_appearance and cyber_cool as the physical stats and int are all modified by cyberware that uses
+            // the below STATIC_CYBERWARE_ATTRIBUTE_SET
+            return {
+                ...state,
+                [action.payload.type]: state[action.payload.type] + action.payload.quality
+            }
+        case 'STATIC_CYBERWARE_ATTRIBUTE_SET':
+            // modifies cyber_attribute to a fixed number, mainly physical stats and intelligence as only one piece of cyberware that modifies
+            // these can be equipped at a time.
             return {
                 ...state,
                 [action.payload.type]: action.payload.quality
@@ -226,6 +235,31 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) =
             return {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
+            }
+        case 'BUY_CLOTHING':
+            return {
+                ...state,
+                bank: Number(state.bank) - Number(action.payload.price)
+            }
+        case 'SELL_OWNED_CLOTHING':
+            return {
+                ...state,
+                bank: Number(state.bank) + Number(action.cost)
+            }
+        case 'SELL_ADVANCEMENT_CLOTHING':
+            return {
+                ...state,
+                bank: Number(state.bank) + Number(action.cost)
+            }
+        case 'IMPROVE_CLOTHING':
+            return {
+                ...state,
+                bank: Number(state.bank) - Number(action.bank)
+            }
+        case 'DEGRADE_CLOTHING':
+            return {
+                ...state,
+                bank: Number(state.bank) + Number(action.bank)
             }
         //cyberware
         case 'BUY_CYBERWARE':

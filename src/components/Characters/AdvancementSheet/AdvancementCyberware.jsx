@@ -202,10 +202,10 @@ export default function AdvancementCyberware() {
                     // check if attribute enhancing cyberware has been equipped and inform reducer if so.
                     switch (incomingCyber.name) {
                         case 'Light Tattoo':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance + 1) } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
                             break;
                         case 'Techhair':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool + 1) } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 1 } })
                             break;
                     }
                     break;
@@ -256,22 +256,22 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'neuralware_slots', slot_count: neuralSlots - 1 } })
                     switch (incomingCyber.name) {
                         case 'Algernonic Subprocessors I':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 1 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 1 } })
                             break;
                         case 'Algernonic Subprocessors II':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 2 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 2 } })
                             break;
                         case 'Algernonic Subprocessors III':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 3 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 3 } })
                             break;
                         case 'Algernonic Subprocessors IV':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 4 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 4 } })
                             break;
                         case 'Algernonic Subprocessors V':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 5 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 5 } })
                             break;
                         case 'Nervous System Regulator':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool + 1 ) } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 1 } })
                             break;
                     }
                     break;
@@ -306,49 +306,49 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     switch (incomingCyber.name) {
                         case 'Grafted Muscles I':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 1 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 1 } })
                             break;
                         case 'Grafted Muscles II':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 2 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 2 } })
                             break;
                         case 'Grafted Muscles III':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 3 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 3 } })
                             break;
                         case 'Grafted Muscles IV':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 4 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 4 } })
                             break;
                         case 'Grafted Muscles V':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 5 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 5 } })
                             break;
                         case 'Bone Lacing I':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 1 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 1 } })
                             break;
                         case 'Bone Lacing II':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 2 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 2 } })
                             break;
                         case 'Bone Lacing III':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 3 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 3 } })
                             break;
                         case 'Bone Lacing IV':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 4 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 4 } })
                             break;
                         case 'Bone Lacing V':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 5 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 5 } })
                             break;
                         case 'Nervous System Siliconization I':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 1 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 1 } })
                             break;
                         case 'Nervous System Siliconization II':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 2 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 2 } })
                             break;
                         case 'Nervous System Siliconization III':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 3 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 3 } })
                             break;
                         case 'Nervous System Siliconization IV':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 4 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 4 } })
                             break;
                         case 'Nervous System Siliconization V':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 5 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 5 } })
                             break;
                         default:
                             break;
@@ -376,7 +376,7 @@ export default function AdvancementCyberware() {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 3, healthBoxes: 2 } })
                     } else if (incomingCyber.name === 'Chromed Exo-Armor') {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 4, healthBoxes: 2 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance + 1) } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
                     } else if (incomingCyber.name === 'Body Plating') {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 5, healthBoxes: 3 } })
                     }
@@ -494,11 +494,11 @@ export default function AdvancementCyberware() {
                     case 'Linear Frame Alpha':
                         dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber } })
                         dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                        // ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED (attribute/amount)
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 3 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 3 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: -1 } })
-                        // CYBERWARE_ARMOR_EQUIPPED (health/armor)
+
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 3 } })
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 3 } })
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: -1 } })
+
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 5, healthBoxes: 4 } })
                         break;
                     default:
@@ -519,10 +519,10 @@ export default function AdvancementCyberware() {
                 setFashionSlots(fashionSlots + 1)
                 switch (incomingCyber.name) {
                     case 'Light Tattoo':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance - 1) } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
                         break;
                     case 'Techhair':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool - 1) } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: -1 } })
                         break;
                     default:
                         break;
@@ -560,10 +560,10 @@ export default function AdvancementCyberware() {
                         case 'Algernonic Subprocessors III':
                         case 'Algernonic Subprocessors IV':
                         case 'Algernonic Subprocessors V':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_intelligence', quality: 0 } })
+                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_intelligence', quality: 0 } })
                             break;
                         case 'Nervous System Regulator':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: (charDetails.cyber_cool - 1 ) } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: - 1 } })
                             break;
                         default:
                             break;
@@ -597,21 +597,21 @@ export default function AdvancementCyberware() {
                     case 'Grafted Muscles III':
                     case 'Grafted Muscles IV':
                     case 'Grafted Muscles V':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 0 } })
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 0 } })
                         break;
                     case 'Bone Lacing I':
                     case 'Bone Lacing II':
                     case 'Bone Lacing III':
                     case 'Bone Lacing IV':
                     case 'Bone Lacing V':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 0 } })
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 0 } })
                         break;
                     case 'Nervous System Siliconization I':
                     case 'Nervous System Siliconization II':
                     case 'Nervous System Siliconization III':
                     case 'Nervous System Siliconization IV':
                     case 'Nervous System Siliconization V':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 0 } })
+                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 0 } })
                         break;
                     default:
                         break;
@@ -632,7 +632,7 @@ export default function AdvancementCyberware() {
                         dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
                     } else if (incomingCyber.name === 'Chromed Exo-Armor') {
                         dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: -4, healthBoxes: -2 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: (charDetails.cyber_appearance - 1) } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
                     } else if (incomingCyber.name === 'Body Plating') {
                         dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
                     }
@@ -673,9 +673,9 @@ export default function AdvancementCyberware() {
                 dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                 if (incomingCyber.name === 'Linear Frame Alpha') {
                     // ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED (attribute/amount)
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_strength', quality: 0 } })
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_body', quality: 0 } })
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_reflexes', quality: 0 } })
+                    dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 0 } })
+                    dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 0 } })
+                    dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 0 } })
                     // CYBERWARE_ARMOR_EQUIPPED (health/armor)
                     dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -4 } })
                 }
