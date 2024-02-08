@@ -21,6 +21,9 @@ import NetrunnerOwnedTable from './NetrunnerOwnedTable';
 import NetrunnerMasterTable from './NetrunnerMasterTable';
 import VehicleMasterTable from './VehicleMasterTable';
 import VehicleOwnedTable from './VehicleOwnedTable'
+import ClothingMasterTable from './ClothingMasterTable';
+import ClothingOwnedTable from './ClothingOwnedTable';
+import ClothingEquippedTable from './ClothingEquippedTable';
 
 import ShopCyberware from './ShopCyberware';
 
@@ -97,7 +100,7 @@ function ShoppingSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
+                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank.toLocaleString()}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
@@ -116,6 +119,7 @@ function ShoppingSheet() {
                         {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
                         <Tab value='cyberware' label='Cyberware' />
                         <Tab value='vehicles' label='Vehicles' />
+                        <Tab value='clothes' label='Clothing' />
                     </Tabs>
                 </Item>
 
@@ -152,6 +156,12 @@ function ShoppingSheet() {
                     <VehicleOwnedTable />
                     <VehicleMasterTable />
                 </>) : <></>}
+
+                {selectedShopping === 'clothes' ? (<>
+                    <ClothingEquippedTable />
+                    <ClothingOwnedTable />
+                    <ClothingMasterTable />
+                </>): <></>}
 
             </div>
         </>
