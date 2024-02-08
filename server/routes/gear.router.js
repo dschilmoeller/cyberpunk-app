@@ -111,4 +111,15 @@ router.get('/vehicleMods', (req, res) => {
         })
 })
 
+router.get('/clothing', (req, res) => {
+    const sqlText = `SELECT * FROM "clothing_master"`
+    pool.query(sqlText)
+    .then(result => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching master clothing lists:`, err);
+    })
+})
+
 module.exports = router

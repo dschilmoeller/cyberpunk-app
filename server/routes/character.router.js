@@ -737,7 +737,6 @@ router.get('/fetchAdvancementActiveVehicleMods/:id', rejectUnauthenticated, (req
     JOIN "char_owned_vehicle_mods" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
     JOIN "vehicle_mod_master" ON "vehicle_mod_master".vehicle_mod_master_id = char_owned_vehicle_mods.vehicle_mod_master_id
     WHERE "char_id" = $1`
-
     pool.query(sqlText, [req.params.id])
         .then((result) => {
             res.send(result.rows)
@@ -745,6 +744,19 @@ router.get('/fetchAdvancementActiveVehicleMods/:id', rejectUnauthenticated, (req
         .catch(err => {
             console.log(`Error fetching advancement character active vehicle mods`, err);
         })
+})
+
+router.get('/fetchAdvancementClothes/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * from char_clothing_bridge
+    JOIN "clothing_master" ON "clothing_master"."clothing_master_id" = "char_clothing_bridge"."clothing_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+    .then(result => {
+        res.send(result.rows);
+    })
+    .catch(err => {
+        console.log(`Error fetching character clothing.`);
+    })
 })
 
 // advancement save route
@@ -841,6 +853,17 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             cyberwareSlots.cyberaudio_slots, cyberwareSlots.internalware_slots, cyberwareSlots.externalware_slots,
             cyberwareSlots.cyberarm_slots, cyberwareSlots.cyberleg_slots, cyberwareSlots.cyberware_bridge_id]
             pool.query(cyberwareSlotsSqlText, cyberwareSlotsSqlParams)
+
+            // update clothing - rank changes and equipping.
+            const clothing = req.body.gear.clothes
+            const clothingSqlText = `UPDATE "char_clothing_bridge"
+            SET "rank" = $1, equipped = $2
+            WHERE clothing_bridge_id = $3`
+            for (let i=0; i < clothing.length; i++){
+                const clothingSqlParams = [clothing[i].rank, clothing[i].equipped, clothing[i].clothing_bridge_id]
+                pool.query(clothingSqlText, clothingSqlParams)
+            }
+            
 
             // change netrunner gear details:
             const netrunnerGear = req.body.gear.netrunnerGear
@@ -1020,6 +1043,25 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
                 for (let i = 0; i < boughtMiscGear.length; i++) {
                     const boughtMiscGearParams = [req.body.char.id, boughtMiscGear[i].misc_gear_master_id]
                     pool.query(boughtMiscGearSqlText, boughtMiscGearParams)
+                }
+            }
+
+            const soldClothes = req.body.gear.soldClothes
+            
+            if (soldClothes.length > 0){
+                const soldClothesSqlText = `DELETE FROM "char_clothing_bridge" WHERE "clothing_bridge_id" = $1`
+                for (let i = 0; i < soldClothes.length; i++){
+                    const soldClothesParams = [soldClothes[i].clothing_bridge_id]
+                    pool.query(soldClothesSqlText, soldClothesParams)
+                }
+            }
+
+            const boughtClothes = req.body.gear.boughtClothes
+            if (boughtClothes.length > 0){
+                const boughtClothesSqlText = `INSERT INTO "char_clothing_bridge" ("char_id", "clothing_id", "rank") VALUES ($1, $2, $3)`
+                for (let i =0; i < boughtClothes.length; i++){
+                    const boughtClothesParams = [req.body.char.id, boughtClothes[i].clothing_master_id, boughtClothes[i].rank]
+                    pool.query(boughtClothesSqlText, boughtClothesParams)
                 }
             }
 

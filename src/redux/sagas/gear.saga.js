@@ -20,6 +20,7 @@ function* fetchMasterLists() {
     const netrunnerList = yield axios.get('/api/gear/netrunner')
     const vehicleList = yield axios.get('/api/gear/vehicles')
     const vehicleModList = yield axios.get('/api/gear/vehicleMods')
+    const clothingList = yield axios.get('/api/gear/clothing')
 
     yield put({ type: 'SET_MASTER_EQUIPMENT_LISTS', payload: {
         armor: armorList.data,
@@ -31,6 +32,7 @@ function* fetchMasterLists() {
         netrunnerGear: netrunnerList.data,
         vehicles: vehicleList.data,
         vehicleMods: vehicleModList.data,
+        clothing: clothingList.data
     }})
 }
 

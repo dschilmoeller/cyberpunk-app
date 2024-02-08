@@ -1138,3 +1138,38 @@ ADD CONSTRAINT contact_id_pk1 FOREIGN KEY (contact_id) REFERENCES contact_master
 -- For inclusion into misc gear treasure table. ('Shuriken Battleglove', 'A large glove with built in power packs connected to a reversible-polarity electromagnet. Cannot be used with cyberweapons or equipment built into the same arm as it is worn on.')
 -- for treasure-cyberware - mantis blades, glowing mantis blades, emp mantis blades, poisoned mantis blades.
 
+
+CREATE TABLE clothing_master (
+	clothing_master_id SERIAL NOT NULL,
+	name varchar (80) NOT NULL,
+	description text NOT NULL,
+	quality int NOT NULL DEFAULT 0,
+	CONSTRAINT clothing_master_pk PRIMARY KEY (clothing_master_id)
+) WITH (OIDS = FALSE);
+
+INSERT INTO "public"."clothing_master"("name", "description","quality")
+VALUES 
+('Vendomat Skinnies', 'Very cheap clothing similar to scrubs, available from Vendomats across the city.',0),
+('Bag Lady Chic','Clothing that can might have come from any pawn shop or lost and found, layered with some tasteful dirt.', 0),
+('Leisurewear', 'Athletic fit clothing that eschews zippers and buttons in favor of string and spandex.', 1),
+('Generic Chic', 'Generic, comfortable clothing available everywhere from better Vendomats and shops.',1),
+('Bohemian','Folksy, retro style clothing that shows off your free spirit and willingness to spend time in thrift stores.',1),
+('Ganger Brights','Brightly colored clothes chosen to signify ones allegiance to a street gang.',1),
+('Nomad Leathers','Rugged, neo-tribal clothing made to last.',2),
+('Urban Flash','High tech clothes that show off your taste and give a sense of presence.',2),
+('Businesswear','Suits still have a place, and hey - they always look good.',2),
+('Asia Pop','Sharp and cutting edge, this outfit says you are down with the youth culture. Mixes ancient influences with modern aesthetics.',2),
+('High Fashion', 'Not a style on its own, but one of the other styles custom tailored and made from the finest materials.',3);
+
+CREATE TABLE char_clothing_bridge (
+	clothing_bridge_id SERIAL NOT NULL,
+	char_id int NOT NULL,
+	clothing_id int NOT NULL,
+	rank int NOT NULL DEFAULT 1,
+	equipped boolean NOT NULL DEFAULT false,
+	CONSTRAINT clothing_bridge_pk PRIMARY KEY (clothing_bridge_id)
+) WITH (OIDS = FALSE);
+ALTER TABLE char_clothing_bridge
+ADD CONSTRAINT char_id_pk0 FOREIGN KEY (char_id) REFERENCES character(id) ON DELETE CASCADE;
+ALTER TABLE char_clothing_bridge
+ADD CONSTRAINT clothing_id_pk1 FOREIGN KEY (clothing_id) REFERENCES clothing_master(clothing_master_id) ON DELETE CASCADE;

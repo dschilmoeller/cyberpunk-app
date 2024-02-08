@@ -226,6 +226,7 @@ function* fetchAdvancementDetails(action) {
     const advancementNetrunnerGear = yield axios.get(`/api/characters/fetchNetrunnerGear/${action.payload}`)
     const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload}`)
     const advancementVehicleMods = yield axios.get(`/api/characters/fetchAdvancementVehicleMods/${action.payload}`)
+    const advancementClothes = yield axios.get(`/api/characters/fetchAdvancementClothes/${action.payload}`)
 
     yield put({
       type: 'SET_ADVANCEMENT_GEAR', payload: {
@@ -239,6 +240,7 @@ function* fetchAdvancementDetails(action) {
         netrunnerGear: advancementNetrunnerGear.data,
         vehicles: advancementVehicles.data,
         vehicleMods: advancementVehicleMods.data,
+        clothes: advancementClothes.data
       }
     })
 

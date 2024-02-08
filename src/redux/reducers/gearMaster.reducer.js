@@ -7,7 +7,8 @@ const gearMaster = (state = {
     cyberware: [],
     netrunnerGear: [],
     vehicles: [],
-    vehicleMods: []
+    vehicleMods: [],
+    clothing: []
 }, action) => {
     if (action.type === "SET_MASTER_EQUIPMENT_LISTS") {
         return {
@@ -19,7 +20,8 @@ const gearMaster = (state = {
             cyberware: action.payload.cyberware,
             netrunnerGear: action.payload.netrunnerGear,
             vehicles: action.payload.vehicles,
-            vehicleMods: action.payload.vehicleMods
+            vehicleMods: action.payload.vehicleMods,
+            clothing: action.payload.clothing
         }
     }
     return state
