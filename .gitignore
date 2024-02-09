@@ -15,6 +15,7 @@ notes.txt
 notes2.txt
 bugreports.txt
 database2.sql
+databaseStatements.sql
 
 # Runtime data
 pids
