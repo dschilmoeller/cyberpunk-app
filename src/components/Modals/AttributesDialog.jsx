@@ -198,6 +198,7 @@ export default function AttributesDialog({ prop }) {
     return (
         <>
             <Button sx={{
+                lineHeight: 1,
                 textTransform: 'none', color: 'white', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',

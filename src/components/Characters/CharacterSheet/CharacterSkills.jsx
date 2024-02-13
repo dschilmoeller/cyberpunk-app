@@ -13,8 +13,8 @@ function CharacterSkills(charDetailProp) {
     const charDetail = charDetailProp.charDetail
     const characterCyberware = useSelector(store => store.characterGear.cyberware)
 
-    const fulldot = <CircleIcon />
-    const emptydot = <CircleOutlinedIcon />
+    const fulldot = <CircleIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
+    const emptydot = <CircleOutlinedIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
 
     useEffect(() => {
         setSkills();

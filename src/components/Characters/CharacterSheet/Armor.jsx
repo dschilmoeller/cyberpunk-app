@@ -124,12 +124,12 @@ function Armor() {
                     <Grid container>
                         <Grid item xs={6}>
                             <Item>
-                                <Button color='secondary' variant='contained' fullWidth sx={{height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
+                                <Button color='secondary' variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
                             </Item>
                         </Grid>
                         <Grid item xs={6}>
                             <Item>
-                            <Button variant='contained' fullWidth sx={{height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
+                            <Button variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
                             </Item>
                         </Grid>
                         <Grid item xs={12}>

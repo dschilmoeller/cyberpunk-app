@@ -49,6 +49,7 @@ export default function VehicleModDialog({ prop }) {
     return (
         <>
             <Button sx={{
+                lineHeight: 1,
                 justifyContent: 'center',
                 textTransform: 'none', color: 'white', '&:hover': {
                     backgroundColor: '#fff',

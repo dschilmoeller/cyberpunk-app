@@ -11,8 +11,8 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 function CharacterRoleAbilities(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
-    const fulldot = <CircleIcon />
-    const emptydot = <CircleOutlinedIcon />
+    const fulldot = <CircleIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
+    const emptydot = <CircleOutlinedIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
 
     const dotReturn = (skill) => {
         let returnedDots = []

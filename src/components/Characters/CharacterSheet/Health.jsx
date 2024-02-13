@@ -269,17 +269,17 @@ function Health() {
                 <Grid container>
                     <Grid item xs={12}><Item><OtherAttributesDialog prop={'Health'} /></Item></Grid>
 
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>+Stun</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button sx={{ lineHeight: 1, height: '125%' }} fullWidth color='secondary' variant='contained' onClick={() => woundHandler('stun', 'harm')}>+Stun</Button></Item></Grid>
                     <Grid item xs={4}><Item><Chip avatar={<HorizontalRuleOutlinedIcon sx={{ color: 'black'}}/>} label="Stun Damage" sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor:'#ce93d8', color:'black'}} /></Item></Grid>
-                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' color='secondary' onClick={() => woundHandler('stun', 'heal')}>Heal Stun</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ lineHeight: 1, height: '125%' }} fullWidth variant='contained' color='secondary' onClick={() => woundHandler('stun', 'heal')}>Heal Stun</Button></Item></Grid>
 
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>+Lethal</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button sx={{ lineHeight: 1, height: '125%' }} fullWidth color='primary' variant='contained' onClick={() => woundHandler('lethal', 'harm')}>+Lethal</Button></Item></Grid>
                     <Grid item xs={4}><Item><Chip avatar={lethalMarker} label="Lethal Damage" sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor: '#90caf9', color:'black'}} /></Item></Grid>
-                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' onClick={() => woundHandler('lethal', 'heal')}>Heal Lethal</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ lineHeight: 1, height: '125%' }} fullWidth variant='contained' onClick={() => woundHandler('lethal', 'heal')}>Heal Lethal</Button></Item></Grid>
 
-                    <Grid item xs={4}><Item><Button sx={{ height: '125%' }} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>+Agg</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button sx={{ lineHeight: 1, height: '125%' }} fullWidth color='error' variant='contained' onClick={() => woundHandler('agg', 'harm')}>+Agg</Button></Item></Grid>
                     <Grid item xs={4}><Item><Chip avatar={aggMarker} label="Agg Damage"sx={{ "& .MuiChip-avatar": {color: "black"}, backgroundColor: '#f44336', color:'black'}} /></Item></Grid>
-                    <Grid item xs={4}><Item><Button size='small' sx={{ height: '125%' }} fullWidth variant='contained' color='error' onClick={() => woundHandler('agg', 'heal')}>Heal Agg</Button></Item></Grid>
+                    <Grid item xs={4}><Item><Button size='small' sx={{ lineHeight: 1, height: '125%' }} fullWidth variant='contained' color='error' onClick={() => woundHandler('agg', 'heal')}>Heal Agg</Button></Item></Grid>
 
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Status'} /></Item></Grid>
                     <Grid item xs={4}><Item><OtherAttributesDialog prop={'Marks'} /></Item></Grid>

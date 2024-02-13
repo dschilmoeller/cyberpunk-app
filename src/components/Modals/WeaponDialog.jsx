@@ -40,6 +40,7 @@ export default function WeaponDialog({ prop }) {
     return (
         <>
             <Button sx={{
+                lineHeight: 1,
                 justifyContent: 'center',
                 textTransform: 'none', color: 'white', '&:hover': {
                     backgroundColor: '#fff',

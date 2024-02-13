@@ -100,7 +100,7 @@ function ShoppingSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank.toLocaleString()}</h2></Item></Grid>
+                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}

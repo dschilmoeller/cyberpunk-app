@@ -11,10 +11,10 @@ import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlin
 function CharacterAttributes(charDetailProp) {
     const charDetail = charDetailProp.charDetail
 
-    const fullCircle = <CircleIcon />
-    const emptyCircle = <CircleOutlinedIcon />
-    const fullBox = <SquareIcon />
-    const boxOutline = <CheckBoxOutlineBlankOutlinedIcon />
+    const fullCircle = <CircleIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
+    const emptyCircle = <CircleOutlinedIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
+    const fullBox = <SquareIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
+    const boxOutline = <CheckBoxOutlineBlankOutlinedIcon sx={{fontSize: {xs: '1.25rem', sm: '1.25rem', md: '1.25rem', lg: '1.5rem'}}}/>
 
     const dotReturn = (attribute, cyberAtt) => {
         if (cyberAtt >= 0){

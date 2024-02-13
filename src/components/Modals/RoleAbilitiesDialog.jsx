@@ -1044,6 +1044,7 @@ export default function RoleAbilitiesDialog({ prop }) {
     return (
         <>
             <Button sx={{
+                lineHeight: 1,
                 textTransform: 'none', color: 'white', '&:hover': {
                     backgroundColor: '#fff',
                     color: '#000',

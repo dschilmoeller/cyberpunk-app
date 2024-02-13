@@ -1,11 +1,11 @@
-const advancementDetail = (state = { campaign: 1, campaignWords: '' }, action) => {
+const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, action) => {
     switch (action.type) {
         // retrieves details from db
         case 'SET_ADVANCEMENT_DETAIL':
             return action.payload;
         // clears details when required.
         case 'CLEAR_ADVANCEMENT_DETAIL':
-            return [{ name: '', campaign: 1, campaignWords: '' }]
+            return [{ name: '', campaign: 1, campaignWords: '', bank: 0}]
         // From AdvancementSheet pages - players spending XP
         case 'INCREASE_ATTRIBUTE':
             return {

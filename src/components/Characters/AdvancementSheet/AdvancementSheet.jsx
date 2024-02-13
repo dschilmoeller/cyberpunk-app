@@ -142,7 +142,7 @@ function AdvancementSheet() {
 
                         <Grid container>
                             <Grid item xs={6}><Item><h2>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h2></Item></Grid>
-                            <Grid item xs={6}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank.toLocaleString()}</h2></Item></Grid>
+                            <Grid item xs={6}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}

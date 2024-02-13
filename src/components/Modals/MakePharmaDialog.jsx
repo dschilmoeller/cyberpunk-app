@@ -85,6 +85,7 @@ export default function MakePharmaDialog() {
             </Snackbar>
 
             <Button sx={{
+                lineHeight: 1,
                 justifyContent: 'center',
                 backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
                 backgroundColor: '#1A2027',
