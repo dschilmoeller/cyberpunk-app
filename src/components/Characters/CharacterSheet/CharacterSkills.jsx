@@ -19,7 +19,7 @@ function CharacterSkills(charDetailProp) {
     useEffect(() => {
         setSkills();
         skillChipChecker();
-    }, [])
+    }, [characterCyberware])
 
     // Streetwise Skills
     const [athletics, setAthletics] = useState(0)
@@ -121,6 +121,7 @@ function CharacterSkills(charDetailProp) {
             switch (cyberware.name) {
                 case 'Skill Chip - Athletics':
                     if (cyberware.equipped === true && charDetail.athletics <= 2) {
+                        console.log(`equipping athletic chip`);
                         setAthletics(2)
                     }
                     break;
@@ -177,6 +178,10 @@ function CharacterSkills(charDetailProp) {
                 case 'Skill Chip - Language':
                     if (cyberware.equipped === true && charDetail.language <= 2) {
                         setLanguage(2)
+                    }
+                case 'Skill Chip - Military Tech':
+                    if (cyberware.equipped === true && charDetail.military_tech <= 2) {
+                        setMilTech(2)
                     }
                     break;
             }

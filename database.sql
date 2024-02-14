@@ -3648,10 +3648,14 @@ VALUES
 -- CREATE TABLE "lifestyle_master" (
 -- 	"lifestyle_master_id" serial NOT NULL,
 -- 	"name" varchar NOT NULL,
--- 	"description" varchar NOT NULL,
--- 	"price" integer NOT NULL DEFAULT '0',
+-- 	"housing" text NOT NULL,
+-- 	"ameneties" text NOT NULL,
+-- 	"parking" text NOT NULL,
+-- 	"monthly_price" integer NOT NULL DEFAULT 0,
+--  "quality" integer NOT NULL DEFAULT 1
 -- 	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
 -- ) WITH (OIDS = FALSE);
+
 -- CREATE TABLE "lifestyle_brige" (
 -- 	"lifestyle_bridge_id" serial NOT NULL,
 -- 	"char_id" integer NOT NULL,
@@ -3663,9 +3667,11 @@ VALUES
 -- ADD CONSTRAINT "lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 -- ALTER TABLE "lifestyle_bridge"
 -- ADD CONSTRAINT "lifestyle_bridge_fk1" FOREIGN KEY ("lifestyle_id") REFERENCES "lifestyle_master"("lifestyle_master_id");
--- INSERT INTO "lifestyle_master" ("name", "description", "price")
--- VALUES ('Street', 'You eat what you can find in dumpsters. All health recovery takes twice as long, but hey, you are alive.', 0),
--- ('Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
--- ('Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
--- ('Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
--- ('Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)
+
+-- INSERT INTO "lifestyle_master" ("quality", "name", "housing", "ameneties","parking","monthly_price")
+-- VALUES 
+-- (1, 'Street Living', 'You live on or next ', 0),
+-- (2, 'Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
+-- (3, 'Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
+-- (4, 'Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
+-- (5, 'Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)

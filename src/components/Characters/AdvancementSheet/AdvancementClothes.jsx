@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +15,9 @@ import { Button } from "@mui/material";
 // improving clothing of certain rank/quality improves cool/appearance/etc -> show in display somehow.
 
 export default function AdvancementClothes() {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const params = useParams();
   const characterClothes = useSelector((store) => store.advancementGear.clothes);
   const charDetail = useSelector((store) => store.advancementDetail);
 
@@ -51,10 +53,13 @@ export default function AdvancementClothes() {
 
     return true;
   };
-
+// history.push(`/shopSheet/${78}`
   return (
     <>
-      <h1>Current Clothing</h1>
+      <h1>Current Clothing - Clothes can modified in the <Button
+      variant="contained"
+      onClick={()=> history.push(`/shopSheet/${params.id}`)}
+      >Shopping Area!</Button></h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>

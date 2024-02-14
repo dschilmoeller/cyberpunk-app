@@ -92,7 +92,7 @@ export default function DieRollDialog() {
                 // const max = Math.floor(11);
                 // return Math.floor(Math.random() * (max - min) + min);
                 // It would be wrong to increase the chance of failure to 14.3%, right?
-                const arr = [1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
+                const arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
                 console.log(arr.length);
                 return arr[Math.floor(Math.random() * arr.length)];
             }
