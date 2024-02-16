@@ -130,9 +130,6 @@ export default function CharacterNoteEdit({ prop }) {
                 </DialogContent>
                 <DialogActions>
                     <Grid container justifyContent={'center'}>
-                        <Grid item paddingRight={1}>
-                            <Button variant='contained' onClick={handleClose}>Save and Close</Button>
-                        </Grid>
                         {titleText === '' || bodyText === '' ? (<>
                             <Button variant='contained' color='error' onClick={()=>setOpen(false)}>Cancel</Button>
                         </>) : (<>
@@ -144,6 +141,9 @@ export default function CharacterNoteEdit({ prop }) {
                                 </>}
                             </Grid>
                         </>)}
+                        <Grid item paddingLeft={1}>
+                            <Button variant='contained' onClick={handleClose}>Save and Close</Button>
+                        </Grid>
                     </Grid>
                 </DialogActions>
             </Dialog>

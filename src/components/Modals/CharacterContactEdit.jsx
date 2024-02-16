@@ -37,8 +37,8 @@ export default function CharacterContactEdit({ prop }) {
     };
 
     const handleClose = () => {
-            dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: {char_contact_id: prop.char_contact_id, loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
-            setOpen(false);
+        dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: { char_contact_id: prop.char_contact_id, loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
+        setOpen(false);
     };
 
     const loyaltyAmountHandler = (newLoyalty) => {
@@ -60,7 +60,7 @@ export default function CharacterContactEdit({ prop }) {
             <Button onClick={handleClickOpen('paper')} variant='contained'>{'Edit Contact'}</Button>
             <Dialog
                 open={open}
-                onClose={()=>setOpen(false)}
+                onClose={() => setOpen(false)}
                 scroll={scroll}
                 fullWidth={true}
                 maxWidth={'lg'}
@@ -72,8 +72,8 @@ export default function CharacterContactEdit({ prop }) {
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <Grid container alignItems={'center'}>
-                        <Grid item xs={6} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color:'black' }}
-                        display={'flex'} alignItems={'center'} marginLeft={2} padding={1} >Connection: {prop.connection}</Grid>
+                        <Grid item xs={6} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color: 'black' }}
+                            display={'flex'} alignItems={'center'} marginLeft={2} padding={1} >Connection: {prop.connection}</Grid>
 
                         <Grid item xs={1} marginLeft={1} padding={1}>Loyalty:</Grid>
                         <Grid item xs={4} padding={1}>
@@ -87,7 +87,7 @@ export default function CharacterContactEdit({ prop }) {
                             />
                         </Grid>
 
-                        <Grid item xs={12} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color:'black' }} marginRight={2} marginLeft={2} padding={1}>{prop.description}</Grid>
+                        <Grid item xs={12} sx={{ border: 'gray', borderStyle: 'solid', backgroundColor: 'lightgray', color: 'black' }} marginRight={2} marginLeft={2} padding={1}>{prop.description}</Grid>
 
                         <Grid item xs={12} padding={2}>
                             <h3>My Notes:</h3>
@@ -105,13 +105,13 @@ export default function CharacterContactEdit({ prop }) {
                 </DialogContent>
                 <DialogActions>
                     <Grid container justifyContent={'center'}>
-                    <Grid item xs={3} />
-                        <Grid item xs={2}>
-                            <Button fullWidth variant='contained' color='primary' onClick={handleClose}>Save and Close</Button>
+                        <Grid item xs={3} />
+                        <Grid item xs={2} >
+                            <Button fullWidth variant='contained' color='error' onClick={() => setOpen(false)}>Cancel</Button>
                         </Grid>
                         <Grid item xs={2} />
-                        <Grid item xs={2} >
-                            <Button fullWidth variant='contained' color='error' onClick={()=>setOpen(false)}>Cancel</Button>
+                        <Grid item xs={2}>
+                            <Button fullWidth variant='contained' color='primary' onClick={handleClose}>Save and Close</Button>
                         </Grid>
                         <Grid item xs={3} />
                     </Grid>
