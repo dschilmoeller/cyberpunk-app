@@ -86,23 +86,21 @@ CREATE TABLE
 WITH
 	(OIDS = FALSE);
 
-ALTER TABLE "character" ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user" ("id");
-
-ALTER TABLE "character" ADD CONSTRAINT "char_fk1" FOREIGN KEY ("campaign") REFERENCES "campaigns" ("campaign_id");
-
 CREATE TABLE
 	"campaigns" (
 		"campaign_id" SERIAL PRIMARY KEY,
 		"campaign_name" VARCHAR NOT NULL,
-		CONSTRAINT "campaign_pk" PRIMARY KEY ("campaign_id")
 	)
 WITH
 	(OIDS = FALSE);
 
-INSERT INTO
-	"campaigns" ("name")
+ALTER TABLE "character" ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "character" ADD CONSTRAINT "char_fk1" FOREIGN KEY ("campaign") REFERENCES "campaigns" ("campaign_id");
+
+INSERT INTO "public"."campaigns"("campaign_id","campaign_name")
 VALUES
-	("Unknown/Not Decided");
+(1,E'Unknown/Undecided');
+
 
 CREATE TABLE
 	"char_status" (
@@ -3464,21 +3462,6 @@ WITH
 	(OIDS = FALSE);
 
 ALTER TABLE char_notes ADD CONSTRAINT char_notes_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
-
-CREATE TABLE
-	char_contacts (
-		char_contact_id SERIAL NOT NULL,
-		char_id int NOT NULL,
-		name varchar(400),
-		loyalty int,
-		connection int,
-		description text,
-		CONSTRAINT char_contact_pk PRIMARY KEY (char_contact_id)
-	)
-WITH
-	(OIDS = FALSE);
-
-ALTER TABLE char_contacts ADD CONSTRAINT char_contacts_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
 
 CREATE TABLE
 	contact_master (
