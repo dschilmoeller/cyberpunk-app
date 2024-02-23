@@ -318,7 +318,7 @@ export default function DieRollDialog() {
                                     <Grid item xs={3} />
                                     <Grid item xs={6} display={'flex'} justifyContent={'center'}
                                         // onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), usingLuck, selectedDifficulty)}
-                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes + charDetails.melee_weapons) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), true, selectedDifficulty)}
+                                        onClick={() => quickRoll(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)), true, selectedDifficulty)}
                                     >
                                         <Button fullWidth variant='contained' color='secondary'
                                             onMouseEnter={() => setSelectedDieIndex(dieChecker((charDetails.reflexes + charDetails.cyber_reflexes) + painPenalty(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg, charStatus.current_cyberware_health_boxes)))}

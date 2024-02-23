@@ -120,13 +120,13 @@ export default function RulebookCombat() {
                                         <TableRow hover>
                                             <TableCell>Dodge</TableCell>
                                             <TableCell align="left">Free</TableCell>
-                                            <TableCell align='left'>Attempt to jerk out of the way of a single attack. Roll Reflexes against DV6 and subtract total from next attack. Use same total minus 1 for each additional attack in a round.</TableCell>
+                                            <TableCell align='left'>Attempt to jerk out of the way of a single attack. Roll higher of Reflexes or Evasion against DV6. Use same total minus 1 for each additional attack in a round.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
                                             <TableCell>Parry</TableCell>
                                             <TableCell align="left">Free</TableCell>
-                                            <TableCell align='left'>Identical to Dodge, but requires both attacker and defender to be wielding a melee weapon. Roll Reflexes + Melee Weapons.</TableCell>
+                                            <TableCell align='left'>Identical to Dodge, but requires both attacker and defender to be wielding a melee weapon. Use Melee Weapon or Brawl instead of Evasion for dodging in some circumstances.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
@@ -223,9 +223,9 @@ export default function RulebookCombat() {
 
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Attacker Reflexes + Weapon Skill</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>vs</i></Typography></Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Defender Reflexes (+ Melee Weapons skill if both characters are using melee weapons)</i></Typography></Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Base DV for both is 6; modified by distance, called shots, and other modifiers. Defender wins ties.</i></Typography></Grid>
-            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Attacker damage is equal to weapons base damage + number of successes on attack, minus number of defender successes.</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Higher of Defender Reflexes or Evasion</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Base DV for both is 6; modified by distance, aimed shots, and other modifiers. Defender wins ties.</i></Typography></Grid>
+            <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>If Attacker has more successes than defender, Attacker damage is equal to weapons base damage + number of successes on attack, minus number of defender successes.</i></Typography></Grid>
             <Grid item xs={12} display={'flex'} justifyContent={'center'}><Typography variant='p'><i>Defender can Dodge (above), Parry, or spend their next complex action to Evade.</i></Typography></Grid>
 
             <Grid item xs={12} display={'flex'} justifyContent={'center'}>
@@ -245,12 +245,18 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Defenders should only make a single defense roll per round (except in the case of melee weapon parrying, below). A character will generally roll their Reflexes alone. They take their successes on this roll and compare it to the attackers successes. Should they be attacked again in the same round, simply reduce their previous successes by one.
+                    Defenders should only make a single defense roll per round. A character rolls Reflexes or Evasion against a DV of 6. They take their successes on this roll and compare it to the attackers successes. Should they be attacked again in the same round, they will use this number minus one for each additional attack in the same round.
                 </Typography>
             </Grid>
             <Grid item xs={12}>
+                <Typography variant='h6'>
+                    Evade (Full Dodge):
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
                 <Typography variant='p'>
-                    A character has the option of sacrificing their next complex action to roll their Reflexes + Evasion. If they elect to do so, they 
+                    If a character concentrates solely on defense, they can roll their Reflexes + Evasion instead of one or the other. This 'uses' their next complex action. A player who as already dodged can use Full Dodge by sacrificing their next complex action and rolling Evasion or Reflexes (whichever wasn't used initially). This can be done in reaction to a rolled attack.
                 </Typography>
             </Grid>
 
@@ -262,7 +268,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Obviously it's pretty cool, but weapons must split their ROF to be used in a single turn. For instance, a character can use a machete (medium melee weapon, ROF 2) for one attack, walk down a hall and shoot a ganger with a Heavy pistol (ROF 2). The lowest ROF applies if one weapon's is higher than the other (e.g. a character with a SMG and a Machete has an effective ROF of 2). If any weapon has a ROF of 1, it cannot be used in the same round as another weapon.
+                    Obviously it's pretty cool, but weapons must split their ROF to be used in a single turn. For instance, a character can use a machete (medium melee weapon, ROF 2) for one attack, walk down a hall and shoot a ganger with a Heavy pistol (ROF 2). The lowest ROF applies if one weapon's is higher than the other (e.g. a character with a SMG and a Machete has an effective ROF of 2, not 3). If any weapon has a ROF of 1, it cannot be used in the same round as another weapon, though two such weapons can be still be held.
                 </Typography>
             </Grid>
 
@@ -280,7 +286,19 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <i>The ganger reduces the incoming damage by 2 - their Body is 2 and their armor is 3, so 5/2 (rounded down) is 2 - so they take 5 lethal wounds - half their wound track! They also mark 1 point off their armor as Raff blows a big hole in it. Raff could shoot them again, as their weapon has a ROF of 2 - but Raff would have had to have decided to do this before attacking, as it requires splitting their die pool. On their turn, the ganger attempts to run away, but doesn't get far enough - They're still in range, and Raf shoots again getting a whopping 5 successes on their attack roll. With 5 wounds from the first attack, the ganger now has a 2 die wound penalty to their Reflexes roll to dodge - they roll 2 dice, and get no successs. Raff thus deals a total of 9 lethal damage - 4 from the weapon's base damage and 5 more from successes. The ganger reduces this by 2 - their armor has been ablated by 1, but it is still Body 2 + Armor 2. 7 more damage has filled their wound track, with 2 additional damage to deal with. The ganger now has 2 aggravated and 8 lethal wounds. They are unlikely to survive much longer without prompt medical attention.</i>
+                    <i>The ganger reduces the incoming damage by 2 - their Body is 2 and their armor is 3, so 5/2 (rounded down) is 2 - so they take 5 lethal wounds - half their wound track! They also mark 1 point off their armor as Raff blows a big hole in it. Raff could shoot them again, as their weapon has a ROF of 2 - but Raff decided to concentrate their fire.</i>
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    <i>On their turn, the ganger opts to simply run away, but does't get far enough - they're still barely in range. Raff decides to make sure the ganger goes down this turn, and splits their die pool, rolling 3 dice in two separate pools. They get 2 successes on the first, while the ganger rolls to dodge - with a 2 die penalty from their wounds, they only roll 1 dice and get no successes! Raff hits them for 6 lethal wounds (4 Base Damage + 2 Successes on attack), which is reduced to 4 by the ganger's remaining armor (now only 4); they also ablate their armor by 1 more point. The ganger has taken a total of 11 lethal wounds at this point - they've filled their damage track (10 lethal) and suffered an additional aggravated wound. Raff's second shot gets only 1 success. The ganger has already failed to dodge (and is technically unconscious, to boot), so they take an additional 5 lethal wounds. This is reduced by 1 due to their remaining armor (now 3). Since the ganger's wound track is already filled, they take 4 aggravated wounds, and now have a total of 5 lethal and 5 aggravated wounds.</i>
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    <i>The ganger must now make a death save. Their last wound is only lethal, and they have 5 aggravated wounds as well - so their Death Save DV is 8. They roll their Body (2), and get a sin gle success - they'll live for this round, but Raff is unlikely to give them First Aid before they expire.</i>
                 </Typography>
             </Grid>
 
@@ -341,6 +359,17 @@ export default function RulebookCombat() {
                                     <TableCell align="left">Select and inflict a Critical Injury from the table (see 8 - Injuries and Dying). Injury must make sense given the weapon - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're using the wrong end.</TableCell>
                                 </TableRow>
 
+                                <TableRow hover>
+                                    <TableCell>Attack weak point</TableCell>
+                                    <TableCell align="left">If a weapon cannot normally deal damage to a target due to its heavy armor, a aimed shot can be made. Normal rules apply (+2 damage) except additional successes are added to the weapon's base damage. This can be done to non-human targets (eg Vehicles, Cover) at the GM's discretion.</TableCell>
+                                </TableRow>
+
+                                <TableRow hover>
+                                    <TableCell>Shoot out Tire</TableCell>
+                                    {/* note this is repeated in vehicles.jsx and should be updated in tandem */}
+                                    <TableCell align="left">Usable only against wheeled vehicles. Dealing at least one point of damage (armor still applies to this attack) causes the tire to blow out, reducing the vehicles movement by 5 for 1 round and lowering its max speed appropriately (50%/tire for motorcycles, 25%/tire for cars, etc). The driver's next action must be a drive test to regain control of the vehicle.</TableCell>
+                                </TableRow>
+
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -361,13 +390,13 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    SMGs do not deal extra damage based on the number of successes made to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die pool while making more than one attack in a round, add +1 die to each pool.
+                    SMGs cannot make aimed shots at any range beyond point blank. Further, they do not deal extra damage based on the number of successes made to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die pool while making more than one attack in a round, add +1 die to each SMG die pool.
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Assault Rifles are designed to fire very accurately and quickly - when a character splits their die pool while making more than one attack in a round, add +1 die to each pool.
+                    Assault Rifles are designed to fire very accurately and quickly - when a character splits their die pool while making more than one attack in a round, add +1 die to each Assault Rifle die pool.
                 </Typography>
             </Grid>
 
@@ -379,10 +408,10 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Characters firing a weapon in full automatic have a ROF of 1 and a base difficulty of 5 on their attack. Their weapon must have 10 or more rounds remaining in its clip. The attacker cannot perform aimed shots, and additional successes on the attack do not provide additional damage. However, the attacker can elect to remove one or more dice from their attack die pool. If they do so, they can force their opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> increase the amount of armor lost by the target by the number of dice removed, provided they hit the target at all. Removing additional armor does not work if the target's armor is <i>Hardened</i>.
-                    <Grid item xs={12}>Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND trades dice at a 1:2 ratio - for every die they remove, their opponent loses 2 from the selected roll(s).</Grid>
+                    Characters firing a weapon in full automatic have a ROF of 1 and a base difficulty of 5 on their attack. Their weapon must have 10 or more rounds remaining in its clip. This attack cannot be an aimed shot, and additional successes on the attack do not provide additional damage. However, the attacker can elect to remove one or more dice from their attack die pool. If they do so, they can force their opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> increase the amount of armor lost by the target by the number of dice removed, provided they hit the target at all. Additional armor cannot be removed if the target's armor is <i>Hardened</i>.
+                    <Grid item xs={12}>Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND trades dice at a 1:2 ratio - for every die they remove, their opponent loses 2 from their dodge roll or loses 2 armor.</Grid>
                 </Typography>
-            </Grid >
+            </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
@@ -392,7 +421,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Instead of aiming for a specific target, an attacker can encourage others to keep their head down. The attackers weapon has a ROF of 1 and a difficulty of 5 for this 'attack'. Their weapon must have 10 or more rounds remaining in the clip. When used succesfully, <b>everyone</b> in front of the shooter within 20 meters must succeed on a Willpower check (difficulty value 6) and score more successes than the attacker in order to do anything besides seek cover or hit the deck immediately.
+                    Instead of aiming for a specific target, an attacker can encourage others to keep their head down. The attackers weapon has a ROF of 1 and a difficulty of 5 for this 'attack'. Their weapon must have 10 or more rounds remaining in the clip. When used succesfully, <b>everyone</b> in front of the shooter within 20 meters must succeed on a Willpower check (difficulty value 6) and score more successes than the attacker's shooting roll in order to do anything besides seek cover or hit the deck immediately.
                 </Typography>
             </Grid>
 
@@ -434,7 +463,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Brawling attacks deal (Strength) stun wounds. Brawling attacks do NOT ablate armor. This also goes for Cyberarms. Characters with the Big Knucks Cyberware can deal Stun or Lethal wounds, but still do not ablate armor.
+                    Brawling attacks deal (Strength) stun wounds. Brawling attacks do NOT ablate armor. This also goes for characters with Cyberarms and no cyberweapons. Characters with the Big Knucks Cyberware can deal Stun or Lethal wounds, but still do not ablate armor.
                 </Typography>
             </Grid>
 
@@ -446,7 +475,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    When two characters wielding a melee weapon attack each other, they roll Reflexes + Melee Weapon (or brawling, if both are unarmed) rather than just Reflexes. If the defender scores more successes on their defense roll than the attacker, those successes are added to the defenders next attack roll, provided it is with a melee weapon and is the next complex action they take.
+                    When two characters wielding a melee weapon attack each other, the defender can opt to roll Reflexes + Melee Weapon (or brawling, if both characters are unarmed) rather than evasion.
                 </Typography>
             </Grid>
 
@@ -458,13 +487,13 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Requires 1 free hand. Attacker and Defender both roll Reflexes + Brawling against difficulty 6. If attacker wins, either the defender is grabbed or the attacker can remove one item from their hand(s). Grabs can be released by attacker at any time. Both characters have +1 difficulty to all actions as long as the Grab is active. The defender or any other character can roll Reflexes + Brawling to try and break the grab, with the grab broken if the attacker gets fewer successes than the defender.
+                    Requires 1 free hand. Grabber and Defender both roll Reflexes + Brawling against difficulty 6. If the Grabber wins, either the defender is grabbed or the Grabber can remove one item from their hand(s). Grabs can be released by Grabber at any time. Both characters have +1 difficulty to all actions as long as the Grab is active. The defender or any other character can roll Reflexes OR Strength + Brawling to try and break the grab, with the grab broken if the grabber gets fewer successes than the character attempting to break up the grab. Breaking up a grab is a complex action.
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Note: A character can grab 2 people if they have no weapons in either hand. Difficulty penalties are cumulative for attacker (not the defender).
+                    Note: A character can grab 2 people if they have no weapons in either hand. Difficulty penalties are cumulative for grabber (but not the grabbees).
                 </Typography>
             </Grid>
 
@@ -477,7 +506,19 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    If a character has someone in a grapple, they can choke the defender as a complex action. This deals [Strength] stun wounds. This damage is not resisted by armor or body. Characters wearing Hardened Armor cannot be choked.
+                    If a character already has someone in a grab, they can choke the defender as a complex action. This deals t[Grabber Strength] stun wounds. This damage is not able to be soaked. Characters wearing Hardened Armor cannot be choked.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    <b>Human Shield</b>
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    If a character already has someone in a grab, they can use them as a human shield - use their armor and wound tracks in place of the Grabbers!
                 </Typography>
             </Grid>
 
@@ -489,10 +530,10 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    If a character has someone in a grapple, they can throw them up to (Strength) meters. The victim lands prone.
+                    If a character already has someone in a grab, they can throw them up to [Grabber Strength] meters. The victim suffers  [Grabber Strength] stun wounds and lands prone.
                 </Typography>
             </Grid>
 
-        </Grid >
+        </Grid>
     </>)
 }

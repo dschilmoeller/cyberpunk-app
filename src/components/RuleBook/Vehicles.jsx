@@ -68,7 +68,13 @@ export default function RulebookVehicles() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Multi-tasking is made much easier - characters connected via Interface Plugs divide the LARGER of two die pools for actions. The smaller pool cannot be larger than normal. In particular, motorcycles can be made to do some otherwise wholly unnatural things - a character operating any kind of motorcycle with Interface Plugs is treated as on foot, and uses the highest attribute available when making tests - they can use the bike's health in place of their Body stat, the bike's Move in place of their normal Move attribute, and the bike's armor in place of their normal one, as they desire. Called shots can hit the operator as normal.
+                    Multi-tasking is made much easier - characters connected via Interface Plugs doing multiple actions divide the LARGER of their two die pools for actions. The smaller of these pools cannot be above its normal maximum - so if a character is driving (die pool 8) and firing a gun (die pool 6) they split 8 dice, but they can only use 6 dice to shoot their weapon.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Motorcyclists using interface plugs can make their bike do some wholly unnatural things - a character operating any kind of motorcycle with Interface Plugs is treated as on foot, and uses the highest attribute available when making tests - they can use the bike's health in place of their Body stat, the bike's Move in place of their normal Move attribute, and the bike's armor in place of their normal one, as they desire. Aimed shots can hit the operator as normal, but suffer a +1 DV above and beyond the normal Aimd Shot rules.
                 </Typography>
             </Grid>
 
@@ -92,13 +98,14 @@ export default function RulebookVehicles() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Attacking a character inside a vehicle requires a called shot, raising the DV by 2 as per normal called shot rules. This can be stacked with other called shot modifiers; a called shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a called shot to hit the character in the vehicle, and an additional +2 to hit the character in head.
+                    Attacking a character inside a vehicle requires a aimed shot, raising the DV by 2 as per normal aimed shot rules. This can be stacked with other aimed shot modifiers; a aimed shot to the head on a character in a vehicle is DV9(2+) - a base DV of 6, +2 for a aimed shot to hit the character in the vehicle, and an additional +2 to hit the character in head.
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    A vehicle's move is reduced by 1/2 when at half health or lower. A called shot to a tire reduces a vehicle's Move by 5, and reduces its Max Speed by 25%. Hitting a tire is a standard called shot (+2 DV), and is affected by the rules for Interface Plugs (additional +1 DV to called shots).
+                {/* Called shots to the tire are repeated in ActionsCombat.jsx and should be updated in tandem */}
+                    A vehicle's move is reduced by 1/2 when at half health or lower. An aimed shot to the tire that deals at least one point of damage (armor still applies to this attack) causes the tire to blow out, reducing the vehicles movement by 5 for 1 round and lowering its max speed appropriately (50%/tire for motorcycles, 25%/tire for cars, etc). The driver's next action must be a drive test to regain control of the vehicle.
                 </Typography>
             </Grid>
 

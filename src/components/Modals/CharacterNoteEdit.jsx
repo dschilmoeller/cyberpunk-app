@@ -137,12 +137,12 @@ export default function CharacterNoteEdit({ prop }) {
                                 {showRealDelete ? (<>
                                     <Button color='error' variant='contained'>Garbage Can In Top Right</Button>
                                 </>) : <>
-                                    <Button color='error' variant='contained' onClick={handleDelete}>Delete Note</Button>
+                                    <Button color='error' variant='contained' onClick={() => handleDelete()}>Delete Note</Button>
                                 </>}
                             </Grid>
                         </>)}
                         <Grid item paddingLeft={1}>
-                            <Button variant='contained' onClick={handleClose}>Save and Close</Button>
+                            <Button variant='contained' onClick={() => handleClose()}>Save and Close</Button>
                         </Grid>
                     </Grid>
                 </DialogActions>

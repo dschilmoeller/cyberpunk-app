@@ -46,7 +46,7 @@ export default function RulebookInjuries() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Characters whose damage tracked is filled with lethal damage are <b>dying</b>. They are unconscious, and must make a <b>Death Save</b> each round. This save has an initial difficulty value of 4, but it increases by 1 for each Aggravated wound the character has suffered, to a maximum of 8. Success means they live; failure means immediate death. They can be stabilized with a First Aid (DV8) or Paramedic (DV6) roll. If successful, the character no longer needs to make Death Saves. Any further lethal wounds the character receives are instead Aggravated. Death Saves do not suffer from wound based die penalties.
+                    Characters whose damage tracked is filled with lethal damage are <b>dying</b>. They are unconscious, and must make a <b>Death Save</b> each round - this is just the character's Body attribute. This save has an initial difficulty value of 4, but it increases by 1 for each Aggravated wound the character has suffered, to a maximum of 8. Success means they live; failure means immediate death. They can be stabilized with a First Aid (DV8) or Paramedic (DV6) roll. If successful, the character no longer needs to make Death Saves. Any further lethal wounds the character receives are instead Aggravated. Death Saves do not suffer from wound based die penalties.
                 </Typography>
             </Grid>
 
