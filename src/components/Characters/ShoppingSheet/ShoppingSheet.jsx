@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
@@ -38,6 +38,10 @@ function ShoppingSheet() {
 
     const euroBuck = `\u20AC$`
 
+    const location = useLocation();
+    console.log(`Location:`, location.hash);
+    console.log(`Params:`, params);
+
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         dispatch({ type: "FETCH_MASTER_LISTS" })
@@ -65,7 +69,7 @@ function ShoppingSheet() {
         history.push('/characterlist')
     }
 
-    const [selectedShopping, setSelectedShopping] = useState(false)
+    const [selectedShopping, setSelectedShopping] = useState(location.hash ? location.hash : false)
     const handleShoppingSelect = (event, newValue) => {
         setSelectedShopping(newValue)
     }
@@ -112,52 +116,52 @@ function ShoppingSheet() {
                         onChange={handleShoppingSelect}
                         indicatorColor='primary'
                         textColor='secondary'>
-                        <Tab value='armor' label='Armor' />
-                        <Tab value='weapons' label='Weapons' />
-                        <Tab value='grenades' label='Grenades' />
-                        <Tab value='other' label='Other Gear' />
-                        {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner' />}
-                        <Tab value='cyberware' label='Cyberware' />
-                        <Tab value='vehicles' label='Vehicles' />
-                        <Tab value='clothes' label='Clothing' />
+                        <Tab value='#armor' href={`/#/shopSheet/${params.id}#armor`} label='Armor' />
+                        <Tab value='#weapons' href={`/#/shopSheet/${params.id}#weapons`} label='Weapons' />
+                        <Tab value='#grenades' href={`/#/shopSheet/${params.id}#grenades`} label='Grenades' />
+                        <Tab value='#other' href={`/#/shopSheet/${params.id}#grenades`} label='Other Gear' />
+                        {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/shopSheet/${params.id}#netrunner`} label='Netrunner' />}
+                        <Tab value='#cyberware' href={`/#/shopSheet/${params.id}#cyberware`} label='Cyberware' />
+                        <Tab value='#vehicles' href={`/#/shopSheet/${params.id}#vehicles`} label='Vehicles' />
+                        <Tab value='#clothes' href={`/#/shopSheet/${params.id}#clothes`} label='Clothing' />
                     </Tabs>
                 </Item>
 
-                {selectedShopping === 'armor' ? (<>
+                {selectedShopping === '#armor' ? (<>
                     <ArmorOwnedTable />
                     <ArmorMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'weapons' ? (<>
+                {selectedShopping === '#weapons' ? (<>
                     <WeaponsOwnedTable />
                     <WeaponsMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'grenades' ? (<>
+                {selectedShopping === '#grenades' ? (<>
                     <GrenadeOwnedTable />
                     <GrenadeMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'other' ? (<>
+                {selectedShopping === '#other' ? (<>
                     <OtherOwnedTable />
                     <OtherMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'netrunner' ? (<>
+                {selectedShopping === '#netrunner' ? (<>
                     <NetrunnerOwnedTable />
                     <NetrunnerMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'cyberware' ? (<>
+                {selectedShopping === '#cyberware' ? (<>
                     <ShopCyberware />
                 </>) : <></>}
 
-                {selectedShopping === 'vehicles' ? (<>
+                {selectedShopping === '#vehicles' ? (<>
                     <VehicleOwnedTable />
                     <VehicleMasterTable />
                 </>) : <></>}
 
-                {selectedShopping === 'clothes' ? (<>
+                {selectedShopping === '#clothes' ? (<>
                     <ClothingEquippedTable />
                     <ClothingOwnedTable />
                     <ClothingMasterTable />

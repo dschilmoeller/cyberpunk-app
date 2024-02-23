@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import { Button } from "@mui/material";
+import { Grid } from '@mui/material';
 
 // add toast & custom text
 // improving clothing of certain rank/quality improves cool/appearance/etc -> show in display somehow.
@@ -53,12 +54,12 @@ export default function AdvancementClothes() {
 
     return true;
   };
-// history.push(`/shopSheet/${78}`
+  // history.push(`/shopSheet/${78}`
   return (
     <>
-      <h1>Current Clothing - Clothes can modified in the <Button
-      variant="contained"
-      onClick={()=> history.push(`/shopSheet/${params.id}`)}
+      <h1>Current Clothing - Outfits can be upgraded in the <Button
+        variant="contained"
+        onClick={() => history.push(`/shopSheet/${params.id}#clothes`)}
       >Shopping Area!</Button></h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -92,6 +93,14 @@ export default function AdvancementClothes() {
         </Table>
       </TableContainer>
 
+      <Grid container>
+        <Grid item xs={12} paddingLeft={2} paddingRight={2}>
+          <h4>
+            Clothes of Rank 5+ give you a +1 bonus to Appearance Attribute. Clothes of Rank 10 give a bonus to Appearance and Cool - there's confidence that comes with that amount of style.
+          </h4>
+        </Grid>
+      </Grid>
+
       <h1>Owned Clothing</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -121,14 +130,6 @@ export default function AdvancementClothes() {
           </TableBody>
         </Table>
       </TableContainer>
-      <h3>
-        Clothes of Rank 5+ give you a bonus to Cool - because you look good and
-        you know it, baby.
-      </h3>
-      <h3>
-        Clothes of rank 10 give a special bonus, but only the finest clothing
-        can be improved that far.
-      </h3>
     </>
   );
 }

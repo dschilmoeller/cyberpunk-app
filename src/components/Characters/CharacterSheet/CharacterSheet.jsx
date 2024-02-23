@@ -55,9 +55,8 @@ function CharacterSheet() {
     useEffect(() => {
         if (charDetail.saved) {
             setShowSnackbar(true)
-            console.log(`saved now.`);
         } else {
-            console.log(`Not Saved`);
+            console.log(`Saving...`);
         }
 
     }, [charDetail])

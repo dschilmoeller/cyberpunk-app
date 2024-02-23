@@ -64,24 +64,28 @@ export default function RulebookGear() {
                                 </TableHead>
                                 <TableBody>
                                     {armorMaster.map((row, i) => {
-                                        return (
-                                            <TableRow hover key={row.name}>
-                                                <TableCell>{row.name}</TableCell>
-                                                <TableCell align="left">{row.quality}</TableCell>
-                                                <TableCell align="left">{row.description}</TableCell>
-                                                <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            </TableRow>
-                                        )
+                                        if (row.quality != 0) {
+                                            return (
+                                                <TableRow hover key={row.name}>
+                                                    <TableCell>{row.name}</TableCell>
+                                                    <TableCell align="left">{row.quality}</TableCell>
+                                                    <TableCell align="left">{row.description}</TableCell>
+                                                    <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                                </TableRow>
+                                            )
+                                        }
                                     })}
                                     {shieldMaster.map((row, i) => {
-                                        return (
-                                            <TableRow hover key={row.name}>
-                                                <TableCell>{row.name}</TableCell>
-                                                <TableCell align="left">{row.quality}</TableCell>
-                                                <TableCell align="left">{row.description}</TableCell>
-                                                <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            </TableRow>
-                                        )
+                                        if (row.quality != 0) {
+                                            return (
+                                                <TableRow hover key={row.name}>
+                                                    <TableCell>{row.name}</TableCell>
+                                                    <TableCell align="left">{row.quality}</TableCell>
+                                                    <TableCell align="left">{row.description}</TableCell>
+                                                    <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                                </TableRow>
+                                            )
+                                        }
                                     })}
                                 </TableBody>
                             </Table>
