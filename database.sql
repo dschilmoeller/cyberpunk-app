@@ -413,6 +413,36 @@ VALUES
 		100000
 	),
 	(
+		'Light SUV',
+		'A small SUV, built for rugged terrain',
+		'Car',
+		15,
+		4,
+		15,
+		100,
+		30000
+	),
+	(
+		'Full Size SUV',
+		'A large SUV with ruggedized tires and ample seating and cargo space.',
+		'Car',
+		20,
+		6,
+		15,
+		120,
+		50000
+	),
+	(
+		'Tactical SUV',
+		'A large SUV built to military specifications.',
+		'Car',
+		25,
+		6,
+		15,
+		150,
+		100000
+	),
+	(
 		'Jet Ski',
 		'Personal watercraft.',
 		'Boat',
@@ -2952,7 +2982,7 @@ VALUES
 	),
 	(
 		'Magnetic Shuriken',
-		'Exotic Weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has more than 1 cyberlimb. Requires repair after each use.',
+		'Exotic Weapon. Attacker has -1 DV on most attacks if target is wearing metallic armor or has more than 1 cyberlimb. Explodes after hitting, ablating an additional point of armor.',
 		1,
 		'bow',
 		1,
@@ -3462,6 +3492,21 @@ WITH
 	(OIDS = FALSE);
 
 ALTER TABLE char_notes ADD CONSTRAINT char_notes_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
+
+CREATE TABLE
+	char_contacts (
+		char_contact_id SERIAL NOT NULL,
+		char_id int NOT NULL,
+		name varchar(400),
+		loyalty int,
+		connection int,
+		description text,
+		CONSTRAINT char_contact_pk PRIMARY KEY (char_contact_id)
+	)
+WITH
+	(OIDS = FALSE);
+
+ALTER TABLE char_contacts ADD CONSTRAINT char_contacts_pk0 FOREIGN KEY (char_id) REFERENCES character(id);
 
 CREATE TABLE
 	contact_master (
