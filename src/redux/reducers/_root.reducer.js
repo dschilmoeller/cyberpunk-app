@@ -10,6 +10,7 @@ import characterGear from './characterGear.reducer';
 import characterStatus from './characterStatus.reducer';
 import characterNotes from './characterNotes.reducer';
 import characterContacts from './characterContacts.reducer';
+import characterLifestyle from './characterLifestyle.reducer';
 
 import characterCreation from './characterCreation.reducer';
 
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
   characterNotes, // player created notes.
   characterContacts, // player owned contacts
+  characterLifestyle, // player owned lifestyle
 
   characterCreation, // contains details set up during character creation
 

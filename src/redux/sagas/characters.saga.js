@@ -22,6 +22,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
     const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
+    const characterLifestyle = yield axios.get(`/api/characters/fetchCharacterLifestyle/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_LIFESTYLE', payload: characterLifestyle.data })
 
     const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload}`)
     const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload}`)
@@ -283,16 +285,16 @@ function* fetchGameMasterContacts() {
     const allContacts = yield axios.get('/api/characters/fetchgamemastercontacts')
     yield put({ type: 'SET_CONTACT_LIST', payload: allContacts.data });
     const contactBridgeData = yield axios.get('/api/characters/fetchgamemastercontactbridgedata')
-    yield put({ type: "SET_CONTACT_BRIDGE_DATA", payload: contactBridgeData.data})
+    yield put({ type: "SET_CONTACT_BRIDGE_DATA", payload: contactBridgeData.data })
   } catch (error) {
     console.log(`Error fetching master contact list for gamemaster`, error);
   }
 }
 
-function* fetchGameMasterSingleCharContacts(action){
+function* fetchGameMasterSingleCharContacts(action) {
   try {
     const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data})
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
   } catch (error) {
     console.log(`Error fetching character contacts for GM page.`);
   }

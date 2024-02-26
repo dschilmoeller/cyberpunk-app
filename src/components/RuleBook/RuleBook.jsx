@@ -17,6 +17,7 @@ import RulebookCombat from './ActionsCombat.jsx';
 import RulebookInjuries from './InjuriesDying.jsx';
 import RulebookVehicles from './Vehicles.jsx';
 import Gameplay from './GamePlay.jsx';
+import RulebookClothingLifestyle from './ClothingLifestyle.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -85,7 +86,7 @@ export default function VerticalTabs() {
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="7 - Actions & Combat" {...a11yProps(6)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="8 - Injuries & Dying" {...a11yProps(7)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="9 - Vehicles" {...a11yProps(8)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="10 - Character Generation" {...a11yProps(9)} />
+          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="10 - Clothing and Lifestyle" {...a11yProps(9)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="11 - Character Advancement" {...a11yProps(10)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="12 - Playing The Game" {...a11yProps(11)} />
         </Tabs>
@@ -128,9 +129,15 @@ export default function VerticalTabs() {
           <RulebookVehicles />
         </TabPanel>
 
+        <TabPanel value={value} index={9}>
+          <RulebookClothingLifestyle />
+        </TabPanel>
+
         <TabPanel value={value} index={11}>
           <Gameplay />
         </TabPanel>
+
+        
 
         {/* Future site of Chargen */}
 
