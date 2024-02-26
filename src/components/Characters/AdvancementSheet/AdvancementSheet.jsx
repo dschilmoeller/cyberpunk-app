@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
@@ -39,24 +39,25 @@ function AdvancementSheet() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
+    const location = useLocation();
 
     const euroBuck = `\u20AC$`
 
     // opener for primary tabs.
-    const [value, setValue] = useState(false)
+    const [value, setValue] = useState(location.hash ? location.hash : false)
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        setExperienceValue(false)
+        // setExperienceValue(false)
         setShopValue(false)
     }
 
     // next level down tabs
-    const [experienceValue, setExperienceValue] = useState(false)
-    const handleExperienceValueChange = (event, newValue) => {
-        setExperienceValue(newValue);
-        setShopValue(false)
-    }
-    const [equipmentValue, setShopValue] = useState(false)
+    // const [experienceValue, setExperienceValue] = useState(location.hash ? location.hash : false)
+    // const handleExperienceValueChange = (event, newValue) => {
+    //     setExperienceValue(newValue);
+    //     setShopValue(false)
+    // }
+    const [equipmentValue, setShopValue] = useState(location.hash ? location.hash : false)
     const equipmentValueChange = (event, newValue) => {
         setShopValue(newValue)
         setExperienceValue(false)
@@ -153,85 +154,96 @@ function AdvancementSheet() {
                         onChange={handleChange}
                         indicatorColor='primary'
                         textColor='secondary'>
-                        <Tab value='experience' label='Spend XP' />
-                        <Tab value='gear' label='Equip Gear' />
+                        <Tab value='#experience' href={`/#/advancementsheet/${params.id}#experience`} label='Spend XP' />
+                        <Tab value='#gear' href={`/#/advancementsheet/${params.id}#gear`} label='Equip Gear' />
                     </Tabs></Item>
 
-                {value === 'experience' ? (
+                {value === '#experience' 
+                || value === '#attributes'
+                || value === '#skills'
+                || value === '#role'
+                || value === '#otherTraits' ? (
                     <Tabs
-                        value={experienceValue}
-                        onChange={handleExperienceValueChange}
+                        value={value}
+                        onChange={setValue}
                         indicatorColor='primary'
                         textColor='secondary'>
-                        <Tab value='attributes' label='Attributes' />
-                        <Tab value='skills' label='Skills' />
-                        <Tab value='role' label='Role Abilities' />
-                        <Tab value='otherTraits' label='Other Traits' />
+                        <Tab value='#attributes' href={`/#/advancementsheet/${params.id}#attributes`} label='Attributes' />
+                        <Tab value='#skills' href={`/#/advancementsheet/${params.id}#skills`} label='Skills' />
+                        <Tab value='#role' href={`/#/advancementsheet/${params.id}#role`} label='Role Abilities' />
+                        <Tab value='#otherTraits' href={`/#/advancementsheet/${params.id}#otherTraits`} label='Other Traits' />
                     </Tabs>) : <></>}
 
-                {experienceValue === 'attributes' ? (<>
+                {value === '#attributes' ? (<>
                     <AdvancementAttributes />
                 </>) : <></>}
 
-                {experienceValue === 'skills' ? (<>
+                {value === '#skills' ? (<>
                     <AdvancementSkills />
                 </>) : <></>}
 
-                {experienceValue === 'role' ? (<>
+                {value === '#role' ? (<>
                     <AdvancementSpecial />
                 </>) : <></>}
 
-                {experienceValue === 'otherTraits' ? (<>
+                {value === '#otherTraits' ? (<>
                     <AdvancementOther />
                 </>) : <></>}
 
-                {value === 'gear' ? (
+                {value === '#gear'
+                || value === '#armor'
+                || value === '#weapons'
+                || value === '#other'
+                || value === '#netrunner'
+                || value === '#cyberware'
+                || value === '#vehicles'
+                || value === '#clothes' ? (
                     <Tabs
-                        value={equipmentValue}
-                        onChange={equipmentValueChange}
+                        value={value}
+                        onChange={setValue}
                         indicatorColor='primary'
                         textColor='secondary'>
-                        <Tab value='armor' label='Armor' />
-                        <Tab value='weapons' label='Weapons' />
-                        <Tab value='other' label='Other Gear' />
-                        {advancementDetails.netrunner > 0 && <Tab value='netrunner' label='Netrunner Gear' />}
-                        <Tab value='cyberware' label='Cyberware' />
-                        <Tab value='vehicles' label='Vehicles' />
-                        <Tab value='clothes' label='Clothes' />
+                        <Tab value='#armor' href={`/#/advancementsheet/${params.id}#armor`} label='Armor' />
+                        <Tab value='#weapons' href={`/#/advancementsheet/${params.id}#weapons`} label='Weapons' />
+                        <Tab value='#other' href={`/#/advancementsheet/${params.id}#other`} label='Other Gear' />
+                        {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/advancementsheet/${params.id}#netrunner`} label='Netrunner Gear' />}
+                        <Tab value='#cyberware' href={`/#/advancementsheet/${params.id}#cyberware`} label='Cyberware' />
+                        <Tab value='#vehicles' href={`/#/advancementsheet/${params.id}#vehicles`} label='Vehicles' />
+                        <Tab value='#clothes' href={`/#/advancementsheet/${params.id}#clothes`} label='Clothes' />
                     </Tabs>) : <></>}
 
-                {equipmentValue === 'armor' ? (<>
+                {value === '#armor' ? (<>
                     <AdvancementGearArmor />
                 </>) : <></>}
 
-                {equipmentValue === 'weapons' ? (<>
+                {value === '#weapons' ? (<>
                     <AdvancementGearWeapons />
                 </>) : <></>}
 
-                {equipmentValue === 'other' && advancementDetails.med_pharma > 0 ?
+                {value === '#other' && advancementDetails.med_pharma > 0 ?
                     (<>
                         <AdvancementMakePharmaDialog />
                         <AdvancementGearOther />
                     </>) : <></>}
 
-                {equipmentValue === 'other' && advancementDetails.med_pharma < 1 ?
+                {value === '#other' && advancementDetails.med_pharma < 1 ?
                     (<>
                         <AdvancementGearOther />
                     </>) : <></>}
 
-                {equipmentValue === 'netrunner' ? (<>
+                {value === '#netrunner' ? (<>
                     <AdvancementNetrunnerGear />
                 </>) : <></>}
 
-                {equipmentValue === 'cyberware' ? (<>
+                {value === '#cyberware' ? (<>
                     <AdvancementCyberware />
                 </>) : <></>}
 
-                {equipmentValue === 'vehicles' ? (<>
+                {value === '#vehicles' ? (<>
                     <AdvancementGarage />
                 </>) : <></>}
 
-                {equipmentValue === 'clothes' ? (<>
+                {value === '#clothes' ? (<>
                     <AdvancementClothes />
                 </>) : <></>}
 

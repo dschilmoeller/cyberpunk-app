@@ -35,12 +35,9 @@ function ShoppingSheet() {
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
+    const location = useLocation();
 
     const euroBuck = `\u20AC$`
-
-    const location = useLocation();
-    console.log(`Location:`, location.hash);
-    console.log(`Params:`, params);
 
     useEffect(() => {
         dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
