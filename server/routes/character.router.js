@@ -1566,4 +1566,16 @@ router.delete('/deletegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
 
 })
 
+router.get('/fetchcharlifestyle/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_lifestyle_bridge"`
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character lifestyle`, err);
+        })
+})
+
+
 module.exports = router

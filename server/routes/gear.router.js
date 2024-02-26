@@ -122,4 +122,15 @@ router.get('/clothing', (req, res) => {
     })
 })
 
+router.get('/lifestyle/', (req, res) => {
+    const sqlText = `SELECT * FROM "lifestyle_master"`
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching lifestyle master rows`, err);
+        })
+})
+
 module.exports = router

@@ -3629,77 +3629,43 @@ ALTER TABLE char_clothing_bridge ADD CONSTRAINT char_id_pk0 FOREIGN KEY (char_id
 
 ALTER TABLE char_clothing_bridge ADD CONSTRAINT clothing_id_pk1 FOREIGN KEY (clothing_id) REFERENCES clothing_master (clothing_master_id) ON DELETE CASCADE;
 
-CREATE TABLE
-	lifestyle_master (
-		id SERIAL NOT NULL,
-		name varchar(80) NOT NULL,
-		description text NOT NULL,
-		type varchar(64) NOT NULL,
-		quality INT NOT NULL DEFAULT 0,
-	)
-WITH
-	(OIDS = FALSE);
 
-INSERT INTO
-	lifestyle_mater ("name", "description", "type")
-VALUES
-	(
-		'Homeless',
-		'You live on or under the street, or wherever you can. You are frequently required to move by law enforcement, local gangs, or other homeless people taking real or imagined issues with your presence.',
-		'housing',
-		1
-	),
-	(
-		'Living in your car',
-		'You live in your car. It\'s not much, but it is yours.',
-		'housing',
-		1
-	),
-	(
-		'Cube Hotel',
-		'You live in a room small enough to touch both walls when sitting in the middle. It is either a cube hotel, converted residential unit, or an illegally modified U-Stor-It building. In any case, you are not legally renting a space, and are liable to be booted at any time. Further, you have no storage to speak of, and share a common room with many other people where your toilet and water access is.',
-		'housing',
-		2
-	),
-	(
-		'Shipping Container Mod',
-		'You\'ve managed to secure a converted shipping container. You do have some room to yourself, as well as a personal bathroom, some storage space, and the ability to customize your living environment somewhat.',
-		'housing',
-		3
-	),
-	(
-		'Kibble',
-		'You eat food that you would not feed to a dog under most circumstances. Once a week you might enjoy some noodles and vat-grown meat from a local vendor, or treat yourself to a single drink at a bar.',
-		'lifestyle'
-	);
 
--- CREATE TABLE "lifestyle_master" (
--- 	"lifestyle_master_id" serial NOT NULL,
--- 	"name" varchar NOT NULL,
--- 	"housing" text NOT NULL,
--- 	"ameneties" text NOT NULL,
--- 	"parking" text NOT NULL,
--- 	"monthly_price" integer NOT NULL DEFAULT 0,
---  "quality" integer NOT NULL DEFAULT 1
--- 	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
--- ) WITH (OIDS = FALSE);
+CREATE TABLE "lifestyle_master" (
+	"lifestyle_master_id" serial NOT NULL,
+	"quality" integer NOT NULL DEFAULT 1,
+	"name" varchar NOT NULL,
+	"housing" text NOT NULL,
+	"storage" text NOT NULL,
+	"ameneties" text NOT NULL,
+	"food" text NOT NULL,
+	"parking" text NOT NULL,
+	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
+) WITH (OIDS = FALSE);
 
--- CREATE TABLE "lifestyle_brige" (
--- 	"lifestyle_bridge_id" serial NOT NULL,
--- 	"char_id" integer NOT NULL,
--- 	"lifestyle_id" integer NOT NULL,
--- 	"months_owned" integer NOT NULL
--- 	CONSTRAINT "lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
--- ) WITH (OIDS = FALSE);
--- ALTER TABLE "lifestyle_bridge"
--- ADD CONSTRAINT "lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
--- ALTER TABLE "lifestyle_bridge"
--- ADD CONSTRAINT "lifestyle_bridge_fk1" FOREIGN KEY ("lifestyle_id") REFERENCES "lifestyle_master"("lifestyle_master_id");
+CREATE TABLE "char_lifestyle_bridge" (
+	"lifestyle_bridge_id" serial NOT NULL,
+	"char_id" integer NOT NULL,
+	"housing_rank" integer NOT NULL DEFAULT 1,
+	"storage_rank" integer NOT NULL DEFAULT 1,
+	"ameneties_rank" integer NOT NULL DEFAULT 1,
+	"food_rank" integer NOT NULL DEFAULT 1,
+	"parking_rank" integer NOT NULL DEFAULT 1,
+	"months_owned" integer NOT NULL,
+	CONSTRAINT "char_lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
+) WITH (OIDS = FALSE);
+ALTER TABLE "char_lifestyle_bridge"
+ADD CONSTRAINT "char_lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
 
--- INSERT INTO "lifestyle_master" ("quality", "name", "housing", "ameneties","parking","monthly_price")
--- VALUES 
--- (1, 'Street Living', 'You live on or next ', 0),
--- (2, 'Kibble','You live off food you would not give to a dog you disliked. You can pay for about 2 hours of entertainment once a month.', 100 ),
--- (3, 'Generic Prepacked', 'You eat food that can be legally described as such, sometimes with flavors! You can afford to go out for a meal or drink about once a week.', 300 ),
--- (4, 'Good Prepack', 'You eat food that tastes almost as good as the real thing. You occasionally get a hold of some fruit or vegetables. You frequent nice bars and restaurants, and see live entertainment.', 800),
--- (5, 'Fresh Food', 'You eat, like, actual food, including meat sometimes. You frequent the nicest bars and restaurants, and once per month enjoy a world class dining experience.', 2000)
+INSERT INTO "lifestyle_master" ("quality", "name", "housing", "storage", "ameneties","food","parking","monthly_price")
+VALUES 
+(1, 'Street Livin', 'You live on the street.', 'You are entirely self reliant regarding your gear. You cannot keep more than you can carry on your person.', 'You can get the occasional Personal CarePak to clean up, but otherwise you are on your own.', 'Food is whatever you can find in the dumpster today.', 'You park on the street, but are in constant danger of it being ripped off, towed, or messed with.'),
+(2, 'Low Life','You live in a bedsit or illegally converted storage container, and envy the spacious accommodations given to felons.', 'You can store about a duffel bags worth of stuff securely, provided you make sure everyone you live near thinks you are as poor as they are.', 'You have a common area with filthy toilets, sporadically available running water and electricity, and you generally stash some batteries and bottles of water in your space for redundancy. Problems with your living area are distinctly your problem.', 'You live off food you would not give to a dog you disliked. You can go out to a street food vendor or a braindance parlor once a week.', 'You park on the street, and your vehicle is only as secure as you can make it. You at least have access to a private lot or an arrangement to use an alley.'),
+(3, 'Scraping By', 'You live in a legally converted shipping container, or a modified hotel, with about 2x6 meters of living space.', 'You have a small amount of private storage space that is relatively secure - it is not hard to break into your living area, but your neighbors are not so desperate they will try.', 'You have access to a relatively well maintained common kitchen and bathroom, with short if relatively secure intervals where you can get water and electricity, but you have to keep the local gangers paid off or risk their ire to use them. Problems with your living area are your problem, but they are relatively infrequent.', 'You usually eat kibble, instant noodles, and the like, but at least have access to a variety of flavors and a small supply of condiments. You visit street vendors relatively often as well to liven up your diet.', 'You have access to a surface parking lot. It has decent lighting and security cameras, which will deter the most casual of thieves.'),
+(4, 'Dire Straits', 'You live in a furnished micro-condo, or a small trailer outside of town. You have roughly 48 meters squared of living space.','You have a closet sized storage area which is well locked and alarmed.', 'You have reliable-ish utilities, as well as a microsopic or barely functional kitchen and access to some sort of gym facilities. If there is a problem, you can fix it yourself or get on a months long waitlist.', 'Your meals are instant and well supplemented with kibble, but you also can get takeout or visit a street vendor a few times a week without bringing on a financial crisis.', 'You have access to a shared garagae with decent security - not a place to keep a nice car, but at least the odds are in your favor if you drive a piece of crap. Alternately, simple isolation provides some security for your vehicle(s).'),
+(5, 'Distinctly Mid', 'You live in a small house on the outskirts of town, or a Super Efficiency apartment or condo.', 'You have a small second bedroom or the like which can be used for storage, and your whole place is relatively secure. In addition to on site security, your neighborhood is actually patrolled by police occasionally and local gangs are savvy enough not to shit where they eat.', 'You have reliable utilities several hours a day, and some kind of backup in the form of solar or bottled water. You enjoy a private bathroom with rationed showers, and a terrible kitchen or small limited food preparation area. You actually have a landlord you have met, and can get your problems fixed in a month or two. There is an on-site gym of of some kind you have ready access to.', 'You generally eat pre-pak food or takeout, and have access to a decent variety of flavor and enough to eat that you are not hungry all the time.', 'You have a small private garage, suitable for 1 vehicle, whose locks are of decent quality. If in a shared structure, the security is sufficient to deter any but the most determined gangers from messing with your stuff.'),
+(6, 'Doing alright', 'You have a decent sized house on the edge of a combat zone, or a mid-sized efficiency apartment. In all, you have roughly 150 square meters of space.', 'You have a good sized room or two and a backup closet that can be secured with high end electronic and physical locks.', 'You have reliable, if still rationed, utilities, as well as a small kitchen, bathroom, and access to a decent gym with volunteer-led classes and maintained equipment. Your landlord can fix most problems within a few weeks.', 'You eat out regularly, sometimes at actual sit down restaurants, and enjoy real fruit or vegetables on top of your instant meals once or twice a month.', 'You have access to two spots in a well secured garage - either paying off local gangers if in a house, or enjoying low level corporate security in a shared garage environment.'),
+(7, 'Corporate Lite', 'You live in a corporate apartment, large co-op, or a modest house in a nice part of town, with about 400 square meters of space to do with as you please.', 'Your entire space is relatively secure, and your storage is limited only by what level of space you are willing to dedicate to it.', 'You have a nice bathroom, an actual kitchen, and access to a good gym with a pool. Utilities are largely unrestricted, but you do get the occasional brownout. Several bars or restaurants are in your building or nearby. Any issues with your space are dealt with inside of a week.', 'You enjoy high quality pre-pak food, and have to fresh food every week or so, as well as some vat-grown actual meats.', 'You have a couple secure parking spots, with high end security of one flavor or another. You have access to an aircar hangar, but no permanent storage - just pick up and drop off priveleges.'),
+(8, 'Upper Middle Class', 'You have either a luxury corporate apartment, or a good sized house - either way, some 1000 square meters of space.', 'In addition to your living space being highly secure, you have a closet sized vault to store really valuable items. You also have access to a safe deposit box in a reputable bank.', 'You have several bathrooms, a large kitchen, and access to a top flight gym with profesionally led classes, shared secure conference rooms, and an onsite concierge to handle most minor issues immediately. Any major problems will be attended to within a day or two.', 'You eat fresh food several times a week, supplemented with prepak or takeout as you like, and can dine out at restaurants more or less at will. Once a month, you can enjoy a truly world class meal or evening of decadent entertainment.', 'You have a private, highly secure garage for up to four vehicles, as well as access to an equally well protected aircar hangar for a single vessel.'),
+(9, 'Executive Living', 'You have a penthouse apartment, with a private rooftop garden, aircar pad, private elevator access, and luxurious surroundings. Some 2400 square meters of space.', 'In addition to your residence, you have a room sized vault that requires a professional team to even consider breaking into. In addition, you have one or more off site places you can stash things - equally protected and private.', 'You live a life of luxury, with access to just about any convenience you deem necessary. Any issues with your living space are attended immediately by a crack team of specialists.', 'Your dining habits are epicurean, and in addition to the fresh food your private chef prepares you can enjoy a world class restaurant meal at least once a week.', 'You have a highly secure private garage, capable of holding an entire collection of high end cars, as well as access to a shared AV hangar with room for several vehicles.'), 
+(10, 'Truly Wealthy', 'You have a multi-level penthouse, suburban mansion, or a small compound - in any case, you have a 5000+ square meter living area.', 'You have multiple secure vaults, as well as access to off-site storage facilities that cater to a variety of security conscious consumers.', 'Your lifestyle is the stuff of sybaritic legend, with staff to attend to just about any need you might dream up.', 'You eat only the finest foods, generally at world class restaurants or prepared by your personal chef.', 'You have multiple secure garages, aircraft hangars, and if in a penthouse, priority access to a zeppelin mooring post.')
