@@ -193,13 +193,13 @@ export default function RulebookRoles() {
                                         <TableRow hover>
                                             <TableCell align="left">Spot Weakness</TableCell>
                                             <TableCell align="left">2</TableCell>
-                                            <TableCell align='left'>Solos can almost unerringly spot weak points in a target - for every 2 points in this skill, the Solo increases the base damage of any weapon they use this round by one.</TableCell>
+                                            <TableCell align='left'>Solos can almost unerringly find weak points in a target - for every 2 points in this skill, the Solo increases the base damage of any weapon they use this round by one.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>
                                             <TableCell align="left">Precision Attack</TableCell>
                                             <TableCell align="left">3</TableCell>
-                                            <TableCell align='left'>Solos are trained to aim carefully - for every 3 points in this ability, the Solo gets an automatic success on any attack rolls made this round, including aimed shots.</TableCell>
+                                            <TableCell align='left'>Solos are trained to aim carefully - for every 3 points in this ability, the Solo gets an automatic success on any attack rolls made this round, including aimed shots. Divided Die pools each receive an automatic success to each pool as well, provided they are for an attack.</TableCell>
                                         </TableRow>
 
                                         <TableRow hover>

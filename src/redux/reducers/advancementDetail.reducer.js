@@ -5,7 +5,12 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             return action.payload;
         // clears details when required.
         case 'CLEAR_ADVANCEMENT_DETAIL':
-            return [{ name: '', campaign: 1, campaignWords: '', bank: 0}]
+            return [{ name: '', campaign: 1, campaignWords: '', bank: 0 }]
+        case 'SET_CHARACTER_BANK':
+            return {
+                ...state,
+                bank: action.payload.bank
+            }
         // From AdvancementSheet pages - players spending XP
         case 'INCREASE_ATTRIBUTE':
             return {
@@ -235,21 +240,6 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             return {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
-            }
-        case 'BUY_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) - Number(action.payload.price)
-            }
-        case 'SELL_OWNED_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) + Number(action.cost)
-            }
-        case 'SELL_ADVANCEMENT_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) + Number(action.cost)
             }
         case 'IMPROVE_CLOTHING':
             return {

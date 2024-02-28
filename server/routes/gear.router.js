@@ -133,4 +133,29 @@ router.get('/lifestyle/', (req, res) => {
         })
 })
 
+router.post('/buyclothing', (req, res) => {
+    const sqlText = `INSERT INTO "char_clothing_bridge" ("char_id", "clothing_id", "rank", "equipped")
+    VALUES ($1, $2, $3, $4)`
+    const sqlParams = [req.body.charID, req.body.item.clothing_master_id, req.body.rank, false]
+    pool.query(sqlText, sqlParams)
+    .then(result => {
+        res.sendStatus(201)
+    })
+    .catch(err => {
+        console.log(`Error buying clothing:`, err);
+    })
+})
+
+router.delete('/sellclothing/:id', (req, res) => {
+    const sqlText = `DELETE FROM "char_clothing_bridge" WHERE "clothing_bridge_id" = $1`
+    const sqlParams = [req.params.id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {
+        res.sendStatus(200)
+    })
+    .catch(err => {
+        console.log(`Error selling clothing:`, err);
+    })
+})
+
 module.exports = router

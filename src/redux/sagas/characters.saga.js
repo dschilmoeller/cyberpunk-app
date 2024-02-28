@@ -73,7 +73,16 @@ function* saveCharacterBank(action) {
   try {
     yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
   } catch (error) {
-    console.log(`Error making a bank change`, error);
+    console.log(`Error making a bank change:`, error);
+  }
+}
+
+function* fetchCharacterBank(action) {
+  try {
+    const bank = yield axios.get(`/api/characters/fetchBank/${action.payload}`)
+    yield put ({ type: "SET_CHARACTER_BANK", payload: bank.data})
+  } catch (error) {
+    console.log(`Error fetching character bank:`, error);
   }
 }
 
@@ -254,6 +263,12 @@ function* fetchAdvancementDetails(action) {
   }
 }
 
+function* fetchAdvancementClothes(action) {
+  // console.log(`action.payload:`, action.payload);
+  const advancementClothes = yield axios.get(`/api/characters/fetchAdvancementClothes/${action.payload}`)
+  yield put({type: 'SET_ADVANCEMENT_CLOTHES', payload: advancementClothes.data})
+}
+
 function* saveAdvancementDetails(action) {
   try {
     yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload);
@@ -316,6 +331,7 @@ function* characterSaga() {
   yield takeLatest('USE_GRENADE', useGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
   yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
+  yield takeLatest('FETCH_CHARACTER_BANK', fetchCharacterBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
   yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote);
   yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote);
@@ -330,6 +346,7 @@ function* characterSaga() {
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
+  yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes)
 
   // GM fetch/save/delete
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)

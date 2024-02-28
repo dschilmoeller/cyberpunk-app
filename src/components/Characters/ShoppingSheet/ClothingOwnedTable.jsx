@@ -21,46 +21,43 @@ export default function ClothingOwnedTable() {
     const euroBuck = `\u20AC$`
 
     const sellOwnedClothing = (item) => {
-        dispatch({ type: 'SELL_OWNED_CLOTHING', payload: item, cost: Math.floor(priceMaker(item.quality, item.rank) / 4) })
-    }
-
-    const sellBoughtClothing = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_CLOTHING', payload: item, cost: priceMaker(item.quality, item.rank) })
+        let newBank = (charDetail.bank + Math.floor(priceMaker(item.quality, item.rank) / 4))
+        dispatch({ type: 'SELL_CLOTHING', payload: { item, newBank, charID: item.char_id} })
     }
 
     const priceMaker = (quality, rank) => {
         let price = 5;
         if (quality > 0) {
-          price = 10 * (quality * quality) * (rank * rank) ;
-        } 
+            price = 10 * (quality * quality) * (rank * rank);
+        }
         return Number(price)
     }
 
     const equipclothes = (incomingClothing) => {
         charClothes.map(clothing => {
-          if (clothing.equipped === true) {
-            unequipClothes(clothing)
-          }
+            if (clothing.equipped === true) {
+                unequipClothes(clothing)
+            }
         })
-        
+
         if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 1 }, });
         } else if (incomingClothing.rank === 10) {
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 2 }, });
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: 1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 2 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: 1 }, });
         }
         dispatch({ type: "EQUIP_CLOTHES", payload: incomingClothing });
-      };
-    
-      const unequipClothes = (incomingClothing) => {
+    };
+
+    const unequipClothes = (incomingClothing) => {
         if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -1 }, });
         } else if (incomingClothing.rank === 10) {
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -2 }, });
-          dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: -1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -2 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: -1 }, });
         }
         dispatch({ type: "UNEQUIP_CLOTHES", payload: incomingClothing });
-      };
+    };
 
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -116,7 +113,7 @@ export default function ClothingOwnedTable() {
             label: 'Rank',
         },
         {
-            id:'equip',
+            id: 'equip',
             numeric: true,
             disablePadding: false,
             label: 'Equip'
@@ -184,16 +181,16 @@ export default function ClothingOwnedTable() {
     function createCharClothingData(char_id, clothing_bridge_id, clothing_id, clothing_master_id, description, equipped, name, quality, rank) {
         let price = priceMaker(quality, rank)
         return {
-          char_id,
-          clothing_bridge_id,
-          clothing_id,
-          clothing_master_id,
-          description,
-          equipped,
-          name,
-          quality,
-          rank,
-          price
+            char_id,
+            clothing_bridge_id,
+            clothing_id,
+            clothing_master_id,
+            description,
+            equipped,
+            name,
+            quality,
+            rank,
+            price
         };
     }
 
@@ -239,20 +236,20 @@ export default function ClothingOwnedTable() {
                         />
                         <TableBody>
                             {sortedCharClothingRows.map((row) => {
-                                if (row.equipped === false){
+                                if (row.equipped === false) {
                                     return (
                                         <TableRow hover key={row.clothing_bridge_id}>
                                             <TableCell align="center">{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{row.rank}</TableCell>
-                                            <TableCell align="center"><Button onClick={()=> equipclothes(row)}>Equip</Button></TableCell>
+                                            <TableCell align="center"><Button onClick={() => equipclothes(row)}>Equip</Button></TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(priceMaker(row.quality, row.rank) / 4).toLocaleString()}</TableCell>
                                             <TableCell align="center"><Button onClick={() => sellOwnedClothing(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
                                 }
                             })}
-                            {boughtClothes.map((item, i) => {
+                            {/* {boughtClothes.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -263,7 +260,7 @@ export default function ClothingOwnedTable() {
                                         <TableCell align="center"><Button onClick={() => sellBoughtClothing(item)}>Return</Button></TableCell>
                                     </TableRow>
                                 )
-                            })}
+                            })} */}
                         </TableBody>
                     </Table>
                 </TableContainer>

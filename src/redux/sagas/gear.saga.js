@@ -23,24 +23,43 @@ function* fetchMasterLists() {
     const clothingList = yield axios.get('/api/gear/clothing')
     const lifestyleList = yield axios.get('/api/gear/lifestyle')
 
-    yield put({ type: 'SET_MASTER_EQUIPMENT_LISTS', payload: {
-        armor: armorList.data,
-        shields: shieldList.data,
-        weapons: weaponList.data,
-        grenades: grenadeList.data,
-        miscGear: gearList.data,
-        cyberware: cyberList.data,
-        netrunnerGear: netrunnerList.data,
-        vehicles: vehicleList.data,
-        vehicleMods: vehicleModList.data,
-        clothing: clothingList.data,
-        lifestyle: lifestyleList.data
-    }})
+    yield put({
+        type: 'SET_MASTER_EQUIPMENT_LISTS', payload: {
+            armor: armorList.data,
+            shields: shieldList.data,
+            weapons: weaponList.data,
+            grenades: grenadeList.data,
+            miscGear: gearList.data,
+            cyberware: cyberList.data,
+            netrunnerGear: netrunnerList.data,
+            vehicles: vehicleList.data,
+            vehicleMods: vehicleModList.data,
+            clothing: clothingList.data,
+            lifestyle: lifestyleList.data
+        }
+    })
+}
+
+function* buyClothing(action) {
+    yield axios.post('/api/gear/buyclothing/', action.payload)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
+}
+
+function* sellClothing(action) {
+    console.log(`action.payload:`, action.payload);
+    yield axios.delete(`/api/gear/sellclothing/${action.payload.item.clothing_bridge_id}`)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
 function* gearSaga() {
     yield takeLatest('FETCH_MASTER_LISTS', fetchMasterLists);
     yield takeLatest('FETCH_MISC_GEAR_LIST', fetchGear);
+    yield takeLatest('SELL_CLOTHING', sellClothing);
+    yield takeLatest('BUY_CLOTHING', buyClothing);
 }
 
 export default gearSaga;

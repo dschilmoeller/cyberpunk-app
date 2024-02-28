@@ -53,7 +53,8 @@ export default function ClothingMasterTable() {
         }
 
         if (charDetail.bank >= price) {
-            dispatch({ type: 'BUY_CLOTHING', payload: { item, clothingID: clothingID, price: price, rank: rank } })
+            let newBank = (charDetail.bank - price)
+            dispatch({ type: 'BUY_CLOTHING', payload: { item, newBank: newBank, rank: rank, charID: charDetail.id } })
         }
         else {
             setShowSnackbar(true)

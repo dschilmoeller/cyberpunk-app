@@ -386,7 +386,7 @@ router.put('/charactercreatepharmaceutical/', rejectUnauthenticated, (req, res) 
 // save arbitrary in play bank changes (from backpack) 
 router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
     const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
-    const bankSqlParams = [req.body.newBank, req.body.id]
+    const bankSqlParams = [req.body.newBank, req.body.charID]
     pool.query(updateBankSqlText, bankSqlParams)
         .then(result => {
             res.sendStatus(200)
@@ -394,6 +394,18 @@ router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => {
             console.log(`error arbitrarily updating bank:`, err);
         })
+})
+
+router.get('/fetchBank/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT "bank" from "character" WHERE "character"."id" = $1`
+    const sqlParams = [req.params.id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {
+        res.send(result.rows[0])
+    })
+    .catch(err => {
+        console.log(`error fetching bank:`, err);
+    })
 })
 
 // create in play character note

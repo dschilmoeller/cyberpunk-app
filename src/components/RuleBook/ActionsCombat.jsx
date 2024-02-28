@@ -256,7 +256,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    If a character concentrates solely on defense, they can roll their Reflexes + Evasion instead of one or the other. This 'uses' their next complex action. A player who as already dodged can use Full Dodge by sacrificing their next complex action and rolling Evasion or Reflexes (whichever wasn't used initially). This can be done in reaction to a rolled attack.
+                    If a character concentrates solely on defense, they can roll their Reflexes + Evasion instead of one or the other. This 'uses' their next complex action. A player who as already dodged can use Full Dodge by sacrificing their next complex action and rolling Evasion or Reflexes (whichever wasn't used initially). This can be used after an attack is rolled and the character knows they will get hit.
                 </Typography>
             </Grid>
 

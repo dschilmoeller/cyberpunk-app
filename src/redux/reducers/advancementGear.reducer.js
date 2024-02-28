@@ -122,6 +122,11 @@ const advancementGear = (state = {
                 vehicleMods: action.payload.vehicleMods,
                 clothes: action.payload.clothes
             }
+        case 'SET_ADVANCEMENT_CLOTHES':
+            return {
+                ...state,
+                clothes: action.payload
+            }
         case 'SET_ADVANCEMENT_MISC_GEAR':
             return {
                 ...state,
@@ -750,22 +755,22 @@ const advancementGear = (state = {
 
                 })
             }
-        case 'BUY_CLOTHING':
-            return {
-                ...state,
-                boughtClothes: [...state.boughtClothes,
-                {
-                    description: action.payload.item.description,
-                    clothing_master_id: action.payload.item.clothing_master_id,
-                    name: action.payload.item.name,
-                    // note different than others as price is the result of an equation (10*quality^2*rank^2) rather than inherent to the master item.
-                    price: action.payload.price,
-                    quality: action.payload.item.quality,
-                    clothingID: action.payload.clothingID,
-                    rank: action.payload.rank
-                }],
-                clothingID: state.clothingID + 1
-            }
+        // case 'BUY_CLOTHING':
+        //     return {
+        //         ...state,
+        //         boughtClothes: [...state.boughtClothes,
+        //         {
+        //             description: action.payload.item.description,
+        //             clothing_master_id: action.payload.item.clothing_master_id,
+        //             name: action.payload.item.name,
+        //             // note different than others as price is the result of an equation (10*quality^2*rank^2) rather than inherent to the master item.
+        //             price: action.payload.price,
+        //             quality: action.payload.item.quality,
+        //             clothingID: action.payload.clothingID,
+        //             rank: action.payload.rank
+        //         }],
+        //         clothingID: state.clothingID + 1
+        //     }
         case 'SELL_ADVANCEMENT_CLOTHING':
             return {
                 ...state,
