@@ -2595,7 +2595,6 @@ VALUES
 INSERT INTO
 	"public"."armor_master" ("name", "quality", "price", "description")
 VALUES
-	(E 'No Armor', 0, 0, E 'No Armor Equipped'),
 	(
 		E 'Clothes',
 		1,
@@ -2666,7 +2665,6 @@ VALUES
 INSERT INTO
 	"public"."shield_master" ("name", "quality", "price", "description")
 VALUES
-	(E 'No Shield', 0, 0, E 'No Shield Equipped'),
 	(
 		E 'Runner\'s Buckler',
 		1,

@@ -193,7 +193,7 @@ export default function AdvancementGearArmor() {
                     </TableHead>
                     <TableBody>
                         {characterArmor.map((item, i) => {
-                            if (item.equipped === true && item.name != 'No Armor') {
+                            if (item.equipped === true) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -207,7 +207,7 @@ export default function AdvancementGearArmor() {
                             }
                         })}
                         {characterShield.map((item, i) => {
-                            if (item.equipped === true && item.name != 'No Shield') {
+                            if (item.equipped === true) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -239,7 +239,7 @@ export default function AdvancementGearArmor() {
                     </TableHead>
                     <TableBody>
                         {characterArmor.map((item, i) => {
-                            if (item.equipped === false && item.name != 'No Armor') {
+                            if (item.equipped === false) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -253,7 +253,7 @@ export default function AdvancementGearArmor() {
                             }
                         })}
                         {characterShield.map((item, i) => {
-                            if (item.equipped === false && item.name != 'No Shield') {
+                            if (item.equipped === false) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>

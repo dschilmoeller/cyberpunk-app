@@ -252,7 +252,7 @@ export default function CreationGear() {
                     </TableHead>
                     <TableBody>
                         {armor.map((row, i) => {
-                            if (row.price < 5000 && row.name != 'No Armor') {
+                            if (row.price < 5000) {
                                 return (
                                     <TableRow hover key={row.name}>
                                         <TableCell>{row.name} </TableCell>
@@ -265,7 +265,7 @@ export default function CreationGear() {
                             }
                         })}
                         {shield.map((row, i) => {
-                            if (row.price < 5000 && row.name != 'No Shield') {
+                            if (row.price < 5000) {
                                 return (
                                     <TableRow hover key={row.name}>
                                         <TableCell>{row.name} </TableCell>

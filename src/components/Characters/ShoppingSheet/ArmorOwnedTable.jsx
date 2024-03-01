@@ -241,7 +241,7 @@ export default function ArmorOwnedTable() {
                             </TableHead>
                             <TableBody>
                                 {sortedCharArmorRows.map((row) => {
-                                    if (row.equipped === true && row.name != 'No Armor') {
+                                    if (row.equipped === true) {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
                                                 <TableCell align='center'>{row.name}</TableCell>
@@ -255,7 +255,7 @@ export default function ArmorOwnedTable() {
                                     }
                                 })}
                                 {sortedCharShieldRows.map((row) => {
-                                    if (row.equipped === true && row.name != 'No Shield') {
+                                    if (row.equipped === true) {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
                                                 <TableCell align='center'>{row.name}</TableCell>
@@ -291,7 +291,7 @@ export default function ArmorOwnedTable() {
                             />
                             <TableBody>
                                 {sortedCharArmorRows.map((row) => {
-                                    if (row.equipped === false && row.name != 'No Armor') {
+                                    if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
                                                 <TableCell >{row.name}</TableCell>
@@ -305,7 +305,7 @@ export default function ArmorOwnedTable() {
                                     }
                                 })}
                                 {sortedCharShieldRows.map((row) => {
-                                    if (row.equipped === false && row.name != 'No Shield') {
+                                    if (row.equipped === false) {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
                                                 <TableCell>{row.name}</TableCell>

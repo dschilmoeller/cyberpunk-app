@@ -234,33 +234,29 @@ export default function ArmorMasterTable() {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
-                        
+
                         <TableBody>
                             {sortedMasterArmorRows.map((row) => {
-                                if (row.name != 'No Armor') {
-                                    return (
-                                        <TableRow hover key={row.armor_master_id}>
-                                            <TableCell padding={'normal'}>{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                }
+                                return (
+                                    <TableRow hover key={row.armor_master_id}>
+                                        <TableCell padding={'normal'}>{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                             {sortedMasterShieldRows.map((row) => {
-                                if (row.name != 'No Shield') {
-                                    return (
-                                        <TableRow hover key={row.shield_master_id}>
-                                            <TableCell padding="normal">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                }
+                                return (
+                                    <TableRow hover key={row.shield_master_id}>
+                                        <TableCell padding="normal">{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                         </TableBody>
                     </Table>

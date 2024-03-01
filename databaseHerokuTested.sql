@@ -364,7 +364,6 @@ CREATE TABLE char_clothing_bridge (
 
 INSERT INTO "public"."armor_master"("name","quality","price","description")
 VALUES
-(E'No Armor',0,0,'No Armor Equipped'),
 (E'Clothes',1,10,'Standard clothing with mild antiballistic properties.'),
 (E'Leathers',2,20,'Not even slightly bulletproof, but offers protection against small clubs.'),
 (E'Kevlar',3,50,'Offers decent protection for the vitals at a bargain price.'),
@@ -379,7 +378,6 @@ VALUES
 
 INSERT INTO "public"."shield_master"("quality","price","name","description")
 VALUES
-(0,0,E'No Shield',E'No Shield Equipped'),
 (1,500,E'Runner\'s Buckler',E'A small shield, useful for deflecting gangers and salesmen.'),
 (2,1000,E'Riot Shield',E'A full sized shield offering decent protection.');
 
