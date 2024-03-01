@@ -22,7 +22,7 @@ export default function ClothingOwnedTable() {
 
     const sellOwnedClothing = (item) => {
         let newBank = (charDetail.bank + Math.floor(priceMaker(item.quality, item.rank) / 4))
-        dispatch({ type: 'SELL_CLOTHING', payload: { item, newBank, charID: item.char_id} })
+        dispatch({ type: 'SELL_CLOTHING', payload: { item, newBank, charID: item.char_id } })
     }
 
     const priceMaker = (quality, rank) => {
@@ -34,6 +34,7 @@ export default function ClothingOwnedTable() {
     }
 
     const equipclothes = (incomingClothing) => {
+
         charClothes.map(clothing => {
             if (clothing.equipped === true) {
                 unequipClothes(clothing)
@@ -41,22 +42,22 @@ export default function ClothingOwnedTable() {
         })
 
         if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
         } else if (incomingClothing.rank === 10) {
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 2 }, });
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: 1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 2, charID: charDetail.id } })
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: 1, charID: charDetail.id } })
         }
-        dispatch({ type: "EQUIP_CLOTHES", payload: incomingClothing });
+        dispatch({ type: "EQUIP_CLOTHES", payload: { clothingID: incomingClothing.clothing_bridge_id, charID: charDetail.id } });
     };
 
     const unequipClothes = (incomingClothing) => {
         if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -1, charID: charDetail.id } })
         } else if (incomingClothing.rank === 10) {
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -2 }, });
-            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: -1 }, });
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -2, charID: charDetail.id } })
+            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: -1, charID: charDetail.id } })
         }
-        dispatch({ type: "UNEQUIP_CLOTHES", payload: incomingClothing });
+        dispatch({ type: "UNEQUIP_CLOTHES", payload: { clothingID: incomingClothing.clothing_bridge_id, charID: charDetail.id } });
     };
 
     function descendingComparator(a, b, orderBy) {

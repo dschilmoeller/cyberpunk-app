@@ -15,12 +15,6 @@ const advancementGear = (state = {
     totalCyberwareArmorQuality: 0,
     totalCyberwareHealthBoxesCreated: 0,
     useNomadFreebie: false,
-    boughtArmor: [],
-    soldArmor: [],
-    armorID: 0,
-    boughtShield: [],
-    soldShield: [],
-    shieldID: 0,
     boughtWeapons: [],
     soldWeapons: [],
     weaponID: 0,
@@ -42,9 +36,6 @@ const advancementGear = (state = {
     boughtCyberware: [],
     soldCyberware: [],
     cyberwareID: 0,
-    boughtClothes: [],
-    soldClothes: [],
-    clothingID: 0
 }, action) => {
     switch (action.type) {
         // Set initial state from DB
@@ -75,12 +66,6 @@ const advancementGear = (state = {
                 totalCyberwareArmorQuality: 0,
                 totalCyberwareHealthBoxesCreated: 0,
                 useNomadFreebie: false,
-                boughtArmor: [],
-                soldArmor: [],
-                armorID: 0,
-                boughtShield: [],
-                soldShield: [],
-                shieldID: 0,
                 boughtWeapons: [],
                 soldWeapons: [],
                 weaponID: 0,
@@ -102,9 +87,6 @@ const advancementGear = (state = {
                 boughtCyberware: [],
                 soldCyberware: [],
                 cyberwareID: 0,
-                boughtClothes: [],
-                soldClothes: [],
-                clothingID: 0
             }
 
         case 'SET_ADVANCEMENT_GEAR':
@@ -127,6 +109,16 @@ const advancementGear = (state = {
                 ...state,
                 clothes: action.payload
             }
+        case 'SET_ADVANCEMENT_ARMOR':
+            return {
+                ...state,
+                armor: action.payload
+            }
+        case 'SET_ADVANCEMENT_SHIELD':
+            return {
+                ...state,
+                shield: action.payload
+            }
         case 'SET_ADVANCEMENT_MISC_GEAR':
             return {
                 ...state,
@@ -141,72 +133,72 @@ const advancementGear = (state = {
         // EQUIPPING / REMOVING GEAR
         // equip armor - change armor sent in with action to be equipped. Unequip all other armor (rule: only one armor equipped at a time).
         // Armor Quality - number of armor boxes. Determined by armor type.
-        case 'EQUIP_ARMOR':
-            let equippedArmorQuality = 0
-            return {
-                ...state,
-                armor: state.armor.map(item => {
-                    if (item.armor_bridge_id === action.payload.armor_bridge_id) {
-                        item.equipped = true
-                        equippedArmorQuality = action.payload.quality
-                        return item
-                    } else {
-                        item.equipped = false
-                        return item
-                    }
-                }),
-                totalArmorQuality: equippedArmorQuality
-            }
+        // case 'EQUIP_ARMOR':
+        //     let equippedArmorQuality = 0
+        //     return {
+        //         ...state,
+        //         armor: state.armor.map(item => {
+        //             if (item.armor_bridge_id === action.payload.armor_bridge_id) {
+        //                 item.equipped = true
+        //                 equippedArmorQuality = action.payload.quality
+        //                 return item
+        //             } else {
+        //                 item.equipped = false
+        //                 return item
+        //             }
+        //         }),
+        //         totalArmorQuality: equippedArmorQuality
+        //     }
         // Reverse process, but should end with all armor unequipped and armor quality set to 0.
-        case 'UNEQUIP_ARMOR':
-            return {
-                ...state,
-                armor: state.armor.map(item => {
-                    if (item.armor_bridge_id === action.payload.armor_bridge_id) {
-                        item.equipped = false
-                        return item
-                    } else if (item.name == 'No Armor') {
-                        item.equipped = true
-                        return item
-                    } else {
-                        return item
-                    }
-                }),
-                equippedArmorQuality: 0
-            }
+        // case 'UNEQUIP_ARMOR':
+        //     return {
+        //         ...state,
+        //         armor: state.armor.map(item => {
+        //             if (item.armor_bridge_id === action.payload.armor_bridge_id) {
+        //                 item.equipped = false
+        //                 return item
+        //             } else if (item.name == 'No Armor') {
+        //                 item.equipped = true
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         }),
+        //         equippedArmorQuality: 0
+        //     }
         // Identical processs as armor for shields.
-        case 'EQUIP_SHIELD':
-            let equippedShieldQuality = 0
-            return {
-                ...state,
-                shield: state.shield.map(item => {
-                    if (item.shield_bridge_id === action.payload.shield_bridge_id) {
-                        item.equipped = true
-                        equippedShieldQuality = action.payload.quality
-                        return item
-                    } else {
-                        item.equipped = false
-                        return item
-                    }
-                }),
-                totalShieldQuality: equippedShieldQuality
-            }
-        case 'UNEQUIP_SHIELD':
-            return {
-                ...state,
-                shield: state.shield.map(item => {
-                    if (item.shield_bridge_id === action.payload.shield_bridge_id) {
-                        item.equipped = false
-                        return item
-                    } else if (item.name == 'No Shield') {
-                        item.equipped = true
-                        return item
-                    } else {
-                        return item
-                    }
-                }),
-                equippedShieldQuality: 0
-            }
+        // case 'EQUIP_SHIELD':
+        //     let equippedShieldQuality = 0
+        //     return {
+        //         ...state,
+        //         shield: state.shield.map(item => {
+        //             if (item.shield_bridge_id === action.payload.shield_bridge_id) {
+        //                 item.equipped = true
+        //                 equippedShieldQuality = action.payload.quality
+        //                 return item
+        //             } else {
+        //                 item.equipped = false
+        //                 return item
+        //             }
+        //         }),
+        //         totalShieldQuality: equippedShieldQuality
+        //     }
+        // case 'UNEQUIP_SHIELD':
+        //     return {
+        //         ...state,
+        //         shield: state.shield.map(item => {
+        //             if (item.shield_bridge_id === action.payload.shield_bridge_id) {
+        //                 item.equipped = false
+        //                 return item
+        //             } else if (item.name == 'No Shield') {
+        //                 item.equipped = true
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         }),
+        //         equippedShieldQuality: 0
+        //     }
         // Repair of Armor/Shields
         case 'REPAIR_ARMOR':
             return {
@@ -366,116 +358,66 @@ const advancementGear = (state = {
                 ...state,
                 totalCyberwareHealthBoxesCreated: state.totalCyberwareHealthBoxesCreated - 1
             }
-        case 'EQUIP_CLOTHES':
-            return {
-                ...state,
-                clothes: state.clothes.map(item => {
-                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
-                        item.equipped = true
-                        return item
-                    } else {
-                        return item
-                    }
-                }),
-            }
-        case 'UNEQUIP_CLOTHES':
-            return {
-                ...state,
-                clothes: state.clothes.map(item => {
-                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
-                        item.equipped = false
-                        return item
-                    } else {
-                        return item
-                    }
-                }),
-            }
-        case 'IMPROVE_CLOTHING':
-            return {
-                ...state,
-                clothes: state.clothes.map(item => {
-                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
-                        item.rank = action.payload.rank + 1
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
-        case 'DEGRADE_CLOTHING':
-            return {
-                ...state,
-                clothes: state.clothes.map(item => {
-                    if (item.clothing_bridge_id === action.payload.clothing_bridge_id) {
-                        item.rank = action.payload.rank - 1
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
         // SHOPPING
         // when buying armor, put into a new area of the reducer for use with a PUT command
-        case 'BUY_ARMOR':
-            return {
-                ...state,
-                boughtArmor: [...state.boughtArmor,
-                {
-                    // to give each piece a unique ID for use in selling, armorID is specified as part of the payload.item from AdvancementShopArmor
-                    armor_master_id: action.payload.item.armor_master_id,
-                    description: action.payload.item.description,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    quality: action.payload.item.quality,
-                    armorID: action.payload.armorID
-                }],
-                // increment Armor ID to give each piece of armor a unique identifier. Now when using SELL_ADVANCEMENT_ARMOR below,
-                // individual armors can be sold even if they otherwise have the same ID.
-                armorID: state.armorID + 1
-            }
-
-
+        // case 'BUY_ARMOR':
+        //     return {
+        //         ...state,
+        //         boughtArmor: [...state.boughtArmor,
+        //         {
+        //             // to give each piece a unique ID for use in selling, armorID is specified as part of the payload.item from AdvancementShopArmor
+        //             armor_master_id: action.payload.item.armor_master_id,
+        //             description: action.payload.item.description,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             quality: action.payload.item.quality,
+        //             armorID: action.payload.armorID
+        //         }],
+        //         // increment Armor ID to give each piece of armor a unique identifier. Now when using SELL_ADVANCEMENT_ARMOR below,
+        //         // individual armors can be sold even if they otherwise have the same ID.
+        //         armorID: state.armorID + 1
+        //     }
         // parse through bought armor to remove armor purchased and sold in the same session.
         // armor from this sell command is NOT added to the soldArmor array as it will not need to be deleted from the database.
-        case 'SELL_ADVANCEMENT_ARMOR':
-            return {
-                ...state,
-                boughtArmor: state.boughtArmor.filter(armor => armor.armorID !== action.payload.armorID),
-            }
-        // unlike above, this version uses the bridge ID from the database, which is inherently unique.
-        // armors sold via this method are added to the soldArmor array so they can be deleted from the database when changes are saved.
-        case 'SELL_OWNED_ARMOR':
-            return {
-                ...state,
-                armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
-                soldArmor: [...state.soldArmor, action.payload]
-            }
+        // case 'SELL_ADVANCEMENT_ARMOR':
+        //     return {
+        //         ...state,
+        //         boughtArmor: state.boughtArmor.filter(armor => armor.armorID !== action.payload.armorID),
+        //     }
+        // // unlike above, this version uses the bridge ID from the database, which is inherently unique.
+        // // armors sold via this method are added to the soldArmor array so they can be deleted from the database when changes are saved.
+        // case 'SELL_OWNED_ARMOR':
+        //     return {
+        //         ...state,
+        //         armor: state.armor.filter(armor => armor.armor_bridge_id !== action.payload.armor_bridge_id),
+        //         soldArmor: [...state.soldArmor, action.payload]
+        //     }
         // other buy/sell cases are handled identically to the above for the different gear types.
-        case 'BUY_SHIELD':
-            return {
-                ...state,
-                boughtShield: [...state.boughtShield,
-                {
-                    shield_master_id: action.payload.item.shield_master_id,
-                    description: action.payload.item.description,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    quality: action.payload.item.quality,
-                    shieldID: action.payload.shieldID
-                }],
-                shieldID: state.shieldID + 1
-            }
-        case 'SELL_ADVANCEMENT_SHIELD':
-            return {
-                ...state,
-                boughtShield: state.boughtShield.filter(shield => shield.shieldID !== action.payload.shieldID),
-            }
-        case 'SELL_OWNED_SHIELD':
-            return {
-                ...state,
-                shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
-                soldShield: [...state.soldShield, action.payload]
-            }
+        // case 'BUY_SHIELD':
+        //     return {
+        //         ...state,
+        //         boughtShield: [...state.boughtShield,
+        //         {
+        //             shield_master_id: action.payload.item.shield_master_id,
+        //             description: action.payload.item.description,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             quality: action.payload.item.quality,
+        //             shieldID: action.payload.shieldID
+        //         }],
+        //         shieldID: state.shieldID + 1
+        //     }
+        // case 'SELL_ADVANCEMENT_SHIELD':
+        //     return {
+        //         ...state,
+        //         boughtShield: state.boughtShield.filter(shield => shield.shieldID !== action.payload.shieldID),
+        //     }
+        // case 'SELL_OWNED_SHIELD':
+        //     return {
+        //         ...state,
+        //         shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
+        //         soldShield: [...state.soldShield, action.payload]
+        //     }
         case 'BUY_WEAPON':
             return {
                 ...state,
@@ -754,33 +696,6 @@ const advancementGear = (state = {
                     }
 
                 })
-            }
-        // case 'BUY_CLOTHING':
-        //     return {
-        //         ...state,
-        //         boughtClothes: [...state.boughtClothes,
-        //         {
-        //             description: action.payload.item.description,
-        //             clothing_master_id: action.payload.item.clothing_master_id,
-        //             name: action.payload.item.name,
-        //             // note different than others as price is the result of an equation (10*quality^2*rank^2) rather than inherent to the master item.
-        //             price: action.payload.price,
-        //             quality: action.payload.item.quality,
-        //             clothingID: action.payload.clothingID,
-        //             rank: action.payload.rank
-        //         }],
-        //         clothingID: state.clothingID + 1
-        //     }
-        case 'SELL_ADVANCEMENT_CLOTHING':
-            return {
-                ...state,
-                boughtClothes: state.boughtClothes.filter(clothing => clothing.clothingID !== action.payload.clothingID)
-            }
-        case 'SELL_OWNED_CLOTHING':
-            return {
-                ...state,
-                clothes: state.clothes.filter(clothing => clothing.clothing_bridge_id !== action.payload.clothing_bridge_id),
-                soldClothes: [...state.soldClothes, action.payload]
             }
 
         // GM change Handlers

@@ -15,34 +15,50 @@ import { Button } from '@mui/material';
 export default function ArmorOwnedTable() {
     const dispatch = useDispatch()
 
-    const charArmor = useSelector(store => store.advancementGear.armor)
-    const boughtArmor = useSelector(store => store.advancementGear.boughtArmor)
-    const armorID = useSelector(store => store.advancementGear.armorID)
-
-    const charShield = useSelector(store => store.advancementGear.shield)
-    const boughtShield = useSelector(store => store.advancementGear.boughtShield)
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
-
+    const characterArmor = useSelector(store => store.advancementGear.armor)
+    const characterShield = useSelector(store => store.advancementGear.shield)
     const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
     const sellOwnedArmor = (item) => {
-        dispatch({ type: 'SELL_OWNED_ARMOR', payload: item })
-    }
-
-    const sellBoughtArmor = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_ARMOR', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_ARMOR', payload: {item, newBank, charID: charDetail.id} })
     }
 
     const sellOwnedShield = (item) => {
-        dispatch({ type: 'SELL_OWNED_SHIELD', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_SHIELD', payload: {item, newBank, charID: charDetail.id} })
     }
 
-    const sellBoughtShield = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_SHIELD', payload: item })
+    const equipArmor = (incomingArmor) => {
+        characterArmor.map(armor => {
+            if (armor.equipped === true) {
+                unequipArmor(armor)
+            }
+        })
+        dispatch({ type: 'EQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
     }
 
+    const equipShield = (incomingShield) => {
+        characterShield.map(shield => {
+            if (shield.equipped === true) {
+                unequipShield(shield)
+            }
+        })
+        dispatch({ type: 'EQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+    }
+
+    const unequipArmor = (incomingArmor) => {
+        dispatch({ type: 'UNEQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+    }
+
+    const unequipShield = (incomingShield) => {
+        dispatch({ type: 'UNEQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+    }
+
+
+    // Table Functions
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -95,6 +111,12 @@ export default function ArmorOwnedTable() {
             numeric: true,
             disablePadding: false,
             label: 'Description',
+        },
+        {
+            id: 'equip',
+            numeric: true,
+            disablePadding: false,
+            label: 'Equip'
         },
         {
             id: 'price',
@@ -163,10 +185,10 @@ export default function ArmorOwnedTable() {
     }
 
     const charArmorRows = []
-    for (let i = 0; i < charArmor.length; i++) {
-        charArmorRows.push(createCharArmorData(charArmor[i].armor_bridge_id, charArmor[i].armor_id, charArmor[i].armor_master_id,
-            charArmor[i].armor_mod_1, charArmor[i].char_id, charArmor[i].description, charArmor[i].equipped,
-            charArmor[i].name, charArmor[i].price, charArmor[i].quality))
+    for (let i = 0; i < characterArmor.length; i++) {
+        charArmorRows.push(createCharArmorData(characterArmor[i].armor_bridge_id, characterArmor[i].armor_id, characterArmor[i].armor_master_id,
+            characterArmor[i].armor_mod_1, characterArmor[i].char_id, characterArmor[i].description, characterArmor[i].equipped,
+            characterArmor[i].name, characterArmor[i].price, characterArmor[i].quality))
     }
 
     // sort and monitor changes to charArmorRows in case of sales.
@@ -183,10 +205,10 @@ export default function ArmorOwnedTable() {
     }
 
     const charShieldRows = []
-    for (let i = 0; i < charShield.length; i++) {
-        charShieldRows.push(createCharShieldData(charShield[i].armor_mod_1, charShield[i].char_id, charShield[i].description,
-            charShield[i].equipped, charShield[i].name, charShield[i].price, charShield[i].quality, charShield[i].shield_bridge_id,
-            charShield[i].shield_id, charShield[i].shield_master_id))
+    for (let i = 0; i < characterShield.length; i++) {
+        charShieldRows.push(createCharShieldData(characterShield[i].armor_mod_1, characterShield[i].char_id, characterShield[i].description,
+            characterShield[i].equipped, characterShield[i].name, characterShield[i].price, characterShield[i].quality, characterShield[i].shield_bridge_id,
+            characterShield[i].shield_id, characterShield[i].shield_master_id))
     }
 
     const sortedCharShieldRows = React.useMemo(
@@ -197,8 +219,62 @@ export default function ArmorOwnedTable() {
 
     return (
         <>
-            
-            <h2>My Armor</h2>
+            <h2>Worn Armor</h2>
+
+            <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                    <TableContainer>
+                        <Table
+                            sx={{ minWidth: 750 }}
+                            aria-labelledby="tableTitle"
+                            size={'small'}
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align='center'>Name</TableCell>
+                                    <TableCell align='center'>Quality</TableCell>
+                                    <TableCell align='center'>Description</TableCell>
+                                    <TableCell align='center'>Unequip</TableCell>
+                                    <TableCell align='center'>Street Price</TableCell>
+                                    <TableCell align='center'>Sell</TableCell>
+                                </TableRow> 
+                            </TableHead>
+                            <TableBody>
+                                {sortedCharArmorRows.map((row) => {
+                                    if (row.equipped === true && row.name != 'No Armor') {
+                                        return (
+                                            <TableRow hover key={row.armor_bridge_id}>
+                                                <TableCell align='center'>{row.name}</TableCell>
+                                                <TableCell align='center'>{row.quality}</TableCell>
+                                                <TableCell align='center'>{row.description}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => unequipArmor(row)}>Remove</Button></TableCell>
+                                                <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => sellOwnedArmor(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                })}
+                                {sortedCharShieldRows.map((row) => {
+                                    if (row.equipped === true && row.name != 'No Shield') {
+                                        return (
+                                            <TableRow hover key={row.shield_bridge_id}>
+                                                <TableCell align='center'>{row.name}</TableCell>
+                                                <TableCell align='center'>{row.quality}</TableCell>
+                                                <TableCell align='center'>{row.description}</TableCell>
+                                                <TableCell align='center'><Button onClick={()=> unequipShield(row)}>Remove</Button></TableCell>
+                                                <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => sellOwnedShield(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
+            </Box>
+
+            <h2>My Armor / Shields</h2>
 
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
@@ -219,48 +295,28 @@ export default function ArmorOwnedTable() {
                                         return (
                                             <TableRow hover key={row.armor_bridge_id}>
                                                 <TableCell >{row.name}</TableCell>
-                                                <TableCell align="center">{row.quality}</TableCell>
-                                                <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedArmor(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'>{row.quality}</TableCell>
+                                                <TableCell align='center'>{row.description}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => equipArmor(row)}>Equip</Button></TableCell>
+                                                <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => sellOwnedArmor(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
-                                })}
-                                {boughtArmor.map((item, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell  align="left">{item.name} </TableCell>
-                                            <TableCell align="center">{item.quality}</TableCell>
-                                            <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtArmor(item)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    )
                                 })}
                                 {sortedCharShieldRows.map((row) => {
                                     if (row.equipped === false && row.name != 'No Shield') {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
                                                 <TableCell>{row.name}</TableCell>
-                                                <TableCell align="center">{row.quality}</TableCell>
-                                                <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedShield(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'>{row.quality}</TableCell>
+                                                <TableCell align='center'>{row.description}</TableCell>
+                                                <TableCell align='center'><Button onClick={()=> equipShield(row)}>Equip</Button></TableCell>
+                                                <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align='center'><Button onClick={() => sellOwnedShield(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
-                                })}
-                                {boughtShield.map((item, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell align="left">{item.name} </TableCell>
-                                            <TableCell align="center">{item.quality}</TableCell>
-                                            <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtShield(item)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    )
                                 })}
                             </TableBody>
                         </Table>

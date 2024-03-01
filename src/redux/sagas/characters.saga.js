@@ -264,9 +264,18 @@ function* fetchAdvancementDetails(action) {
 }
 
 function* fetchAdvancementClothes(action) {
-  // console.log(`action.payload:`, action.payload);
   const advancementClothes = yield axios.get(`/api/characters/fetchAdvancementClothes/${action.payload}`)
   yield put({type: 'SET_ADVANCEMENT_CLOTHES', payload: advancementClothes.data})
+}
+
+function* fetchAdvancementArmor(action) {
+  const advancementArmor = yield axios.get(`/api/characters/fetchAdvancementArmor/${action.payload}`)
+  yield put({type: 'SET_ADVANCEMENT_ARMOR', payload: advancementArmor.data})
+}
+
+function* fetchAdvancementShield(action) {
+  const advancementShield = yield axios.get(`/api/characters/fetchAdvancementShield/${action.payload}`)
+  yield put({type: 'SET_ADVANCEMENT_SHIELD', payload: advancementShield.data})  
 }
 
 function* saveAdvancementDetails(action) {
@@ -347,6 +356,8 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
   yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes)
+  yield takeLatest('FETCH_ADVANCEMENT_ARMOR', fetchAdvancementArmor)
+  yield takeLatest('FETCH_ADVANCEMENT_SHIELD', fetchAdvancementShield)
 
   // GM fetch/save/delete
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
