@@ -175,11 +175,17 @@ function* unequipWeapon(action) {
 }
 
 function* buyGrenade(action) {
-
+    yield axios.post('/api/gear/buyGrenade', action.payload)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_GRENADES', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
 function* sellGrenade(action) {
-
+    yield axios.delete(`/api/gear/sellGrenade/${action.payload.item.grenade_bridge_id}`)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_GRENADES', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
 function* buyMiscGear(action) {
@@ -315,6 +321,9 @@ function* gearSaga() {
     yield takeLatest('SELL_SHIELD', sellShield);
     yield takeLatest('EQUIP_SHIELD', equipShield);
     yield takeLatest('UNEQUIP_SHIELD', unequipShield);
+
+    yield takeLatest('BUY_GRENADE', buyGrenade);
+    yield takeLatest('SELL_GRENADE', sellGrenade);
 
 
     yield takeLatest('BUY_CLOTHING', buyClothing);

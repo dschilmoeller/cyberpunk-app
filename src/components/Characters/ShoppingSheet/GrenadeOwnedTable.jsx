@@ -11,25 +11,20 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function GrenadeOwnedTable() {
     const dispatch = useDispatch()
     const charGrenades = useSelector(store => store.advancementGear.grenades)
-    const boughtGrenades = useSelector(store => store.advancementGear.boughtGrenades)
 
     const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
-    const sellOwnedGrenade = (item) => {
-        dispatch({ type: 'SELL_OWNED_GRENADE', payload: item })
-    }
-
-    const sellBoughtGrenade = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_GRENADE', payload: item })
+    const sellGrenade = (item) => {
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_GRENADE', payload: { item, newBank, charID: charDetail.id } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -199,26 +194,15 @@ export default function GrenadeOwnedTable() {
                         />
                         <TableBody>
                             {sortedCharGrenadeRows.map((row) => {
-                                    return (
-                                        <TableRow hover key={row.grenade_bridge_id}>
-                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedGrenade(row)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    );
-                            })}
-                            {boughtGrenades.map((item, i) => {
                                 return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.description}</TableCell>
+                                    <TableRow hover key={row.grenade_bridge_id}>
+                                        <TableCell ><WeaponDialog prop={row.name} /></TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
-                                        <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellBoughtGrenade(item)}>Return</Button></TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellGrenade(row)}>Sell</Button></TableCell>
                                     </TableRow>
-                                )
+                                );
                             })}
                         </TableBody>
                     </Table>

@@ -118,6 +118,11 @@ const advancementGear = (state = {
                 ...state,
                 weapons: action.payload
             }
+        case 'SET_ADVANCEMENT_GRENADES':
+            return {
+                ...state,
+                grenades: action.payload
+            }
         case 'SET_ADVANCEMENT_MISC_GEAR':
             return {
                 ...state,
@@ -447,30 +452,30 @@ const advancementGear = (state = {
         //         weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
         //         soldWeapons: [...state.soldWeapons, action.payload]
         //     }
-        case 'BUY_GRENADE':
-            return {
-                ...state,
-                boughtGrenades: [...state.boughtGrenades,
-                {
-                    description: action.payload.item.description,
-                    grenade_master_id: action.payload.item.grenade_master_id,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    grenadeID: action.payload.grenadeID
-                }],
-                grenadeID: state.grenadeID + 1
-            }
-        case 'SELL_ADVANCEMENT_GRENADE':
-            return {
-                ...state,
-                boughtGrenades: state.boughtGrenades.filter(grenade => grenade.grenadeID !== action.payload.grenadeID)
-            }
-        case 'SELL_OWNED_GRENADE':
-            return {
-                ...state,
-                grenades: state.grenades.filter(grenade => grenade.grenade_bridge_id !== action.payload.grenade_bridge_id),
-                soldGrenades: [...state.soldGrenades, action.payload]
-            }
+        // case 'BUY_GRENADE':
+        //     return {
+        //         ...state,
+        //         boughtGrenades: [...state.boughtGrenades,
+        //         {
+        //             description: action.payload.item.description,
+        //             grenade_master_id: action.payload.item.grenade_master_id,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             grenadeID: action.payload.grenadeID
+        //         }],
+        //         grenadeID: state.grenadeID + 1
+        //     }
+        // case 'SELL_ADVANCEMENT_GRENADE':
+        //     return {
+        //         ...state,
+        //         boughtGrenades: state.boughtGrenades.filter(grenade => grenade.grenadeID !== action.payload.grenadeID)
+        //     }
+        // case 'SELL_OWNED_GRENADE':
+        //     return {
+        //         ...state,
+        //         grenades: state.grenades.filter(grenade => grenade.grenade_bridge_id !== action.payload.grenade_bridge_id),
+        //         soldGrenades: [...state.soldGrenades, action.payload]
+        //     }
         case 'BUY_MISC_GEAR':
             return {
                 ...state,

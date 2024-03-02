@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 

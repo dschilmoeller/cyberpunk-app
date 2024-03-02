@@ -23,7 +23,6 @@ function TransitionUp(props) {
 }
 export default function GrenadeMasterTable() {
     const dispatch = useDispatch()
-    const grenadeID = useSelector(store => store.advancementGear.grenadeID)
     const grenadeMaster = useSelector(store => store.gearMaster.grenades)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -37,7 +36,8 @@ export default function GrenadeMasterTable() {
 
     const buyGrenade = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_GRENADE', payload: { item, grenadeID } })
+            let newBank = charDetail.bank - item.price
+            dispatch({ type: 'BUY_GRENADE', payload: { item, newBank, charID: charDetail.id } })
         }
         else {
             setShowSnackbar(true)

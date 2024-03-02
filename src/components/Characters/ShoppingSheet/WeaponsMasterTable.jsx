@@ -23,7 +23,6 @@ function TransitionUp(props) {
 }
 export default function WeaponsMasterTable() {
     const dispatch = useDispatch()
-    const weaponID = useSelector(store => store.advancementGear.weaponID)
     const weaponMaster = useSelector(store => store.gearMaster.weapons)
 
     const charDetail = useSelector((store) => store.advancementDetail)

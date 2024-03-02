@@ -283,6 +283,11 @@ function* fetchAdvancementWeapons(action) {
   yield put({ type: 'SET_ADVANCEMENT_WEAPONS', payload: advancementWeapons.data })
 }
 
+function* fetchAdvancementGrenades(action) {
+  const advancementGrenades = yield axios.get(`/api/characters/fetchAdvancementGrenades/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_GRENADES', payload: advancementGrenades.data })
+}
+
 function* saveAdvancementDetails(action) {
   try {
     yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload);
@@ -363,6 +368,7 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_ARMOR', fetchAdvancementArmor);
   yield takeLatest('FETCH_ADVANCEMENT_SHIELD', fetchAdvancementShield);
   yield takeLatest('FETCH_ADVANCEMENT_WEAPONS', fetchAdvancementWeapons);
+  yield takeLatest('FETCH_ADVANCEMENT_GRENADES', fetchAdvancementGrenades);
   yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes);
 
   // GM fetch/save/delete
