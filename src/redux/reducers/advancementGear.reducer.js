@@ -119,6 +119,11 @@ const advancementGear = (state = {
                 ...state,
                 shield: action.payload
             }
+        case 'SET_ADVANCEMENT_WEAPONS':
+            return {
+                ...state,
+                weapons: action.payload
+            }
         case 'SET_ADVANCEMENT_MISC_GEAR':
             return {
                 ...state,
@@ -225,30 +230,30 @@ const advancementGear = (state = {
                 })
             }
         // Weapons - similar to armor, except any number of weapons can be equipped.
-        case 'EQUIP_WEAPON':
-            return {
-                ...state,
-                weapons: state.weapons.map(item => {
-                    if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
-                        item.equipped = true
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
-        case 'UNEQUIP_WEAPON':
-            return {
-                ...state,
-                weapons: state.weapons.map(item => {
-                    if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
-                        item.equipped = false
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
+        // case 'EQUIP_WEAPON':
+        //     return {
+        //         ...state,
+        //         weapons: state.weapons.map(item => {
+        //             if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
+        //                 item.equipped = true
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         })
+        //     }
+        // case 'UNEQUIP_WEAPON':
+        //     return {
+        //         ...state,
+        //         weapons: state.weapons.map(item => {
+        //             if (item.weapon_bridge_id === action.payload.weapon_bridge_id) {
+        //                 item.equipped = false
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         })
+        //     }
         // Deck similar to armor/shield - only one can be equipped at a time.
         case 'EQUIP_NETRUNNER_DECK':
             return {

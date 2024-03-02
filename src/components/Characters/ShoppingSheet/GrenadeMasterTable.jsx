@@ -228,7 +228,7 @@ export default function GrenadeMasterTable() {
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">Strength * 5 Meters</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyGrenade(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyGrenade(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                                 }

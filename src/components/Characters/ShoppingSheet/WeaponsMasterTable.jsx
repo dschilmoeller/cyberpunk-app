@@ -275,7 +275,7 @@ export default function WeaponsMasterTable() {
                                             <TableCell align="center">{row.hands}</TableCell>
                                             <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                                 }

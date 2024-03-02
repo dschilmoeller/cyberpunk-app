@@ -193,7 +193,7 @@ export default function OtherOwnedTable() {
                                         <TableCell >{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

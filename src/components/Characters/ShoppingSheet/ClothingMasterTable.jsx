@@ -245,7 +245,7 @@ export default function ClothingMasterTable() {
                                             <TableCell align="left">{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyClothing(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyClothing(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                                 })}

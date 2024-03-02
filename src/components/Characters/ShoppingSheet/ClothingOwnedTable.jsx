@@ -243,25 +243,13 @@ export default function ClothingOwnedTable() {
                                             <TableCell align="center">{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{row.rank}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => equipclothes(row)}>Equip</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='info' onClick={() => equipclothes(row)}>Equip</Button></TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(priceMaker(row.quality, row.rank) / 4).toLocaleString()}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellOwnedClothing(row)}>Sell</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedClothing(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
                                 }
                             })}
-                            {/* {boughtClothes.map((item, i) => {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">{item.rank}</TableCell>
-                                        <TableCell align="center"></TableCell>
-                                        <TableCell align="center">{euroBuck}{priceMaker(item.quality, item.rank).toLocaleString()}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellBoughtClothing(item)}>Return</Button></TableCell>
-                                    </TableRow>
-                                )
-                            })} */}
                         </TableBody>
                     </Table>
                 </TableContainer>

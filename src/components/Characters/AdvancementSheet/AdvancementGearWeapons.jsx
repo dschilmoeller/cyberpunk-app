@@ -18,12 +18,13 @@ export default function AdvancementGearWeapons() {
     const characterWeapons = useSelector(store => store.advancementGear.weapons)
     const charDetail = useSelector(store => store.advancementDetail)
 
-    const unequipWeapon = (incomingWeapon) => {
-        dispatch({ type: "UNEQUIP_WEAPON", payload: incomingWeapon })
-    }
 
     const equipWeapon = (incomingWeapon) => {
-        dispatch({ type: "EQUIP_WEAPON", payload: incomingWeapon })
+        dispatch({ type: "EQUIP_WEAPON", payload: { weapon: incomingWeapon, charID: charDetail.id } })
+    }
+
+    const unequipWeapon = (incomingWeapon) => {
+        dispatch({ type: "UNEQUIP_WEAPON", payload: {weapon: incomingWeapon, charID: charDetail.id} })
     }
 
     return (<>

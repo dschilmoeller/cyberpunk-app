@@ -209,7 +209,7 @@ export default function OtherMasterTable() {
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

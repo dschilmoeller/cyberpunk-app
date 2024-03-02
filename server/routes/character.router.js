@@ -1271,6 +1271,20 @@ router.put('/removeCharacterShield/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error resetting character current shield quality:`, err); })
 })
 
+router.put('/equipweapon/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_weapons_bridge" SET "equipped" = true WHERE "weapon_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+    .then(result => { res.sendStatus(201); })
+    .catch(err => { console.log(`error equipping weapon:`, err);})
+})
+
+router.put('/unequipweapon/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_weapons_bridge" SET "equipped" = false WHERE "weapon_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error unequipping weapon:`, err); })
+})
+
 router.put('/characterequipclothing/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `update "char_clothing_bridge" SET "equipped" = true WHERE "clothing_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])

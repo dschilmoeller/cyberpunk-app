@@ -243,7 +243,7 @@ export default function ArmorMasterTable() {
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyArmor(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -254,7 +254,7 @@ export default function ArmorMasterTable() {
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyShield(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

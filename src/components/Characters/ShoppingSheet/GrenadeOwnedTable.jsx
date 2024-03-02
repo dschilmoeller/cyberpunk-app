@@ -205,7 +205,7 @@ export default function GrenadeOwnedTable() {
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellOwnedGrenade(row)}>Sell</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedGrenade(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
                             })}
@@ -216,7 +216,7 @@ export default function GrenadeOwnedTable() {
                                         <TableCell align="center">{item.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellBoughtGrenade(item)}>Return</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellBoughtGrenade(item)}>Return</Button></TableCell>
                                     </TableRow>
                                 )
                             })}
