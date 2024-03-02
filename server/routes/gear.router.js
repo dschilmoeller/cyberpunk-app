@@ -129,7 +129,7 @@ router.post('/buyWeapon', (req, res) => {
 })
 
 router.delete('/sellWeapon/:id', (req, res) => {
-    const sqlText = `DELETE FROM "char_weapon_bridge" WHERE "weapon_bridge_id" = $1`
+    const sqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling weapon:`, err); })

@@ -23,7 +23,8 @@ export default function WeaponsOwnedTable() {
     const euroBuck = `\u20AC$`
 
     const sellWeapon = (item) => {
-        dispatch({ type: 'SELL_OWNED_WEAPON', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_WEAPON', payload: {item, newBank, charID: charDetail.id} })
     }
 
     const equipWeapon = (item) => {

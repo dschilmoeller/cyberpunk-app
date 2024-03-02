@@ -15,9 +15,6 @@ const advancementGear = (state = {
     totalCyberwareArmorQuality: 0,
     totalCyberwareHealthBoxesCreated: 0,
     useNomadFreebie: false,
-    boughtWeapons: [],
-    soldWeapons: [],
-    weaponID: 0,
     boughtGrenades: [],
     soldGrenades: [],
     grenadeID: 0,
@@ -66,9 +63,6 @@ const advancementGear = (state = {
                 totalCyberwareArmorQuality: 0,
                 totalCyberwareHealthBoxesCreated: 0,
                 useNomadFreebie: false,
-                boughtWeapons: [],
-                soldWeapons: [],
-                weaponID: 0,
                 boughtGrenades: [],
                 soldGrenades: [],
                 grenadeID: 0,
@@ -423,36 +417,36 @@ const advancementGear = (state = {
         //         shield: state.shield.filter(shield => shield.shield_bridge_id !== action.payload.shield_bridge_id),
         //         soldShield: [...state.soldShield, action.payload]
         //     }
-        case 'BUY_WEAPON':
-            return {
-                ...state,
-                boughtWeapons: [...state.boughtWeapons,
-                {
-                    weapon_master_id: action.payload.item.weapon_master_id,
-                    concealable: action.payload.item.concealable,
-                    damage: action.payload.item.damage,
-                    description: action.payload.item.description,
-                    max_clip: action.payload.item.max_clip,
-                    range: action.payload.item.range,
-                    rof: action.payload.item.rof,
-                    name: action.payload.item.name,
-                    hands: action.payload.item.hands,
-                    price: action.payload.item.price,
-                    weaponID: action.payload.weaponID
-                }],
-                weaponID: state.weaponID + 1
-            }
-        case 'SELL_ADVANCEMENT_WEAPON':
-            return {
-                ...state,
-                boughtWeapons: state.boughtWeapons.filter(weapon => weapon.weaponID !== action.payload.weaponID),
-            }
-        case 'SELL_OWNED_WEAPON':
-            return {
-                ...state,
-                weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
-                soldWeapons: [...state.soldWeapons, action.payload]
-            }
+        // case 'BUY_WEAPON':
+        //     return {
+        //         ...state,
+        //         boughtWeapons: [...state.boughtWeapons,
+        //         {
+        //             weapon_master_id: action.payload.item.weapon_master_id,
+        //             concealable: action.payload.item.concealable,
+        //             damage: action.payload.item.damage,
+        //             description: action.payload.item.description,
+        //             max_clip: action.payload.item.max_clip,
+        //             range: action.payload.item.range,
+        //             rof: action.payload.item.rof,
+        //             name: action.payload.item.name,
+        //             hands: action.payload.item.hands,
+        //             price: action.payload.item.price,
+        //             weaponID: action.payload.weaponID
+        //         }],
+        //         weaponID: state.weaponID + 1
+        //     }
+        // case 'SELL_ADVANCEMENT_WEAPON':
+        //     return {
+        //         ...state,
+        //         boughtWeapons: state.boughtWeapons.filter(weapon => weapon.weaponID !== action.payload.weaponID),
+        //     }
+        // case 'SELL_OWNED_WEAPON':
+        //     return {
+        //         ...state,
+        //         weapons: state.weapons.filter(weapon => weapon.weapon_bridge_id !== action.payload.weapon_bridge_id),
+        //         soldWeapons: [...state.soldWeapons, action.payload]
+        //     }
         case 'BUY_GRENADE':
             return {
                 ...state,

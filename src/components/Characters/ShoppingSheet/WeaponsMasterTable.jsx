@@ -37,7 +37,8 @@ export default function WeaponsMasterTable() {
 
     const buyWeapon = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_WEAPON', payload: { item, weaponID } })
+            let newBank = charDetail.bank - item.price
+            dispatch({ type: 'BUY_WEAPON', payload: { item, newBank, charID: charDetail.id } })
         }
         else {
             setShowSnackbar(true)

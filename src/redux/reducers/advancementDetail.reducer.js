@@ -138,21 +138,21 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
         //         bank: Number(state.bank - action.payload.this_shield_loss * (action.payload.price / 10))
         //     }
         //weapons
-        case 'BUY_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         //grenades
         case 'BUY_GRENADE':
             return {

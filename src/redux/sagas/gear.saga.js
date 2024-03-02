@@ -151,21 +151,27 @@ function* unequipShield(action) {
 }
 
 function* buyWeapon(action) {
-
+    yield axios.post('/api/gear/buyWeapon', action.payload)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
 function* sellWeapon(action) {
-
+    yield axios.delete(`/api/gear/sellWeapon/${action.payload.item.weapon_bridge_id}`)
+    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
+    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
 function* equipWeapon(action) {
     yield axios.put(`api/characters/equipweapon/${action.payload.weapon.weapon_bridge_id}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID})
+    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
 }
 
 function* unequipWeapon(action) {
     yield axios.put(`api/characters/unequipweapon/${action.payload.weapon.weapon_bridge_id}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID})
+    yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
 }
 
 function* buyGrenade(action) {
@@ -200,7 +206,7 @@ function* equipCyberware(action) {
     // possibly hits char -> cyber-attributes
 }
 
-function* unequipCyberware(action){
+function* unequipCyberware(action) {
 
 }
 
@@ -212,15 +218,15 @@ function* sellNetrunner(action) {
 
 }
 
-function* equipNetrunner(action){
+function* equipNetrunner(action) {
     // this will probably be only slight less complicated than the cyberware equipping/unequipping.
 }
 
-function* unequipNetrunner(action){
+function* unequipNetrunner(action) {
 
 }
 
-function* buyVehicle(action){
+function* buyVehicle(action) {
 
 }
 
@@ -228,11 +234,11 @@ function* sellVehicle(action) {
 
 }
 
-function* buyVehicleMod(action){
+function* buyVehicleMod(action) {
 
 }
 
-function* sellVehicleMod(action){
+function* sellVehicleMod(action) {
 
 }
 
@@ -242,7 +248,7 @@ function* equipVehicleMod(action) {
     // hits char_vehicle_bridge (put) -> mod effects (has_armor, extra_seats, total_mod_cost)
 }
 
-function* unequipVehicleMod(action){
+function* unequipVehicleMod(action) {
 
 }
 
@@ -292,7 +298,7 @@ function* gearSaga() {
     yield takeLatest('FETCH_NETRUNNER_MASTER_LIST', fetchNetrunnerMasterList);
     yield takeLatest('FETCH_VEHICLE_MASTER_LIST', fetchVehicleMasterList);
     yield takeLatest('FETCH_CLOTHING_MASTER_LIST', fetchClothingMasterList);
-    
+
     yield takeLatest('ATTRIBUTE_ENHANCING_GEAR_EQUIPPED', gearAttributeChange);
 
     yield takeLatest('BUY_ARMOR', buyArmor);
@@ -300,6 +306,8 @@ function* gearSaga() {
     yield takeLatest('EQUIP_ARMOR', equipArmor);
     yield takeLatest('UNEQUIP_ARMOR', unequipArmor);
 
+    yield takeLatest('BUY_WEAPON', buyWeapon);
+    yield takeLatest('SELL_WEAPON', sellWeapon);
     yield takeLatest('EQUIP_WEAPON', equipWeapon);
     yield takeLatest('UNEQUIP_WEAPON', unequipWeapon);
 
