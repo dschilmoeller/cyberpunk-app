@@ -47,7 +47,7 @@ export default function ClothingOwnedTable() {
             dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 2, charID: charDetail.id } })
             dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: 1, charID: charDetail.id } })
         }
-        dispatch({ type: "EQUIP_CLOTHES", payload: { clothingID: incomingClothing.clothing_bridge_id, charID: charDetail.id } });
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: true } });
     };
 
     const unequipClothes = (incomingClothing) => {
@@ -57,7 +57,7 @@ export default function ClothingOwnedTable() {
             dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -2, charID: charDetail.id } })
             dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: -1, charID: charDetail.id } })
         }
-        dispatch({ type: "UNEQUIP_CLOTHES", payload: { clothingID: incomingClothing.clothing_bridge_id, charID: charDetail.id } });
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: false } });
     };
 
     function descendingComparator(a, b, orderBy) {

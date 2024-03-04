@@ -23,12 +23,12 @@ export default function ArmorOwnedTable() {
 
     const sellArmor = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_ARMOR', payload: {item, newBank, charID: charDetail.id} })
+        dispatch({ type: 'SELL_ARMOR', payload: { item, newBank, charID: charDetail.id } })
     }
 
     const sellShield = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_SHIELD', payload: {item, newBank, charID: charDetail.id} })
+        dispatch({ type: 'SELL_SHIELD', payload: { item, newBank, charID: charDetail.id } })
     }
 
     const equipArmor = (incomingArmor) => {
@@ -37,7 +37,7 @@ export default function ArmorOwnedTable() {
                 unequipArmor(armor)
             }
         })
-        dispatch({ type: 'EQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: true } })
     }
 
     const equipShield = (incomingShield) => {
@@ -46,15 +46,15 @@ export default function ArmorOwnedTable() {
                 unequipShield(shield)
             }
         })
-        dispatch({ type: 'EQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: true } })
     }
 
     const unequipArmor = (incomingArmor) => {
-        dispatch({ type: 'UNEQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: false } })
     }
 
     const unequipShield = (incomingShield) => {
-        dispatch({ type: 'UNEQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: false } })
     }
 
 
@@ -237,7 +237,7 @@ export default function ArmorOwnedTable() {
                                     <TableCell align='center'>Unequip</TableCell>
                                     <TableCell align='center'>Street Price</TableCell>
                                     <TableCell align='center'>Sell</TableCell>
-                                </TableRow> 
+                                </TableRow>
                             </TableHead>
                             <TableBody>
                                 {sortedCharArmorRows.map((row) => {
@@ -261,7 +261,7 @@ export default function ArmorOwnedTable() {
                                                 <TableCell align='center'>{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='secondary' onClick={()=> unequipShield(row)}>Unequip</Button></TableCell>
+                                                <TableCell align='center'><Button variant='contained' color='secondary' onClick={() => unequipShield(row)}>Unequip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
                                             </TableRow>
@@ -311,7 +311,7 @@ export default function ArmorOwnedTable() {
                                                 <TableCell>{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='info' onClick={()=> equipShield(row)}>Equip</Button></TableCell>
+                                                <TableCell align='center'><Button variant='contained' color='info' onClick={() => equipShield(row)}>Equip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
                                             </TableRow>

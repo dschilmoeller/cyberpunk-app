@@ -98,6 +98,37 @@ function* gearAttributeChange(action) {
     }
 }
 
+function* changeGearEquipStatus(action) {
+    // yield axios.put(`api/characters/characterequiparmor/${action.payload.armor.armor_bridge_id}`)
+    console.log(`action.payload:`, action.payload);
+    yield axios.put(`api/characters/changeEquipStatus/${action.payload.tableID}`, action.payload)
+    // Equipping Armor
+    if (action.payload.item.armor_master_id != undefined && action.payload.equipStatus === true) {
+        yield axios.put(`api/characters/changeCharacterArmorQuality/${action.payload.charID}`, action.payload.item)
+        yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
+    }
+    // Unequipping Armor
+    if (action.payload.item.armor_master_id != undefined && action.payload.equipStatus === false) {
+        yield axios.put(`api/characters/removeCharacterArmor/${action.payload.charID}`)
+        yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
+    }
+    // Equipping Shield
+    if (action.payload.item.shield_master_id != undefined && action.payload.equipStatus === true) {
+        yield axios.put(`api/characters/changeCharacterShieldQuality/${action.payload.charID}`, action.payload.item)
+        yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
+    }
+    // Unequipping Shield
+    if (action.payload.item.shield_master_id != undefined && action.payload.equipStatus === false) {
+        yield axios.put(`api/characters/removeCharacterShield/${action.payload.charID}`)
+        yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
+    }
+
+    // Equipping Clothes
+    if (action.payload.item.clothing_master_id != undefined) {
+        yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
+    }
+}
+
 function* buyArmor(action) {
     yield axios.post('/api/gear/buyarmor/', action.payload)
     yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
@@ -112,17 +143,17 @@ function* sellArmor(action) {
     yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
-function* equipArmor(action) {
-    yield axios.put(`api/characters/characterequiparmor/${action.payload.armor.armor_bridge_id}`)
-    yield axios.put(`api/characters/changeCharacterArmorQuality/${action.payload.charID}`, action.payload.armor)
-    yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
-}
+// function* equipArmor(action) {
+//     yield axios.put(`api/characters/characterequiparmor/${action.payload.armor.armor_bridge_id}`)
+//     yield axios.put(`api/characters/changeCharacterArmorQuality/${action.payload.charID}`, action.payload.armor)
+//     yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
+// }
 
-function* unequipArmor(action) {
-    yield axios.put(`api/characters/characterunequiparmor/${action.payload.armor.armor_bridge_id}`)
-    yield axios.put(`api/characters/removeCharacterArmor/${action.payload.charID}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
-}
+// function* unequipArmor(action) {
+//     yield axios.put(`api/characters/characterunequiparmor/${action.payload.armor.armor_bridge_id}`)
+//     yield axios.put(`api/characters/removeCharacterArmor/${action.payload.charID}`)
+//     yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
+// }
 
 function* buyShield(action) {
     yield axios.post('/api/gear/buyShield/', action.payload)
@@ -138,17 +169,17 @@ function* sellShield(action) {
     yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
-function* equipShield(action) {
-    yield axios.put(`api/characters/equipshield/${action.payload.shield.shield_bridge_id}`)
-    yield axios.put(`api/characters/changeCharacterShieldQuality/${action.payload.charID}`, action.payload.shield)
-    yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
-}
+// function* equipShield(action) {
+//     yield axios.put(`api/characters/equipshield/${action.payload.shield.shield_bridge_id}`)
+//     yield axios.put(`api/characters/changeCharacterShieldQuality/${action.payload.charID}`, action.payload.shield)
+//     yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
+// }
 
-function* unequipShield(action) {
-    yield axios.put(`api/characters/unequipshield/${action.payload.shield.shield_bridge_id}`)
-    yield axios.put(`api/characters/removeCharacterShield/${action.payload.charID}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
-}
+// function* unequipShield(action) {
+//     yield axios.put(`api/characters/unequipshield/${action.payload.shield.shield_bridge_id}`)
+//     yield axios.put(`api/characters/removeCharacterShield/${action.payload.charID}`)
+//     yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
+// }
 
 function* buyWeapon(action) {
     yield axios.post('/api/gear/buyWeapon', action.payload)
@@ -272,16 +303,16 @@ function* sellClothing(action) {
     yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
-function* equipClothes(action) {
-    // payload is solely clothing_bridge_id
-    yield axios.put(`api/characters/characterequipclothing/${action.payload.clothingID}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
-}
+// function* equipClothes(action) {
+//     // payload is solely clothing_bridge_id
+//     yield axios.put(`api/characters/characterequipclothing/${action.payload.clothingID}`)
+//     yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
+// }
 
-function* unequipClothes(action) {
-    yield axios.put(`api/characters/characterunequipclothing/${action.payload.clothingID}`)
-    yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
-}
+// function* unequipClothes(action) {
+//     yield axios.put(`api/characters/characterunequipclothing/${action.payload.clothingID}`)
+//     yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
+// }
 
 function* alterClothing(action) {
     // covers improving/degrading equipped clothing.
@@ -307,10 +338,12 @@ function* gearSaga() {
 
     yield takeLatest('ATTRIBUTE_ENHANCING_GEAR_EQUIPPED', gearAttributeChange);
 
+    yield takeLatest('CHANGE_GEAR_EQUIP_STATUS', changeGearEquipStatus);
+
     yield takeLatest('BUY_ARMOR', buyArmor);
     yield takeLatest('SELL_ARMOR', sellArmor);
-    yield takeLatest('EQUIP_ARMOR', equipArmor);
-    yield takeLatest('UNEQUIP_ARMOR', unequipArmor);
+    // yield takeLatest('EQUIP_ARMOR', equipArmor);
+    // yield takeLatest('UNEQUIP_ARMOR', unequipArmor);
 
     yield takeLatest('BUY_WEAPON', buyWeapon);
     yield takeLatest('SELL_WEAPON', sellWeapon);
@@ -319,8 +352,8 @@ function* gearSaga() {
 
     yield takeLatest('BUY_SHIELD', buyShield);
     yield takeLatest('SELL_SHIELD', sellShield);
-    yield takeLatest('EQUIP_SHIELD', equipShield);
-    yield takeLatest('UNEQUIP_SHIELD', unequipShield);
+    // yield takeLatest('EQUIP_SHIELD', equipShield);
+    // yield takeLatest('UNEQUIP_SHIELD', unequipShield);
 
     yield takeLatest('BUY_GRENADE', buyGrenade);
     yield takeLatest('SELL_GRENADE', sellGrenade);
@@ -328,8 +361,8 @@ function* gearSaga() {
 
     yield takeLatest('BUY_CLOTHING', buyClothing);
     yield takeLatest('SELL_CLOTHING', sellClothing);
-    yield takeLatest('EQUIP_CLOTHES', equipClothes);
-    yield takeLatest('UNEQUIP_CLOTHES', unequipClothes);
+    // yield takeLatest('EQUIP_CLOTHES', equipClothes);
+    // yield takeLatest('UNEQUIP_CLOTHES', unequipClothes);
     yield takeLatest('ALTER_CLOTHING', alterClothing);
 }
 

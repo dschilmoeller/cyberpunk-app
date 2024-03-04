@@ -1213,12 +1213,52 @@ router.put('/attributeGearChangeCool/:id', rejectUnauthenticated, (req, res) => 
         .catch(err => { console.log(`Error updating character cyber cool`, err); })
 })
 
-router.put('/characterequiparmor/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_armor_bridge" SET "equipped" = true WHERE "armor_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error equipping character armor:`, err); })
+const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_clothing_bridge']
+const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'clothing_bridge_id']
+
+router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
+    let tableCheck = false
+    let pkCheck = false
+    for (let i = 0; i < whiteListTable.length; i++) {
+        if (whiteListTable[i] === req.body.table) {
+            tableCheck = true
+
+        }
+    }
+    for (let j = 0; j < whiteListPKs.length; j++) {
+        if (whiteListPKs[j] === req.body.tablePrimaryKey) {
+            pkCheck = true
+        }
+    }
+
+    if (tableCheck === true
+        &&
+        pkCheck === true
+        &&
+        req.body.equipStatus === true || req.body.equipStatus === false) {
+        const table = req.body.table
+        const equipStatus = req.body.equipStatus
+        const tablePrimaryKey = req.body.tablePrimaryKey
+        const sqlText = `update ${table} SET "equipped" = ${equipStatus} WHERE ${tablePrimaryKey} = $1`
+        pool.query(sqlText, [req.params.id])
+            .then(result => { res.sendStatus(201); })
+            .catch(err => { console.log(`Error changing char equipment status:`, err); })
+    }
 })
+
+// router.put('/characterequiparmor/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `UPDATE "char_armor_bridge" SET "equipped" = true WHERE "armor_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`Error equipping character armor:`, err); })
+// })
+
+// router.put('/characterunequiparmor/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `UPDATE "char_armor_bridge" SET "equipped" = false WHERE "armor_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`Error unequipping character armor:`, err); })
+// })
 
 router.put('/changeCharacterArmorQuality/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_armor_quality" = $1 WHERE "char_id" = $2`
@@ -1228,13 +1268,6 @@ router.put('/changeCharacterArmorQuality/:id', rejectUnauthenticated, (req, res)
         .catch(err => { console.log(`Error altering character armor quality:`, err); })
 })
 
-router.put('/characterunequiparmor/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_armor_bridge" SET "equipped" = false WHERE "armor_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error unequipping character armor:`, err); })
-})
-
 router.put('/removeCharacterArmor/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_armor_quality" = 0 WHERE "char_id" = $1`
     pool.query(sqlText, [req.params.id])
@@ -1242,12 +1275,12 @@ router.put('/removeCharacterArmor/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error resetting character current armor quality:`, err); })
 })
 
-router.put('/equipshield/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_shield_bridge" SET "equipped" = true WHERE "shield_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`error equipping character shield:`, err);})
-})
+// router.put('/equipshield/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `UPDATE "char_shield_bridge" SET "equipped" = true WHERE "shield_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`error equipping character shield:`, err); })
+// })
 
 router.put('/changeCharacterShieldQuality/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_shield_quality" = $1 WHERE "char_id" = $2`
@@ -1257,12 +1290,12 @@ router.put('/changeCharacterShieldQuality/:id', rejectUnauthenticated, (req, res
         .catch(err => { console.log(`Error altering character shield quality:`, err); })
 })
 
-router.put('/unequipshield/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_shield_bridge" SET "equipped" = false WHERE "shield_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error unequipping character shield:`, err); })
-})
+// router.put('/unequipshield/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `UPDATE "char_shield_bridge" SET "equipped" = false WHERE "shield_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`Error unequipping character shield:`, err); })
+// })
 
 router.put('/removeCharacterShield/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_shield_quality" = 0 WHERE "char_id" = $1`
@@ -1274,8 +1307,8 @@ router.put('/removeCharacterShield/:id', rejectUnauthenticated, (req, res) => {
 router.put('/equipweapon/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" SET "equipped" = true WHERE "weapon_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])
-    .then(result => { res.sendStatus(201); })
-    .catch(err => { console.log(`error equipping weapon:`, err);})
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`error equipping weapon:`, err); })
 })
 
 router.put('/unequipweapon/:id', rejectUnauthenticated, (req, res) => {
@@ -1285,19 +1318,19 @@ router.put('/unequipweapon/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error unequipping weapon:`, err); })
 })
 
-router.put('/characterequipclothing/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `update "char_clothing_bridge" SET "equipped" = true WHERE "clothing_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error equipping character clothing:`, err); })
-})
+// router.put('/characterequipclothing/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `update "char_clothing_bridge" SET "equipped" = true WHERE "clothing_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`Error equipping character clothing:`, err); })
+// })
 
-router.put('/characterunequipclothing/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `update "char_clothing_bridge" SET "equipped" = false WHERE "clothing_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error unequipping character clothing:`, err); })
-})
+// router.put('/characterunequipclothing/:id', rejectUnauthenticated, (req, res) => {
+//     const sqlText = `update "char_clothing_bridge" SET "equipped" = false WHERE "clothing_bridge_id" = $1`
+//     pool.query(sqlText, [req.params.id])
+//         .then(result => { res.sendStatus(201); })
+//         .catch(err => { console.log(`Error unequipping character clothing:`, err); })
+// })
 
 router.put('/characteralterclothing/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_clothing_bridge" SET "rank" = $1 WHERE "clothing_bridge_id" = $2`

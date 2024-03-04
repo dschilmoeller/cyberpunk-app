@@ -97,7 +97,8 @@ export default function AdvancementGearArmor() {
                 unequipArmor(armor)
             }
         })
-        dispatch({ type: 'EQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        // dispatch({ type: 'EQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: true } })
     }
 
     const equipShield = (incomingShield) => {
@@ -106,15 +107,15 @@ export default function AdvancementGearArmor() {
                 unequipShield(shield)
             }
         })
-        dispatch({ type: 'EQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: true } })
     }
 
     const unequipArmor = (incomingArmor) => {
-        dispatch({ type: 'UNEQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: false } })
     }
     
     const unequipShield = (incomingShield) => {
-        dispatch({ type: 'UNEQUIP_SHIELD', payload: { shield: incomingShield, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: false } })
     }
 
     const repairArmor = (incomingArmor) => {
