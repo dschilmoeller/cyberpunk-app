@@ -87,33 +87,64 @@ router.get('/fetchlifestyle/', (req, res) => {
 })
 
 // Purchases and Sales
-const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge']
-const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id']
-
-// clothing - special case, has default rank that is not static.
+const whiteListTable = ['char_armor_bridge', 'char_clothing_bridge', 'char_gear_bridge', 'char_grenade_bridge', 'char_owned_cyberware', 'char_owned_vehicle_mods', 'char_shield_bridge', 'char_vehicle_bridge', 'char_weapons_bridge']
+const whiteListBuyPKs = ['armor_id','clothing_id', 'misc_gear_id', 'grenade_id', 'cyberware_master_id', 'vehicle_mod_master_id', 'shield_id', 'vehicle_id','weapon_id']
+const whiteListSellPKs = ['armor_bridge_id', 'clothing_bridge_id', 'char_gear_bridge_id', 'grenade_bridge_id', 'owned_cyberware_id', 'char_owned_vehicle_mods_id', 'shield_bridge_id', 'vehicle_bridge_id', 'weapon_bridge_id']
 
 router.post('/buyItem', (req, res) => {
-    // test for whitelisting.
-    let table = req.body.table
-    let column = req.body.column
-    const sqlText = `INSERT INTO ${table} (char_id, ${column}) VALUES ($1, $2);`
-    let sqlParams = [req.body.charID, req.body.itemMasterID]
+    let tableCheck = false;
+    let columnCheck = false;
 
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201) })
-        .catch(err => { console.log(`Error buying item:`, err); })
+    for (let i = 0; i < whiteListTable.length; i++) {
+        if (whiteListTable[i] === req.body.table) {
+            tableCheck = true
+        }
+    }
+    for (let j = 0; j < whiteListBuyPKs.length; j++) {
+        if (whiteListBuyPKs[j] === req.body.column) {
+            columnCheck = true
+        }
+    }
+
+    if (tableCheck === true && columnCheck === true) {
+        const sqlText = `INSERT INTO ${req.body.table} (char_id, ${req.body.column}) VALUES ($1, $2);`
+        let sqlParams = [req.body.charID, req.body.itemMasterID]
+
+        pool.query(sqlText, sqlParams)
+            .then(result => { res.sendStatus(201) })
+            .catch(err => { console.log(`Error buying item:`, err); })
+    } else {
+        console.log(`Failure to buy item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
+        res.sendStatus(400);
+    }
+
 })
 
 router.delete('/sellItem', (req, res) => {
-    // test for whitelisting
-    let table = req.body.table
-    let column = req.body.column
-    const sqlText = `DELETE FROM ${table} WHERE ${column} = $1`
-    let sqlParams = [req.body.itemID]
+    let tableCheck = false;
+    let columnCheck = false;
 
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(200) })
-        .catch(err => { console.log(`Error selling item:`, err); })
+    for (let i = 0; i < whiteListTable.length; i++) {
+        if (whiteListTable[i] === req.body.table) {
+            tableCheck = true
+        }
+    }
+    for (let j = 0; j < whiteListSellPKs.length; j++) {
+        if (whiteListSellPKs[j] === req.body.column) {
+            columnCheck = true
+        }
+    }
+    if (tableCheck === true && columnCheck === true) {
+        const sqlText = `DELETE FROM ${req.body.table} WHERE ${req.body.column} = $1`
+        let sqlParams = [req.body.itemID]
+
+        pool.query(sqlText, sqlParams)
+            .then(result => { res.sendStatus(200) })
+            .catch(err => { console.log(`Error selling item:`, err); })
+    } else {
+        console.log(`Failure to buy item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
+        res.sendStatus(400);
+    }
 })
 
 router.post('/buyNetrunnerGear', (req, res) => {

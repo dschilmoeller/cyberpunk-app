@@ -1236,7 +1236,6 @@ router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
     for (let i = 0; i < whiteListTable.length; i++) {
         if (whiteListTable[i] === req.body.table) {
             tableCheck = true
-
         }
     }
     for (let j = 0; j < whiteListPKs.length; j++) {
@@ -1257,6 +1256,8 @@ router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
         pool.query(sqlText, [req.params.id])
             .then(result => { res.sendStatus(201); })
             .catch(err => { console.log(`Error changing char equipment status:`, err); })
+    } else {
+        console.log(`Failure to change equip status due to failing check/equipstatus. Table: ${tableCheck}, PK: ${pkCheck}`);
     }
 })
 

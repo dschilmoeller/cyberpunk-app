@@ -22,7 +22,8 @@ export default function ClothingOwnedTable() {
 
     const sellOwnedClothing = (item) => {
         let newBank = (charDetail.bank + Math.floor(priceMaker(item.quality, item.rank) / 4))
-        dispatch({ type: 'SELL_CLOTHING', payload: { item, newBank, charID: item.char_id } })
+        // dispatch({ type: 'SELL_CLOTHING', payload: { item, newBank, charID: item.char_id } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.clothing_bridge_id, newBank, charID: charDetail.id, table: 'char_clothing_bridge', column: 'clothing_bridge_id' } })
     }
 
     const priceMaker = (quality, rank) => {
