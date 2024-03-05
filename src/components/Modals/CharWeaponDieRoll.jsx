@@ -20,7 +20,7 @@ import DiceTenHighlighted from '../Dice/DiceTenHighlighted';
 
 import './animation.css'
 
-export default function DieRollDialog() {
+export default function CharWeaponDieRollDialog({ prop }) {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
@@ -31,11 +31,20 @@ export default function DieRollDialog() {
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
         setScroll(scrollType);
-        setShowResult(false)
+        if (prop.type === 'melee') {
+            quickRoll(meleeAttackDice, false, 6)
+            setSelectedDieIndex(meleeAttackDice)
+        } else if (prop.type === 'firearm') {
+            quickRoll(firearmsAttackDice, false, 6)
+            setSelectedDieIndex(firearmsAttackDice)
+        } else if (prop.type === 'exotic') {
+            quickRoll(exoticWeaponAttackDice, false, 6)
+            setSelectedDieIndex(exoticWeaponAttackDice)
+        }
     };
 
     // short timer to prevent rapid re-rolling (or 'cheating' to call a spade a spade.)
-    const threeSeconds = 1500;
+    const threeSeconds = 2500;
     const [allowRoll, setAllowRoll] = React.useState(true);
 
     React.useEffect(() => {
@@ -49,7 +58,7 @@ export default function DieRollDialog() {
 
         // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
         return () => clearInterval(interval);
-    }, [allowRoll])
+    }, [open])
 
     // handle making the dice spin
     const [dieClass, setDieClass] = React.useState('not-spinning')
@@ -74,7 +83,6 @@ export default function DieRollDialog() {
     const [showResult, setShowResult] = React.useState(false)
     const [rollResult, setRollresult] = React.useState('')
 
-    // function difficultyRoll(amount, isExploding, difficulty) {
     function difficultyRoll(amount, isInitiative, difficulty) {
         // see if a roll has occurred recently
         if (allowRoll == true) {
@@ -85,7 +93,6 @@ export default function DieRollDialog() {
                 // return Math.floor(Math.random() * (max - min) + min);
                 // It would be wrong to increase the chance of failure to 14.3%, right?
                 const arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
-                console.log(arr.length);
                 return arr[Math.floor(Math.random() * arr.length)];
             }
 
@@ -173,7 +180,6 @@ export default function DieRollDialog() {
             // prevent rolling for a moment, and make the dice spin (prevention & rolling timer reset in UseEffect)
             setAllowRoll(false)
             setDieClass('spin-die')
-
         }
     }
 
@@ -204,7 +210,6 @@ export default function DieRollDialog() {
     const quickRoll = (totalDice, isInitiative, difficultyValue) => {
         if (allowRoll) {
             difficultyRoll(totalDice, isInitiative, difficultyValue)
-            setAllowRoll(false)
         }
     }
 
@@ -222,19 +227,10 @@ export default function DieRollDialog() {
         if (woundAggregator == 0) {
             finalPain = 0
         } else if (woundAggregator / 2 <= cyberBoxes) {
-            // console.log(`pain w/ cyber: `, painPenalty[Math.ceil(woundAggregator / 2)]);
             finalPain = painPenalty[Math.ceil(woundAggregator / 2)]
         } else {
-            // console.log(`position is, of 10,`, (woundAggregator - cyberBoxes));
-            // console.log(`pain past cyber: `, painPenalty[Math.ceil(woundAggregator / 2) + cyberBoxes]);
             finalPain = painPenalty[woundAggregator - cyberBoxes]
         }
-
-        // if (woundAggregator - cyberBoxes < 1) {
-        //     painPenalty = 0
-        // } else {
-        //     finalPain = painPenalty[woundAggregator - cyberBoxes]
-        // }
         return finalPain
     }
 
@@ -258,7 +254,7 @@ export default function DieRollDialog() {
     return (
         <>
 
-            <div className='navLink' fullwidth="true" onClick={handleClickOpen('paper')}>Roll Some Dice</div>
+            <Button onClick={handleClickOpen('paper')}>Attack Roll</Button>
             <Dialog
                 PaperProps={{
                     sx: {
@@ -278,7 +274,7 @@ export default function DieRollDialog() {
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <Grid container spacing={1}>
-
+                        {diceBuilder(selectedDieIndex)}
                         <Grid item xs={12} display={'flex'} justifyContent={'center'}><h3>You will roll {selectedDieIndex} Dice with a Difficulty Value of {selectedDifficulty}</h3></Grid>
 
                         {(charDetails.id > 0) && (charStatus.char_id > 0) ? (
@@ -340,7 +336,6 @@ export default function DieRollDialog() {
                             </FormControl>}
                         </Grid>
 
-                        {diceBuilder(selectedDieIndex)}
 
                         {showResult ? (
                             <>

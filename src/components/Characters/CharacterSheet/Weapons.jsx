@@ -17,6 +17,7 @@ import Slide from '@mui/material/Slide';
 import WeaponsGrenades from './WeaponsGrenades';
 
 import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
+import CharWeaponDieRollDialog from '../../Modals/CharWeaponDieRoll'
 
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
@@ -104,129 +105,56 @@ function Weapons() {
 
     const cyberWeaponData = (cyberware) => {
         let damage = 0
+        let hands = 0
         switch (cyberware.name) {
             case 'Cybersnake':
                 damage = charDetail.strength + charDetail.cyber_strength + 2
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 0</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>
-                )
+                hands = 0
+                break;
             case 'Vampyres':
                 damage = charDetail.strength + charDetail.cyber_strength + 0
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 0</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>)
+                hands = 0
+                break;
             case 'Big Knucks':
                 damage = charDetail.strength + charDetail.cyber_strength + 1
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 0</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>
-                )
+                hands = 0
+                break;
             case 'Scratchers':
                 damage = charDetail.strength + charDetail.cyber_strength + 0
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 1</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>
-                )
+                hands = 1
+                break;
             case 'Rippers':
                 damage = charDetail.strength + charDetail.cyber_strength + 1
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 1</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>
-                )
+                hands = 1
+                break
             case 'Wolvers':
                 damage = charDetail.strength + charDetail.cyber_strength + 2
-                return (
-                    <React.Fragment key={cyberware.owned_cyberware_id}>
-                        <Grid item xs={6} >
-                            <Grid container>
-                                <Grid item xs={6}><Item><b>Name</b></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
-                                <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
-                                <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
-                                <Grid item xs={2}><Item>{damage}</Item></Grid>
-                                <Grid item xs={2}><Item>2</Item></Grid>
-                                <Grid item xs={2}><Item>Melee</Item></Grid>
-                                <Grid item xs={6}><Item>Conceal: Yes</Item></Grid>
-                                <Grid item xs={6}><Item>Number of Hands: 1</Item></Grid>
-                            </Grid>
-                        </Grid>
-                    </React.Fragment>
-                )
+                hands = 1
+                break;
             default:
                 return (<React.Fragment key={cyberware.owned_cyberware_id}></React.Fragment>)
         }
+
+        return (
+            <React.Fragment key={cyberware.owned_cyberware_id}>
+                <Grid item xs={6} >
+                    <Grid container>
+                        <Grid item xs={6}><Item><b>Name</b></Item></Grid>
+                        <Grid item xs={2}><Item><OtherAttributesDialog prop={'DMG'} /></Item></Grid>
+                        <Grid item xs={2}><Item><OtherAttributesDialog prop={'ROF'} /></Item></Grid>
+                        <Grid item xs={2}><Item><OtherAttributesDialog prop={'Range'} /></Item></Grid>
+                        <Grid item xs={6}><Item><WeaponDialog prop={cyberware.name} /></Item></Grid>
+                        <Grid item xs={2}><Item>{damage}</Item></Grid>
+                        <Grid item xs={2}><Item>2</Item></Grid>
+                        <Grid item xs={2}><Item>Melee</Item></Grid>
+                        <Grid item xs={4}><Item><CharWeaponDieRollDialog prop={{ type: 'exotic' }} /></Item></Grid>
+                        <Grid item xs={4}><Item>Conceal: Yes</Item></Grid>
+                        <Grid item xs={4}><Item>Number of Hands: {hands}</Item></Grid>
+                    </Grid>
+                </Grid>
+            </React.Fragment>
+
+        )
     }
 
     return (
@@ -272,8 +200,9 @@ function Weapons() {
                                             <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + charDetail.cyber_strength + weapon.damage : weapon.damage}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
-                                            <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
-                                            <Grid item xs={6}><Item>Number of Hands: {weaponHandCalculation(weapon)}</Item></Grid>
+                                            <Grid item xs={4}><Item><CharWeaponDieRollDialog prop={{ type: 'melee' }} /></Item></Grid>
+                                            <Grid item xs={4}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
+                                            <Grid item xs={4}><Item>Number of Hands: {weaponHandCalculation(weapon)}</Item></Grid>
                                         </Grid>
                                     </Grid>
                                 </React.Fragment>
@@ -297,8 +226,9 @@ function Weapons() {
                                             <Grid item xs={2}><Item>{weapon.dmg_type === 'melee' ? charDetail.strength + weapon.damage : weapon.damage}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.rof}</Item></Grid>
                                             <Grid item xs={2}><Item>{weapon.range === 0 ? 'Melee' : weapon.range}</Item></Grid>
-                                            <Grid item xs={6}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
-                                            <Grid item xs={6}><Item>Number of Hands: {weapon.hands}</Item></Grid>
+                                            <Grid item xs={4}><Item><CharWeaponDieRollDialog prop={{ type: 'firearm' }} /></Item></Grid>
+                                            <Grid item xs={4}><Item>{weapon.concealable ? 'Conceal: Yes' : 'Conceal: No'}</Item></Grid>
+                                            <Grid item xs={4}><Item>Number of Hands: {weapon.hands}</Item></Grid>
                                             {ClipButtonBuilder(weapon.dmg_type, weapon.weapon_bridge_id, weapon.max_clip, weapon.current_shots_fired)}
 
                                         </Grid>
