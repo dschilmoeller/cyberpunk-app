@@ -145,9 +145,7 @@ CREATE TABLE
 		"weapon_bridge_id" serial NOT NULL,
 		"char_id" integer NOT NULL,
 		"weapon_id" integer NOT NULL,
-		"weapon_mod_1" integer NOT NULL,
-		"weapon_mod_2" integer NOT NULL,
-		"current_shots_fired" integer NOT NULL,
+		"current_shots_fired" integer NOT NULL DEFAULT 0,
 		"equipped" bool NOT NULL DEFAULT false,
 		CONSTRAINT "char_weapons_bridge_pk" PRIMARY KEY ("weapon_bridge_id")
 	)
@@ -1423,32 +1421,6 @@ CREATE TABLE
 WITH
 	(OIDS = FALSE);
 
-CREATE TABLE
-	"armor_mod_master" (
-		"armor_mod_master_id" serial NOT NULL,
-		CONSTRAINT "armor_mod_master_pk" PRIMARY KEY ("armor_mod_master_id")
-	)
-WITH
-	(OIDS = FALSE);
-
-CREATE TABLE
-	"weapon_mod1_master" (
-		"weapon_mod1_master_id" serial NOT NULL,
-		"mod_1_name" varchar NOT NULL,
-		CONSTRAINT "weapon_mod1_master_pk" PRIMARY KEY ("weapon_mod1_master_id")
-	)
-WITH
-	(OIDS = FALSE);
-
-CREATE TABLE
-	"weapon_mod2_master" (
-		"weapon_mod2_master_id" serial NOT NULL,
-		"mod_2_name" varchar NOT NULL,
-		CONSTRAINT "weapon_mod2_master_pk" PRIMARY KEY ("weapon_mod2_master_id")
-	)
-WITH
-	(OIDS = FALSE);
-
 ALTER TABLE "char_owned_cyberware" ADD CONSTRAINT "char_owned_cyberware_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "char_owned_cyberware" ADD CONSTRAINT "char_owned_cyberware_fk1" FOREIGN KEY ("cyberware_id") REFERENCES "cyberware_master" ("cyberware_master_id");
@@ -1456,10 +1428,6 @@ ALTER TABLE "char_owned_cyberware" ADD CONSTRAINT "char_owned_cyberware_fk1" FOR
 ALTER TABLE "char_weapons_bridge" ADD CONSTRAINT "char_weapons_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "char_weapons_bridge" ADD CONSTRAINT "char_weapons_bridge_fk1" FOREIGN KEY ("weapon_id") REFERENCES "weapon_master" ("weapon_master_id");
-
-ALTER TABLE "char_weapons_bridge" ADD CONSTRAINT "char_weapons_bridge_fk2" FOREIGN KEY ("weapon_mod_1") REFERENCES "weapon_mod1_master" ("weapon_mod1_master_id");
-
-ALTER TABLE "char_weapons_bridge" ADD CONSTRAINT "char_weapons_bridge_fk3" FOREIGN KEY ("weapon_mod_2") REFERENCES "weapon_mod2_master" ("weapon_mod2_master_id");
 
 ALTER TABLE "char_armor_bridge" ADD CONSTRAINT "char_armor_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
 
@@ -3359,20 +3327,6 @@ VALUES
 		500
 	);
 
-INSERT INTO
-	"weapon_mod1_master" ("mod_1_name")
-VALUES
-	('Not Modded');
-
-INSERT INTO
-	"weapon_mod2_master" ("mod_2_name")
-VALUES
-	('Not Modded');
-
-INSERT INTO
-	"armor_mod_master" ("name")
-VALUES
-	('Not Modded');
 
 INSERT INTO
 	"public"."armor_master" (
@@ -3608,7 +3562,7 @@ VALUES
 	(
 		'High Fashion',
 		'Not a style on its own, but one of the other styles custom tailored and made from the finest materials.',
-		3
+		2
 	);
 
 CREATE TABLE
