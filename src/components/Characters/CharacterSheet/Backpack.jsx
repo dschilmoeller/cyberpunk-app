@@ -33,8 +33,8 @@ export default function Backpack() {
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
-
-    const [showSnackSnackBar, setShowSnackSnackBar] = React.useState(false);
+    
+    const [snackbarText, setSnackBarText] = React.useState('')
 
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -204,7 +204,11 @@ export default function Backpack() {
     const UseConsumable = (foodstuff, isFood) => {
         dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: foodstuff })
         if (isFood === true) {
-            setShowSnackSnackBar(true)
+            setShowSnackbar(true)
+            setSnackBarText('NOM NOM NOM')
+        } else {
+            setShowSnackbar(true)
+            setSnackBarText('Item Used')
         }
     }
 
@@ -241,21 +245,10 @@ export default function Backpack() {
                 anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
             >
                 <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                    None of that nonsense now!
+                    {snackbarText}
                 </Alert>
             </Snackbar>
-
-            <Snackbar
-                TransitionComponent={TransitionUp}
-                autoHideDuration={2000}
-                open={showSnackSnackBar}
-                onClose={() => setShowSnackSnackBar(false)}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            >
-                <Alert onClose={() => setShowSnackSnackBar(false)} severity="success" sx={{ width: '100%' }}>
-                    NOM NOM NOM!
-                </Alert>
-            </Snackbar>
+            
             <Grid container>
                 <Grid item xs={12} paddingBottom={4}>
                     <Item><CharacterSheetHeaderDialog prop={'Backpack'} /></Item>
