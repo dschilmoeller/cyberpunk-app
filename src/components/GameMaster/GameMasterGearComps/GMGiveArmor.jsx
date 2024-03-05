@@ -159,7 +159,6 @@ export default function GMGiveArmor() {
             armorMaster[i].price, armorMaster[i].quality))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedMasterArmorRows = React.useMemo(
         () =>
             stableSort(masterArmorRows, getComparator(order, orderBy)),

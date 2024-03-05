@@ -165,7 +165,6 @@ export default function GMOwnedVehicleMods() {
             charVehicleMods[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedCharVehicleModRows = React.useMemo(
         () =>
             stableSort(charVehicleModRows, getComparator(order, orderBy)),

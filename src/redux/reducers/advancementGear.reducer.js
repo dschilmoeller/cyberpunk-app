@@ -128,6 +128,21 @@ const advancementGear = (state = {
                 ...state,
                 gear: action.payload
             }
+        case 'SET_ADVANCEMENT_CYBERWARE':
+            return {
+                ...state,
+                cyberware: action.payload
+            }
+        case 'SET_ADVANCEMENT_VEHICLES':
+            return {
+                ...state,
+                vehicles: action.payload
+            }
+        case 'SET_ADVANCEMENT_VEHICLE_MODS':
+            return {
+                ...state,
+                vehicleMods: action.payload
+            }
         case 'SET_NOMAD_FREEBIE':
             return {
                 ...state,

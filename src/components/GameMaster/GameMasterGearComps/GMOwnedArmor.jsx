@@ -173,7 +173,6 @@ export default function GMOwnedArmor() {
             charArmor[i].name, charArmor[i].price, charArmor[i].quality))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedCharArmorRows = React.useMemo(
         () =>
             stableSort(charArmorRows, getComparator(order, orderBy)),
