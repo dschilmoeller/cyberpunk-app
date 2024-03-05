@@ -13,7 +13,6 @@ import { Button } from "@mui/material";
 import { Grid } from '@mui/material';
 
 // add toast & custom text
-// improving clothing of certain rank/quality improves cool/appearance/etc -> show in display somehow.
 
 export default function AdvancementClothes() {
   const history = useHistory();
@@ -21,10 +20,6 @@ export default function AdvancementClothes() {
   const params = useParams();
   const characterClothes = useSelector((store) => store.advancementGear.clothes);
   const charDetail = useSelector((store) => store.advancementDetail);
-
-  // need something different to happen if equipping clothes when already have some equipped - going off numbers present when page is loaded.
-  // need to convert payload.quality changes to just be a flat number and the reducer to deal with +/-
-  // will probably need attribute-enhancing and attribute-lowering dispatches as well.
 
   const equipClothes = (incomingClothing) => {
     characterClothes.map(clothing => {
@@ -34,27 +29,27 @@ export default function AdvancementClothes() {
     })
 
     if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 1 }, });
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
     } else if (incomingClothing.rank === 10) {
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: 2 }, });
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: 1 }, });
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 2, charID: charDetail.id } })
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: 1, charID: charDetail.id } })
     }
-    dispatch({ type: "EQUIP_CLOTHES", payload: incomingClothing });
+
+    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: true } });
   };
 
   const unequipClothes = (incomingClothing) => {
     if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -1 }, });
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -1, charID: charDetail.id } })
     } else if (incomingClothing.rank === 10) {
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_appearance", quality: -2 }, });
-      dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: "cyber_cool", quality: -1 }, });
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -2, charID: charDetail.id } })
+      dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: -1, charID: charDetail.id } })
     }
 
-    dispatch({ type: "UNEQUIP_CLOTHES", payload: incomingClothing });
-
+    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: false } });
     return true;
   };
-  // history.push(`/shopSheet/${78}`
+
   return (
     <>
       <h1>Current Clothing - Outfits can be upgraded in the <Button

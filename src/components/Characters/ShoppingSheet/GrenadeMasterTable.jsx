@@ -23,7 +23,6 @@ function TransitionUp(props) {
 }
 export default function GrenadeMasterTable() {
     const dispatch = useDispatch()
-    const grenadeID = useSelector(store => store.advancementGear.grenadeID)
     const grenadeMaster = useSelector(store => store.gearMaster.grenades)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -37,7 +36,8 @@ export default function GrenadeMasterTable() {
 
     const buyGrenade = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_GRENADE', payload: { item, grenadeID } })
+            let newBank = charDetail.bank - item.price
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.grenade_master_id, newBank, charID: charDetail.id, table: 'char_grenade_bridge', column: 'grenade_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -228,7 +228,7 @@ export default function GrenadeMasterTable() {
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">Strength * 5 Meters</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyGrenade(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyGrenade(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                                 }

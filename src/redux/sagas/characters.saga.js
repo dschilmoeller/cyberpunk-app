@@ -22,6 +22,8 @@ function* fetchCharacterDetail(action) {
     yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
     const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
     yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
+    const characterLifestyle = yield axios.get(`/api/characters/fetchCharacterLifestyle/${action.payload}`)
+    yield put({ type: 'SET_CHARACTER_LIFESTYLE', payload: characterLifestyle.data })
 
     const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload}`)
     const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload}`)
@@ -71,7 +73,16 @@ function* saveCharacterBank(action) {
   try {
     yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
   } catch (error) {
-    console.log(`Error making a bank change`, error);
+    console.log(`Error making a bank change:`, error);
+  }
+}
+
+function* fetchCharacterBank(action) {
+  try {
+    const bank = yield axios.get(`/api/characters/fetchBank/${action.payload}`)
+    yield put({ type: "SET_CHARACTER_BANK", payload: bank.data })
+  } catch (error) {
+    console.log(`Error fetching character bank:`, error);
   }
 }
 
@@ -252,6 +263,51 @@ function* fetchAdvancementDetails(action) {
   }
 }
 
+function* fetchAdvancementClothes(action) {
+  const advancementClothes = yield axios.get(`/api/characters/fetchAdvancementClothes/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_CLOTHES', payload: advancementClothes.data })
+}
+
+function* fetchAdvancementArmor(action) {
+  const advancementArmor = yield axios.get(`/api/characters/fetchAdvancementArmor/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_ARMOR', payload: advancementArmor.data })
+}
+
+function* fetchAdvancementShield(action) {
+  const advancementShield = yield axios.get(`/api/characters/fetchAdvancementShield/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_SHIELD', payload: advancementShield.data })
+}
+
+function* fetchAdvancementWeapons(action) {
+  const advancementWeapons = yield axios.get(`/api/characters/fetchAdvancementWeapons/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_WEAPONS', payload: advancementWeapons.data })
+}
+
+function* fetchAdvancementGrenades(action) {
+  const advancementGrenades = yield axios.get(`/api/characters/fetchAdvancementGrenades/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_GRENADES', payload: advancementGrenades.data })
+}
+
+function* fetchAdvancementMiscGear(action) {
+  const advancementGear = yield axios.get(`/api/characters/fetchAdvancementMiscGear/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_MISC_GEAR', payload: advancementGear.data })
+}
+
+function* fetchAdvancementCyberware(action) {
+  const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: advancementCyber.data })
+}
+
+function* fetchAdvancementVehicles(action) {
+  const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_VEHICLES', payload: advancementVehicles.data })
+}
+
+function* fetchAdvancementVehicleMods(action) {
+  const advancementVehicleMods = yield axios.get(`/api/characters/fetchAdvancementVehicleMods/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_VEHICLE_MODS', payload: advancementVehicleMods.data })
+}
+
 function* saveAdvancementDetails(action) {
   try {
     yield axios.put(`api/characters/saveAdvancementCharacter/${action.payload.char.id}`, action.payload);
@@ -283,16 +339,16 @@ function* fetchGameMasterContacts() {
     const allContacts = yield axios.get('/api/characters/fetchgamemastercontacts')
     yield put({ type: 'SET_CONTACT_LIST', payload: allContacts.data });
     const contactBridgeData = yield axios.get('/api/characters/fetchgamemastercontactbridgedata')
-    yield put({ type: "SET_CONTACT_BRIDGE_DATA", payload: contactBridgeData.data})
+    yield put({ type: "SET_CONTACT_BRIDGE_DATA", payload: contactBridgeData.data })
   } catch (error) {
     console.log(`Error fetching master contact list for gamemaster`, error);
   }
 }
 
-function* fetchGameMasterSingleCharContacts(action){
+function* fetchGameMasterSingleCharContacts(action) {
   try {
     const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload}`)
-    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data})
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
   } catch (error) {
     console.log(`Error fetching character contacts for GM page.`);
   }
@@ -314,6 +370,7 @@ function* characterSaga() {
   yield takeLatest('USE_GRENADE', useGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
   yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
+  yield takeLatest('FETCH_CHARACTER_BANK', fetchCharacterBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
   yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote);
   yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote);
@@ -328,6 +385,15 @@ function* characterSaga() {
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
+  yield takeLatest('FETCH_ADVANCEMENT_ARMOR', fetchAdvancementArmor);
+  yield takeLatest('FETCH_ADVANCEMENT_SHIELD', fetchAdvancementShield);
+  yield takeLatest('FETCH_ADVANCEMENT_WEAPONS', fetchAdvancementWeapons);
+  yield takeLatest('FETCH_ADVANCEMENT_GRENADES', fetchAdvancementGrenades);
+  yield takeLatest('FETCH_ADVANCEMENT_MISC_GEAR', fetchAdvancementMiscGear);
+  yield takeLatest('FETCH_ADVANCEMENT_CYBERWARE', fetchAdvancementCyberware);
+  yield takeLatest('FETCH_ADVANCEMENT_VEHICLES', fetchAdvancementVehicles);
+  yield takeLatest('FETCH_ADVANCEMENT_VEHICLE_MODS', fetchAdvancementVehicleMods);
+  yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes);
 
   // GM fetch/save/delete
   yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)

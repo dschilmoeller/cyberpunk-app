@@ -33,13 +33,16 @@ function Armor() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
-    const charTotalArmor = charArmor.quality + charShield.quality + charStatus.current_cyberware_armor_quality
+    const charTotalArmor = (charArmor === undefined ? 0 : charArmor.quality) 
+    + (charShield === undefined ? 0 : charShield.quality)
+    + charStatus.current_cyberware_armor_quality
     
-    // Builds armor total from various sources
+    // Builds armor total from various sources. If no armor/shield worn, default to 0.
     const armorBuilder = () => {
-        
         let armorBoxes = []
-        let armorArray = armorDamageBuilder(charStatus.current_cyberware_armor_loss + charArmor.this_armor_loss + charShield.this_shield_loss, charTotalArmor)
+        let armorArray = armorDamageBuilder(charStatus.current_cyberware_armor_loss 
+            + (charArmor === undefined ? 0 : charArmor.this_armor_loss)
+            + (charShield === undefined ? 0 : charShield.this_shield_loss), charTotalArmor)
         for (let i = 0; i < charDetails.body + charDetails.cyber_body; i++) {
             armorBoxes.push(
                 <React.Fragment key={i + 100}>
@@ -69,10 +72,10 @@ function Armor() {
         return armorArray
     }
 
-    const charShieldQuality = charShield.quality
-    const charShieldLoss = charShield.this_shield_loss
-    const charArmorQuality = charArmor.quality
-    const charArmorLoss = charArmor.this_armor_loss
+    const charShieldQuality = charShield === undefined ? 0 : charShield.quality;
+    const charShieldLoss = charShield === undefined ? 0 : charShield.this_shield_loss
+    const charArmorQuality = charArmor === undefined ? 0 : charArmor.quality
+    const charArmorLoss = charArmor === undefined ? 0 : charArmor.this_armor_loss
     const charCyberArmorQuality = charStatus.current_cyberware_armor_quality
     const charCyberArmorLoss = charStatus.current_cyberware_armor_loss
     const ablateOneArmor = () => {
@@ -118,7 +121,6 @@ function Armor() {
                 </Alert>
             </Snackbar>
 
-            {charArmor && charShield && charStatus ? (
                 <>
                     <Item><OtherAttributesDialog prop={'Armor'} /></Item>
                     <Grid container>
@@ -171,7 +173,6 @@ function Armor() {
                     
                     
                 </>
-            ) : <></>}
         </>
     )
 }

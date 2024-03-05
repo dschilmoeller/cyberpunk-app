@@ -5,7 +5,12 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             return action.payload;
         // clears details when required.
         case 'CLEAR_ADVANCEMENT_DETAIL':
-            return [{ name: '', campaign: 1, campaignWords: '', bank: 0}]
+            return [{ name: '', campaign: 1, campaignWords: '', bank: 0 }]
+        case 'SET_CHARACTER_BANK':
+            return {
+                ...state,
+                bank: action.payload.bank
+            }
         // From AdvancementSheet pages - players spending XP
         case 'INCREASE_ATTRIBUTE':
             return {
@@ -89,81 +94,81 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 [action.payload.type]: action.payload.quality
             }
         // tied to advancementShop functions, changes cash on hand status.
-        case 'BUY_ARMOR':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_ARMOR':
-            return {
-                ...state,
-                // sells armor for standard 25% street value
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_ARMOR':
-            return {
-                ...state,
-                // sells armor for full value, ie. 'returns' it.
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_ARMOR':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_ARMOR':
+        //     return {
+        //         ...state,
+        //         // sells armor for standard 25% street value
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_ARMOR':
+        //     return {
+        //         ...state,
+        //         // sells armor for full value, ie. 'returns' it.
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         case 'REPAIR_ARMOR':
             return {
                 ...state,
                 bank: Number(state.bank - action.payload.this_armor_loss * (action.payload.price / 10))
             }
         // Repeat as for armor for other kinds of gear.
-        case 'BUY_SHIELD':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_SHIELD':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_SHIELD':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
-        case 'REPAIR_SHIELD':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.this_shield_loss * (action.payload.price / 10))
-            }
+        // case 'BUY_SHIELD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_SHIELD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_SHIELD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
+        // case 'REPAIR_SHIELD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.this_shield_loss * (action.payload.price / 10))
+        //     }
         //weapons
-        case 'BUY_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_WEAPON':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_WEAPON':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         //grenades
-        case 'BUY_GRENADE':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_GRENADE':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_GRENADE':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_GRENADE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_GRENADE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_GRENADE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         //othergear
         case 'BUY_MISC_GEAR':
             return {
@@ -235,31 +240,6 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             return {
                 ...state,
                 bank: Number(state.bank + action.payload.price)
-            }
-        case 'BUY_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) - Number(action.payload.price)
-            }
-        case 'SELL_OWNED_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) + Number(action.cost)
-            }
-        case 'SELL_ADVANCEMENT_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) + Number(action.cost)
-            }
-        case 'IMPROVE_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) - Number(action.bank)
-            }
-        case 'DEGRADE_CLOTHING':
-            return {
-                ...state,
-                bank: Number(state.bank) + Number(action.bank)
             }
         //cyberware
         case 'BUY_CYBERWARE':

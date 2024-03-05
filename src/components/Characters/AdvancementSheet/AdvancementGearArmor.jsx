@@ -24,10 +24,12 @@ function TransitionUp(props) {
 export default function AdvancementGearArmor() {
     const dispatch = useDispatch();
     const charBank = useSelector(store => store.advancementDetail.bank)
+    const charDetail = useSelector((store) => store.advancementDetail)
     const charCyberArmorMax = useSelector(store => store.advancementDetail.current_cyberware_armor_quality)
     const charCyberArmorCurrent = useSelector(store => store.advancementDetail.current_cyberware_armor_loss)
     const characterArmor = useSelector(store => store.advancementGear.armor)
     const characterShield = useSelector(store => store.advancementGear.shield)
+
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -90,17 +92,30 @@ export default function AdvancementGearArmor() {
     }
 
     const equipArmor = (incomingArmor) => {
-        dispatch({ type: 'EQUIP_ARMOR', payload: incomingArmor })
+        characterArmor.map(armor => {
+            if (armor.equipped === true) {
+                unequipArmor(armor)
+            }
+        })
+        // dispatch({ type: 'EQUIP_ARMOR', payload: { armor: incomingArmor, charID: charDetail.id } })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: true } })
     }
+
     const equipShield = (incomingShield) => {
-        dispatch({ type: 'EQUIP_SHIELD', payload: incomingShield })
+        characterShield.map(shield => {
+            if (shield.equipped === true) {
+                unequipShield(shield)
+            }
+        })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: true } })
     }
 
     const unequipArmor = (incomingArmor) => {
-        dispatch({ type: 'UNEQUIP_ARMOR', payload: incomingArmor })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: false } })
     }
+    
     const unequipShield = (incomingShield) => {
-        dispatch({ type: 'UNEQUIP_SHIELD', payload: incomingShield })
+        dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: false } })
     }
 
     const repairArmor = (incomingArmor) => {
@@ -179,7 +194,7 @@ export default function AdvancementGearArmor() {
                     </TableHead>
                     <TableBody>
                         {characterArmor.map((item, i) => {
-                            if (item.equipped === true && item.name != 'No Armor') {
+                            if (item.equipped === true) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -193,7 +208,7 @@ export default function AdvancementGearArmor() {
                             }
                         })}
                         {characterShield.map((item, i) => {
-                            if (item.equipped === true && item.name != 'No Shield') {
+                            if (item.equipped === true) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -225,7 +240,7 @@ export default function AdvancementGearArmor() {
                     </TableHead>
                     <TableBody>
                         {characterArmor.map((item, i) => {
-                            if (item.equipped === false && item.name != 'No Armor') {
+                            if (item.equipped === false) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -239,7 +254,7 @@ export default function AdvancementGearArmor() {
                             }
                         })}
                         {characterShield.map((item, i) => {
-                            if (item.equipped === false && item.name != 'No Shield') {
+                            if (item.equipped === false) {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>

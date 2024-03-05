@@ -116,7 +116,7 @@ function ShoppingSheet() {
                         <Tab value='#armor' href={`/#/shopSheet/${params.id}#armor`} label='Armor' />
                         <Tab value='#weapons' href={`/#/shopSheet/${params.id}#weapons`} label='Weapons' />
                         <Tab value='#grenades' href={`/#/shopSheet/${params.id}#grenades`} label='Grenades' />
-                        <Tab value='#other' href={`/#/shopSheet/${params.id}#grenades`} label='Other Gear' />
+                        <Tab value='#other' href={`/#/shopSheet/${params.id}#other`} label='Other Gear' />
                         {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/shopSheet/${params.id}#netrunner`} label='Netrunner' />}
                         <Tab value='#cyberware' href={`/#/shopSheet/${params.id}#cyberware`} label='Cyberware' />
                         <Tab value='#vehicles' href={`/#/shopSheet/${params.id}#vehicles`} label='Vehicles' />

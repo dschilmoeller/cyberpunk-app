@@ -188,7 +188,6 @@ export default function GMOwnedVehicles() {
         ))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedCharVehicleRows = React.useMemo(
         () =>
             stableSort(charVehicleRows, getComparator(order, orderBy)),

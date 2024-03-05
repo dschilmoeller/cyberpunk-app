@@ -38,22 +38,14 @@ export default function ClothingMasterTable() {
         if (item.quality === 0) {
             price = 5;
         } else if (item.quality === 1) {
-        price = 10 * (item.quality * item.quality);
+            price = 10 * (item.quality * item.quality) * 10
         } else if (item.quality === 2) {
-            price = 10 * (item.quality * item.quality) * 16
-        } else if (item.quality === 3) {
-            price = 10 * (item.quality * item.quality) * 81
-        }
-
-        let rank = 1;
-        if (item.quality === 2) {
-            rank = 4;
-        } else if (item.quality === 3) {
-            rank = 9;
+            price = 10 * (item.quality * item.quality) * 20
         }
 
         if (charDetail.bank >= price) {
-            dispatch({ type: 'BUY_CLOTHING', payload: { item, clothingID: clothingID, price: price, rank: rank } })
+            let newBank = (charDetail.bank - price)
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.clothing_master_id, newBank, charID: charDetail.id, table: 'char_clothing_bridge', column: 'clothing_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -174,7 +166,7 @@ export default function ClothingMasterTable() {
 
     function createMasterClothingData(description, clothing_master_id, quality, name) {
         return {
-            description, 
+            description,
             clothing_master_id,
             quality,
             name,
@@ -190,7 +182,7 @@ export default function ClothingMasterTable() {
             clothesMaster[i].clothing_master_id,
             clothesMaster[i].quality,
             clothesMaster[i].name,
-            ));
+        ));
     }
 
     // sort and monitor changes. 
@@ -233,21 +225,21 @@ export default function ClothingMasterTable() {
                                 if (row.quality === 0) {
                                     price = 5;
                                 } else if (row.quality === 1) {
-                                price = 10 * (row.quality * row.quality);
+                                    price = 10 * (row.quality * row.quality);
                                 } else if (row.quality === 2) {
                                     price = 10 * (row.quality * row.quality) * 16
                                 } else if (row.quality === 3) {
                                     price = 10 * (row.quality * row.quality) * 81
                                 }
-                                    return (
-                                        <TableRow hover key={row.name}>
-                                            <TableCell align="left">{row.name}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyClothing(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                return (
+                                    <TableRow hover key={row.name}>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{euroBuck}{Math.floor(price).toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyClothing(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>

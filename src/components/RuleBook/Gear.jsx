@@ -20,7 +20,6 @@ import WeaponDialog from '../Modals/WeaponDialog.jsx';
 
 import { useSelector } from 'react-redux';
 
-
 export default function RulebookGear() {
 
     const armorMaster = useSelector(store => store.gearMaster.armor)

@@ -38,7 +38,8 @@ export default function ModVehicleMasterTable() {
 
     const buyVehicleMod = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_VEHICLE_MOD', payload: { item, vehicleModID } })
+            let newBank = charDetail.bank - item.price
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.vehicle_mod_master_id, newBank, charID: charDetail.id, table: 'char_owned_vehicle_mods', column: 'vehicle_mod_master_id' } })
         } else {
             setShowSnackbar(true)
         }
@@ -168,7 +169,6 @@ export default function ModVehicleMasterTable() {
         vehicleModMasterRows.push(createVehicleModMasterData(vehicleModMaster[i].description, vehicleModMaster[i].name, vehicleModMaster[i].type, vehicleModMaster[i].price, vehicleModMaster[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedVehicleModMasterRows = React.useMemo(
         () =>
             stableSort(vehicleModMasterRows, getComparator(order, orderBy)),

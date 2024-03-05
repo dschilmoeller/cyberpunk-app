@@ -17,21 +17,14 @@ import Switch from '@mui/material/Switch';
 export default function ModVehicleOwnedTable() {
     const dispatch = useDispatch()
 
-
     const charVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
-    const boughtVehicleMods = useSelector(store => store.advancementGear.boughtVehicleMods)
+    const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
     const sellOwnedVehicleMod = (item) => {
-        dispatch({ type: 'SELL_OWNED_VEHICLE_MOD', payload: item })
-    }
-
-    const sellBoughtVehicleMod = (item) => {
-        if (item.is_nomad_vehicle === true) {
-            dispatch({ type: 'RESTORE_NOMAD_SLOT' })
-        }
-        dispatch({ type: 'SELL_ADVANCEMENT_VEHICLE_MOD', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.char_owned_vehicle_mods_id, newBank, charID: charDetail.id, table: 'char_owned_vehicle_mods', column: 'char_owned_vehicle_mods_id' } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -167,7 +160,6 @@ export default function ModVehicleOwnedTable() {
             charVehicleMods[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedCharVehicleModRows = React.useMemo(
         () =>
             stableSort(charVehicleModRows, getComparator(order, orderBy)),
@@ -202,17 +194,6 @@ export default function ModVehicleOwnedTable() {
                                             </TableRow>
                                         );
                                     }
-                                })}
-                                {boughtVehicleMods.map((row, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell padding='normal'>{row.name}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{row.type}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellBoughtVehicleMod(row)}>Sell</Button></TableCell>
-                                        </TableRow>
-                                    )
                                 })}
                             </TableBody>
                         </Table>

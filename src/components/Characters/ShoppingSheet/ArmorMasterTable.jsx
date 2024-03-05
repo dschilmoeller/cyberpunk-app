@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -23,10 +23,7 @@ function TransitionUp(props) {
 export default function ArmorMasterTable() {
     const dispatch = useDispatch()
 
-    const armorID = useSelector(store => store.advancementGear.armorID)
     const armorMaster = useSelector(store => store.gearMaster.armor)
-
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
     const shieldMaster = useSelector(store => store.gearMaster.shields)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -40,7 +37,8 @@ export default function ArmorMasterTable() {
 
     const buyArmor = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_ARMOR', payload: { item, armorID } })
+            let newBank = (charDetail.bank - item.price)
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.armor_master_id, newBank, charID: charDetail.id, table: 'char_armor_bridge', column: 'armor_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -49,7 +47,8 @@ export default function ArmorMasterTable() {
 
     const buyShield = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_SHIELD', payload: { item, shieldID } })
+            let newBank = (charDetail.bank - item.price)
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.shield_master_id, newBank, charID: charDetail.id, table: 'char_shield_bridge', column: 'shield_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -181,11 +180,10 @@ export default function ArmorMasterTable() {
             armorMaster[i].price, armorMaster[i].quality))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedMasterArmorRows = React.useMemo(
         () =>
             stableSort(masterArmorRows, getComparator(order, orderBy)),
-        [order, orderBy],
+        [order, orderBy, armorMaster],
     );
 
     function createMasterShieldData(description, name, price, quality, shield_master_id) {
@@ -203,7 +201,7 @@ export default function ArmorMasterTable() {
     const sortedMasterShieldRows = React.useMemo(
         () =>
             stableSort(masterShieldRows, getComparator(order, orderBy)),
-        [order, orderBy],
+        [order, orderBy, shieldMaster],
     );
 
 
@@ -236,32 +234,29 @@ export default function ArmorMasterTable() {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
+
                         <TableBody>
                             {sortedMasterArmorRows.map((row) => {
-                                if (row.name != 'No Armor') {
-                                    return (
-                                        <TableRow hover key={row.armor_master_id}>
-                                            <TableCell padding={'normal'}>{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyArmor(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                }
+                                return (
+                                    <TableRow hover key={row.armor_master_id}>
+                                        <TableCell padding={'normal'}>{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyArmor(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                             {sortedMasterShieldRows.map((row) => {
-                                if (row.name != 'No Shield') {
-                                    return (
-                                        <TableRow hover key={row.shield_master_id}>
-                                            <TableCell padding="normal">{row.name}</TableCell>
-                                            <TableCell align="center">{row.quality}</TableCell>
-                                            <TableCell align="center">{row.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyShield(row)}>Buy</Button></TableCell>
-                                        </TableRow>
-                                    );
-                                }
+                                return (
+                                    <TableRow hover key={row.shield_master_id}>
+                                        <TableCell padding="normal">{row.name}</TableCell>
+                                        <TableCell align="center">{row.quality}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyShield(row)}>Buy</Button></TableCell>
+                                    </TableRow>
+                                );
                             })}
                         </TableBody>
                     </Table>

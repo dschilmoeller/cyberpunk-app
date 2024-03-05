@@ -386,13 +386,25 @@ router.put('/charactercreatepharmaceutical/', rejectUnauthenticated, (req, res) 
 // save arbitrary in play bank changes (from backpack) 
 router.put('/savecharacterbank/:id', rejectUnauthenticated, (req, res) => {
     const updateBankSqlText = `UPDATE "character" set "bank" = $1 WHERE "id" = $2`
-    const bankSqlParams = [req.body.newBank, req.body.id]
+    const bankSqlParams = [req.body.newBank, req.body.charID]
     pool.query(updateBankSqlText, bankSqlParams)
         .then(result => {
             res.sendStatus(200)
         })
         .catch(err => {
             console.log(`error arbitrarily updating bank:`, err);
+        })
+})
+
+router.get('/fetchBank/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT "bank" from "character" WHERE "character"."id" = $1`
+    const sqlParams = [req.params.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => {
+            res.send(result.rows[0])
+        })
+        .catch(err => {
+            console.log(`error fetching bank:`, err);
         })
 })
 
@@ -487,13 +499,13 @@ router.post('/insertcharcontactbridge/', rejectUnauthenticated, (req, res) => {
     VALUES ($1, $2, $3, $4)`
     const sqlParams = [req.body.characterID, req.body.contactID, 0, 'Your notes here!']
     pool.query(sqlText, sqlParams)
-    .then((result) => {
-        res.sendStatus(201)
-    })
-    .catch(err => {
-        console.log(`error inserting contact into char contact bridge`, err);
-        console.log(`error is with char ID`, req.body.charID, `and contact id`, req.body.contactID);
-    })
+        .then((result) => {
+            res.sendStatus(201)
+        })
+        .catch(err => {
+            console.log(`error inserting contact into char contact bridge`, err);
+            console.log(`error is with char ID`, req.body.charID, `and contact id`, req.body.contactID);
+        })
 })
 
 // GM Create Contact
@@ -663,6 +675,19 @@ router.get('/fetchAdvancementGear/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
+router.get('/fetchAdvancementMiscGear/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_gear_bridge" 
+    JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_gear_bridge"."misc_gear_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching owned gear details:`, err);
+        })
+})
+
 router.get('/fetchAdvancementCyber/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware" 
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
@@ -751,13 +776,17 @@ router.get('/fetchAdvancementClothes/:id', rejectUnauthenticated, (req, res) => 
     JOIN "clothing_master" ON "clothing_master"."clothing_master_id" = "char_clothing_bridge"."clothing_id"
     WHERE char_id = $1`
     pool.query(sqlText, [req.params.id])
-    .then(result => {
-        res.send(result.rows);
-    })
-    .catch(err => {
-        console.log(`Error fetching character clothing.`);
-    })
+        .then(result => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character clothing.`);
+        })
 })
+
+// fetch advancement armor
+
+// fetch advancement shield
 
 // advancement save route
 // big one is to update the character stats, skills, and such.
@@ -859,11 +888,11 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             const clothingSqlText = `UPDATE "char_clothing_bridge"
             SET "rank" = $1, equipped = $2
             WHERE clothing_bridge_id = $3`
-            for (let i=0; i < clothing.length; i++){
+            for (let i = 0; i < clothing.length; i++) {
                 const clothingSqlParams = [clothing[i].rank, clothing[i].equipped, clothing[i].clothing_bridge_id]
                 pool.query(clothingSqlText, clothingSqlParams)
             }
-            
+
 
             // change netrunner gear details:
             const netrunnerGear = req.body.gear.netrunnerGear
@@ -1047,19 +1076,19 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             }
 
             const soldClothes = req.body.gear.soldClothes
-            
-            if (soldClothes.length > 0){
+
+            if (soldClothes.length > 0) {
                 const soldClothesSqlText = `DELETE FROM "char_clothing_bridge" WHERE "clothing_bridge_id" = $1`
-                for (let i = 0; i < soldClothes.length; i++){
+                for (let i = 0; i < soldClothes.length; i++) {
                     const soldClothesParams = [soldClothes[i].clothing_bridge_id]
                     pool.query(soldClothesSqlText, soldClothesParams)
                 }
             }
 
             const boughtClothes = req.body.gear.boughtClothes
-            if (boughtClothes.length > 0){
+            if (boughtClothes.length > 0) {
                 const boughtClothesSqlText = `INSERT INTO "char_clothing_bridge" ("char_id", "clothing_id", "rank") VALUES ($1, $2, $3)`
-                for (let i =0; i < boughtClothes.length; i++){
+                for (let i = 0; i < boughtClothes.length; i++) {
                     const boughtClothesParams = [req.body.char.id, boughtClothes[i].clothing_master_id, boughtClothes[i].rank]
                     pool.query(boughtClothesSqlText, boughtClothesParams)
                 }
@@ -1152,10 +1181,125 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
 })
 
+router.put('/attributeGearChangeStrength/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_strength = (SELECT "cyber_strength" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber strength`, err); })
+})
+
+router.put('/attributeGearChangeBody/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_body = (SELECT "cyber_body" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber body`, err); })
+})
+
+router.put('/attributeGearChangeReflexes/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_reflexes = (SELECT "cyber_reflexes" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber reflexes`, err); })
+})
+
+router.put('/attributeGearChangeAppearance/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_appearance = (SELECT "cyber_appearance" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber appearance`, err); })
+})
+
+router.put('/attributeGearChangeCool/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_cool = (SELECT "cyber_cool" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber cool`, err); })
+})
+
+// allows string literal in insert statement while removing SQL Injection possibility (hopefully)
+const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge']
+const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id']
+
+router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
+    let tableCheck = false
+    let pkCheck = false
+    for (let i = 0; i < whiteListTable.length; i++) {
+        if (whiteListTable[i] === req.body.table) {
+            tableCheck = true
+
+        }
+    }
+    for (let j = 0; j < whiteListPKs.length; j++) {
+        if (whiteListPKs[j] === req.body.tablePrimaryKey) {
+            pkCheck = true
+        }
+    }
+
+    if (tableCheck === true
+        &&
+        pkCheck === true
+        &&
+        req.body.equipStatus === true || req.body.equipStatus === false) {
+        const table = req.body.table
+        const equipStatus = req.body.equipStatus
+        const tablePrimaryKey = req.body.tablePrimaryKey
+        const sqlText = `update ${table} SET "equipped" = ${equipStatus} WHERE ${tablePrimaryKey} = $1`
+        pool.query(sqlText, [req.params.id])
+            .then(result => { res.sendStatus(201); })
+            .catch(err => { console.log(`Error changing char equipment status:`, err); })
+    }
+})
+
+router.put('/changeCharacterArmorQuality/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_armor_quality" = $1 WHERE "char_id" = $2`
+    const sqlParams = [req.body.quality, req.params.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error altering character armor quality:`, err); })
+})
+
+router.put('/removeCharacterArmor/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_armor_quality" = 0 WHERE "char_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error resetting character current armor quality:`, err); })
+})
+
+router.put('/changeCharacterShieldQuality/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_shield_quality" = $1 WHERE "char_id" = $2`
+    const sqlParams = [req.body.quality, req.params.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error altering character shield quality:`, err); })
+})
+
+router.put('/removeCharacterShield/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_shield_quality" = 0 WHERE "char_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error resetting character current shield quality:`, err); })
+})
+
+router.put('/characteralterclothing/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_clothing_bridge" SET "rank" = $1 WHERE "clothing_bridge_id" = $2`
+    const sqlParams = [req.body.newRank, req.params.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201); })
+        .catch(err => { console.log(`Error improving character clothing:`, err); })
+})
 
 
 // Creation save route(s)
-
 router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
@@ -1529,11 +1673,11 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
             }
 
             const contactDetails = req.body.contacts
-            if (contactDetails.length > 0){
+            if (contactDetails.length > 0) {
                 const changeContactLoyaltySqlText = `UPDATE "char_contact_bridge"
                 SET "loyalty" = $1
                 WHERE "char_contact_id" = $2`
-                for (let i = 0; i < contactDetails.length; i++){
+                for (let i = 0; i < contactDetails.length; i++) {
                     if (contactDetails[i].modified === true) {
                         pool.query(changeContactLoyaltySqlText, [contactDetails[i].loyalty, contactDetails[i].char_contact_id])
                     }
@@ -1565,5 +1709,17 @@ router.delete('/deletegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
     }
 
 })
+
+router.get('/fetchCharacterLifestyle/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_lifestyle_bridge"`
+    pool.query(sqlText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character lifestyle`, err);
+        })
+})
+
 
 module.exports = router

@@ -149,7 +149,6 @@ export default function GMGiveVehicleMods() {
         vehicleModMasterRows.push(createVehicleModMasterData(vehicleModMaster[i].description, vehicleModMaster[i].name, vehicleModMaster[i].type, vehicleModMaster[i].price, vehicleModMaster[i].vehicle_mod_master_id))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedVehicleModMasterRows = React.useMemo(
         () =>
             stableSort(vehicleModMasterRows, getComparator(order, orderBy)),

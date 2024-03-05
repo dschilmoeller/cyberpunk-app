@@ -48,7 +48,7 @@ function AdvancementSheet() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
         // setExperienceValue(false)
-        setShopValue(false)
+        // setShopValue(false)
     }
 
     // next level down tabs
@@ -57,11 +57,11 @@ function AdvancementSheet() {
     //     setExperienceValue(newValue);
     //     setShopValue(false)
     // }
-    const [equipmentValue, setShopValue] = useState(location.hash ? location.hash : false)
-    const equipmentValueChange = (event, newValue) => {
-        setShopValue(newValue)
-        setExperienceValue(false)
-    }
+    // const [equipmentValue, setShopValue] = useState(location.hash ? location.hash : false)
+    // const equipmentValueChange = (event, newValue) => {
+    //     setShopValue(newValue)
+    //     setExperienceValue(false)
+    // }
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {

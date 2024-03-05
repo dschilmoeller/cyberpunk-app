@@ -22,7 +22,6 @@ function TransitionUp(props) {
 
 export default function OtherMasterTable() {
     const dispatch = useDispatch()
-    const miscGearID = useSelector(store => store.advancementGear.miscGearID)
     const gearMaster = useSelector(store => store.gearMaster.miscGear)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -36,7 +35,8 @@ export default function OtherMasterTable() {
 
     const buyMiscGear = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_MISC_GEAR', payload: { item, miscGearID: miscGearID } })
+            let newBank = (charDetail.bank - item.price)
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.misc_gear_master_id, newBank, charID: charDetail.id, table: 'char_gear_bridge', column: 'misc_gear_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -171,7 +171,7 @@ export default function OtherMasterTable() {
     const sortedOtherMasterRows = React.useMemo(
         () =>
             stableSort(otherMasterRows, getComparator(order, orderBy)),
-        [order, orderBy],
+        [order, orderBy, gearMaster],
     );
 
     return (<>
@@ -209,7 +209,7 @@ export default function OtherMasterTable() {
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

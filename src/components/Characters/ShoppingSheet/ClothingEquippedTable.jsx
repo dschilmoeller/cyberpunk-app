@@ -6,6 +6,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
@@ -17,65 +18,54 @@ export default function ClothingEquippedTable() {
 
     const euroBuck = `\u20AC$`
 
-    const improveEquippedClothing = (item) => {
-        // check if character has money
+    const improveClothing = (item) => {
         if (priceMaker(item.quality, item.rank + 1) <= charDetail.bank) {
-            //   if item quality is street level, can't be improved
+            let newBank = (charDetail.bank - priceMaker(item.quality, item.rank + 1))
             if (item.quality === 0) {
-                console.log(`cannot improve`);
+                console.log(`Cannot Improve This Look`);
             } else if (item.quality === 1 && item.rank < 5) {
-                // if item is of low quality, can only be improved to 5
-                dispatch({ type: "IMPROVE_CLOTHING", payload: item, bank: priceMaker(item.quality, item.rank + 1) });
-                if (item.rank === 5) {
-                    // upon improving to rank 5, increase character's cyber_appearance
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
+                dispatch({ type: "ALTER_CLOTHING", payload: { item, newRank: item.rank + 1, newBank, charID: charDetail.id } })
+                if (item.rank + 1 === 5) {
+                    // rank 5 clothes improve appearance by 1
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
                 }
-            } else if (item.quality === 2 && item.rank < 8) {
-                // if item is of mid quality, can be improved up to rank 8
-                dispatch({ type: "IMPROVE_CLOTHING", payload: item, bank: priceMaker(item.quality, item.rank + 1) });
-                if (item.rank === 5) {
-                    // upon improving to rank 5, increase character's cyber_appearance
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
-                }
-            } else if (item.quality === 3 && item.rank < 10) {
-                // if item is of high quality, can be improved to 10
-                dispatch({ type: "IMPROVE_CLOTHING", payload: item, bank: priceMaker(item.quality, item.rank + 1) });
-                if (item.rank === 10) {
-                    // upon improving to rank 10, increase char's cyber_cool and cyber_appearance
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
-                    dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 1 } })
+            } else if (item.quality === 1 && item.rank === 5) {
+                console.log(`Cannot improve`);
+
+            } else if (item.quality === 2 && item.rank < 10) {
+                dispatch({ type: "ALTER_CLOTHING", payload: { item, newRank: item.rank + 1, newBank, charID: charDetail.id } })
+                if (item.rank + 1 === 5) {
+                    // rank 5 clothes improve appearance by 1
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
+                } else if (item.rank + 1 === 10) {
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
+                    dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: 1, charID: charDetail.id } })
                 }
             } else {
-                // toast if item is maxed out
-                console.log(`Cannae improve.`);
+                console.log(`Cannot improve`);
             }
         } else {
-            // toast if player lacks moolah.
-            console.log(`No cashola`);
+            console.log(`Insufficient Funds`);
         }
     }
 
-    const degradeEquippedClothing = (item) => {
-        if (item.quality === 0) {
-            console.log(`cannot degrade`);
-        } else if (item.quality === 1 && item.rank > 1) {
-            dispatch({ type: 'DEGRADE_CLOTHING', payload: item, bank: Math.floor(priceMaker(item.quality, item.rank - 1) / 4) })
-            if (item.rank === 4) {
-                dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1} })
+    const degradeClothing = (item) => {
+        let newBank = (charDetail.bank + (Math.floor(priceMaker(item.quality, item.rank - 1) / 4)))
+        if (item.quality === 1 && item.rank > 1) {
+            dispatch({ type: "ALTER_CLOTHING", payload: { item, newRank: item.rank - 1, newBank, charID: charDetail.id } })
+            if (item.rank - 1 === 4) {
+                dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -1, charID: charDetail.id } })
             }
-        } else if (item.quality === 2 && item.rank > 4) {
-            dispatch({ type: 'DEGRADE_CLOTHING', payload: item, bank: Math.floor(priceMaker(item.quality, item.rank - 1) / 4)})
-            if (item.rank === 4) {
-                dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
-            }
-        } else if (item.quality === 3 && item.rank > 9) {
-            dispatch({ type: 'DEGRADE_CLOTHING', payload: item, bank: (Math.floor(priceMaker(item.quality, item.rank - 1) / 4)) })
-            if (item.rank === 9) {
-                dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
-                dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: -1 } })
+        } else if (item.quality === 2 && item.rank < 11) {
+            dispatch({ type: "ALTER_CLOTHING", payload: { item, newRank: item.rank - 1, newBank, charID: charDetail.id } })
+            if (item.rank - 1 === 4) {
+                dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -1, charID: charDetail.id } })
+            } else if (item.rank - 1 === 9) {
+                dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: -1, charID: charDetail.id } })
+                dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', change: -1, charID: charDetail.id } })
             }
         } else {
-            console.log(`Cannae degrade - best sell it.`);
+            console.log(`Cannot degrade.`);
         }
     }
 
@@ -88,7 +78,7 @@ export default function ClothingEquippedTable() {
     }
 
     return (<>
-        <h2>My Clothes</h2>
+        <h2>Worn Clothes</h2>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -98,6 +88,15 @@ export default function ClothingEquippedTable() {
                         aria-labelledby="tableTitle"
                         size={'small'}
                     >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align='center'>Name</TableCell>
+                                <TableCell align='center'>Description</TableCell>
+                                <TableCell align='center'>Rank</TableCell>
+                                <TableCell align='center'>Accessorize</TableCell>
+                                <TableCell align='center'>Pawn</TableCell>
+                            </TableRow>
+                        </TableHead>
                         <TableBody>
                             {charClothes.map((row) => {
                                 let improvementWords;
@@ -116,53 +115,45 @@ export default function ClothingEquippedTable() {
                                             </>) : <></>}
                                             {row.quality === 1 && row.rank === 1 ? (
                                                 <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveEquippedClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center">Hope you can give this to someone in need.</TableCell>
-                                                </>) : <></>}
-                                            {row.quality === 1 && (row.rank > 1 && row.rank < 5) ? (
-                                                <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveEquippedClothing(row)}>Time to look better - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeEquippedClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 1 && row.rank > 4 ? (
-                                                <>
-                                                    <TableCell align="center">You need better threads, choom.</TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeEquippedClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 2 && row.rank === 4 ? (
-                                                <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveEquippedClothing(row)}>Feeling cute, might buy another hat - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center">You could look a lot worse, frankly.</TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 2 && (row.rank > 4 && row.rank < 8) ? (
-                                                <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveEquippedClothing(row)}>Does it come in green? - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeEquippedClothing(row)}>I need to afford food again - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) /4)}</Button></TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 2 && row.rank === 8 ? (
-                                                <>
-                                                    <TableCell align="center">I mean you look really great.</TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeEquippedClothing(row)}>Needs must - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) /4)}</Button></TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 3 && row.rank === 9 ? (
-                                                <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveEquippedClothing(row)}>There's literally one stitch out of place! - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center">Who buys used clothing like this?</TableCell>
-                                                </>
-                                            ) : <></>}
-                                            {row.quality === 3 && row.rank === 10 ? (
-                                                <>
-                                                <TableCell align="center">Finaly. You made it work.</TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeEquippedClothing(row)}>I don't need this many diamonds - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant='contained'>Hope you can give this to someone in need.</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
+                                            {row.quality === 1 && row.rank > 1 && row.rank < 5 ? (
+                                                <>
+                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                </>
+                                            ) : <></>}
 
+                                            {row.quality === 1 && row.rank === 5 ? (
+                                                <>
+                                                    <TableCell align="center"><Button disabled variant='contained'>You need better threads, choom.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                </>
+                                            ) : <></>}
+
+                                            {row.quality === 2 && row.rank === 1 ? (
+                                                <>
+                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant='contained'>Hope you can give this to someone in need.</Button></TableCell>
+                                                </>
+                                            ) : <></>}
+
+                                            {row.quality === 2 && row.rank > 1 && row.rank < 10 ? (
+                                                <>
+                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>Feeling cute, might buy another hat - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>I need to afford food again - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                </>
+                                            ) : <></>}
+
+                                            {row.quality === 2 && row.rank === 10 ? (
+                                                <>
+                                                    <TableCell align="center"><Button disabled variant='contained'>I mean you look really great.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Needs must - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                </>
+                                            ) : <></>}
                                         </TableRow>
                                     );
                                 }

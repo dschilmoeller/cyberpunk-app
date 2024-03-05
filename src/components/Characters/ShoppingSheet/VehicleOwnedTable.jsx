@@ -23,7 +23,6 @@ export default function VehicleOwnedTable() {
     const dispatch = useDispatch()
 
     const charVehicles = useSelector(store => store.advancementGear.vehicles)
-    const boughtVehicles = useSelector(store => store.advancementGear.boughtVehicles)
 
     const nomadFreebieStatus = useSelector(store => store.advancementGear.useNomadFreebie)
 
@@ -32,14 +31,8 @@ export default function VehicleOwnedTable() {
     const euroBuck = `\u20AC$`
 
     const sellOwnedVehicle = (item) => {
-        dispatch({ type: 'SELL_OWNED_VEHICLE', payload: item })
-    }
-
-    const sellBoughtVehicle = (item) => {
-        if (item.is_nomad_vehicle === true) {
-            dispatch({ type: 'RESTORE_NOMAD_SLOT' })
-        }
-        dispatch({ type: 'SELL_ADVANCEMENT_VEHICLE', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.vehicle_bridge_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_bridge_id' } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -203,7 +196,6 @@ export default function VehicleOwnedTable() {
         ))
     }
 
-    // sort and monitor changes to charArmorRows in case of sales.
     const sortedCharVehicleRows = React.useMemo(
         () =>
             stableSort(charVehicleRows, getComparator(order, orderBy)),
@@ -281,26 +273,6 @@ export default function VehicleOwnedTable() {
                                                 <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
-                                    })}
-                                    {boughtVehicles.map((row, i) => {
-                                        return (
-                                            <TableRow hover key={i}>
-                                                <TableCell padding='normal'>{row.name}</TableCell>
-                                                <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">{row.health}</TableCell>
-                                                <TableCell align="center">{row.seats}</TableCell>
-                                                <TableCell align="center">{row.move}</TableCell>
-                                                <TableCell align="center">{row.mph}</TableCell>
-                                                <TableCell align="center">{row.type}</TableCell>
-                                                {row.is_nomad_vehicle === true ? (
-                                                    <TableCell align="center">{euroBuck}0</TableCell>
-                                                ) : <>
-                                                    <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                                </>}
-
-                                                <TableCell align="center"><Button onClick={() => sellBoughtVehicle(row)}>Sell</Button></TableCell>
-                                            </TableRow>
-                                        )
                                     })}
                                 </TableBody>
                             </Table>

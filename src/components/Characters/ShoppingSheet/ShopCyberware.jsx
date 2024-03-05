@@ -24,8 +24,6 @@ function TransitionUp(props) {
 export default function ShopCyberware() {
     const dispatch = useDispatch()
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
-    const boughtCyberware = useSelector(store => store.advancementGear.boughtCyberware)
-    const cyberwareID = useSelector(store => store.advancementGear.cyberwareID)
     const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -43,16 +41,14 @@ export default function ShopCyberware() {
     }
 
     const sellOwnedCyberware = (item) => {
-        dispatch({ type: 'SELL_OWNED_CYBERWARE', payload: item })
-    }
-
-    const sellBoughtCyberware = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_CYBERWARE', payload: item })
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.owned_cyberware_id, newBank, charID: charDetail.id, table: 'char_owned_cyberware', column: 'owned_cyberware_id' } })
     }
 
     const buyCyberware = (item) => {
         if (charDetail.bank >= item.price) {
-            dispatch({ type: 'BUY_CYBERWARE', payload: { item, cyberwareID: cyberwareID } })
+            let newBank = charDetail.bank - item.price
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.cyberware_master_id, newBank, charID: charDetail.id, table: 'char_owned_cyberware', column: 'cyberware_master_id' } })
             return;
         }
         else {
@@ -115,20 +111,6 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.install_level}</TableCell>
                                     <TableCell align="center">{euroBuck}{Math.floor(item.price / 4).toLocaleString("en-US")}</TableCell>
                                     <TableCell align="center"><Button onClick={() => sellOwnedCyberware(item)}>Sell</Button></TableCell>
-                                </TableRow>
-                            </React.Fragment>)
-                        }
-                    })}
-                    {boughtCyberware.map((item, i) => {
-                        if (item.type === selectedList) {
-                            return (<React.Fragment key={i}>
-                                <TableRow hover>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.description}</TableCell>
-                                    <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
-                                    <TableCell align="center">{item.install_level}</TableCell>
-                                    <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => sellBoughtCyberware(item)}>Return</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
                         }

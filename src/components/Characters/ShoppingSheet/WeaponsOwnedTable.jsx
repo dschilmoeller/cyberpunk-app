@@ -11,25 +11,27 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function WeaponsOwnedTable() {
     const dispatch = useDispatch()
     const charWeapons = useSelector(store => store.advancementGear.weapons)
-    const boughtWeapons = useSelector(store => store.advancementGear.boughtWeapons)
-
     const charDetail = useSelector((store) => store.advancementDetail)
 
     const euroBuck = `\u20AC$`
 
-    const sellOwnedWeapon = (item) => {
-        dispatch({ type: 'SELL_OWNED_WEAPON', payload: item })
+    const sellWeapon = (item) => {
+        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.weapon_bridge_id, newBank, charID: charDetail.id, table: 'char_weapons_bridge', column: 'weapon_bridge_id' } })
     }
 
-    const sellBoughtWeapon = (item) => {
-        dispatch({ type: 'SELL_ADVANCEMENT_WEAPON', payload: item })
+    const equipWeapon = (item) => {
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: item.weapon_bridge_id, equipStatus: true } });
+    }
+
+    const unequipWeapon = (item) => {
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: item.weapon_bridge_id, equipStatus: false } });
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -114,13 +116,7 @@ export default function WeaponsOwnedTable() {
             numeric: true,
             disablePadding: false,
             label: 'Street Price',
-        },
-        {
-            id: 'sell',
-            numeric: true,
-            disablePadding: false,
-            label: 'Sell',
-        },
+        }
     ];
 
     function EnhancedTableHead(props) {
@@ -160,8 +156,8 @@ export default function WeaponsOwnedTable() {
         orderBy: PropTypes.string.isRequired,
     };
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('price');
+    const [order, setOrder] = React.useState('desc');
+    const [orderBy, setOrderBy] = React.useState('equipped');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -237,96 +233,39 @@ export default function WeaponsOwnedTable() {
                         />
                         <TableBody>
                             {sortedCharWeaponRows.map((row) => {
-                                if (row.equipped === false) {
-                                    return (
-                                        <TableRow hover key={row.weapon_bridge_id}>
-                                            <TableCell ><WeaponDialog prop={row.name} /></TableCell>
+                                return (
+                                    <React.Fragment key={row.weapon_bridge_id}>
+                                        <TableRow hover>
+                                            <TableCell><WeaponDialog prop={row.name} /></TableCell>
                                             <TableCell align="center">{row.damage}</TableCell>
                                             <TableCell align="center">{row.range}</TableCell>
                                             <TableCell align="center">{row.rof}</TableCell>
                                             <TableCell align="center">{row.max_clip}</TableCell>
                                             <TableCell align="center">{row.hands}</TableCell>
-                                            <TableCell align="center">{row.concealable === true ? 'yes' : 'no'}</TableCell>
+                                            <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => sellOwnedWeapon(row)}>Sell</Button></TableCell>
                                         </TableRow>
-                                    );
-                                }
-                            })}
-                            {boughtWeapons.map((item, i) => {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                        <TableCell align="center">{item.range}</TableCell>
-                                        <TableCell align="center">{item.rof}</TableCell>
-                                        <TableCell align="center">{item.max_clip}</TableCell>
-                                        <TableCell align="center">{item.hands}</TableCell>
-                                        <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                        <TableCell align="center">{euroBuck}{Math.floor(item.price.toLocaleString("en-US"))}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => sellBoughtWeapon(item)}>Sell</Button></TableCell>
-                                    </TableRow>
-                                )
+                                        {row.equipped === true ? (<>
+                                            <TableRow hover>
+                                                <TableCell colSpan={3} align="center">{row.name} is Equipped!</TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='secondary' onClick={() => unequipWeapon(row)}>Unequip</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        </>) : (<>
+                                            <TableRow hover>
+                                                <TableCell colSpan={3} align="center">{row.name} is NOT Equipped!</TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='info' onClick={() => equipWeapon(row)}>Equip</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
+                                            </TableRow>
+                                        </>)}
+                                    </React.Fragment>
+                                );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
         </Box>
-
-        {/* Old table - not sortable */}
-
-        {/* <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow hover>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="center">Damage</TableCell>
-                        <TableCell align="center">Range</TableCell>
-                        <TableCell align="center">Rate of Fire</TableCell>
-                        <TableCell align="center">Max Clip</TableCell>
-                        <TableCell align="center"># of Hands</TableCell>
-                        <TableCell align="center">Concealable?</TableCell>
-                        <TableCell align="center">Street Price</TableCell>
-                        <TableCell align="center">Sell</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {charWeapons.map(item => {
-                        if (item.equipped === false) {
-                            return (<React.Fragment key={item.weapon_bridge_id}>
-                                <TableRow hover>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                    <TableCell align="center">{item.range}</TableCell>
-                                    <TableCell align="center">{item.rof}</TableCell>
-                                    <TableCell align="center">{item.max_clip}</TableCell>
-                                    <TableCell align="center">{item.hands}</TableCell>
-                                    <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center">{Math.floor(item.price / 4)}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => sellOwnedWeapon(item)}>Sell</Button></TableCell>
-                                </TableRow>
-                            </React.Fragment>)
-                        }
-                    })}
-                    {boughtWeapons.map((item, i) => {
-                        return (<React.Fragment key={i}>
-                            <TableRow hover>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                <TableCell align="center">{item.range}</TableCell>
-                                <TableCell align="center">{item.rof}</TableCell>
-                                <TableCell align="center">{item.max_clip}</TableCell>
-                                <TableCell align="center">{item.hands}</TableCell>
-                                <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="center">{Math.floor(item.price)}</TableCell>
-                                <TableCell align="center"><Button onClick={() => sellBoughtWeapon(item)}>Sell</Button></TableCell>
-                            </TableRow>
-                        </React.Fragment>)
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer> */}
 
     </>)
 }

@@ -186,7 +186,7 @@ export default function Backpack() {
                     fullWidth
                     onClick={() => UseConsumable(row, isFood)}>Eat</Button></TableCell></>)
         } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
-            || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge') {
+            || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge' || row.name === 'Hotel Soap') {
             return (<TableCell align='center' padding="normal">
                 <Button sx={{
                     textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
@@ -214,7 +214,7 @@ export default function Backpack() {
     const addMoney = (change) => {
         if ((change) > 0 && change < 10000) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) + parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change)) } })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { charID: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change)) } })
             setBankChange(0)
         } else {
             setShowSnackbar(true)
@@ -224,7 +224,7 @@ export default function Backpack() {
     const spendMoney = (change) => {
         if ((change) > 0 && change < 10000) {
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) - parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { id: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change)) } })
+            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { charID: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change)) } })
             setBankChange(0)
         } else {
             setShowSnackbar(true)
