@@ -170,21 +170,21 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
         //         bank: Number(state.bank + action.payload.price)
         //     }
         //othergear
-        case 'BUY_MISC_GEAR':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_MISC_GEAR':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_MISC_GEAR':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         case 'BUY_NETRUNNER_GEAR':
             return {
                 ...state,
@@ -200,47 +200,47 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
-        case 'BUY_VEHICLE':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
+        // case 'BUY_VEHICLE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
         case 'BUY_NOMAD_VEHICLE':
             // As we can see, this changes something other than the bank.
             return {
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots - 1
             }
-        case 'SELL_OWNED_VEHICLE':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4) + action.payload.total_mod_cost)
-            }
-        case 'SELL_ADVANCEMENT_VEHICLE':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'SELL_OWNED_VEHICLE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4) + action.payload.total_mod_cost)
+        //     }
+        // case 'SELL_ADVANCEMENT_VEHICLE':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         case 'RESTORE_NOMAD_SLOT':
             return {
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots + 1
             }
-        case 'BUY_VEHICLE_MOD':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_VEHICLE_MOD':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_VEHICLE_MOD':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
+        // case 'BUY_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank - action.payload.item.price)
+        //     }
+        // case 'SELL_OWNED_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + Math.floor(action.payload.price / 4))
+        //     }
+        // case 'SELL_ADVANCEMENT_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         bank: Number(state.bank + action.payload.price)
+        //     }
         //cyberware
         case 'BUY_CYBERWARE':
             return {

@@ -491,30 +491,30 @@ const advancementGear = (state = {
         //         grenades: state.grenades.filter(grenade => grenade.grenade_bridge_id !== action.payload.grenade_bridge_id),
         //         soldGrenades: [...state.soldGrenades, action.payload]
         //     }
-        case 'BUY_MISC_GEAR':
-            return {
-                ...state,
-                boughtMiscGear: [...state.boughtMiscGear,
-                {
-                    description: action.payload.item.description,
-                    misc_gear_master_id: action.payload.item.misc_gear_master_id,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    miscGearID: action.payload.miscGearID
-                }],
-                miscGearID: state.miscGearID + 1
-            }
-        case 'SELL_ADVANCEMENT_MISC_GEAR':
-            return {
-                ...state,
-                boughtMiscGear: state.boughtMiscGear.filter(gear => gear.miscGearID !== action.payload.miscGearID),
-            }
-        case 'SELL_OWNED_MISC_GEAR':
-            return {
-                ...state,
-                gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id),
-                soldMiscGear: [...state.soldMiscGear, action.payload]
-            }
+        // case 'BUY_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         boughtMiscGear: [...state.boughtMiscGear,
+        //         {
+        //             description: action.payload.item.description,
+        //             misc_gear_master_id: action.payload.item.misc_gear_master_id,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             miscGearID: action.payload.miscGearID
+        //         }],
+        //         miscGearID: state.miscGearID + 1
+        //     }
+        // case 'SELL_ADVANCEMENT_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         boughtMiscGear: state.boughtMiscGear.filter(gear => gear.miscGearID !== action.payload.miscGearID),
+        //     }
+        // case 'SELL_OWNED_MISC_GEAR':
+        //     return {
+        //         ...state,
+        //         gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id),
+        //         soldMiscGear: [...state.soldMiscGear, action.payload]
+        //     }
         case 'BUY_NETRUNNER_GEAR':
             return {
                 ...state,
@@ -572,25 +572,25 @@ const advancementGear = (state = {
                 cyberware: state.cyberware.filter(cyberware => cyberware.owned_cyberware_id !== action.payload.owned_cyberware_id),
                 soldCyberware: [...state.soldCyberware, action.payload]
             }
-        case 'BUY_VEHICLE':
-            return {
-                ...state,
-                boughtVehicles: [...state.boughtVehicles,
-                {
-                    description: action.payload.item.description,
-                    health: action.payload.item.health,
-                    move: action.payload.item.move,
-                    mph: action.payload.item.mph,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    seats: action.payload.item.seats,
-                    type: action.payload.item.type,
-                    vehicle_master_id: action.payload.item.vehicle_master_id,
-                    is_nomad_vehicle: false,
-                    vehicleID: action.payload.vehicleID
-                }],
-                vehicleID: state.vehicleID + 1
-            }
+        // case 'BUY_VEHICLE':
+        //     return {
+        //         ...state,
+        //         boughtVehicles: [...state.boughtVehicles,
+        //         {
+        //             description: action.payload.item.description,
+        //             health: action.payload.item.health,
+        //             move: action.payload.item.move,
+        //             mph: action.payload.item.mph,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             seats: action.payload.item.seats,
+        //             type: action.payload.item.type,
+        //             vehicle_master_id: action.payload.item.vehicle_master_id,
+        //             is_nomad_vehicle: false,
+        //             vehicleID: action.payload.vehicleID
+        //         }],
+        //         vehicleID: state.vehicleID + 1
+        //     }
         // In the case of using Nomad Points to acquire a vehicle instead of cash, handler is slightly different.
         case 'BUY_NOMAD_VEHICLE':
             return {
@@ -612,45 +612,45 @@ const advancementGear = (state = {
                 vehicleID: state.vehicleID + 1,
                 useNomadFreebie: false,
             }
-        case 'SELL_ADVANCEMENT_VEHICLE':
-            return {
-                ...state,
-                boughtVehicles: state.boughtVehicles.filter(gear => gear.vehicleID !== action.payload.vehicleID),
-            }
-        case 'SELL_OWNED_VEHICLE':
-            return {
-                ...state,
-                vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
-                soldVehicles: [...state.soldVehicles, action.payload]
-            }
-        case 'BUY_VEHICLE_MOD':
-            return {
-                ...state,
-                boughtVehicleMods: [...state.boughtVehicleMods,
-                {
-                    char_id: action.payload.item.char_id,
-                    char_owned_vehicle_mods_id: action.payload.item.char_owned_vehicle_mods_id,
-                    description: action.payload.item.description,
-                    equipped: action.payload.item.equipped,
-                    name: action.payload.item.name,
-                    price: action.payload.item.price,
-                    type: action.payload.item.type,
-                    vehicle_mod_master_id: action.payload.item.vehicle_mod_master_id,
-                    vehicleModID: action.payload.vehicleModID
-                }],
-                vehicleModID: state.vehicleModID + 1
-            }
-        case 'SELL_ADVANCEMENT_VEHICLE_MOD':
-            return {
-                ...state,
-                boughtVehicleMods: state.boughtVehicleMods.filter(mod => mod.vehicleModID !== action.payload.vehicleModID),
-            }
-        case 'SELL_OWNED_VEHICLE_MOD':
-            return {
-                ...state,
-                vehicleMods: state.vehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.char_owned_vehicle_mods_id),
-                soldVehicleMods: [...state.soldVehicleMods, action.payload]
-            }
+        // case 'SELL_ADVANCEMENT_VEHICLE':
+        //     return {
+        //         ...state,
+        //         boughtVehicles: state.boughtVehicles.filter(gear => gear.vehicleID !== action.payload.vehicleID),
+        //     }
+        // case 'SELL_OWNED_VEHICLE':
+        //     return {
+        //         ...state,
+        //         vehicles: state.vehicles.filter(gear => gear.vehicle_bridge_id !== action.payload.vehicle_bridge_id),
+        //         soldVehicles: [...state.soldVehicles, action.payload]
+        //     }
+        // case 'BUY_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         boughtVehicleMods: [...state.boughtVehicleMods,
+        //         {
+        //             char_id: action.payload.item.char_id,
+        //             char_owned_vehicle_mods_id: action.payload.item.char_owned_vehicle_mods_id,
+        //             description: action.payload.item.description,
+        //             equipped: action.payload.item.equipped,
+        //             name: action.payload.item.name,
+        //             price: action.payload.item.price,
+        //             type: action.payload.item.type,
+        //             vehicle_mod_master_id: action.payload.item.vehicle_mod_master_id,
+        //             vehicleModID: action.payload.vehicleModID
+        //         }],
+        //         vehicleModID: state.vehicleModID + 1
+        //     }
+        // case 'SELL_ADVANCEMENT_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         boughtVehicleMods: state.boughtVehicleMods.filter(mod => mod.vehicleModID !== action.payload.vehicleModID),
+        //     }
+        // case 'SELL_OWNED_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         vehicleMods: state.vehicleMods.filter(mod => mod.char_owned_vehicle_mods_id !== action.payload.char_owned_vehicle_mods_id),
+        //         soldVehicleMods: [...state.soldVehicleMods, action.payload]
+        //     }
 
         case 'EQUIP_VEHICLE_MOD':
             return {
