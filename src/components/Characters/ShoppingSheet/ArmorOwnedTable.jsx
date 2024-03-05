@@ -23,12 +23,12 @@ export default function ArmorOwnedTable() {
 
     const sellArmor = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.armor_bridge_id, newBank, charID: charDetail.id, table: 'char_armor_bridge', column: 'armor_bridge_id' } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.armor_bridge_id, newBank, charID: charDetail.id, table: 'char_armor_bridge', column: 'armor_bridge_id', equippedStatus: item.equipped } })
     }
 
     const sellShield = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.shield_bridge_id, newBank, charID: charDetail.id, table: 'char_shield_bridge', column: 'shield_bridge_id' } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.shield_bridge_id, newBank, charID: charDetail.id, table: 'char_shield_bridge', column: 'shield_bridge_id', equippedStatus: item.equipped } })
     }
 
     const equipArmor = (incomingArmor) => {

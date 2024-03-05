@@ -1268,6 +1268,7 @@ router.put('/changeCharacterArmorQuality/:id', rejectUnauthenticated, (req, res)
 })
 
 router.put('/removeCharacterArmor/:id', rejectUnauthenticated, (req, res) => {
+    console.log(`removing char armor`);
     const sqlText = `UPDATE "char_status" SET "current_armor_quality" = 0 WHERE "char_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(201); })

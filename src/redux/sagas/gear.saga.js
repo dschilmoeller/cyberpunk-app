@@ -170,7 +170,6 @@ function* unequipNetrunner(action) {
 // can probably collapse buy/sell routes as well, similar to equip as well. 
 function* buyItem(action) {
     try {
-        console.log(`action.payload - buy item:`, action.payload);
         yield axios.post('api/gear/buyitem/', action.payload)
         yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
         if (action.payload.table === 'char_armor_bridge') {
@@ -208,33 +207,30 @@ function* buyItem(action) {
 
 function* sellItem(action) {
     try {
-        console.log(`action.payload - sell item:`, action.payload);
         yield axios.delete('api/gear/sellItem/', { data: action.payload })
-        if (action.payload.table === 'char_armor_bridge') {
+        if (action.payload.table === 'char_armor_bridge' && action.payload.equippedStatus === true) {
+            yield axios.put(`api/characters/removeCharacterArmor/${action.payload.charID}`)
             yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_shield_bridge') {
+        } else if (action.payload.table === 'char_armor_bridge' && action.payload.equippedStatus === false) {
+            yield put({ type: 'FETCH_ADVANCEMENT_ARMOR', payload: action.payload.charID })
+        } else if (action.payload.table === 'char_shield_bridge' && action.payload.equippedStatus === true) {
+            yield axios.put(`api/characters/removeCharacterShield/${action.payload.charID}`, action.payload.item)
             yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_weapons_bridge') {
+        } else if (action.payload.table === 'char_shield_bridge' && action.payload.equippedStatus === false) {
+            yield put({ type: 'FETCH_ADVANCEMENT_SHIELD', payload: action.payload.charID })
+        } else if (action.payload.table === 'char_weapons_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_grenade_bridge') {
+        } else if (action.payload.table === 'char_grenade_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_GRENADES', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_gear_bridge') {
+        } else if (action.payload.table === 'char_gear_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_MISC_GEAR', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_owned_cyberware') {
+        } else if (action.payload.table === 'char_owned_cyberware') {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_vehicle_bridge') {
+        } else if (action.payload.table === 'char_vehicle_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_VEHICLES', payload: action.payload.charID })
-        }
-        if (action.payload.table === 'char_owned_vehicle_mods') {
+        } else if (action.payload.table === 'char_owned_vehicle_mods') {
             yield put({ type: 'FETCH_ADVANCEMENT_VEHICLE_MODS', payload: action.payload.charID });
-        }
-        if (action.payload.table === 'char_clothing_bridge') {
+        } else if (action.payload.table === 'char_clothing_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
         yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
