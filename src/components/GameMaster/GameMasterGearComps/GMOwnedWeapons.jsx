@@ -180,15 +180,13 @@ export default function GMOwnedWeapons() {
         damage, dmg_type, equipped,
         hands, max_clip, name,
         price, range, rof,
-        weapon_bridge_id, weapon_id, weapon_master_id,
-        weapon_mod_1, weapon_mod_2) {
+        weapon_bridge_id, weapon_id, weapon_master_id) {
         return {
             char_id, concealable, current_shots_fired,
             damage, dmg_type, equipped,
             hands, max_clip, name,
             price, range, rof,
-            weapon_bridge_id, weapon_id, weapon_master_id,
-            weapon_mod_1, weapon_mod_2
+            weapon_bridge_id, weapon_id, weapon_master_id
         }
     }
 
@@ -213,8 +211,7 @@ export default function GMOwnedWeapons() {
             damage, charWeapons[i].dmg_type, charWeapons[i].equipped,
             charWeapons[i].hands, charWeapons[i].max_clip, charWeapons[i].name,
             charWeapons[i].price, range, charWeapons[i].rof,
-            charWeapons[i].weapon_bridge_id, charWeapons[i].weapon_id, charWeapons[i].weapon_master_id,
-            charWeapons[i].weapon_mod_1, charWeapons[i].weapon_mod_2))
+            charWeapons[i].weapon_bridge_id, charWeapons[i].weapon_id, charWeapons[i].weapon_master_id))
     }
 
     // sort and monitor changes to charWeaponRows in case of sales.

@@ -122,26 +122,10 @@ CREATE TABLE weapon_master (
     description character varying NOT NULL DEFAULT 'placeholder'::character varying
 );
 
--- weapon master insert
-
-CREATE TABLE weapon_mod1_master (
-    weapon_mod1_master_id SERIAL PRIMARY KEY,
-    mod_1_name character varying NOT NULL
-);
-
-CREATE TABLE weapon_mod2_master (
-    weapon_mod2_master_id SERIAL PRIMARY KEY,
-    mod_2_name character varying NOT NULL
-);
-
--- inserts for mods
-
 CREATE TABLE char_weapons_bridge (
     weapon_bridge_id SERIAL PRIMARY KEY,
     char_id integer NOT NULL REFERENCES character(id) ON DELETE CASCADE,
     weapon_id integer NOT NULL REFERENCES weapon_master(weapon_master_id),
-    weapon_mod_1 integer NOT NULL REFERENCES weapon_mod1_master(weapon_mod1_master_id),
-    weapon_mod_2 integer NOT NULL REFERENCES weapon_mod2_master(weapon_mod2_master_id),
     current_shots_fired integer NOT NULL,
     equipped boolean NOT NULL DEFAULT false
 );
@@ -606,14 +590,6 @@ VALUES
 (E'Comrade Molech',E'Requires custom ammo. Base DV of 8 to all attacks due to incredible weight and bulkiness; this is reduced by 1 each for using two hands (like a sissy) or having Strength of 7+.',10,E'gun',10,1,1,2,TRUE,100000,TRUE),
 (E'Wooden Stake',E'A pointy wooden stick',1,E'melee',0,2,0,1,TRUE,0,TRUE),
 (E'Tactical Selfie Stick',E'A spring loaded, carbon fiber selfie stick.',0,E'melee',0,2,0,1,TRUE,0,TRUE);
-
-INSERT INTO "public"."weapon_mod1_master"("mod_1_name")
-VALUES
-(E'Not Modded');
-
-INSERT INTO "public"."weapon_mod2_master"("mod_2_name")
-VALUES
-(E'Not Modded');
 
 INSERT INTO "public"."cyberware_master"("name","price","description","humanity_loss_min","humanity_loss_max","install_level","type","is_treasure")
 VALUES

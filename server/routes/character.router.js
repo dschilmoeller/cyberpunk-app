@@ -113,8 +113,6 @@ router.get('/fetchcharactershield/:id', rejectUnauthenticated, (req, res) => {
 router.get('/fetchcharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_weapons_bridge"
     JOIN "weapon_master" ON "weapon_master".weapon_master_id = "char_weapons_bridge".weapon_id
-    JOIN "weapon_mod1_master" ON "weapon_mod1_master".weapon_mod1_master_id = "char_weapons_bridge".weapon_mod_1
-    JOIN "weapon_mod2_master" ON "weapon_mod2_master".weapon_mod2_master_id = "char_weapons_bridge".weapon_mod_2
     WHERE char_id = $1
     ORDER BY "damage" DESC
     `
@@ -852,11 +850,11 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
             // change weapon details
             const weapons = req.body.gear.weapons
             const weaponsSqlText = `UPDATE "char_weapons_bridge"
-            SET "weapon_mod_1" = $1, "weapon_mod_2" = $2, "current_shots_fired" = $3, "equipped" = $4
-            WHERE weapon_bridge_id = $5`
+            SET "current_shots_fired" = $1, "equipped" = $2
+            WHERE weapon_bridge_id = $3`
 
             for (let i = 0; i < weapons.length; i++) {
-                const weaponSqlParams = [weapons[i].weapon_mod_1, weapons[i].weapon_mod_2, weapons[i].current_shots_fired, weapons[i].equipped, weapons[i].weapon_bridge_id]
+                const weaponSqlParams = [weapons[i].current_shots_fired, weapons[i].equipped, weapons[i].weapon_bridge_id]
                 pool.query(weaponsSqlText, weaponSqlParams)
             }
 
@@ -1027,10 +1025,10 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
             const boughtWeapons = req.body.gear.boughtWeapons
             if (boughtWeapons.length > 0) {
-                const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
+                const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "current_shots_fired", "equipped")
             VALUES ($1, $2, $3, $4, $5, $6);`
                 for (let i = 0; i < boughtWeapons.length; i++) {
-                    const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
+                    const boughtWeaponsParams = [req.body.char.id, boughtWeapons[i].weapon_master_id, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
                 }
             }
@@ -1367,9 +1365,9 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
             }
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
-                ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
+                ("char_id", "weapon_id", "current_shots_fired", "equipped")
                 VALUES ($1, $2, $3, $4, $5, $6)`
-                const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 1, 1, 0, true]
+                const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
             for (let i = 0; i < req.body.grenades.length; i++) {
@@ -1549,10 +1547,10 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
 
             const boughtWeapons = req.body.gear.boughtWeapons
             if (boughtWeapons.length > 0) {
-                const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
+                const boughtWeaponsSqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "current_shots_fired", "equipped")
                 VALUES ($1, $2, $3, $4, $5, $6);`
                 for (let i = 0; i < boughtWeapons.length; i++) {
-                    const boughtWeaponsParams = [req.body.charDetail.id, boughtWeapons[i].weapon_master_id, 1, 1, 0, false]
+                    const boughtWeaponsParams = [req.body.charDetail.id, boughtWeapons[i].weapon_master_id, 0, false]
                     pool.query(boughtWeaponsSqlText, boughtWeaponsParams)
                 }
             }
