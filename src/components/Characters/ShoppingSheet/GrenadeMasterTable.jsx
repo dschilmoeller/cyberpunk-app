@@ -37,7 +37,7 @@ export default function GrenadeMasterTable() {
     const buyGrenade = (item) => {
         if (charDetail.bank >= item.price) {
             let newBank = charDetail.bank - item.price
-            dispatch({ type: 'BUY_GRENADE', payload: { item, newBank, charID: charDetail.id } })
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.grenade_master_id, newBank, charID: charDetail.id, table: 'char_grenade_bridge', column: 'grenade_id' } })
         }
         else {
             setShowSnackbar(true)

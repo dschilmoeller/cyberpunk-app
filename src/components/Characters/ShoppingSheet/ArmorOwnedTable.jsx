@@ -23,12 +23,12 @@ export default function ArmorOwnedTable() {
 
     const sellArmor = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_ARMOR', payload: { item, newBank, charID: charDetail.id } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.armor_bridge_id, newBank, charID: charDetail.id, table: 'char_armor_bridge', column: 'armor_bridge_id' } })
     }
 
     const sellShield = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_SHIELD', payload: { item, newBank, charID: charDetail.id } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.shield_bridge_id, newBank, charID: charDetail.id, table: 'char_shield_bridge', column: 'shield_bridge_id' } })
     }
 
     const equipArmor = (incomingArmor) => {
@@ -195,7 +195,7 @@ export default function ArmorOwnedTable() {
     const sortedCharArmorRows = React.useMemo(
         () =>
             stableSort(charArmorRows, getComparator(order, orderBy)),
-        [order, orderBy, charArmorRows],
+        [order, orderBy, characterArmor],
     );
 
     function createCharShieldData(armor_mod_1, char_id, description, equipped, name, price, quality, shield_bridge_id, shield_id, shield_master_id) {
@@ -214,7 +214,7 @@ export default function ArmorOwnedTable() {
     const sortedCharShieldRows = React.useMemo(
         () =>
             stableSort(charShieldRows, getComparator(order, orderBy)),
-        [order, orderBy, charShieldRows],
+        [order, orderBy, characterShield],
     );
 
     return (

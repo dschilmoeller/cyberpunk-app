@@ -38,7 +38,7 @@ export default function ArmorMasterTable() {
     const buyArmor = (item) => {
         if (charDetail.bank >= item.price) {
             let newBank = (charDetail.bank - item.price)
-            dispatch({ type: 'BUY_ARMOR', payload: { item, newBank: newBank, charID: charDetail.id } })
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.armor_master_id, newBank, charID: charDetail.id, table: 'char_armor_bridge', column: 'armor_id' } })
         }
         else {
             setShowSnackbar(true)
@@ -48,7 +48,7 @@ export default function ArmorMasterTable() {
     const buyShield = (item) => {
         if (charDetail.bank >= item.price) {
             let newBank = (charDetail.bank - item.price)
-            dispatch({ type: 'BUY_SHIELD', payload: { item, newBank: newBank, charID: charDetail.id } })
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.shield_master_id, newBank, charID: charDetail.id, table: 'char_shield_bridge', column: 'shield_id' } })
         }
         else {
             setShowSnackbar(true)

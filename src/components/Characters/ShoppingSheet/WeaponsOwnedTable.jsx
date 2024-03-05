@@ -23,15 +23,15 @@ export default function WeaponsOwnedTable() {
 
     const sellWeapon = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_WEAPON', payload: {item, newBank, charID: charDetail.id} })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.weapon_bridge_id, newBank, charID: charDetail.id, table: 'char_weapons_bridge', column: 'weapon_bridge_id' } })
     }
 
     const equipWeapon = (item) => {
-        dispatch({ type: "EQUIP_WEAPON", payload: { weapon: item, charID: charDetail.id } })
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: item.weapon_bridge_id, equipStatus: true } });
     }
 
     const unequipWeapon = (item) => {
-        dispatch({ type: "UNEQUIP_WEAPON", payload: { weapon: item, charID: charDetail.id } })
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: item.weapon_bridge_id, equipStatus: false } });
     }
 
     function descendingComparator(a, b, orderBy) {

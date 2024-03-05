@@ -61,7 +61,9 @@ export default function VehicleMasterTable() {
 
     const buyVehicle = (item) => {
         if (charDetail.bank >= item.price && useNomadFreebie === false) {
-            dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
+            let newBank = charDetail.bank - item.price
+            // dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.vehicle_master_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_id' } })
         } else if (useNomadFreebie === true) {
             dispatch({ type: 'BUY_NOMAD_VEHICLE', payload: { item, vehicleID } })
         } else {
@@ -221,7 +223,7 @@ export default function VehicleMasterTable() {
     const sortedVehicleMasterRows = React.useMemo(
         () =>
             stableSort(vehicleMasterRows, getComparator(order, orderBy)),
-        [order, orderBy],
+        [order, orderBy, vehicleMaster],
     );
 
     // handle selection between vehicles and mods

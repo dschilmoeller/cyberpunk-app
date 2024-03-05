@@ -87,13 +87,33 @@ router.get('/fetchlifestyle/', (req, res) => {
 })
 
 // Purchases and Sales
-router.post('/buyarmor', (req, res) => {
-    const sqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id", "this_armor_loss", "equipped")
-    VALUES ($1, $2, $3, $4)`
-    const sqlParams = [req.body.charID, req.body.item.armor_master_id, 0, false]
+const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge']
+const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id']
+
+// clothing - special case, has default rank that is not static.
+
+router.post('/buyItem', (req, res) => {
+    // test for whitelisting.
+    let table = req.body.table
+    let column = req.body.column
+    const sqlText = `INSERT INTO ${table} (char_id, ${column}) VALUES ($1, $2);`
+    let sqlParams = [req.body.charID, req.body.itemMasterID]
+
     pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error purchasing armor:`, err); })
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error buying item:`, err); })
+})
+
+router.delete('/sellItem', (req, res) => {
+    // test for whitelisting
+    let table = req.body.table
+    let column = req.body.column
+    const sqlText = `DELETE FROM ${table} WHERE ${column} = $1`
+    let sqlParams = [req.body.itemID]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200) })
+        .catch(err => { console.log(`Error selling item:`, err); })
 })
 
 router.delete('/sellArmor/:id', (req, res) => {
@@ -103,29 +123,11 @@ router.delete('/sellArmor/:id', (req, res) => {
         .catch(err => { console.log(`Error selling armor:`, err); })
 })
 
-router.post('/buyShield', (req, res) => {
-    const sqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "this_shield_loss", "equipped")
-    VALUES ($1, $2, $3, $4)`
-    const sqlParams = [req.body.charID, req.body.item.shield_master_id, 0, false]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying shield:`, err); })
-})
-
 router.delete('/sellShield/:id', (req, res) => {
     const sqlText = `DELETE FROM "char_shield_bridge" WHERE "shield_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(resuilt => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling shield:`, err); })
-})
-
-router.post('/buyWeapon', (req, res) => {
-    const sqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id", "weapon_mod_1", "weapon_mod_2", "current_shots_fired", "equipped")
-    VALUES ($1, $2, 1, 1, 0, false)`
-    const sqlParams = [req.body.charID, req.body.item.weapon_master_id]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying weapon:`, err); })
 })
 
 router.delete('/sellWeapon/:id', (req, res) => {
@@ -135,29 +137,11 @@ router.delete('/sellWeapon/:id', (req, res) => {
         .catch(err => { console.log(`Error selling weapon:`, err); })
 })
 
-router.post('/buyGrenade/', (req, res) => {
-    const sqlText = `INSERT INTO "char_grenade_bridge" ("char_id", "grenade_id")
-    VALUES ($1, $2)`
-    const sqlParams = [req.body.charID, req.body.item.grenade_master_id]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying grenade:`, err); })
-})
-
 router.delete('/sellGrenade/:id', (req, res) => {
     const sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling grenade:`, err); })
-})
-
-router.post('/buyMiscGear/', (req, res) => {
-    const sqlText = `INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id")
-    VALUES ($1, $2)`
-    const sqlParams = [req.body.charID, req.body.item.misc_gear_master_id]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying misc gear:`, err); })
 })
 
 router.delete('/sellMiscGear/:id', (req, res) => {
@@ -167,20 +151,32 @@ router.delete('/sellMiscGear/:id', (req, res) => {
         .catch(err => { console.log(`Error selling misc gear:`, err); })
 })
 
-router.post('/buyCyberware/', (req, res) => {
-    const sqlText = `INSERT INTO "char_owned_cyberware" ("char_id", "cyberware_master_id)
-    VALUES ($1, $2)`
-    const sqlParams = [req.body.charID, req.body.item.cyberware_master_id]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying cyberware:`, err); })
-})
-
 router.delete('/sellCyberware/:id', (req, res) => {
     const sqlText = `DELETE FROM "char_owned_cyberware" WHERE "owned_cyberware_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling cyberware:`, err); })
+})
+
+router.delete('/sellVehicle/:id', (req, res) => {
+    const sqlText = `DELETE FROM "char_vehicle_bridge" WHERE "netrunner_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error selling vehicle:`, err); })
+})
+
+router.delete('/sellVehicleMod/:id', (req, res) => {
+    const sqlText = `DELETE FROM "char_owned_vehicle_mods" WHERE "vehicle_mod_master_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error selling vehicle mod:`, err); })
+})
+
+router.delete('/sellclothing/:id', (req, res) => {
+    const sqlText = `DELETE FROM "char_clothing_bridge" WHERE "clothing_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error selling clothing:`, err); })
 })
 
 router.post('/buyNetrunnerGear', (req, res) => {
@@ -197,54 +193,6 @@ router.delete('/sellNetrunnerGear/:id', (req, res) => {
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling netrunner gear:`, err); })
-})
-
-router.post('/buyVehicle', (req, res) => {
-    const sqlText = `INSERT INTO "char_vehicle_bridge" ("char_id", "vehicle_id")
-    VALUES ($1, $2)`
-    const sqlParams = [req.body.charID, req.body.item.vehicle_id]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying vehicle:`, err); })
-})
-
-router.delete('/sellVehicle/:id', (req, res) => {
-    const sqlText = `DELETE FROM "char_vehicle_bridge" WHERE "netrunner_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(200); })
-        .catch(err => { console.log(`Error selling vehicle:`, err); })
-})
-
-router.post('/buyVehicleMod', (req, res) => {
-    const sqlText = `INSERT INTO "char_owned_vehicle_mods" ("char_id", "vehicle_mod_master_id")
-    VALUES ($1, $2)`
-    const sqlParams = [req.body.charID, req.body.item.vehicle_mod_master_id]
-    pool.query(sqlText, sqlParams)
-    .then(result => { res.sendStatus(201); })
-    .catch(err => { console.log(`Error buying vehicle mod:`, err);})
-})
-
-router.delete('/sellVehicleMod/:id', (req, res) => {
-    const sqlText = `DELETE FROM "char_owned_vehicle_mods" WHERE "vehicle_mod_master_id" = $1`
-    pool.query(sqlText, [req.params.id])
-    .then(result => { res.sendStatus(200) ; })
-    .catch(err => { console.log(`Error selling vehicle mod:`, err);})
-})
-
-router.post('/buyclothing', (req, res) => {
-    const sqlText = `INSERT INTO "char_clothing_bridge" ("char_id", "clothing_id", "rank", "equipped")
-    VALUES ($1, $2, $3, $4)`
-    const sqlParams = [req.body.charID, req.body.item.clothing_master_id, req.body.rank, false]
-    pool.query(sqlText, sqlParams)
-        .then(result => { res.sendStatus(201); })
-        .catch(err => { console.log(`Error buying clothing:`, err); })
-})
-
-router.delete('/sellclothing/:id', (req, res) => {
-    const sqlText = `DELETE FROM "char_clothing_bridge" WHERE "clothing_bridge_id" = $1`
-    pool.query(sqlText, [req.params.id])
-        .then(result => { res.sendStatus(200); })
-        .catch(err => { console.log(`Error selling clothing:`, err); })
 })
 
 module.exports = router

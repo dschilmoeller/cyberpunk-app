@@ -34,13 +34,11 @@ export default function ClothingOwnedTable() {
     }
 
     const equipclothes = (incomingClothing) => {
-
         charClothes.map(clothing => {
             if (clothing.equipped === true) {
                 unequipClothes(clothing)
             }
         })
-
         if (incomingClothing.rank > 4 && incomingClothing.rank < 10) {
             dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 1, charID: charDetail.id } })
         } else if (incomingClothing.rank === 10) {

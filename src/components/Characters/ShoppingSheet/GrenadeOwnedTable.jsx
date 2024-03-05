@@ -24,7 +24,7 @@ export default function GrenadeOwnedTable() {
 
     const sellGrenade = (item) => {
         let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
-        dispatch({ type: 'SELL_GRENADE', payload: { item, newBank, charID: charDetail.id } })
+        dispatch({ type: 'SELL_ITEM', payload: { itemID: item.grenade_bridge_id, newBank, charID: charDetail.id, table: 'char_grenade_bridge', column: 'grenade_bridge_id' } })
     }
 
     function descendingComparator(a, b, orderBy) {
@@ -132,7 +132,7 @@ export default function GrenadeOwnedTable() {
     };
 
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('price');
+    const [orderBy, setOrderBy] = React.useState('name');
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -209,60 +209,5 @@ export default function GrenadeOwnedTable() {
                 </TableContainer>
             </Paper>
         </Box>
-
-        {/* Old table - not sortable */}
-
-        {/* <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow hover>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="center">Damage</TableCell>
-                        <TableCell align="center">Range</TableCell>
-                        <TableCell align="center">Rate of Fire</TableCell>
-                        <TableCell align="center">Max Clip</TableCell>
-                        <TableCell align="center"># of Hands</TableCell>
-                        <TableCell align="center">Concealable?</TableCell>
-                        <TableCell align="center">Street Price</TableCell>
-                        <TableCell align="center">Sell</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {charWeapons.map(item => {
-                        if (item.equipped === false) {
-                            return (<React.Fragment key={item.weapon_bridge_id}>
-                                <TableRow hover>
-                                    <TableCell align="left">{item.name} </TableCell>
-                                    <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                    <TableCell align="center">{item.range}</TableCell>
-                                    <TableCell align="center">{item.rof}</TableCell>
-                                    <TableCell align="center">{item.max_clip}</TableCell>
-                                    <TableCell align="center">{item.hands}</TableCell>
-                                    <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center">{Math.floor(item.price / 4)}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => sellOwnedWeapon(item)}>Sell</Button></TableCell>
-                                </TableRow>
-                            </React.Fragment>)
-                        }
-                    })}
-                    {boughtWeapons.map((item, i) => {
-                        return (<React.Fragment key={i}>
-                            <TableRow hover>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.damage + charDetail.strength + charDetail.cyber_strength}</TableCell>
-                                <TableCell align="center">{item.range}</TableCell>
-                                <TableCell align="center">{item.rof}</TableCell>
-                                <TableCell align="center">{item.max_clip}</TableCell>
-                                <TableCell align="center">{item.hands}</TableCell>
-                                <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="center">{Math.floor(item.price)}</TableCell>
-                                <TableCell align="center"><Button onClick={() => sellBoughtWeapon(item)}>Sell</Button></TableCell>
-                            </TableRow>
-                        </React.Fragment>)
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer> */}
-
     </>)
 }
