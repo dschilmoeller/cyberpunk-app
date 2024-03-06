@@ -147,6 +147,30 @@ router.delete('/sellItem', (req, res) => {
     }
 })
 
+router.put('/changeCharacterArmor/', (req, res) => {
+    const sqlText = `UPDATE "char_armor_bridge" SET "this_armor_loss" = $1 WHERE "armor_bridge_id" = $2`
+    const sqlParams = [req.body.newLoss, req.body.armor_bridge_id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {res.sendStatus(200)})
+    .catch(err => {console.log(`Error changing in play character armor loss`, err);})
+})
+
+router.put('/changeCharacterShield/', (req, res) => {
+    const sqlText = `UPDATE "char_shield_bridge" SET "this_shield_loss" = $1 WHERE "shield_bridge_id" = $2`
+    const sqlParams = [req.body.newLoss, req.body.shield_bridge_id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {res.sendStatus(200)})
+    .catch(err => {console.log(`Error changing in play character shield loss`, err);})
+})
+
+router.put('/changeCharacterCyberArmor/', (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_cyberware_armor_loss" = $1 WHERE "char_status_id" = $2`
+    const sqlParams = [req.body.newLoss, req.body.char_status_id]
+    pool.query(sqlText, sqlParams)
+    .then(result => {res.sendStatus(200)})
+    .catch(err => {console.log(`Error changing in play character cyberware armor loss`, err);})
+})
+
 router.post('/buyNetrunnerGear', (req, res) => {
     const sqlText = `INSERT INTO "netrunner_bridge" ("char_id", "netrunner_master_id", "equipped")
     VALUES ($1, $2, $3)`

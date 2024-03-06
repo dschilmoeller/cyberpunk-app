@@ -23,6 +23,8 @@ import advancementGear from './advancementGear.reducer';
 
 import contactMaster from './contactMaster.reducer';
 import contactBridge from './contactBridge.reducer';
+
+import loaders from './loaders.reducer';
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -54,6 +56,7 @@ const rootReducer = combineReducers({
   advancementDetail, // editable char sheet details
   advancementGear, // editable char sheet equipment
 
+  loaders, // sets loaders t/f to allow api calls to work
   
 });
 

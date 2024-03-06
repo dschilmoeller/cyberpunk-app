@@ -68,7 +68,7 @@ router.get('/fetchcharactercyberdetails/:id', rejectUnauthenticated, (req, res) 
         })
 })
 
-// fetch char_status details for in play character sheet.
+// fetch char_status details for in play character sheet - initial, using char_id
 router.get('/fetchcharacterstatus/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_status"
     WHERE char_id = $1`
@@ -77,7 +77,20 @@ router.get('/fetchcharacterstatus/:id', rejectUnauthenticated, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching character status detials`, err);
+            console.log(`Error fetching character status details`, err);
+        })
+})
+
+// fetch char_status when changing health on in play sheet - non initial load, using char_status_id
+router.get('/fetchcharacterstatusbystatusid/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_status"
+    WHERE char_status_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character status details`, err);
         })
 })
 
@@ -270,6 +283,16 @@ router.put('/savecharacter/:id', rejectUnauthenticated, (req, res) => {
         .catch(err => {
             console.log(`Error saving character status:`, err);
         })
+})
+
+router.put('/changeCharacterHealth/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status"
+    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3
+    WHERE "char_status_id" = $4;`
+    const sqlParams = [req.body.setStun, req.body.setLethal, req.body.setAgg, req.body.charStatusID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error updating character health:`, err);})
 })
 
 // save damage to armor / shield from in play sheet

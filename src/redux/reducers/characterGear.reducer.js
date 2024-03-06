@@ -35,6 +35,16 @@ const characterGear = (state = {
                 vehicles: action.payload.vehicles,
                 vehicleMods: action.payload.vehicleMods
             }
+        case 'SET_CHARACTER_ARMOR':
+            return {
+                ...state,
+                armor: action.payload
+            }
+        case 'SET_CHARACTER_SHIELD':
+            return {
+                ...state,
+                shield: action.payload
+            }
         // weapon handlers
         case 'CLEAR_CHARACTER_WEAPONS':
             return {
@@ -80,38 +90,38 @@ const characterGear = (state = {
             }
 
         // handle shield and armor losses / repairs from in play sheet
-        case 'CHARACTER_LOSE_ONE_SHIELD_QUALITY':
-            return {
-                ...state,
-                shield: {
-                    ...state.shield,
-                    this_shield_loss: state.shield.this_shield_loss + 1
-                }
-            }
-        case 'CHARACTER_ADD_ONE_SHIELD_QUALITY':
-            return {
-                ...state,
-                shield: {
-                    ...state.shield,
-                    this_shield_loss: state.shield.this_shield_loss - 1
-                }
-            }
-        case 'CHARACTER_LOSE_ONE_ARMOR_QUALITY':
-            return {
-                ...state,
-                armor: {
-                    ...state.armor,
-                    this_armor_loss: state.armor.this_armor_loss + 1
-                }
-            }
-        case 'CHARACTER_ADD_ONE_ARMOR_QUALITY':
-            return {
-                ...state,
-                armor: {
-                    ...state.armor,
-                    this_armor_loss: state.armor.this_armor_loss - 1
-                }
-            }
+        // case 'CHARACTER_LOSE_ONE_SHIELD_QUALITY':
+        //     return {
+        //         ...state,
+        //         shield: {
+        //             ...state.shield,
+        //             this_shield_loss: state.shield.this_shield_loss + 1
+        //         }
+        //     }
+        // case 'CHARACTER_ADD_ONE_SHIELD_QUALITY':
+        //     return {
+        //         ...state,
+        //         shield: {
+        //             ...state.shield,
+        //             this_shield_loss: state.shield.this_shield_loss - 1
+        //         }
+        //     }
+        // case 'CHARACTER_LOSE_ONE_ARMOR_QUALITY':
+        //     return {
+        //         ...state,
+        //         armor: {
+        //             ...state.armor,
+        //             this_armor_loss: state.armor.this_armor_loss + 1
+        //         }
+        //     }
+        // case 'CHARACTER_ADD_ONE_ARMOR_QUALITY':
+        //     return {
+        //         ...state,
+        //         armor: {
+        //             ...state.armor,
+        //             this_armor_loss: state.armor.this_armor_loss - 1
+        //         }
+        //     }
 
         // Misc gear handlers
         case 'SET_CHARACTER_MISC_GEAR':

@@ -33,7 +33,7 @@ export default function Backpack() {
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
-    
+
     const [snackbarText, setSnackBarText] = React.useState('')
 
     function descendingComparator(a, b, orderBy) {
@@ -257,11 +257,9 @@ export default function Backpack() {
 
             <Grid container>
                 <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
-                {/* <Grid item xs={2} /> */}
+                
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
-                {/* <Grid item xs={2} /> */}
 
-                {/* <Grid item xs={8} /> */}
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><TextField
                     label="Add/Remove Amount"
                     onChange={e => setBankChange(e.target.value)}
@@ -271,12 +269,8 @@ export default function Backpack() {
                     fullWidth
                 />
                 </Grid>
-                {/* <Grid item xs={2} /> */}
 
-                {/* <Grid item xs={8} /> */}
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
-
-                {/* <Grid item xs={2} /> */}
             </Grid>
 
             <TableContainer>

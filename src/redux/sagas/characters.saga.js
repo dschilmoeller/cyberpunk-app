@@ -86,6 +86,19 @@ function* fetchCharacterBank(action) {
   }
 }
 
+function* changeCharacterHealth(action) {
+  try {
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+    yield axios.put('/api/characters/changeCharacterHealth/', action.payload)
+    const characterStatus = yield axios.get(`api/characters/fetchcharacterstatusbystatusid/${action.payload.charStatusID}`)
+    console.log(`characterStatus:`, characterStatus);
+    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
+  } catch (err) {
+    console.log(`Error altering character health:`, err);
+  }
+}
+
 // Using various consumables:
 function* useConsumableFromPack(action) {
   yield axios.delete(`/api/characters/useConsumable/${action.payload.char_gear_bridge_id}`)
@@ -366,6 +379,9 @@ function* characterSaga() {
   // in play fetch/save actions
   yield takeLatest('FETCH_ALL_CHARACTERS', fetchCharacters);
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
+
+  yield takeLatest('CHANGE_CHARACTER_HEALTH', changeCharacterHealth)
+
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
   yield takeLatest('USE_GRENADE', useGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);

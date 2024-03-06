@@ -36,6 +36,8 @@ function Armor() {
     const charTotalArmor = (charArmor === undefined ? 0 : charArmor.quality) 
     + (charShield === undefined ? 0 : charShield.quality)
     + charStatus.current_cyberware_armor_quality
+
+    const loadStatus = useSelector(store => store.loaders.inPlaySheet)
     
     // Builds armor total from various sources. If no armor/shield worn, default to 0.
     const armorBuilder = () => {
@@ -78,15 +80,19 @@ function Armor() {
     const charArmorLoss = charArmor === undefined ? 0 : charArmor.this_armor_loss
     const charCyberArmorQuality = charStatus.current_cyberware_armor_quality
     const charCyberArmorLoss = charStatus.current_cyberware_armor_loss
+    
     const ablateOneArmor = () => {
         // take total armor, and add +1 damage to appropriate source - shield, then armor, then cyberware.
 
         if (charShieldLoss < charShieldQuality) {
-            dispatch({ type: "CHARACTER_LOSE_ONE_SHIELD_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'shield', charID: charDetails.id, newLoss: charShieldLoss + 1, shield_bridge_id: charShield.shield_bridge_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else if (charArmorLoss < charArmorQuality) {
-            dispatch({ type: "CHARACTER_LOSE_ONE_ARMOR_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'armor', charID: charDetails.id, newLoss: charArmorLoss + 1, armor_bridge_id: charArmor.armor_bridge_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else if (charCyberArmorLoss < charCyberArmorQuality) {
-            dispatch({ type: "CHARACTER_LOSE_ONE_CYBERARMOR_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'cyberArmor', charID: charDetails.id, newLoss: charCyberArmorLoss + 1, char_status_id: charStatus.char_status_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else {
             setShowSnackbar(true)
         }
@@ -95,11 +101,14 @@ function Armor() {
     const recoverOneArmor = () => {
         // as ablate, but in reverse - heals shield, then armor, then cyberware.
         if (charShieldLoss > 0) {
-            dispatch({ type: "CHARACTER_ADD_ONE_SHIELD_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'shield', charID: charDetails.id, newLoss: charShieldLoss - 1, shield_bridge_id: charShield.shield_bridge_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else if (charArmorLoss > 0) {
-            dispatch({ type: "CHARACTER_ADD_ONE_ARMOR_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'armor', charID: charDetails.id, newLoss: charArmorLoss - 1, armor_bridge_id: charArmor.armor_bridge_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else if (charCyberArmorLoss > 0) {
-            dispatch({ type: "CHARACTER_ADD_ONE_CYBERARMOR_QUALITY" })
+            dispatch({ type: "CHANGE_CHARACTER_ARMOR_STATUS", payload: {armorType: 'cyberArmor', charID: charDetails.id, newLoss: charCyberArmorLoss - 1, char_status_id: charStatus.char_status_id} })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
         } else {
             console.log(`No armor to fix!`);
         }
@@ -126,12 +135,15 @@ function Armor() {
                     <Grid container>
                         <Grid item xs={6}>
                             <Item>
-                                <Button color='secondary' variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
+                            {loadStatus === false ? (<><Button color='secondary' variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
+                            </>) : <><Button color='secondary' variant='disabled' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
+                            </> }
                             </Item>
                         </Grid>
                         <Grid item xs={6}>
                             <Item>
-                            <Button variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
+                            {loadStatus === false ? (<><Button variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
+                            </>) : <><Button variant='disabled' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button></> }
                             </Item>
                         </Grid>
                         <Grid item xs={12}>

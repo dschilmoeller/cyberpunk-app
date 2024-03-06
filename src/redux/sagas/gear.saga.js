@@ -261,6 +261,37 @@ function* alterClothing(action) {
     yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
 }
 
+function* changeCharArmorStatus(action) {
+    try {
+        switch (action.payload.armorType) {
+            case 'shield':
+                yield axios.put(`api/gear/changeCharacterShield/`, action.payload)
+                const characterShield = yield axios.get(`api/characters/fetchcharactershield/${action.payload.charID}`)
+                yield put({ type: "SET_CHARACTER_SHIELD", payload: characterShield.data[0] })
+                yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
+                return
+            case 'armor':
+                console.log(`test1`);
+                yield axios.put(`api/gear/changeCharacterArmor/`, action.payload)
+                console.log(`test2`);
+                const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload.charID}`)
+                yield put({ type: "SET_CHARACTER_ARMOR", payload: characterArmor.data[0] })
+                yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
+                return
+            case 'cyberArmor':
+                yield axios.put(`api/gear/changeCharacterCyberArmor/`, action.payload)
+                const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload.charID}`)
+                yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+                return
+            default:
+                console.log(`Unable to change in play armor value due to bad armorType`);
+                return
+        }
+    } catch (error) {
+        console.log(`Error changing in play armor value:`, error);
+    }
+
+}
 
 function* gearSaga() {
     yield takeLatest('FETCH_MASTER_LISTS', fetchMasterLists);
@@ -282,6 +313,7 @@ function* gearSaga() {
     yield takeLatest('BUY_ITEM', buyItem);
     yield takeLatest('SELL_ITEM', sellItem);
 
+    yield takeLatest('CHANGE_CHARACTER_ARMOR_STATUS', changeCharArmorStatus)
     yield takeLatest('ALTER_CLOTHING', alterClothing);
 }
 
