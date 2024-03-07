@@ -448,7 +448,7 @@ router.post('/createCharacterNote/', rejectUnauthenticated, (req, res) => {
     } else {
         noteFavBool = false;
     }
-    const sqlParams = [req.body.char_id, req.body.title, req.body.body, noteFavBool]
+    const sqlParams = [req.body.charID, req.body.title, req.body.body, noteFavBool]
     pool.query(sqlText, sqlParams)
         .then(result => {
             res.sendStatus(201)

@@ -141,8 +141,9 @@ function* characterCreatePharmaceutical(action) {
 function* createCharacterNote(action) {
   try {
     yield axios.post('api/characters/createCharacterNote/', action.payload)
-    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload.char_id}`)
+    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload.charID}`)
     yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
   } catch (error) {
     console.log(`Error creating character note:`, error);
   }
@@ -151,7 +152,13 @@ function* createCharacterNote(action) {
 // Update Character Note
 function* updateCharacterNote(action) {
   try {
+    // update
     yield axios.put('api/characters/updateCharacterNote/', action.payload)
+    // fetch char notes
+    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload.charID}`)
+    // set char notes
+    yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
   } catch (error) {
     console.log(`Error saving character note:`, error);
   }
@@ -159,7 +166,11 @@ function* updateCharacterNote(action) {
 
 function* deleteCharacterNote(action) {
   try {
-    yield axios.delete(`api/characters/deleteCharacterNote/${action.payload}`)
+    yield axios.delete(`api/characters/deleteCharacterNote/${action.payload.noteID}`)
+    const characterNotes = yield axios.get(`/api/characters/fetchCharacterNotes/${action.payload.charID}`)
+    // console.log(`characternotes`, characterNotes);
+    yield put({ type: 'SET_CHARACTER_NOTES', payload: characterNotes.data })
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
   } catch (error) {
     console.log(`Error deleting character note:`, error);
   }
@@ -179,6 +190,11 @@ function* createCharacterContact(action) {
 function* updateCharacterContact(action) {
   try {
     yield axios.put('api/characters/updateCharacterContact/', action.payload)
+    // fetch / set contacts
+    const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload.charID}`)
+    yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
+    // set loading
+
   } catch (error) {
     console.log(`Error updating character contact:`, error);
   }

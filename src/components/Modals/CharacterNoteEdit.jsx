@@ -23,6 +23,7 @@ export default function CharacterNoteEdit({ prop }) {
     const dispatch = useDispatch()
 
     const notes = useSelector(store => store.characterNotes)
+    const loadStatus = useSelector(store => store.loaders.inPlaySheet)
 
     // clearing out between notes / after saving new note.
     React.useEffect(() => {
@@ -39,10 +40,12 @@ export default function CharacterNoteEdit({ prop }) {
     const handleClose = () => {
         setShowRealDelete(false)
         if (isNew === false) {
-            dispatch({ type: 'CHARACTER_NOTE_UPDATE', payload: { title: titleText, body: bodyText, id: prop.char_note_id, char_id: prop.char_id, favorite: favoriteStatus } })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+            dispatch({ type: 'CHARACTER_NOTE_UPDATE', payload: { title: titleText, body: bodyText, id: prop.char_note_id, charID: prop.char_id, favorite: favoriteStatus } })
             setOpen(false);
         } else {
-            dispatch({ type: 'CHARACTER_NEW_NOTE', payload: { title: titleText, body: bodyText, char_id: prop, favorite: favoriteStatus } })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+            dispatch({ type: 'CHARACTER_NEW_NOTE', payload: { title: titleText, body: bodyText, charID: prop, favorite: favoriteStatus } })
             setOpen(false);
         }
     };
@@ -54,7 +57,8 @@ export default function CharacterNoteEdit({ prop }) {
         setShowRealDelete(true)
     }
     const actuallyDelete = () => {
-        dispatch({ type: 'CHARACTER_DELETE_NOTE', payload: prop.char_note_id })
+        dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+        dispatch({ type: 'CHARACTER_DELETE_NOTE', payload: {noteID: prop.char_note_id, charID: prop.char_id} })
         setOpen(false)
     }
 

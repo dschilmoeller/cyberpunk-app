@@ -37,7 +37,7 @@ export default function CharacterContactEdit({ prop }) {
     };
 
     const handleClose = () => {
-        dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: { char_contact_id: prop.char_contact_id, loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
+        dispatch({ type: 'CHARACTER_CONTACT_UPDATE', payload: { char_contact_id: prop.char_contact_id, charID: prop.char_id, loyalty: loyaltyAmount, notes: noteText, existingContact: prop } })
         setOpen(false);
     };
 
