@@ -25,6 +25,7 @@ function TransitionUp(props) {
 
 export default function Backpack() {
     const characterDetail = useSelector(store => store.characterDetail)
+    const loadStatus = useSelector(store => store.loaders.inPlaySheet)
     const dispatch = useDispatch();
 
     const euroBuck = `\u20AC$`
@@ -183,6 +184,7 @@ export default function Backpack() {
                         color: '#000',
                     }
                 }}
+                    variant={loadStatus === false ? 'contained' : 'disabled'}
                     fullWidth
                     onClick={() => UseConsumable(row, isFood)}>Eat</Button></TableCell></>)
         } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
@@ -194,6 +196,7 @@ export default function Backpack() {
                         color: '#000',
                     }
                 }}
+                    variant={loadStatus === false ? 'contained' : 'disabled'}
                     fullWidth
                     onClick={() => UseConsumable(row)}>Use</Button></TableCell>)
         } else {
@@ -202,7 +205,8 @@ export default function Backpack() {
     }
 
     const UseConsumable = (foodstuff, isFood) => {
-        dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: foodstuff })
+        dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
+        dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: { foodstuff, charID: characterDetail.id } })
         if (isFood === true) {
             setShowSnackbar(true)
             setSnackBarText('NOM NOM NOM')
@@ -217,20 +221,20 @@ export default function Backpack() {
 
     const addMoney = (change) => {
         if ((change) > 0 && change < 10000) {
-            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) + parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { charID: characterDetail.id, newBank: (parseFloat(characterDetail.bank) + parseFloat(change)) } })
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) + parseFloat(change), charID: characterDetail.id }})
             setBankChange(0)
         } else {
+            setSnackBarText('Nice try.')
             setShowSnackbar(true)
         }
     }
 
     const spendMoney = (change) => {
-        if ((change) > 0 && change < 10000) {
-            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: parseFloat(characterDetail.bank) - parseFloat(change) })
-            dispatch({ type: "SAVE_CHARACTER_BANK", payload: { charID: characterDetail.id, newBank: (parseFloat(characterDetail.bank) - parseFloat(change)) } })
+        if ((change > 0 && change < 10000) || (change <= characterDetail.bank && change > 0)) {
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) - parseFloat(change), charID: characterDetail.id }})
             setBankChange(0)
         } else {
+            setSnackBarText('Nice try.')
             setShowSnackbar(true)
         }
     }
@@ -248,7 +252,7 @@ export default function Backpack() {
                     {snackbarText}
                 </Alert>
             </Snackbar>
-            
+
             <Grid container>
                 <Grid item xs={12} paddingBottom={4}>
                     <Item><CharacterSheetHeaderDialog prop={'Backpack'} /></Item>
@@ -257,8 +261,8 @@ export default function Backpack() {
 
             <Grid container>
                 <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}</Grid>
-                
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
+
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
 
                 <Grid item xs={2} display={'flex'} justifyContent={'center'}><TextField
                     label="Add/Remove Amount"
@@ -270,7 +274,7 @@ export default function Backpack() {
                 />
                 </Grid>
 
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant='contained' color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
+                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
             </Grid>
 
             <TableContainer>

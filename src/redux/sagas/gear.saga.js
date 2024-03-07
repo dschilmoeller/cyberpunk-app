@@ -199,7 +199,7 @@ function* buyItem(action) {
         if (action.payload.table === 'char_clothing_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
-        yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
+        yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
     } catch (error) {
         console.log(`Error purchasing item:`, error);
     }
@@ -234,7 +234,7 @@ function* sellItem(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
         yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
-        yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
+        yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
 
     } catch (error) {
         console.log(`Error selling item:`, error);
@@ -258,7 +258,7 @@ function* alterClothing(action) {
     yield axios.put(`api/characters/characteralterclothing/${action.payload.item.clothing_bridge_id}`, action.payload)
     yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
     yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
-    yield put({ type: 'FETCH_CHARACTER_BANK', payload: action.payload.charID })
+    yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
 }
 
 function* changeCharArmorStatus(action) {
@@ -271,9 +271,7 @@ function* changeCharArmorStatus(action) {
                 yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
                 return
             case 'armor':
-                console.log(`test1`);
                 yield axios.put(`api/gear/changeCharacterArmor/`, action.payload)
-                console.log(`test2`);
                 const characterArmor = yield axios.get(`api/characters/fetchcharacterarmor/${action.payload.charID}`)
                 yield put({ type: "SET_CHARACTER_ARMOR", payload: characterArmor.data[0] })
                 yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
@@ -282,6 +280,7 @@ function* changeCharArmorStatus(action) {
                 yield axios.put(`api/gear/changeCharacterCyberArmor/`, action.payload)
                 const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload.charID}`)
                 yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+                yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
                 return
             default:
                 console.log(`Unable to change in play armor value due to bad armorType`);
@@ -291,6 +290,18 @@ function* changeCharArmorStatus(action) {
         console.log(`Error changing in play armor value:`, error);
     }
 
+}
+
+function* changeWeaponClip(action) {
+    try {
+        yield axios.put('/api/gear/changeWeaponClip', action.payload)
+        const weaponDetail = yield axios.get(`/api/characters/fetchcharacterweapons/${action.payload.charID}`)
+        yield put({ type: "SET_CHARACTER_WEAPONS", payload: weaponDetail.data})
+        yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
+
+    } catch (err) {
+        console.log(`Error firing weapon:`, err);
+    }
 }
 
 function* gearSaga() {
@@ -315,6 +326,8 @@ function* gearSaga() {
 
     yield takeLatest('CHANGE_CHARACTER_ARMOR_STATUS', changeCharArmorStatus)
     yield takeLatest('ALTER_CLOTHING', alterClothing);
+
+    yield takeLatest('CHANGE_WEAPON_CLIP', changeWeaponClip)
 }
 
 export default gearSaga;

@@ -135,15 +135,12 @@ function Armor() {
                     <Grid container>
                         <Grid item xs={6}>
                             <Item>
-                            {loadStatus === false ? (<><Button color='secondary' variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
-                            </>) : <><Button color='secondary' variant='disabled' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
-                            </> }
+                            <Button color='secondary' variant={loadStatus === false ? 'contained' : 'disabled'} fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => ablateOneArmor()}>Ablate Armor</Button>
                             </Item>
                         </Grid>
                         <Grid item xs={6}>
                             <Item>
-                            {loadStatus === false ? (<><Button variant='contained' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
-                            </>) : <><Button variant='disabled' fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button></> }
+                            <Button variant={loadStatus === false ? 'contained' : 'disabled'} fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} onClick={() => recoverOneArmor()}>Recover Armor</Button>
                             </Item>
                         </Grid>
                         <Grid item xs={12}>

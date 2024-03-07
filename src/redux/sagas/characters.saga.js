@@ -69,15 +69,7 @@ function* saveCharacterSheet(action) {
   }
 }
 
-function* saveCharacterBank(action) {
-  try {
-    yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
-  } catch (error) {
-    console.log(`Error making a bank change:`, error);
-  }
-}
-
-function* fetchCharacterBank(action) {
+function* fetchAdvancementBank(action) {
   try {
     const bank = yield axios.get(`/api/characters/fetchBank/${action.payload}`)
     yield put({ type: "SET_CHARACTER_BANK", payload: bank.data })
@@ -88,10 +80,8 @@ function* fetchCharacterBank(action) {
 
 function* changeCharacterHealth(action) {
   try {
-    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
     yield axios.put('/api/characters/changeCharacterHealth/', action.payload)
     const characterStatus = yield axios.get(`api/characters/fetchcharacterstatusbystatusid/${action.payload.charStatusID}`)
-    console.log(`characterStatus:`, characterStatus);
     yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
     yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
   } catch (err) {
@@ -99,15 +89,40 @@ function* changeCharacterHealth(action) {
   }
 }
 
+function* changeCharacterLuck(action) {
+  try {
+    yield axios.put('/api/characters/changeCharacterLuck/', action.payload)
+    const characterStatus = yield axios.get(`api/characters/fetchcharacterstatusbystatusid/${action.payload.charStatusID}`)
+    yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
+
+  } catch (err) {
+    console.log(`Error altering character luck:`, err);
+  }
+}
+
 // Using various consumables:
 function* useConsumableFromPack(action) {
-  yield axios.delete(`/api/characters/useConsumable/${action.payload.char_gear_bridge_id}`)
-  yield put({ type: 'CONSUMABLE_USED', payload: action.payload })
+  yield axios.delete(`/api/characters/useConsumable/${action.payload.foodstuff.char_gear_bridge_id}`)
+  const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload.charID}`)
+  yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
+  yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
 }
 
 function* useGrenade(action) {
   yield axios.delete(`/api/characters/useGrenade/${action.payload.grenade_bridge_id}`)
   yield put({ type: 'GRENADE_USED', payload: action.payload })
+}
+
+function* arbitraryBankChange(action) {
+  try {
+    yield axios.put(`/api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+    const bank = yield axios.get(`/api/characters/fetchBank/${action.payload.charID}`)
+    yield put({ type: "SET_CHARACTER_BANK", payload: bank.data })
+    yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
+  } catch (err) {
+    console.log(`Error making arbitary bank change:`, err);
+  }
 }
 
 // making pharmaceutical compounds
@@ -381,12 +396,14 @@ function* characterSaga() {
   yield takeLatest('FETCH_CHARACTER_DETAIL', fetchCharacterDetail);
 
   yield takeLatest('CHANGE_CHARACTER_HEALTH', changeCharacterHealth)
+  yield takeLatest('CHANGE_CHARACTER_LUCK', changeCharacterLuck)
 
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
+  yield takeLatest('ARBITRARY_BANK_CHANGE', arbitraryBankChange)
   yield takeLatest('USE_GRENADE', useGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
-  yield takeLatest('SAVE_CHARACTER_BANK', saveCharacterBank)
-  yield takeLatest('FETCH_CHARACTER_BANK', fetchCharacterBank)
+
+  yield takeLatest('FETCH_ADVANCEMENT_BANK', fetchAdvancementBank)
   yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
   yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote);
   yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote);

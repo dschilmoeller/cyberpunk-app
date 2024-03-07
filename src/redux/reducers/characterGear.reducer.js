@@ -45,82 +45,53 @@ const characterGear = (state = {
                 ...state,
                 shield: action.payload
             }
+        case 'SET_CHARACTER_WEAPONS':
+            return {
+                ...state,
+                weapons: action.payload
+            }
         // weapon handlers
         case 'CLEAR_CHARACTER_WEAPONS':
             return {
                 ...state,
                 weapons: []
             }
-        case 'FIRE_ONE_SHOT':
-            // map through current weapons and increase shots fired - logic to allow this or not is handled on front end.
-            return {
-                ...state,
-                weapons: state.weapons.map(weapon => {
-                    // if weapon.weapon_bridge_id matches the payload...
-                    if (weapon.weapon_bridge_id === action.payload) {
-                        // ...return current weapon object with +1 to current shots fired inside the object
-                        return { ...weapon, current_shots_fired: weapon.current_shots_fired + 1 }
-                    } else {
-                        // else return current weapon status
-                        return weapon;
-                    }
-                })
-            }
-        case 'FIRE_WEAPON_AUTOMATIC':
-            // as FIRE_ONE_SHOT but fires 10.
-            return {
-                ...state,
-                weapons: state.weapons.map(weapon => {
-                    if (weapon.weapon_bridge_id === action.payload) {
-                        return { ...weapon, current_shots_fired: weapon.current_shots_fired + 10 }
-                    };
-                    return weapon;
-                })
-            }
-        case 'RELOAD_WEAPON':
-            // as FIRE_ONE_SHOT but resets shots fired to 0.
-            return {
-                ...state,
-                weapons: state.weapons.map(weapon => {
-                    if (weapon.weapon_bridge_id === action.payload) {
-                        return { ...weapon, current_shots_fired: 0 }
-                    };
-                    return weapon;
-                })
-            }
-
-        // handle shield and armor losses / repairs from in play sheet
-        // case 'CHARACTER_LOSE_ONE_SHIELD_QUALITY':
+        // case 'FIRE_ONE_SHOT':
+        //     // map through current weapons and increase shots fired - logic to allow this or not is handled on front end.
         //     return {
         //         ...state,
-        //         shield: {
-        //             ...state.shield,
-        //             this_shield_loss: state.shield.this_shield_loss + 1
-        //         }
+        //         weapons: state.weapons.map(weapon => {
+        //             // if weapon.weapon_bridge_id matches the payload...
+        //             if (weapon.weapon_bridge_id === action.payload) {
+        //                 // ...return current weapon object with +1 to current shots fired inside the object
+        //                 return { ...weapon, current_shots_fired: weapon.current_shots_fired + 1 }
+        //             } else {
+        //                 // else return current weapon status
+        //                 return weapon;
+        //             }
+        //         })
         //     }
-        // case 'CHARACTER_ADD_ONE_SHIELD_QUALITY':
+        // case 'FIRE_WEAPON_AUTOMATIC':
+        //     // as FIRE_ONE_SHOT but fires 10.
         //     return {
         //         ...state,
-        //         shield: {
-        //             ...state.shield,
-        //             this_shield_loss: state.shield.this_shield_loss - 1
-        //         }
+        //         weapons: state.weapons.map(weapon => {
+        //             if (weapon.weapon_bridge_id === action.payload) {
+        //                 return { ...weapon, current_shots_fired: weapon.current_shots_fired + 10 }
+        //             };
+        //             return weapon;
+        //         })
         //     }
-        // case 'CHARACTER_LOSE_ONE_ARMOR_QUALITY':
+        // case 'RELOAD_WEAPON':
+        //     // as FIRE_ONE_SHOT but resets shots fired to 0.
         //     return {
         //         ...state,
-        //         armor: {
-        //             ...state.armor,
-        //             this_armor_loss: state.armor.this_armor_loss + 1
-        //         }
-        //     }
-        // case 'CHARACTER_ADD_ONE_ARMOR_QUALITY':
-        //     return {
-        //         ...state,
-        //         armor: {
-        //             ...state.armor,
-        //             this_armor_loss: state.armor.this_armor_loss - 1
-        //         }
+        //         weapons: state.weapons.map(weapon => {
+        //             if (weapon.weapon_bridge_id === action.payload) {
+        //                 return { ...weapon, current_shots_fired: 0 }
+        //             };
+        //             return weapon;
+        //         })
         //     }
 
         // Misc gear handlers

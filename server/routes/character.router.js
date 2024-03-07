@@ -292,7 +292,7 @@ router.put('/changeCharacterHealth/', rejectUnauthenticated, (req, res) => {
     const sqlParams = [req.body.setStun, req.body.setLethal, req.body.setAgg, req.body.charStatusID]
     pool.query(sqlText, sqlParams)
         .then(result => { res.sendStatus(200); })
-        .catch(err => { console.log(`Error updating character health:`, err);})
+        .catch(err => { console.log(`Error updating character health:`, err); })
 })
 
 // save damage to armor / shield from in play sheet
@@ -306,7 +306,7 @@ router.put('/savecharacterarmor/:id', rejectUnauthenticated, (req, res) => {
             res.sendStatus(202)
         })
         .catch(err => {
-            console.log(`Error saving character Armor Details`, err);
+            console.log(`Error saving character Armor Details:`, err);
         })
 })
 
@@ -320,8 +320,17 @@ router.put('/savecharactershield/:id', rejectUnauthenticated, (req, res) => {
             res.sendStatus(202)
         })
         .catch(err => {
-            console.log(`Error saving character shield Details`, err);
+            console.log(`Error saving character shield Details:`, err);
         })
+})
+
+// save changes to current luck loss.
+router.put('/changeCharacterLuck/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_luck_loss" = $1 WHERE "char_status_id" = $2`
+    const sqlParams = [req.body.newCurrentLuckLoss, req.body.charStatusID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(202) })
+        .catch(err => { console.log(`Error saving character luck change:`, err); })
 })
 
 // save shots fired on in play character sheet.

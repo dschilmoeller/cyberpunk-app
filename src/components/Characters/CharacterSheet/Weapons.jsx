@@ -27,7 +27,8 @@ function Weapons() {
     const charWeapons = useSelector((store) => store.characterGear.weapons)
     const charDetail = useSelector((store) => store.characterDetail)
     const characterCyberware = useSelector((store) => store.characterGear.cyberware)
-
+    const loadStatus = useSelector(store => store.loaders.inPlaySheet)
+    
     const dispatch = useDispatch();
     const unhurtMarker = <CircleOutlinedIcon />;
     const aggMarker = <CancelIcon />;
@@ -60,18 +61,19 @@ function Weapons() {
     const ClipButtonBuilder = (damageType, incomingKey, max_clip, current_shots_fired) => {
         switch (damageType) {
             case 'smg':
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
-            case 'assault':
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                case 'assault':
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button  variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                // return (<Grid item xs={12}><Item><Typography>Clip: <Button  variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleAutoFire(incomingKey, max_clip, current_shots_fired)}>AutoFire</Button> <Button variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
             default:
-                return (<Grid item xs={12}><Item><Typography>Clip: <Button onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
+                return (<Grid item xs={12}><Item><Typography>Clip: <Button  variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleOneShot(incomingKey, max_clip, current_shots_fired)}>Shoot</Button> <Button variant={loadStatus === false ? 'outlined' : 'disabled'} onClick={() => handleReload(incomingKey)}>Reload</Button> </Typography> </Item></Grid>)
         }
     }
 
     // if gun has 10 or more bullets, allows firing 10 shots in one go.
     const handleAutoFire = (incomingKey, max_clip, current_shots_fired) => {
         if ((max_clip - current_shots_fired) > 9) {
-            dispatch({ type: 'FIRE_WEAPON_AUTOMATIC', payload: incomingKey })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+            dispatch({ type: 'CHANGE_WEAPON_CLIP', payload: { weaponBridgeID: incomingKey, currentShotsFired: current_shots_fired + 10, charID: charDetail.id } })
         } else {
             setShowSnackbar(true)
         }
@@ -79,13 +81,15 @@ function Weapons() {
 
     // changes all boxes to unchecked.
     const handleReload = (incomingKey) => {
-        dispatch({ type: 'RELOAD_WEAPON', payload: incomingKey })
+        dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+        dispatch({ type: 'CHANGE_WEAPON_CLIP', payload: { weaponBridgeID: incomingKey, currentShotsFired: 0, charID: charDetail.id } })
     }
 
     // identical to clicking a box in the relevant area.
     const handleOneShot = (incomingKey, max_clip, current_shots_fired) => {
         if ((max_clip - current_shots_fired) > 0) {
-            dispatch({ type: "FIRE_ONE_SHOT", payload: incomingKey })
+            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
+            dispatch({ type: 'CHANGE_WEAPON_CLIP', payload: { weaponBridgeID: incomingKey, currentShotsFired: current_shots_fired + 1, charID: charDetail.id } })
         } else {
             setShowSnackbar(true)
         }

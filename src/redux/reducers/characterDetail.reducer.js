@@ -14,10 +14,10 @@ const characterDetail = (state = { saved: false }, action) => {
                 ...state,
                 bank: action.payload.newBank
             }
-        case 'ARBITRARY_BANK_CHANGE':
+        case 'SET_CHARACTER_BANK':
             return {
                 ...state,
-                bank: action.payload
+                bank: action.payload.bank
             }
         case 'SAVE_CHARACTER_SHEET':
             return {
