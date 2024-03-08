@@ -1,20 +1,19 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-function* increaseAttribute(action) {
+function* changeStat(action) {
     try {
-        yield axios.put('/api/advancement/increaseAttribute', action.payload)
+        yield axios.put('/api/advancement/changeStat', action.payload)
         const advancementDetails = yield axios.get(`/api/advancement/fetchAdvancementDetails/${action.payload.charID}`)
         yield put({ type: 'SET_ADVANCEMENT_DETAIL', payload: advancementDetails.data[0] })
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
-
     } catch (err) {
         console.log(`Error increasing attribute:`, err);
     }
 }
 
 function* advancementSaga() {
-    yield takeLatest('ADVANCEMENT_INCREASE_ATTRIBUTE', increaseAttribute)
+    yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat)
 }
 
 export default advancementSaga;

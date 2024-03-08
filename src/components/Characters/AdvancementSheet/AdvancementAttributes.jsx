@@ -53,7 +53,7 @@ export default function AdvancementAttributes() {
 
         if (increaseAttributeCost <= availableExp) {
             dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName, newStat: attributeScore + 1, newSpentXP: advancementDetails.spent_xp + increaseAttributeCost, charID: advancementDetails.id } })
+            dispatch({ type: 'ADVANCEMENT_CHANGE_STAT', payload: { statName: attributeName, newValue: attributeScore + 1, newSpentXP: advancementDetails.spent_xp + increaseAttributeCost, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }

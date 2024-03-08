@@ -5,11 +5,8 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 const { rejectNonAdmin } = require('../modules/rejectNonAdmin')
 
-// eventually move all routes to do with editing sheet (e.g. shopping / spend XP / equip gear pagees) here
-
 // Character Advancement Routes
-// routes having to do with spending experience, equipping/unequipping gear and cyberware,
-// and purchasing and selling gear and cyberware
+// routes having to do with spending experience mainly.
 
 router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "character"
@@ -25,25 +22,33 @@ router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => 
         })
 })
 
-router.put('/increaseAttribute', rejectUnauthenticated, (req, res) => {
-    const whiteListColumn = ['strength', 'body', 'reflexes', 'appearance', 'cool', 'intelligence', 'willpower', 'technique', 'max_luck', 'temp_humanity_loss']
-    let columnCheck = false;
-    for (let i = 0; i < whiteListColumn.length; i++) {
-        if (whiteListColumn[i] === req.body.attributeName) {
-            columnCheck = true
-        }
-    }
-    if (columnCheck === true) {
-        const sqlText = `UPDATE "character" SET ${req.body.attributeName} = $1, spent_xp = $2 WHERE id = $3`
-        const sqlParams = [req.body.newStat, req.body.newSpentXP, req.body.charID]
+router.put('/changeStat', rejectUnauthenticated, (req, res) => {
+    if (columnCheck(req.body.statName) === true) {
+        const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, spent_xp = $2 WHERE id = $3`
+        const sqlParams = [req.body.newValue, req.body.newSpentXP, req.body.charID]
         pool.query(sqlText, sqlParams)
             .then(result => { res.sendStatus(200) })
-            .catch(err => { console.log(`Error updating character Attribute:`, err); })
-    } else {
+            .catch(err => { console.log(`Error updating character stat ${req.body.statName}:`, err); })
+    }
+    else {
         console.log(`Error changing attribute due to column validation failure. Column Check value:`, columnCheck);
         res.sendStatus(400)
     }
-
 })
+
+// whitelist for incoming data to check against as express cannot parametize column names due to ' / " mismatch in javascript strings.
+const columnCheck = (statName) => {
+    const whiteListColumn = ['strength', 'body', 'reflexes', 'appearance', 'cool',
+        'intelligence', 'willpower', 'technique', 'max_luck', 'temp_humanity_loss',
+        'athletics', 'brawling', 'concentration', 'evasion', 'fast_talk', 'firearms', 'legerdemain', 'melee_weapons', 'perception', 'streetwise',
+        'demolitions', 'drive_land', 'drive_exotic', 'etiquette', 'exotic_weapons', 'heavy_weapons', 'performance', 'stealth', 'survival', 'tracking',
+        'business', 'cryptography', 'cyber_tech', 'investigation', 'first_aid', 'paramed', 'gambling', 'language', 'military_tech', 'science', 'vehicle_tech']
+    for (let i = 0; i < whiteListColumn.length; i++) {
+        if (whiteListColumn[i] === statName) {
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = router

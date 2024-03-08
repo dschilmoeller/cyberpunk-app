@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-
-
 function* fetchMasterLists() {
     const armorList = yield axios.get('/api/gear/fetcharmor')
     const shieldList = yield axios.get('/api/gear/fetchshield')

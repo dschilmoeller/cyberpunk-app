@@ -64,7 +64,7 @@ export default function AdvancementOther() {
         let increaseLuckCost = advancementDetails.max_luck * 2
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= increaseLuckCost) {
             dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName: 'max_luck', newStat: advancementDetails.max_luck + 1, newSpentXP: advancementDetails.spent_xp + increaseLuckCost, charID: advancementDetails.id } })
+            dispatch({ type: 'ADVANCEMENT_CHANGE_STAT', payload: { statName: 'max_luck', newValue: advancementDetails.max_luck + 1, newSpentXP: advancementDetails.spent_xp + increaseLuckCost, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }
@@ -95,7 +95,7 @@ export default function AdvancementOther() {
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
             // dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
             dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName: 'temp_humanity_loss', newStat: advancementDetails.temp_humanity_loss - 1, newSpentXP: advancementDetails.spent_xp + 1, charID: advancementDetails.id } })
+            dispatch({ type: 'ADVANCEMENT_CHANGE_STAT', payload: { statName: 'temp_humanity_loss', newValue: advancementDetails.temp_humanity_loss - 1, newSpentXP: advancementDetails.spent_xp + 1, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }

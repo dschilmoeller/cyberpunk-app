@@ -20,14 +20,15 @@ export default function AdvancementSkills() {
 
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
-
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
+    
     const fullCircle = <CircleIcon />
     const emptyCircle = <CircleOutlinedIcon />
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const skillDotReturn = (skill) => {
         let returnedDots = []
@@ -52,24 +53,25 @@ const Alert = React.forwardRef(function Alert(props, ref) {
         let increaseSkillCost = (skillScore + 1) * 2
 
         if (increaseSkillCost <= availableExp) {
-            dispatch({ type: 'INCREASE_SKILL', payload: { skillScore: skillScore, skillName: skillName, increaseSkillCost: increaseSkillCost } })
+            dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+            dispatch({ type: 'ADVANCEMENT_CHANGE_STAT', payload: { statName: skillName, newValue: skillScore + 1, newSpentXP: advancementDetails.spent_xp + increaseSkillCost, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }
     }
 
     return (<>
-    <Snackbar
-    TransitionComponent={TransitionUp}
-    autoHideDuration={2000}
-    open={showSnackbar}
-    onClose={() => setShowSnackbar(false)}
-    anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
->
-    <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-        Insufficient XP
-    </Alert>
-</Snackbar>
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Insufficient XP
+            </Alert>
+        </Snackbar>
 
         <h1>Skills</h1>
         <Grid container>
