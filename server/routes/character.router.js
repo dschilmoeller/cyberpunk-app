@@ -27,9 +27,7 @@ router.get('/fetchallcharacters', rejectUnauthenticated, (req, res) => {
     `
 
     pool.query(sqlText, [req.user.id])
-        .then((result) => {
-            res.send(result.rows);
-        })
+        .then(result => { res.send(result.rows); })
         .catch(err => {
             console.log(`Error Fetching characters:`, err);
         });
@@ -1192,6 +1190,7 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
 
 })
 
+// Move to gear router
 router.put('/attributeGearChangeStrength/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE character SET cyber_strength = (SELECT "cyber_strength" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
     const sqlParams = [req.body.charID, req.body.change]
@@ -1237,11 +1236,12 @@ router.put('/attributeGearChangeCool/:id', rejectUnauthenticated, (req, res) => 
         .catch(err => { console.log(`Error updating character cyber cool`, err); })
 })
 
+
+router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
 // allows string literal in insert statement while removing SQL Injection possibility (hopefully)
 const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge']
 const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id']
 
-router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
     let tableCheck = false
     let pkCheck = false
     for (let i = 0; i < whiteListTable.length; i++) {

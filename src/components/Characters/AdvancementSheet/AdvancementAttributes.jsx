@@ -23,7 +23,8 @@ export default function AdvancementAttributes() {
     });
 
     const dispatch = useDispatch();
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector(store => store.advancementDetail);
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const fullCircle = <CircleIcon />
     const emptyCircle = <CircleOutlinedIcon />
@@ -51,7 +52,8 @@ export default function AdvancementAttributes() {
         let increaseAttributeCost = (attributeScore + 1) * 5
 
         if (increaseAttributeCost <= availableExp) {
-            dispatch({ type: 'INCREASE_ATTRIBUTE', payload: { attributeScore, attributeName, increaseAttributeCost } })
+            dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName, newStat: attributeScore + 1, newSpentXP: advancementDetails.spent_xp + increaseAttributeCost, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }
@@ -70,86 +72,97 @@ export default function AdvancementAttributes() {
                 Insufficient XP
             </Alert>
         </Snackbar>
-        
+
         <Grid container>
             <Grid item xs={12}>
                 <Grid container>
                     <Grid item xs={12}><Item>Physical</Item></Grid>
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Strength'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.strength, 5)}</Item></Grid>
-                    {advancementDetails.strength < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.strength, 'strength')}>Increase: {attributeExpReturn(advancementDetails.strength)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+                    {loadStatus === false ? (
+                        <>
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Strength'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.strength, 5)}</Item></Grid>
+                            {advancementDetails.strength < 5 ? <Grid item xs={4}>
+                                <Item
+                                    sx={{
+                                        cursor: 'pointer', '&:hover': {
+                                            backgroundColor: '#fff',
+                                            color: '#000',
+                                        }
+                                    }} onClick={() => attributeSpendExp(advancementDetails.strength, 'strength')}>
+                                    Increase: {attributeExpReturn(advancementDetails.strength)} XP
+                                </Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
 
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Body'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.body, 5)}</Item></Grid>
-                    {advancementDetails.body < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.body, 'body')}>Increase: {attributeExpReturn(advancementDetails.body)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Body'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.body, 5)}</Item></Grid>
+                            {advancementDetails.body < 5 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.body, 'body')}>Increase: {attributeExpReturn(advancementDetails.body)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
 
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Reflexes'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.reflexes, 5)}</Item></Grid>
-                    {advancementDetails.reflexes < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.reflexes, 'reflexes')}>Increase: {attributeExpReturn(advancementDetails.reflexes)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
-
-
-                    <Grid item xs={12}><Item>Social</Item></Grid>
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Appearance'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.appearance, 5)}</Item></Grid>
-                    {advancementDetails.appearance < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.appearance, 'appearance')}>Increase: {attributeExpReturn(advancementDetails.appearance)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
-
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Cool'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.cool, 5)}</Item></Grid>
-                    {advancementDetails.cool < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.cool, 'cool')}>Increase: {attributeExpReturn(advancementDetails.cool)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Reflexes'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.reflexes, 5)}</Item></Grid>
+                            {advancementDetails.reflexes < 5 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.reflexes, 'reflexes')}>Increase: {attributeExpReturn(advancementDetails.reflexes)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
 
 
-                    <Grid item xs={12}><Item>Mental</Item></Grid>
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Intelligence'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.intelligence, 5)}</Item></Grid>
-                    {advancementDetails.intelligence < 5 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.intelligence, 'intelligence')}>Increase: {attributeExpReturn(advancementDetails.intelligence)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+                            <Grid item xs={12}><Item>Social</Item></Grid>
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Appearance'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.appearance, 5)}</Item></Grid>
+                            {advancementDetails.appearance < 5 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.appearance, 'appearance')}>Increase: {attributeExpReturn(advancementDetails.appearance)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
 
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Willpower'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.willpower, 10)}</Item></Grid>
-                    {advancementDetails.willpower < 10 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.willpower, 'willpower')}>Increase: {attributeExpReturn(advancementDetails.willpower)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Cool'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.cool, 5)}</Item></Grid>
+                            {advancementDetails.cool < 5 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.cool, 'cool')}>Increase: {attributeExpReturn(advancementDetails.cool)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
 
-                    <Grid item xs={4}><Item><AttributesDialog prop={'Technique'} /></Item></Grid>
-                    <Grid item xs={4}><Item>{attDotReturn(advancementDetails.technique, 10)}</Item></Grid>
-                    {advancementDetails.technique < 10 ? <Grid item xs={4}><Item sx={{
-                        cursor: 'pointer', '&:hover': {
-                            backgroundColor: '#fff',
-                            color: '#000',
-                        }
-                    }} onClick={() => attributeSpendExp(advancementDetails.technique, 'technique')}>Increase: {attributeExpReturn(advancementDetails.technique)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+
+                            <Grid item xs={12}><Item>Mental</Item></Grid>
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Intelligence'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.intelligence, 5)}</Item></Grid>
+                            {advancementDetails.intelligence < 5 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.intelligence, 'intelligence')}>Increase: {attributeExpReturn(advancementDetails.intelligence)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Willpower'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.willpower, 10)}</Item></Grid>
+                            {advancementDetails.willpower < 10 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.willpower, 'willpower')}>Increase: {attributeExpReturn(advancementDetails.willpower)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+
+                            <Grid item xs={4}><Item><AttributesDialog prop={'Technique'} /></Item></Grid>
+                            <Grid item xs={4}><Item>{attDotReturn(advancementDetails.technique, 10)}</Item></Grid>
+                            {advancementDetails.technique < 10 ? <Grid item xs={4}><Item sx={{
+                                cursor: 'pointer', '&:hover': {
+                                    backgroundColor: '#fff',
+                                    color: '#000',
+                                }
+                            }} onClick={() => attributeSpendExp(advancementDetails.technique, 'technique')}>Increase: {attributeExpReturn(advancementDetails.technique)} XP</Item></Grid> : <Grid item xs={4}><Item>Maximum Reached</Item></Grid>}
+
+                        </>
+                    ) : <>
+                        <Grid item xs={12}><Item>Loading...</Item></Grid>
+                    </>}
                 </Grid>
             </Grid>
 

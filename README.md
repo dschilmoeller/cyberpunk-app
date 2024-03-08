@@ -1,10 +1,8 @@
 # Cyberpumpkin
 
 ## Description
-This project is aimed at players of a variation of the Cyberpunk TTRPG using the D10 system. It is designed to assist players and GMs with creating, tracking, and modifying characters.
-
-- [Flowchart](https://www.figma.com/file/IG0fbEmuLQvmyv1WP1Vbyy/Untitled?type=whiteboard&node-id=1%3A297&t=GvfsTTlVVhah3tAG-1)
-- [DB Planner](https://dbdesigner.page.link/D7aPbnUrHFgm7T9m6)
+This project is aimed at players of a variation of the Cyberpunk TTRPG using the D10 system. It is designed to assist players and GMs by providing a comprehensive character manager, including handling the in play experience of tracking health, armor, ammo expenditure, and other details, along with providing a place for contacts and notes. It also helps players with gear and cyberware equipping and removal, leveling/experience expenditures. It contains a reference rulebook.
+For GMs, it allows for adding/removing experience, money, and humanity tracking; they can also arbitrarily change skills and roles, add or remove gear to a character, and manage a character's contacts - essentially anything a character can do themselves, and then some. They can also manage some global settings, such as campaigns and potential character contacts - these can be assigned either to individual characters or all characters in a campaign.
 
 ## Screen Shots
 ### In Play Sheets

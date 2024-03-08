@@ -21,6 +21,7 @@ export default function AdvancementOther() {
 
     const dispatch = useDispatch();
     const advancementDetails = useSelector((store) => store.advancementDetail);
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const unhurtMarker = <CircleOutlinedIcon />
     const stunMarker = <HorizontalRuleOutlinedIcon />;
@@ -62,7 +63,8 @@ export default function AdvancementOther() {
     const addLuck = () => {
         let increaseLuckCost = advancementDetails.max_luck * 2
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= increaseLuckCost) {
-            dispatch({ type: "INCREASE_LUCK", payload: { newLuck: (advancementDetails.max_luck + 1), increaseLuckCost } })
+            dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName: 'max_luck', newStat: advancementDetails.max_luck + 1, newSpentXP: advancementDetails.spent_xp + increaseLuckCost, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }
@@ -91,7 +93,9 @@ export default function AdvancementOther() {
 
     const restoreTemporaryHumanity = () => {
         if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
-            dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
+            // dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
+            dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+            dispatch({ type: 'ADVANCEMENT_INCREASE_ATTRIBUTE', payload: { attributeName: 'temp_humanity_loss', newStat: advancementDetails.temp_humanity_loss - 1, newSpentXP: advancementDetails.spent_xp + 1, charID: advancementDetails.id } })
         } else {
             setShowSnackbar(true)
         }
@@ -111,33 +115,38 @@ export default function AdvancementOther() {
         </Snackbar>
         <h1>Other Traits</h1>
         <Grid container>
+            {loadStatus === false ? (
+                <>
+                    <Grid item xs={6}>
+                        <Grid container>
+                            <Grid item xs={12}><Item><OtherAttributesDialog prop={'Luck'} /></Item></Grid>
+                            <Grid item xs={12}>
+                                {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Maximum Luck: {luckExpReturn()} </Item>
+                                    :
+                                    <Item>Maximum Luck Achieved!</Item>}
 
-            <Grid item xs={6}>
-                <Grid container>
-                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Luck'} /></Item></Grid>
-                    <Grid item xs={12}>
-                        {advancementDetails.max_luck < 10 ? <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>Increase Maximum Luck: {luckExpReturn()} </Item>
-                            :
-                            <Item>Maximum Luck Achieved!</Item>}
-
+                            </Grid>
+                            {luckBuilder()}
+                        </Grid>
                     </Grid>
-                    {luckBuilder()}
-                </Grid>
-            </Grid>
 
-            <Grid item xs={6}>
-                <Grid container>
-                    <Grid item xs={12}><Item><OtherAttributesDialog prop={'Humanity'} /></Item></Grid>
-                    <Grid item xs={12}>
-                        {advancementDetails.temp_humanity_loss > 0 ?
-                            <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>
-                            : <></>}
-                        {advancementDetails.temp_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
-                        {advancementDetails.perm_humanity_loss === 0 && advancementDetails.temp_humanity_loss === 0 ? <Item>Maximum Humanity reached</Item> : <></>}
+                    <Grid item xs={6}>
+                        <Grid container>
+                            <Grid item xs={12}><Item><OtherAttributesDialog prop={'Humanity'} /></Item></Grid>
+                            <Grid item xs={12}>
+                                {advancementDetails.temp_humanity_loss > 0 ?
+                                    <Item sx={{ cursor: 'pointer' }} onClick={() => restoreTemporaryHumanity()}>Restore Temporary Humanity: 1 XP</Item>
+                                    : <></>}
+                                {advancementDetails.temp_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
+                                {advancementDetails.perm_humanity_loss === 0 && advancementDetails.temp_humanity_loss === 0 ? <Item>Maximum Humanity reached</Item> : <></>}
+                            </Grid>
+                            {humanityArrayBuilder(advancementDetails.temp_humanity_loss, advancementDetails.perm_humanity_loss)}
+                        </Grid>
                     </Grid>
-                    {humanityArrayBuilder(advancementDetails.temp_humanity_loss, advancementDetails.perm_humanity_loss)}
-                </Grid>
-            </Grid>
+                </>
+            ) : <>
+                <Grid item xs={12}><Item>Loading...</Item></Grid>
+            </>}
 
         </Grid>
     </>)

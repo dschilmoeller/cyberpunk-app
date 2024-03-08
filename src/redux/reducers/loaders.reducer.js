@@ -1,13 +1,22 @@
 const loaders = (state = {
-    inPlaySheet: false
+    inPlaySheet: false,
+    advancementSheet: false
 }, action) => {
-    if (action.type === "SET_CHARSHEET_LOAD_STATUS") {
-        return {
-            ...state,
-            inPlaySheet: action.payload
-        }
+    switch (action.type) {
+        case 'SET_CHARSHEET_LOAD_STATUS':
+            return {
+                ...state,
+                inPlaySheet: action.payload
+            }
+        case 'SET_ADVANCEMENT_LOAD_STATUS':
+            return {
+                ...state,
+                advancementSheet: action.payload
+            }
+        default:
+            return state
     }
-    return state
+
 }
 
 export default loaders

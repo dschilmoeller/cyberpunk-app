@@ -12,18 +12,18 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 bank: action.payload.bank
             }
         // From AdvancementSheet pages - players spending XP
-        case 'INCREASE_ATTRIBUTE':
-            return {
-                ...state,
-                [action.payload.attributeName]: (action.payload.attributeScore + 1),
-                spent_xp: Number(state.spent_xp + action.payload.increaseAttributeCost)
-            }
-        case 'INCREASE_SKILL':
-            return {
-                ...state,
-                [action.payload.skillName]: (action.payload.skillScore + 1),
-                spent_xp: Number(state.spent_xp + action.payload.increaseSkillCost)
-            }
+        // case 'INCREASE_ATTRIBUTE':
+        //     return {
+        //         ...state,
+        //         [action.payload.attributeName]: (action.payload.attributeScore + 1),
+        //         spent_xp: Number(state.spent_xp + action.payload.increaseAttributeCost)
+        //     }
+        // case 'INCREASE_SKILL':
+        //     return {
+        //         ...state,
+        //         [action.payload.skillName]: (action.payload.skillScore + 1),
+        //         spent_xp: Number(state.spent_xp + action.payload.increaseSkillCost)
+        //     }
         case 'INCREASE_ROLE':
             return {
                 ...state,
@@ -40,19 +40,19 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots + 1
             }
-        case 'INCREASE_LUCK':
-            return {
-                ...state,
-                max_luck: action.payload.newLuck,
-                spent_xp: Number(state.spent_xp + action.payload.increaseLuckCost)
-            }
+        // case 'INCREASE_LUCK':
+        //     return {
+        //         ...state,
+        //         max_luck: action.payload.newLuck,
+        //         spent_xp: Number(state.spent_xp + action.payload.increaseLuckCost)
+        //     }
         // the below is from spending experience.
-        case 'REMOVE_TEMP_HUMANITY_LOSS':
-            return {
-                ...state,
-                temp_humanity_loss: action.payload,
-                spent_xp: Number(state.spent_xp + 1)
-            }
+        // case 'REMOVE_TEMP_HUMANITY_LOSS':
+        //     return {
+        //         ...state,
+        //         temp_humanity_loss: action.payload,
+        //         spent_xp: Number(state.spent_xp + 1)
+        //     }
         // this is from equipping / removing cyberware. MinLoss is the permanent humanity loss; 
         // total loss is MinLoss + a variable number determined by the cyberware's max humanity loss rating.
         case 'HUMANITY_LOSS_CYBERWARE':

@@ -432,15 +432,15 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes);
 
   // GM fetch/save/delete
-  // yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
-  // yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
-  // yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
-  // yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)
-  // yield takeLatest('FETCH_GM_SINGLE_CHAR_CONTACTS', fetchGameMasterSingleCharContacts)
-  // yield takeLatest('GM_CREATE_CONTACT', createGameMasterContacts)
-  // yield takeLatest('SAVE_GM_CONTACT', saveGameMasterContact)
-  // yield takeLatest('GM_DELETE_CONTACT', deleteGameMasterContact)
-  // yield takeLatest('ASSIGN_CONTACT_CAMPAIGN_CHARS', assignContactChar)
+  yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
+  yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
+  yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
+  yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)
+  yield takeLatest('FETCH_GM_SINGLE_CHAR_CONTACTS', fetchGameMasterSingleCharContacts)
+  yield takeLatest('GM_CREATE_CONTACT', createGameMasterContacts)
+  yield takeLatest('SAVE_GM_CONTACT', saveGameMasterContact)
+  yield takeLatest('GM_DELETE_CONTACT', deleteGameMasterContact)
+  yield takeLatest('ASSIGN_CONTACT_CAMPAIGN_CHARS', assignContactChar)
 }
 
 export default characterSaga;
