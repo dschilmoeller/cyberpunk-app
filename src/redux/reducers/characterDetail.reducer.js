@@ -19,21 +19,6 @@ const characterDetail = (state = { saved: false }, action) => {
                 ...state,
                 bank: action.payload.bank
             }
-        case 'SAVE_CHARACTER_SHEET':
-            return {
-                ...state,
-                saved: false
-            }
-        case 'SET_SAVED_FALSE':
-            return {
-                ...state,
-                saved: false
-            }
-        case 'CHARACTER_SHEET_SAVE_SUCCESSFUL':
-            return {
-                ...state,
-                saved: true
-            }
         default:
             return state
     }

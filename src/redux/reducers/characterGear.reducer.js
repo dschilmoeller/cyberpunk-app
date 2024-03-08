@@ -22,6 +22,21 @@ const characterGear = (state = {
                 vehicles: [],
                 vehicleMods: [],
             }
+        case 'CLEAR_CHARACTER_WEAPONS':
+            return {
+                ...state,
+                weapons: []
+            }
+        case 'CLEAR_MISC_GEAR':
+            return {
+                ...state,
+                gear: []
+            }
+        case 'CLEAR_CHARACTER_CYBER_DETAIL':
+            return {
+                ...state,
+                cyberware: []
+            }
         case 'SET_CHARACTER_EQUIPMENT':
             return {
                 ...state,
@@ -50,60 +65,15 @@ const characterGear = (state = {
                 ...state,
                 weapons: action.payload
             }
-        // weapon handlers
-        case 'CLEAR_CHARACTER_WEAPONS':
+        case 'SET_CHARACTER_GRENADES':
             return {
                 ...state,
-                weapons: []
+                grenades: action.payload
             }
-        // case 'FIRE_ONE_SHOT':
-        //     // map through current weapons and increase shots fired - logic to allow this or not is handled on front end.
-        //     return {
-        //         ...state,
-        //         weapons: state.weapons.map(weapon => {
-        //             // if weapon.weapon_bridge_id matches the payload...
-        //             if (weapon.weapon_bridge_id === action.payload) {
-        //                 // ...return current weapon object with +1 to current shots fired inside the object
-        //                 return { ...weapon, current_shots_fired: weapon.current_shots_fired + 1 }
-        //             } else {
-        //                 // else return current weapon status
-        //                 return weapon;
-        //             }
-        //         })
-        //     }
-        // case 'FIRE_WEAPON_AUTOMATIC':
-        //     // as FIRE_ONE_SHOT but fires 10.
-        //     return {
-        //         ...state,
-        //         weapons: state.weapons.map(weapon => {
-        //             if (weapon.weapon_bridge_id === action.payload) {
-        //                 return { ...weapon, current_shots_fired: weapon.current_shots_fired + 10 }
-        //             };
-        //             return weapon;
-        //         })
-        //     }
-        // case 'RELOAD_WEAPON':
-        //     // as FIRE_ONE_SHOT but resets shots fired to 0.
-        //     return {
-        //         ...state,
-        //         weapons: state.weapons.map(weapon => {
-        //             if (weapon.weapon_bridge_id === action.payload) {
-        //                 return { ...weapon, current_shots_fired: 0 }
-        //             };
-        //             return weapon;
-        //         })
-        //     }
-
-        // Misc gear handlers
         case 'SET_CHARACTER_MISC_GEAR':
             return {
                 ...state,
                 gear: action.payload
-            }
-        case 'CLEAR_MISC_GEAR':
-            return {
-                ...state,
-                gear: []
             }
         case 'CONSUMABLE_USED': {
             return {
@@ -111,26 +81,14 @@ const characterGear = (state = {
                 gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id)
             }
         }
-        case 'GRENADE_USED':
-            return {
-                ...state,
-                grenades: state.grenades.filter(grenade => grenade.grenade_bridge_id !== action.payload.grenade_bridge_id)
-            }
-
 
         // Cyberware Handlers
-        case 'CLEAR_CHARACTER_CYBER_DETAIL':
-            return {
-                ...state,
-                cyberware: []
-            }
-        case 'SET_CHARACTER_CYBER_DETAIL':
-            return {
-                ...state,
-                cyberware: action.payload
-            }
 
-
+        // case 'SET_CHARACTER_CYBER_DETAIL':
+        //     return {
+        //         ...state,
+        //         cyberware: action.payload
+        //     }
         // Netrunner Gear Handlers
         case 'CLEAR_CHARACTER_NETRUNNER_GEAR':
             return {

@@ -55,20 +55,6 @@ function* fetchCharacterDetail(action) {
 
 // Character Changes (put) from in play sheet.
 
-function* saveCharacterSheet(action) {
-  try {
-    yield axios.put(`api/characters/savecharacter/${action.payload.charID}`, action.payload.charParams.charStatus)
-    yield axios.put(`api/characters/savecharacterarmor/${action.payload.charID}`, action.payload.charParams.charArmor)
-    yield axios.put(`api/characters/savecharactershield/${action.payload.charID}`, action.payload.charParams.charShield)
-    yield axios.put(`api/characters/savecharacterweapons/${action.payload.charID}`, action.payload.charParams.charWeapons)
-    yield axios.put(`api/characters/savecharactervehicles/${action.payload.charID}`, action.payload.charParams.charVehicles)
-    yield put({ type: "CHARACTER_SHEET_SAVE_SUCCESSFUL" })
-
-  } catch (error) {
-    console.log(`Error saving Character Details`, error);
-  }
-}
-
 function* fetchAdvancementBank(action) {
   try {
     const bank = yield axios.get(`/api/characters/fetchBank/${action.payload}`)
@@ -109,9 +95,12 @@ function* useConsumableFromPack(action) {
   yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
 }
 
-function* useGrenade(action) {
-  yield axios.delete(`/api/characters/useGrenade/${action.payload.grenade_bridge_id}`)
-  yield put({ type: 'GRENADE_USED', payload: action.payload })
+function* charUseGrenade(action) {
+  yield axios.delete(`/api/characters/useGrenade/${action.payload.grenade.grenade_bridge_id}`)
+  // fetch / set grenades
+  const characterGrenades = yield axios.get(`api/characters/fetchcharactergrenades/${action.payload.charID}`)
+  yield put({ type: 'SET_CHARACTER_GRENADES', payload: characterGrenades.data})
+  yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
 }
 
 function* arbitraryBankChange(action) {
@@ -186,14 +175,13 @@ function* createCharacterContact(action) {
   }
 }
 
-// Update Character Note
+// Update Character Contacts
 function* updateCharacterContact(action) {
   try {
     yield axios.put('api/characters/updateCharacterContact/', action.payload)
-    // fetch / set contacts
     const characterContacts = yield axios.get(`/api/characters/fetchCharacterContacts/${action.payload.charID}`)
     yield put({ type: 'SET_CHARACTER_CONTACTS', payload: characterContacts.data })
-    // set loading
+    yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
 
   } catch (error) {
     console.log(`Error updating character contact:`, error);
@@ -416,24 +404,23 @@ function* characterSaga() {
 
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
   yield takeLatest('ARBITRARY_BANK_CHANGE', arbitraryBankChange)
-  yield takeLatest('USE_GRENADE', useGrenade);
+  yield takeLatest('CHAR_USE_GRENADE', charUseGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);
 
-  yield takeLatest('FETCH_ADVANCEMENT_BANK', fetchAdvancementBank)
-  yield takeLatest('SAVE_CHARACTER_SHEET', saveCharacterSheet);
   yield takeLatest('CHARACTER_NEW_NOTE', createCharacterNote);
   yield takeLatest('CHARACTER_NOTE_UPDATE', updateCharacterNote);
   yield takeLatest('CHARACTER_DELETE_NOTE', deleteCharacterNote);
   yield takeLatest('CHARACTER_NEW_CONTACT', createCharacterContact);
   yield takeLatest('CHARACTER_CONTACT_UPDATE', updateCharacterContact);
   yield takeLatest('CHARACTER_DELETE_CONTACT', deleteCharacterContact);
-
+  
   // permanent luck reduction
   yield takeLatest('PLAYER_BURN_ONE_LUCK', characterBurnLuck);
-
+  
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
+  yield takeLatest('FETCH_ADVANCEMENT_BANK', fetchAdvancementBank)
   yield takeLatest('FETCH_ADVANCEMENT_ARMOR', fetchAdvancementArmor);
   yield takeLatest('FETCH_ADVANCEMENT_SHIELD', fetchAdvancementShield);
   yield takeLatest('FETCH_ADVANCEMENT_WEAPONS', fetchAdvancementWeapons);
@@ -445,15 +432,15 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes);
 
   // GM fetch/save/delete
-  yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
-  yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
-  yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
-  yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)
-  yield takeLatest('FETCH_GM_SINGLE_CHAR_CONTACTS', fetchGameMasterSingleCharContacts)
-  yield takeLatest('GM_CREATE_CONTACT', createGameMasterContacts)
-  yield takeLatest('SAVE_GM_CONTACT', saveGameMasterContact)
-  yield takeLatest('GM_DELETE_CONTACT', deleteGameMasterContact)
-  yield takeLatest('ASSIGN_CONTACT_CAMPAIGN_CHARS', assignContactChar)
+  // yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
+  // yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
+  // yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
+  // yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)
+  // yield takeLatest('FETCH_GM_SINGLE_CHAR_CONTACTS', fetchGameMasterSingleCharContacts)
+  // yield takeLatest('GM_CREATE_CONTACT', createGameMasterContacts)
+  // yield takeLatest('SAVE_GM_CONTACT', saveGameMasterContact)
+  // yield takeLatest('GM_DELETE_CONTACT', deleteGameMasterContact)
+  // yield takeLatest('ASSIGN_CONTACT_CAMPAIGN_CHARS', assignContactChar)
 }
 
 export default characterSaga;

@@ -269,22 +269,6 @@ router.delete('/useGrenade/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-// save changes made on in play character sheet.
-router.put('/savecharacter/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `UPDATE "char_status"
-    SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3, "current_cyberware_armor_loss" = $4, "current_luck_loss" = $5
-    WHERE "char_id" = $6;`
-    const sqlParams = [req.body.current_stun, req.body.current_lethal, req.body.current_agg, req.body.current_cyberware_armor_loss, req.body.current_luck_loss, req.params.id]
-
-    pool.query(sqlText, sqlParams)
-        .then((result) => {
-            res.sendStatus(202)
-        })
-        .catch(err => {
-            console.log(`Error saving character status:`, err);
-        })
-})
-
 router.put('/changeCharacterHealth/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status"
     SET "current_stun" = $1, "current_lethal" = $2, "current_agg" = $3
@@ -295,7 +279,6 @@ router.put('/changeCharacterHealth/', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error updating character health:`, err); })
 })
 
-// save damage to armor / shield from in play sheet
 router.put('/savecharacterarmor/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_armor_bridge"
     SET "this_armor_loss" = $1
@@ -324,7 +307,6 @@ router.put('/savecharactershield/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
-// save changes to current luck loss.
 router.put('/changeCharacterLuck/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_luck_loss" = $1 WHERE "char_status_id" = $2`
     const sqlParams = [req.body.newCurrentLuckLoss, req.body.charStatusID]
@@ -333,7 +315,6 @@ router.put('/changeCharacterLuck/', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error saving character luck change:`, err); })
 })
 
-// save shots fired on in play character sheet.
 router.put('/savecharacterweapons/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" 
     SET "current_shots_fired" = $1
@@ -1300,7 +1281,6 @@ router.put('/changeCharacterArmorQuality/:id', rejectUnauthenticated, (req, res)
 })
 
 router.put('/removeCharacterArmor/:id', rejectUnauthenticated, (req, res) => {
-    console.log(`removing char armor`);
     const sqlText = `UPDATE "char_status" SET "current_armor_quality" = 0 WHERE "char_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(201); })

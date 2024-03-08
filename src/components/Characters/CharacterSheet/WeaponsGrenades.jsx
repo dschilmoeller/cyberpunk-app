@@ -26,8 +26,9 @@ export default function WeaponsGrenades() {
     });
 
     const useGrenade = (grenade) => {
-        dispatch({ type: 'USE_GRENADE', payload: grenade })
         setShowSnackbar(true)
+        dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true })
+        dispatch({ type: 'CHAR_USE_GRENADE', payload: { grenade, charID: charDetail.id } })
     }
 
     const grenadeRange = (charDetail.strength + charDetail.cyber_strength) * 5

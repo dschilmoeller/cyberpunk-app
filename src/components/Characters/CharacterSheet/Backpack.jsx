@@ -221,6 +221,7 @@ export default function Backpack() {
 
     const addMoney = (change) => {
         if ((change) > 0 && change < 10000) {
+            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) + parseFloat(change), charID: characterDetail.id }})
             setBankChange(0)
         } else {
@@ -231,6 +232,7 @@ export default function Backpack() {
 
     const spendMoney = (change) => {
         if ((change > 0 && change < 10000) || (change <= characterDetail.bank && change > 0)) {
+            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
             dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) - parseFloat(change), charID: characterDetail.id }})
             setBankChange(0)
         } else {
@@ -243,6 +245,7 @@ export default function Backpack() {
         <>
             <Snackbar
                 TransitionComponent={TransitionUp}
+                transitionDuration={3000}
                 autoHideDuration={2000}
                 open={showSnackbar}
                 onClose={() => setShowSnackbar(false)}
