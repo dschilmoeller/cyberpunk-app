@@ -11,7 +11,7 @@ import Tab from '@mui/material/Tab';
 
 import AdvancementAttributes from './AdvancementAttributes';
 import AdvancementSkills from './AdvancementSkills';
-import AdvancementSpecial from './AdvancementSpecial';
+import AdvancementRoles from './AdvancementRoles';
 import AdvancementOther from './AdvancementOther';
 
 import AdvancementGearArmor from './AdvancementGearArmor';
@@ -183,7 +183,7 @@ function AdvancementSheet() {
                 </>) : <></>}
 
                 {value === '#role' ? (<>
-                    <AdvancementSpecial />
+                    <AdvancementRoles />
                 </>) : <></>}
 
                 {value === '#otherTraits' ? (<>

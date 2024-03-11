@@ -23,7 +23,7 @@ router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => 
 })
 
 router.put('/changeStat', rejectUnauthenticated, (req, res) => {
-    if (columnCheck(req.body.statName) === true) {
+    if (characterTableColumnCheck(req.body.statName) === true) {
         const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, spent_xp = $2 WHERE id = $3`
         const sqlParams = [req.body.newValue, req.body.newSpentXP, req.body.charID]
         pool.query(sqlText, sqlParams)
@@ -31,18 +31,21 @@ router.put('/changeStat', rejectUnauthenticated, (req, res) => {
             .catch(err => { console.log(`Error updating character stat ${req.body.statName}:`, err); })
     }
     else {
-        console.log(`Error changing attribute due to column validation failure. Column Check value:`, columnCheck);
+        console.log(`Error changing attribute due to column validation failure. Column Check value:`, characterTableColumnCheck);
         res.sendStatus(400)
     }
 })
 
 // whitelist for incoming data to check against as express cannot parametize column names due to ' / " mismatch in javascript strings.
-const columnCheck = (statName) => {
+const characterTableColumnCheck = (statName) => {
     const whiteListColumn = ['strength', 'body', 'reflexes', 'appearance', 'cool',
         'intelligence', 'willpower', 'technique', 'max_luck', 'temp_humanity_loss',
         'athletics', 'brawling', 'concentration', 'evasion', 'fast_talk', 'firearms', 'legerdemain', 'melee_weapons', 'perception', 'streetwise',
         'demolitions', 'drive_land', 'drive_exotic', 'etiquette', 'exotic_weapons', 'heavy_weapons', 'performance', 'stealth', 'survival', 'tracking',
-        'business', 'cryptography', 'cyber_tech', 'investigation', 'first_aid', 'paramed', 'gambling', 'language', 'military_tech', 'science', 'vehicle_tech']
+        'business', 'cryptography', 'cyber_tech', 'investigation', 'first_aid', 'paramed', 'gambling', 'language', 'military_tech', 'science', 'vehicle_tech',
+        'medtech', 'maker', 'media', 'rockerboy', 'solo', 'netrunner', 'nomad', 'nomad_vehicle_slots',
+        'is_paramedical', 'med_surgery', 'med_pharma', 'med_cryo',
+        'maker_field', 'maker_upgrade', 'maker_fab', 'maker_invent', 'medtech_available', 'maker_available']
     for (let i = 0; i < whiteListColumn.length; i++) {
         if (whiteListColumn[i] === statName) {
             return true;

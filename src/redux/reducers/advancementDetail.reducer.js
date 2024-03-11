@@ -24,22 +24,28 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
         //         [action.payload.skillName]: (action.payload.skillScore + 1),
         //         spent_xp: Number(state.spent_xp + action.payload.increaseSkillCost)
         //     }
-        case 'INCREASE_ROLE':
-            return {
-                ...state,
-                [action.payload.roleName]: (action.payload.roleScore + 1),
-                spent_xp: Number(state.spent_xp + action.payload.increaseRoleCost)
-            }
-        case 'INCREASE_ROLE_SKILL':
-            return {
-                ...state,
-                [action.payload.skillName]: (action.payload.currentSkillRank + 1)
-            }
-        case 'INCREASE_NOMAD_VEHICLE_SLOTS':
-            return {
-                ...state,
-                nomad_vehicle_slots: state.nomad_vehicle_slots + 1
-            }
+        // case 'INCREASE_ROLE':
+        //     return {
+        //         ...state,
+        //         [action.payload.roleName]: (action.payload.roleScore + 1),
+        //         spent_xp: Number(state.spent_xp + action.payload.increaseRoleCost)
+        //     }
+        // case 'ADVANCEMENT_TEMP_ROLE_CHANGE':
+        //     return {
+        //         ...state,
+        //         [action.payload.skillName]: action.payload.newValue,
+        //         spent_xp: action.payload.spentXP
+        //     }
+        // case 'ADVANCEMENT_TEMP_ROLE_SKILL_CHANGE':
+        //     return {
+        //         ...state,
+        //         [action.payload.skillName]: (action.payload.currentSkillRank + 1)
+        //     }
+        // case 'INCREASE_NOMAD_VEHICLE_SLOTS':
+        //     return {
+        //         ...state,
+        //         nomad_vehicle_slots: state.nomad_vehicle_slots + 1
+        //     }
         // case 'INCREASE_LUCK':
         //     return {
         //         ...state,
@@ -73,11 +79,11 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 perm_humanity_loss: state.perm_humanity_loss - action.payload.minLoss,
                 temp_humanity_loss: tempHumanityLoss
             }
-        case 'SET_PARAMEDICAL_TRUE':
-            return {
-                ...state,
-                is_paramedical: true
-            }
+        // case 'SET_PARAMEDICAL_TRUE':
+        //     return {
+        //         ...state,
+        //         is_paramedical: true
+        //     }
         case 'ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED':
             // This type will be one of cyber_appearance, cyber_reflexes, etc and the quality is the modification. 
             // used mainly for cyber_appearance and cyber_cool as the physical stats and int are all modified by cyberware that uses
