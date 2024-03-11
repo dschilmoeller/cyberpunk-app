@@ -30,6 +30,7 @@ export default function AdvancementGearArmor() {
     const characterArmor = useSelector(store => store.advancementGear.armor)
     const characterShield = useSelector(store => store.advancementGear.shield)
 
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -113,7 +114,7 @@ export default function AdvancementGearArmor() {
     const unequipArmor = (incomingArmor) => {
         dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingArmor, charID: charDetail.id, table: 'char_armor_bridge', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id, equipStatus: false } })
     }
-    
+
     const unequipShield = (incomingShield) => {
         dispatch({ type: 'CHANGE_GEAR_EQUIP_STATUS', payload: { item: incomingShield, charID: charDetail.id, table: 'char_shield_bridge', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id, equipStatus: false } })
     }
@@ -123,7 +124,8 @@ export default function AdvancementGearArmor() {
             setAlertText('No Repairs Required')
             setShowSnackbar(true)
         } else if (charBank >= incomingArmor.this_armor_loss * (incomingArmor.price / 10)) {
-            dispatch({ type: 'REPAIR_ARMOR', payload: incomingArmor })
+            let newBank = charBank - Math.floor(Number(incomingArmor.this_armor_loss * (incomingArmor.price / 10)))
+            dispatch({ type: 'ADVANCEMENT_REPAIR_ITEM', payload: { item: incomingArmor, charID: charDetail.id, newBank, table: 'char_armor_bridge', columnName: 'this_armor_loss', tablePrimaryKey: 'armor_bridge_id', tableID: incomingArmor.armor_bridge_id } })
         } else {
             setAlertText('Cannot Afford Repairs')
             setShowSnackbar(true)
@@ -135,7 +137,8 @@ export default function AdvancementGearArmor() {
             setAlertText('No Repairs Required')
             setShowSnackbar(true)
         } else if (charBank >= incomingShield.this_shield_loss * (incomingShield.price / 10)) {
-            dispatch({ type: 'REPAIR_SHIELD', payload: incomingShield })
+            let newBank = charBank - Math.floor(Number(incomingShield.this_shield_loss * (incomingShield.price / 10)))
+            dispatch({ type: 'ADVANCEMENT_REPAIR_ITEM', payload: { item: incomingShield, charID: charDetail.id, newBank, table: 'char_shield_bridge', columnName: 'this_shield_loss', tablePrimaryKey: 'shield_bridge_id', tableID: incomingShield.shield_bridge_id } })
         } else {
             setAlertText('Cannot Afford Repairs')
             setShowSnackbar(true)
@@ -169,106 +172,113 @@ export default function AdvancementGearArmor() {
             </Snackbar>
 
             <Grid container>
-                <Grid container spacing={2} padding={1} item xs={12}>
-                    <Grid item xs={6}><Item><h2>Current Maximum Armor: {armorMaxQualityBuilder()}</h2></Item></Grid>
-                    <Grid item xs={6}><Item><h2>Current Total Armor: {armorCurrentQualityBuilder()}</h2></Item></Grid>
-                    <Grid item xs={6}><Item><h2>From Armor: {armorAmountBuilder()}</h2></Item></Grid>
-                    <Grid item xs={6}><Item><h2>From Shield: {shieldAmountBuilder()}</h2></Item></Grid>
-                    <Grid item xs={6}><Item><h2>From Cyberware: {charCyberArmorMax - charCyberArmorCurrent} of {charCyberArmorMax}</h2></Item></Grid>
-                    <Grid item xs={6}><Item><Button fullWidth onClick={() => repairCyberware()}>Repair Cyberware - ${(charCyberArmorCurrent) * 300}</Button></Item></Grid>
-                </Grid>
+                {loadStatus === false ? (
+                    <>
+                        <Grid container>
+                            <Grid container spacing={2} padding={1} item xs={12}>
+                                <Grid item xs={6}><Item><h2>Current Maximum Armor: {armorMaxQualityBuilder()}</h2></Item></Grid>
+                                <Grid item xs={6}><Item><h2>Current Total Armor: {armorCurrentQualityBuilder()}</h2></Item></Grid>
+                                <Grid item xs={6}><Item><h2>From Armor: {armorAmountBuilder()}</h2></Item></Grid>
+                                <Grid item xs={6}><Item><h2>From Shield: {shieldAmountBuilder()}</h2></Item></Grid>
+                                <Grid item xs={6}><Item><h2>From Cyberware: {charCyberArmorMax - charCyberArmorCurrent} of {charCyberArmorMax}</h2></Item></Grid>
+                                <Grid item xs={6}><Item><Button fullWidth onClick={() => repairCyberware()}>Repair Cyberware - ${(charCyberArmorCurrent) * 300}</Button></Item></Grid>
+                            </Grid>
+                        </Grid>
+
+                        <h1>Equipped Armor</h1>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow hover>
+                                        <TableCell align="left">Name</TableCell>
+                                        <TableCell align="left">Quality</TableCell>
+                                        <TableCell align="left">Damage</TableCell>
+                                        <TableCell align="left">Repair?</TableCell>
+                                        <TableCell align="left">Description</TableCell>
+                                        <TableCell align="left">Unequip</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {characterArmor.map((item, i) => {
+                                        if (item.equipped === true) {
+                                            return (
+                                                <TableRow hover key={i}>
+                                                    <TableCell align="left">{item.name} </TableCell>
+                                                    <TableCell align="left">{item.quality}</TableCell>
+                                                    <TableCell align="left">{item.this_armor_loss}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => unequipArmor(item)}>Unequip</Button></TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
+                                    {characterShield.map((item, i) => {
+                                        if (item.equipped === true) {
+                                            return (
+                                                <TableRow hover key={i}>
+                                                    <TableCell align="left">{item.name} </TableCell>
+                                                    <TableCell align="left">{item.quality}</TableCell>
+                                                    <TableCell align="left">{item.this_shield_loss}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => unequipShield(item)}>Unequip</Button></TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <h1>Owned Armor</h1>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow hover>
+                                        <TableCell align="left">Name</TableCell>
+                                        <TableCell align="left">Quality</TableCell>
+                                        <TableCell align="left">Damage</TableCell>
+                                        <TableCell align="left">Repair?</TableCell>
+                                        <TableCell align="left">Description</TableCell>
+                                        <TableCell align="left">Equip?</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {characterArmor.map((item, i) => {
+                                        if (item.equipped === false) {
+                                            return (
+                                                <TableRow hover key={i}>
+                                                    <TableCell align="left">{item.name} </TableCell>
+                                                    <TableCell align="left">{item.quality}</TableCell>
+                                                    <TableCell align="left">{item.this_armor_loss}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => equipArmor(item)}>Equip</Button></TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
+                                    {characterShield.map((item, i) => {
+                                        if (item.equipped === false) {
+                                            return (
+                                                <TableRow hover key={i}>
+                                                    <TableCell align="left">{item.name} </TableCell>
+                                                    <TableCell align="left">{item.quality}</TableCell>
+                                                    <TableCell align="left">{item.this_shield_loss}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell width={600} align="left">{item.description}</TableCell>
+                                                    <TableCell align="left"><Button onClick={() => equipShield(item)}>Equip</Button></TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </>) : <>
+                    <Grid item xs={12}><Item>Loading...</Item></Grid>
+                </>}
             </Grid>
-
-            <h1>Equipped Armor</h1>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow hover>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Quality</TableCell>
-                            <TableCell align="left">Damage</TableCell>
-                            <TableCell align="left">Repair?</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Unequip</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {characterArmor.map((item, i) => {
-                            if (item.equipped === true) {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="left">{item.quality}</TableCell>
-                                        <TableCell align="left">{item.this_armor_loss}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
-                                        <TableCell width={600} align="left">{item.description}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => unequipArmor(item)}>Unequip</Button></TableCell>
-                                    </TableRow>
-                                )
-                            }
-                        })}
-                        {characterShield.map((item, i) => {
-                            if (item.equipped === true) {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="left">{item.quality}</TableCell>
-                                        <TableCell align="left">{item.this_shield_loss}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
-                                        <TableCell width={600} align="left">{item.description}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => unequipShield(item)}>Unequip</Button></TableCell>
-                                    </TableRow>
-                                )
-                            }
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            <h1>Owned Armor</h1>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow hover>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Quality</TableCell>
-                            <TableCell align="left">Damage</TableCell>
-                            <TableCell align="left">Repair?</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Equip?</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {characterArmor.map((item, i) => {
-                            if (item.equipped === false) {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="left">{item.quality}</TableCell>
-                                        <TableCell align="left">{item.this_armor_loss}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
-                                        <TableCell width={600} align="left">{item.description}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => equipArmor(item)}>Equip</Button></TableCell>
-                                    </TableRow>
-                                )
-                            }
-                        })}
-                        {characterShield.map((item, i) => {
-                            if (item.equipped === false) {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="left">{item.quality}</TableCell>
-                                        <TableCell align="left">{item.this_shield_loss}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
-                                        <TableCell width={600} align="left">{item.description}</TableCell>
-                                        <TableCell align="left"><Button onClick={() => equipShield(item)}>Equip</Button></TableCell>
-                                    </TableRow>
-                                )
-                            }
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
         </>)
 }
