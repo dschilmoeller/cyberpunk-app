@@ -15,24 +15,6 @@ const advancementGear = (state = {
     totalCyberwareArmorQuality: 0,
     totalCyberwareHealthBoxesCreated: 0,
     useNomadFreebie: false,
-    boughtGrenades: [],
-    soldGrenades: [],
-    grenadeID: 0,
-    boughtMiscGear: [],
-    soldMiscGear: [],
-    miscGearID: 0,
-    boughtNetrunnerGear: [],
-    soldNetrunnerGear: [],
-    netrunnerGearID: 0,
-    boughtVehicles: [],
-    soldVehicles: [],
-    vehicleID: 0,
-    boughtVehicleMods: [],
-    soldVehicleMods: [],
-    vehicleModID: 0,
-    boughtCyberware: [],
-    soldCyberware: [],
-    cyberwareID: 0,
 }, action) => {
     switch (action.type) {
         // Set initial state from DB
@@ -63,24 +45,6 @@ const advancementGear = (state = {
                 totalCyberwareArmorQuality: 0,
                 totalCyberwareHealthBoxesCreated: 0,
                 useNomadFreebie: false,
-                boughtGrenades: [],
-                soldGrenades: [],
-                grenadeID: 0,
-                boughtMiscGear: [],
-                soldMiscGear: [],
-                miscGearID: 0,
-                boughtNetrunnerGear: [],
-                soldNetrunnerGear: [],
-                netrunnerGearID: 0,
-                boughtVehicles: [],
-                soldVehicles: [],
-                vehicleID: 0,
-                boughtVehicleMods: [],
-                soldVehicleMods: [],
-                vehicleModID: 0,
-                boughtCyberware: [],
-                soldCyberware: [],
-                cyberwareID: 0,
             }
 
         case 'SET_ADVANCEMENT_GEAR':
@@ -132,6 +96,11 @@ const advancementGear = (state = {
             return {
                 ...state,
                 cyberware: action.payload
+            }
+        case 'SET_ADVANCEMENT_CYBERWARE_STATUS':
+            return {
+                ...state,
+                cyberwareSlots: action.payload
             }
         case 'SET_ADVANCEMENT_VEHICLES':
             return {

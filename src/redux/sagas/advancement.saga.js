@@ -52,20 +52,22 @@ function* repairItem(action) {
     }
 }
 
-function* fetchAdvancementCyberware(action) {
+function* changeCyberwareSlotCount(action){
     try {
-        const charCyberware = yield axios.get(`/api/advancement/fetchCyberware/${action.paylod.charID}`)
-        yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: charCyberware.data })
-
+        console.log(`action.paylod:`, action.payload);
+        yield axios.put('/api/advancement/changecyberwareslotcount/', action.payload)
+        const charCyberwareStatus = yield axios.get(`/api/advancement/getCyberwareStatus/${action.payload.cyberwareBridgeID}`)
+        yield put({ type: 'SET_ADVANCEMENT_CYBERWARE_STATUS', payload: charCyberwareStatus.data[0]})
+        // yield put({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: false})
     } catch (err) {
-        console.log(`Error fetching advancement Cyberware:`, err);
+        console.log(`Error changing cyberware slot counts:`, err);
     }
 }
 
 function* advancementSaga() {
     yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat)
     yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem)
-    yield takeLatest('FETCH_ADVANCEMENT_CYBERWARE', fetchAdvancementCyberware)
+    yield takeLatest('CHANGE_CYBERWARE_SLOT_COUNT', changeCyberwareSlotCount)
 }
 
 export default advancementSaga;

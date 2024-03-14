@@ -91,9 +91,9 @@ export default function AdvancementCyberware() {
 
                     // this is the primary change happening.
                     dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
-                    
+
                     // the below should probably be changed to part of the gear saga for FE simplicity and ensuring async behavior.
-                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots - 1 } })
+                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots - 1, cyberwareBridgeID: charCyberwareSlots.cyberware_bridge_id } })
                     switch (incomingCyber.name) {
                         // dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: true } });
                         // CHANGE_GEAR_EQUIP_STATUS -> relevant dispatch
@@ -126,25 +126,22 @@ export default function AdvancementCyberware() {
 
             // handle equipping cyberAudio
             case 'cyberaudio':
+                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 // check if base item is being equipped; 
                 if (incomingCyber.name === 'Basic Cyberaudio Suite') {
-                    // if so add 3 slots to current count (default 0)
-                    setCyberaudioSlots(cyberaudioSlots + 3)
-                    // equip cyberware and inform reducer of slot type and current count.
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots + 3 } })
-                    // deal with humanity loss of equipping primary device.
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
+                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'cyberaudio_slots', newValue: charCyberwareSlots.cyberaudio_slots + 3 } })
+                    dispatch({ type: "CHANGE_HUMANITY_LOSS", payload: { minLoss, totalLoss } })
+
+                    // dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     break;
-                    // check if cyberaudio slots exist.
                 } else if (cyberaudioSlots > 0) {
-                    // if so, reduce slot count by 1
-                    setCyberaudioSlots(cyberaudioSlots - 1)
-                    // equip cyberware and inform reducer of slot type and current count.
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots - 1 } })
+                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'cyberaudio_slots', newValue: charCyberwareSlots.cyberaudio_slots - 1 } })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
                     break;
                 } else {
                     // warning in case character is trying to equip too much gear.
-                    setToastText("Not enough slots - make sure you have a cyberaudio suite installed and it isn't full!")
+                    setToastText("Not enough slots - make sure you have a cyberaudio suite installed and that it isn't full!")
                     setShowSnackbar(true)
                     break;
                 }
@@ -424,8 +421,9 @@ export default function AdvancementCyberware() {
         switch (incomingCyber.type) {
             case 'fashionware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
-                dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots + 1 } })
+                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false } });
+                dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots + 1, cyberwareBridgeID: charCyberwareSlots.cyberware_bridge_id } })
+                
 
                 switch (incomingCyber.name) {
                     case 'Light Tattoo':

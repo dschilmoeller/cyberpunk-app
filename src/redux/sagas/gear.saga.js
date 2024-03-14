@@ -129,6 +129,7 @@ function* changeGearEquipStatus(action) {
         }
         // Equipping Cyberware
         if (action.payload.item.cyberware_master_id != undefined) {
+            // cyberware various settings. SHOULD be the simpler half (just checking name) rather than what is allowed, which would still go through FE
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID})
         }
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
