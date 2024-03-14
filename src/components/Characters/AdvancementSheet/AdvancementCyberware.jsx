@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 
 import Item from '../CharacterSheet/Item';
+import CyberwareCheck from './CyberwareCheck';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -25,15 +26,22 @@ function TransitionUp(props) {
 
 export default function AdvancementCyberware() {
     const dispatch = useDispatch()
+    // Char Cyberware - all items from char_owned_cyberware bridged with cyberware_master
     const charCyberware = useSelector(store => store.advancementGear.cyberware)
+    // character details atts, skills, etc.
     const charDetails = useSelector(store => store.advancementDetail)
+    // contents of the char_cyberware_bridge (which should be char_cyberware_status of course)
     const charCyberwareSlots = useSelector(store => store.advancementGear.cyberwareSlots)
+
+    // sets selected list - cannot convert to address without making cyberware handling it's own thing.
+    // duplicate Tab Functionality to prevent errors?
 
     const [selectedList, setSelectedList] = useState('fashionware')
     const handleTabChange = (event, newValue) => {
         setSelectedList(newValue)
     }
 
+    // reads data from char_cyberware_bridge data
     const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
     const [neuralSlots, setNeuralSlots] = useState(charCyberwareSlots.neuralware_slots)
     const [opticSlots, setOpticSlots] = useState(charCyberwareSlots.cyberoptic_slots)
@@ -49,143 +57,20 @@ export default function AdvancementCyberware() {
     });
     const [toastText, setToastText] = React.useState('')
 
-    // before equipping 'ware, detect if identical cyberware is already equipped OR if incompatible gear is equipped.
+    // Function runs before equipping 'ware in order to detect if identical cyberware is already equipped OR if incompatible gear is equipped.
+    // this needs to be asynchronous?
+    // it also needs to be moved to a different module. All it needs to do is return is true/false in the end. Would that also effectively make it asynchronous as it would wait for the return of the function result before running the next items?
+
     const cyberwareEquippedCheck = (incomingCyber) => {
-        // first check for attribute enhancing type duplication eg. grafted muscles I & II
-        let alreadyEquipped = false;
-        let equippedItemName = '';
+        let status = CyberwareCheck(incomingCyber, charCyberware)
 
-        // regex expressions to check against
-        let algernonic = /Alger/;
-        let grafted = /Grafted Musc/;
-        let boneLaced = /Bone Lac/;
-        let siliconize = /Nervous System Silicon/;
-
-        if (algernonic.test(incomingCyber.name) === true) {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (algernonic.test(charCyberware[i].name) == true && (charCyberware[i].equipped === true)) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-            // charCyberware.map(cyberware => {
-            //     if (algernonic.test(cyberware.name) === true && (cyberware.equipped === true)) {
-            //         alreadyEquipped = true;
-            //         equippedItemName = cyberware.name
-            //     }
-            // })
-        } else if (grafted.test(incomingCyber.name) === true) {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (grafted.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-        } else if (boneLaced.test(incomingCyber.name) === true) {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (boneLaced.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-        } else if (siliconize.test(incomingCyber.name) === true) {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (siliconize.test(charCyberware[i].name) === true && (charCyberware[i].equipped === true)) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-            // checking against different speedwares.
-        } else if (incomingCyber.name === 'Kerenzikov'
-            || incomingCyber.name === 'Sandevistan'
-            || incomingCyber.name === 'Miilitech "Kali"') {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (
-                    (charCyberware[i].name === 'Kerenzikov'
-                        || charCyberware[i].name === 'Sandevistan'
-                        || charCyberware[i].name === 'Miilitech "Kali"')
-                    && charCyberware[i].equipped === true) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-            // checking anti poison ware
-        } else if (incomingCyber.name === 'Toxin Binders'
-            || incomingCyber.name === 'Nasal Filters') {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (
-                    (charCyberware[i].name === 'Toxin Binders'
-                        || charCyberware[i].name === 'Nasal Filters')
-                    && charCyberware[i].equipped === true) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-            // checking heal ware
-        } else if (incomingCyber.name === 'Platelet Booster'
-            || incomingCyber.name === 'Nanotech Hive') {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (
-                    (charCyberware[i].name === 'Platelet Booster'
-                        || charCyberware[i].name === 'Nanotech Hive')
-                    && charCyberware[i].equipped === true) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-        } else if (incomingCyber.name === 'Linear Frame Alpha') {
-            for (let i = 0; i < charCyberware.length; i++) {
-                if ((charCyberware[i].name === 'Linear Frame Alpha'
-                    || charCyberware[i].name === 'Linear Frame Beta'
-                    || grafted.test(charCyberware[i].name) === true
-                    || boneLaced.test(charCyberware[i].name) === true
-                    || siliconize.test(charCyberware[i].name) === true
-                    || charCyberware[i].type === 'externalware'
-                    || charCyberware[i].name === 'Cyberarm - Right'
-                    || charCyberware[i].name === 'Cyberarm - Left'
-                    || charCyberware[i].name === 'Cyberleg - Right'
-                    || charCyberware[i].name === 'Cyberleg - Left'
-                ) && charCyberware[i].equipped === true) {
-                    alreadyEquipped = true;
-                    equippedItemName = charCyberware[i].name
-                    break;
-                }
-            }
-            if (charDetails.reflexes <= 1) {
-                alreadyEquipped = true;
-                equippedItemName = 'Reflexes too low!'
-            }
-        } else {
-            // Checks if purely identical 'ware is already equipped.
-            // allowed duplicates are ignored (memory chips); 
-            // cyberarms are checked as they have conditional allowance (ie Borg Shoulders) and are checked in equipCyber() below already.
-            for (let i = 0; i < charCyberware.length; i++) {
-                if (charCyberware[i].cyberware_master_id === incomingCyber.cyberware_master_id && charCyberware[i].equipped === true) {
-                    if (charCyberware[i].name === 'Memory chip'
-                        || charCyberware[i].name === 'Cyberarm - Right'
-                        || charCyberware[i].name === 'Cyberarm - Left') {
-                        alreadyEquipped = false
-                    } else {
-                        alreadyEquipped = true;
-                        equippedItemName = charCyberware[i].name
-                    }
-                }
-            }
-        }
-
-        // finallly, assuming one of the above did not set already equipped to true run equip ware function.
-        if (alreadyEquipped === false) {
+        // finally, assuming one of the above did not set already equipped to true run equip ware function.
+        // this check should probably be asynchronous.
+        if (status.equipStatus === false) {
             equipCyber(incomingCyber)
         } else {
-            // alreadyEquipped === true - inform user of issue with equipping attempt.
-            setToastText(`Incompatible cyberware ${equippedItemName} detected`)
+            // in the event alreadyEquipped === true - inform user of issue with equipping attempt.
+            setToastText(`Incompatible cyberware ${status.equippedItemName} detected`)
             setShowSnackbar(true)
         }
     }
