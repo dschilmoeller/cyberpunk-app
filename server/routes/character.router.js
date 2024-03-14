@@ -1239,8 +1239,8 @@ router.put('/attributeGearChangeCool/:id', rejectUnauthenticated, (req, res) => 
 
 router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
 // allows string literal in insert statement while removing SQL Injection possibility (hopefully)
-const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge']
-const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id']
+const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge', 'char_owned_cyberware']
+const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id', 'owned_cyberware_id']
 
     let tableCheck = false
     let pkCheck = false

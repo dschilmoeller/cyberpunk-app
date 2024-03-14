@@ -123,11 +123,15 @@ function* changeGearEquipStatus(action) {
         if (action.payload.item.weapon_master_id != undefined) {
             yield put({ type: 'FETCH_ADVANCEMENT_WEAPONS', payload: action.payload.charID })
         }
-
         // Equipping Clothes
         if (action.payload.item.clothing_master_id != undefined) {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
+        // Equipping Cyberware
+        if (action.payload.item.cyberware_master_id != undefined) {
+            yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID})
+        }
+        yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
     } catch (error) {
         console.log(`Error changing item equip status`, error);
     }

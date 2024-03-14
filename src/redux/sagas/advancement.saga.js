@@ -52,9 +52,20 @@ function* repairItem(action) {
     }
 }
 
+function* fetchAdvancementCyberware(action) {
+    try {
+        const charCyberware = yield axios.get(`/api/advancement/fetchCyberware/${action.paylod.charID}`)
+        yield put({ type: 'SET_ADVANCEMENT_CYBERWARE', payload: charCyberware.data })
+
+    } catch (err) {
+        console.log(`Error fetching advancement Cyberware:`, err);
+    }
+}
+
 function* advancementSaga() {
     yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat)
     yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem)
+    yield takeLatest('FETCH_ADVANCEMENT_CYBERWARE', fetchAdvancementCyberware)
 }
 
 export default advancementSaga;

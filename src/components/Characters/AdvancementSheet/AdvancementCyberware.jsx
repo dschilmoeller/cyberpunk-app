@@ -42,7 +42,8 @@ export default function AdvancementCyberware() {
     }
 
     // reads data from char_cyberware_bridge data
-    const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
+    const fashionSlots = charCyberwareSlots.fashionware_slots
+    // const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
     const [neuralSlots, setNeuralSlots] = useState(charCyberwareSlots.neuralware_slots)
     const [opticSlots, setOpticSlots] = useState(charCyberwareSlots.cyberoptic_slots)
     const [cyberaudioSlots, setCyberaudioSlots] = useState(charCyberwareSlots.cyberaudio_slots)
@@ -50,6 +51,11 @@ export default function AdvancementCyberware() {
     const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
     const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
     const [cyberlegSlots, setCyberlegSlots] = useState(charCyberwareSlots.cyberleg_slots)
+
+    useEffect(() => {
+        // would need for all, but a direct reference to the reducer would be better and more in keeping with the current app's standards.
+        // setFashionSlots(charCyberwareSlots.fashionware_slots)
+    }, [charCyberwareSlots])
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -62,10 +68,9 @@ export default function AdvancementCyberware() {
     // it also needs to be moved to a different module. All it needs to do is return is true/false in the end. Would that also effectively make it asynchronous as it would wait for the return of the function result before running the next items?
 
     const cyberwareEquippedCheck = (incomingCyber) => {
+        // checks for already equipped cyberware.
         let status = CyberwareCheck(incomingCyber, charCyberware)
 
-        // finally, assuming one of the above did not set already equipped to true run equip ware function.
-        // this check should probably be asynchronous.
         if (status.equipStatus === false) {
             equipCyber(incomingCyber)
         } else {
@@ -76,21 +81,39 @@ export default function AdvancementCyberware() {
     }
 
     const equipCyber = (incomingCyber) => {
+        // should be able to blackbox this.
 
         switch (incomingCyber.type) {
             case 'fashionware':
                 if (fashionSlots > 0) {
-                    // remove 1 of the 7 slots available on the dom. This should be synchronous with the slot count, below to keep the count correct. May need further testing.
-                    setFashionSlots(fashionSlots - 1)
-                    // equip cyberware; inform reducer of type and current count.
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'fashionware_slots', slot_count: fashionSlots - 1 } })
-                    // check if attribute enhancing cyberware has been equipped and inform reducer if so.
+                    // this only affects the reducer, so can fire separately.
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+
+                    // this is the primary change happening.
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
+                    
+                    // the below should probably be changed to part of the gear saga for FE simplicity and ensuring async behavior.
+                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots - 1 } })
                     switch (incomingCyber.name) {
+                        // dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingClothing, charID: charDetail.id, table: 'char_clothing_bridge', tablePrimaryKey: 'clothing_bridge_id', tableID: incomingClothing.clothing_bridge_id, equipStatus: true } });
+                        // CHANGE_GEAR_EQUIP_STATUS -> relevant dispatch
+                        // item: used to filter FETCH / SET from gear.saga
+                        // charId, table, tablePK, tableID, equipstatus -> change status on appropriate table.
+                        // dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', change: 2, charID: charDetail.id } })
+                        // ATTRIBUTE_ENHANCING_GEAR_EQUIPPED -> relevant dispatch. requires type, charID, change
+                        // type - currently being filtered to appropriate API by type. Can be changed to a whitelist on the router and such shortly but already set up so test with this a bit.
+                        // charID - character.id
+                        // change - AMOUNT to change by. Can be +/-. See gear.saga for API initial call, character.router for SQL
+                        // need to also change slot count!
+
+                        // The below should likewise be incorporated into gear.saga so as to move it out of the 
                         case 'Light Tattoo':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', charID: charDetails.id, change: 1 } })
                             break;
                         case 'Techhair':
-                            dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: 1 } })
+                            dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: charDetails.id, change: 1 } })
+                            break;
+                        default:
                             break;
                     }
                     break;
@@ -400,14 +423,16 @@ export default function AdvancementCyberware() {
     const unequipCyber = (incomingCyber) => {
         switch (incomingCyber.type) {
             case 'fashionware':
-                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'fashionware_slots', slot_count: fashionSlots + 1 } })
-                setFashionSlots(fashionSlots + 1)
+                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
+                dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'fashionware_slots', newValue: charCyberwareSlots.fashionware_slots + 1 } })
+
                 switch (incomingCyber.name) {
                     case 'Light Tattoo':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', charID: charDetails.id, change: -1 } })
                         break;
                     case 'Techhair':
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_cool', quality: -1 } })
+                        dispatch({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: charDetails.id, change: -1 } })
                         break;
                     default:
                         break;
@@ -543,9 +568,12 @@ export default function AdvancementCyberware() {
                 if (incomingCyber.name === 'Cyberleg - Right' || incomingCyber.name === 'Cyberleg - Left') {
                     setCyberlegSlots(cyberlegSlots - 3)
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots - 3 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { 
-                        totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), 
-                        minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    dispatch({
+                        type: 'HUMANITY_RECOVERY_CYBERWARE', payload: {
+                            totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)),
+                            minLoss: Number(incomingCyber.humanity_loss_min)
+                        }
+                    })
                     dispatch({ type: 'CYBERLIMB_REMOVED' })
                     break;
                 } else {
@@ -573,12 +601,12 @@ export default function AdvancementCyberware() {
         // This will generate a number b/w min and max values. This can generate a 0, but the final return should always be at least 1.
         // the advancementDetail reducer -> Humanity_loss_cyberware handles sorting between permanent and temp humanity losses.
         const loss = Math.floor(Math.random() * (max - min + 1) + min)
-        if (loss > 0){
+        if (loss > 0) {
             return loss
         } else {
             return 1
         }
-        
+
     }
 
     return (<>
