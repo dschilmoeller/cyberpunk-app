@@ -33,11 +33,11 @@ export default function AdvancementRoles() {
     const roleDotReturn = (role) => {
         let returnedDots = []
         for (let i = 0; i < role; i++) {
-            returnedDots.push(fullCircle)
+            returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
         }
         let j = role
         for (j; j < 10; j++) {
-            returnedDots.push(emptyCircle)
+            returnedDots.push(<React.Fragment key={j+10}>{emptyCircle}</React.Fragment>)
         }
         return returnedDots
     }
@@ -46,11 +46,11 @@ export default function AdvancementRoles() {
         let returnedDots = []
 
         for (let i = 0; i < role; i++) {
-            returnedDots.push(fullCircle);
+            returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
         }
         let j = role
         for (j; j <= 4; j++) {
-            returnedDots.push(emptyCircle)
+            returnedDots.push(<React.Fragment key={j+10}>{emptyCircle}</React.Fragment>)
         }
         return returnedDots
     }

@@ -33,11 +33,11 @@ export default function AdvancementSkills() {
     const skillDotReturn = (skill) => {
         let returnedDots = []
         for (let i = 0; i < skill; i++) {
-            returnedDots.push(fullCircle)
+            returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
         }
         let j = skill
         for (j; j <= 4; j++) {
-            returnedDots.push(emptyCircle)
+            returnedDots.push(<React.Fragment key={j+10}>{emptyCircle}</React.Fragment>)
         }
         return returnedDots
     }

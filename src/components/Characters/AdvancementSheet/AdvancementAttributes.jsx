@@ -32,11 +32,11 @@ export default function AdvancementAttributes() {
     const attDotReturn = (attribute, max) => {
         let returnedDots = []
         for (let i = 0; i < attribute; i++) {
-            returnedDots.push(fullCircle)
+            returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>)
         }
         let j = attribute
         for (j; j <= (max - 1); j++) {
-            returnedDots.push(emptyCircle)
+            returnedDots.push(<React.Fragment key={j+10}>{emptyCircle}</React.Fragment>)
         }
         return returnedDots
     }

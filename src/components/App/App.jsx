@@ -24,6 +24,7 @@ import CharacterList from '../Characters/CharacterList/CharacterList';
 import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 import Creation from '../CharCreation/Creation';
 import AdvancementSheet from '../Characters/AdvancementSheet/AdvancementSheet';
+import EquipSheet from '../Characters/AdvancementSheet/EquipSheet';
 import ShoppingSheet from '../Characters/ShoppingSheet/ShoppingSheet';
 
 import GameMasterLanding from '../GameMaster/GameMasterLanding';
@@ -131,6 +132,13 @@ function App() {
             >
               <AdvancementSheet />
             </ProtectedRoute>
+
+            {/* detailed gear equip, repair, attach mods, etc. area */}
+            <ProtectedRoute
+              exact
+              path="/equipsheet/:id">
+                <EquipSheet />
+              </ProtectedRoute>
 
             {/* shopping area */}
             <ProtectedRoute

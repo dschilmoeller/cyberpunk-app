@@ -9,18 +9,24 @@ import Item from '../CharacterSheet/Item';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import AdvancementAttributes from './AdvancementAttributes';
-import AdvancementSkills from './AdvancementSkills';
-import AdvancementRoles from './AdvancementRoles';
-import AdvancementOther from './AdvancementOther';
+import AdvancementGearArmor from './AdvancementGearArmor';
+import AdvancementGearWeapons from './AdvancementGearWeapons';
+import AdvancementGearOther from './AdvancementGearOther';
+import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
+import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
+import AdvancementCyberware from './AdvancementCyberware';
+import AdvancementGarage from './AdvancementGarage';
+import AdvancementClothes from './AdvancementClothes';
 
-function AdvancementSheet() {
+export default function EquipSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
 
     const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams();
     const location = useLocation();
+
+    const euroBuck = `\u20AC$`
 
     // opener for primary tabs.
     const [value, setValue] = useState(location.hash ? location.hash : false)
@@ -46,14 +52,13 @@ function AdvancementSheet() {
                     </Grid>
 
                     <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-                        <Button variant='contained' color='info' onClick={() => history.push(`/equipSheet/${advancementDetails.id}`)}>Move to Equip Sheet</Button>
+                        <Button variant='contained' color='warning' onClick={() => history.push(`/advancementsheet/${advancementDetails.id}`)}>Move to Spend XP Sheet</Button>
                     </Grid>
 
                     <Grid item display={'flex'} justifyContent={'center'} xs={3}>
                         <Button variant='contained' color='success' onClick={() => history.push(`/shopSheet/${advancementDetails.id}`)}>Move to Shopping Sheet</Button>
                     </Grid>
                 </Grid>
-
                 {advancementDetails ? (
                     <>
                         <Grid container>
@@ -69,44 +74,66 @@ function AdvancementSheet() {
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item><h3>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h3></Item></Grid>
+                            {/* <Grid item xs={6}><Item><h3>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h3></Item></Grid> */}
+                            <Grid item xs={12}><Item><h3>Cash on Hand: {euroBuck}{advancementDetails.bank}</h3></Item></Grid>
                         </Grid>
                         <Grid container>
-                            <Grid item xs={12}><Item><h2>Spend Experience</h2></Item></Grid>
+                            <Grid item xs={12}><Item><h2>Equip Gear</h2></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
+
                 <Tabs
-                    centered
                     value={value}
                     onChange={handleChange}
+                    centered
                     indicatorColor='primary'
                     textColor='secondary'>
-                    <Tab value='#attributes' href={`/#/advancementsheet/${params.id}#attributes`} label='Attributes' />
-                    <Tab value='#skills' href={`/#/advancementsheet/${params.id}#skills`} label='Skills' />
-                    <Tab value='#role' href={`/#/advancementsheet/${params.id}#role`} label='Role Abilities' />
-                    <Tab value='#otherTraits' href={`/#/advancementsheet/${params.id}#otherTraits`} label='Other Traits' />
+                    <Tab value='#armor' href={`/#/equipsheet/${params.id}#armor`} label='Armor' />
+                    <Tab value='#weapons' href={`/#/equipsheet/${params.id}#weapons`} label='Weapons' />
+                    <Tab value='#other' href={`/#/equipsheet/${params.id}#other`} label='Other Gear' />
+                    {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/equipsheet/${params.id}#netrunner`} label='Netrunner Gear' />}
+                    <Tab value='#cyberware' href={`/#/equipsheet/${params.id}#cyberware`} label='Cyberware' />
+                    <Tab value='#vehicles' href={`/#/equipsheet/${params.id}#vehicles`} label='Vehicles' />
+                    <Tab value='#clothes' href={`/#/equipsheet/${params.id}#clothes`} label='Clothes' />
                 </Tabs>
 
-                {value === '#attributes' ? (<>
-                    <AdvancementAttributes />
+                {value === '#armor' ? (<>
+                    <AdvancementGearArmor />
                 </>) : <></>}
 
-                {value === '#skills' ? (<>
-                    <AdvancementSkills />
+                {value === '#weapons' ? (<>
+                    <AdvancementGearWeapons />
                 </>) : <></>}
 
-                {value === '#role' ? (<>
-                    <AdvancementRoles />
+                {value === '#other' && advancementDetails.med_pharma > 0 ?
+                    (<>
+                        <AdvancementMakePharmaDialog />
+                        <AdvancementGearOther />
+                    </>) : <></>}
+
+                {value === '#other' && advancementDetails.med_pharma < 1 ?
+                    (<>
+                        <AdvancementGearOther />
+                    </>) : <></>}
+
+                {value === '#netrunner' ? (<>
+                    <AdvancementNetrunnerGear />
                 </>) : <></>}
 
-                {value === '#otherTraits' ? (<>
-                    <AdvancementOther />
+                {value === '#cyberware' ? (<>
+                    <AdvancementCyberware />
+                </>) : <></>}
+
+                {value === '#vehicles' ? (<>
+                    <AdvancementGarage />
+                </>) : <></>}
+
+                {value === '#clothes' ? (<>
+                    <AdvancementClothes />
                 </>) : <></>}
 
             </div>
         </>
     )
 }
-
-export default AdvancementSheet;

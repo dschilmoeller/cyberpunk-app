@@ -59,7 +59,7 @@ function CharacterList() {
       id: 'handle',
       numeric: false,
       disablePadding: true,
-      label: 'In Play Sheet',
+      label: 'Character In Play Sheet',
     },
     {
       id: 'campaign',
@@ -71,7 +71,13 @@ function CharacterList() {
       id: 'advancement',
       numeric: false,
       disablePadding: true,
-      label: 'Equip Gear and Spend XP',
+      label: 'Spend XP',
+    },
+    {
+      id: 'Gear',
+      numeric: false,
+      disablePadding: true,
+      label: 'Equip Gear'
     },
     {
       id: 'shopping',
@@ -169,6 +175,9 @@ function CharacterList() {
   const moveToAdvancementSheet = (id) => {
     history.push(`/advancementsheet/${id}`)
   }
+  const moveToEquipSheet = (id) => {
+    history.push(`/equipsheet/${id}`)
+  }
 
   const moveToShopSheet = (id) => {
     history.push(`/shopSheet/${id}`)
@@ -194,10 +203,11 @@ function CharacterList() {
               {sortedCharListRows.map((row) => {
                 return (
                   <TableRow hover key={row.id}>
-                    <TableCell align='center' padding="none"><Button fullWidth variant='contained' onClick={() => moveToCharacterSheet(row.id)}>{row.handle}</Button></TableCell>
-                    <TableCell align='center' padding="none">{row.campaign_name}</TableCell>
-                    <TableCell padding="none"><Button fullWidth onClick={() => moveToAdvancementSheet(row.id)}>Spend XP & Equip Gear </Button></TableCell>
-                    <TableCell padding="none"><Button fullWidth variant='outlined' onClick={() => moveToShopSheet(row.id)}>Shopping </Button></TableCell>
+                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='primary' onClick={() => moveToCharacterSheet(row.id)}>{row.handle}</Button></TableCell>
+                    <TableCell align='center' padding="normal">{row.campaign_name}</TableCell>
+                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='warning' onClick={() => moveToAdvancementSheet(row.id)}>Spend XP</Button></TableCell>
+                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='info' onClick={() => moveToEquipSheet(row.id)}>Equip Gear </Button></TableCell>
+                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='success' onClick={() => moveToShopSheet(row.id)}>Shopping </Button></TableCell>
                   </TableRow>
                 );
               })}

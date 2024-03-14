@@ -29,8 +29,6 @@ import ShopCyberware from './ShopCyberware';
 
 function ShoppingSheet() {
     const advancementDetails = useSelector((store) => store.advancementDetail);
-    const equipmentDetails = useSelector(store => store.advancementGear)
-    const modDetails = useSelector(store => store.characterModMaster)
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -44,28 +42,6 @@ function ShoppingSheet() {
         dispatch({ type: "FETCH_MASTER_LISTS" })
     }, [])
 
-    useEffect(() => {
-        window.addEventListener('beforeunload', alertUser)
-        return () => {
-            window.removeEventListener('beforeunload', alertUser)
-        }
-    })
-
-    const alertUser = (event) => {
-        event.preventDefault()
-        event.returnValue = ''
-    }
-    
-    const fetchCharacterDetail = () => {
-        dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
-        window.location.reload(true);
-    }
-
-    const saveCharacterChanges = () => {
-        dispatch({ type: "SAVE_ADVANCEMENT_DETAIL", payload: { char: advancementDetails, gear: equipmentDetails, mods: modDetails } })
-        history.push('/characterlist')
-    }
-
     const [selectedShopping, setSelectedShopping] = useState(location.hash ? location.hash : false)
     const handleShoppingSelect = (event, newValue) => {
         setSelectedShopping(newValue)
@@ -75,14 +51,20 @@ function ShoppingSheet() {
         <>
             <div>
                 <Grid container>
-                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => history.push('/characterlist')}>Back to Character List</Button>
+                    <Grid item display={'flex'} justifyContent={'center'} xs={3}>
+                        <Button variant='contained' onClick={() => history.push('/characterlist')}>Back to Character List</Button>
                     </Grid>
-                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => fetchCharacterDetail()}>Reset Character Information</Button>
+
+                    <Grid item display={'flex'} justifyContent={'center'} xs={3}>
+                        <Button variant='contained' color='secondary' onClick={() => history.push(`/charactersheet/${advancementDetails.id}`)}>Move to In Play Sheet</Button>
                     </Grid>
-                    <Grid item display={'flex'} justifyContent={'center'} xs={4}>
-                        <Button onClick={() => saveCharacterChanges()}>Save Character Changes</Button>
+
+                    <Grid item display={'flex'} justifyContent={'center'} xs={3}>
+                        <Button variant='contained' color='warning' onClick={() => history.push(`/advancementsheet/${advancementDetails.id}`)}>Move to Spend XP Sheet</Button>
+                    </Grid>
+
+                    <Grid item display={'flex'} justifyContent={'center'} xs={3}>
+                        <Button variant='contained' color='info' onClick={() => history.push(`/equipSheet/${advancementDetails.id}`)}>Move to Equip Sheet</Button>
                     </Grid>
                 </Grid>
 
@@ -90,24 +72,23 @@ function ShoppingSheet() {
                     <>
                         <Grid container>
                             <Grid item xs={4}>
-                                <Item>Name: {advancementDetails.handle}</Item>
+                                <Item><h2>Name: {advancementDetails.handle}</h2></Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Player: {advancementDetails.player}</Item>
+                                <Item><h2>Player: {advancementDetails.player}</h2></Item>
                             </Grid>
                             <Grid item xs={4}>
-                                <Item>Campaign: {advancementDetails.campaign_name} </Item>
+                                <Item><h2>Campaign: {advancementDetails.campaign_name}</h2></Item>
                             </Grid>
                         </Grid>
 
                         <Grid container>
-                            <Grid item xs={12}><Item><h2>Cash on Hand: {euroBuck}{advancementDetails.bank}</h2></Item></Grid>
+                            <Grid item xs={12}><Item><h3>Cash on Hand: {euroBuck}{advancementDetails.bank}</h3></Item></Grid>
                         </Grid>
                     </>
                 ) : <></>}
 
                 <Item>
-                    <h2>I want to shop for...</h2>
                     <Tabs
                         value={selectedShopping}
                         onChange={handleShoppingSelect}
@@ -162,7 +143,7 @@ function ShoppingSheet() {
                     <ClothingEquippedTable />
                     <ClothingOwnedTable />
                     <ClothingMasterTable />
-                </>): <></>}
+                </>) : <></>}
 
             </div>
         </>
