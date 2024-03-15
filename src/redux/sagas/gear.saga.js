@@ -188,6 +188,83 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                case 'cyberaudio':
+                    switch (action.payload.item.name) {
+                        case 'Basic Cyberaudio Suite':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots + 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                case 'internalware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'internalware_slots', newValue: action.payload.charCyberwareSlots.internalware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                    switch (action.payload.item.name) {
+                        case 'Grafted Muscles I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: 1 } })
+                            break;
+                        case 'Grafted Muscles II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: 2 } })
+                            break;
+                        case 'Grafted Muscles III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: 3 } })
+                            break;
+                        case 'Grafted Muscles IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: 4 } })
+                            break;
+                        case 'Grafted Muscles V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: 5 } })
+                            break;
+                        case 'Bone Lacing I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: 1 } })
+                            break;
+                        case 'Bone Lacing II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: 2 } })
+                            break;
+                        case 'Bone Lacing III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: 3 } })
+                            break;
+                        case 'Bone Lacing IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: 4 } })
+                            break;
+                        case 'Bone Lacing V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: 5 } })
+                            break;
+                        case 'Nervous System Siliconization I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: 1 } })
+                            break;
+                        case 'Nervous System Siliconization II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: 2 } })
+                            break;
+                        case 'Nervous System Siliconization III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: 3 } })
+                            break;
+                        case 'Nervous System Siliconization IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: 4 } })
+                            break;
+                        case 'Nervous System Siliconization V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: 5 } })
+                            break;
+                        default:
+                            break;
+                    }
+                case 'externalware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'externalware_slots', newValue: action.payload.charCyberwareSlots.externalware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                    switch (action.payload.item.name) {
+                        case 'Skin Weave':
+                            // hits char_status
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 2, healthBoxes: 1, charID: action.payload.charID } })
+                            break;
+                        case 'Subdermal Armor':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 3, healthBoxes: 2, charID: action.payload.charID } })
+                            break;
+                        case 'Chromed Exo-Armor':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 4, healthBoxes: 2, charID: action.payload.charID } })
+                            break;
+                        case 'Body Plating':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 5, healthBoxes: 3, charID: action.payload.charID } })
+                            break;
+                    }
 
             }
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
@@ -250,6 +327,82 @@ function* changeGearEquipStatus(action) {
                             break;
                         default:
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                case 'cyberaudio':
+                    switch (action.payload.item.name) {
+                        case 'Basic Cyberaudio Suite':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots - 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                case 'internalware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'internalware_slots', newValue: action.payload.charCyberwareSlots.internalware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                    switch (action.payload.item.name) {
+                        case 'Grafted Muscles I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: -1 } })
+                            break;
+                        case 'Grafted Muscles II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: -2 } })
+                            break;
+                        case 'Grafted Muscles III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: -3 } })
+                            break;
+                        case 'Grafted Muscles IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: -4 } })
+                            break;
+                        case 'Grafted Muscles V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_strength', charID: action.payload.charID, change: -5 } })
+                            break;
+                        case 'Bone Lacing I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: -1 } })
+                            break;
+                        case 'Bone Lacing II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: -2 } })
+                            break;
+                        case 'Bone Lacing III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: -3 } })
+                            break;
+                        case 'Bone Lacing IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: -4 } })
+                            break;
+                        case 'Bone Lacing V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_body', charID: action.payload.charID, change: -5 } })
+                            break;
+                        case 'Nervous System Siliconization I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: -1 } })
+                            break;
+                        case 'Nervous System Siliconization II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: -2 } })
+                            break;
+                        case 'Nervous System Siliconization III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: -3 } })
+                            break;
+                        case 'Nervous System Siliconization IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: -4 } })
+                            break;
+                        case 'Nervous System Siliconization V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_reflexes', charID: action.payload.charID, change: -5 } })
+                            break;
+                        default:
+                            break;
+                    }
+                case 'externalware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'externalware_slots', newValue: action.payload.charCyberwareSlots.externalware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                    switch (action.payload.item.name) {
+                        case 'Skin Weave':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: -2, healthBoxes: -1, charID: action.payload.charID } })
+                            break;
+                        case 'Subdermal Armor':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: -3, healthBoxes: -2, charID: action.payload.charID } })
+                            break;
+                        case 'Chromed Exo-Armor':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: -4, healthBoxes: -2, charID: action.payload.charID } })
+                            break;
+                        case 'Body Plating':
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: -5, healthBoxes: -3, charID: action.payload.charID } })
                             break;
                     }
 

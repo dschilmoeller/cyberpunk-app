@@ -36,7 +36,7 @@ export default function AdvancementCyberware() {
     // sets selected list - cannot convert to address without making cyberware handling it's own thing.
     // duplicate Tab Functionality to prevent errors?
 
-    const [selectedList, setSelectedList] = useState('cyberoptics')
+    const [selectedList, setSelectedList] = useState('internalware')
     const handleTabChange = (event, newValue) => {
         setSelectedList(newValue)
     }
@@ -45,12 +45,11 @@ export default function AdvancementCyberware() {
     const fashionSlots = charCyberwareSlots.fashionware_slots
     const neuralSlots = charCyberwareSlots.neuralware_slots
     const opticSlots = charCyberwareSlots.cyberoptic_slots
-    // const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
-    // const [neuralSlots, setNeuralSlots] = useState(charCyberwareSlots.neuralware_slots)
-    // const [opticSlots, setOpticSlots] = useState(charCyberwareSlots.cyberoptic_slots)
-    const [cyberaudioSlots, setCyberaudioSlots] = useState(charCyberwareSlots.cyberaudio_slots)
-    const [internalwareSlots, setInternalwareSlots] = useState(charCyberwareSlots.internalware_slots)
-    const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
+    const cyberaudioSlots = charCyberwareSlots.cyberaudio_slots
+    const internalwareSlots = charCyberwareSlots.internalware_slots
+    const externalwareSlots = charCyberwareSlots.externalware_slots
+
+    // const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
     const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
     const [cyberlegSlots, setCyberlegSlots] = useState(charCyberwareSlots.cyberleg_slots)
 
@@ -107,7 +106,6 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-            // Handle equipping Neuralware.
             case 'neuralware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (incomingCyber.name === 'Basic Neural Link') {
@@ -122,8 +120,6 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-
-            // handle eqiupping cybereyes
             case 'cyberoptics':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (incomingCyber.name === 'Basic Cybereyes') {
@@ -138,21 +134,14 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-
-            // handle equipping cyberAudio
             case 'cyberaudio':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 // check if base item is being equipped; 
                 if (incomingCyber.name === 'Basic Cyberaudio Suite') {
                     dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
-                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'cyberaudio_slots', newValue: charCyberwareSlots.cyberaudio_slots + 3 } })
-                    dispatch({ type: "CHANGE_HUMANITY_LOSS", payload: { minLoss, totalLoss } })
-
-                    // dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
                     break;
                 } else if (cyberaudioSlots > 0) {
-                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true } });
-                    dispatch({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { column: 'cyberaudio_slots', newValue: charCyberwareSlots.cyberaudio_slots - 1 } })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                     break;
                 } else {
                     // warning in case character is trying to equip too much gear.
@@ -161,66 +150,10 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-
-
-
-
-            // handle equipping internalware
             case 'internalware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (internalwareSlots > 0) {
-                    setInternalwareSlots(internalwareSlots - 1)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'internalware_slots', slot_count: internalwareSlots - 1 } })
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    switch (incomingCyber.name) {
-                        case 'Grafted Muscles I':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 1 } })
-                            break;
-                        case 'Grafted Muscles II':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 2 } })
-                            break;
-                        case 'Grafted Muscles III':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 3 } })
-                            break;
-                        case 'Grafted Muscles IV':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 4 } })
-                            break;
-                        case 'Grafted Muscles V':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 5 } })
-                            break;
-                        case 'Bone Lacing I':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 1 } })
-                            break;
-                        case 'Bone Lacing II':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 2 } })
-                            break;
-                        case 'Bone Lacing III':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 3 } })
-                            break;
-                        case 'Bone Lacing IV':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 4 } })
-                            break;
-                        case 'Bone Lacing V':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 5 } })
-                            break;
-                        case 'Nervous System Siliconization I':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 1 } })
-                            break;
-                        case 'Nervous System Siliconization II':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 2 } })
-                            break;
-                        case 'Nervous System Siliconization III':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 3 } })
-                            break;
-                        case 'Nervous System Siliconization IV':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 4 } })
-                            break;
-                        case 'Nervous System Siliconization V':
-                            dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 5 } })
-                            break;
-                        default:
-                            break;
-                    }
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                     break;
                 } else {
                     setToastText("Not enough slots - you're full up!")
@@ -228,35 +161,18 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-
-            // handle externalware
             case 'externalware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (charDetails.current_cyberware_armor_loss > 0) {
-                    setToastText(`Externalware must be repaired before it can be removed or swapped. See "Armor" tab for repairs.`)
-                    setShowSnackbar(true)
-                    break;
-                } else if (externalwareSlots > 0) {
-                    setExternalwareSlots(externalwareSlots - 1)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots - 1 } })
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    if (incomingCyber.name === 'Skin Weave') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 2, healthBoxes: 1 } })
-                    } else if (incomingCyber.name === 'Subdermal Armor') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 3, healthBoxes: 2 } })
-                    } else if (incomingCyber.name === 'Chromed Exo-Armor') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 4, healthBoxes: 2 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: 1 } })
-                    } else if (incomingCyber.name === 'Body Plating') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: 5, healthBoxes: 3 } })
-                    }
-                    break;
+                if (externalwareSlots > 0) {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                 } else {
-                    setToastText('You need to remove your existing externalware to equip a new piece!')
+                    setToastText(`Remove your current externalware to equip a different piece!`)
                     setShowSnackbar(true)
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
+                break;
+
+
             case 'cyberarm':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 // Top level - Check if incoming gear being equipped is a cyberarm or a mod
@@ -408,8 +324,8 @@ export default function AdvancementCyberware() {
                     break;
                 }
             case 'cyberoptics':
-                if (charCyberwareSlots.cyberoptic_slots === 3 || incomingCyber.name != 'Basic Cybereyes'){
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                if (charCyberwareSlots.cyberoptic_slots === 3 || incomingCyber.name != 'Basic Cybereyes') {
                     dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                 } else {
                     setToastText('Remove all your cybereye mods first!')
@@ -419,70 +335,25 @@ export default function AdvancementCyberware() {
                 }
             case 'cyberaudio':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (incomingCyber.name === 'Basic Cyberaudio Suite') {
-                    setCyberaudioSlots(0)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: 0 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                if (charCyberwareSlots.cyberaudio_slots === 3 || incomingCyber.name != 'Basic Cyberaudio Suite') {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                     break;
                 } else {
-                    setCyberaudioSlots(cyberaudioSlots + 1)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots + 1 } })
+                    setToastText('Remove all your cyberaudio mods first!')
+                    setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
-
             case 'internalware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                setInternalwareSlots(internalwareSlots + 1)
-                dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'internalware_slots', slot_count: internalwareSlots + 1 } })
-                dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                switch (incomingCyber.name) {
-                    case 'Grafted Muscles I':
-                    case 'Grafted Muscles II':
-                    case 'Grafted Muscles III':
-                    case 'Grafted Muscles IV':
-                    case 'Grafted Muscles V':
-                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_strength', quality: 0 } })
-                        break;
-                    case 'Bone Lacing I':
-                    case 'Bone Lacing II':
-                    case 'Bone Lacing III':
-                    case 'Bone Lacing IV':
-                    case 'Bone Lacing V':
-                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_body', quality: 0 } })
-                        break;
-                    case 'Nervous System Siliconization I':
-                    case 'Nervous System Siliconization II':
-                    case 'Nervous System Siliconization III':
-                    case 'Nervous System Siliconization IV':
-                    case 'Nervous System Siliconization V':
-                        dispatch({ type: "STATIC_CYBERWARE_ATTRIBUTE_SET", payload: { type: 'cyber_reflexes', quality: 0 } })
-                        break;
-                    default:
-                        break;
-                }
+                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                 break;
             case 'externalware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (charDetails.current_cyberware_armor_loss > 0) {
-                    setToastText(`Externalware must be repaired before it can be removed or swapped. See "Armor" tab for repairs.`)
-                    setShowSnackbar(true)
-                    break;
-                } else {
-                    setExternalwareSlots(externalwareSlots + 1)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'externalware_slots', slot_count: externalwareSlots + 1 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    if (incomingCyber.name === 'Skin Weave') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -2, healthBoxes: -1 } })
-                    } else if (incomingCyber.name === 'Subdermal Armor') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -3, healthBoxes: -2 } })
-                    } else if (incomingCyber.name === 'Chromed Exo-Armor') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_EQUIPPED', payload: { armor: -4, healthBoxes: -2 } })
-                        dispatch({ type: "ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED", payload: { type: 'cyber_appearance', quality: -1 } })
-                    } else if (incomingCyber.name === 'Body Plating') {
-                        dispatch({ type: 'CYBERWARE_ARMOR_REMOVED', payload: { armor: -5, healthBoxes: -3 } })
-                    }
-                    break;
-                }
+                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                break;
+
+
             case 'cyberarm':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {

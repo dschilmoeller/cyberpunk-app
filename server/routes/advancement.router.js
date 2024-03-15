@@ -65,6 +65,21 @@ router.put('/changecyberwareslotcount', rejectUnauthenticated, (req, res) => {
     }
 })
 
+router.put('/changecyberwarearmorhealth', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_cyberware_armor_quality" = (SELECT "current_cyberware_armor_quality") + $1, "current_cyberware_health_boxes" = (SELECT "current_cyberware_health_boxes") + $2, "current_cyberware_armor_loss" = 0 WHERE "char_id" = $3`
+    const sqlParams = [req.body.armor, req.body.healthBoxes, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing cyberware armor/health details:`, err); })
+})
+
+router.get('/fetchadvancementcharstatus/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_status" WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching char status id: ${req.params.id} with error:`, err); })
+})
+
 router.get('/getCyberwareStatus/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_cyberware_bridge" WHERE "cyberware_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])

@@ -62,6 +62,24 @@ function* repairItem(action) {
     }
 }
 
+function* cyberArmorChange(action) {
+    try {
+        yield axios.put('/api/advancement/changecyberwarearmorhealth', action.payload)
+        yield put({ type: "FETCH_ADVANCEMENT_CHAR_STATUS", payload: action.payload.charID })
+    } catch (err) {
+        console.log(`Error changing cyberware armor/health box values:`, err);
+    }
+}
+
+function* fetchAdvancementCharStatus(action) {
+    try {
+        const charStatus = yield axios.get(`/api/advancement/fetchadvancementcharstatus/${action.payload}`)
+        yield put({ type: 'SET_CHAR_STATUS', payload: charStatus.data[0] })
+    } catch (err) {
+        console.log(`Error fetching advancement character status:`, err);
+    }
+}
+
 function* changeCyberwareSlotCount(action) {
     try {
         yield axios.put('/api/advancement/changecyberwareslotcount/', action.payload)
@@ -82,11 +100,14 @@ function* cyberwareHumanityChange(action) {
 }
 
 function* advancementSaga() {
-    yield takeLatest('FETCH_ADVANCEMENT_HUMANITY', fetchAdvancementHumanity)
-    yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat)
-    yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem)
-    yield takeLatest('CHANGE_CYBERWARE_SLOT_COUNT', changeCyberwareSlotCount)
+    yield takeLatest('FETCH_ADVANCEMENT_HUMANITY', fetchAdvancementHumanity);
+    yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat);
+    yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem);
 
+    yield takeLatest('CYBER_ARMOR_CHANGE', cyberArmorChange)
+    yield takeLatest('FETCH_ADVANCEMENT_CHAR_STATUS', fetchAdvancementCharStatus);
+
+    yield takeLatest('CHANGE_CYBERWARE_SLOT_COUNT', changeCyberwareSlotCount);
     yield takeLatest('CYBERWARE_HUMANITY_CHANGE', cyberwareHumanityChange);
 }
 
