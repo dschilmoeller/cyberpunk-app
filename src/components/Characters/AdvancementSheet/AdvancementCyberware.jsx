@@ -36,7 +36,7 @@ export default function AdvancementCyberware() {
     // sets selected list - cannot convert to address without making cyberware handling it's own thing.
     // duplicate Tab Functionality to prevent errors?
 
-    const [selectedList, setSelectedList] = useState('neuralware')
+    const [selectedList, setSelectedList] = useState('cyberoptics')
     const handleTabChange = (event, newValue) => {
         setSelectedList(newValue)
     }
@@ -44,9 +44,10 @@ export default function AdvancementCyberware() {
     // reads data from char_cyberware_bridge data
     const fashionSlots = charCyberwareSlots.fashionware_slots
     const neuralSlots = charCyberwareSlots.neuralware_slots
+    const opticSlots = charCyberwareSlots.cyberoptic_slots
     // const [fashionSlots, setFashionSlots] = useState(charCyberwareSlots.fashionware_slots)
     // const [neuralSlots, setNeuralSlots] = useState(charCyberwareSlots.neuralware_slots)
-    const [opticSlots, setOpticSlots] = useState(charCyberwareSlots.cyberoptic_slots)
+    // const [opticSlots, setOpticSlots] = useState(charCyberwareSlots.cyberoptic_slots)
     const [cyberaudioSlots, setCyberaudioSlots] = useState(charCyberwareSlots.cyberaudio_slots)
     const [internalwareSlots, setInternalwareSlots] = useState(charCyberwareSlots.internalware_slots)
     const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
@@ -106,6 +107,37 @@ export default function AdvancementCyberware() {
                     dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
+            // Handle equipping Neuralware.
+            case 'neuralware':
+                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                if (incomingCyber.name === 'Basic Neural Link') {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                    break;
+                } else if (neuralSlots > 0) {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                    break;
+                } else {
+                    setToastText("Not enough slots - make sure you have a neural link installed and it isn't full!")
+                    setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+                    break;
+                }
+
+            // handle eqiupping cybereyes
+            case 'cyberoptics':
+                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                if (incomingCyber.name === 'Basic Cybereyes') {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                    break;
+                } else if (opticSlots > 0) {
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                    break;
+                } else {
+                    setToastText("Not enough slots - make sure you have cybereyes and they aren't already full!")
+                    setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+                    break;
+                }
 
             // handle equipping cyberAudio
             case 'cyberaudio':
@@ -130,40 +162,8 @@ export default function AdvancementCyberware() {
                     break;
                 }
 
-            // Handle equipping Neuralware.
-            case 'neuralware':
-                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (incomingCyber.name === 'Basic Neural Link') {
-                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
-                    break;
-                } else if (neuralSlots > 0) {
-                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
-                    break;
-                } else {
-                    setToastText("Not enough slots - make sure you have a neural link installed and it isn't full!")
-                    setShowSnackbar(true)
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
-                    break;
-                }
 
-            // handle eqiupping cybereyes
-            case 'cyberoptics':
-                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (incomingCyber.name === 'Basic Cybereyes') {
-                    setOpticSlots(3)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: 3 } })
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    break;
-                } else if (opticSlots > 0) {
-                    setOpticSlots(opticSlots - 1)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: opticSlots - 1 } })
-                    break;
-                } else {
-                    setToastText("Not enough slots - make sure you have cybereyes and they aren't already full!")
-                    setShowSnackbar(true)
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
-                    break;
-                }
+
 
             // handle equipping internalware
             case 'internalware':
@@ -396,6 +396,27 @@ export default function AdvancementCyberware() {
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                 break;
+            case 'neuralware':
+                if (charCyberwareSlots.neuralware_slots === 5 || incomingCyber.name != 'Basic Neural Link') {
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                    break;
+                } else {
+                    setToastText('Remove all your chips first!')
+                    setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+                    break;
+                }
+            case 'cyberoptics':
+                if (charCyberwareSlots.cyberoptic_slots === 3 || incomingCyber.name != 'Basic Cybereyes'){
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
+                } else {
+                    setToastText('Remove all your cybereye mods first!')
+                    setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+                    break;
+                }
             case 'cyberaudio':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (incomingCyber.name === 'Basic Cyberaudio Suite') {
@@ -408,36 +429,7 @@ export default function AdvancementCyberware() {
                     dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberaudio_slots', slot_count: cyberaudioSlots + 1 } })
                     break;
                 }
-            case 'neuralware':
-                if (charCyberwareSlots.neuralware_slots === 5 || incomingCyber.name != 'Basic Neural Link') {
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
-                    break;
-                } else {
-                    setToastText('Remove all your chips first!')
-                    setShowSnackbar(true)
-                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
-                    break;
-                }
-                
-            case 'cyberoptics':
-                dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (incomingCyber.name === 'Basic Cybereyes') {
-                    setOpticSlots(0)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: 0 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    // loop through equipped cyberware and remove all equipped cyberoptics when cybereyes are removed.
-                    charCyberware.map(cyberware => {
-                        if (cyberware.type === 'cyberoptics') {
-                            dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: cyberware, slot_type: 'cyberoptic_slots', slot_count: 0 } })
-                        }
-                    })
-                    break;
-                } else {
-                    setOpticSlots(opticSlots + 1)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberoptic_slots', slot_count: opticSlots + 1 } })
-                    break;
-                }
+
             case 'internalware':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 setInternalwareSlots(internalwareSlots + 1)

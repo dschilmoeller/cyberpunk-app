@@ -179,6 +179,16 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                case 'cyberoptics':
+                    switch (action.payload.item.name) {
+                        case 'Basic Cybereyes':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots + 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+
             }
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
@@ -231,6 +241,15 @@ function* changeGearEquipStatus(action) {
                             break;
                         default:
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                case 'cyberoptics':
+                    switch (action.payload.item.name) {
+                        case 'Basic Cybereyes':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots - 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
 
