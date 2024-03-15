@@ -1,6 +1,16 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
+
+function* fetchAdvancementHumanity(action) {
+    try {
+        const advancementHumanity = yield axios.get(`/api/advancement/fetchadvancementhumanity/${action.payload}`)
+        yield put({ type: 'SET_ADVANCEMENT_HUMANITY', payload: advancementHumanity.data[0] })
+    } catch (err) {
+        console.log(`Error fetching advancement Humanity:`, err);
+    }
+}
+
 function* changeStat(action) {
     try {
         yield axios.put('/api/advancement/changeStat', action.payload)
@@ -52,22 +62,32 @@ function* repairItem(action) {
     }
 }
 
-function* changeCyberwareSlotCount(action){
+function* changeCyberwareSlotCount(action) {
     try {
-        console.log(`action.paylod:`, action.payload);
         yield axios.put('/api/advancement/changecyberwareslotcount/', action.payload)
         const charCyberwareStatus = yield axios.get(`/api/advancement/getCyberwareStatus/${action.payload.cyberwareBridgeID}`)
-        yield put({ type: 'SET_ADVANCEMENT_CYBERWARE_STATUS', payload: charCyberwareStatus.data[0]})
+        yield put({ type: 'SET_ADVANCEMENT_CYBERWARE_STATUS', payload: charCyberwareStatus.data[0] })
         // yield put({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: false})
     } catch (err) {
         console.log(`Error changing cyberware slot counts:`, err);
     }
 }
 
+function* cyberwareHumanityChange(action) {
+    try {
+        yield axios.put('/api/characters/cyberwareHumanityChange', action.payload)
+    } catch (err) {
+        console.log(`Error increasing perm/temp humanity loss:`, err);
+    }
+}
+
 function* advancementSaga() {
+    yield takeLatest('FETCH_ADVANCEMENT_HUMANITY', fetchAdvancementHumanity)
     yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat)
     yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem)
     yield takeLatest('CHANGE_CYBERWARE_SLOT_COUNT', changeCyberwareSlotCount)
+
+    yield takeLatest('CYBERWARE_HUMANITY_CHANGE', cyberwareHumanityChange);
 }
 
 export default advancementSaga;

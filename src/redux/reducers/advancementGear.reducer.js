@@ -288,22 +288,22 @@ const advancementGear = (state = {
         // Cyberware slots, being numerous and of different limits, are handled on front end to determine which slot is being changed.
         // Cyberware item itself is equipped similar to other gear. Unlike most other equip commands, cyberware equipping and removing
         // has an impact in the advancementDetail reducer as it touches humanity.
-        case 'EQUIP_CYBERWARE':
-            return {
-                ...state,
-                cyberwareSlots: {
-                    ...state.cyberwareSlots,
-                    [action.payload.slot_type]: action.payload.slot_count
-                },
-                cyberware: state.cyberware.map(item => {
-                    if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
-                        item.equipped = true
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
+        // case 'EQUIP_CYBERWARE':
+        //     return {
+        //         ...state,
+        //         cyberwareSlots: {
+        //             ...state.cyberwareSlots,
+        //             [action.payload.slot_type]: action.payload.slot_count
+        //         },
+        //         cyberware: state.cyberware.map(item => {
+        //             if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
+        //                 item.equipped = true
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         })
+        //     }
         // Cyberware armor is a special case of armor that is added together for total armor. It can also generate additional health boxes. Most of this addition is done on the front end Armor page.
         case 'CYBERWARE_ARMOR_EQUIPPED':
             return {
@@ -312,22 +312,22 @@ const advancementGear = (state = {
                 totalCyberwareHealthBoxesCreated: state.totalCyberwareHealthBoxesCreated + action.payload.healthBoxes
             }
         // Unequip should be a direct inverse of the equip process.
-        case 'UNEQUIP_CYBERWARE':
-            return {
-                ...state,
-                cyberwareSlots: {
-                    ...state.cyberwareSlots,
-                    [action.payload.slot_type]: action.payload.slot_count
-                },
-                cyberware: state.cyberware.map(item => {
-                    if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
-                        item.equipped = false
-                        return item
-                    } else {
-                        return item
-                    }
-                })
-            }
+        // case 'UNEQUIP_CYBERWARE':
+        //     return {
+        //         ...state,
+        //         cyberwareSlots: {
+        //             ...state.cyberwareSlots,
+        //             [action.payload.slot_type]: action.payload.slot_count
+        //         },
+        //         cyberware: state.cyberware.map(item => {
+        //             if (item.owned_cyberware_id === action.payload.incomingCyber.owned_cyberware_id) {
+        //                 item.equipped = false
+        //                 return item
+        //             } else {
+        //                 return item
+        //             }
+        //         })
+        //     }
         // Removing armor should be a direct inverse of the equip process. The payload quantities are negative numbers.
         case 'CYBERWARE_ARMOR_REMOVED':
             return {

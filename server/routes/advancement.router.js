@@ -18,6 +18,13 @@ router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => 
         .catch(err => { console.log(`Error fetching advancement character details:`, err); })
 })
 
+router.get('/fetchadvancementhumanity/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT "perm_humanity_loss", "temp_humanity_loss" FROM "character" WHERE id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching advancement humanity ratings:`, err); })
+})
+
 router.put('/changeStat', rejectUnauthenticated, (req, res) => {
     if (characterTableColumnCheck(req.body.statName) === true) {
         const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, spent_xp = $2 WHERE id = $3`

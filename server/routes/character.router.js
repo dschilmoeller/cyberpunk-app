@@ -1236,11 +1236,21 @@ router.put('/attributeGearChangeCool/:id', rejectUnauthenticated, (req, res) => 
         .catch(err => { console.log(`Error updating character cyber cool`, err); })
 })
 
+router.put('/attributegearchangeintelligence/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE character SET cyber_intelligence = (SELECT "cyber_intelligence" FROM "character" WHERE "character".id = $1) + $2 where "character"."id" = $1;`
+    const sqlParams = [req.body.charID, req.body.change]
+
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(201) })
+        .catch(err => { console.log(`Error updating character cyber cool`, err); })
+})
+
+
 
 router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
-// allows string literal in insert statement while removing SQL Injection possibility (hopefully)
-const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge', 'char_owned_cyberware']
-const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id', 'owned_cyberware_id']
+    // allows string literal in insert statement while removing SQL Injection possibility (hopefully)
+    const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge', 'char_owned_cyberware']
+    const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id', 'owned_cyberware_id']
 
     let tableCheck = false
     let pkCheck = false
@@ -1733,5 +1743,12 @@ router.get('/fetchCharacterLifestyle/:id', rejectUnauthenticated, (req, res) => 
         })
 })
 
+router.put('/cyberwareHumanityChange', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "character" SET "perm_humanity_loss" = $1, "temp_humanity_loss" = $2 WHERE id = $3`
+    const sqlParams = [req.body.newPermLoss, req.body.newTempLoss, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error updating perm/temp humanity losses`, err); })
+})
 
 module.exports = router

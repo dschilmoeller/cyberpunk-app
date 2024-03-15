@@ -93,6 +93,8 @@ function* gearAttributeChange(action) {
         yield axios.put(`/api/characters/attributegearchangeappearance/${action.payload.charID}`, action.payload)
     } else if (action.payload.type === 'cyber_cool') {
         yield axios.put(`/api/characters/attributegearchangecool/${action.payload.charID}`, action.payload)
+    } else if (action.payload.type === 'cyber_intelligence') {
+        yield axios.put(`/api/characters/attributegearchangeintelligence/${action.payload.charID}`, action.payload)
     }
 }
 
@@ -128,27 +130,157 @@ function* changeGearEquipStatus(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
         // Equipping Cyberware
-        if (action.payload.item.cyberware_master_id != undefined) {
+        if (action.payload.item.cyberware_master_id != undefined && action.payload.equipStatus === true) {
             // cyberware various settings. SHOULD be the simpler half (just checking name) rather than what is allowed, which would still go through FE
-            yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID})
+            yield put({ type: 'CYBERWARE_HUMANITY_CHANGE', payload: tempHumanityLossCalculator(action.payload.humanity, action.payload.item, action.payload.charID, 'loss') })
+
+            switch (action.payload.item.type) {
+                // Switch Layer 1: What kind of cyberware is being equipped
+                case 'fashionware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'fashionware_slots', newValue: action.payload.charCyberwareSlots.fashionware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+
+                    // Layer 2 - specific items
+                    if (action.payload.item.name === 'Light Tattoo') {
+                        yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', charID: action.payload.charID, change: 1 } })
+                    } else if (action.payload.item.name === 'Techhair') {
+                        yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: action.payload.charID, change: 1 } })
+                    }
+                    break;
+                case 'neuralware':
+                    switch (action.payload.item.name) {
+                        case 'Basic Neural Link':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 5, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: 1 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: 2 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: 3 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: 4 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: 5 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Nervous System Regulator':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: action.payload.charID, change: 1 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+            }
+            yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
+            yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
+
+
+        } else if (action.payload.item.cyberware_master_id != undefined && action.payload.equipStatus === false) {
+
+            yield put({ type: 'CYBERWARE_HUMANITY_CHANGE', payload: tempHumanityLossCalculator(action.payload.humanity, action.payload.item, action.payload.charID, 'gain') })
+
+            switch (action.payload.item.type) {
+                case 'fashionware':
+                    yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'fashionware_slots', newValue: action.payload.charCyberwareSlots.fashionware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                    if (action.payload.item.name === 'Light Tattoo') {
+                        yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_appearance', charID: action.payload.charID, change: -1 } })
+                    } else if (action.payload.item.name === 'Techhair') {
+                        yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: action.payload.charID, change: -1 } })
+                    }
+                    break;
+                case 'neuralware':
+                    console.log(`Case NeuralWare unequip`, action.payload.item.name);
+                    switch (action.payload.item.name) {
+                        case 'Basic Neural Link':
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 5, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        // case 'Advanced Neural Link':
+                        //     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 7, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                        case 'Algernonic Subprocessors I':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: -1 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors II':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: -2 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors III':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: -3 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors IV':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: -4 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Algernonic Subprocessors V':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_intelligence', charID: action.payload.charID, change: -5 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        case 'Nervous System Regulator':
+                            yield put({ type: "ATTRIBUTE_ENHANCING_GEAR_EQUIPPED", payload: { type: 'cyber_cool', charID: action.payload.charID, change: -1 } })
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+
+            }
+            yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
+            yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
         }
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
     } catch (error) {
         console.log(`Error changing item equip status`, error);
     }
-
 }
 
+const tempHumanityLossCalculator = (humanity, item, charID, type) => {
+    const currentPermLoss = humanity.currentPermLoss
+    const currentTempLoss = humanity.currentTempLoss
 
-function* equipCyberware(action) {
-    // hits char-cyber-status - equipped (char_owned_cyberware currently)
-    // possibly hits char-cyber bridge - slot changes (char_cyberware_bridge currently) - not applicable for chips,eg.
-    // possibly hits char_status -> cyber armor
-    // possibly hits char -> cyber-attributes
-}
+    const humanityMin = item.humanity_loss_min
+    const humanityMax = item.humanity_loss_max
 
-function* unequipCyberware(action) {
 
+    const newPermLoss = (type === 'loss' ? (currentPermLoss + humanityMin) : (currentPermLoss - humanityMin))
+    const newTempLoss = (type === 'loss' ? (currentTempLoss + (Math.floor(Math.random() * (humanityMax - humanityMin + 1)))) : (currentTempLoss - (Math.floor(Math.random() * (humanityMax - humanityMin + 1)))))
+    let object;
+    // Case 1 - Temp < 0 -> Temp 0, perm standard (possible w/ unequipping)
+    // Case 2 - Perm + Temp > 40 -> total 40 loss
+    // need a checker on FE to prevent equipping items that would push Perm + new item minimum >= 40. Prevents overequipping to bypass built in perm humanity loss maximum
+    // Case 3 - default case.
+
+    if (newTempLoss < 0) {
+        // handles removing, should prevent newTempLoss from going negative
+        return object = {
+            newPermLoss: newPermLoss,
+            newTempLoss: 0,
+            charID: charID
+        }
+    } else if (newTempLoss + newPermLoss > 40) {
+        // handles adding where total loss > 40, prevents combined total from going over 40.
+        return object = {
+            newPermLoss: newPermLoss,
+            newTempLoss: 40 - newPermLoss,
+            charID: charID
+        }
+    } else {
+        return object = {
+            newPermLoss: newPermLoss,
+            newTempLoss: newTempLoss,
+            charID: charID
+        }
+    }
 }
 
 // this is probably going to be its own thing.
@@ -299,7 +431,7 @@ function* changeWeaponClip(action) {
     try {
         yield axios.put('/api/gear/changeWeaponClip', action.payload)
         const weaponDetail = yield axios.get(`/api/characters/fetchcharacterweapons/${action.payload.charID}`)
-        yield put({ type: "SET_CHARACTER_WEAPONS", payload: weaponDetail.data})
+        yield put({ type: "SET_CHARACTER_WEAPONS", payload: weaponDetail.data })
         yield put({ type: "SET_CHARSHEET_LOAD_STATUS", payload: false })
 
     } catch (err) {
