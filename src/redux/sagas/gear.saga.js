@@ -129,14 +129,18 @@ function* changeGearEquipStatus(action) {
         if (action.payload.item.clothing_master_id != undefined) {
             yield put({ type: 'FETCH_ADVANCEMENT_CLOTHES', payload: action.payload.charID })
         }
-        // Equipping Cyberware
+        // Equipping Cyberware - equipstatus = false
         if (action.payload.item.cyberware_master_id != undefined && action.payload.equipStatus === true) {
-            // cyberware various settings. SHOULD be the simpler half (just checking name) rather than what is allowed, which would still go through FE
+            // cyberware stat changes (which hit multiple tables) are contained here. Allowable actions are kept on the FE (FE checks if character already has e.g. a Cyberarm equipped, and will not allow the dispatch to fire in the first place)
             yield put({ type: 'CYBERWARE_HUMANITY_CHANGE', payload: tempHumanityLossCalculator(action.payload.humanity, action.payload.item, action.payload.charID, 'loss') })
 
             switch (action.payload.item.type) {
                 // Switch Layer 1: What kind of cyberware is being equipped
                 case 'fashionware':
+                    // Change slot structure:
+                    // columnName: the column to be changed in char_cyberware_bridge
+                    // newValue: the new value of the column - usually the existing modifier +/- some amount
+                    // cyberwareBridgeID: Primary key of the char_cyberware_bridge
                     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'fashionware_slots', newValue: action.payload.charCyberwareSlots.fashionware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
 
                     // Layer 2 - specific items
@@ -179,6 +183,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'cyberoptics':
                     switch (action.payload.item.name) {
                         case 'Basic Cybereyes':
@@ -188,6 +193,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'cyberaudio':
                     switch (action.payload.item.name) {
                         case 'Basic Cyberaudio Suite':
@@ -197,6 +203,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'internalware':
                     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'internalware_slots', newValue: action.payload.charCyberwareSlots.internalware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                     switch (action.payload.item.name) {
@@ -248,6 +255,7 @@ function* changeGearEquipStatus(action) {
                         default:
                             break;
                     }
+                    break;
                 case 'externalware':
                     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'externalware_slots', newValue: action.payload.charCyberwareSlots.externalware_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                     switch (action.payload.item.name) {
@@ -267,6 +275,7 @@ function* changeGearEquipStatus(action) {
                         default:
                             break;
                     }
+                    break;
                 case 'cyberarm':
                     switch (action.payload.item.name) {
                         case 'Cyberarm - Right':
@@ -285,6 +294,28 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
+                case 'cyberleg':
+                    switch (action.payload.item.name) {
+                        case 'Cyberleg - Right':
+                        case 'Cyberleg - Left':
+                            // change slot count
+                            console.log(`action.payload.charCyberwareSlots:`, action.payload.charCyberwareSlots);
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberleg_slots', newValue: action.payload.charCyberwareSlots.cyberleg_slots + 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            // change armor/health
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: 1, charID: action.payload.charID } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberleg_slots', newValue: action.payload.charCyberwareSlots.cyberleg_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                    break;
+                case 'borgware':
+                    switch (action.payload.item.name) {
+                        default:
+                            break;
+                    }
+                    break;
                 default:
                     break;
 
@@ -293,7 +324,7 @@ function* changeGearEquipStatus(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
 
-
+            // Unequipping cyberware (equipstatus = false)
         } else if (action.payload.item.cyberware_master_id != undefined && action.payload.equipStatus === false) {
 
             yield put({ type: 'CYBERWARE_HUMANITY_CHANGE', payload: tempHumanityLossCalculator(action.payload.humanity, action.payload.item, action.payload.charID, 'gain') })
@@ -343,6 +374,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'neuralware_slots', newValue: action.payload.charCyberwareSlots.neuralware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'cyberoptics':
                     switch (action.payload.item.name) {
                         case 'Basic Cybereyes':
@@ -352,6 +384,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberoptic_slots', newValue: action.payload.charCyberwareSlots.cyberoptic_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'cyberaudio':
                     switch (action.payload.item.name) {
                         case 'Basic Cyberaudio Suite':
@@ -361,6 +394,7 @@ function* changeGearEquipStatus(action) {
                             yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberaudio_slots', newValue: action.payload.charCyberwareSlots.cyberaudio_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                             break;
                     }
+                    break;
                 case 'internalware':
                     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'internalware_slots', newValue: action.payload.charCyberwareSlots.internalware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                     switch (action.payload.item.name) {
@@ -412,6 +446,7 @@ function* changeGearEquipStatus(action) {
                         default:
                             break;
                     }
+                    break;
                 case 'externalware':
                     yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'externalware_slots', newValue: action.payload.charCyberwareSlots.externalware_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
                     switch (action.payload.item.name) {
@@ -430,24 +465,49 @@ function* changeGearEquipStatus(action) {
                         default:
                             break;
                     }
-                    case 'cyberarm':
-                        switch (action.payload.item.name) {
-                            case 'Cyberarm - Right':
-                            case 'Cyberarm - Left':
-                                // increase cyberarm slots
-                                yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots - 4, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
-                                // increase health boxes by 1
-                                yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: -1, charID: action.payload.charID } })
-                                break;
-                            case 'Big Knucks':
-                            case 'Scratchers':
-                            case 'Rippers':
-                            case 'Wolvers':
-                                break;
-                            default:
-                                yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
-                                break;
-                        }
+                    break;
+                case 'cyberarm':
+                    switch (action.payload.item.name) {
+                        case 'Cyberarm - Right':
+                        case 'Cyberarm - Left':
+                            // increase cyberarm slots
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots - 4, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            // increase health boxes by 1
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: -1, charID: action.payload.charID } })
+                            break;
+                        case 'Big Knucks':
+                        case 'Scratchers':
+                        case 'Rippers':
+                        case 'Wolvers':
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                    break;
+                case 'cyberleg':
+                    switch (action.payload.item.name) {
+                        case 'Cyberleg - Right':
+                        case 'Cyberleg - Left':
+                            // change slot count
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberleg_slots', newValue: action.payload.charCyberwareSlots.cyberleg_slots - 3, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            // change armor/health
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: -1, charID: action.payload.charID } })
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberleg_slots', newValue: action.payload.charCyberwareSlots.cyberleg_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                    break;
+                case 'borgware':
+                    switch (action.payload.item.name) {
+
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
             }
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
