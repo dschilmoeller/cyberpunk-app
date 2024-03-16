@@ -48,9 +48,10 @@ export default function AdvancementCyberware() {
     const cyberaudioSlots = charCyberwareSlots.cyberaudio_slots
     const internalwareSlots = charCyberwareSlots.internalware_slots
     const externalwareSlots = charCyberwareSlots.externalware_slots
+    const cyberarmSlots = charCyberwareSlots.cyberarm_slots
 
     // const [externalwareSlots, setExternalwareSlots] = useState(charCyberwareSlots.externalware_slots)
-    const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
+    // const [cyberarmSlots, setCyberarmSlots] = useState(charCyberwareSlots.cyberarm_slots)
     const [cyberlegSlots, setCyberlegSlots] = useState(charCyberwareSlots.cyberleg_slots)
 
     useEffect(() => {
@@ -171,11 +172,9 @@ export default function AdvancementCyberware() {
                     break;
                 }
                 break;
-
-
             case 'cyberarm':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                // Top level - Check if incoming gear being equipped is a cyberarm or a mod
+                // Top level - Check if incoming gear being equipped is a cyberarm or something else
                 if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
                     // if a right or left arm, check to see if one is already equipped
                     if (incomingCyber.name === 'Cyberarm - Right') {
@@ -198,10 +197,7 @@ export default function AdvancementCyberware() {
 
                         // if shoulder amount is okay, equip 'ware. o/w present error.
                         if (rightShoulderCount > 0) {
-                            setCyberarmSlots(cyberarmSlots + 4)
-                            dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 4 } })
-                            dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                            dispatch({ type: 'CYBERLIMB_EQUIPPED' })
+                            dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                             return;
                         } else {
                             setToastText('You do not have a shoulder to stand on.')
@@ -231,10 +227,7 @@ export default function AdvancementCyberware() {
 
                         // if shoulder amount is okay, equip 'ware. o/w present error.
                         if (leftShoulderCount > 0) {
-                            setCyberarmSlots(cyberarmSlots + 4)
-                            dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 4 } })
-                            dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                            dispatch({ type: 'CYBERLIMB_EQUIPPED' })
+                            dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                             return;
                         } else {
                             setToastText('You do not have a shoulder to stand on.')
@@ -245,13 +238,11 @@ export default function AdvancementCyberware() {
                     }
                     // If a cyberarm type and not a right / left cyberarm (thus, an arm mod), see if there are any slots open for mods.
                 } else if (incomingCyber.name === 'Big Knucks' || incomingCyber.name === 'Scratchers' || incomingCyber.name === 'Rippers' || incomingCyber.name === 'Wolvers') {
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots } })
-                    dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                     break;
                 } else if (cyberarmSlots > 0) {
                     // if there are open slots, lower slot count by 1, equip gear, and exit function
-                    setCyberarmSlots(cyberarmSlots - 1)
-                    dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots - 1 } })
+                    dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: true, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                     break;
                 } else {
                     // if there are no open slots, alert user to lack of slots.
@@ -266,7 +257,7 @@ export default function AdvancementCyberware() {
                     setCyberlegSlots(cyberlegSlots + 3)
                     dispatch({ type: 'EQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberleg_slots', slot_count: cyberlegSlots + 3 } })
                     dispatch({ type: 'HUMANITY_LOSS_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    dispatch({ type: 'CYBERLIMB_EQUIPPED' })
+                    // dispatch({ type: 'CYBERLIMB_EQUIPPED' })
                     break;
                 } else if (cyberlegSlots > 0) {
                     setCyberlegSlots(cyberlegSlots - 1)
@@ -352,25 +343,9 @@ export default function AdvancementCyberware() {
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
                 break;
-
-
             case 'cyberarm':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
-                if (incomingCyber.name === 'Cyberarm - Right' || incomingCyber.name === 'Cyberarm - Left') {
-                    setCyberarmSlots(cyberarmSlots - 4)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots - 4 } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    dispatch({ type: 'CYBERLIMB_REMOVED' })
-                    break;
-                } else if (incomingCyber.name === 'Big Knucks' || incomingCyber.name === 'Scratchers' || incomingCyber.name === 'Rippers' || incomingCyber.name === 'Wolvers') {
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots } })
-                    dispatch({ type: 'HUMANITY_RECOVERY_CYBERWARE', payload: { totalLoss: Number(humanityLossCalculator(incomingCyber.humanity_loss_min, incomingCyber.humanity_loss_max)), minLoss: Number(incomingCyber.humanity_loss_min) } })
-                    break;
-                } else {
-                    setCyberarmSlots(cyberarmSlots + 1)
-                    dispatch({ type: 'UNEQUIP_CYBERWARE', payload: { incomingCyber: incomingCyber, slot_type: 'cyberarm_slots', slot_count: cyberarmSlots + 1 } })
-                    break;
-                }
+                dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingCyber, charID: charDetails.id, table: 'char_owned_cyberware', tablePrimaryKey: 'owned_cyberware_id', tableID: incomingCyber.owned_cyberware_id, equipStatus: false, charCyberwareSlots, humanity: { currentPermLoss: charDetails.perm_humanity_loss, currentTempLoss: charDetails.temp_humanity_loss } } });
             case 'cyberleg':
                 dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
                 if (incomingCyber.name === 'Cyberleg - Right' || incomingCyber.name === 'Cyberleg - Left') {

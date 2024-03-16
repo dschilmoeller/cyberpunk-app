@@ -264,7 +264,30 @@ function* changeGearEquipStatus(action) {
                         case 'Body Plating':
                             yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 5, healthBoxes: 3, charID: action.payload.charID } })
                             break;
+                        default:
+                            break;
                     }
+                case 'cyberarm':
+                    switch (action.payload.item.name) {
+                        case 'Cyberarm - Right':
+                        case 'Cyberarm - Left':
+                            // increase cyberarm slots
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots + 4, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            // increase health boxes by 1
+                            yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: 1, charID: action.payload.charID } })
+                            break;
+                        case 'Big Knucks':
+                        case 'Scratchers':
+                        case 'Rippers':
+                        case 'Wolvers':
+                            break;
+                        default:
+                            yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots - 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                            break;
+                    }
+                default:
+                    break;
+
 
             }
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
@@ -404,8 +427,27 @@ function* changeGearEquipStatus(action) {
                         case 'Body Plating':
                             yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: -5, healthBoxes: -3, charID: action.payload.charID } })
                             break;
+                        default:
+                            break;
                     }
-
+                    case 'cyberarm':
+                        switch (action.payload.item.name) {
+                            case 'Cyberarm - Right':
+                            case 'Cyberarm - Left':
+                                // increase cyberarm slots
+                                yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots - 4, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                                // increase health boxes by 1
+                                yield put({ type: "CYBER_ARMOR_CHANGE", payload: { armor: 0, healthBoxes: -1, charID: action.payload.charID } })
+                                break;
+                            case 'Big Knucks':
+                            case 'Scratchers':
+                            case 'Rippers':
+                            case 'Wolvers':
+                                break;
+                            default:
+                                yield put({ type: "CHANGE_CYBERWARE_SLOT_COUNT", payload: { columnName: 'cyberarm_slots', newValue: action.payload.charCyberwareSlots.cyberarm_slots + 1, cyberwareBridgeID: action.payload.charCyberwareSlots.cyberware_bridge_id } })
+                                break;
+                        }
             }
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
