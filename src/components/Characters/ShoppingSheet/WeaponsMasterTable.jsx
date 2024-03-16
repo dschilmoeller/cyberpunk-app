@@ -26,6 +26,7 @@ export default function WeaponsMasterTable() {
     const weaponMaster = useSelector(store => store.gearMaster.weapons)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -275,7 +276,7 @@ export default function WeaponsMasterTable() {
                                             <TableCell align="center">{row.hands}</TableCell>
                                             <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
                                             <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyWeapon(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                                 }

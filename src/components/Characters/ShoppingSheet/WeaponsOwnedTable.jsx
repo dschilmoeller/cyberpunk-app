@@ -16,8 +16,10 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function WeaponsOwnedTable() {
     const dispatch = useDispatch()
+
     const charWeapons = useSelector(store => store.advancementGear.weapons)
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -245,14 +247,14 @@ export default function WeaponsOwnedTable() {
                                         {row.equipped === true ? (<>
                                             <TableRow hover>
                                                 <TableCell colSpan={3} align="center">{row.name} is Equipped!</TableCell>
-                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='secondary' onClick={() => unequipWeapon(row)}>Unequip</Button></TableCell>
-                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipWeapon(row)}>Unequip</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         </>) : (<>
                                             <TableRow hover>
                                                 <TableCell colSpan={3} align="center">{row.name} is NOT Equipped!</TableCell>
-                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='info' onClick={() => equipWeapon(row)}>Equip</Button></TableCell>
-                                                <TableCell colSpan={3} align="center"><Button variant='contained' color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipWeapon(row)}>Equip</Button></TableCell>
+                                                <TableCell colSpan={3} align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellWeapon(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         </>)}
                                     </React.Fragment>

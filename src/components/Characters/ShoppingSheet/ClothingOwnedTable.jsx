@@ -15,8 +15,8 @@ import { Button } from '@mui/material';
 export default function ClothingOwnedTable() {
     const dispatch = useDispatch()
     const charClothes = useSelector(store => store.advancementGear.clothes)
-    const boughtClothes = useSelector(store => store.advancementGear.boughtClothes)
     const charDetail = useSelector(store => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -242,9 +242,9 @@ export default function ClothingOwnedTable() {
                                             <TableCell align="center">{row.name}</TableCell>
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{row.rank}</TableCell>
-                                            <TableCell align="center"><Button variant='contained' color='info' onClick={() => equipclothes(row)}>Equip</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipclothes(row)}>Equip</Button></TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(priceMaker(row.quality, row.rank) / 4).toLocaleString()}</TableCell>
-                                            <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedClothing(row)}>Sell</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedClothing(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     );
                                 }

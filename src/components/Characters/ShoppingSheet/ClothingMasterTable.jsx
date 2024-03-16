@@ -21,10 +21,10 @@ function TransitionUp(props) {
 }
 export default function ClothingMasterTable() {
     const dispatch = useDispatch()
-    const clothingID = useSelector(store => store.advancementGear.clothingID)
+    
     const clothesMaster = useSelector(store => store.gearMaster.clothing)
-
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -236,7 +236,7 @@ export default function ClothingMasterTable() {
                                         <TableCell align="left">{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(price).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyClothing(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyClothing(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

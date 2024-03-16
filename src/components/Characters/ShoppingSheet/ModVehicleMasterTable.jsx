@@ -23,11 +23,10 @@ function TransitionUp(props) {
 export default function ModVehicleMasterTable() {
     const dispatch = useDispatch()
 
-    const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
     const vehicleModMaster = useSelector(store => store.gearMaster.vehicleMods)
 
     const charDetail = useSelector((store) => store.advancementDetail)
-
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -213,7 +212,7 @@ export default function ModVehicleMasterTable() {
                                             <TableCell align="center">{row.description}</TableCell>
                                             <TableCell align="center">{row.type}</TableCell>
                                             <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => buyVehicleMod(row)}>Buy</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyVehicleMod(row)}>Buy</Button></TableCell>
                                         </TableRow>
                                     );
                             })}

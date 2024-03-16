@@ -18,6 +18,7 @@ export default function ArmorOwnedTable() {
     const characterArmor = useSelector(store => store.advancementGear.armor)
     const characterShield = useSelector(store => store.advancementGear.shield)
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -247,9 +248,9 @@ export default function ArmorOwnedTable() {
                                                 <TableCell align='center'>{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='secondary' onClick={() => unequipArmor(row)}>Unequip</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipArmor(row)}>Unequip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellArmor(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellArmor(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
@@ -261,9 +262,9 @@ export default function ArmorOwnedTable() {
                                                 <TableCell align='center'>{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='secondary' onClick={() => unequipShield(row)}>Unequip</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipShield(row)}>Unequip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
@@ -297,9 +298,9 @@ export default function ArmorOwnedTable() {
                                                 <TableCell >{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='info' onClick={() => equipArmor(row)}>Equip</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipArmor(row)}>Equip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellArmor(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellArmor(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }
@@ -311,9 +312,9 @@ export default function ArmorOwnedTable() {
                                                 <TableCell>{row.name}</TableCell>
                                                 <TableCell align='center'>{row.quality}</TableCell>
                                                 <TableCell align='center'>{row.description}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='info' onClick={() => equipShield(row)}>Equip</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipShield(row)}>Equip</Button></TableCell>
                                                 <TableCell align='center'>{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align='center'><Button variant='contained' color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
+                                                <TableCell align='center'><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellShield(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }

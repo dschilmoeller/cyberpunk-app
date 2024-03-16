@@ -25,6 +25,7 @@ export default function OtherMasterTable() {
     const gearMaster = useSelector(store => store.gearMaster.miscGear)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -209,7 +210,7 @@ export default function OtherMasterTable() {
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyMiscGear(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

@@ -15,8 +15,10 @@ import Grid from '@mui/material/Grid';
 
 export default function OtherOwnedTable() {
     const dispatch = useDispatch()
+
     const charMiscGear = useSelector(store => store.advancementGear.gear)
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -187,7 +189,7 @@ export default function OtherOwnedTable() {
                                         <TableCell >{row.name}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedGear(row)}>Sell</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

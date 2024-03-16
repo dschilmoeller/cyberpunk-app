@@ -27,6 +27,7 @@ export default function ArmorMasterTable() {
     const shieldMaster = useSelector(store => store.gearMaster.shields)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -243,7 +244,7 @@ export default function ArmorMasterTable() {
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyArmor(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyArmor(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -254,7 +255,7 @@ export default function ArmorMasterTable() {
                                         <TableCell align="center">{row.quality}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='success' onClick={() => buyShield(row)}>Buy</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyShield(row)}>Buy</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

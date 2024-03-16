@@ -19,6 +19,7 @@ export default function GrenadeOwnedTable() {
     const charGrenades = useSelector(store => store.advancementGear.grenades)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -200,7 +201,7 @@ export default function GrenadeOwnedTable() {
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                                         <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button variant='contained' color='error' onClick={() => sellGrenade(row)}>Sell</Button></TableCell>
+                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellGrenade(row)}>Sell</Button></TableCell>
                                     </TableRow>
                                 );
                             })}

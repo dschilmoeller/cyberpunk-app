@@ -27,6 +27,7 @@ export default function VehicleOwnedTable() {
     const nomadFreebieStatus = useSelector(store => store.advancementGear.useNomadFreebie)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -270,7 +271,7 @@ export default function VehicleOwnedTable() {
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor((row.price / 4) + row.total_mod_cost).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
+                                                <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     })}

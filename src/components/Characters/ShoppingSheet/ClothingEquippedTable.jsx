@@ -15,6 +15,7 @@ export default function ClothingEquippedTable() {
     const dispatch = useDispatch()
     const charClothes = useSelector(store => store.advancementGear.clothes)
     const charDetail = useSelector(store => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -115,43 +116,43 @@ export default function ClothingEquippedTable() {
                                             </>) : <></>}
                                             {row.quality === 1 && row.rank === 1 ? (
                                                 <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button disabled variant='contained'>Hope you can give this to someone in need.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant={loadStatus === false ? 'contained' : 'disabled'}>Hope you can give this to someone in need.</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
                                             {row.quality === 1 && row.rank > 1 && row.rank < 5 ? (
                                                 <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
                                             {row.quality === 1 && row.rank === 5 ? (
                                                 <>
-                                                    <TableCell align="center"><Button disabled variant='contained'>You need better threads, choom.</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant={loadStatus === false ? 'contained' : 'disabled'}>You need better threads, choom.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => degradeClothing(row)}>Marie Kondo this look - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
                                             {row.quality === 2 && row.rank === 1 ? (
                                                 <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button disabled variant='contained'>Hope you can give this to someone in need.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => improveClothing(row)}>It's important to accessorize - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant={loadStatus === false ? 'contained' : 'disabled'}>Hope you can give this to someone in need.</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
                                             {row.quality === 2 && row.rank > 1 && row.rank < 10 ? (
                                                 <>
-                                                    <TableCell align="center"><Button variant='contained' color='success' onClick={() => improveClothing(row)}>Feeling cute, might buy another hat - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>I need to afford food again - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => improveClothing(row)}>Feeling cute, might buy another hat - {euroBuck}{priceMaker(row.quality, row.rank + 1)}</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => degradeClothing(row)}>I need to afford food again - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
                                                 </>
                                             ) : <></>}
 
                                             {row.quality === 2 && row.rank === 10 ? (
                                                 <>
-                                                    <TableCell align="center"><Button disabled variant='contained'>I mean you look really great.</Button></TableCell>
-                                                    <TableCell align="center"><Button variant='contained' color='error' onClick={() => degradeClothing(row)}>Needs must - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
+                                                    <TableCell align="center"><Button disabled variant={loadStatus === false ? 'contained' : 'disabled'}>I mean you look really great.</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => degradeClothing(row)}>Needs must - {euroBuck}{Math.floor(priceMaker(row.quality, row.rank - 1) / 4)}</Button></TableCell>
                                                 </>
                                             ) : <></>}
                                         </TableRow>

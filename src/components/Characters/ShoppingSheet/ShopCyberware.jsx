@@ -27,6 +27,7 @@ export default function ShopCyberware() {
     const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -110,7 +111,7 @@ export default function ShopCyberware() {
                                     <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                     <TableCell align="center">{item.install_level}</TableCell>
                                     <TableCell align="center">{euroBuck}{Math.floor(item.price / 4).toLocaleString("en-US")}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => sellOwnedCyberware(item)}>Sell</Button></TableCell>
+                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedCyberware(item)}>Sell</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
                         }
@@ -147,7 +148,7 @@ export default function ShopCyberware() {
                                                 <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                                 <TableCell align="center">{item.install_level}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
+                                                <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyCyberware(item)}>Buy</Button></TableCell>
                                             </TableRow>
                                         </React.Fragment>
                                     ) : <></>}

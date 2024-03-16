@@ -11,14 +11,14 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import Switch from '@mui/material/Switch';
+
 
 export default function ModVehicleOwnedTable() {
     const dispatch = useDispatch()
 
     const charVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`
 
@@ -190,7 +190,7 @@ export default function ModVehicleOwnedTable() {
                                                 <TableCell align="center">{row.description}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
                                                 <TableCell align="center">{euroBuck}{Math.floor(row.price / 4).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => sellOwnedVehicleMod(row)}>Sell</Button></TableCell>
+                                                <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedVehicleMod(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );
                                     }

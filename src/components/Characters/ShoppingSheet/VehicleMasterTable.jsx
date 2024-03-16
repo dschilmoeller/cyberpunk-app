@@ -32,6 +32,8 @@ export default function VehicleMasterTable() {
     const vehicleMaster = useSelector(store => store.gearMaster.vehicles)
 
     const charDetail = useSelector((store) => store.advancementDetail)
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
+    
     const useNomadFreebie = useSelector(store => store.advancementGear.useNomadFreebie)
 
     const [nomadDiscount, setNomadDiscount] = React.useState(0)
@@ -285,7 +287,7 @@ export default function VehicleMasterTable() {
                                                         <TableCell align="center">{row.mph}</TableCell>
                                                         <TableCell align="center">{row.type}</TableCell>
                                                         <TableCell align="center">{euroBuck}0</TableCell>
-                                                        <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
+                                                        <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
                                                     </TableRow>
                                                 );
                                             } else {
@@ -308,7 +310,7 @@ export default function VehicleMasterTable() {
                                                     <TableCell align="center">{row.mph}</TableCell>
                                                     <TableCell align="center">{row.type}</TableCell>
                                                     <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                                    <TableCell align="center"><Button onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
+                                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' onClick={() => buyVehicle(row)}>Buy</Button></TableCell>
                                                 </TableRow>
                                             )
                                         })}
