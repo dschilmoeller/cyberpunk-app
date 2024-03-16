@@ -513,6 +513,7 @@ function* changeGearEquipStatus(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
         }
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+        
     } catch (error) {
         console.log(`Error changing item equip status`, error);
     }

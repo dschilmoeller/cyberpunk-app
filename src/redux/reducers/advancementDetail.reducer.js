@@ -43,21 +43,6 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots + 1
             }
-        case 'BUY_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
-            }
         case 'REPAIR_CYBERWARE':
             return {
                 ...state,

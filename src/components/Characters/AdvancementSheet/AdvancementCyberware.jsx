@@ -33,10 +33,12 @@ export default function AdvancementCyberware() {
     // contents of the char_cyberware_bridge (which should be char_cyberware_status of course)
     const charCyberwareSlots = useSelector(store => store.advancementGear.cyberwareSlots)
 
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
+
     // sets selected list - cannot convert to address without making cyberware handling it's own thing.
     // duplicate Tab Functionality to prevent errors?
 
-    const [selectedList, setSelectedList] = useState('cyberleg')
+    const [selectedList, setSelectedList] = useState('fashionware')
     const handleTabChange = (event, newValue) => {
         setSelectedList(newValue)
     }
@@ -51,20 +53,13 @@ export default function AdvancementCyberware() {
     const cyberarmSlots = charCyberwareSlots.cyberarm_slots
     const cyberlegSlots = charCyberwareSlots.cyberleg_slots
 
-    useEffect(() => {
-        // would need for all, but a direct reference to the reducer would be better and more in keeping with the current app's standards.
-        // setFashionSlots(charCyberwareSlots.fashionware_slots)
-    }, [charCyberwareSlots])
-
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
     const [toastText, setToastText] = React.useState('')
 
-    // Function runs before equipping 'ware in order to detect if identical cyberware is already equipped OR if incompatible gear is equipped.
-    // this needs to be asynchronous?
-    // it also needs to be moved to a different module. All it needs to do is return is true/false in the end. Would that also effectively make it asynchronous as it would wait for the return of the function result before running the next items?
+    // This still needs to be changed to Async to ensure functionality but works for local users.
 
     const cyberwareEquippedCheck = (incomingCyber) => {
         // check for humanity:
@@ -382,10 +377,6 @@ export default function AdvancementCyberware() {
         }
     }
 
-    const humanityLossCalculator = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1))
-    }
-
     return (<>
         <Tabs
             value={selectedList}
@@ -518,7 +509,7 @@ export default function AdvancementCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
 
-                                            <TableCell align="center"><Button onClick={() => unequipCyber(item)}>Remove</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === true ? 'disabled' : 'contained'} color='secondary' onClick={() => unequipCyber(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     ) : <></>}</React.Fragment>)
                         }
@@ -551,7 +542,7 @@ export default function AdvancementCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.humanity_loss_min} - {item.humanity_loss_max}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => cyberwareEquippedCheck(item)}>Equip</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === true ? 'disabled' : 'contained'} color='info' onClick={() => cyberwareEquippedCheck(item)}>Equip</Button></TableCell>
                                         </TableRow>
                                     ) : <></>}</React.Fragment>)
                         }
