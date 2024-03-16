@@ -11,44 +11,12 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 bank: action.payload.bank
             }
-        case 'HUMANITY_LOSS_CYBERWARE':
+        case 'SET_ADVANCEMENT_HUMANITY':
             return {
                 ...state,
-                perm_humanity_loss: Number(state.perm_humanity_loss + action.payload.minLoss),
-                temp_humanity_loss: Number(state.temp_humanity_loss + (action.payload.totalLoss - action.payload.minLoss))
+                perm_humanity_loss: action.payload.perm_humanity_loss,
+                temp_humanity_loss: action.payload.temp_humanity_loss
             }
-        case 'HUMANITY_RECOVERY_CYBERWARE':
-            let newTotalTempHumanityLoss = (state.temp_humanity_loss - (action.payload.totalLoss - action.payload.minLoss))
-            // if newTotalTempHumanityLoss is > 0, tempHumanityLost is newTotal
-            let tempHumanityLoss = 0
-            if (newTotalTempHumanityLoss > 0) {
-                tempHumanityLoss = newTotalTempHumanityLoss
-            }
-            return {
-                ...state,
-                perm_humanity_loss: state.perm_humanity_loss - action.payload.minLoss,
-                temp_humanity_loss: tempHumanityLoss
-            }
-        case 'ATTRIBUTE_ENHANCING_CYBERWARE_EQUIPPED':
-            // This type will be one of cyber_appearance, cyber_reflexes, etc and the quality is the modification. 
-            // used mainly for cyber_appearance and cyber_cool as the physical stats and int are all modified by cyberware that uses
-            // the below STATIC_CYBERWARE_ATTRIBUTE_SET
-            return {
-                ...state,
-                [action.payload.type]: state[action.payload.type] + action.payload.quality
-            }
-        case 'STATIC_CYBERWARE_ATTRIBUTE_SET':
-            // modifies cyber_attribute to a fixed number, mainly physical stats and intelligence as only one piece of cyberware that modifies
-            // these can be equipped at a time.
-            return {
-                ...state,
-                [action.payload.type]: action.payload.quality
-            }
-        // case 'REPAIR_ARMOR':
-        //     return {
-        //         ...state,
-        //         bank: Number(state.bank - action.payload.this_armor_loss * (action.payload.price / 10))
-        //     }
         case 'BUY_NETRUNNER_GEAR':
             return {
                 ...state,
@@ -74,21 +42,6 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             return {
                 ...state,
                 nomad_vehicle_slots: state.nomad_vehicle_slots + 1
-            }
-        case 'BUY_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload.item.price)
-            }
-        case 'SELL_OWNED_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank + Math.floor(action.payload.price / 4))
-            }
-        case 'SELL_ADVANCEMENT_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank + action.payload.price)
             }
         case 'REPAIR_CYBERWARE':
             return {

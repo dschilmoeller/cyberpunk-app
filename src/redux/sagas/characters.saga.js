@@ -420,7 +420,7 @@ function* characterSaga() {
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);
-  yield takeLatest('FETCH_ADVANCEMENT_BANK', fetchAdvancementBank)
+  yield takeLatest('FETCH_ADVANCEMENT_BANK', fetchAdvancementBank);
   yield takeLatest('FETCH_ADVANCEMENT_ARMOR', fetchAdvancementArmor);
   yield takeLatest('FETCH_ADVANCEMENT_SHIELD', fetchAdvancementShield);
   yield takeLatest('FETCH_ADVANCEMENT_WEAPONS', fetchAdvancementWeapons);

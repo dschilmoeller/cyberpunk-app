@@ -18,6 +18,13 @@ router.get('/fetchAdvancementDetails/:id', rejectUnauthenticated, (req, res) => 
         .catch(err => { console.log(`Error fetching advancement character details:`, err); })
 })
 
+router.get('/fetchadvancementhumanity/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT "perm_humanity_loss", "temp_humanity_loss" FROM "character" WHERE id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching advancement humanity ratings:`, err); })
+})
+
 router.put('/changeStat', rejectUnauthenticated, (req, res) => {
     if (characterTableColumnCheck(req.body.statName) === true) {
         const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, spent_xp = $2 WHERE id = $3`
@@ -33,24 +40,59 @@ router.put('/changeStat', rejectUnauthenticated, (req, res) => {
 })
 
 router.put('/repairItem', rejectUnauthenticated, (req, res) => {
-    if (repairCheck(req.body.table, req.body.columnName, req.body.tablePrimaryKey)) {
+    if (repairCheck(req.body.table, req.body.columnName, req.body.tablePrimaryKey) === true) {
         const sqlText = `UPDATE ${req.body.table} SET ${req.body.columnName} = 0 WHERE ${req.body.tablePrimaryKey} = $1`
         const sqlParams = [req.body.tableID]
         pool.query(sqlText, sqlParams)
             .then(result => { res.sendStatus(200); })
-            .catch(err => { console.log(`Error repairing item in table ${req.body.table} setting column ${req.body.columnName} to 0 at PK ${req.body.tablePrimaryKey} due to Error:`, err);})
+            .catch(err => { console.log(`Error repairing item in table ${req.body.table} setting column ${req.body.columnName} to 0 at PK ${req.body.tablePrimaryKey} due to Error:`, err); })
     } else {
         console.log(`Error repairing item due to column/table validation failure. Table: ${req.body.table}, Column: ${req.body.columnName}, PK: ${req.body.tablePrimaryKey}`);
         res.sendStatus(400)
     }
 })
 
+router.put('/changecyberwareslotcount', rejectUnauthenticated, (req, res) => {
+    if (cyberSlotCheck(req.body.columnName) === true) {
+        const sqlText = `UPDATE "char_cyberware_bridge" SET ${req.body.columnName} = $1 WHERE "cyberware_bridge_id" = $2`
+        pool.query(sqlText, [req.body.newValue, req.body.cyberwareBridgeID])
+            .then(result => { res.sendStatus(200); })
+            .catch(err => { console.log(`Error changing cyberware slots:`, err); })
+
+    } else {
+        console.log(`Error changing cyberware slots due to columnName validation failure. ColumnName:${req.body.columnName}`);
+        res.sendStatus(400);
+    }
+})
+
+router.put('/changecyberwarearmorhealth', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_cyberware_armor_quality" = (SELECT "current_cyberware_armor_quality") + $1, "current_cyberware_health_boxes" = (SELECT "current_cyberware_health_boxes") + $2, "current_cyberware_armor_loss" = 0 WHERE "char_id" = $3`
+    const sqlParams = [req.body.armor, req.body.healthBoxes, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing cyberware armor/health details:`, err); })
+})
+
+router.get('/fetchadvancementcharstatus/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_status" WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching char status id: ${req.params.id} with error:`, err); })
+})
+
+router.get('/getCyberwareStatus/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_cyberware_bridge" WHERE "cyberware_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching char_cyberware_bridge data:`, err); })
+})
+
 router.put('/changeBank', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "character" SET "bank" = $1 WHERE "id" = $2`
     const sqlParams = [req.body.newBank, req.body.charID]
     pool.query(sqlText, sqlParams)
-    .then(result => { res.sendStatus(200);})
-    .catch(err => { console.log(`Error changing character bank:`, err);})
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing character bank:`, err); })
 })
 
 // whitelist for incoming data to check against as express cannot parametize column names due to ' / " mismatch in javascript strings.
@@ -105,6 +147,16 @@ const itemPrimaryKeyCheck = (columnName) => {
     for (let i = 0; i < whiteListPK.length; i++) {
         if (whiteListPK[i] === columnName) {
             return true
+        }
+    }
+    return false;
+}
+
+const cyberSlotCheck = (columnName) => {
+    const whiteListColumn = ['fashionware_slots', 'neuralware_slots', 'cyberoptic_slots', 'cyberaudio_slots', 'internalware_slots', 'externalware_slots', 'cyberarm_slots', 'cyberleg_slots']
+    for (let i = 0; i < whiteListColumn.length; i++) {
+        if (whiteListColumn[i] === columnName) {
+            return true;
         }
     }
     return false;
