@@ -99,6 +99,14 @@ function* cyberwareHumanityChange(action) {
     }
 }
 
+function* useNomadFreebie(action){
+    try{
+        yield axios.put(`/api/advancement/usenomadfreebie/${action.payload}`)
+    } catch(err){
+        console.log(`Error using nomad freebie:`, err);
+    }
+}
+
 function* advancementSaga() {
     yield takeLatest('FETCH_ADVANCEMENT_HUMANITY', fetchAdvancementHumanity);
     yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat);
@@ -109,6 +117,8 @@ function* advancementSaga() {
 
     yield takeLatest('CHANGE_CYBERWARE_SLOT_COUNT', changeCyberwareSlotCount);
     yield takeLatest('CYBERWARE_HUMANITY_CHANGE', cyberwareHumanityChange);
+
+    yield takeLatest('ADVANCEMENT_USE_NOMAD_FREEBIE', useNomadFreebie)
 }
 
 export default advancementSaga;

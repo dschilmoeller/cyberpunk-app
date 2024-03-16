@@ -99,7 +99,7 @@ function* charUseGrenade(action) {
   yield axios.delete(`/api/characters/useGrenade/${action.payload.grenade.grenade_bridge_id}`)
   // fetch / set grenades
   const characterGrenades = yield axios.get(`api/characters/fetchcharactergrenades/${action.payload.charID}`)
-  yield put({ type: 'SET_CHARACTER_GRENADES', payload: characterGrenades.data})
+  yield put({ type: 'SET_CHARACTER_GRENADES', payload: characterGrenades.data })
   yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
 }
 
@@ -413,10 +413,10 @@ function* characterSaga() {
   yield takeLatest('CHARACTER_NEW_CONTACT', createCharacterContact);
   yield takeLatest('CHARACTER_CONTACT_UPDATE', updateCharacterContact);
   yield takeLatest('CHARACTER_DELETE_CONTACT', deleteCharacterContact);
-  
+
   // permanent luck reduction
   yield takeLatest('PLAYER_BURN_ONE_LUCK', characterBurnLuck);
-  
+
   // advancement fetch/save
   yield takeLatest('FETCH_ADVANCEMENT_DETAIL', fetchAdvancementDetails);
   yield takeLatest('SAVE_ADVANCEMENT_DETAIL', saveAdvancementDetails);

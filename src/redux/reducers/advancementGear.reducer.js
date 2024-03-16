@@ -196,28 +196,6 @@ const advancementGear = (state = {
                 netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
                 soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload]
             }
-        // In the case of using Nomad Points to acquire a vehicle instead of cash, handler is slightly different.
-        case 'BUY_NOMAD_VEHICLE':
-            return {
-                ...state,
-                boughtVehicles: [...state.boughtVehicles,
-                {
-                    description: action.payload.item.description,
-                    health: action.payload.item.health,
-                    move: action.payload.item.move,
-                    mph: action.payload.item.mph,
-                    name: action.payload.item.name,
-                    price: 0,
-                    seats: action.payload.item.seats,
-                    type: action.payload.item.type,
-                    vehicle_master_id: action.payload.item.vehicle_master_id,
-                    is_nomad_vehicle: true,
-                    vehicleID: action.payload.vehicleID
-                }],
-                vehicleID: state.vehicleID + 1,
-                useNomadFreebie: false,
-            }
-
         case 'EQUIP_VEHICLE_MOD':
             return {
                 ...state,

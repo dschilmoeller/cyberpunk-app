@@ -28,7 +28,6 @@ function TransitionUp(props) {
 export default function VehicleMasterTable() {
     const dispatch = useDispatch()
 
-    const vehicleID = useSelector(store => store.advancementGear.vehicleID)
     const vehicleMaster = useSelector(store => store.gearMaster.vehicles)
 
     const charDetail = useSelector((store) => store.advancementDetail)
@@ -52,7 +51,7 @@ export default function VehicleMasterTable() {
 
     React.useEffect(() => {
         calculateNomadDiscount()
-    }, [])
+    }, [charDetail])
 
     const euroBuck = `\u20AC$`
 
@@ -65,9 +64,11 @@ export default function VehicleMasterTable() {
         if (charDetail.bank >= item.price && useNomadFreebie === false) {
             let newBank = charDetail.bank - item.price
             // dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
-            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.vehicle_master_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_id' } })
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.vehicle_master_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_id', useNomadFreebie: false } })
         } else if (useNomadFreebie === true) {
-            dispatch({ type: 'BUY_NOMAD_VEHICLE', payload: { item, vehicleID } })
+            let newBank = charDetail.bank
+            dispatch({ type: 'BUY_ITEM', payload: { itemMasterID: item.vehicle_master_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_id', useNomadFreebie: true } })
+            dispatch({ type: 'SET_NOMAD_FREEBIE', payload: false})
         } else {
             setShowSnackbar(true)
         }

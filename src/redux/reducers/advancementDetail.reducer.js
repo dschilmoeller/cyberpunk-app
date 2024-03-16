@@ -17,6 +17,11 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 perm_humanity_loss: action.payload.perm_humanity_loss,
                 temp_humanity_loss: action.payload.temp_humanity_loss
             }
+        case 'SET_ADVANCEMENT_NOMAD_VEHICLE_SLOTS':
+            return {
+                ...state,
+                nomad_vehicle_slots: action.payload.nomad_vehicle_slots
+            }
         case 'BUY_NETRUNNER_GEAR':
             return {
                 ...state,
@@ -32,17 +37,17 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
-        case 'BUY_NOMAD_VEHICLE':
-            // As we can see, this changes something other than the bank.
-            return {
-                ...state,
-                nomad_vehicle_slots: state.nomad_vehicle_slots - 1
-            }
-        case 'RESTORE_NOMAD_SLOT':
-            return {
-                ...state,
-                nomad_vehicle_slots: state.nomad_vehicle_slots + 1
-            }
+        // case 'BUY_NOMAD_VEHICLE':
+        //     // As we can see, this changes something other than the bank.
+        //     return {
+        //         ...state,
+        //         nomad_vehicle_slots: state.nomad_vehicle_slots - 1
+        //     }
+        // case 'RESTORE_NOMAD_SLOT':
+        //     return {
+        //         ...state,
+        //         nomad_vehicle_slots: state.nomad_vehicle_slots + 1
+        //     }
         case 'REPAIR_CYBERWARE':
             return {
                 ...state,

@@ -95,6 +95,20 @@ router.put('/changeBank', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error changing character bank:`, err); })
 })
 
+router.put('/usenomadfreebie/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "character" SET "nomad_vehicle_slots" = (SELECT "nomad_vehicle_slots") - 1 WHERE id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing nomad vehicle slot count:`, err); })
+})
+
+router.get('/fetchNomadVehicleSlots/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT "nomad_vehicle_slots" FROM "character" WHERE id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error selecting nomad slots for character ${req.params.id}:`, err); })
+})
+
 // whitelist for incoming data to check against as express cannot parametize column names due to ' / " mismatch in javascript strings.
 const characterTableColumnCheck = (statName) => {
     const whiteListColumn = ['strength', 'body', 'reflexes', 'appearance', 'cool',

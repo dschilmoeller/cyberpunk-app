@@ -513,7 +513,7 @@ function* changeGearEquipStatus(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_HUMANITY', payload: action.payload.charID })
         }
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
-        
+
     } catch (error) {
         console.log(`Error changing item equip status`, error);
     }
@@ -601,6 +601,14 @@ function* buyItem(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
         }
         if (action.payload.table === 'char_vehicle_bridge') {
+            if (action.payload.useNomadFreebie === true) {
+                console.log(`Using nomad freebie`);
+                yield put({ type: 'ADVANCEMENT_USE_NOMAD_FREEBIE', payload: action.payload.charID })
+                console.log(`nomad freebie used, updating reducer`);
+                const nomadVehicleSlots = yield axios.get(`/api/advancement/fetchNomadVehicleSlots/${action.payload.charID}`)
+                console.log(`nomadVehicleSlots:`, nomadVehicleSlots);
+                yield put({ type: 'SET_ADVANCEMENT_NOMAD_VEHICLE_SLOTS', payload: nomadVehicleSlots.data[0] })
+            }
             yield put({ type: 'FETCH_ADVANCEMENT_VEHICLES', payload: action.payload.charID })
         }
         if (action.payload.table === 'char_owned_vehicle_mods') {
