@@ -16,10 +16,25 @@ import { Button } from '@mui/material';
 
 export default function AdvancementGarage() {
     const dispatch = useDispatch();
+
+    const advancementDetail = useSelector(store => store.advancementDetail)
+
     const characterVehicles = useSelector(store => store.advancementGear.vehicles)
     const characterVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
     const characterPreviouslyEquippedVehicleMods = useSelector(store => store.characterModMaster.vehicleMods)
     const characterNewlyEquippedVehicleMods = useSelector(store => store.characterModMaster.addedVehicleMods)
+
+    // need new dispatch
+    // "EQUIP_MOD"
+    // includes mod type (vehicle in this case) for initial sorting
+    // will need to include base item bridge ID and column name - char_vehicle_mod_bridge.vehicle_bridge_id
+    // will need to include mod item bridge ID and column name - char_vehicle_mod_bridge.char_owned_vheicle
+    // secondary effects (armored, seat # changes, etc) need to be handled and changed in the saga to conform to the rest of the app
+    // need to make it like "BUY ITEM" where it works for any item, including whitelists/etc as needed.
+
+    const equipVehicleMod = (mod) => {
+        dispatch({ type: 'EQUIP_MOD', payload: {mod, charID: advancementDetail.id }, table: 'char_vehicle_mod_bridge', baseItemColumn: 'vehicle_bridge_id', modItemColumn: 'char_owned_vehicle_mods_id'})
+    }
 
     const removePreviouslyEquippedVehicleMod = (row, mod) => {
         dispatch({ type: 'REMOVE_VEHICLE_MOD', payload: { modData: mod } })
@@ -153,6 +168,7 @@ export default function AdvancementGarage() {
                         <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Type</TableCell>
                         <TableCell align="center">Vehicle Select</TableCell>
+                        <TableCell align="center">Confirm</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -164,6 +180,7 @@ export default function AdvancementGarage() {
                                     <TableCell align="center">{row.description}</TableCell>
                                     <TableCell align="center">{row.type}</TableCell>
                                     {optionBuilder(row.type, row)}
+                                    <TableCell align="center"><Button>Equip Mod</Button></TableCell>
                                 </TableRow>
                             )    
                         }

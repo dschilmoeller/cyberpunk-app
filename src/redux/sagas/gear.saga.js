@@ -559,15 +559,15 @@ const tempHumanityLossCalculator = (humanity, item, charID, type) => {
 }
 
 // this is probably going to be its own thing.
-function* equipVehicleMod(action) {
-    // hits char_owned_vehicle_mods (put)
-    // hits char_vehicle_mod_bridge (post)
-    // hits char_vehicle_bridge (put) -> mod effects (has_armor, extra_seats, total_mod_cost)
+function* equipMod(action) {
+    try {
+        yield axios.put('/api/gear/equipmod', action.payload)
+
+    } catch (err) {
+        console.log(`Error equipping mod:`, err);
+    }
 }
 
-function* unequipVehicleMod(action) {
-
-}
 
 function* equipNetrunner(action) {
     // this will probably be only slight less complicated than the cyberware equipping/unequipping.
@@ -738,6 +738,7 @@ function* gearSaga() {
     yield takeLatest('ATTRIBUTE_ENHANCING_GEAR_EQUIPPED', gearAttributeChange);
 
     yield takeLatest('CHANGE_GEAR_EQUIP_STATUS', changeGearEquipStatus);
+    yield takeLatest('EQUIP_MOD', equipMod);
 
     yield takeLatest('BUY_ITEM', buyItem);
     yield takeLatest('SELL_ITEM', sellItem);
