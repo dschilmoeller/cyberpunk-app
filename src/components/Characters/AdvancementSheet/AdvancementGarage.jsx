@@ -33,7 +33,17 @@ export default function AdvancementGarage() {
     // need to make it like "BUY ITEM" where it works for any item, including whitelists/etc as needed.
 
     const equipVehicleMod = (mod) => {
-        dispatch({ type: 'EQUIP_MOD', payload: {mod, charID: advancementDetail.id }, table: 'char_vehicle_mod_bridge', baseItemColumn: 'vehicle_bridge_id', modItemColumn: 'char_owned_vehicle_mods_id'})
+        // This currently dispatches the mod but not the base item. Need to modify the existing option builder to be able to pack in the base item data. 
+        dispatch({
+            type: 'EQUIP_MOD',
+            payload: {
+                mod,
+                charID: advancementDetail.id,
+                table: 'char_vehicle_mod_bridge',
+                baseItemColumn: 'vehicle_bridge_id',
+                modItemColumn: 'char_owned_vehicle_mods_id'
+            }
+        })
     }
 
     const removePreviouslyEquippedVehicleMod = (row, mod) => {
@@ -67,7 +77,7 @@ export default function AdvancementGarage() {
     }
 
     const optionBuilder = (type, row) => {
-        
+
         const dispatchVehicleSelection = (event) => {
             dispatch({ type: "EQUIP_VEHICLE_MOD", payload: { vehicle_bridge_id: event.target.value, modData: row } })
             if (row.name === 'Seating Upgrade') {
@@ -173,19 +183,19 @@ export default function AdvancementGarage() {
                 </TableHead>
                 <TableBody>
                     {characterVehicleMods.map((row, i) => {
-                        if (row.equipped === false){
+                        if (row.equipped === false) {
                             return (
                                 <TableRow hover key={i}>
                                     <TableCell padding='normal'>{row.name}</TableCell>
                                     <TableCell align="center">{row.description}</TableCell>
                                     <TableCell align="center">{row.type}</TableCell>
                                     {optionBuilder(row.type, row)}
-                                    <TableCell align="center"><Button>Equip Mod</Button></TableCell>
+                                    <TableCell align="center"><Button onClick={() => equipVehicleMod(row)}>Equip Mod</Button></TableCell>
                                 </TableRow>
-                            )    
+                            )
                         }
                     })}
-                    
+
                 </TableBody>
             </Table>
         </TableContainer>

@@ -558,11 +558,15 @@ const tempHumanityLossCalculator = (humanity, item, charID, type) => {
     }
 }
 
-// this is probably going to be its own thing.
 function* equipMod(action) {
     try {
+        // equip mod
         yield axios.put('/api/gear/equipmod', action.payload)
-
+        // refetch base items?
+        // refetch mod items?
+        // refetch equipped mods certainly.
+        // set equipped mods
+        // change load status
     } catch (err) {
         console.log(`Error equipping mod:`, err);
     }

@@ -2,8 +2,10 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+const { rejectUnauthenticated } = require('../modules/authentication-middleware')
+
 // Fetch Armor List
-router.get('/fetcharmor', (req, res) => {
+router.get('/fetcharmor', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "armor_master" order by "armor_master_id"`
 
     pool.query(sqlText)
@@ -16,70 +18,70 @@ router.get('/fetcharmor', (req, res) => {
 });
 
 // Other Fetches
-router.get('/fetchshield', (req, res) => {
+router.get('/fetchshield', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "shield_master" order by "shield_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error Fetching Armor List:`, err); });
 });
 
-router.get('/fetchweapon', (req, res) => {
+router.get('/fetchweapon', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "weapon_master" order by "weapon_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error Fetching Weapon List:`, err); });
 });
 
-router.get('/fetchgrenades', (req, res) => {
+router.get('/fetchgrenades', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "grenade_master"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching grenade list:`, err); })
 })
 
-router.get('/fetchmiscgear', (req, res) => {
+router.get('/fetchmiscgear', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "misc_gear_master" order by "misc_gear_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching misc gear list:`, err); })
 })
 
-router.get('/fetchcyberware/', (req, res) => {
+router.get('/fetchcyberware/', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "cyberware_master" order by "cyberware_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching cyberware master list:`, err); })
 })
 
-router.get('/fetchnetrunner/', (req, res) => {
+router.get('/fetchnetrunner/', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "netrunner_master" order by "netrunner_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching cyberware master list:`, err); })
 })
 
-router.get('/fetchvehicles', (req, res) => {
+router.get('/fetchvehicles', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "vehicle_master" order by "type"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching vehicle master list:`, err); })
 })
 
-router.get('/fetchvehicleMods', (req, res) => {
+router.get('/fetchvehicleMods', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "vehicle_mod_master" ORDER BY "vehicle_mod_master_id"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching vehicle modification list:`, err); })
 })
 
-router.get('/fetchclothing', (req, res) => {
+router.get('/fetchclothing', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "clothing_master"`
     pool.query(sqlText)
         .then(result => { res.send(result.rows); })
         .catch(err => { console.log(`Error fetching master clothing lists:`, err); })
 })
 
-router.get('/fetchlifestyle/', (req, res) => {
+router.get('/fetchlifestyle/', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "lifestyle_master"`
     pool.query(sqlText)
         .then((result) => { res.send(result.rows); })
@@ -91,7 +93,7 @@ const whiteListTable = ['char_armor_bridge', 'char_clothing_bridge', 'char_gear_
 const whiteListBuyPKs = ['armor_id', 'clothing_id', 'misc_gear_id', 'grenade_id', 'cyberware_master_id', 'vehicle_mod_master_id', 'shield_id', 'vehicle_id', 'weapon_id']
 const whiteListSellPKs = ['armor_bridge_id', 'clothing_bridge_id', 'char_gear_bridge_id', 'grenade_bridge_id', 'owned_cyberware_id', 'char_owned_vehicle_mods_id', 'shield_bridge_id', 'vehicle_bridge_id', 'weapon_bridge_id']
 
-router.post('/buyItem', (req, res) => {
+router.post('/buyItem', rejectUnauthenticated, (req, res) => {
     let tableCheck = false;
     let columnCheck = false;
 
@@ -120,7 +122,7 @@ router.post('/buyItem', (req, res) => {
 
 })
 
-router.delete('/sellItem', (req, res) => {
+router.delete('/sellItem', rejectUnauthenticated, (req, res) => {
     let tableCheck = false;
     let columnCheck = false;
 
@@ -147,7 +149,7 @@ router.delete('/sellItem', (req, res) => {
     }
 })
 
-router.put('/changeCharacterArmor/', (req, res) => {
+router.put('/changeCharacterArmor/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_armor_bridge" SET "this_armor_loss" = $1 WHERE "armor_bridge_id" = $2`
     const sqlParams = [req.body.newLoss, req.body.armor_bridge_id]
     pool.query(sqlText, sqlParams)
@@ -155,7 +157,7 @@ router.put('/changeCharacterArmor/', (req, res) => {
         .catch(err => { console.log(`Error changing in play character armor loss`, err); })
 })
 
-router.put('/changeCharacterShield/', (req, res) => {
+router.put('/changeCharacterShield/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_shield_bridge" SET "this_shield_loss" = $1 WHERE "shield_bridge_id" = $2`
     const sqlParams = [req.body.newLoss, req.body.shield_bridge_id]
     pool.query(sqlText, sqlParams)
@@ -163,7 +165,7 @@ router.put('/changeCharacterShield/', (req, res) => {
         .catch(err => { console.log(`Error changing in play character shield loss`, err); })
 })
 
-router.put('/changeCharacterCyberArmor/', (req, res) => {
+router.put('/changeCharacterCyberArmor/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_status" SET "current_cyberware_armor_loss" = $1 WHERE "char_status_id" = $2`
     const sqlParams = [req.body.newLoss, req.body.char_status_id]
     pool.query(sqlText, sqlParams)
@@ -171,7 +173,7 @@ router.put('/changeCharacterCyberArmor/', (req, res) => {
         .catch(err => { console.log(`Error changing in play character cyberware armor loss`, err); })
 })
 
-router.post('/buyNetrunnerGear', (req, res) => {
+router.post('/buyNetrunnerGear', rejectUnauthenticated, (req, res) => {
     const sqlText = `INSERT INTO "netrunner_bridge" ("char_id", "netrunner_master_id", "equipped")
     VALUES ($1, $2, $3)`
     const sqlParams = [req.body.charID, req.body.item.netrunner_master_id, false]
@@ -180,14 +182,14 @@ router.post('/buyNetrunnerGear', (req, res) => {
         .catch(err => { console.log(`Error buying netrunner gear:`, err); })
 })
 
-router.delete('/sellNetrunnerGear/:id', (req, res) => {
+router.delete('/sellNetrunnerGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `DELETE FROM "netrunner_bridge" WHERE "netrunner_bridge_id" = $1`
     pool.query(sqlText, [req.params.id])
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error selling netrunner gear:`, err); })
 })
 
-router.put('/changeWeaponClip', (req, res) => {
+router.put('/changeWeaponClip', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "char_weapons_bridge" SET "current_shots_fired" = $1 WHERE "weapon_bridge_id" = $2`
     const sqlParams = [req.body.currentShotsFired, req.body.weaponBridgeID]
 
@@ -195,5 +197,55 @@ router.put('/changeWeaponClip', (req, res) => {
         .then(result => { res.sendStatus(200); })
         .catch(err => { console.log(`Error updating weapon clip:`, err); })
 })
+
+router.post('/equipmod', rejectUnauthenticated, (req, res) => {
+    if (tableCheck(req.body.table) === true
+        && baseItemCheck(req.body.baseItemColumn) === true
+        && modItemCheck(req.body.modItemColumn) === true) {
+        const sqlText = `INSERT INTO ${req.body.table} (${req.body.baseItemColumn}, ${req.body.modItemColumn}) VALUES ($1, $2)`
+        console.log(`sqlText:`, sqlText);
+        res.sendStatus(200)
+        
+    } else if (tableCheck(req.body.table) === false) {
+        console.log(`Error with table check validation. Table ${req.body.table} not whitelisted.`);
+        res.sendStatus(400)
+    } else if (baseItemCheck(req.body.baseItemColumn) === false) {
+        console.log(`Error with base item check validation. Column ${req.body.baseItemColumn} not whitelisted.`);
+        res.sendStatus(400)
+    } else if (modItemCheck(req.body.modItemColumn) === false) {
+        console.log(`Error with mod item check validation. Volumn ${req.body.modItemColumn} not whitelisted`);
+        res.sendStatus(400)
+    } else {
+        console.log(`Unknown error, tables and column validated. You should never see this.`);
+        res.sendStatus(400)
+    }
+})
+
+const tableCheck = (tableName) => {
+    for (let i = 0; i < whiteListTable.length; i++) {
+        if (whiteListTable[i] === statName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const baseItemCheck = (baseItemColumn) => {
+    for (let i = 0; i < whiteListBaseItem.length; i++) {
+        if (whiteListBaseItem[i] === baseItemColumn) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const modItemCheck = (modItemColumn) => {
+    for (let i = 0; i < whiteListModItem.length; i++) {
+        if (whiteListModItem[i] === modItemColumn) {
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = router
