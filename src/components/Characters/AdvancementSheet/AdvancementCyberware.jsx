@@ -162,6 +162,7 @@ export default function AdvancementCyberware() {
                 } else {
                     setToastText(`Remove your current externalware to equip a different piece!`)
                     setShowSnackbar(true)
+                    dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
                     break;
                 }
             case 'cyberarm':

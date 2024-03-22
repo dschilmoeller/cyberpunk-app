@@ -634,7 +634,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                             A Maker with Field Expertise is familiar with jury rigging, bypassing, or otherwise changing equipment in a hurry. A maker with this skill can attempt to jury rig a broken device. They roll Technique + Field Expertise against an items normal repair difficulty; if successful the device functions for 1 round / 10 minutes (combat / normal) for each success. Afterwards, the device is fully broken, and cannot be jury rigged again.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
-                            Field Expertise can often be used in place of any other technical skill to make a device do a single action - it can be used in place of Cybertech to temporarily disable a cyberlimb, instead of science to disable an alarm system (briefly), or in place of Military Tech to fire the main gun of a tank (once). It
+                            Field Expertise can often be used in place of any other technical skill to make a device do a single action - it can be used in place of Cybertech to temporarily disable a cyberlimb, instead of science to disable an alarm system (briefly), or in place of Military Tech to fire the main gun of a tank (once).
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Upgrade Expertise</h3>
@@ -889,7 +889,7 @@ export default function RoleAbilitiesDialog({ prop }) {
                         A Maker with Field Expertise is familiar with jury rigging, bypassing, or otherwise changing equipment in a hurry. A maker with this skill can attempt to jury rig a broken device. They roll Technique + Field Expertise against an items normal repair difficulty; if successful the device functions for 1 round / 10 minutes (combat / normal) for each success. Afterwards, the device is fully broken, and cannot be jury rigged again.
                     </Grid>
                     <Grid item padding={.5} xs={12}>
-                        Field Expertise can often be used in place of any other technical skill to make a device do a single action - it can be used in place of Cybertech to temporarily disable a cyberlimb, instead of science to disable an alarm system (briefly), or in place of Military Tech to fire the main gun of a tank (once). It
+                        Field Expertise can often be used in place of any other technical skill to make a device do a single action - it can be used in place of Cybertech to temporarily disable a cyberlimb, instead of science to disable an alarm system (briefly), or in place of Military Tech to fire the main gun of a tank (once).
                     </Grid>
                 </>)
             case 'Upgrade Expertise':

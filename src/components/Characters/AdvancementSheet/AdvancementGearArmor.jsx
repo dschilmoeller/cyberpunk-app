@@ -30,6 +30,8 @@ export default function AdvancementGearArmor() {
     const characterArmor = useSelector(store => store.advancementGear.armor)
     const characterShield = useSelector(store => store.advancementGear.shield)
 
+    const charCyberware = useSelector(store => store.advancementGear.cyberware)
+
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
@@ -39,7 +41,7 @@ export default function AdvancementGearArmor() {
     const [alertText, setAlertText] = React.useState('')
 
     const armorMaxQualityBuilder = () => {
-        let armorTotal = 0
+        let armorTotal = charCyberArmorMax
         characterArmor.map(item => {
             if (item.equipped === true) {
                 armorTotal += item.quality
@@ -54,7 +56,7 @@ export default function AdvancementGearArmor() {
     }
 
     const armorCurrentQualityBuilder = () => {
-        let armorTotal = 0
+        let armorTotal = charCyberArmorMax - charCyberArmorCurrent
         characterArmor.map(item => {
             if (item.equipped === true) {
                 armorTotal += item.quality
@@ -199,6 +201,20 @@ export default function AdvancementGearArmor() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
+                                    {charCyberware.map((cyberware, i) => {
+                                        if (cyberware.equipped === true && cyberware.type === 'externalware') {
+                                            return (
+                                                <TableRow hover key={i}>
+                                                    <TableCell align="left">{cyberware.name}</TableCell>
+                                                    <TableCell align="left">{charCyberArmorMax}</TableCell>
+                                                    <TableCell align="left">{charCyberArmorCurrent}</TableCell>
+                                                    <TableCell align="left"><Button variant='disabled' color='inherit'>Repair</Button></TableCell>
+                                                    <TableCell align="left">{cyberware.description}</TableCell>
+                                                    <TableCell align='left'>See Cyberware</TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    })}
                                     {characterArmor.map((item, i) => {
                                         if (item.equipped === true) {
                                             return (
@@ -206,7 +222,7 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_armor_loss}</TableCell>
-                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='inherit' onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
                                                     <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipArmor(item)}>Unequip</Button></TableCell>
                                                 </TableRow>
@@ -220,7 +236,7 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_shield_loss}</TableCell>
-                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='inherit' onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
                                                     <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipShield(item)}>Unequip</Button></TableCell>
                                                 </TableRow>
@@ -252,7 +268,7 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_armor_loss}</TableCell>
-                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='inherit' onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
                                                     <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipArmor(item)}>Equip</Button></TableCell>
                                                 </TableRow>
@@ -266,7 +282,7 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_shield_loss}</TableCell>
-                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='inherit' onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
                                                     <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipShield(item)}>Equip</Button></TableCell>
                                                 </TableRow>
