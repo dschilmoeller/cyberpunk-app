@@ -62,11 +62,6 @@ const advancementGear = (state = {
                 vehicleMods: action.payload.vehicleMods,
                 clothes: action.payload.clothes
             }
-        case 'SET_ADVANCEMENT_CLOTHES':
-            return {
-                ...state,
-                clothes: action.payload
-            }
         case 'SET_ADVANCEMENT_ARMOR':
             return {
                 ...state,
@@ -102,6 +97,7 @@ const advancementGear = (state = {
                 ...state,
                 cyberwareSlots: action.payload
             }
+        // Future home of SET ADVANCEMENT NETRUNNER GEAR
         case 'SET_ADVANCEMENT_VEHICLES':
             return {
                 ...state,
@@ -111,6 +107,11 @@ const advancementGear = (state = {
             return {
                 ...state,
                 vehicleMods: action.payload
+            }
+        case 'SET_ADVANCEMENT_CLOTHES':
+            return {
+                ...state,
+                clothes: action.payload
             }
         case 'SET_NOMAD_FREEBIE':
             return {
@@ -196,70 +197,70 @@ const advancementGear = (state = {
                 netrunnerGear: state.netrunnerGear.filter(gear => gear.netrunner_bridge_id !== action.payload.netrunner_bridge_id),
                 soldNetrunnerGear: [...state.soldNetrunnerGear, action.payload]
             }
-        case 'EQUIP_VEHICLE_MOD':
-            return {
-                ...state,
-                vehicleMods: state.vehicleMods.map(mod => {
-                    if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
-                        mod.equipped = true
-                        return mod
-                    } else {
-                        return mod
-                    }
-                }),
+        // case 'EQUIP_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         vehicleMods: state.vehicleMods.map(mod => {
+        //             if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
+        //                 mod.equipped = true
+        //                 return mod
+        //             } else {
+        //                 return mod
+        //             }
+        //         }),
 
-                // This simply checks if the mod is armoring the vehicle and changing the vehicle's status appropriately
-                vehicles: state.vehicles.map(vehicle => {
-                    if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id && action.payload.modData.name === "Armored") {
-                        return {
-                            ...vehicle,
-                            has_armor: true
-                        }
-                    } else {
-                        return vehicle
-                    }
-                })
-            }
-        case 'REMOVE_VEHICLE_MOD':
-        case 'REMOVE_NEW_VEHICLE_MOD':
-            return {
-                ...state,
-                vehicleMods: state.vehicleMods.map(mod => {
-                    if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
-                        mod.equipped = false
-                        return mod
-                    } else {
-                        return mod
-                    }
+        //         // This simply checks if the mod is armoring the vehicle and changing the vehicle's status appropriately
+        //         vehicles: state.vehicles.map(vehicle => {
+        //             if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id && action.payload.modData.name === "Armored") {
+        //                 return {
+        //                     ...vehicle,
+        //                     has_armor: true
+        //                 }
+        //             } else {
+        //                 return vehicle
+        //             }
+        //         })
+        //     }
+        // case 'REMOVE_VEHICLE_MOD':
+        // case 'REMOVE_NEW_VEHICLE_MOD':
+        //     return {
+        //         ...state,
+        //         vehicleMods: state.vehicleMods.map(mod => {
+        //             if (action.payload.modData.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
+        //                 mod.equipped = false
+        //                 return mod
+        //             } else {
+        //                 return mod
+        //             }
 
-                }),
-                vehicles: state.vehicles.map(vehicle => {
-                    if (vehicle.vehicle_bridge_id === action.payload.modData.vehicle_bridge_id && action.payload.modData.name === "Armored") {
-                        return {
-                            ...vehicle,
-                            has_armor: false
-                        }
-                    } else {
-                        return vehicle
-                    }
-                })
-            }
-        // This handles the extra seats modification.
-        case 'VEHICLE_CHANGE_SEAT':
-            return {
-                ...state,
-                vehicles: state.vehicles.map(vehicle => {
-                    if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id) {
-                        return {
-                            ...vehicle,
-                            extra_seats: vehicle.extra_seats + action.payload.amount
-                        }
-                    } else {
-                        return vehicle
-                    }
+        //         }),
+        //         vehicles: state.vehicles.map(vehicle => {
+        //             if (vehicle.vehicle_bridge_id === action.payload.modData.vehicle_bridge_id && action.payload.modData.name === "Armored") {
+        //                 return {
+        //                     ...vehicle,
+        //                     has_armor: false
+        //                 }
+        //             } else {
+        //                 return vehicle
+        //             }
+        //         })
+        //     }
+        // // This handles the extra seats modification.
+        // case 'VEHICLE_CHANGE_SEAT':
+        //     return {
+        //         ...state,
+        //         vehicles: state.vehicles.map(vehicle => {
+        //             if (vehicle.vehicle_bridge_id === action.payload.vehicle_bridge_id) {
+        //                 return {
+        //                     ...vehicle,
+        //                     extra_seats: vehicle.extra_seats + action.payload.amount
+        //                 }
+        //             } else {
+        //                 return vehicle
+        //             }
 
-                })
-            }
+        //         })
+        //     }
 
         // GM change Handlers
         // functionally identical to buying/selling armor, but with no corresponding bank change in the advancementDetail reducer - simply arbitrarily adds and removes armor.

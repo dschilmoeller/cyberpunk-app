@@ -15,11 +15,13 @@ import { Grid } from '@mui/material';
 // add toast & custom text
 
 export default function AdvancementClothes() {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const params = useParams();
-  const characterClothes = useSelector((store) => store.advancementGear.clothes);
   const charDetail = useSelector((store) => store.advancementDetail);
+  const characterClothes = useSelector((store) => store.advancementGear.clothes);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const params = useParams();
+  const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
   const equipClothes = (incomingClothing) => {
     characterClothes.map(clothing => {
@@ -75,7 +77,7 @@ export default function AdvancementClothes() {
 
                     <TableCell align="center">{item.rank}</TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => unequipClothes(item)}>
+                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipClothes(item)}>
                         Unequip
                       </Button>
                     </TableCell>
@@ -115,7 +117,7 @@ export default function AdvancementClothes() {
                     <TableCell align="center">{item.description}</TableCell>
                     <TableCell align="center">{item.rank}</TableCell>
                     <TableCell align="center">
-                      <Button onClick={() => equipClothes(item)}>Equip</Button>
+                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipClothes(item)}>Equip</Button>
                     </TableCell>
                   </TableRow>
                 );

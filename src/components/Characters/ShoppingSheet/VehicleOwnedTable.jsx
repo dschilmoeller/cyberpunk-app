@@ -32,7 +32,7 @@ export default function VehicleOwnedTable() {
     const euroBuck = `\u20AC$`
 
     const sellOwnedVehicle = (item) => {
-        let newBank = Number(charDetail.bank + Math.floor(item.price / 4))
+        let newBank = Number(charDetail.bank + Math.floor((item.price + item.mod_total_cost) / 4))
         dispatch({ type: 'SELL_ITEM', payload: { itemID: item.vehicle_bridge_id, newBank, charID: charDetail.id, table: 'char_vehicle_bridge', column: 'vehicle_bridge_id' } })
     }
 
@@ -270,7 +270,7 @@ export default function VehicleOwnedTable() {
                                                 <TableCell align="center">{row.move}</TableCell>
                                                 <TableCell align="center">{row.mph}</TableCell>
                                                 <TableCell align="center">{row.type}</TableCell>
-                                                <TableCell align="center">{euroBuck}{Math.floor((row.price / 4) + row.total_mod_cost).toLocaleString("en-US")}</TableCell>
+                                                <TableCell align="center">{euroBuck}{Math.floor(((row.price + row.total_mod_cost)/ 4)).toLocaleString("en-US")}</TableCell>
                                                 <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' onClick={() => sellOwnedVehicle(row)}>Sell</Button></TableCell>
                                             </TableRow>
                                         );

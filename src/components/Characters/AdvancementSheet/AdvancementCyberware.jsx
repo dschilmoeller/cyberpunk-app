@@ -509,7 +509,7 @@ export default function AdvancementCyberware() {
                                             <TableCell align="center">{item.description}</TableCell>
                                             <TableCell align="center">{item.install_level}</TableCell>
 
-                                            <TableCell align="center"><Button variant={loadStatus === true ? 'disabled' : 'contained'} color='secondary' onClick={() => unequipCyber(item)}>Remove</Button></TableCell>
+                                            <TableCell align="center"><Button variant={loadStatus === true ? 'disabled' : 'contained'} color='secondary' onClick={() => unequipCyber(item)}>Unequip</Button></TableCell>
                                         </TableRow>
                                     ) : <></>}</React.Fragment>)
                         }
