@@ -77,7 +77,7 @@ export default function AdvancementClothes() {
 
                     <TableCell align="center">{item.rank}</TableCell>
                     <TableCell align="center">
-                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => unequipClothes(item)}>
+                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipClothes(item)}>
                         Unequip
                       </Button>
                     </TableCell>
@@ -117,7 +117,7 @@ export default function AdvancementClothes() {
                     <TableCell align="center">{item.description}</TableCell>
                     <TableCell align="center">{item.rank}</TableCell>
                     <TableCell align="center">
-                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => equipClothes(item)}>Equip</Button>
+                      <Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipClothes(item)}>Equip</Button>
                     </TableCell>
                   </TableRow>
                 );

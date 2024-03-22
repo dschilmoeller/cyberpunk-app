@@ -263,6 +263,38 @@ router.delete('/removeModBridgeEntry/', rejectUnauthenticated, (req, res) => {
     }
 })
 
+router.put('/changeVehicleTotalModCost/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = (SELECT total_mod_cost) + $1 WHERE "vehicle_bridge_id" = $2`
+    const sqlParams = [req.body.price, req.body.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing vehicle mod total cost:`, err); })
+})
+
+router.put('/changeVehicleArmoredStatus/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_vehicle_bridge" SET "has_armor" = $1 WHERE "vehicle_bridge_id" = $2`
+    const sqlParams = [req.body.status, req.body.id]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing vehicle armored status to ${req.body.status}:`, err); })
+})
+
+router.put('/changeVehicleSeats', rejectUnauthenticated, (req, res) => {
+    let sqlText;
+    if (req.body.status === true) {
+        sqlText = `UPDATE "char_vehicle_bridge" SET "extra_seats" = (SELECT extra_seats) + 1 WHERE "vehicle_bridge_id" = $1`
+    } else if (req.body.status === false) {
+        sqlText = `UPDATE "char_vehicle_bridge" SET "extra_seats" = (SELECT extra_seats) - 1 WHERE "vehicle_bridge_id" = $1`
+    } else {
+        console.log(`Error - status not set for seat change`);
+        res.sendStatus(400);
+    }
+
+    pool.query(sqlText, [req.body.id])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error changing vehicle armored status to ${req.body.status}:`, err); })
+})
+
 // mod table whitelists & checks
 const modWhiteListTable = ['char_vehicle_mod_bridge']
 const modWhiteListTablePK = ['char_vehicle_mod_bridge_id']

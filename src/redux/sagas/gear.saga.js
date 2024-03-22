@@ -560,14 +560,47 @@ const tempHumanityLossCalculator = (humanity, item, charID, type) => {
 
 function* changeModEquipStatus(action) {
     try {
-        if (action.payload.equipStatus === true){
+        if (action.payload.mod.vehicle_mod_master_id != undefined && action.payload.equipStatus === true) {
+            // equipping vehicle mod
             yield axios.post('/api/gear/createModBridgeEntry', action.payload)
-        } else if (action.payload.equipStatus === false){
+            // change vehicle total_mod_cost
+            // can be changed to whitelist/generic if e.g. weapons updated to include modded pricing.
+            yield axios.put(`/api/gear/changeVehicleTotalModCost/`, { price: action.payload.mod.price, id: action.payload.baseItemID })
+
+            // change vehicle status per specific mod items
+            switch (action.payload.mod.name) {
+                case "Armored":
+                    yield axios.put(`/api/gear/changeVehicleArmoredStatus`, { id: action.payload.baseItemID, status: true })
+                    break;
+                case "Seating Upgrade":
+                    yield axios.put(`/api/gear/changeVehicleSeats`, { id: action.payload.baseItemID, status: true })
+                    const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload.charID}`)
+                    yield put({ type: 'SET_ADVANCEMENT_VEHICLES', payload: advancementVehicles.data })
+                    break;
+                default:
+                    break;
+            }
+        } else if (action.payload.mod.vehicle_mod_master_id != undefined && action.payload.equipStatus === false) {
+            // unequipping vehicle mod
             yield axios.delete('/api/gear/removeModBridgeEntry', { data: action.payload })
+            // Note PRICE is negative
+            yield axios.put(`/api/gear/changeVehicleTotalModCost/`, { price: -action.payload.mod.price, id: action.payload.baseItemID })
+            switch (action.payload.mod.name) {
+                case "Armored":
+                    yield axios.put(`/api/gear/changeVehicleArmoredStatus`, { id: action.payload.baseItemID, status: false })
+                    break;
+                case "Seating Upgrade":
+                    yield axios.put(`/api/gear/changeVehicleSeats`, { id: action.payload.baseItemID, status: false })
+                    const advancementVehicles = yield axios.get(`/api/characters/fetchAdvancementVehicle/${action.payload.charID}`)
+                    yield put({ type: 'SET_ADVANCEMENT_VEHICLES', payload: advancementVehicles.data })
+                    break;
+                default:
+                    break;
+            }
         } else {
             console.log(`General error - no equip status set.`);
         }
-        
+
         yield axios.put('/api/gear/changeModEquipStatus', action.payload)
         const advancementVehicleMods = yield axios.get(`/api/characters/fetchAdvancementVehicleMods/${action.payload.charID}`)
         yield put({ type: 'SET_ADVANCEMENT_VEHICLE_MODS', payload: advancementVehicleMods.data })

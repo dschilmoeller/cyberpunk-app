@@ -48,6 +48,7 @@ export default function AdvancementGarage() {
             type: 'CHANGE_MOD_EQUIP_STATUS',
             payload: {
                 modItemID: mod.char_owned_vehicle_mods_id,
+                mod,
                 baseItemID: vehicle.vehicle_bridge_id,
                 equipStatus: false,
                 charID: advancementDetail.id,
@@ -123,7 +124,7 @@ export default function AdvancementGarage() {
                                                 <TableCell>{row.name} Mod:</TableCell>
                                                 <TableCell align="center">{mod.name}</TableCell>
                                                 <TableCell colSpan={4} >{mod.description}</TableCell>
-                                                <TableCell><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => unequipMod(mod, row)}>Remove</Button></TableCell>
+                                                <TableCell><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipMod(mod, row)}>Unequip</Button></TableCell>
                                             </TableRow>
                                         </React.Fragment>)
                                     }

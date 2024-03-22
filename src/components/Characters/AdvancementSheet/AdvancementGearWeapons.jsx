@@ -55,7 +55,7 @@ export default function AdvancementGearWeapons() {
                                     <TableCell align="center">{item.max_clip}</TableCell>
                                     <TableCell align="center">{item.hands}</TableCell>
                                     <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => unequipWeapon(item)}>Unequip</Button></TableCell>
+                                    <TableCell align="center"><Button color='secondary' onClick={() => unequipWeapon(item)}>Unequip</Button></TableCell>
                                 </TableRow>
                             )
                         }
@@ -91,7 +91,7 @@ export default function AdvancementGearWeapons() {
                                     <TableCell align="center">{item.max_clip}</TableCell>
                                     <TableCell align="center">{item.hands}</TableCell>
                                     <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center"><Button onClick={() => equipWeapon(item)}>Equip</Button></TableCell>
+                                    <TableCell align="center"><Button color='info' onClick={() => equipWeapon(item)}>Equip</Button></TableCell>
                                 </TableRow>
                             )
                         }

@@ -29,6 +29,7 @@ export default function AdvancementGarageOption({ prop }) {
                 type: 'CHANGE_MOD_EQUIP_STATUS',
                 payload: {
                     modItemID: mod.char_owned_vehicle_mods_id,
+                    mod,
                     baseItemID: selectedVehicle,
                     equipStatus: true,
                     charID: advancementDetail.id,
