@@ -558,15 +558,22 @@ const tempHumanityLossCalculator = (humanity, item, charID, type) => {
     }
 }
 
-function* equipMod(action) {
+function* changeModEquipStatus(action) {
     try {
-        // equip mod
-        yield axios.put('/api/gear/equipmod', action.payload)
-        // refetch base items?
-        // refetch mod items?
-        // refetch equipped mods certainly.
-        // set equipped mods
-        // change load status
+        if (action.payload.equipStatus === true){
+            yield axios.post('/api/gear/createModBridgeEntry', action.payload)
+        } else if (action.payload.equipStatus === false){
+            yield axios.delete('/api/gear/removeModBridgeEntry', { data: action.payload })
+        } else {
+            console.log(`General error - no equip status set.`);
+        }
+        
+        yield axios.put('/api/gear/changeModEquipStatus', action.payload)
+        const advancementVehicleMods = yield axios.get(`/api/characters/fetchAdvancementVehicleMods/${action.payload.charID}`)
+        yield put({ type: 'SET_ADVANCEMENT_VEHICLE_MODS', payload: advancementVehicleMods.data })
+        const advancementActiveVehicleMods = yield axios.get(`/api/characters/fetchAdvancementActiveVehicleMods/${action.payload.charID}`)
+        yield put({ type: 'SET_ADVANCEMENT_ACTIVE_VEHICLE_MODS', payload: advancementActiveVehicleMods.data })
+        yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
     } catch (err) {
         console.log(`Error equipping mod:`, err);
     }
@@ -742,7 +749,7 @@ function* gearSaga() {
     yield takeLatest('ATTRIBUTE_ENHANCING_GEAR_EQUIPPED', gearAttributeChange);
 
     yield takeLatest('CHANGE_GEAR_EQUIP_STATUS', changeGearEquipStatus);
-    yield takeLatest('EQUIP_MOD', equipMod);
+    yield takeLatest('CHANGE_MOD_EQUIP_STATUS', changeModEquipStatus);
 
     yield takeLatest('BUY_ITEM', buyItem);
     yield takeLatest('SELL_ITEM', sellItem);

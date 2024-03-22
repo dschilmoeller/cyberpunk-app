@@ -11,6 +11,7 @@ const characterModMaster = (state = {
                 removedVehicleMods: [],
             }
         case 'SET_ONE_CHARACTER_VEHICLE_MODS':
+        case 'SET_ADVANCEMENT_ACTIVE_VEHICLE_MODS':
             return {
                 ...state,
                 vehicleMods: action.payload

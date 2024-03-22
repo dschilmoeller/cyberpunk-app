@@ -25,6 +25,7 @@ import contactMaster from './contactMaster.reducer';
 import contactBridge from './contactBridge.reducer';
 
 import loaders from './loaders.reducer';
+import alerts from './alerts.reducer';
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -57,6 +58,7 @@ const rootReducer = combineReducers({
   advancementGear, // editable char sheet equipment
 
   loaders, // sets loaders t/f to allow api calls to work
+  alerts, // sets alert status t/f to allow showsnackbar to function (only required to avoid errors on tables)
   
 });
 

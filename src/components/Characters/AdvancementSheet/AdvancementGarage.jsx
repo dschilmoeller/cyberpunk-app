@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -9,16 +9,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+
 import { Button } from '@mui/material';
 
 import AdvancementGarageOption from './AdvancementGarageOption';
 
-export default function AdvancementGarage() {
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
+export default function AdvancementGarage() {
+    const advancementDetail = useSelector(store => store.advancementDetail)
     const characterVehicles = useSelector(store => store.advancementGear.vehicles)
     const characterVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
     const characterPreviouslyEquippedVehicleMods = useSelector(store => store.characterModMaster.vehicleMods)
-    const characterNewlyEquippedVehicleMods = useSelector(store => store.characterModMaster.addedVehicleMods)
+
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
+
+    const dispatch = useDispatch();
 
     const seeIfArmored = (VehicleBridgeID) => {
         let armoredStatus = false
@@ -27,20 +38,54 @@ export default function AdvancementGarage() {
                 armoredStatus = true
             }
         })
-        characterNewlyEquippedVehicleMods.map(mod => {
-            if (mod.name === "Armored" && mod.vehicle_bridge_id === VehicleBridgeID) {
-                armoredStatus = true
-            }
-        })
         return armoredStatus
     }
 
-    // need new component to deal with state changes on an individual vehicle basis.
+    const unequipMod = (mod, vehicle) => {
+        dispatch({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: true })
+        console.log(`mod:`, mod);
+        dispatch({
+            type: 'CHANGE_MOD_EQUIP_STATUS',
+            payload: {
+                modItemID: mod.char_owned_vehicle_mods_id,
+                baseItemID: vehicle.vehicle_bridge_id,
+                equipStatus: false,
+                charID: advancementDetail.id,
+                modTable: 'char_vehicle_mod_bridge',
+                modTablePK: 'char_vehicle_mod_bridge_id',
+                modID: mod.char_vehicle_mod_bridge_id,
+                baseItemColumn: 'vehicle_bridge_id',
+                modItemColumn: 'char_owned_vehicle_mods_id',
+                modItemTable: 'char_owned_vehicle_mods',
+            }
+        })
+    }
 
+    // showSnackBar, setShowSnackbar and Alert are part of the toast functionality (along with Snackbar in return) being fired by failing to select a vehicle in AdvancementGarageOption
+    const showSnackbar = useSelector(store => store.alerts.advancementSheet)
 
-    
+    const setShowSnackbar = (incoming) => {
+        dispatch({ type: 'SET_ADVANCEMENT_ALERT_STATUS', payload: incoming })
+    }
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    }); // end toast functionality
 
     return (<>
+
+        <Snackbar
+            TransitionComponent={TransitionUp}
+            autoHideDuration={2000}
+            open={showSnackbar}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        >
+            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
+                Please Select a Vehicle!
+            </Alert>
+        </Snackbar>
+
         <h1>The Garage</h1>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -58,7 +103,6 @@ export default function AdvancementGarage() {
                 </TableHead>
                 <TableBody>
                     {characterVehicles.map((row, i) => {
-
                         return (
                             <React.Fragment key={row.vehicle_bridge_id}>
                                 <TableRow hover>
@@ -79,19 +123,7 @@ export default function AdvancementGarage() {
                                                 <TableCell>{row.name} Mod:</TableCell>
                                                 <TableCell align="center">{mod.name}</TableCell>
                                                 <TableCell colSpan={4} >{mod.description}</TableCell>
-                                                <TableCell><Button onClick={() => removePreviouslyEquippedVehicleMod(row, mod)}>Remove</Button></TableCell>
-                                            </TableRow>
-                                        </React.Fragment>)
-                                    }
-                                })}
-                                {characterNewlyEquippedVehicleMods.map((mod, i) => {
-                                    if (mod.vehicle_bridge_id === row.vehicle_bridge_id) {
-                                        return (<React.Fragment key={i}>
-                                            <TableRow hover>
-                                                <TableCell>{row.name} Mod:</TableCell>
-                                                <TableCell align="center">{mod.name}</TableCell>
-                                                <TableCell colSpan={4} >{mod.description}</TableCell>
-                                                <TableCell><Button onClick={() => removeNewlyEquippedVehicleMod(row, mod)}>Remove</Button></TableCell>
+                                                <TableCell><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => unequipMod(mod, row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         </React.Fragment>)
                                     }

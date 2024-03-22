@@ -144,7 +144,7 @@ router.delete('/sellItem', rejectUnauthenticated, (req, res) => {
             .then(result => { res.sendStatus(200) })
             .catch(err => { console.log(`Error selling item:`, err); })
     } else {
-        console.log(`Failure to buy item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
+        console.log(`Failure to sell item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
         res.sendStatus(400);
     }
 })
@@ -198,32 +198,90 @@ router.put('/changeWeaponClip', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error updating weapon clip:`, err); })
 })
 
-router.post('/equipmod', rejectUnauthenticated, (req, res) => {
-    if (tableCheck(req.body.table) === true
+router.post('/createModBridgeEntry/', rejectUnauthenticated, (req, res) => {
+    if (tableCheck(req.body.modTable) === true
         && baseItemCheck(req.body.baseItemColumn) === true
         && modItemCheck(req.body.modItemColumn) === true) {
-        const sqlText = `INSERT INTO ${req.body.table} (${req.body.baseItemColumn}, ${req.body.modItemColumn}) VALUES ($1, $2)`
-        console.log(`sqlText:`, sqlText);
-        res.sendStatus(200)
-        
-    } else if (tableCheck(req.body.table) === false) {
-        console.log(`Error with table check validation. Table ${req.body.table} not whitelisted.`);
+        const sqlText = `INSERT INTO ${req.body.modTable} (${req.body.baseItemColumn}, ${req.body.modItemColumn}) VALUES ($1, $2)`
+        const sqlParams = [req.body.baseItemID, req.body.modItemID]
+        pool.query(sqlText, sqlParams)
+            .then(result => { res.sendStatus(200); })
+            .catch(err => { console.log(`Error Equipping Mod on table ${req.body.modTable}:`, err); })
+
+
+    } else if (tableCheck(req.body.modTable) === false) {
+        console.log(`Error with table check validation. Table ${req.body.modTable} not whitelisted.`);
         res.sendStatus(400)
     } else if (baseItemCheck(req.body.baseItemColumn) === false) {
         console.log(`Error with base item check validation. Column ${req.body.baseItemColumn} not whitelisted.`);
         res.sendStatus(400)
     } else if (modItemCheck(req.body.modItemColumn) === false) {
-        console.log(`Error with mod item check validation. Volumn ${req.body.modItemColumn} not whitelisted`);
+        console.log(`Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`);
         res.sendStatus(400)
     } else {
-        console.log(`Unknown error, tables and column validated. You should never see this.`);
+        console.log(`Unknown error with /equipmod status, tables and column validated. This should never appear.`);
         res.sendStatus(400)
     }
 })
 
+router.put('/changeModEquipStatus/', rejectUnauthenticated, (req, res) => {
+    if (modItemTableCheck(req.body.modItemTable) === true
+        && modItemCheck(req.body.modItemColumn) === true) {
+        const sqlText = `UPDATE ${req.body.modItemTable} SET "equipped" = $1 WHERE ${req.body.modItemColumn} = $2`
+        const sqlParams = [req.body.equipStatus, req.body.modItemID]
+        pool.query(sqlText, sqlParams)
+            .then(result => { res.sendStatus(200); })
+            .catch(err => { console.log(`Error changing Mod equipped status on table ${req.body.modItemTable}:`, err); })
+    } else if (modItemTableCheck(req.body.modItemTable) === false) {
+        console.log(`Error with Mod Item Table Validation. Table ${req.body.modItemTable} not whitelisted.`);
+        res.sendStatus(400);
+    } else if (modItemCheck(req.body.modItemColumn) === false) {
+        console.log(`Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`);
+        res.sendStatus(400)
+    } else {
+        console.log(`Unknown error with /changeModEquipStatus, tables and column validated. This should never appear.`);
+        res.sendStatus(400);
+    }
+})
+
+router.delete('/removeModBridgeEntry/', rejectUnauthenticated, (req, res) => {
+    if (tableCheck(req.body.modTable) === true
+        && tablePKCheck(req.body.modTablePK) === true) {
+        const sqlText = `DELETE FROM ${req.body.modTable} WHERE ${req.body.modTablePK} = $1`
+        pool.query(sqlText, [req.body.modID])
+            .then(result => { res.sendStatus(200); })
+            .catch(err => { console.log(`Error removing mod from ${req.body.modTable}:`, err); })
+    } else if (tableCheck(req.body.modTable) === false) {
+        console.log(`Error with table check validation. Table ${req.body.modTable} not whitelisted.`);
+        res.sendStatus(400);
+    } else if (tablePKCheck(req.body.modTablePK) === false) {
+        console.log(`Error with mod table pk validation. Table PK ${req.body.modTablePK} not whitelisted`);
+        res.sendStatus(400);
+    } else {
+        console.log(`Unknown error with /removeModBridgeEntry, table and PK validated. This should never appear.`);
+        res.sendStatus(400);
+    }
+})
+
+// mod table whitelists & checks
+const modWhiteListTable = ['char_vehicle_mod_bridge']
+const modWhiteListTablePK = ['char_vehicle_mod_bridge_id']
+const modWhiteListBaseItem = ['vehicle_bridge_id']
+const modWhiteListModItem = ['char_owned_vehicle_mods_id']
+const modWhiteListModItemTable = ['char_owned_vehicle_mods']
+
 const tableCheck = (tableName) => {
-    for (let i = 0; i < whiteListTable.length; i++) {
-        if (whiteListTable[i] === statName) {
+    for (let i = 0; i < modWhiteListTable.length; i++) {
+        if (modWhiteListTable[i] === tableName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const tablePKCheck = (tablePKName) => {
+    for (let i = 0; i < modWhiteListTablePK.length; i++) {
+        if (modWhiteListTablePK[i] === tablePKName) {
             return true;
         }
     }
@@ -231,8 +289,8 @@ const tableCheck = (tableName) => {
 }
 
 const baseItemCheck = (baseItemColumn) => {
-    for (let i = 0; i < whiteListBaseItem.length; i++) {
-        if (whiteListBaseItem[i] === baseItemColumn) {
+    for (let i = 0; i < modWhiteListBaseItem.length; i++) {
+        if (modWhiteListBaseItem[i] === baseItemColumn) {
             return true;
         }
     }
@@ -240,8 +298,17 @@ const baseItemCheck = (baseItemColumn) => {
 }
 
 const modItemCheck = (modItemColumn) => {
-    for (let i = 0; i < whiteListModItem.length; i++) {
-        if (whiteListModItem[i] === modItemColumn) {
+    for (let i = 0; i < modWhiteListModItem.length; i++) {
+        if (modWhiteListModItem[i] === modItemColumn) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const modItemTableCheck = (modItemTable) => {
+    for (let i = 0; i < modWhiteListModItemTable.length; i++) {
+        if (modWhiteListModItemTable[i] === modItemTable) {
             return true;
         }
     }
