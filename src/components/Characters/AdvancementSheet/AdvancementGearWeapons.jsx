@@ -17,14 +17,15 @@ export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
     const characterWeapons = useSelector(store => store.advancementGear.weapons)
     const charDetail = useSelector(store => store.advancementDetail)
-
+    const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const equipWeapon = (incomingWeapon) => {
-        dispatch({ type: "EQUIP_WEAPON", payload: { weapon: incomingWeapon, charID: charDetail.id } })
+        // dispatch({ type: "EQUIP_WEAPON", payload: { weapon: incomingWeapon, charID: charDetail.id } })
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingWeapon, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: incomingWeapon.weapon_bridge_id, equipStatus: true } });
     }
 
     const unequipWeapon = (incomingWeapon) => {
-        dispatch({ type: "UNEQUIP_WEAPON", payload: {weapon: incomingWeapon, charID: charDetail.id} })
+        dispatch({ type: "CHANGE_GEAR_EQUIP_STATUS", payload: { item: incomingWeapon, charID: charDetail.id, table: 'char_weapons_bridge', tablePrimaryKey: 'weapon_bridge_id', tableID: incomingWeapon.weapon_bridge_id, equipStatus: false } });
     }
 
     return (<>
@@ -55,7 +56,7 @@ export default function AdvancementGearWeapons() {
                                     <TableCell align="center">{item.max_clip}</TableCell>
                                     <TableCell align="center">{item.hands}</TableCell>
                                     <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center"><Button color='secondary' onClick={() => unequipWeapon(item)}>Unequip</Button></TableCell>
+                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='secondary' onClick={() => unequipWeapon(item)}>Unequip</Button></TableCell>
                                 </TableRow>
                             )
                         }
@@ -91,7 +92,7 @@ export default function AdvancementGearWeapons() {
                                     <TableCell align="center">{item.max_clip}</TableCell>
                                     <TableCell align="center">{item.hands}</TableCell>
                                     <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center"><Button color='info' onClick={() => equipWeapon(item)}>Equip</Button></TableCell>
+                                    <TableCell align="center"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipWeapon(item)}>Equip</Button></TableCell>
                                 </TableRow>
                             )
                         }

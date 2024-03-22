@@ -145,17 +145,17 @@ export default function AdvancementGearArmor() {
         }
     }
 
-    const repairCyberware = () => {
-        if ((charCyberArmorCurrent * 300) == 0) {
-            setAlertText('No Repairs Required')
-            setShowSnackbar(true)
-        } else if (charBank >= (charCyberArmorCurrent * 300)) {
-            dispatch({ type: 'REPAIR_CYBERWARE', payload: Number((charCyberArmorCurrent * 300)) })
-        } else {
-            setAlertText('Cannot Afford Repairs')
-            setShowSnackbar(true)
-        }
-    }
+    // const repairCyberware = () => {
+    //     if ((charCyberArmorCurrent * 300) == 0) {
+    //         setAlertText('No Repairs Required')
+    //         setShowSnackbar(true)
+    //     } else if (charBank >= (charCyberArmorCurrent * 300)) {
+    //         dispatch({ type: 'REPAIR_CYBERWARE', payload: Number((charCyberArmorCurrent * 300)) })
+    //     } else {
+    //         setAlertText('Cannot Afford Repairs')
+    //         setShowSnackbar(true)
+    //     }
+    // }
 
     return (
         <>
@@ -181,7 +181,7 @@ export default function AdvancementGearArmor() {
                                 <Grid item xs={6}><Item><h2>From Armor: {armorAmountBuilder()}</h2></Item></Grid>
                                 <Grid item xs={6}><Item><h2>From Shield: {shieldAmountBuilder()}</h2></Item></Grid>
                                 <Grid item xs={6}><Item><h2>From Cyberware: {charCyberArmorMax - charCyberArmorCurrent} of {charCyberArmorMax}</h2></Item></Grid>
-                                <Grid item xs={6}><Item><Button fullWidth onClick={() => repairCyberware()}>Repair Cyberware - ${(charCyberArmorCurrent) * 300}</Button></Item></Grid>
+                                {/* <Grid item xs={6}><Item><Button fullWidth onClick={() => repairCyberware()}>Repair Cyberware - ${(charCyberArmorCurrent) * 300}</Button></Item></Grid> */}
                             </Grid>
                         </Grid>
 
@@ -252,9 +252,9 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_armor_loss}</TableCell>
-                                                    <TableCell align="left"><Button onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairArmor(item)}>Repair - ${item.this_armor_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
-                                                    <TableCell align="left"><Button color='info' onClick={() => equipArmor(item)}>Equip</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipArmor(item)}>Equip</Button></TableCell>
                                                 </TableRow>
                                             )
                                         }
@@ -266,9 +266,9 @@ export default function AdvancementGearArmor() {
                                                     <TableCell align="left">{item.name} </TableCell>
                                                     <TableCell align="left">{item.quality}</TableCell>
                                                     <TableCell align="left">{item.this_shield_loss}</TableCell>
-                                                    <TableCell align="left"><Button onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} onClick={() => repairShield(item)}>Repair - ${item.this_shield_loss * item.price / 10}</Button></TableCell>
                                                     <TableCell width={600} align="left">{item.description}</TableCell>
-                                                    <TableCell align="left"><Button color='info' onClick={() => equipShield(item)}>Equip</Button></TableCell>
+                                                    <TableCell align="left"><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='info' onClick={() => equipShield(item)}>Equip</Button></TableCell>
                                                 </TableRow>
                                             )
                                         }
