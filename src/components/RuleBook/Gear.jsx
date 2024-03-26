@@ -26,6 +26,7 @@ export default function RulebookGear() {
     const shieldMaster = useSelector(store => store.gearMaster.shields)
     const weaponMaster = useSelector(store => store.gearMaster.weapons)
     const miscGearMaster = useSelector(store => store.gearMaster.miscGear)
+    const pharmaGearMaster = useSelector(store => store.gearMaster.pharma)
 
     // handles gear accordions
     const [expandedGearAccordion, setExpandedGearAccordion] = useState(false);
@@ -177,6 +178,93 @@ export default function RulebookGear() {
                                         <TableRow hover key={row.name}>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell align="left">{row.description}</TableCell>
+                                            <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                    </AccordionDetails>
+                </Accordion>
+            </Grid>
+
+            <Grid item xs={12}><Typography variant='h4'>Pharmaceuticals</Typography></Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Pharmaceutical compounds are medicines, poisons, and other substances created via chemical and nanotech processes by a Medtech with the Pharmaceutical skill. They can be used by anyone, but gauging the correct dosage and precise mixture is more art than science, and most characters will find it very difficult. The exception is poison, which can be used fairly reliably by anyone.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Any character can attempt to apply pharmaceuticals by making an Administration Test: Intelligence + First Aid. This is normally at DV8, although if they have 10 minutes or so to carefully read the label and do a little research this can be reduced to DV7.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    A Medtech has a slightly easier time of it - any character with the Paramedic skill rolls Intelligence + Paramedic against DV7 to administer a pharmaceutical compound.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Medtechs with the Pharmaceutical skill roll the better combination of Intelligence + Paramedic or Intelligence + Pharmaceutical against DV6. If they have ready access to a Pharmaceutical Workshop or Facility, this roll is instead at DV5.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Pharmaceuticals have a Rank, reflecting the required Pharmaceutical rank required to be able to create them.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Combat Drugs are a special variant, which can be used by anyone relatively easily. The drugs still require an administration test. While there are no specific rules on their overuse and abuse, humanity loss, unhealable wounds, and the like can be expected by anyone who overuses them.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Poisons & Biotoxins are another special variant. Unlike other pharmaceutical compounds, they do not require an Administration Test to use. They can be applied a few different ways, with the most common being smeared on a melee weapon (with their effects lasting for 1 scene) or being ingested or injected. All poison effects for ingestion/injection can be reduced by the victim making a Body test - each success reduces the damage by 1.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Characters can use a simple airhypo to inject a character not wearing armor with the <i>Hardened</i> property. This requires a successful Brawling attack. Bullets cannot carry a worthwhile amount of poison, unfortunately, but arrows may be another story. 
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Accordion disableGutters expanded={expandedGearAccordion === 'panel4'} onChange={handleGearAccordionChange('panel4')}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="pharma-content"
+                        id="pharma-panel-header"
+                    >
+                        <Typography>Pharmaceutical List</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow hover>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell align="left">Description</TableCell>
+                                        <TableCell align="left">Rank</TableCell>
+                                        <TableCell align="left">Price</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {pharmaGearMaster.map((row, i) => (
+                                        <TableRow hover key={row.name}>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell align="left">{row.description}</TableCell>
+                                            <TableCell align="left">{row.rank}</TableCell>
                                             <TableCell align="right">{euroBuck}{row.price.toLocaleString("en-US")}</TableCell>
                                         </TableRow>
                                     ))}

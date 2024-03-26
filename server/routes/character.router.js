@@ -697,6 +697,15 @@ router.get('/fetchAdvancementMiscGear/:id', rejectUnauthenticated, (req, res) =>
         })
 })
 
+router.get('/fetchAdvancementPharma/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_pharma_bridge"
+    JOIN "pharma_master" ON "pharma_master"."pharma_master_id" = "char_pharma_bridge"."pharma_master_id"
+    WHERE char_id = $1`
+    pool.query(sqlText, [req.params.id])
+        .then(result => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching owned pharma details`, err); })
+})
+
 router.get('/fetchAdvancementCyber/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "char_owned_cyberware" 
     JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"

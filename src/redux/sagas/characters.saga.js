@@ -264,6 +264,7 @@ function* fetchAdvancementDetails(action) {
     const advancementWeapons = yield axios.get(`/api/characters/fetchAdvancementWeapons/${action.payload}`)
     const advancementGrenades = yield axios.get(`/api/characters/fetchAdvancementGrenades/${action.payload}`)
     const advancementGear = yield axios.get(`/api/characters/fetchAdvancementGear/${action.payload}`)
+    const advancementPharma = yield axios.get(`/api/characters/fetchAdvancementPharma/${action.payload}`)
     const advancementCyber = yield axios.get(`/api/characters/fetchAdvancementCyber/${action.payload}`)
     const advancementCyberSlots = yield axios.get(`/api/characters/fetchAdvancementCyberSlots/${action.payload}`)
     const advancementNetrunnerGear = yield axios.get(`/api/characters/fetchNetrunnerGear/${action.payload}`)
@@ -278,6 +279,7 @@ function* fetchAdvancementDetails(action) {
         weapons: advancementWeapons.data,
         grenades: advancementGrenades.data,
         gear: advancementGear.data,
+        pharma: advancementPharma.data,
         cyberware: advancementCyber.data,
         cyberwareSlots: advancementCyberSlots.data[0],
         netrunnerGear: advancementNetrunnerGear.data,
@@ -323,6 +325,11 @@ function* fetchAdvancementGrenades(action) {
 function* fetchAdvancementMiscGear(action) {
   const advancementGear = yield axios.get(`/api/characters/fetchAdvancementMiscGear/${action.payload}`)
   yield put({ type: 'SET_ADVANCEMENT_MISC_GEAR', payload: advancementGear.data })
+}
+
+function* fetchAdvancementPharma(action){
+  const advancementPharma = yield axios.get(`/api/characters/fetchAdvancementPharma/${action.payload}`)
+  yield put({ type: 'SET_ADVANCEMENT_PHARMA', payload: advancementPharma.data})
 }
 
 function* fetchAdvancementCyberware(action) {
@@ -426,6 +433,7 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_WEAPONS', fetchAdvancementWeapons);
   yield takeLatest('FETCH_ADVANCEMENT_GRENADES', fetchAdvancementGrenades);
   yield takeLatest('FETCH_ADVANCEMENT_MISC_GEAR', fetchAdvancementMiscGear);
+  yield takeLatest('FETCH_ADVANCEMENT_PHARMA', fetchAdvancementPharma);
   yield takeLatest('FETCH_ADVANCEMENT_CYBERWARE', fetchAdvancementCyberware);
   yield takeLatest('FETCH_ADVANCEMENT_VEHICLES', fetchAdvancementVehicles);
   yield takeLatest('FETCH_ADVANCEMENT_VEHICLE_MODS', fetchAdvancementVehicleMods);

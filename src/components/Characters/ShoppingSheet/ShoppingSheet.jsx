@@ -17,6 +17,8 @@ import GrenadeOwnedTable from './GrenadeOwnedTable';
 import GrenadeMasterTable from './GrenadeMasterTable';
 import OtherOwnedTable from './OtherOwnedTable';
 import OtherMasterTable from './OtherMasterTable';
+import PharmaOwnedTable from './PharmaOwnedTable';
+import PharmaMasterTable from './PharmaMasterTable';
 import NetrunnerOwnedTable from './NetrunnerOwnedTable';
 import NetrunnerMasterTable from './NetrunnerMasterTable';
 import VehicleMasterTable from './VehicleMasterTable';
@@ -98,6 +100,7 @@ function ShoppingSheet() {
                         <Tab value='#weapons' href={`/#/shopSheet/${params.id}#weapons`} label='Weapons' />
                         <Tab value='#grenades' href={`/#/shopSheet/${params.id}#grenades`} label='Grenades' />
                         <Tab value='#other' href={`/#/shopSheet/${params.id}#other`} label='Other Gear' />
+                        <Tab value='#pharma' href={`/#/shopSheet/${params.id}#pharma`} label='Pharma' />
                         {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/shopSheet/${params.id}#netrunner`} label='Netrunner' />}
                         <Tab value='#cyberware' href={`/#/shopSheet/${params.id}#cyberware`} label='Cyberware' />
                         <Tab value='#vehicles' href={`/#/shopSheet/${params.id}#vehicles`} label='Vehicles' />
@@ -123,6 +126,11 @@ function ShoppingSheet() {
                 {selectedShopping === '#other' ? (<>
                     <OtherOwnedTable />
                     <OtherMasterTable />
+                </>) : <></>}
+
+                {selectedShopping === '#pharma' ? (<>
+                    <PharmaOwnedTable />
+                    <PharmaMasterTable />
                 </>) : <></>}
 
                 {selectedShopping === '#netrunner' ? (<>

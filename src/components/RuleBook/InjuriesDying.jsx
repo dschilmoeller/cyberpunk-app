@@ -88,13 +88,19 @@ export default function RulebookInjuries() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Most critical injuries are the results of aimed shots. Additionally, if a character receives more than 7 damage in a single attack (after soaking), they receive a random critical injury - see table below. Other events - car crashes, long falls, etc - can result in a Critical injury at the GM's discretion.
+                    Most critical injuries are the results of Aimed Shots (see Rules: Actions & Combat). Alternately, if a character receives more than 7 damage in a single attack (after soaking), they receive a random critical injury - see table below. Other events - car crashes, long falls, etc - can result in a Critical injury at the GM's discretion.
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    A critical injury can be alleviated for 1 hour if a Quick Fix can be applied, otherwise it can be removed with treatment - this requires a roll as indicated on the table, and recovery of at least 3 wounds.
+                    A critical injury can be alleviated for 1 hour if a Quick Fix can be applied, otherwise it can be removed with treatment - this requires a roll as indicated on the table, and the recovery of at least 3 lethal wounds. If the character is able to fully recover all lethal damage they have, the critical injury is also removed, even without treatment.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Any critical injury raises a character's difficulty values by 1 for most tests, other than Body rolls to avoid dying, and this modifier is affected by anything that also affects wound penalties (eg. Pain Editor, Drugs). This modifier stacks if multiple critical injuries are suffered.
                 </Typography>
             </Grid>
 
@@ -115,7 +121,7 @@ export default function RulebookInjuries() {
                                 <TableRow hover>
                                     <TableCell>1</TableCell>
                                     <TableCell>Broken/Dismembered Arm</TableCell>
-                                    <TableCell>The limb cannot be used. Any gear in arm is dropped.</TableCell>
+                                    <TableCell>The limb cannot be used. Any gear built into a cyberarm is disabled, and any gear held in the relevant hand is dropped.</TableCell>
                                     <TableCell>N/A</TableCell>
                                     <TableCell>Surgery, DV7, replacement limb</TableCell>
                                 </TableRow>
@@ -123,7 +129,7 @@ export default function RulebookInjuries() {
                                 <TableRow hover>
                                     <TableCell>2</TableCell>
                                     <TableCell>Broken/Dismembered Leg</TableCell>
-                                    <TableCell>The limb cannot be used. -3 move stat, min 1. Character is knocked <b>prone</b>.</TableCell>
+                                    <TableCell>The limb cannot be used. Any gear built into a cyberleg is disabled. The victim suffers -3 to their move stat, min 1. Character is immediately knocked <b>prone</b>.</TableCell>
                                     <TableCell>N/A</TableCell>
                                     <TableCell>Surgery, DV7, replacement limb</TableCell>
                                 </TableRow>
@@ -131,7 +137,7 @@ export default function RulebookInjuries() {
                                 <TableRow hover>
                                     <TableCell>3</TableCell>
                                     <TableCell>Collapsed Lung</TableCell>
-                                    <TableCell>-2 to Move, begin making death saves as though track is filled with Lethal Damage.</TableCell>
+                                    <TableCell>-1 to Move, begin making death saves as though track is filled with Lethal Damage.</TableCell>
                                     <TableCell>First Aid DV9, Paramedic DV7</TableCell>
                                     <TableCell>Surgery DV7</TableCell>
                                 </TableRow>

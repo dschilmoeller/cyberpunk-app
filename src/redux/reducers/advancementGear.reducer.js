@@ -4,6 +4,7 @@ const advancementGear = (state = {
     weapons: [],
     grenades: [],
     gear: [],
+    pharma: [],
     cyberware: [],
     netrunnerGear: [],
     vehicles: [],
@@ -55,6 +56,7 @@ const advancementGear = (state = {
                 weapons: action.payload.weapons,
                 grenades: action.payload.grenades,
                 gear: action.payload.gear,
+                pharma: action.payload.pharma,
                 cyberware: action.payload.cyberware,
                 cyberwareSlots: action.payload.cyberwareSlots,
                 netrunnerGear: action.payload.netrunnerGear,
@@ -86,6 +88,11 @@ const advancementGear = (state = {
             return {
                 ...state,
                 gear: action.payload
+            }
+        case 'SET_ADVANCEMENT_PHARMA':
+            return {
+                ...state,
+                pharma: action.payload
             }
         case 'SET_ADVANCEMENT_CYBERWARE':
             return {

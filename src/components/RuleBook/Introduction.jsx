@@ -4,11 +4,11 @@ import { Grid } from '@mui/material';
 export default function RulebookIntroduction() {
 
     return (
-        
+
         <Grid container spacing={1} padding={1}>
 
             <Grid item xs={12}><Typography variant='h4'>Introduction</Typography></Grid>
-            <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial product or object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public; the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>Cyberpumpkin is an adaptation of the Cyberpunk game. It is a role playing game aimed at an incredibly specific group of people, and is not in anyway a commercial object. The core rules are based on the World of Darkness d10 system, while the bulk of the content is derived from the core Cyberpunk game. As this ruleset is not aimed at the general public the core concepts of TTRPGs are not going to be elaborated on, and many parts pertaining only to the GM are not going to appear on this page.</Typography></Grid>
             <Grid item xs={12}><Typography variant='h4'>Core Concepts: Dice Rolling</Typography></Grid>
             <Grid item xs={12}><Typography variant='p'>Generally, the GM will tell players when to roll dice, and provide three pieces of information: the Parameters of the roll, the Type of roll is happening, and the Difficulty Value.</Typography></Grid>
             <Grid item xs={12}><Typography variant='h6'>Roll Parameters & Die Pool</Typography></Grid>
@@ -21,19 +21,29 @@ export default function RulebookIntroduction() {
             <Grid item xs={12}><Typography variant='p'>While rolling their die pool, any dice a Player rolls that come up equal to or higher than the Difficulty Value is called a 'success' or 'hit'. If a player rolls two 10s on a single roll, they count twice - so if a player rolls 2, 6, 10, 10 against a DV of 6 they have five hits/successes.</Typography></Grid>
             <Grid item xs={12}><Typography variant='p'>However, any dice that comes up as a 1 is called a 'glitch die', 'botch die', or a '#$%*ing 1'. Each 1 subtracts a success from the total. Both successes and 1s are totaled up and reported to the GM.</Typography></Grid>
             <Grid item xs={12}><Typography variant='p'>In a Simple roll, a player simply needs more successes than 1s to succeed. In this instance, if they have 0 hits (either by rolling no 1s and no successes, or an equal number of 1s and successes) they have simply failed at whatever they are doing. If they have more successees than 1s, they have succeeded at their task (most likely - some tasks require more than one success to achieve). If their roll has MORE 1s than successes, they have Botched - not only have they failed, something else has gone wrong. Finally, if they roll and manage to score NO successes and at least one 1, they have Critically Botched - not only did they fail, but something is about to go about as wrong as humanly possible.</Typography></Grid>
-            <Grid item xs={12}><Typography variant='p'>In a Contested roll, things are similar - the player wants to roll as many hits as possible and avoid 1s. The key difference is that they may need more than 1 success - the number is determined by how many successes their opponent got on their roll. See below for examples.</Typography></Grid>
+            <Grid item xs={12}><Typography variant='p'>In a Contested roll, things are similar - the player wants to roll as many hits as possible and avoid 1s. The key difference is that they may need more than 1 success - the number is determined by how many successes their opponent got on their roll. Both botches and hits are tracked, until either the character has MORE botches than hits, or enough hits to achieve their target after accounting for any botches. See below for examples.</Typography></Grid>
             <Grid item xs={12}>
                 <Typography variant='p'><i>Examples:</i></Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant='p'><i>Simple Roll: Tahei is trying to find a place to crash on the streets. The GM determines the Parameters of the roll to be Intelligence & Streetwise. Tahei's player consults his sheet, and notes his total - 5 dice. As he is in a relatively decent part of town, the GM declares it is a Simple roll against the standard DV (6). Tahei rolls 5 dice, and gets 1, 3, 6, 7, and 10. That's 3 hits and 1 glitch; Tahei has successfully found an unattended nook and can sleep undisturbed.</i></Typography>
+                <Typography variant='p'><i>Simple Roll: Tahei is trying to find a place to crash on the streets. The GM determines the Parameters of the roll to be Intelligence & Streetwise. Tahei's player consults his sheet, and notes his total - 5 dice. As he is in a relatively decent part of town, the GM declares it is a Simple roll against the standard DV (6). Tahei rolls 5 dice, and gets 1, 3, 6, 7, and 10. That's 3 hits and 1 glitch for a total of 2 successes; Tahei has successfully found an unattended nook and can sleep undisturbed.</i></Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant='p'><i>Contested Roll: Ace is trying to charm a bouncer into letting them into a Nightclub without paying the cover. The GM determines the bouncer is going to be difficult about it. The parameters are Cool + Fast Talk, which happens to be Ace's specialty - they roll a whopping 8 dice. The bouncer will be rolling Willpower + Streetwise, with a pool of 4 dice. However, Ace's DV is 7 - this is not an easy thing they're doing; while the bouncer's is only 5 - denying people entry is about half of what they do. Ace gets 1,1,3,5,6,8,8,9 - only 3 successes. The bouncer gets a 2,3,5,7 - A total of 2 successes. Ace manages to talk the bouncer into letting them into the club.</i></Typography>
+                <Typography variant='p'><i>Contested Roll: Ace is trying to charm a bouncer into letting them into a Nightclub without paying the cover. The GM determines the bouncer is going to be difficult about it. The parameters are Cool + Fast Talk, which happens to be Ace's specialty - they roll a whopping 8 dice. The bouncer will be rolling Willpower + Streetwise, with a pool of 4 dice. However, Ace's DV is 7 - this is not an easy thing they're doing; while the bouncer's is only 5 - denying people entry is about half of what they do. Ace gets 1,1,3,5,6,8,8,9 - only 3 successes. The bouncer gets a 2,3,5,7 - A total of 2 successes. Ace manages to talk the bouncer into letting them into the club, but only barely.</i></Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant='p'><i>Botched Roll: Dr Chill has been kidnapped and is forced to perform a heart transplant on a Tyger Claw boss. The GM decides this will be an extended contested roll - the Dr needs to get 5 successes, but can roll Technique + Surgery as many times as it requires, with each roll representing an hour of surgery. His DV is 9, however - the task is extremly challenging. Dr Chill gets to it, rolling a 1, 2, 7, 9, and 10 - he's got 1 glitch and 2 successes. Great start. Shortly, he makes another roll, and gets 1, 1, 2, 4, 6. Consulting his chart, the Dr realizes he has 3 botches and 2 successes - in an extended roll or a standard one, this ends his activity in abject failure, and in this case the patient expires messily. This was, however, a Botch - not only is the patient dead, but (the GM thinks fast here!) another Doctor has just arrived with a Tyger Claw's lieutenant. The lieutenant recognizes Dr Chill as the son of a man the Boss and Lieutenant executed all those years ago, and demands the other doctor investigate the Boss' death. Sure enough - Dr Chill is an extremely talented, #1 surgeon, and has a Die Pool of 8 for the task he was performing, but only used 5 dice per roll! He killed the Boss intentionally - things are looking quite bad for Dr Chill...</i></Typography>
+                <Typography variant='p'>
+                    <i>Extended Roll: Dr Chill has been kidnapped and is forced to perform a heart transplant on a Tyger Claw boss. The GM decides this will be an Extended roll - the Dr needs to get 5 total hits, but can roll Technique + Surgery as many times as it requires, with each roll representing an hour of surgery. His DV is 9, however - the task is extremly challenging. Dr Chill gets to it, rolling a 1, 2, 7, 9, and 10 - he's got 1 glitch and 2 hits. Great start.
+
+                        <Grid item xs={12}>After an hour of in game time passes (allowing his companions to try and rescue him, or just immediately in the real world if nothing else in particular is happening), he makes another roll, and gets 1, 2, 2, 5, 6. The Dr realizes he has 2 botches and 2 hits - he's on the cusp of disaster, but in this case nothing in particular happens - he effectively has 0 hits.
+                        </Grid>
+                        <Grid item xs={12}>On his next roll, Dr. Chill gets a 1, 1, 5, 6, and 8 - for a total of 4 botches and 2 hits thus far. As he has more botches than hits, Dr Chill fails and the patient expires messily. Unlike most rolls, this was simply a failure - not a botch.
+                        </Grid>
+
+                    </i>
+                </Typography>
             </Grid>
+
 
             <Grid item xs={12}>
                 <Typography variant='h6'>
@@ -41,7 +51,7 @@ export default function RulebookIntroduction() {
                 </Typography>
 
                 <Typography variant='p'>
-                Cyberpumpkin can be played on a game mat; in which case events are more regulated and movement, range, and the like are easier to comprehend. Narrative play is more free-form, and puts more of an onus on the GM to describe and track what's going on; that being said it doesn't require as much prep and is faster and less tactical.
+                    Cyberpumpkin can be played on a game mat; in which case events are more regulated and movement, range, and the like are easier to comprehend. Narrative play is more free-form, and puts more of an onus on the GM to describe and track what's going on; that being said it doesn't require as much prep and is faster and less tactical.
                 </Typography>
             </Grid>
 

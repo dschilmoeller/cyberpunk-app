@@ -7,6 +7,7 @@ function* fetchMasterLists() {
     const weaponList = yield axios.get('/api/gear/fetchweapon')
     const grenadeList = yield axios.get('/api/gear/fetchgrenades')
     const gearList = yield axios.get('/api/gear/fetchmiscgear')
+    const pharmaList = yield axios.get('/api/gear/fetchPharma')
     const cyberList = yield axios.get('/api/gear/fetchcyberware')
     const netrunnerList = yield axios.get('/api/gear/fetchnetrunner')
     const vehicleList = yield axios.get('/api/gear/fetchvehicles')
@@ -21,6 +22,7 @@ function* fetchMasterLists() {
             weapons: weaponList.data,
             grenades: grenadeList.data,
             miscGear: gearList.data,
+            pharma: pharmaList.data,
             cyberware: cyberList.data,
             netrunnerGear: netrunnerList.data,
             vehicles: vehicleList.data,
@@ -641,6 +643,9 @@ function* buyItem(action) {
         if (action.payload.table === 'char_gear_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_MISC_GEAR', payload: action.payload.charID })
         }
+        if (action.payload.table === 'char_pharma_bridge') {
+            yield put({ type: 'FETCH_ADVANCEMENT_PHARMA', payload: action.payload.charID})
+        }
         if (action.payload.table === 'char_owned_cyberware') {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
         }
@@ -686,6 +691,8 @@ function* sellItem(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_GRENADES', payload: action.payload.charID })
         } else if (action.payload.table === 'char_gear_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_MISC_GEAR', payload: action.payload.charID })
+        } else if (action.payload.table === 'char_pharma_bridge') {
+            yield put({ type: 'FETCH_ADVANCEMENT_PHARMA', payload: action.payload.charID })
         } else if (action.payload.table === 'char_owned_cyberware') {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
         } else if (action.payload.table === 'char_vehicle_bridge') {
@@ -697,7 +704,7 @@ function* sellItem(action) {
         }
         yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
         yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
-
+        
     } catch (error) {
         console.log(`Error selling item:`, error);
     }

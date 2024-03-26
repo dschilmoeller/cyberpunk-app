@@ -46,6 +46,13 @@ router.get('/fetchmiscgear', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error fetching misc gear list:`, err); })
 })
 
+router.get('/fetchPharma', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "pharma_master" order by "rank"`
+    pool.query(sqlText)
+        .then((result) => { res.send(result.rows); })
+        .catch(err => { console.log(`Error fetching pharma list:`, err); })
+})
+
 router.get('/fetchcyberware/', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "cyberware_master" order by "cyberware_master_id"`
     pool.query(sqlText)
@@ -89,9 +96,9 @@ router.get('/fetchlifestyle/', rejectUnauthenticated, (req, res) => {
 })
 
 // Purchases and Sales
-const whiteListTable = ['char_armor_bridge', 'char_clothing_bridge', 'char_gear_bridge', 'char_grenade_bridge', 'char_owned_cyberware', 'char_owned_vehicle_mods', 'char_shield_bridge', 'char_vehicle_bridge', 'char_weapons_bridge']
-const whiteListBuyPKs = ['armor_id', 'clothing_id', 'misc_gear_id', 'grenade_id', 'cyberware_master_id', 'vehicle_mod_master_id', 'shield_id', 'vehicle_id', 'weapon_id']
-const whiteListSellPKs = ['armor_bridge_id', 'clothing_bridge_id', 'char_gear_bridge_id', 'grenade_bridge_id', 'owned_cyberware_id', 'char_owned_vehicle_mods_id', 'shield_bridge_id', 'vehicle_bridge_id', 'weapon_bridge_id']
+const whiteListTable = ['char_armor_bridge', 'char_clothing_bridge', 'char_gear_bridge', 'char_pharma_bridge', 'char_grenade_bridge', 'char_owned_cyberware', 'char_owned_vehicle_mods', 'char_shield_bridge', 'char_vehicle_bridge', 'char_weapons_bridge']
+const whiteListBuyPKs = ['armor_id', 'clothing_id', 'misc_gear_id', 'pharma_master_id', 'grenade_id', 'cyberware_master_id', 'vehicle_mod_master_id', 'shield_id', 'vehicle_id', 'weapon_id']
+const whiteListSellPKs = ['armor_bridge_id', 'clothing_bridge_id', 'char_gear_bridge_id', 'char_pharma_bridge_id', 'grenade_bridge_id', 'owned_cyberware_id', 'char_owned_vehicle_mods_id', 'shield_bridge_id', 'vehicle_bridge_id', 'weapon_bridge_id']
 
 router.post('/buyItem', rejectUnauthenticated, (req, res) => {
     let tableCheck = false;
