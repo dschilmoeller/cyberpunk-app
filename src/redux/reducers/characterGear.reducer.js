@@ -4,6 +4,7 @@ const characterGear = (state = {
     weapons: [],
     grenades: [],
     gear: [],
+    pharma: [],
     cyberware: [],
     netrunnerGear: [],
     vehicles: [],
@@ -17,6 +18,7 @@ const characterGear = (state = {
                 weapons: [],
                 grenades: [],
                 gear: [],
+                pharma: [],
                 cyberware: [],
                 netrunnerGear: [],
                 vehicles: [],
@@ -45,6 +47,7 @@ const characterGear = (state = {
                 weapons: action.payload.weapons,
                 grenades: action.payload.grenades,
                 gear: action.payload.miscGear,
+                pharma: action.payload.pharma,
                 cyberware: action.payload.cyberware,
                 netrunnerGear: action.payload.netrunnerGear,
                 vehicles: action.payload.vehicles,
@@ -75,12 +78,11 @@ const characterGear = (state = {
                 ...state,
                 gear: action.payload
             }
-        case 'CONSUMABLE_USED': {
+        case 'SET_CHARACTER_PHARMA_GEAR':
             return {
                 ...state,
-                gear: state.gear.filter(gear => gear.char_gear_bridge_id !== action.payload.char_gear_bridge_id)
+                pharma: action.payload
             }
-        }
 
         // Cyberware Handlers
 

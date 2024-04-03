@@ -165,7 +165,7 @@ export default function PharmaOwnedTable() {
 
 
     return (<>
-        <h2>My Other</h2>
+        <h2>My Pharmaceuticals</h2>
 
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>

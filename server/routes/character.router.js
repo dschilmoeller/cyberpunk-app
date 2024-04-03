@@ -166,6 +166,20 @@ router.get('/fetchCharacterMiscGear/:id', rejectUnauthenticated, (req, res) => {
         })
 })
 
+router.get('/fetchCharacterPharmaGear/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `SELECT * FROM "char_pharma_bridge"
+    JOIN "pharma_master" ON "pharma_master"."pharma_master_id" = "char_pharma_bridge"."pharma_master_id"
+    WHERE "char_id" = $1
+    ORDER BY "rank", "name" ASC`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error fetching character pharma gear details`, err);
+        })
+})
+
 router.get('/fetchcharacterNetrunningGear/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `SELECT * FROM "netrunner_bridge"
     JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
@@ -251,6 +265,18 @@ router.delete('/useConsumable/:id', rejectUnauthenticated, (req, res) => {
         })
         .catch(err => {
             console.log(`Error using consumable:`, err);
+        })
+})
+
+//use pharmaceutical from pack:
+router.delete('/usePharmaceutical/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `DELETE FROM "char_pharma_bridge" WHERE "char_pharma_bridge_id" = $1`
+    pool.query(sqlText, [req.params.id])
+        .then((result) => {
+            res.sendStatus(202)
+        })
+        .catch(err => {
+            console.log(`Error using pharmaceutical:`, err);
         })
 })
 

@@ -35,6 +35,7 @@ const advancementGear = (state = {
                 weapons: [],
                 grenades: [],
                 gear: [],
+                pharma: [],
                 cyberware: [],
                 netrunnerGear: [],
                 vehicles: [],

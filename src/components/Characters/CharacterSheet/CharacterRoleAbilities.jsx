@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Item from './Item';
 
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
-import MakePharmaDialog from '../../Modals/MakePharmaDialog';
 
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -135,9 +134,6 @@ function CharacterRoleAbilities(charDetailProp) {
                             </Grid>
                             <Grid item xs={7.5}>
                                 <Item>{dotReturn(charDetail.med_pharma)}</Item>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <MakePharmaDialog />
                             </Grid>
                         </>) : <> </>}
 

@@ -30,6 +30,7 @@ function* fetchCharacterDetail(action) {
     const characterWeapons = yield axios.get(`api/characters/fetchcharacterweapons/${action.payload}`)
     const characterGrenades = yield axios.get(`api/characters/fetchcharactergrenades/${action.payload}`)
     const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload}`)
+    const characterPharmaGear = yield axios.get(`api/characters/fetchCharacterPharmaGear/${action.payload}`)
     const characterCyberBridgeDetail = yield axios.get(`/api/characters/fetchcharactercyberdetails/${action.payload}`)
     const characterNetrunningGear = yield axios.get(`api/characters/fetchcharacterNetrunningGear/${action.payload}`)
     const characterVehicles = yield axios.get(`api/characters/fetchcharacterVehicles/${action.payload}`)
@@ -42,6 +43,7 @@ function* fetchCharacterDetail(action) {
         weapons: characterWeapons.data,
         grenades: characterGrenades.data,
         miscGear: characterMiscGear.data,
+        pharma: characterPharmaGear.data,
         cyberware: characterCyberBridgeDetail.data,
         netrunnerGear: characterNetrunningGear.data,
         vehicles: characterVehicles.data,
@@ -89,10 +91,25 @@ function* changeCharacterLuck(action) {
 
 // Using various consumables:
 function* useConsumableFromPack(action) {
-  yield axios.delete(`/api/characters/useConsumable/${action.payload.foodstuff.char_gear_bridge_id}`)
-  const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload.charID}`)
-  yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
-  yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
+  try {
+    yield axios.delete(`/api/characters/useConsumable/${action.payload.foodstuff.char_gear_bridge_id}`)
+    const characterMiscGear = yield axios.get(`api/characters/fetchCharacterMiscGear/${action.payload.charID}`)
+    yield put({ type: 'SET_CHARACTER_MISC_GEAR', payload: characterMiscGear.data })
+    yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
+  } catch (err) {
+    console.log(`Error using consumable from in play backpack:`, err);
+  }
+}
+
+function* usePharmaceuticalFromPack(action) {
+  try {
+    yield axios.delete(`/api/characters/usePharmaceutical/${action.payload.pharma.char_pharma_bridge_id}`)
+    const characterPharmaGear = yield axios.get(`api/characters/fetchCharacterPharmaGear/${action.payload.charID}`)
+    yield put({ type: 'SET_CHARACTER_PHARMA_GEAR', payload: characterPharmaGear.data })
+    yield put({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: false })
+  } catch (err) {
+    console.log(`error using pharmaceutical from in-play sheet:`, err);
+  }
 }
 
 function* charUseGrenade(action) {
@@ -327,9 +344,9 @@ function* fetchAdvancementMiscGear(action) {
   yield put({ type: 'SET_ADVANCEMENT_MISC_GEAR', payload: advancementGear.data })
 }
 
-function* fetchAdvancementPharma(action){
+function* fetchAdvancementPharma(action) {
   const advancementPharma = yield axios.get(`/api/characters/fetchAdvancementPharma/${action.payload}`)
-  yield put({ type: 'SET_ADVANCEMENT_PHARMA', payload: advancementPharma.data})
+  yield put({ type: 'SET_ADVANCEMENT_PHARMA', payload: advancementPharma.data })
 }
 
 function* fetchAdvancementCyberware(action) {
@@ -410,6 +427,7 @@ function* characterSaga() {
   yield takeLatest('CHANGE_CHARACTER_LUCK', changeCharacterLuck)
 
   yield takeLatest('USE_CONSUMABLE_FROM_PACK', useConsumableFromPack);
+  yield takeLatest('USE_PHARMACEUTICAL_FROM_PACK', usePharmaceuticalFromPack)
   yield takeLatest('ARBITRARY_BANK_CHANGE', arbitraryBankChange)
   yield takeLatest('CHAR_USE_GRENADE', charUseGrenade);
   yield takeLatest('MAKE_PHARMACEUTICAL', characterCreatePharmaceutical);

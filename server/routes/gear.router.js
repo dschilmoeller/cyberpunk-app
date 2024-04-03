@@ -205,6 +205,14 @@ router.put('/changeWeaponClip', rejectUnauthenticated, (req, res) => {
         .catch(err => { console.log(`Error updating weapon clip:`, err); })
 })
 
+router.post('/createPharma', rejectUnauthenticated, (req, res) => {
+    const sqlText = `INSERT INTO "char_pharma_bridge" (char_id, pharma_master_id) VALUES ($1, $2)`
+    const sqlParams = [req.body.charID, req.body.pharmaID]
+    pool.query(sqlText, sqlParams)
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error creating Pharmaceutical:`, err); })
+})
+
 router.post('/createModBridgeEntry/', rejectUnauthenticated, (req, res) => {
     if (tableCheck(req.body.modTable) === true
         && baseItemCheck(req.body.baseItemColumn) === true

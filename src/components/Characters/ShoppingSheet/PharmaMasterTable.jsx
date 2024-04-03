@@ -189,7 +189,7 @@ export default function PharmaMasterTable() {
             </Alert>
         </Snackbar>
 
-        <h2>Buy Other</h2>
+        <h2>Buy Pharmaceuticals</h2>
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>

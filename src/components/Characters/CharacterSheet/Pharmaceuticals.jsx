@@ -11,7 +11,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
 
 import Item from './Item';
 import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
@@ -24,12 +23,11 @@ function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
 
-export default function Backpack() {
+export default function Pharmaceuticals() {
     const characterDetail = useSelector(store => store.characterDetail)
+    const charPharma = useSelector(store => store.characterGear.pharma)
     const loadStatus = useSelector(store => store.loaders.inPlaySheet)
     const dispatch = useDispatch();
-
-    const euroBuck = `\u20AC$`
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -155,66 +153,34 @@ export default function Backpack() {
     };
 
 
-    // create charMiscGear data
-    const charMiscGear = useSelector(store => store.characterGear.gear)
-    function createMiscGearData(name, description, char_gear_bridge_id) {
+    // create charPharma data
+    function createPharmaData(name, description, char_pharma_bridge_id, rank) {
         return {
-            name, description, char_gear_bridge_id
+            name, description, char_pharma_bridge_id, rank
         }
     }
 
-    // take charMiscGear data and push into array for conversion into rows.
-    const charMiscGearRows = []
-    for (let i = 0; i < charMiscGear.length; i++) {
-        charMiscGearRows.push(createMiscGearData(charMiscGear[i].name, charMiscGear[i].description, charMiscGear[i].char_gear_bridge_id))
+    // take CharPharma data and push into array for conversion into rows.
+    const charPharmaRows = []
+    for (let i = 0; i < charPharma.length; i++) {
+        charPharmaRows.push(createPharmaData(
+            charPharma[i].name,
+            charPharma[i].description,
+            charPharma[i].char_pharma_bridge_id,
+            charPharma[i].rank))
     }
 
-    const sortedcharMiscGearRows = React.useMemo(
+    const sortedCharPharmaRows = React.useMemo(
         () =>
-            stableSort(charMiscGearRows, getComparator(order, orderBy)),
-        [order, orderBy, charMiscGear],
+            stableSort(charPharmaRows, getComparator(order, orderBy)),
+        [order, orderBy, charPharma],
     );
 
-    const edibleTest = (row) => {
-        if (row.name === 'MRE' || row.name === 'Food Stick' || row.name === 'Kibble Pack') {
-            let isFood = true
-            return (<><TableCell align='center' padding="normal">
-                <Button sx={{
-                    textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
-                        backgroundColor: '#fff',
-                        color: '#000',
-                    }
-                }}
-                    variant={loadStatus === false ? 'contained' : 'disabled'}
-                    fullWidth
-                    onClick={() => UseConsumable(row, isFood)}>Eat</Button></TableCell></>)
-        } else if (row.name === 'Personal CarePak' || row.name === 'Vial of deadly poison' || row.name === 'Vial of biotoxin' || row.name === 'Glow Paint' || row.name === 'Glow Stick' || row.name === 'Memory Chip' || row.name === 'Road Flare'
-            || row.name === 'Antibiotic' || row.name === 'Rapi-Detox' || row.name === 'Speedheal' || row.name === 'Stim' || row.name === 'Surge' || row.name === 'Hotel Soap') {
-            return (<TableCell align='center' padding="normal">
-                <Button sx={{
-                    textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
-                        backgroundColor: '#fff',
-                        color: '#000',
-                    }
-                }}
-                    variant={loadStatus === false ? 'contained' : 'disabled'}
-                    fullWidth
-                    onClick={() => UseConsumable(row)}>Use</Button></TableCell>)
-        } else {
-            return (<TableCell padding="normal"></TableCell>)
-        }
-    }
-
-    const UseConsumable = (foodstuff, isFood) => {
+    const usePharma = (pharma) => {
         dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
-        dispatch({ type: 'USE_CONSUMABLE_FROM_PACK', payload: { foodstuff, charID: characterDetail.id } })
-        if (isFood === true) {
-            setShowSnackbar(true)
-            setSnackBarText('NOM NOM NOM')
-        } else {
-            setShowSnackbar(true)
-            setSnackBarText('Item Used')
-        }
+        dispatch({ type: 'USE_PHARMACEUTICAL_FROM_PACK', payload: { pharma, charID: characterDetail.id } })
+        setShowSnackbar(true)
+        setSnackBarText('Pharmaceutical Used!')
     }
 
     // arbitrary money changes:
@@ -223,7 +189,7 @@ export default function Backpack() {
     const addMoney = (change) => {
         if ((change) > 0 && change < 10000) {
             dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
-            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) + parseFloat(change), charID: characterDetail.id }})
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: { newBank: parseFloat(characterDetail.bank) + parseFloat(change), charID: characterDetail.id } })
             setBankChange(0)
         } else {
             setSnackBarText('Nice try.')
@@ -234,7 +200,7 @@ export default function Backpack() {
     const spendMoney = (change) => {
         if ((change > 0 && change < 10000) || (change <= characterDetail.bank && change > 0)) {
             dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true })
-            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: {newBank: parseFloat(characterDetail.bank) - parseFloat(change), charID: characterDetail.id }})
+            dispatch({ type: 'ARBITRARY_BANK_CHANGE', payload: { newBank: parseFloat(characterDetail.bank) - parseFloat(change), charID: characterDetail.id } })
             setBankChange(0)
         } else {
             setSnackBarText('Nice try.')
@@ -246,7 +212,7 @@ export default function Backpack() {
         <>
             <Snackbar
                 TransitionComponent={TransitionUp}
-                transitionDuration={2000}
+                transitionDuration={1000}
                 autoHideDuration={2000}
                 open={showSnackbar}
                 onClose={() => setShowSnackbar(false)}
@@ -259,30 +225,8 @@ export default function Backpack() {
 
             <Grid container>
                 <Grid item xs={12} paddingBottom={4}>
-                    <Item><CharacterSheetHeaderDialog prop={'Backpack'} /></Item>
+                    <Item><CharacterSheetHeaderDialog prop={'Pharmaceuticals'} /></Item>
                 </Grid>
-            </Grid>
-
-            <Grid container>
-                <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                <Typography variant='h4'>
-                Bank: {euroBuck}{characterDetail.bank.toLocaleString("en-US")}
-                </Typography>
-                </Grid>
-
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='error' fullWidth onClick={() => spendMoney(bankChange)}>Spend Eddies</Button></Grid>
-
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><TextField
-                    label="Add/Remove Amount"
-                    onChange={e => setBankChange(e.target.value)}
-                    required
-                    type='number'
-                    value={bankChange}
-                    fullWidth
-                />
-                </Grid>
-
-                <Grid item xs={2} display={'flex'} justifyContent={'center'}><Button variant={loadStatus === false ? 'contained' : 'disabled'} color='success' fullWidth onClick={() => addMoney(bankChange)}>Gain Eddies</Button></Grid>
             </Grid>
 
             <TableContainer>
@@ -297,12 +241,21 @@ export default function Backpack() {
                         onRequestSort={handleRequestSort}
                     />
                     <TableBody>
-                        {sortedcharMiscGearRows.map((row, i) => {
+                        {sortedCharPharmaRows.map((row, i) => {
                             return (
                                 <TableRow hover key={i}>
                                     <TableCell padding="normal">{row.name}</TableCell>
                                     <TableCell padding="normal">{row.description}</TableCell>
-                                    {edibleTest(row)}
+                                    <TableCell align='center' padding="normal">
+                                        <Button sx={{
+                                            textTransform: 'none', backgroundColor: '#1A2027', color: 'white', '&:hover': {
+                                                backgroundColor: '#fff',
+                                                color: '#000',
+                                            }
+                                        }}
+                                            variant={loadStatus === false ? 'contained' : 'disabled'}
+                                            fullWidth
+                                            onClick={() => usePharma(row)}>Use</Button></TableCell>
                                 </TableRow>
                             );
                         })}
