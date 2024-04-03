@@ -310,7 +310,7 @@ export default function RulebookRoles() {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container>
-                    <Grid item padding={.5} xs={12}>
+                        <Grid item padding={.5} xs={12}>
                             <h1>Credibility</h1>
                             A character with the Media role has Credibility. This ability affects how their stories are received by the public, as well as how large their audience is. It also allows the Media to pick up rumors passively, gain additional contacts, and assists in digging up new information.
                         </Grid>
@@ -454,17 +454,38 @@ export default function RulebookRoles() {
                     <Grid container>
                         <Grid item padding={.5} xs={12}>
                             <h1>Medical Expertise</h1>
-                            A character with the Medtech role has, not to put to fine a point on it, the knowledge and skills of a paramedic or doctor. In Cyberpumpkin, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is rarely rolled on its own.
+                            A character with the Medtech role has the knowledge and skills of a paramedic or doctor. In Cyberpumpkin, this makes them as much mechanics as doctors much of the time, and they rarely lack for demand of their skills. Medtechs get 1 point in one of three specialties when they advance their Medical Expertise Role Ability. These skills are rolled with an attribute for most tests; Medical Expertise is almost never rolled.
                         </Grid>
+
                         <Grid item padding={.5} xs={12}>
                             <h3>Surgery:</h3>
-                            Surgery is used to treat the most severe injuries, as well as implanting cyberware. It is typically used with the Technique attribute.
+                            Surgery is used to treat critical injuries and implant cyberware. It is typically used with the Technique attribute.
                         </Grid>
+
+                        <Grid item padding={.5} xs={12}>
+                            For Critical Injuries, see the Injuries & Dying section for specific difficulty values. Treating a critical injury requires Surgery at rank 1 or higher, 2 hours, and a Medical Workshop. For replacement parts (e.g. limb, eye, etc) they must also implant cyberware. If the medtech has access to cloned body parts or a cloning workshop, they can use the cloned material instead of cyberware - this is both faster and cheaper in most cases.
+                        </Grid>
+
+                        <Grid item padding={.5} xs={12}>
+                            Installing a cyberlimb requires Surgery 1 (Mall rated cyberware), Surgery 3 (Clinic rated cyberware), or Surgery 5 (Hospital rated cyberware). Likewise, a Cybertech Toolkit (Mall), Workshop (Clinic), or Facility (Hospital) is required to provide the support needed to install a limb successfully.
+                        </Grid>
+
                         <Grid item padding={.5} xs={12}>
                             <h3>Pharmaceuticals:</h3>
-                            Pharmaceuticals allows the Medtech to synthesize one of the below compounds with an Intelligence + Pharmaceuticals roll (DV 6) and some reagents. This will produce a number of doses of a given compound equal to the number of successes on the roll. The reagents have a street value of roughly 200 eddies. Pharmaceuticals typically require injection, though they can be prepared as a topical, pill, etc. possibly with a higher difficulty value as decided by the GM. Applying a dose takes a normal action; if the target is unwilling the Medtech can attempt to forcibly apply the medicine with a melee attack roll. Characters who are <b>not</b> Medtechs cannot administer Pharmaceuticals correctly - they cannot evaluate the correct dosage. Side effects may vary wildly.
+                            Pharmaceuticals allows the Medtech to synthesize one of the below compounds with an Intelligence + Pharmaceuticals roll and some reagents. This will typically produce a number of doses of a given compound equal to the number of successes on the roll. Pharmaceuticals are usually prepared as an injection, though they can be created as a topical, pill, or something stranger as allowed by the GM.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
+                            Applying a dose takes a complex action; if the target is unwilling the Medtech can attempt to forcibly apply the medicine by first making a brawling attack roll. Applying pharmaceuticals correctly is not easy - characters who are not Medtechs roll Intelligence + First Aid at DV9 to produce the pharmaceutical's effects.
+                        </Grid>
+                        <Grid item padding={.5} xs={12}>
+                            Characters who are Medtechs but lack the Pharmaceutical skill are slightly better off - any character who CAN roll Intelligence + Paramedic does so against DV8. Pharmaceutical specialists, however, have the option to roll Intelligence + Pharmaceuticals against DV6.
+                        </Grid>
+
+                        <Grid item padding={.5} xs={12}>
+                            See the Gear Section for a complete listing of pharmaceuticals and their crafting requirements. 
+                        </Grid>
+
+                        {/* <Grid item padding={.5} xs={12}>
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                     <TableHead>
@@ -502,7 +523,7 @@ export default function RulebookRoles() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Grid>
+                        </Grid> */}
                         <Grid item padding={.5} xs={12}>
                             <h3>Cryogenics:</h3>
                             The Cryogenics skill is used to operate and repair cryogenic medical technology. As points are put into this skill, the Medtech will manage to source the following equipment at no extra cost to themselves.

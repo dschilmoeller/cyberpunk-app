@@ -304,7 +304,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='h6'>
-                    Ranged Weapon Special rules
+                        Special rules
                 </Typography>
             </Grid>
 
@@ -329,7 +329,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Aimed shots change any weapons ROF to 1. Both Melee and Ranged weapons can take aimed shots. An aimed shot raises the DV to hit by 2.
+                    An Aimed Shot is an attempt to attack a specific part of an opponent or vehicle. Aimed shots change any weapons ROF to 1. Both Melee and Ranged weapons can take aimed shots. An aimed shot raises the DV to hit by 2.
                 </Typography>
             </Grid>
 
@@ -356,16 +356,16 @@ export default function RulebookCombat() {
 
                                 <TableRow hover>
                                     <TableCell>Critical Injury</TableCell>
-                                    <TableCell align="left">Select and inflict a Critical Injury from the table (see 8 - Injuries and Dying). Injury must make sense given the weapon - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're using the wrong end.</TableCell>
+                                    <TableCell align="left">Select and inflict a Critical Injury from the table (see 8 - Injuries and Dying). Injury must make sense given the weapon used in the attack - it is not possible to inflict a crushed windpipe with a sniper rifle, unless you're using the wrong end.</TableCell>
                                 </TableRow>
 
                                 <TableRow hover>
-                                    <TableCell>Attack weak point</TableCell>
-                                    <TableCell align="left">If a weapon cannot normally deal damage to a target due to its heavy armor, a aimed shot can be made. Normal rules apply (+2 damage) except additional successes are added to the weapon's base damage. This can be done to non-human targets (eg Vehicles, Cover) at the GM's discretion.</TableCell>
+                                    <TableCell>Weak Point</TableCell>
+                                    <TableCell align="left">If a weapon cannot normally deal damage to a target due to its heavy armor, a aimed shot can be made. Normal rules apply (+2 DV) except additional successes are added to the weapon's base damage, which can allow weapons to harm targets they normally couldn't. This can be done to non-human targets (eg Vehicles, Drons, Cover) at the GM's discretion.</TableCell>
                                 </TableRow>
 
                                 <TableRow hover>
-                                    <TableCell>Shoot out Tire</TableCell>
+                                    <TableCell>Tire</TableCell>
                                     {/* note this is repeated in vehicles.jsx and should be updated in tandem */}
                                     <TableCell align="left">Usable only against wheeled vehicles. Dealing at least one point of damage (armor still applies to this attack) causes the tire to blow out, reducing the vehicles movement by 5 for 1 round and lowering its max speed appropriately (50%/tire for motorcycles, 25%/tire for cars, etc). The driver's next action must be a drive test to regain control of the vehicle.</TableCell>
                                 </TableRow>
@@ -377,20 +377,27 @@ export default function RulebookCombat() {
             </Grid>
 
             <Grid item xs={12}>
-                <Typography variant='p'>
-                    <b>Weapon Specific Rules</b>
+            <Typography variant='h6'>
+                    Ranged Weapon Specific Rules
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Certain weapons are parts of groups that share similar characteristics. SMGs and Assault Rifles, no matter their type, have access to the Automatic Fire and Suppressing Fire rules. Shotguns always have access to Shellfire.
+                    <b>Spray and Pray</b> - SMGs
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    SMGs cannot make aimed shots at any range beyond point blank. Further, they do not deal extra damage based on the number of successes made to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die pool while making more than one attack in a round, add +1 die to each SMG die pool.
+                    SMGs cannot make Aimed Shots at any range beyond point blank. Further, they do not deal extra damage based on the number of successes made to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die pool while making more than one attack in a round, add +1 die to each SMG die pool.
+                </Typography>
+            </Grid>
+
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    <b>Rapid Fire</b> - Assault Rifles
                 </Typography>
             </Grid>
 
@@ -402,7 +409,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <b>Automatic Fire</b>
+                    <b>Automatic Fire</b> - SMGs & Assault Rifles
                 </Typography>
             </Grid>
 
@@ -415,7 +422,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <b>Suppressing Fire</b>
+                    <b>Suppressing Fire</b> - SMGs & Assault Rifles
                 </Typography>
             </Grid>
 
@@ -427,7 +434,7 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <b>Shellfire</b>
+                    <b>Shellfire</b> - Shotguns
                 </Typography>
             </Grid>
 
@@ -439,13 +446,25 @@ export default function RulebookCombat() {
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    <b>Explosives</b>
+                    <b>Precision</b> - Sniper Rifles
                 </Typography>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography variant='p'>
-                    Explosives damage a large area rather than hitting a specific target. Similar to shellfire, they deal damage in a large area. Landing an explosive in a specific location requires 3 successes on the attack roll - it drifts a bit on attacks that get fewer than 3 successes. Only characters with Reflexes of 6 or higher AND can get out of range in a single move action have a chance of dodging explosive attacks.
+                    Some weapons are very accurate. These weapons suffer only a +1 DV to Aimed Shots at normal or point blank range.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    <b>Explosives</b> - Grenades, Rocket Launchers, etc.
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant='p'>
+                    Explosives damage a large area rather than hitting a specific target. Similar to shellfire, they deal damage in an area. Landing an explosive in a specific location requires 3 successes on the attack roll - it drifts a bit on attacks that get fewer than 3 successes. Only characters with Reflexes of 6 or higher AND can get out of range in a single move action have a chance of dodging explosive attacks.
                 </Typography>
             </Grid>
 

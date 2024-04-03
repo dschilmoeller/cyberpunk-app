@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,8 +27,11 @@ export default function CharacterSheetHeaderDialog({ prop }) {
 
     const dispatch = useDispatch();
 
-    const burnOneLuck = (charID, max_luck) => {
-        dispatch({ type: 'PLAYER_BURN_ONE_LUCK', payload: { charID, max_luck } })
+    const history = useHistory();
+    const charID = useSelector((store) => store.characterDetail.id);
+
+    const moveToAdvancementPage = (id) => {
+        history.push(`/equipsheet/${id}#pharma`)
     }
 
     const dialogText = (prop) => {
@@ -79,6 +83,13 @@ export default function CharacterSheetHeaderDialog({ prop }) {
                     <Grid container fontFamily={'serif'}>
                         <Grid item padding={1} xs={12}>This is your backpack! Miscellaneous items can be found and consumed here, including food, pharmaceuticals, and other consumables.</Grid>
                         <Grid item padding={1} xs={12}>For the convenience of your GM, you can add and remove arbitrary amounts of money from your backpack as well.</Grid>
+                    </Grid>
+                </>)
+            case 'Pharmaceuticals':
+                return (<>
+                    <Grid container fontFamily={'serif'}>
+                        <Grid item padding={1} xs={12}>This is a list of your pharmaceuticals! Any pharmaceutical you own can be found and used from here.</Grid>
+                        <Grid item padding={1} xs={12}>If you have the Pharmaceutical role ability, you can make additional pharmaceuticals on the <Button onClick={()=> moveToAdvancementPage(charID)}>Advancement Page</Button></Grid>
                     </Grid>
                 </>)
             case 'Cyberware':

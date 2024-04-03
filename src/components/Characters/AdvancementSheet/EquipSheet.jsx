@@ -12,8 +12,8 @@ import Tab from '@mui/material/Tab';
 import AdvancementGearArmor from './AdvancementGearArmor';
 import AdvancementGearWeapons from './AdvancementGearWeapons';
 import AdvancementGearOther from './AdvancementGearOther';
+import AdvancementPharma from './AdvancementGearPharma';
 import AdvancementNetrunnerGear from './AdvancementNetrunnerGear';
-import AdvancementMakePharmaDialog from '../../Modals/AdvancementMakePharmaDialog';
 import AdvancementCyberware from './AdvancementCyberware';
 import AdvancementGarage from './AdvancementGarage';
 import AdvancementClothes from './AdvancementClothes';
@@ -92,7 +92,8 @@ export default function EquipSheet() {
                     <Tab value='#armor' href={`/#/equipsheet/${params.id}#armor`} label='Armor' />
                     <Tab value='#weapons' href={`/#/equipsheet/${params.id}#weapons`} label='Weapons' />
                     <Tab value='#other' href={`/#/equipsheet/${params.id}#other`} label='Other Gear' />
-                    {advancementDetails.netrunner > 0 && <Tab value='#netrunner' href={`/#/equipsheet/${params.id}#netrunner`} label='Netrunner Gear' />}
+                    <Tab value='#pharma' href={`/#/equipsheet/${params.id}#pharma`} label='Pharmaceuticals' />
+                    <Tab value='#netrunner' disabled href={`/#/equipsheet/${params.id}#netrunner`} label='Netrunner Gear' />
                     <Tab value='#cyberware' href={`/#/equipsheet/${params.id}#cyberware`} label='Cyberware' />
                     <Tab value='#vehicles' href={`/#/equipsheet/${params.id}#vehicles`} label='Vehicles' />
                     <Tab value='#clothes' href={`/#/equipsheet/${params.id}#clothes`} label='Clothes' />
@@ -106,16 +107,13 @@ export default function EquipSheet() {
                     <AdvancementGearWeapons />
                 </>) : <></>}
 
-                {value === '#other' && advancementDetails.med_pharma > 0 ?
-                    (<>
-                        <AdvancementMakePharmaDialog />
-                        <AdvancementGearOther />
-                    </>) : <></>}
+                {value === '#pharma' && advancementDetails.med_pharma > 0 ? (<>
+                    <AdvancementPharma />
+                </>) : <></>}
 
-                {value === '#other' && advancementDetails.med_pharma < 1 ?
-                    (<>
-                        <AdvancementGearOther />
-                    </>) : <></>}
+                {value === '#other' ? (<>
+                    <AdvancementGearOther />
+                </>) : <></>}
 
                 {value === '#netrunner' ? (<>
                     <AdvancementNetrunnerGear />
