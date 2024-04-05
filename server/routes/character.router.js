@@ -614,7 +614,7 @@ router.get('/fetchAdvancementStatus/:id', rejectUnauthenticated, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching character cyberware detials`, err);
+            console.log(`Error fetching character cyberware details`, err);
         })
 })
 

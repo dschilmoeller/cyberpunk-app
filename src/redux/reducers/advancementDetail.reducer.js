@@ -37,23 +37,6 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
                 ...state,
                 bank: Number(state.bank + action.payload.price)
             }
-        // case 'BUY_NOMAD_VEHICLE':
-        //     // As we can see, this changes something other than the bank.
-        //     return {
-        //         ...state,
-        //         nomad_vehicle_slots: state.nomad_vehicle_slots - 1
-        //     }
-        // case 'RESTORE_NOMAD_SLOT':
-        //     return {
-        //         ...state,
-        //         nomad_vehicle_slots: state.nomad_vehicle_slots + 1
-        //     }
-        case 'REPAIR_CYBERWARE':
-            return {
-                ...state,
-                bank: Number(state.bank - action.payload),
-                current_cyberware_armor_loss: 0
-            }
         case 'MAKE_PHARMACEUTICAL':
             // this is just spending money on reagents for making a pharmaceutical compound.
             return {
