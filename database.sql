@@ -3264,36 +3264,6 @@ VALUES
 	),
 	(E 'Techtool', E 'Handy folding multi-tool', 50),
 	(
-		E 'Tool Bag',
-		E 'A full set of everyday tools useful for a variety of situations.',
-		100
-	),
-	(
-		E 'Tool Bag - Cybertech',
-		E 'A full set of everyday tools useful for dealing with cyberware.',
-		500
-	),
-	(
-		E 'Tool Bag - Vehicles',
-		E 'A full set of everyday tools useful for working on cars.',
-		500
-	),
-	(
-		E 'Tool Bag - Exotic',
-		E 'A full set of everyday tools useful for a very special type of equipment, chosen at purchase.',
-		500
-	),
-	(
-		E 'Vial of deadly poison',
-		E 'A single dose of a deadly poison in a special storage vial. Can be applied to a melee weapon as a complex action, or delivered via other mechanisms. Deals 3 lethal damage when applied to a melee weapon, deals 8 stun damage when ingested or injected. Loses potency in about an hour when exposed to the air.',
-		100
-	),
-	(
-		E 'Vial of biotoxin',
-		E 'A single dose of a virulent toxin in a special storage vial. Can be applied to a melee weapon as a complex action, or delivered via other mechanisms. Deals 3 aggravated damage when applied to a melee weapon, deals 12 lethal damage when ingested or injected',
-		500
-	),
-	(
 		E 'Video Camera',
 		E 'Device about the size of a cigar that records audio & video. Can run for about a day on a single charge. Commonly shoulder mounted. Has auto-zoom, movement compensation, and other advanced features.',
 		100
@@ -3304,32 +3274,331 @@ VALUES
 		100
 	),
 	(
-		E 'Antibiotic',
-		E 'Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Requires Pharmaceutical Skill to use properly.',
+		'Tool Bag - Medical',
+		'A portable medical kit suitable for first aid and minor surgical operations, as well as the installation of basic cyberware (Mall Level)',
 		500
 	),
 	(
-		E 'Rapi-Detox',
-		E 'When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends. Requires Pharmaceutical Skill to use properly.',
+		'Workshop - Medical',
+		'A well equipped medical station, suitable for treatment of 2 patients at a time. Includes necessary surgical implements for basic surgical procedures and cyberware installation. (Clinic Level)',
+		5000
+	),
+	(
+		'Facility - Medical',
+		'A fully equipped medical facility, suitable for treatemnt of 4 patients at a time. Includes a sophisticated operating theater, AI support, and the like. Suitable for any surgical procedure or cyberware installation (Hospital Level)',
+		25000
+	),
+	(
+		'Tool Bag - Cybertech',
+		'A portable toolkit suitable for minor field repairs to cyberware. Allows installation of the most basic forms of cyberware in conjunction with the appropriate medical equipment (Mall Level)',
+		500
+	),
+	(	
+		'Workshop - Cybertech',	
+		'A well equipped cyberware station, suitable for the repair and fabrication of most basic cyberware. Allows installation of most cyberware in conjunction with the appropriate medical equipment (Clinic Level)',
+		5000
+	),
+	(
+		'Facility - Cybertech',
+		'A fully equipped Cyberware facility, allowing the user to repair or fabrication of most cyberware. Allows installation of most cyberware in conjunction with the appropriate medical equipment (Hospital Level)',
+		25000
+	),
+	(
+		'Tool Bag - Vehicles',
+		'A portable set of everyday tools useful for working on cars. Allows repairs to a vehicles unmodified maximum.',
 		500
 	),
 	(
-		E 'Speedheal',
-		E 'When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day. Requires Pharmaceutical Skill to use properly.',
+		'Workshop - Vehicles',
+		'A well equipped station, suitable for working on a single normal sized vehicle. Allows for the installation and repair of most vehicle modifications, as well as the vehicle itself. Requires Armory Workshop to install vehicular weaponry.',
+		5000
+	),
+	(
+		'Facility - Vehicles',
+		'A fully equipped area to work on vehicles. Allows for installation and repair of just about any vehicle or related modification. Requires Armory Workshop to install vehicular weaponry.',
+		25000
+	),
+	(
+		'Tool Bag - Armory',
+		'A portable set of tools useful for working on basic weapons and armor. Allows for the repair and maintenance of these kinds of gear, as well as the production of standard ammunition. Not suitable for work on exotic or cyber weapons, or advanced armor (rating 5+).',
 		500
 	),
 	(
-		E 'Stim',
-		E 'When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious. Requires Pharmaceutical Skill to use properly.',
-		500
+		'Workshop - Armory',
+		'A fully equipped set of tools and machinery for working on or modifying most weapons and armor. Allows for the production of non-custom ammunition. Allows for repair and modification of armor without the Hardened property. In conjunction with a Cyberware Workshop, allows for repair and modification of most cyberweapons.',
+		5000
+	)
+	(
+		'Facility - Armory',
+		'A fully stocked shop for working on any conceivable set of weapons or armor. Allows for repair and modification of any such item, as well as the crafting of weapon-specific custom ammunition. In conjunction with a Cyberware Workshop, allows for the repair and modification of any cyberweapon.',
+		25000
+	), 
+	(
+		'Workshop - Pharmaceutical',
+		'A well equipped station with everyday tools necessary for the production of various medicines and compounds. Allows for the creation of most pharmaceuticals.',
+		5000
 	),
 	(
-		E 'Surge',
-		E 'A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties. Requires Pharmaceutical Skill to use properly.',
-		500
-	);
+		'Facility - Pharmaceutical',
+		'A modern, fully equipped lab for pharmacological compounds. Allows development and creation of any number of chemicals and biological agents.',
+		25000
+	),
+	(
+		'Workshop - Explosives',
+		'A well equipped setup for working with explosives and other hazardous chemicals. Allows for the creation of most kinds of demolition equipment, as well as ammunition for some heavy weapons.',
+		5000
+	),
+	(
+		'Facility - Explosives',
+		'A fully equipped lab for the creation of large amounts of explosive compounds and other hazardous chemicals. Allows for the creation and manufacture of just about any kind of demolition equipment, along with ammunition for heavy weapons based on explosive ammo.',
+		25000
+	),
+	(
+		'Workshop - Fabrication',
+		'Small set of 3-D printers, lathes, and other tools of the trade to produce equipment. Allows for the production of unique equipment, as well as mass production of certain kinds of gear in conjunction with the relevant Workshop / Facility.',
+		5000
+	),
+	(
+		'Facility - Fabrication',
+		'A full set of 3-D Printers, lathes, laser cutters, and other tools needed to produce large amounts of specialized equipment. Allows for the production of unique equipment, as well as mass production of other kinds of gear in conjunction with the relevant Workshop / Facility.'
+		25000
+	),
+	(
+		'Workshop - Invention',
+		'A full electronics shop, micro-foundry, and diverse other exotic tools used for developing unique items. Allows for the creation of blueprints used to craft other gear, and can perform the function of any other Tool Bag.',
+		10000
+	),
+	(
+		'Facility - Invention',
+		'A full bore science lab, with diverse prototyping and small scale fab equipment - along with chemistry tools, welders, and almost any conceivable other tool required. Allows for the creation of blueprints used to craft other gear, and can perform the function of any other Workshop.',
+		50000
+	),
+	(
+		'Workshop - Cloning',
+		'A specialized set of tools to force grow cloned limbs and organs. Allows for growing a limb in a few hours, or an organ in a day or so by a character with the Medtech - Cryogenics skill.',
+		5000
+	),
+	(
+		'Workshop - Cloned Part Ice Chest',
+		'A specialized freezer allowing the long term storage of spare limbs, organs, and other biological tissue. Can store a full set of replacement parts for 2 people, or the critical organs - hearts, livers, kidneys, eyes, etc - of a full dozen.',
+		5000
+	)
 
+CREATE TABLE "pharma_master" (
+	"pharma_master_id" SERIAL NOT NULL,
+	"name" varchar NOT NULL,
+	"description" varchar NOT NULL,
+	"price" integer NOT NULL,
+	"rank" integer NOT NULL,
+	CONSTRAINT "pharma_master_pk" PRIMARY KEY ("pharma_master_id")
+) WITH (OIDS = FALSE);
 
+CREATE TABLE "char_pharma_bridge" (
+	"char_pharma_bridge_id" SERIAL NOT NULL,
+	"char_id" integer NOT NULL,
+	"pharma_master_id" integer NOT NULL,
+	CONSTRAINT "char_pharma_bridge_pk" PRIMARY KEY ("char_pharma_brige_id")
+) WITH (OIDS = FALSE);
+
+ALTER TABLE "char_pharma_bridge"
+ADD CONSTRAINT "char_pharma_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE
+ALTER TABLE "char_pharma_bridge"
+ADD CONSTRAINT "char_pharma_bridge_fk1" FOREIGN KEY ("pharma_master_id") REFERENCES "pharma_master"("pharma_master_id") ON DELETE CASCADE
+
+INSERT INTO "pharma_master" ("name", "description", "price", "rank") VALUES
+	(
+		'Speedheal',
+		'When administered, the subject immediately recovers 1 lethal or 2 stun wounds per success on the administration test. The subject also immediately loses one temporary humanity point. Can be administered to a given subject no more than once per day. Has no effect on aggravated wounds.',
+		500,
+		1
+	),
+	(
+		'Blue Blood',
+		'When administered, the subject immediately recovers all stun wounds. They further recover 2 lethal wounds or 1 aggravated wound per success on the administration test. For each non-stun wound recovered, the subject loses 1 temporary point of humanity.',
+		2000,
+		3
+	),
+	(
+		'Formula K-3',
+		'A secret Arasaka formulation requiring a strange black liquid to produce. When administered, the subject immediately begins regenerating. They recover 1 stun damage per round, 1 lethal damage every 2 rounds, and 1 aggravated damage each hour. The effects last for a number of hours equal to the number of successes on the administration test, and the subject loses 1 temporary humanity for every lethal or aggravated wound healed by Formula K-3.',
+		3000,
+		4
+	),
+	(
+		'Antibiotic',
+		'Administration of potent antibiotics, antivirals, and various other medications allow a subject to recover an additional lethal wound whenever they would recover wounds naturally. Requires 1 dose per day of treatment.',
+		500,
+		1
+	),
+	(
+		'Regenesis',
+		'Use while receiving medical attention allows the subject to recover a number of lethal or aggravated wounds equal to the successes on the administration test in addition to the results of their normal body roll. Requires 1 dose per day of treatment.',
+		5000,
+		5
+	),
+	(
+		'Rapi-Detox',
+		'When adminstered, a subject currently affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.',
+		500,
+		1
+	),
+	(
+		'Anti-Poison Protocol',
+		'When administered, the subject can resist poisons for about 6 hours. They can ignore any poison whose potency is lower than the rank of the pharmacist making the Anti-Poison protocol. This treatemnt is effective against a number of poisonings equal to the successes rolled on the administration test.',
+		1000,
+		2
+	),
+	(
+		'The Bloodwall',
+		'When administered, the subject is immune to virtually any poison not specifically tailored to their specific biology. The effects last for 1 day per success on the administration test.',
+		5000,
+		5
+	),
+	(
+		'Stim',
+		'When administered, the subject can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the subject to fall unconscious.',
+		500,
+		1
+	),
+	(
+		'Study Aide',
+		'When administered, the subject cannot fall unconscious for any reason. The effect lasts for a number of hours equal to the 4 times the successes on the administration test.',
+		1000,
+		2
+	),
+	(
+		'Bone Jelly',
+		'Combat Drug. When administered, the subject gains +1 to their Reflexes attribute for a number of hours equal to the successes on the administration test.',
+		1000,
+		2
+	),
+	(
+		'Coca Rossa',
+		'Combat Drug. When adminstered, the subject gains +1 to their Strength attribute for a number of hours equal to the successes on the administration test.',
+		1000,
+		2
+	),
+	(
+		'Elder Bark',
+		'Combat Drug. When administered, the subject gains +1 to their Body and Cool attributes for a number of hours equal to the successes on the administration test.',
+		1000,
+		2
+	),
+	(
+		'Turbo Dog Brown Ale',
+		'Combat Drug. When administered, the subject gains +1 to their Strength and Body attributes for a number of hours equal to the successes on the administration test.',
+		2000,
+		3
+	),
+	(
+		'Moloko Plus',
+		'Combat Drug. When administered, the subject gains +2 to their Strength and +1 to Body and Reflexes attributes, as well as the effects of activating a Kerenzikov cyberware (does not stack with Kerenzikov / Other speedware). Subjects also hallucinate rather heavily (comparable to mescaline in potency), and show a marked preference for sex, violence, and certain kinds of classical music.',
+		5000,
+		5
+	),
+	(
+		'Surge',
+		'When administered, the subject can function without sleep for approximately 24 hours.',
+		500,
+		1
+	),
+	(
+		'Dexedrine Speedball',
+		'When administered, the subject can function without sleep for 24 hours per success on the administration roll. They lose 1 temporary humanity for each 24 hours they remain awake past the first. Includes a secondary come down injection that removes the effect.',
+		1000,
+		2
+	),
+	(
+		'PGGB',
+		'When administered, the subject gains +2 to their Intelligence attribute and cannot be rendered unconscious by stun or lethal damage for a number of hours equal to the successes on the administration test. They also believe they can understand any language and see a short way into the future, but they are mistaken. It is reportedly like having your brains smashed out by a slice of lemon wrapped in a gold brick.',
+		3000,
+		4
+	),
+	(
+		'Tetrafodinal',
+		'When administered, the subject cannot be rendered unconscious or fall asleep for a full week. They also do not suffer wound penalties during this interval. If heavily injured, they must make death saves per normal, and succeed at a Willpower test to remain still for more than 30 seconds. The subject immediately loses 10 points of temporary humanity minus the number of successes on the adminstration roll.',
+		5000,
+		5
+	),
+	(
+		'Truth Serum',
+		'When administered, the subject must make a willpower test (DV7) and score more successes than the administrator of the serum to speak untruthfully.',
+		2000,
+		3
+	),
+	(
+		'Hallucinogen',
+		'A powerful psychoactive agent, sourced from any number of origins. The subject will be tripping (+1 DV on most tests, GM discretion) for 4 hours per success on the administration test. In controlled environments, the subject can regain 1 lost point of temporary humanity during the process.',
+		2000,
+		3
+	),
+	(
+		'Green Mescaline',
+		'An unbelievably powerful Hallucinogenic drug. The subject will be tripping heavily (+1-3 DV on most tests, GM discretion) for 1 day per success on the administration test. In a controlled environment, they will also recover one lost point of temporary humanity each day.',
+		3000,
+		4
+	),
+	(
+		'The Ultra Mk. III',
+		'Unclear in origin, this substance takes root in the brain does not let go. The subject of the drug will be tripping heavily (+1-3 DV on most tests, GM discretion) until it wears off. This can be done by giving the subject a complete blood transfusion, several doses of Bloodwall, or similarly drastic interventions. It may also wear off in time, though no occurrence of it ending naturally has been recorded.',
+		5000,
+		5
+	),
+	(
+		'Poison - Rank 1'
+		'A somewhat dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 8 Stun Damage.',
+		500,
+		1
+	),
+	(
+		'Poison - Rank 2',
+		'A dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 10 Stun Damage.',
+		1000,
+		2
+	),
+	(
+		'Poison - Rank 3',
+		'A very dangerous poison. Melee weapons slathered in the substance deal 3 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 12 Stun Damage.',
+		2000,
+		3
+	),
+	(
+		'Poison - Rank 4',
+		'A lethal poison. Melee weapons slathered in the substance deal 3 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 14 Stun Damage.',
+		3000,
+		4
+	),
+	(
+		'Poison - Rank 5',
+		'An extremely lethal poison. Melee weapons slathered in the substance deal 4 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 16 Stun Damage.',
+		5000,
+		5
+	),
+	(
+		'Biotoxin - Rank 3',
+		'A dangerous and virulent toxin. Melee weapons slathered in the substance deal 1 additional aggravated wound on any attack that deals damage. If injected or ingested, subject suffers 6 lethal damage.',
+		2000,
+		3
+	),
+	(
+		'Biotoxin - Rank 4',
+		'A dangerous and virulent toxin. Melee weapons slathered in the substance deal 2 additional aggravated wounds on any attack that deals damage. If injected or ingested, subject suffers 8 lethal damage.',
+		3000,
+		4
+	),
+	(
+		'Biotoxin - Rank 5',
+		'A dangerous and virulent toxin. Melee weapons slathered in the substance deal 3 additional aggravated wounds on any attack that deals damage. If injected or ingested, subject suffers 12 lethal damage.',
+		5000,
+		5
+	),
+	(
+		'Custom Biotoxin',
+		'A highly dangerous mixture tailored to a specific individuals DNA. Melee weapons slathered in the substance deal 5 additional aggravated wounds on any attack that deals damage. If injected or ingested, subject suffers 15 lethal wounds. Making this requires first obtaining a sample of the would-be victims DNA.',
+		5000,
+		5
+	)
+	
 INSERT INTO
 	"public"."armor_master" (
 		"armor_master_id",

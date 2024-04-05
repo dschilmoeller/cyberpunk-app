@@ -7,6 +7,7 @@ function* fetchMasterLists() {
     const weaponList = yield axios.get('/api/gear/fetchweapon')
     const grenadeList = yield axios.get('/api/gear/fetchgrenades')
     const gearList = yield axios.get('/api/gear/fetchmiscgear')
+    const pharmaList = yield axios.get('/api/gear/fetchPharma')
     const cyberList = yield axios.get('/api/gear/fetchcyberware')
     const netrunnerList = yield axios.get('/api/gear/fetchnetrunner')
     const vehicleList = yield axios.get('/api/gear/fetchvehicles')
@@ -21,6 +22,7 @@ function* fetchMasterLists() {
             weapons: weaponList.data,
             grenades: grenadeList.data,
             miscGear: gearList.data,
+            pharma: pharmaList.data,
             cyberware: cyberList.data,
             netrunnerGear: netrunnerList.data,
             vehicles: vehicleList.data,
@@ -612,6 +614,18 @@ function* changeModEquipStatus(action) {
     }
 }
 
+function* createPharma(action) {
+    try {
+        for (let i = 0; i < action.payload.doses; i++) {
+            yield axios.post(`/api/gear/createPharma`, action.payload)
+        }
+        yield axios.put(`api/characters/savecharacterbank/${action.payload.charID}`, action.payload)
+        yield put({ type: 'FETCH_ADVANCEMENT_PHARMA', payload: action.payload.charID })
+        yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
+    } catch (err) {
+        console.log(`Error crafting Pharmaceutical:`, err);
+    }
+}
 
 function* equipNetrunner(action) {
     // this will probably be only slight less complicated than the cyberware equipping/unequipping.
@@ -640,6 +654,9 @@ function* buyItem(action) {
         }
         if (action.payload.table === 'char_gear_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_MISC_GEAR', payload: action.payload.charID })
+        }
+        if (action.payload.table === 'char_pharma_bridge') {
+            yield put({ type: 'FETCH_ADVANCEMENT_PHARMA', payload: action.payload.charID })
         }
         if (action.payload.table === 'char_owned_cyberware') {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
@@ -686,6 +703,8 @@ function* sellItem(action) {
             yield put({ type: 'FETCH_ADVANCEMENT_GRENADES', payload: action.payload.charID })
         } else if (action.payload.table === 'char_gear_bridge') {
             yield put({ type: 'FETCH_ADVANCEMENT_MISC_GEAR', payload: action.payload.charID })
+        } else if (action.payload.table === 'char_pharma_bridge') {
+            yield put({ type: 'FETCH_ADVANCEMENT_PHARMA', payload: action.payload.charID })
         } else if (action.payload.table === 'char_owned_cyberware') {
             yield put({ type: 'FETCH_ADVANCEMENT_CYBERWARE', payload: action.payload.charID })
         } else if (action.payload.table === 'char_vehicle_bridge') {
@@ -783,6 +802,8 @@ function* gearSaga() {
 
     yield takeLatest('CHANGE_GEAR_EQUIP_STATUS', changeGearEquipStatus);
     yield takeLatest('CHANGE_MOD_EQUIP_STATUS', changeModEquipStatus);
+
+    yield takeLatest('CREATE_PHARMA', createPharma);
 
     yield takeLatest('BUY_ITEM', buyItem);
     yield takeLatest('SELL_ITEM', sellItem);
