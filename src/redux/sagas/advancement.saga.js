@@ -49,7 +49,6 @@ function* changeStat(action) {
 }
 
 function* repairItem(action) {
-    // cyberware may need a whole other thing since damage is tracked on char_status table.
     try {
         yield axios.put('/api/advancement/repairItem', action.payload)
         yield axios.put('/api/advancement/changeBank/', action.payload)
@@ -59,6 +58,23 @@ function* repairItem(action) {
         yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
     } catch (err) {
         console.log(`Error repairing item:`, err);
+    }
+}
+
+function* repairCyberware(action) {
+    try {
+        yield axios.put('/api/advancement/repairCyberware', action.payload)
+        yield axios.put('/api/advancement/changeBank/', action.payload)
+        console.log(`a`);
+        const characterStatus = yield axios.get(`api/characters/fetchcharacterstatus/${action.payload.charID}`)
+        yield put({ type: 'SET_CHARACTER_STATUS', payload: characterStatus.data[0] })
+        console.log(`b`);
+        // yield put({ type: 'SET_ADVANCEMENT_STATUS', payload: characterStatus.data[0] })
+        console.log(`c`);
+        yield put({ type: 'FETCH_ADVANCEMENT_BANK', payload: action.payload.charID })
+        yield put({ type: "SET_ADVANCEMENT_LOAD_STATUS", payload: false })
+    } catch (err) {
+        console.log(`Error repairing cyberware:`, err);
     }
 }
 
@@ -99,10 +115,10 @@ function* cyberwareHumanityChange(action) {
     }
 }
 
-function* useNomadFreebie(action){
-    try{
+function* useNomadFreebie(action) {
+    try {
         yield axios.put(`/api/advancement/usenomadfreebie/${action.payload}`)
-    } catch(err){
+    } catch (err) {
         console.log(`Error using nomad freebie:`, err);
     }
 }
@@ -111,6 +127,7 @@ function* advancementSaga() {
     yield takeLatest('FETCH_ADVANCEMENT_HUMANITY', fetchAdvancementHumanity);
     yield takeLatest('ADVANCEMENT_CHANGE_STAT', changeStat);
     yield takeLatest('ADVANCEMENT_REPAIR_ITEM', repairItem);
+    yield takeLatest('REPAIR_CYBERWARE', repairCyberware);
 
     yield takeLatest('CYBER_ARMOR_CHANGE', cyberArmorChange)
     yield takeLatest('FETCH_ADVANCEMENT_CHAR_STATUS', fetchAdvancementCharStatus);

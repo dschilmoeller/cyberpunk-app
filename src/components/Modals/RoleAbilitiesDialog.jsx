@@ -530,58 +530,11 @@ export default function RoleAbilitiesDialog({ prop }) {
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Pharmaceuticals:</h3>
-                            Pharmaceuticals allows the Medtech to synthesize one of the below compounds with an Intelligence + Pharmaceuticals roll (DV 6) and some reagents. This will produce a number of doses of a given compound equal to the number of successes on the roll. The reagents have a street value of roughly 200 eddies. Pharmaceuticals typically require injection, though they can be prepared as a topical, pill, etc. possibly with a higher difficulty value as decided by the GM. Applying a dose takes a normal action; if the target is unwilling the Medtech can attempt to forcibly apply the medicine with a melee attack roll. Characters who are <b>not</b> Medtechs cannot administer Pharmaceuticals correctly - they cannot evaluate the correct dosage. Side effects may vary wildly.
-                        </Grid>
-                        <Grid item padding={.5} xs={12}>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                                    <TableHead>
-                                        <TableRow hover>
-                                            <TableCell align="left">Pharmaceutical</TableCell>
-                                            <TableCell align="left">Effect</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-
-                                        <TableRow hover>
-                                            <TableCell align="left">Antibiotic</TableCell>
-                                            <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
-                                        </TableRow>
-
-                                        <TableRow hover>
-                                            <TableCell align="left">Rapi-Detox</TableCell>
-                                            <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
-                                        </TableRow>
-
-                                        <TableRow hover>
-                                            <TableCell align="left">Speedheal</TableCell>
-                                            <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they'd rested for the appropriate length of time. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
-                                        </TableRow>
-
-                                        <TableRow hover>
-                                            <TableCell align="left">Stim</TableCell>
-                                            <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
-                                        </TableRow>
-
-                                        <TableRow hover>
-                                            <TableCell align="left">Surge</TableCell>
-                                            <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. For each consecutive dose a user takes in without taking a week off, they lose 2 additional humanity (3 for the second, 5 for the 3rd dose, and so on).</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            Pharmaceuticals allows the Medtech to synthesize a number of compounds with access to a Pharmaceutical Workshop or Facility and some reagents. The player makes an Intelligence + Pharmaceuticals roll (DV 6). They can produce a number of doses of a given compound equal to the number of successes on the roll. Pharmaceuticals typically require injection, though they can be prepared as a topical, pill, gas, etc. as decided by the GM.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <h3>Cryogenics:</h3>
-                            The Cryogenics skill is used to operate and repair cryogenic medical technology. As points are put into this skill, the Medtech will manage to source the following equipment at no extra cost to themselves.
-                        </Grid>
-                        <Grid item padding={.5} xs={12}>
-                            <h4>Cryopump:</h4>
-                            A cryopump is a briefcase sized device containing a bodybag hooked to a pump and a few chemical containers. Once a willing (or unconscious) person is placed in the bag and the pump activated, they are bathed in a hypercool chemical slurry and the bag deflates around them. The person in the bag is put into stasis - they are unconscious and will no longer need to roll death saves as long as they are kept in the bag. The cryopump uses one charge per day of use, and has two charges as standard. The bag will be ruined if it suffers a lethal or aggravated wound of any kind. Surgery can be performed on the occupant through a special seal, reducing difficulties by 1. Refueling the Cryopump restores all used charges and uses materials with a street cost of roughly 200 eurobucks.
-                        </Grid>
-                        <Grid item padding={.5} xs={12}>
-                            <h4>Cryotank:</h4>
-                            A cryotank is a pod that can contain a grown adult. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
+                            The Cryogenics skill is used to operate and repair cryogenic medical technology. As points are put into this skill, the Medtech will manage to source the following equipment at no extra cost to themselves in addition to becoming more skilled in their use.
                         </Grid>
                         <Grid item padding={.5} xs={12}>
                             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -605,7 +558,7 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                     <TableRow hover>
                                         <TableCell align="left">3</TableCell>
-                                        <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have two charges as you learn to operate them more efficiently.</TableCell>
+                                        <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have three charges as you learn to operate them more efficiently.</TableCell>
                                     </TableRow>
 
                                     <TableRow hover>
@@ -615,10 +568,22 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                     <TableRow hover>
                                         <TableCell align="left">5</TableCell>
-                                        <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have three charges due to your mastery of the Cryonic arts!</TableCell>
+                                        <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have four charges due to your mastery of the Cryonic arts!</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                        </Grid>
+                        <Grid item padding={.5} xs={12}>
+                            <h4>Ice Cold Veins</h4>
+                            Cryonics techs are extremely chill medical practitioners, brisk jury riggers, and have more practice than even surgeons staying frosty in a tight spot. Whether it's breaking the ice at a Corpo gala, producing up with a wintry insult to deflate a puffed up ganger, or getting something done in Night City's glacial bureaucracy - the cryo expert stays cool. A character can apply their Cryogenics score to any Rule of Cool roll (including splitting it between two rolls).
+                        </Grid>
+                        <Grid item padding={.5} xs={12}>
+                            <h4>Cryopump:</h4>
+                            A cryopump is a briefcase sized device containing a bodybag hooked to a pump and a few chemical containers. Once a willing (or unconscious) person is placed in the bag and the pump activated, they are bathed in a hypercool chemical slurry and the bag deflates around them. The person in the bag is put into stasis - they are unconscious and will no longer need to roll death saves as long as they are kept in the bag. The cryopump uses one charge per day of use, and has two charges as standard. The bag will be ruined if it suffers a lethal or aggravated wound of any kind. Surgery can be performed on the occupant through a special seal, reducing difficulties by 1. Refueling the Cryopump restores all used charges and uses materials with a street cost of roughly 200 eurobucks.
+                        </Grid>
+                        <Grid item padding={.5} xs={12}>
+                            <h4>Cryotank:</h4>
+                            A cryotank is a pod that can contain a grown adult. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
                         </Grid>
                     </Grid>
                 )
@@ -788,61 +753,14 @@ export default function RoleAbilitiesDialog({ prop }) {
                 return (<>
                     <Grid item padding={.5} xs={12}>
                         <h3>Pharmaceuticals:</h3>
-                        Pharmaceuticals allows the Medtech to synthesize one of the below compounds with an Intelligence + Pharmaceuticals roll (DV 6) and the use of some reagents. This will produce a number of doses of a given compound equal to the number of successes on the roll. The reagents have a street value of roughly 200 eddies. Pharmaceuticals typically require injection, though they can be prepared as a topical, pill, etc. possibly with a higher difficulty value as decided by the GM. Applying a dose takes a normal action; if the target is unwilling the Medtech can attempt to forcibly apply the medicine with a melee attack roll. Characters who are <b>not</b> Medtechs cannot administer Pharmaceuticals correctly - they cannot evaluate the correct dosage. They can certainly try, of course.
-                    </Grid>
-                    <Grid item padding={.5} xs={12}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                                <TableHead>
-                                    <TableRow hover>
-                                        <TableCell align="left">Pharmaceutical</TableCell>
-                                        <TableCell align="left">Effect</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-
-                                    <TableRow hover>
-                                        <TableCell align="left">Antibiotic</TableCell>
-                                        <TableCell align="left">Speeds up natural healing processes, allowing the recovery of one additional wound when the user rolls their body to recover. Multiple doses cannot stack, and it cannot be used with Speedheal. Each roll uses one dose of the compound.</TableCell>
-                                    </TableRow>
-
-                                    <TableRow hover>
-                                        <TableCell align="left">Rapi-Detox</TableCell>
-                                        <TableCell align="left">When injected, a user affected by a drug, poison, or other intoxicant is immediately purged of the substance. Aggressively. From both ends.</TableCell>
-                                    </TableRow>
-
-                                    <TableRow hover>
-                                        <TableCell align="left">Speedheal</TableCell>
-                                        <TableCell align="left">When injected, the user immediately rolls Body (DV 6) and recovers stun and lethal wounds as though they had rested for 1 day. The user immediately loses one temporary humanity point. Can be used on a target no more than once per day.</TableCell>
-                                    </TableRow>
-
-                                    <TableRow hover>
-                                        <TableCell align="left">Stim</TableCell>
-                                        <TableCell align="left">When administered, the user can ignore all wound penalties for 1 hour. Further, Stun Wounds cannot cause the user to fall unconscious.</TableCell>
-                                    </TableRow>
-
-                                    <TableRow hover>
-                                        <TableCell align="left">Surge</TableCell>
-                                        <TableCell align="left">A dose of surge allows the target to function without sleep for approximately 48 hours. They immediately lose 1 point of temporary humanity. Consecutive uses without a week or more of rest incur increasing humanity penalties.</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        Pharmaceuticals allows the Medtech to synthesize a number of compounds with access to a Pharmaceutical Workshop or Facility and some reagents. The player makes an Intelligence + Pharmaceuticals roll (DV 6). They can produce a number of doses of a given compound equal to the number of successes on the roll. Pharmaceuticals typically require injection, though they can be prepared as a topical, pill, gas, etc. as decided by the GM.
                     </Grid>
                 </>)
             case 'Cryogenics':
                 return (<>
                     <Grid item padding={.5} xs={12}>
                         <h3>Cryogenics:</h3>
-                        The Cryogenics skill is used to operate and repair cryogenic medical technology. As points are put into this skill, the Medtech will manage to source the following equipment at no extra cost to themselves.
-                    </Grid>
-                    <Grid item padding={.5} xs={12}>
-                        <h4>Cryopump:</h4>
-                        A cryopump is a briefcase sized device containing a bodybag hooked to a pump and a few chemical containers. Once a willing (or unconscious) person is placed in the bag and the pump activated, they are bathed in a hypercool chemical slurry and the bag deflates around them. The person in the bag is put into stasis - they are unconscious and will no longer need to roll death saves as long as they are kept in the bag. The cryopump uses one charge per day of use, and has two charges as standard. The bag will be ruined if it suffers a lethal or aggravated wound of any kind. Surgery can be performed on the occupant through a special seal, reducing difficulties by 1. Refueling the Cryopump restores all used charges and uses materials with a street cost of roughly 200 eurobucks.
-                    </Grid>
-                    <Grid item padding={.5} xs={12}>
-                        <h4>Cryotank:</h4>
-                        A cryotank is a pod that can contain a grown adult. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
+                        The Cryogenics skill is used to operate and repair cryogenic medical technology. As points are put into this skill, the Medtech will manage to source specialized equipment at no extra cost to themselves in addition to becoming more skilled in their use.
                     </Grid>
                     <Grid item padding={.5} xs={12}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -866,7 +784,7 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                 <TableRow hover>
                                     <TableCell align="left">3</TableCell>
-                                    <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have two charges as you learn to operate them more efficiently.</TableCell>
+                                    <TableCell align="left">Refurbish a broken Cryotank, and install it in the location of your chooosing. All Cryopumps used by you have three charges as you learn to operate them more efficiently.</TableCell>
                                 </TableRow>
 
                                 <TableRow hover>
@@ -876,10 +794,22 @@ export default function RoleAbilitiesDialog({ prop }) {
 
                                 <TableRow hover>
                                     <TableCell align="left">5</TableCell>
-                                    <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have three charges due to your mastery of the Cryonic arts!</TableCell>
+                                    <TableCell align="left">Refurbish two additional Cryotanks, and install them in location(s) of your choosing. All Cryopumps used by you have four charges due to your mastery of the Cryonic arts!</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
+                    </Grid>
+                    <Grid item padding={.5} xs={12}>
+                        <h4>Ice Cold Veins</h4>
+                        Cryonics techs are extremely chill medical practitioners, brisk jury riggers, and have more practice than even surgeons staying frosty in a tight spot. Whether it's breaking the ice at a Corpo gala, producing up with a wintry insult to deflate a puffed up ganger, or getting something done in Night City's glacial bureaucracy - the cryo expert stays cool. A character can apply their Cryogenics score to any Rule of Cool roll (including splitting it between two rolls).
+                    </Grid>
+                    <Grid item padding={.5} xs={12}>
+                        <h4>Cryopump:</h4>
+                        A cryopump is a briefcase sized device containing a bodybag hooked to a pump and a few chemical containers. Once a willing (or unconscious) person is placed in the bag and the pump activated, they are bathed in a hypercool chemical slurry and the bag deflates around them. The person in the bag is put into stasis - they are unconscious and will no longer need to roll death saves as long as they are kept in the bag. The cryopump uses one charge per day of use, and has two charges as standard. The bag will be ruined if it suffers a lethal or aggravated wound of any kind. Surgery can be performed on the occupant through a special seal, reducing difficulties by 1. Refueling the Cryopump restores all used charges and uses materials with a street cost of roughly 200 eurobucks.
+                    </Grid>
+                    <Grid item padding={.5} xs={12}>
+                        <h4>Cryotank:</h4>
+                        A cryotank is a pod that can contain a grown adult. When placing someone into the tank, the Medtech makes an Intelligence + Cryogenics test at DV6; if successful the Cryotank will keep the person in stasis (see Cryopump) as long as the Cryotank is supplied with power. While in the tank, an occupant is considered unconscious, and heals far more rapidly than normal - all body saves to recover wounds are made with a -2 difficulty value. A cryotank is a substantial device, with an armor of 5, and can suffer 4 wounds before it fails. It makes excellent cover, honestly! Keeping a Cryotank running uses about materials with a street cost of roughly 200 eurobucks per week; up to about 6 months worth of material can be attached to a tank at a time. They can be installed in large vehicles, as well.
                     </Grid>
                 </>)
             case 'Field Expertise':

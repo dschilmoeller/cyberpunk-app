@@ -52,6 +52,13 @@ router.put('/repairItem', rejectUnauthenticated, (req, res) => {
     }
 })
 
+router.put('/repairCyberware', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "char_status" SET "current_cyberware_armor_loss" = 0 WHERE "char_id" = $1`
+    pool.query(sqlText, [req.body.charID])
+        .then(result => { res.sendStatus(200); })
+        .catch(err => { console.log(`Error repairing cyberware:`, err); })
+})
+
 router.put('/changecyberwareslotcount', rejectUnauthenticated, (req, res) => {
     if (cyberSlotCheck(req.body.columnName) === true) {
         const sqlText = `UPDATE "char_cyberware_bridge" SET ${req.body.columnName} = $1 WHERE "cyberware_bridge_id" = $2`
