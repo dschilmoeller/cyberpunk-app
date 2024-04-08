@@ -30,8 +30,8 @@ function TransitionUp(props) {
 }
 
 export default function AdvancementPharma() {
-    const charDetail = useSelector(store => store.advancementDetail)
-    const pharma = useSelector(store => store.advancementGear.pharma)
+    const charDetail = useSelector(store => store.characterDetail)
+    const pharma = useSelector(store => store.characterGear.pharma)
     const masterPharma = useSelector(store => store.gearMaster.pharma)
     const dispatch = useDispatch();
 

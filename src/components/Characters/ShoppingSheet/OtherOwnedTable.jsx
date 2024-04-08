@@ -16,8 +16,8 @@ import Grid from '@mui/material/Grid';
 export default function OtherOwnedTable() {
     const dispatch = useDispatch()
 
-    const charMiscGear = useSelector(store => store.advancementGear.gear)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charMiscGear = useSelector(store => store.characterGear.gear)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

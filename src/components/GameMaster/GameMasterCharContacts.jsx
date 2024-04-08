@@ -15,7 +15,7 @@ import Slide from '@mui/material/Slide';
 
 export default function GameMasterCharContacts() {
     const characterContacts = useSelector(store => store.characterContacts);
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charDetail = useSelector(store => store.characterDetail)
 
     const dispatch = useDispatch();
 

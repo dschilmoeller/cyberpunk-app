@@ -15,8 +15,8 @@ import { Grid } from '@mui/material';
 // add toast & custom text
 
 export default function AdvancementClothes() {
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const characterClothes = useSelector((store) => store.advancementGear.clothes);
+  const charDetail = useSelector((store) => store.characterDetail);
+  const characterClothes = useSelector((store) => store.characterGear.clothes);
 
   const dispatch = useDispatch();
   const history = useHistory();

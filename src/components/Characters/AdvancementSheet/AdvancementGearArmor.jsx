@@ -23,14 +23,14 @@ function TransitionUp(props) {
 
 export default function AdvancementGearArmor() {
     const dispatch = useDispatch();
-    const charBank = useSelector(store => store.advancementDetail.bank)
-    const charDetail = useSelector((store) => store.advancementDetail)
-    const charCyberArmorMax = useSelector(store => store.advancementDetail.current_cyberware_armor_quality)
-    const charCyberArmorCurrent = useSelector(store => store.advancementDetail.current_cyberware_armor_loss)
-    const characterArmor = useSelector(store => store.advancementGear.armor)
-    const characterShield = useSelector(store => store.advancementGear.shield)
+    const charBank = useSelector(store => store.characterDetail.bank)
+    const charDetail = useSelector((store) => store.characterDetail)
+    const charCyberArmorMax = useSelector(store => store.characterDetail.current_cyberware_armor_quality)
+    const charCyberArmorCurrent = useSelector(store => store.characterDetail.current_cyberware_armor_loss)
+    const characterArmor = useSelector(store => store.characterGear.armor)
+    const characterShield = useSelector(store => store.characterGear.shield)
 
-    const charCyberware = useSelector(store => store.advancementGear.cyberware)
+    const charCyberware = useSelector(store => store.characterGear.cyberware)
 
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 

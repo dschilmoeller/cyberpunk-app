@@ -16,10 +16,10 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function GMOwnedGrenade() {
     const dispatch = useDispatch()
-    const charGrenades = useSelector(store => store.advancementGear.grenades)
-    const boughtGrenades = useSelector(store => store.advancementGear.boughtGrenades)
+    const charGrenades = useSelector(store => store.characterGear.grenades)
+    const boughtGrenades = useSelector(store => store.characterGear.boughtGrenades)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const euroBuck = `\u20AC$`
 

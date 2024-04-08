@@ -16,8 +16,8 @@ import { Button } from '@mui/material';
 export default function ModVehicleOwnedTable() {
     const dispatch = useDispatch()
 
-    const charVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charVehicleMods = useSelector(store => store.characterGear.vehicleMods)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

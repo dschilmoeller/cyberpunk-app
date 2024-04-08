@@ -16,9 +16,9 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function GrenadeOwnedTable() {
     const dispatch = useDispatch()
-    const charGrenades = useSelector(store => store.advancementGear.grenades)
+    const charGrenades = useSelector(store => store.characterGear.grenades)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

@@ -26,7 +26,7 @@ export default function ArmorMasterTable() {
     const armorMaster = useSelector(store => store.gearMaster.armor)
     const shieldMaster = useSelector(store => store.gearMaster.shields)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

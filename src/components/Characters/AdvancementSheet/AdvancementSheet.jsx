@@ -15,7 +15,7 @@ import AdvancementRoles from './AdvancementRoles';
 import AdvancementOther from './AdvancementOther';
 
 function AdvancementSheet() {
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector((store) => store.characterDetail);
 
     const dispatch = useDispatch();
     const history = useHistory();

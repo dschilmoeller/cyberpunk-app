@@ -15,9 +15,9 @@ import { Button } from '@mui/material';
 export default function ArmorOwnedTable() {
     const dispatch = useDispatch()
 
-    const characterArmor = useSelector(store => store.advancementGear.armor)
-    const characterShield = useSelector(store => store.advancementGear.shield)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const characterArmor = useSelector(store => store.characterGear.armor)
+    const characterShield = useSelector(store => store.characterGear.shield)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

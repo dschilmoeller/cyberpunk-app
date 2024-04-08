@@ -17,8 +17,8 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 export default function WeaponsOwnedTable() {
     const dispatch = useDispatch()
 
-    const charWeapons = useSelector(store => store.advancementGear.weapons)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charWeapons = useSelector(store => store.characterGear.weapons)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

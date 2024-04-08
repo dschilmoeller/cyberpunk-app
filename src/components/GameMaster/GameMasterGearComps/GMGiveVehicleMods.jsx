@@ -16,7 +16,7 @@ import { Button } from '@mui/material';
 export default function GMGiveVehicleMods() {
     const dispatch = useDispatch()
 
-    const vehicleModID = useSelector(store => store.advancementGear.vehicleModID)
+    const vehicleModID = useSelector(store => store.characterGear.vehicleModID)
     const vehicleModMaster = useSelector(store => store.gearMaster.vehicleMods)
 
     const euroBuck = `\u20AC$`

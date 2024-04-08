@@ -27,11 +27,11 @@ function TransitionUp(props) {
 export default function AdvancementCyberware() {
     const dispatch = useDispatch()
     // Char Cyberware - all items from char_owned_cyberware bridged with cyberware_master
-    const charCyberware = useSelector(store => store.advancementGear.cyberware)
+    const charCyberware = useSelector(store => store.characterGear.cyberware)
     // character details atts, skills, etc.
-    const charDetails = useSelector(store => store.advancementDetail)
+    const charDetails = useSelector(store => store.characterDetail)
     // contents of the char_cyberware_bridge (which should be char_cyberware_status of course)
-    const charCyberwareSlots = useSelector(store => store.advancementGear.cyberwareSlots)
+    const charCyberwareSlots = useSelector(store => store.characterGear.cyberwareSlots)
 
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 

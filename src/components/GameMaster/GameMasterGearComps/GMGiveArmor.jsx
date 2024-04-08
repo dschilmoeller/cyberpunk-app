@@ -16,14 +16,14 @@ export default function GMGiveArmor() {
 
     const dispatch = useDispatch();
 
-    const charDetail = useSelector((store) => store.advancementDetail);
+    const charDetail = useSelector((store) => store.characterDetail);
 
     const euroBuck = `\u20AC$`
 
-    const armorID = useSelector(store => store.advancementGear.armorID)
+    const armorID = useSelector(store => store.characterGear.armorID)
     const armorMaster = useSelector(store => store.gearMaster.armor)
 
-    const shieldID = useSelector(store => store.advancementGear.shieldID)
+    const shieldID = useSelector(store => store.characterGear.shieldID)
     const shieldMaster = useSelector(store => store.gearMaster.shields)
 
     const buyArmor = (item) => {

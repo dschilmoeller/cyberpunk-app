@@ -24,7 +24,7 @@ export default function OtherMasterTable() {
     const dispatch = useDispatch()
     const gearMaster = useSelector(store => store.gearMaster.miscGear)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

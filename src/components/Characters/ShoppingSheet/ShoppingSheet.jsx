@@ -30,7 +30,7 @@ import ClothingEquippedTable from './ClothingEquippedTable';
 import ShopCyberware from './ShopCyberware';
 
 function ShoppingSheet() {
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector((store) => store.characterDetail);
 
     const dispatch = useDispatch();
     const history = useHistory();

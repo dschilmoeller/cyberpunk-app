@@ -16,10 +16,10 @@ export default function GMOtherOwned() {
 
     const dispatch = useDispatch();
 
-    const charMiscGear = useSelector(store => store.advancementGear.gear)
-    const boughtMiscGear = useSelector(store => store.advancementGear.boughtMiscGear)
+    const charMiscGear = useSelector(store => store.characterGear.gear)
+    const boughtMiscGear = useSelector(store => store.characterGear.boughtMiscGear)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const euroBuck = `\u20AC$`
 

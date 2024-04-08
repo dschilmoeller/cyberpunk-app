@@ -22,11 +22,11 @@ import ModVehicleOwnedTable from './ModVehicleOwnedTable';
 export default function VehicleOwnedTable() {
     const dispatch = useDispatch()
 
-    const charVehicles = useSelector(store => store.advancementGear.vehicles)
+    const charVehicles = useSelector(store => store.characterGear.vehicles)
 
-    const nomadFreebieStatus = useSelector(store => store.advancementGear.useNomadFreebie)
+    const nomadFreebieStatus = useSelector(store => store.characterGear.useNomadFreebie)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

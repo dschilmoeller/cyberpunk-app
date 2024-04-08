@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 
 export default function AdvancementGearOther() {
-    const gear = useSelector(store => store.advancementGear.gear)
+    const gear = useSelector(store => store.characterGear.gear)
     const dispatch = useDispatch();
     const euroBuck = `\u20AC$`
 

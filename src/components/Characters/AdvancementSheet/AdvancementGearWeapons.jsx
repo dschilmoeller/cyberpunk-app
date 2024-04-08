@@ -15,8 +15,8 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function AdvancementGearWeapons() {
     const dispatch = useDispatch();
-    const characterWeapons = useSelector(store => store.advancementGear.weapons)
-    const charDetail = useSelector(store => store.advancementDetail)
+    const characterWeapons = useSelector(store => store.characterGear.weapons)
+    const charDetail = useSelector(store => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const equipWeapon = (incomingWeapon) => {

@@ -39,8 +39,8 @@ export default function GameMasterSheet() {
     const history = useHistory();
     const params = useParams();
 
-    const charDetail = useSelector(store => store.advancementDetail)
-    const equipmentDetails = useSelector(store => store.advancementGear)
+    const charDetail = useSelector(store => store.characterDetail)
+    const equipmentDetails = useSelector(store => store.characterGear)
     const modDetails = useSelector(store => store.characterModMaster)
     const contacts = useSelector(store => store.characterContacts)
 

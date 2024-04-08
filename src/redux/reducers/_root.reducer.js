@@ -44,7 +44,7 @@ const rootReducer = combineReducers({
 
   characterList, // contains list of character names & ids
 
-  characterDetail, // active character sheet details
+  characterDetail, // character sheet details
   characterGear, // active character sheet equipment details
   characterStatus, // contains active character's luck, armor, wounds, to be used to populate char sheet/db between play.
   characterModMaster, // contains details of active character's modifications to different pieces of gear.
@@ -54,8 +54,8 @@ const rootReducer = combineReducers({
 
   characterCreation, // contains details set up during character creation
 
-  advancementDetail, // editable char sheet details
-  advancementGear, // editable char sheet equipment
+  // advancementDetail, // editable char sheet details
+  // advancementGear, // editable char sheet equipment
 
   loaders, // sets loaders t/f to allow api calls to work
   alerts, // sets alert status t/f to allow showsnackbar to function (only required to avoid errors on tables)

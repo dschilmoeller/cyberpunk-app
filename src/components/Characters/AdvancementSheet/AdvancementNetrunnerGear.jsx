@@ -26,8 +26,8 @@ function TransitionUp(props) {
 
 
 export default function AdvancementNetrunnerGear() {
-    const charDetailCyberdeckSlots = useSelector(store => store.advancementDetail.cyberdeck_slots)
-    const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
+    const charDetailCyberdeckSlots = useSelector(store => store.characterDetail.cyberdeck_slots)
+    const charNetrunnerGear = useSelector(store => store.characterGear.netrunnerGear)
     const dispatch = useDispatch();
 
     const [netrunnerSlots, setNetrunnerSlots] = useState(0)

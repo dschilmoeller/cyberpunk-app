@@ -22,7 +22,7 @@ export default function GameMasterSkills() {
 
     const dispatch = useDispatch();
 
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charDetail = useSelector(store => store.characterDetail)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {

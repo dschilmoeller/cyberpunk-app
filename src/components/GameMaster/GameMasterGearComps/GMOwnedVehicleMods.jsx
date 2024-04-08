@@ -16,8 +16,8 @@ export default function GMOwnedVehicleMods() {
 
     const dispatch = useDispatch()
 
-    const charVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
-    const boughtVehicleMods = useSelector(store => store.advancementGear.boughtVehicleMods)
+    const charVehicleMods = useSelector(store => store.characterGear.vehicleMods)
+    const boughtVehicleMods = useSelector(store => store.characterGear.boughtVehicleMods)
 
     const euroBuck = `\u20AC$`
 

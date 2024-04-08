@@ -21,10 +21,10 @@ import GMGiveVehicleMods from './GMGiveVehicleMods';
 export default function GMGiveVehicles() {
     const dispatch = useDispatch()
 
-    const vehicleID = useSelector(store => store.advancementGear.vehicleID)
+    const vehicleID = useSelector(store => store.characterGear.vehicleID)
     const vehicleMaster = useSelector(store => store.gearMaster.vehicles)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const euroBuck = `\u20AC$`
 

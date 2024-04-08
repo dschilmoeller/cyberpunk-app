@@ -25,7 +25,7 @@ export default function ModVehicleMasterTable() {
 
     const vehicleModMaster = useSelector(store => store.gearMaster.vehicleMods)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

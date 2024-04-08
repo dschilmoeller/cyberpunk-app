@@ -9,7 +9,7 @@ import GMGiveNetrunnerSoftware from './GMGiveNetrunnerSoftware';
 
 export default function GMGiveNetrunnerMain() {
 
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charDetail = useSelector(store => store.characterDetail)
     // Tab handlers
     const [selectedGearType, setSelectedGearType] = useState('software')
     const handleGearTypeSelect = (event, newValue) => {

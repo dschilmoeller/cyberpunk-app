@@ -29,7 +29,7 @@ export default function GameMasterMain() {
     const history = useHistory();
     const params = useParams();
 
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charDetail = useSelector(store => store.characterDetail)
     const campaignList = useSelector(store => store.campaigns)
 
     const euroBuck = `\u20AC$`

@@ -13,8 +13,8 @@ import { Button } from '@mui/material';
 // Shows equipped clothing in the shopping page - mainly used for improving/pawning existing clothes.
 export default function ClothingEquippedTable() {
     const dispatch = useDispatch()
-    const charClothes = useSelector(store => store.advancementGear.clothes)
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charClothes = useSelector(store => store.characterGear.clothes)
+    const charDetail = useSelector(store => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

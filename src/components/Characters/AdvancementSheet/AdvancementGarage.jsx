@@ -22,9 +22,9 @@ function TransitionUp(props) {
 }
 
 export default function AdvancementGarage() {
-    const advancementDetail = useSelector(store => store.advancementDetail)
-    const characterVehicles = useSelector(store => store.advancementGear.vehicles)
-    const characterVehicleMods = useSelector(store => store.advancementGear.vehicleMods)
+    const advancementDetail = useSelector(store => store.characterDetail)
+    const characterVehicles = useSelector(store => store.characterGear.vehicles)
+    const characterVehicleMods = useSelector(store => store.characterGear.vehicleMods)
     const characterPreviouslyEquippedVehicleMods = useSelector(store => store.characterModMaster.vehicleMods)
 
     const loadStatus = useSelector(store => store.loaders.advancementSheet);

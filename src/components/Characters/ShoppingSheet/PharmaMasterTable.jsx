@@ -24,7 +24,7 @@ export default function PharmaMasterTable() {
     const dispatch = useDispatch()
     const pharmaMaster = useSelector(store => store.gearMaster.pharma)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

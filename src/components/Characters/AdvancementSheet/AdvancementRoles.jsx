@@ -19,7 +19,7 @@ function TransitionUp(props) {
 export default function AdvancementRoles() {
 
     const dispatch = useDispatch();
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector((store) => store.characterDetail);
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const fullCircle = <CircleIcon />

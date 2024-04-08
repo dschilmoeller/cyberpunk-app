@@ -18,10 +18,10 @@ export default function GMOwnedWeapons() {
 
     const dispatch = useDispatch();
     
-    const charWeapons = useSelector(store => store.advancementGear.weapons)
-    const boughtWeapons = useSelector(store => store.advancementGear.boughtWeapons)
+    const charWeapons = useSelector(store => store.characterGear.weapons)
+    const boughtWeapons = useSelector(store => store.characterGear.boughtWeapons)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const euroBuck = `\u20AC$`
 

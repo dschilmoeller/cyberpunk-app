@@ -20,7 +20,7 @@ function TransitionUp(props) {
 export default function AdvancementOther() {
 
     const dispatch = useDispatch();
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector((store) => store.characterDetail);
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const unhurtMarker = <CircleOutlinedIcon />

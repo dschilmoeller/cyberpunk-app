@@ -23,7 +23,7 @@ export default function ClothingMasterTable() {
     const dispatch = useDispatch()
     
     const clothesMaster = useSelector(store => store.gearMaster.clothing)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

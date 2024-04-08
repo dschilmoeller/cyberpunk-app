@@ -16,8 +16,8 @@ import Grid from '@mui/material/Grid';
 export default function PharmaOwnedTable() {
     const dispatch = useDispatch()
 
-    const charPharma = useSelector(store => store.advancementGear.pharma)
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charPharma = useSelector(store => store.characterGear.pharma)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

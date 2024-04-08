@@ -22,10 +22,10 @@ function TransitionUp(props) {
 
 export default function NetrunnerMasterTableDeck() {
     const dispatch = useDispatch()
-    const netrunnerGearID = useSelector(store => store.advancementGear.netrunnerGearID)
+    const netrunnerGearID = useSelector(store => store.characterGear.netrunnerGearID)
     const netrunnerGearMaster = useSelector(store => store.gearMaster.netrunnerGear)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
 
     const euroBuck = `\u20AC$`
 

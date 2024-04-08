@@ -23,10 +23,10 @@ function TransitionUp(props) {
 
 export default function ShopCyberware() {
     const dispatch = useDispatch()
-    const charCyberware = useSelector(store => store.advancementGear.cyberware)
+    const charCyberware = useSelector(store => store.characterGear.cyberware)
     const cyberwareMaster = useSelector(store => store.gearMaster.cyberware)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

@@ -25,7 +25,7 @@ export default function WeaponsMasterTable() {
     const dispatch = useDispatch()
     const weaponMaster = useSelector(store => store.gearMaster.weapons)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

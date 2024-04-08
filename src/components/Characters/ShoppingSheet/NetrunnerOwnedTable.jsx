@@ -15,8 +15,8 @@ import Grid from '@mui/material/Grid';
 
 export default function NetrunnerOwnedTable() {
     const dispatch = useDispatch()
-    const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
-    const boughtNetrunnerGear = useSelector(store => store.advancementGear.boughtNetrunnerGear)
+    const charNetrunnerGear = useSelector(store => store.characterGear.netrunnerGear)
+    const boughtNetrunnerGear = useSelector(store => store.characterGear.boughtNetrunnerGear)
 
     const euroBuck = `\u20AC$`
 

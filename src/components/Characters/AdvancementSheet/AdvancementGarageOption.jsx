@@ -10,8 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import { Button } from '@mui/material';
 
 export default function AdvancementGarageOption({ prop }) {
-    const advancementDetail = useSelector(store => store.advancementDetail)
-    const characterVehicles = useSelector(store => store.advancementGear.vehicles)
+    const advancementDetail = useSelector(store => store.characterDetail)
+    const characterVehicles = useSelector(store => store.characterGear.vehicles)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const dispatch = useDispatch();

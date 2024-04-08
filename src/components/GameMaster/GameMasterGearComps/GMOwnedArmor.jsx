@@ -16,13 +16,13 @@ export default function GMOwnedArmor() {
     
     const dispatch = useDispatch()
 
-    const charArmor = useSelector(store => store.advancementGear.armor)
-    const boughtArmor = useSelector(store => store.advancementGear.boughtArmor)
+    const charArmor = useSelector(store => store.characterGear.armor)
+    const boughtArmor = useSelector(store => store.characterGear.boughtArmor)
 
-    const charShield = useSelector(store => store.advancementGear.shield)
-    const boughtShield = useSelector(store => store.advancementGear.boughtShield)
+    const charShield = useSelector(store => store.characterGear.shield)
+    const boughtShield = useSelector(store => store.characterGear.boughtShield)
 
-    const charDetail = useSelector(store => store.advancementDetail)
+    const charDetail = useSelector(store => store.characterDetail)
     const euroBuck = `\u20AC$`
 
     const gmRemoveArmor = (item) => {

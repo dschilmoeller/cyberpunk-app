@@ -17,9 +17,9 @@ export default function GMOwnedNetrunner() {
 
     const dispatch = useDispatch();
     
-    const charDetail = useSelector(store => store.advancementDetail)
-    const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
-    const charBoughtNetrunnerGear = useSelector(store => store.advancementGear.boughtNetrunnerGear)
+    const charDetail = useSelector(store => store.characterDetail)
+    const charNetrunnerGear = useSelector(store => store.characterGear.netrunnerGear)
+    const charBoughtNetrunnerGear = useSelector(store => store.characterGear.boughtNetrunnerGear)
 
     const gmRemoveNetrunnerGear = (item) => {
         switch (item.type) {

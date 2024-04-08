@@ -25,7 +25,7 @@ export default function GrenadeMasterTable() {
     const dispatch = useDispatch()
     const grenadeMaster = useSelector(store => store.gearMaster.grenades)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
 
     const euroBuck = `\u20AC$`

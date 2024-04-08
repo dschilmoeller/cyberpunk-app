@@ -19,7 +19,7 @@ import AdvancementGarage from './AdvancementGarage';
 import AdvancementClothes from './AdvancementClothes';
 
 export default function EquipSheet() {
-    const advancementDetails = useSelector((store) => store.advancementDetail);
+    const advancementDetails = useSelector((store) => store.characterDetail);
 
     const dispatch = useDispatch();
     const history = useHistory();

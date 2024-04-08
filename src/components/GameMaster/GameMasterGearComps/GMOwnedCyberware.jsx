@@ -31,12 +31,12 @@ export default function GMOwnedCyberware() {
 
     const dispatch = useDispatch();
 
-    const charCyberware = useSelector(store => store.advancementGear.cyberware);
-    const boughtCyberware = useSelector(store => store.advancementGear.boughtCyberware);
-    const cyberwareID = useSelector(store => store.advancementGear.cyberwareID);
+    const charCyberware = useSelector(store => store.characterGear.cyberware);
+    const boughtCyberware = useSelector(store => store.characterGear.boughtCyberware);
+    const cyberwareID = useSelector(store => store.characterGear.cyberwareID);
     const cyberwareMaster = useSelector(store => store.gearMaster.cyberware);
 
-    const charDetail = useSelector((store) => store.advancementDetail);
+    const charDetail = useSelector((store) => store.characterDetail);
 
     const euroBuck = `\u20AC$`
 

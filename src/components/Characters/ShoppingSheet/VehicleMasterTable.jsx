@@ -30,10 +30,10 @@ export default function VehicleMasterTable() {
 
     const vehicleMaster = useSelector(store => store.gearMaster.vehicles)
 
-    const charDetail = useSelector((store) => store.advancementDetail)
+    const charDetail = useSelector((store) => store.characterDetail)
     const loadStatus = useSelector(store => store.loaders.advancementSheet);
     
-    const useNomadFreebie = useSelector(store => store.advancementGear.useNomadFreebie)
+    const useNomadFreebie = useSelector(store => store.characterGear.useNomadFreebie)
 
     const [nomadDiscount, setNomadDiscount] = React.useState(0)
 
