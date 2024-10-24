@@ -134,7 +134,7 @@ export default function GMOwnedCyberware() {
                             </React.Fragment>)
                         }
                     })}
-                    {boughtCyberware.map((item, i) => {
+                    {/* {boughtCyberware.map((item, i) => {
                         if (item.type === selectedList) {
                             return (<React.Fragment key={i}>
                                 <TableRow hover>
@@ -148,7 +148,7 @@ export default function GMOwnedCyberware() {
                                 </TableRow>
                             </React.Fragment>)
                         }
-                    })}
+                    })} */}
                 </TableBody>
             </Table>
         </TableContainer>

@@ -256,7 +256,7 @@ export default function GMOwnedWeapons() {
                                         </TableRow>
                                     );
                             })}
-                            {boughtWeapons.map((item, i) => {
+                            {/* {boughtWeapons.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -271,7 +271,7 @@ export default function GMOwnedWeapons() {
                                         <TableCell align="center"><Button onClick={() => gmRemoveGMWeapon(item)}>Remove</Button></TableCell>
                                     </TableRow>
                                 )
-                            })}
+                            })} */}
                         </TableBody>
                     </Table>
                 </TableContainer>

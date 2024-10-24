@@ -210,7 +210,7 @@ export default function GMOwnedGrenade() {
                                     </TableRow>
                                 );
                             })}
-                            {boughtGrenades.map((item, i) => {
+                            {/* {boughtGrenades.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell><WeaponDialog prop={item.name} /></TableCell>
@@ -220,7 +220,7 @@ export default function GMOwnedGrenade() {
                                         <TableCell align="center"><Button onClick={() => gmRemoveGMGrenade(item)}>Remove</Button></TableCell>
                                     </TableRow>
                                 )
-                            })}
+                            })} */}
                         </TableBody>
                     </Table>
                 </TableContainer>

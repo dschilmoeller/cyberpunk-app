@@ -228,7 +228,7 @@ export default function GMOwnedArmor() {
                                             </TableRow>
                                         );
                                 })}
-                                {boughtArmor.map((item, i) => {
+                                {/* {boughtArmor.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
                                             <TableCell align="left">{item.name} </TableCell>
@@ -239,7 +239,7 @@ export default function GMOwnedArmor() {
                                             <TableCell align="center"><Button onClick={() => gmRemoveGMArmor(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )
-                                })}
+                                })} */}
                                 {sortedCharShieldRows.map((row) => {
                                         return (
                                             <TableRow hover key={row.shield_bridge_id}>
@@ -252,7 +252,7 @@ export default function GMOwnedArmor() {
                                             </TableRow>
                                         );
                                 })}
-                                {boughtShield.map((item, i) => {
+                                {/* {boughtShield.map((item, i) => {
                                     return (
                                         <TableRow hover key={i}>
                                             <TableCell align="left">{item.name} </TableCell>
@@ -263,7 +263,7 @@ export default function GMOwnedArmor() {
                                             <TableCell align="center"><Button onClick={() => gmRemoveGMShield(item)}>Remove</Button></TableCell>
                                         </TableRow>
                                     )
-                                })}
+                                })} */}
                             </TableBody>
                         </Table>
                     </TableContainer>

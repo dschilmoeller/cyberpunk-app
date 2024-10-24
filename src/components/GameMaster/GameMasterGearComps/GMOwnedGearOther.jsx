@@ -197,7 +197,7 @@ export default function GMOtherOwned() {
                                     </TableRow>
                                 );
                             })}
-                            {boughtMiscGear.map((item, i) => {
+                            {/* {boughtMiscGear.map((item, i) => {
                                 return (
                                     <TableRow hover key={i}>
                                         <TableCell align="left">{item.name} </TableCell>
@@ -206,7 +206,7 @@ export default function GMOtherOwned() {
                                         <TableCell align="center"><Button onClick={() => gmRemoveGMOther(item)}>Remove</Button></TableCell>
                                     </TableRow>
                                 )
-                            })}
+                            })} */}
                         </TableBody>
                     </Table>
                 </TableContainer>

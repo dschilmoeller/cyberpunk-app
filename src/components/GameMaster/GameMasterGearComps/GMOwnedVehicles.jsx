@@ -243,7 +243,7 @@ export default function GMOwnedVehicles() {
                                             </TableRow>
                                         );
                                     })}
-                                    {boughtVehicles.map((row, i) => {
+                                    {/* {boughtVehicles.map((row, i) => {
                                         return (
                                             <TableRow hover key={i}>
                                                 <TableCell padding='normal'>{row.name}</TableCell>
@@ -257,7 +257,7 @@ export default function GMOwnedVehicles() {
                                                 <TableCell align="center"><Button onClick={() => gmRemoveGMVehicle(row)}>Remove</Button></TableCell>
                                             </TableRow>
                                         )
-                                    })}
+                                    })} */}
                                 </TableBody>
                             </Table>
                         </TableContainer>

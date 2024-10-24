@@ -65,7 +65,7 @@ export default function GMOwnedNetrunner() {
                             </TableRow>
                         )
                     })}
-                    {charBoughtNetrunnerGear.map((item, i) => {
+                    {/* {charBoughtNetrunnerGear.map((item, i) => {
                         return (
                             <TableRow hover key={i}>
                                 <TableCell align="left">{item.name} </TableCell>
@@ -74,7 +74,7 @@ export default function GMOwnedNetrunner() {
                                 <TableCell align="center"><Button onClick={() => gmRemoveGMNetrunnerGear(item)}>Remove</Button></TableCell>
                             </TableRow>
                         )
-                    })}
+                    })} */}
                 </TableBody>
             </Table>
 

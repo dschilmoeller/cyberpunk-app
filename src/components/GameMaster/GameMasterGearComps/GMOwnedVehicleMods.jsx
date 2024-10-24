@@ -200,7 +200,7 @@ export default function GMOwnedVehicleMods() {
                                         );
                                     }
                                 })}
-                                {boughtVehicleMods.map((row, i) => {
+                                {/* {boughtVehicleMods.map((row, i) => {
                                     return (
                                         <TableRow hover key={i}>
                                             <TableCell padding='normal'>{row.name}</TableCell>
@@ -210,7 +210,7 @@ export default function GMOwnedVehicleMods() {
                                             <TableCell align="center"><Button onClick={() => sellBoughtVehicleMod(row)}>Sell</Button></TableCell>
                                         </TableRow>
                                     )
-                                })}
+                                })} */}
                             </TableBody>
                         </Table>
                     </TableContainer>

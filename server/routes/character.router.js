@@ -1358,6 +1358,7 @@ router.put('/characteralterclothing/:id', rejectUnauthenticated, (req, res) => {
 
 // Creation save route(s)
 router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
+    console.log(`Saving character`);
     const rb = req.body
     const charSqlText = `INSERT INTO "character" (
 		"user_id","handle","player","campaign","is_paramedical",
@@ -1424,7 +1425,7 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
             for (let i = 0; i < req.body.weapons.length; i++) {
                 const weaponSqlText = `INSERT INTO "char_weapons_bridge" 
                 ("char_id", "weapon_id", "current_shots_fired", "equipped")
-                VALUES ($1, $2, $3, $4, $5, $6)`
+                VALUES ($1, $2, $3, $4)`
                 const weaponSqlParams = [result.rows[0].id, rb.weapons[i], 0, true]
                 pool.query(weaponSqlText, weaponSqlParams)
             }
