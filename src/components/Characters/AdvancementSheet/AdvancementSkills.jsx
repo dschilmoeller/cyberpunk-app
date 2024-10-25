@@ -73,7 +73,6 @@ export default function AdvancementSkills() {
                 Insufficient XP
             </Alert>
         </Snackbar>
-        <button onClick={() => console.log(advancementDetails[skill[0]])}>Button</button>
 
         <h1>Skills</h1>
         <Grid container>

@@ -381,14 +381,14 @@ function* saveAdvancementDetails(action) {
   }
 }
 
-function* fetchGameMasterCharacters() {
-  try {
-    const allCharacters = yield axios.get('/api/characters/fetchGameMasterCharacters')
-    yield put({ type: 'SET_GM_CHARACTER_LIST', payload: allCharacters.data });
-  } catch (error) {
-    console.log('Error fetching characters for Game Master:', error);
-  }
-}
+// function* fetchGameMasterCharacters() {
+//   try {
+//     const allCharacters = yield axios.get('/api/characters/fetchGameMasterCharacters')
+//     yield put({ type: 'SET_GM_CHARACTER_LIST', payload: allCharacters.data });
+//   } catch (error) {
+//     console.log('Error fetching characters for Game Master:', error);
+//   }
+// }
 
 function* fetchGameMasterContacts() {
   try {
@@ -458,7 +458,7 @@ function* characterSaga() {
   yield takeLatest('FETCH_ADVANCEMENT_CLOTHES', fetchAdvancementClothes);
 
   // GM fetch/save/delete
-  yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
+  // yield takeLatest('FETCH_GM_CHARACTERS', fetchGameMasterCharacters)
   yield takeLatest('SAVE_GM_CHANGES', saveGameMasterCharacter)
   yield takeLatest('DELETE_CHARACTER', deleteGameMasterCharacter)
   yield takeLatest('FETCH_GM_CONTACTS', fetchGameMasterContacts)

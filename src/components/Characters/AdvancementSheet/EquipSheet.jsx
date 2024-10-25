@@ -92,7 +92,9 @@ export default function EquipSheet() {
                     <Tab value='#armor' href={`/#/equipsheet/${params.id}#armor`} label='Armor' />
                     <Tab value='#weapons' href={`/#/equipsheet/${params.id}#weapons`} label='Weapons' />
                     <Tab value='#other' href={`/#/equipsheet/${params.id}#other`} label='Other Gear' />
-                    <Tab value='#pharma' href={`/#/equipsheet/${params.id}#pharma`} label='Pharmaceuticals' />
+                    {advancementDetails.med_pharma > 0 ? 
+                        <Tab value='#pharma' href={`/#/equipsheet/${params.id}#pharma`} label='Pharmaceuticals' /> 
+                        : <Tab disabled label='Pharmaceuticals' />}
                     <Tab value='#netrunner' disabled href={`/#/equipsheet/${params.id}#netrunner`} label='Netrunner Gear' />
                     <Tab value='#cyberware' href={`/#/equipsheet/${params.id}#cyberware`} label='Cyberware' />
                     <Tab value='#vehicles' href={`/#/equipsheet/${params.id}#vehicles`} label='Vehicles' />
