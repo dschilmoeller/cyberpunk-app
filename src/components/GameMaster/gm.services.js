@@ -41,4 +41,25 @@ const fetchCharacterDetailsRequest = async (characterID) => {
         })
     })
 }
-export { gmCharFetchRequest, fetchCampaignListRequest, fetchCharacterDetailsRequest }
+
+const changeCharacterCampaign = async (campaignObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changeCampaign', campaignObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing character campaign:', error);
+            reject(error);
+        })
+    })
+}
+
+export { 
+    gmCharFetchRequest, 
+    fetchCampaignListRequest, 
+    fetchCharacterDetailsRequest, 
+    changeCharacterCampaign,
+
+}

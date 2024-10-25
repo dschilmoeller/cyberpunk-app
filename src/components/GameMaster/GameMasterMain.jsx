@@ -1,100 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import Grid from '@mui/material/Grid';
-
-import TextField from '@mui/material/TextField';
-import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
+import { Button, FormControl, InputLabel, Grid, TextField, Switch, FormGroup, FormControlLabel, Select, MenuItem } from '@mui/material';
 
 import Item from '../Characters/CharacterSheet/Item';
 
-import { fetchCampaignListRequest } from './gm.services';
+import { changeCharacterCampaign } from './gm.services';
 
-function TransitionUp(props) {
-    return <Slide {...props} direction="up" />;
-}
-
-export default function GameMasterMain({charDetail, campaignList}) {
-
-    const dispatch = useDispatch();
+export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert }) {
     const history = useHistory();
-    // const charDetail = useSelector(store => store.advancementDetail)
-    // const [campaignList, setCampaignList] = useState([]);
 
     const euroBuck = `\u20AC$`
-
-    // const [newCharDetail, setNewCharDetail] = useState({
-    //     handle: '',
-    //     player: '',
-    //     campaign: '',
-    //     campaign_name:'',
-    //     campaignWords: '',
-    // })
-
-    // const [handle, setHandle] = useState(charDetail.handle)
-    // const [player, setPlayer] = useState(charDetail.player)
-    // const [campaign, setCampaign] = useState(charDetail.campaign)
-    // const [campaignName, setCampaignName] = useState(charDetail.campaign_name)
-    // const [campaignWords, setCampaignWords] = useState(charDetail.campaignWords)
 
     const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
     const [selectedCampaign, setSelectedCampaign] = useState('');
 
-    // const fetchCampaigns = async () => {
-    //     try {
-    //         const inFuncCampaignList = await fetchCampaignListRequest();
-    //         setCampaignList(inFuncCampaignList)
-    //     } catch (error) {
-    //         console.error('Error fetching campaign list:', error)
-    //     }
-    // }
+    const changeCampaign = async (campaign_id) => {
+        const campaignObj = {
+            campaign_id,
+            charID: charDetail.id
+        }
 
-
-
-    // useEffect(() => {
-        // setHandle(charDetail.handle)
-        // setPlayer(charDetail.player)
-        // setCampaign(charDetail.campaign)
-        // effectChangeCampaign(charDetail.campaign)
-    // }, [charDetail.id, charDetail.campaign])
-
-    useEffect(() => {
-        // dispatch({ type: "FETCH_CAMPAIGNS" })
-        // fetchCampaigns();
-        // fetchCharacterDetails();
-    }, [])
-
-    // const effectChangeCampaign = (value) => {
-    //     campaignList.map(campaign => {
-    //         if (value == campaign.campaign_id) {
-    //             setCampaignName(campaign.campaign_name)
-    //             setCampaign(value)
-    //         }
-    //     })
-    // }
-
-    // const changeCampaign = (value) => {
-    //     campaignList.map(campaign => {
-    //         if (value == campaign.campaign_id) {
-    //             setCampaignName(campaign.campaign_name)
-    //             setCampaign(value)
-    //             dispatch({ type: "GM_CHANGE_CAMPAIGN", payload: { campaign: campaign.campaign_id, campaign_name: campaign.campaign_name, campaignWords: ' (changed)' } })
-    //         }
-    //     })
-    //     setCampaignWords(' (changed)')
-    // }
+        try {
+            let result = await changeCharacterCampaign(campaignObj);
+            if (result === 'OK'){
+                setPageAlert({ open: true, message: 'Success', severity: 'info'})
+                // Change current state to reflect change.
+                setCharDetail({
+                    ...charDetail, 
+                    campaign_name: campaignList.filter((campaign) => campaign.campaign_id === campaign_id)[0].campaign_name });
+            } else {
+                setPageAlert({ open: true, message: 'Something is awry', severity: 'info'})
+            }
+        } catch (error) {
+            setPageAlert({ open: true, message: 'Error', severity: 'error'})
+            console.error('Error Changing Campaign:', error)
+        }
+    }
 
     // const changeHumanity = (type, amount) => {
     //     if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
@@ -127,45 +70,31 @@ export default function GameMasterMain({charDetail, campaignList}) {
     //     history.push('/gamemaster/')
     // }
 
-    const [showSnackbar, setShowSnackbar] = React.useState(false);
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
-
     return (<>
-        <Snackbar
-            TransitionComponent={TransitionUp}
-            autoHideDuration={2000}
-            open={showSnackbar}
-            onClose={() => setShowSnackbar(false)}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-        >
-            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                Can't make selected change!
-            </Alert>
-        </Snackbar>
+        <Grid container paddingTop={3} spacing={1} alignItems="center">
 
-        <Grid container paddingTop={3} spacing={2} alignItems="center">
+            <Grid item xs={3} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
+            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Handle' value={charDetail.handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
+            <Grid item xs={3} textAlign={'center'}>Player: {charDetail.player}</Grid>
+            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Player' value={charDetail.player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
 
-            <Grid item xs={2.5} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
-            <Grid item xs={2.5}><TextField fullWidth variant='standard' label='Change Handle' value={charDetail.handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
-            <Grid item xs={2.5} textAlign={'center'}>Player: {charDetail.player}</Grid>
-            <Grid item xs={2.5} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={charDetail.player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
-
-            <Grid item xs={3.5} textAlign={'center'}>Campaign: {charDetail.campaign_name}</Grid>
-            <Grid item xs={3.5} marginRight={2}>
-                <Select
-                    value={selectedCampaign}
-                    fullWidth
-                    onChange={e => setSelectedCampaign(e.target.value)}>
-                    {campaignList.map(campaign => {
-                        return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
-                    })}
-                </Select>
+            <Grid item xs={6} textAlign={'center'}>Campaign: {charDetail.campaign_name}</Grid>
+            <Grid item xs={6}>
+                <FormControl fullWidth>
+                    <InputLabel>Change Campaign</InputLabel>
+                    <Select
+                        value={selectedCampaign}
+                        fullWidth
+                        label='Change Campaign'
+                        onChange={e => changeCampaign(e.target.value)}>
+                        {campaignList.map(campaign => {
+                            return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
             </Grid>
 
-
-            <Grid item xs={4}>
+            <Grid item xs={12}>
                 <Item>
                     <FormGroup>
                         <FormControlLabel control={<Switch
@@ -174,7 +103,6 @@ export default function GameMasterMain({charDetail, campaignList}) {
                     </FormGroup>
                 </Item>
             </Grid>
-
 
             {allowDeleteCharacter === false ? (<>
                 <Grid item xs={12} padding={3} display={'flex'} justifyContent={'center'}>

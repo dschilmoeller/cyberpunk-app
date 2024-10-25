@@ -15,7 +15,8 @@ router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error fetching campaigns`, err);
+            res.sendStatus(400);
+            console.error(`Error fetching campaigns`, err);
         })
 })
 
@@ -31,7 +32,8 @@ router.get('/fetchGameMasterCharacters', rejectNonAdmin, (req, res) => {
             res.send(result.rows);
         })
         .catch(err => {
-            console.log(`Error Fetching characters:`, err);
+            res.sendStatus(400);
+            console.error(`Error Fetching characters:`, err);
         });
 });
 
@@ -41,22 +43,34 @@ router.post('/fetchGamemasterCharacterDetail/', rejectUnauthenticated, (req, res
     WHERE id = $1`
     pool.query(sqlText, [req.body.characterID])
         .then((result) => {
-            // Crude security measure to prevent accessing unauthorized chars. disabled for the moment.
-            // if (result.rows[0].user_id === req.user.id) {
             res.send(result.rows[0]);
-            // } else {
-            //     res.send(404)
-            // }
         })
         .catch(err => {
-            console.log(`Error fetching character details:`, err);
-            res.send(400)
+            res.sendStatus(400)
+            console.error(`Error fetching character details:`, err);
         })
 })
 
-// '/api/characters/fetchGameMasterCharacters'
-// '/api/characters/fetchcampaigns'
-'/api/characters/fetchGMCharacterDetails'
+router.post('/changeCampaign/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "character"
+    SET "campaign" = $1
+    WHERE "id" = $2`
+
+    const sqlParams = [req.body.campaign_id, req.body.charID]
+
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200)
+            } else {
+                res.sendStatus(400)
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing campaign:', err);
+            res.sendStatus(400);
+        })
+})
 
 
 module.exports = router

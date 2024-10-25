@@ -12,10 +12,6 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
@@ -27,11 +23,9 @@ import GameMasterOwnedGear from './GameMasterOwnedGear';
 import GameMasterGiveGear from './GameMasterGiveGear';
 import GameMasterCharContacts from './GameMasterCharContacts';
 
-import { fetchCharacterDetailsRequest, fetchCampaignListRequest } from './gm.services';
+import SnackbarComponent from '../GeneralAssets/Snackbar';
 
-function TransitionUp(props) {
-    return <Slide {...props} direction="up" />;
-}
+import { fetchCharacterDetailsRequest, fetchCampaignListRequest } from './gm.services';
 
 export default function GameMasterSheet() {
 
@@ -46,22 +40,17 @@ export default function GameMasterSheet() {
 
     const [campaignList, setCampaignList] = useState([]);
     const [charDetail, setCharDetail] = useState({
-        handle: '',
-        player: '',
-        campaign: '',
-        campaign_name:'',
-        campaignWords: '',
+        // handle: '',
+        // player: '',
+        // campaign: '',
+        // campaign_name:'',
+        // campaignWords: '',
     })
 
     // const charDetail = useSelector(store => store.advancementDetail)
     // const equipmentDetails = useSelector(store => store.advancementGear)
     // const modDetails = useSelector(store => store.characterModMaster)
     // const contacts = useSelector(store => store.characterContacts)
-
-    const [showSnackbar, setShowSnackbar] = React.useState(false);
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
 
     const fetchCharacterDetails = async () => {
         try {
@@ -81,29 +70,13 @@ export default function GameMasterSheet() {
         }
     }
 
-    // State handlers for various fields
-    // const [handle, setHandle] = useState(charDetail.handle)
-    // const [player, setPlayer] = useState(charDetail.player)
-    // const [campaign, setCampaign] = useState(charDetail.campaign)
-
-    const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
-
     useEffect(() => {
         fetchCampaigns();
         fetchCharacterDetails();
-        // fetch initial details
-        // dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
-        // fetch character gear - using charDetail, so will continue using in play material.
 
-        // fetch all master gear lists:
+        // fetch all master gear lists: (move to 'give gear' tab)
         // dispatch({ type: "FETCH_MASTER_LISTS" })
         // dispatch({ type: "FETCH_GM_SINGLE_CHAR_CONTACTS", payload: params.id })
-
-        // required to make inputs default to existing data
-        // setHandle(charDetail.handle)
-        // setPlayer(charDetail.player)
-        // setCampaign(charDetail.campaign)
-    // }, [charDetail.id])
     }, [])
 
     // move handle, player, campaign to reducer.
@@ -112,8 +85,10 @@ export default function GameMasterSheet() {
         history.push('/gamemaster/')
     }
 
+    const [pageAlert, setPageAlert] = useState({ open: false, message: '', severity: '' })
+
     return (<>
-        <Snackbar
+        {/* <Snackbar
             TransitionComponent={TransitionUp}
             autoHideDuration={2000}
             open={showSnackbar}
@@ -123,7 +98,7 @@ export default function GameMasterSheet() {
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
                 Can't make selected change!
             </Alert>
-        </Snackbar>
+        </Snackbar> */}
 
         <Tabs
             value={selectedSheet}
@@ -154,7 +129,7 @@ export default function GameMasterSheet() {
         </Grid>
 
         {selectedSheet === 'GM' ? (<>
-            <GameMasterMain charDetail={charDetail} campaignList={campaignList} />
+            <GameMasterMain charDetail={charDetail} campaignList={campaignList} setCharDetail={setCharDetail} setPageAlert={setPageAlert}/>
         </>) : <> </>}
 
         {/* {selectedSheet === 'attributes' ? (<>
@@ -181,5 +156,11 @@ export default function GameMasterSheet() {
             <GameMasterCharContacts />
         </>) : <> </>} */}
 
+        <SnackbarComponent
+            open={pageAlert.open}
+            message={pageAlert.message}
+            severity={pageAlert.severity}
+            onClose={() => setPageAlert({ open: false, message: '', severity: '' })}
+        />
     </>)
 }
