@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@mui/material';
 
@@ -18,18 +17,36 @@ import Grid from '@mui/material/Grid';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
+import { gmCharFetchRequest, fetchCampaignListRequest } from './gm.services'
 
 export default function GameMasterLanding() {
-    const dispatch = useDispatch();
     const history = useHistory()
+    const [characterList, setCharacterList] = useState([])
+    const [campaignList, setCampaignList] = useState([]);
+    
+    const fetchGameMasterCharacters = async () => {
+        try {
+            const gmCharList = await gmCharFetchRequest();
+            setCharacterList(gmCharList)
+        } catch (error) {
+            console.error('Error fetching GM page characters:', error)
+        }
+    }
 
-    const characterList = useSelector((store) => store.characterList);
-
+    const fetchCampaigns = async () => {
+        try {
+            const inFuncCampaignList = await fetchCampaignListRequest();
+            setCampaignList(inFuncCampaignList)
+        } catch (error) {
+            console.error('Error fetching campaign list:', error)
+        }
+    }
+    
     const euroBuck = `\u20AC$`
 
     useEffect(() => {
-        dispatch({ type: "FETCH_GM_CHARACTERS" })
-        dispatch({ type: "FETCH_CAMPAIGNS" })
+        fetchGameMasterCharacters();
+        fetchCampaigns();
     }, [])
 
     const commaTizer = (incoming) => {
@@ -40,7 +57,6 @@ export default function GameMasterLanding() {
         }
     }
 
-    const campaignList = useSelector(store => store.campaigns)
     const [campaign, setCampaign] = useState(0)
     const [campaignName, setCampaignName] = useState('')
 
@@ -177,8 +193,6 @@ export default function GameMasterLanding() {
         order: PropTypes.oneOf(['asc', 'desc']).isRequired,
         orderBy: PropTypes.string.isRequired,
     };
-
-
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('price');

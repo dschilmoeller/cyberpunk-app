@@ -1,3 +1,6 @@
+// This is the "Top Level" for a single Character - all other parts should be modules called within.
+// and utilize props more, along with passing of setters where it makes sense. 
+
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
@@ -24,6 +27,8 @@ import GameMasterOwnedGear from './GameMasterOwnedGear';
 import GameMasterGiveGear from './GameMasterGiveGear';
 import GameMasterCharContacts from './GameMasterCharContacts';
 
+import { fetchCharacterDetailsRequest, fetchCampaignListRequest } from './gm.services';
+
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
@@ -39,38 +44,67 @@ export default function GameMasterSheet() {
     const history = useHistory();
     const params = useParams();
 
-    const charDetail = useSelector(store => store.advancementDetail)
-    const equipmentDetails = useSelector(store => store.advancementGear)
-    const modDetails = useSelector(store => store.characterModMaster)
-    const contacts = useSelector(store => store.characterContacts)
+    const [campaignList, setCampaignList] = useState([]);
+    const [charDetail, setCharDetail] = useState({
+        handle: '',
+        player: '',
+        campaign: '',
+        campaign_name:'',
+        campaignWords: '',
+    })
+
+    // const charDetail = useSelector(store => store.advancementDetail)
+    // const equipmentDetails = useSelector(store => store.advancementGear)
+    // const modDetails = useSelector(store => store.characterModMaster)
+    // const contacts = useSelector(store => store.characterContacts)
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    const fetchCharacterDetails = async () => {
+        try {
+            const characterDetails = await fetchCharacterDetailsRequest(params.id);
+            setCharDetail(characterDetails)
+        } catch (error) {
+            console.error('Error Fetching Character Details:', error);
+        }
+    }
+
+    const fetchCampaigns = async () => {
+        try {
+            const inFuncCampaignList = await fetchCampaignListRequest();
+            setCampaignList(inFuncCampaignList)
+        } catch (error) {
+            console.error('Error fetching campaign list:', error)
+        }
+    }
 
     // State handlers for various fields
-    const [handle, setHandle] = useState(charDetail.handle)
-    const [player, setPlayer] = useState(charDetail.player)
-    const [campaign, setCampaign] = useState(charDetail.campaign)
+    // const [handle, setHandle] = useState(charDetail.handle)
+    // const [player, setPlayer] = useState(charDetail.player)
+    // const [campaign, setCampaign] = useState(charDetail.campaign)
 
     const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
 
     useEffect(() => {
+        fetchCampaigns();
+        fetchCharacterDetails();
         // fetch initial details
-        dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
+        // dispatch({ type: "FETCH_ADVANCEMENT_DETAIL", payload: params.id })
         // fetch character gear - using charDetail, so will continue using in play material.
 
         // fetch all master gear lists:
-        dispatch({ type: "FETCH_MASTER_LISTS" })
-        dispatch({ type: "FETCH_GM_SINGLE_CHAR_CONTACTS", payload: params.id })
+        // dispatch({ type: "FETCH_MASTER_LISTS" })
+        // dispatch({ type: "FETCH_GM_SINGLE_CHAR_CONTACTS", payload: params.id })
 
         // required to make inputs default to existing data
-        setHandle(charDetail.handle)
-        setPlayer(charDetail.player)
-        setCampaign(charDetail.campaign)
-    }, [charDetail.id])
+        // setHandle(charDetail.handle)
+        // setPlayer(charDetail.player)
+        // setCampaign(charDetail.campaign)
+    // }, [charDetail.id])
+    }, [])
 
     // move handle, player, campaign to reducer.
     const saveCharacter = () => {
@@ -120,10 +154,10 @@ export default function GameMasterSheet() {
         </Grid>
 
         {selectedSheet === 'GM' ? (<>
-            <GameMasterMain />
+            <GameMasterMain charDetail={charDetail} campaignList={campaignList} />
         </>) : <> </>}
 
-        {selectedSheet === 'attributes' ? (<>
+        {/* {selectedSheet === 'attributes' ? (<>
             <GameMasterAttributes />
         </>) : <> </>}
 
@@ -145,7 +179,7 @@ export default function GameMasterSheet() {
 
         {selectedSheet === 'gmCharContacts' ? (<>
             <GameMasterCharContacts />
-        </>) : <> </>}
+        </>) : <> </>} */}
 
     </>)
 }

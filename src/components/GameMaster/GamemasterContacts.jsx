@@ -25,10 +25,20 @@ export default function GameMasterContacts() {
 
     const campaignList = useSelector(store => store.campaigns)
     const contactList = useSelector(store => store.contactMaster)
-    const characterList = useSelector(store => store.characterList)
+    const [characterList, setCharacterList] = useState([])
+
+
+    const fetchGameMasterCharacters = async () => {
+        try {
+            const gmCharList = await gmCharFetchRequest();
+            setCharacterList(gmCharList)
+        } catch (error) {
+            console.error('Error fetching GM page characters:', error)
+        }
+    }
 
     useEffect(() => {
-        dispatch({ type: "FETCH_GM_CHARACTERS" })
+        fetchGameMasterCharacters();
         dispatch({ type: "FETCH_CAMPAIGNS" })
         dispatch({ type: "FETCH_GM_CONTACTS" })
     }, [])

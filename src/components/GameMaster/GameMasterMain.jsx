@@ -19,96 +19,118 @@ import Slide from '@mui/material/Slide';
 
 import Item from '../Characters/CharacterSheet/Item';
 
+import { fetchCampaignListRequest } from './gm.services';
+
 function TransitionUp(props) {
     return <Slide {...props} direction="up" />;
 }
 
-export default function GameMasterMain() {
+export default function GameMasterMain({charDetail, campaignList}) {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const params = useParams();
-
-    const charDetail = useSelector(store => store.advancementDetail)
-    const campaignList = useSelector(store => store.campaigns)
+    // const charDetail = useSelector(store => store.advancementDetail)
+    // const [campaignList, setCampaignList] = useState([]);
 
     const euroBuck = `\u20AC$`
+
+    // const [newCharDetail, setNewCharDetail] = useState({
+    //     handle: '',
+    //     player: '',
+    //     campaign: '',
+    //     campaign_name:'',
+    //     campaignWords: '',
+    // })
+
+    // const [handle, setHandle] = useState(charDetail.handle)
+    // const [player, setPlayer] = useState(charDetail.player)
+    // const [campaign, setCampaign] = useState(charDetail.campaign)
+    // const [campaignName, setCampaignName] = useState(charDetail.campaign_name)
+    // const [campaignWords, setCampaignWords] = useState(charDetail.campaignWords)
+
+    const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
+    const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
+    const [selectedCampaign, setSelectedCampaign] = useState('');
+
+    // const fetchCampaigns = async () => {
+    //     try {
+    //         const inFuncCampaignList = await fetchCampaignListRequest();
+    //         setCampaignList(inFuncCampaignList)
+    //     } catch (error) {
+    //         console.error('Error fetching campaign list:', error)
+    //     }
+    // }
+
+
+
+    // useEffect(() => {
+        // setHandle(charDetail.handle)
+        // setPlayer(charDetail.player)
+        // setCampaign(charDetail.campaign)
+        // effectChangeCampaign(charDetail.campaign)
+    // }, [charDetail.id, charDetail.campaign])
+
+    useEffect(() => {
+        // dispatch({ type: "FETCH_CAMPAIGNS" })
+        // fetchCampaigns();
+        // fetchCharacterDetails();
+    }, [])
+
+    // const effectChangeCampaign = (value) => {
+    //     campaignList.map(campaign => {
+    //         if (value == campaign.campaign_id) {
+    //             setCampaignName(campaign.campaign_name)
+    //             setCampaign(value)
+    //         }
+    //     })
+    // }
+
+    // const changeCampaign = (value) => {
+    //     campaignList.map(campaign => {
+    //         if (value == campaign.campaign_id) {
+    //             setCampaignName(campaign.campaign_name)
+    //             setCampaign(value)
+    //             dispatch({ type: "GM_CHANGE_CAMPAIGN", payload: { campaign: campaign.campaign_id, campaign_name: campaign.campaign_name, campaignWords: ' (changed)' } })
+    //         }
+    //     })
+    //     setCampaignWords(' (changed)')
+    // }
+
+    // const changeHumanity = (type, amount) => {
+    //     if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
+    //         dispatch({ type: 'GM_CHANGE_TEMP_HUMANITY_LOSS', payload: amount })
+    //     } else if (type === 'perm' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
+    //         dispatch({ type: 'GM_CHANGE_PERM_HUMANITY_LOSS', payload: amount })
+    //     } else {
+    //         setShowSnackbar(true)
+    //     }
+    // }
+
+    // const changeBank = (incoming) => {
+    //     if (charDetail.bank + incoming >= 0) {
+    //         dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
+    //     } else {
+    //         setShowSnackbar(true)
+    //     }
+    // }
+
+    // const changeXP = (incoming) => {
+    //     if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
+    //         dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
+    //     } else {
+    //         setShowSnackbar(true)
+    //     }
+    // }
+
+    // const deleteCharacter = () => {
+    //     dispatch({ type: "DELETE_CHARACTER", payload: { charDetailID: charDetail.id, user_id: charDetail.user_id } })
+    //     history.push('/gamemaster/')
+    // }
 
     const [showSnackbar, setShowSnackbar] = React.useState(false);
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
-
-    const [handle, setHandle] = useState(charDetail.handle)
-    const [player, setPlayer] = useState(charDetail.player)
-    const [campaign, setCampaign] = useState(charDetail.campaign)
-    const [campaignName, setCampaignName] = useState(charDetail.campaign_name)
-    const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false)
-    const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
-
-    const [campaignWords, setCampaignWords] = useState(charDetail.campaignWords)
-
-    useEffect(() => {
-        setHandle(charDetail.handle)
-        setPlayer(charDetail.player)
-        setCampaign(charDetail.campaign)
-        effectChangeCampaign(charDetail.campaign)
-    }, [charDetail.id, charDetail.campaign])
-
-    useEffect(() => {
-        dispatch({ type: "FETCH_CAMPAIGNS" })
-    }, [])
-
-    const effectChangeCampaign = (value) => {
-        campaignList.map(campaign => {
-            if (value == campaign.campaign_id) {
-                setCampaignName(campaign.campaign_name)
-                setCampaign(value)
-            }
-        })
-    }
-
-    const changeCampaign = (value) => {
-        campaignList.map(campaign => {
-            if (value == campaign.campaign_id) {
-                setCampaignName(campaign.campaign_name)
-                setCampaign(value)
-                dispatch({ type: "GM_CHANGE_CAMPAIGN", payload: { campaign: campaign.campaign_id, campaign_name: campaign.campaign_name, campaignWords: ' (changed)' } })
-            }
-        })
-        setCampaignWords(' (changed)')
-    }
-
-    const changeHumanity = (type, amount) => {
-        if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
-            dispatch({ type: 'GM_CHANGE_TEMP_HUMANITY_LOSS', payload: amount })
-        } else if (type === 'perm' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
-            dispatch({ type: 'GM_CHANGE_PERM_HUMANITY_LOSS', payload: amount })
-        } else {
-            setShowSnackbar(true)
-        }
-    }
-
-    const changeBank = (incoming) => {
-        if (charDetail.bank + incoming >= 0) {
-            dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
-        } else {
-            setShowSnackbar(true)
-        }
-    }
-
-    const changeXP = (incoming) => {
-        if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
-            dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
-        } else {
-            setShowSnackbar(true)
-        }
-    }
-
-    const deleteCharacter = () => {
-        dispatch({ type: "DELETE_CHARACTER", payload: { charDetailID: charDetail.id, user_id: charDetail.user_id } })
-        history.push('/gamemaster/')
-    }
 
     return (<>
         <Snackbar
@@ -126,16 +148,16 @@ export default function GameMasterMain() {
         <Grid container paddingTop={3} spacing={2} alignItems="center">
 
             <Grid item xs={2.5} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
-            <Grid item xs={2.5}><TextField fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
+            <Grid item xs={2.5}><TextField fullWidth variant='standard' label='Change Handle' value={charDetail.handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
             <Grid item xs={2.5} textAlign={'center'}>Player: {charDetail.player}</Grid>
-            <Grid item xs={2.5} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
+            <Grid item xs={2.5} marginRight={2}><TextField fullWidth variant='standard' label='Change Player' value={charDetail.player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
 
-            <Grid item xs={3.5} textAlign={'center'}>Campaign{campaignWords}: {campaignName}</Grid>
+            <Grid item xs={3.5} textAlign={'center'}>Campaign: {charDetail.campaign_name}</Grid>
             <Grid item xs={3.5} marginRight={2}>
                 <Select
-                    value={campaign}
+                    value={selectedCampaign}
                     fullWidth
-                    onChange={e => changeCampaign(e.target.value)}>
+                    onChange={e => setSelectedCampaign(e.target.value)}>
                     {campaignList.map(campaign => {
                         return <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>{campaign.campaign_name}</MenuItem>
                     })}
@@ -166,7 +188,7 @@ export default function GameMasterMain() {
 
         </Grid>
 
-        <Grid item xs={12} textAlign={'center'}><h1>Humanity</h1></Grid>
+        {/* <Grid item xs={12} textAlign={'center'}><h1>Humanity</h1></Grid>
         {charDetail.temp_humanity_loss >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={4} textAlign={'center'}>Current Total Humanity Loss: {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Permanent Humanity Loss: {charDetail.perm_humanity_loss}</Grid>
@@ -195,9 +217,9 @@ export default function GameMasterMain() {
                 </Grid>
             </>)}
 
-        </Grid>) : <></>}
+        </Grid>) : <></>} */}
 
-        <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
+        {/* <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank.toLocaleString()}</Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
@@ -212,9 +234,9 @@ export default function GameMasterMain() {
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-1000)}>Deduct $1,000 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-5000)}>Deduct $5,000 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-10000)}>Deduct $10,000 </Button></Grid>
-        </Grid>) : <></>}
+        </Grid>) : <></>} */}
 
-        <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
+        {/* <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
         {charDetail.max_xp >= 0 ? (
             <Grid container spacing={2} alignContent={'center'}>
                 <Grid item xs={4} textAlign={'center'}>Current XP: {charDetail.max_xp}</Grid>
@@ -226,7 +248,7 @@ export default function GameMasterMain() {
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-1)}>Remove 1 XP </Button></Grid>
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-5)}>Remove 5 XP </Button></Grid>
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-10)}>Remove 10 XP </Button></Grid>
-            </Grid>) : <></>}
+            </Grid>) : <></>} */}
 
 
     </>)

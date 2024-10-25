@@ -142,7 +142,7 @@ export default function GameMasterAttributes() {
             anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
         >
             <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                Can't make selected change!
+                "Can't make selected change!"
             </Alert>
         </Snackbar>
 

@@ -1974,7 +1974,7 @@ VALUES
 	(
 		'Vampyres',
 		500,
-		'Light Melee Weapon implanted in the mouth. Can deliver a single dose of poison from a small resevoir. If the user grapples a victim first, the damage is aggravated',
+		'Light Melee Weapon implanted in the mouth. If the user grapples a victim first, the damage is aggravated. The standard version is unable to be concealed or retracted.',
 		1,
 		4,
 		'Clinic',

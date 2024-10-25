@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const characterRouter = require('./routes/character.router');
 const gearRouter = require('./routes/gear.router');
 const advancementRouter = require('./routes/advancement.router');
+const gamemasterRouter = require('./routes/gamemaster.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -26,9 +27,10 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user/', userRouter);
-app.use('/api/characters/', characterRouter)
-app.use('/api/gear/', gearRouter)
-app.use('/api/advancement/', advancementRouter)
+app.use('/api/characters/', characterRouter);
+app.use('/api/gear/', gearRouter);
+app.use('/api/advancement/', advancementRouter);
+app.use('/api/gamemaster/', gamemasterRouter);
 
 // Serve static files
 app.use(express.static('build'));
