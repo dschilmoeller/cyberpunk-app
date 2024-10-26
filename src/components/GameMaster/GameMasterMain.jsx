@@ -5,7 +5,7 @@ import { Button, FormControl, InputLabel, Grid, TextField, Switch, FormGroup, Fo
 
 import Item from '../Characters/CharacterSheet/Item';
 
-import { changeCharacterCampaign, changeCharacterHandle } from './gm.services';
+import { changeCharacterCampaign, changeCharacterHandle, changeCharacterPlayer } from './gm.services';
 
 export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
     const history = useHistory();
@@ -16,8 +16,6 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
     const [allowPermHumanityChange, setAllowPermHumanityChange] = useState(false)
     const [selectedCampaign, setSelectedCampaign] = useState('');
 
-    // Change Handle, Player to be done.
-
     const [handle, setHandle] = useState(charDetail.handle);
     const changeHandle = async (newHandle) => {
         const handleObj = {
@@ -27,7 +25,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         try {
             let result = await changeCharacterHandle(handleObj);
             if (result === 'OK') {
-                setPageAlert({ open: true, message: 'Success', severity: 'success' })
+                setPageAlert({ open: true, message: 'Success', severity: 'success' });
                 setCharDetail({
                     ...charDetail,
                     handle: newHandle,
@@ -41,16 +39,38 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         }
     }
 
+    const [player, setPlayer] = useState(charDetail.player);
+    const changePlayer = async (newPlayer) => {
+        const playerObj = {
+            player: newPlayer,
+            charID: charDetail.id,
+        }
+        try { 
+            let result = await changeCharacterPlayer(playerObj);
+            if (result === 'OK'){
+                setPageAlert({ open: true, message: 'Success', severity: 'success' });
+                setCharDetail({
+                    ...charDetail,
+                    player: newPlayer
+                });
+            } else {
+                chuckError();
+            }
+        } catch (error) {
+            chuckError();
+            console.error('Error changing Player:', error);
+        }
+    }
+
     const changeCampaign = async (campaign_id) => {
         const campaignObj = {
             campaign_id,
             charID: charDetail.id
         }
-
         try {
             let result = await changeCharacterCampaign(campaignObj);
             if (result === 'OK') {
-                setPageAlert({ open: true, message: 'Success', severity: 'success' })
+                setPageAlert({ open: true, message: 'Success', severity: 'success' });
                 // Change current state to reflect change.
                 setCharDetail({
                     ...charDetail,
@@ -107,8 +127,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
             <Grid item xs={2}><Button onClick={() => changeHandle(handle)}>Save</Button></Grid>
             <Grid item xs={3} textAlign={'center'}>Player: {charDetail.player}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Player' value={charDetail.player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
-
+            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
+            <Grid item xs={2}><Button onClick={() => changePlayer(player)}>Save</Button></Grid>
             <Grid item xs={6} textAlign={'center'}>Campaign: {charDetail.campaign_name}</Grid>
             <Grid item xs={6}>
                 <FormControl fullWidth>

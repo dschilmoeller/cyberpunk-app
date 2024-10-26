@@ -56,6 +56,20 @@ const changeCharacterHandle = async (handleObj) => {
     });
 }
 
+const changeCharacterPlayer = async (playerObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changePlayer', playerObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing character player:', error);
+            reject(error);
+        })
+    })
+}
+
 const changeCharacterCampaign = async (campaignObj) => {
     return new Promise((resolve, reject) => {
         axios
@@ -75,6 +89,7 @@ export {
     fetchCampaignListRequest, 
     fetchCharacterDetailsRequest, 
     changeCharacterHandle,
+    changeCharacterPlayer,
     changeCharacterCampaign,
 
 }

@@ -71,6 +71,25 @@ router.post('/changeHandle/', rejectUnauthenticated, (req, res) => {
         });
 });
 
+router.post('/changePlayer', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "character"
+    SET "player" = $1
+    WHERE "id" = $2`
+    const sqlParams = [req.body.player, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0){
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing player:', err);
+            res.sendStatus(400);
+        })
+})
+
 router.post('/changeCampaign/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "character"
     SET "campaign" = $1
