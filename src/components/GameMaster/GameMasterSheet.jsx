@@ -39,13 +39,7 @@ export default function GameMasterSheet() {
     const params = useParams();
 
     const [campaignList, setCampaignList] = useState([]);
-    const [charDetail, setCharDetail] = useState({
-        // handle: '',
-        // player: '',
-        // campaign: '',
-        // campaign_name:'',
-        // campaignWords: '',
-    })
+    const [charDetail, setCharDetail] = useState({})
 
     // const charDetail = useSelector(store => store.advancementDetail)
     // const equipmentDetails = useSelector(store => store.advancementGear)
@@ -86,19 +80,15 @@ export default function GameMasterSheet() {
     }
 
     const [pageAlert, setPageAlert] = useState({ open: false, message: '', severity: '' })
+    const [loading, setLoading] = useState(false)
 
     return (<>
-        {/* <Snackbar
-            TransitionComponent={TransitionUp}
-            autoHideDuration={2000}
-            open={showSnackbar}
-            onClose={() => setShowSnackbar(false)}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-        >
-            <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                Can't make selected change!
-            </Alert>
-        </Snackbar> */}
+        <Grid container spacing={2} alignItems="center">
+            <Grid item xs={6}><h1>Character Details: {charDetail.handle}</h1></Grid>
+            <Grid item xs={6} paddingRight={3}>
+                {/* <Button fullWidth variant='contained' onClick={() => saveCharacter()}>Save Changes</Button> */}
+            </Grid>
+        </Grid>
 
         <Tabs
             value={selectedSheet}
@@ -121,15 +111,16 @@ export default function GameMasterSheet() {
             <Tab value='gmCharContacts' label='Manage Contacts' />
         </Tabs>
 
-        <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6}><h1>Character Details: </h1></Grid>
-            <Grid item xs={6} paddingRight={3}>
-                <Button fullWidth variant='contained' onClick={() => saveCharacter()}>Save Changes</Button>
-            </Grid>
-        </Grid>
 
         {selectedSheet === 'GM' ? (<>
-            <GameMasterMain charDetail={charDetail} campaignList={campaignList} setCharDetail={setCharDetail} setPageAlert={setPageAlert}/>
+            <GameMasterMain 
+            charDetail={charDetail} 
+            campaignList={campaignList} 
+            setCharDetail={setCharDetail} 
+            setPageAlert={setPageAlert}
+            loading={loading}
+            setLoading={setLoading}
+            />
         </>) : <> </>}
 
         {/* {selectedSheet === 'attributes' ? (<>

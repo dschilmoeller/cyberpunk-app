@@ -51,6 +51,26 @@ router.post('/fetchGamemasterCharacterDetail/', rejectUnauthenticated, (req, res
         })
 })
 
+router.post('/changeHandle/', rejectUnauthenticated, (req, res) => {
+    const sqlText = `UPDATE "character"
+    SET "handle" = $1
+    WHERE "id" = $2`
+
+    const sqlParams = [req.body.handle, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing handle:', err);
+            res.sendStatus(400);
+        });
+});
+
 router.post('/changeCampaign/', rejectUnauthenticated, (req, res) => {
     const sqlText = `UPDATE "character"
     SET "campaign" = $1
@@ -61,16 +81,16 @@ router.post('/changeCampaign/', rejectUnauthenticated, (req, res) => {
     pool.query(sqlText, sqlParams)
         .then((result) => {
             if (result.rowCount > 0) {
-                res.sendStatus(200)
+                res.sendStatus(200);
             } else {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         })
         .catch((err) => {
             console.error('Error changing campaign:', err);
             res.sendStatus(400);
-        })
-})
+        });
+});
 
 
 module.exports = router

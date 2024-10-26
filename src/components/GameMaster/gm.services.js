@@ -42,6 +42,20 @@ const fetchCharacterDetailsRequest = async (characterID) => {
     })
 }
 
+const changeCharacterHandle = async (handleObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changeHandle', handleObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing character handle:', error);
+            reject(error);
+        });
+    });
+}
+
 const changeCharacterCampaign = async (campaignObj) => {
     return new Promise((resolve, reject) => {
         axios
@@ -52,14 +66,15 @@ const changeCharacterCampaign = async (campaignObj) => {
         .catch((error) => {
             console.error('Error changing character campaign:', error);
             reject(error);
-        })
-    })
+        });
+    });
 }
 
 export { 
     gmCharFetchRequest, 
     fetchCampaignListRequest, 
     fetchCharacterDetailsRequest, 
+    changeCharacterHandle,
     changeCharacterCampaign,
 
 }
