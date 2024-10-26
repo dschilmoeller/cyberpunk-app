@@ -5,7 +5,14 @@ import { Button, FormControl, InputLabel, Grid, TextField, Switch, FormGroup, Fo
 
 import Item from '../Characters/CharacterSheet/Item';
 
-import { changeCharacterCampaign, changeCharacterHandle, changeCharacterPlayer } from './gm.services';
+import {
+    changeCharacterCampaign,
+    changeCharacterHandle,
+    changeCharacterPlayer,
+    changePermCharacterHumanity,
+    changeTempCharacterHumanity,
+
+} from './gm.services';
 
 export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
     const history = useHistory();
@@ -45,9 +52,9 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             player: newPlayer,
             charID: charDetail.id,
         }
-        try { 
+        try {
             let result = await changeCharacterPlayer(playerObj);
-            if (result === 'OK'){
+            if (result === 'OK') {
                 setPageAlert({ open: true, message: 'Success', severity: 'success' });
                 setCharDetail({
                     ...charDetail,
@@ -82,6 +89,56 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         } catch (error) {
             chuckError();
             console.error('Error Changing Campaign:', error);
+        }
+    }
+
+    const changeHumanity = async (type, amount) => {
+        if (verifyHumanityChange(type, amount)) {
+
+            if (type === 'temp') {
+                const humanityObj = {
+                    charID: charDetail.id,
+                    temp_humanity_loss: charDetail.temp_humanity_loss + amount,
+                }
+                let result = await changeTempCharacterHumanity(humanityObj);
+                if (result === 'OK') {
+                    setCharDetail({
+                        ...charDetail,
+                        temp_humanity_loss: charDetail.temp_humanity_loss + amount
+                    })
+                } else {
+                    chuckError();
+                }
+            } else if (type === 'perm') {
+                const humanityObj = {
+                    charID: charDetail.id,
+                    perm_humanity_loss: charDetail.perm_humanity_loss + amount,
+                }
+                let result = await changePermCharacterHumanity(humanityObj);
+                if (result === 'OK') {
+                    setCharDetail({
+                        ...charDetail,
+                        perm_humanity_loss: charDetail.perm_humanity_loss + amount
+                    })
+                }
+            } else {
+                chuckError();
+            }
+
+        } else {
+            setPageAlert({ open: true, message: 'TOO MUCH', severity: 'error' })
+        }
+    }
+
+    const verifyHumanityChange = (type, amount) => {
+        if (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) {
+            if (type === 'temp' && (amount + charDetail.temp_humanity_loss >= 0)) {
+                return true
+            } else if (type === 'perm' && (amount + charDetail.perm_humanity_loss >= 0)) {
+                return true
+            }
+        } else {
+            return false
         }
     }
 
@@ -167,8 +224,9 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
         </Grid>
 
-        {/* <Grid item xs={12} textAlign={'center'}><h1>Humanity</h1></Grid>
-        {charDetail.temp_humanity_loss >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
+        <Grid item xs={12} textAlign={'center'}><h1>Humanity</h1></Grid>
+
+        <Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={4} textAlign={'center'}>Current Total Humanity Loss: {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Permanent Humanity Loss: {charDetail.perm_humanity_loss}</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Temporary Humanity Loss: {charDetail.temp_humanity_loss}</Grid>
@@ -176,27 +234,19 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -5)}>Restore 5 Temp Humanity</Button></Grid>
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 1)}>Remove 1 Temp Humanity</Button></Grid>
             <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 5)}>Remove 5 Temp Humanity</Button></Grid>
+            <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
+                <FormGroup sx={{ position: 'flex', alignItems: 'center' }} >
+                    <FormControlLabel control={<Switch
+                        checked={allowPermHumanityChange}
+                        onChange={(e) => setAllowPermHumanityChange(e.target.checked)} />} label="Allow Permanent Humanity Changes" />
+                </FormGroup>
+            </Grid>
             {allowPermHumanityChange ? (<>
-                <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
-                    <FormGroup sx={{ position: 'flex', alignItems: 'center' }} >
-                        <FormControlLabel control={<Switch
-                            checked={allowPermHumanityChange}
-                            onChange={(e) => setAllowPermHumanityChange(e.target.checked)} />} label="Allow Permanent Humanity Changes" />
-                    </FormGroup>
-                </Grid>
                 <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('perm', -1)}>Restore 1 Permanent Humanity</Button></Grid>
                 <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('perm', 1)}>Remove 1 Permanent Humanity</Button></Grid>
-            </>) : (<>
-                <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
-                    <FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
-                        <FormControlLabel control={<Switch
-                            checked={allowPermHumanityChange}
-                            onChange={(e) => setAllowPermHumanityChange(e.target.checked)} />} label="Allow Permanent Humanity Changes" />
-                    </FormGroup>
-                </Grid>
-            </>)}
+            </>) : (<></>)}
 
-        </Grid>) : <></>} */}
+        </Grid>
 
         {/* <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>

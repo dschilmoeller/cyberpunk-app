@@ -65,23 +65,23 @@ const advancementDetail = (state = { campaign: 1, campaignWords: '', bank: 0 }, 
             }
 
         // GM CHANGES
-        case 'GM_CHANGE_CAMPAIGN':
-            return {
-                ...state,
-                campaign: action.payload.campaign,
-                campaign_name: action.payload.campaign_name,
-                campaignWords: action.payload.campaignWords
-            }
-        case 'GM_CHANGE_TEMP_HUMANITY_LOSS':
-            return {
-                ...state,
-                temp_humanity_loss: state.temp_humanity_loss + action.payload
-            }
-        case 'GM_CHANGE_PERM_HUMANITY_LOSS':
-            return {
-                ...state,
-                perm_humanity_loss: state.perm_humanity_loss + action.payload
-            }
+        // case 'GM_CHANGE_CAMPAIGN':
+        //     return {
+        //         ...state,
+        //         campaign: action.payload.campaign,
+        //         campaign_name: action.payload.campaign_name,
+        //         campaignWords: action.payload.campaignWords
+        //     }
+        // case 'GM_CHANGE_TEMP_HUMANITY_LOSS':
+        //     return {
+        //         ...state,
+        //         temp_humanity_loss: state.temp_humanity_loss + action.payload
+        //     }
+        // case 'GM_CHANGE_PERM_HUMANITY_LOSS':
+        //     return {
+        //         ...state,
+        //         perm_humanity_loss: state.perm_humanity_loss + action.payload
+        //     }
         case 'GM_CHANGE_BANK':
             return {
                 ...state,

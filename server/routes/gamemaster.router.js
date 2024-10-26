@@ -111,5 +111,40 @@ router.post('/changeCampaign/', rejectUnauthenticated, (req, res) => {
         });
 });
 
+router.post('/changeTempHumanity', rejectNonAdmin, (req, res) => {
+    const sqlText = `UPDATE "character" SET "temp_humanity_loss" = $1 WHERE "id" = $2`
+    const sqlParams = [req.body.temp_humanity_loss, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing temporary humanity loss:', err);
+            res.sendStatus(400);
+        });
+})
+
+router.post('/changePermHumanity/', rejectNonAdmin, (req, res) => {
+    const sqlText = `UPDATE "character" SET "perm_humanity_loss" = $1 WHERE "id" = $2`
+    const sqlParams = [req.body.perm_humanity_loss, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing permanent humanity loss:', err);
+            res.sendStatus(400);
+        });
+
+})
+
 
 module.exports = router

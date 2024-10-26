@@ -84,6 +84,34 @@ const changeCharacterCampaign = async (campaignObj) => {
     });
 }
 
+const changeTempCharacterHumanity = async (humanityObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changeTempHumanity', humanityObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing Temp humanity:', error);
+            reject(error);
+        })
+    })
+}
+
+const changePermCharacterHumanity = async (humanityObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changePermHumanity', humanityObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing permanent humanity:', error);
+            reject(error);
+        })
+    })
+}
+
 export { 
     gmCharFetchRequest, 
     fetchCampaignListRequest, 
@@ -91,5 +119,7 @@ export {
     changeCharacterHandle,
     changeCharacterPlayer,
     changeCharacterCampaign,
+    changeTempCharacterHumanity,
+    changePermCharacterHumanity,
 
 }
