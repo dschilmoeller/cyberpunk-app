@@ -11,7 +11,7 @@ import {
     changeCharacterPlayer,
     changePermCharacterHumanity,
     changeTempCharacterHumanity,
-
+    changeCharacterBank
 } from './gm.services';
 
 export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
@@ -94,37 +94,42 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
     const changeHumanity = async (type, amount) => {
         if (verifyHumanityChange(type, amount)) {
-
-            if (type === 'temp') {
-                const humanityObj = {
-                    charID: charDetail.id,
-                    temp_humanity_loss: charDetail.temp_humanity_loss + amount,
-                }
-                let result = await changeTempCharacterHumanity(humanityObj);
-                if (result === 'OK') {
-                    setCharDetail({
-                        ...charDetail,
-                        temp_humanity_loss: charDetail.temp_humanity_loss + amount
-                    })
+            try {
+                if (type === 'temp') {
+                    const humanityObj = {
+                        charID: charDetail.id,
+                        temp_humanity_loss: charDetail.temp_humanity_loss + amount,
+                    }
+                    let result = await changeTempCharacterHumanity(humanityObj);
+                    if (result === 'OK') {
+                        setCharDetail({
+                            ...charDetail,
+                            temp_humanity_loss: charDetail.temp_humanity_loss + amount
+                        })
+                    } else {
+                        chuckError();
+                    }
+                } else if (type === 'perm') {
+                    const humanityObj = {
+                        charID: charDetail.id,
+                        perm_humanity_loss: charDetail.perm_humanity_loss + amount,
+                    }
+                    let result = await changePermCharacterHumanity(humanityObj);
+                    if (result === 'OK') {
+                        setCharDetail({
+                            ...charDetail,
+                            perm_humanity_loss: charDetail.perm_humanity_loss + amount
+                        })
+                    } else {
+                        chuckError();
+                    }
                 } else {
                     chuckError();
                 }
-            } else if (type === 'perm') {
-                const humanityObj = {
-                    charID: charDetail.id,
-                    perm_humanity_loss: charDetail.perm_humanity_loss + amount,
-                }
-                let result = await changePermCharacterHumanity(humanityObj);
-                if (result === 'OK') {
-                    setCharDetail({
-                        ...charDetail,
-                        perm_humanity_loss: charDetail.perm_humanity_loss + amount
-                    })
-                }
-            } else {
+            } catch (error) {
                 chuckError();
+                console.error('Error changing player humanity:', error);
             }
-
         } else {
             setPageAlert({ open: true, message: 'TOO MUCH', severity: 'error' })
         }
@@ -142,27 +147,35 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         }
     }
 
+    const changeBank = async (amount) => {
+        if (charDetail.bank + amount >= 0) {
+            const bankObj = {
+                charID: charDetail.id,
+                bank: charDetail.bank + amount
+            }
+            try {
+
+                let result = await changeCharacterBank(bankObj);
+                if (result === 'OK') {
+                    setCharDetail({
+                        ...charDetail,
+                        bank: charDetail.bank + amount
+                    })
+                } else {
+                    chuckError();
+                }
+            } catch (error) {
+                chuckError();
+                console.error('Error changing bank:', error)
+            }
+        } else {
+            setPageAlert({ open: true, message: 'Players cannot have negative money', severity: 'error' })
+        }
+    }
+
     const chuckError = () => {
         setPageAlert({ open: true, message: 'Something is awry', severity: 'info' })
     }
-
-    // const changeHumanity = (type, amount) => {
-    //     if (type === 'temp' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.temp_humanity_loss >= 0)) {
-    //         dispatch({ type: 'GM_CHANGE_TEMP_HUMANITY_LOSS', payload: amount })
-    //     } else if (type === 'perm' && (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) && (amount + charDetail.perm_humanity_loss >= 0)) {
-    //         dispatch({ type: 'GM_CHANGE_PERM_HUMANITY_LOSS', payload: amount })
-    //     } else {
-    //         setShowSnackbar(true)
-    //     }
-    // }
-
-    // const changeBank = (incoming) => {
-    //     if (charDetail.bank + incoming >= 0) {
-    //         dispatch({ type: 'GM_CHANGE_BANK', payload: incoming })
-    //     } else {
-    //         setShowSnackbar(true)
-    //     }
-    // }
 
     // const changeXP = (incoming) => {
     //     if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
@@ -248,7 +261,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
         </Grid>
 
-        {/* <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
+        <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank.toLocaleString()}</Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
@@ -263,7 +276,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-1000)}>Deduct $1,000 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-5000)}>Deduct $5,000 </Button></Grid>
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-10000)}>Deduct $10,000 </Button></Grid>
-        </Grid>) : <></>} */}
+        </Grid>) : <></>}
 
         {/* <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
         {charDetail.max_xp >= 0 ? (

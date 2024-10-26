@@ -78,7 +78,7 @@ router.post('/changePlayer', rejectUnauthenticated, (req, res) => {
     const sqlParams = [req.body.player, req.body.charID]
     pool.query(sqlText, sqlParams)
         .then((result) => {
-            if (result.rowCount > 0){
+            if (result.rowCount > 0) {
                 res.sendStatus(200);
             } else {
                 res.sendStatus(400);
@@ -146,5 +146,21 @@ router.post('/changePermHumanity/', rejectNonAdmin, (req, res) => {
 
 })
 
+router.post('/changeBank', rejectNonAdmin, (req, res) => {
+    const sqlText = `UPDATE "character" SET "bank" = $1 WHERE "id" = $2`
+    const sqlParams = [req.body.bank, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing character bank:', err);
+            res.sendStatus(400);
+        });
+})
 
 module.exports = router

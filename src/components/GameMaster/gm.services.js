@@ -112,6 +112,20 @@ const changePermCharacterHumanity = async (humanityObj) => {
     })
 }
 
+const changeCharacterBank = async (bankObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changeBank', bankObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing bank:', error);
+            reject(error);
+        })
+    })
+}
+
 export { 
     gmCharFetchRequest, 
     fetchCampaignListRequest, 
@@ -121,5 +135,6 @@ export {
     changeCharacterCampaign,
     changeTempCharacterHumanity,
     changePermCharacterHumanity,
-
+    changeCharacterBank,
+    
 }
