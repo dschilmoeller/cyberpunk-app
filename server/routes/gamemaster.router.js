@@ -163,4 +163,21 @@ router.post('/changeBank', rejectNonAdmin, (req, res) => {
         });
 })
 
+router.post('/changeXP', rejectNonAdmin, (req, res) => {
+    const sqlText = `UPDATE "character" SET "max_xp" = $1 WHERE "id" = $2`
+    const sqlParams = [req.body.max_xp, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing character max XP:', err);
+            res.sendStatus(400);
+        });
+})
+
 module.exports = router

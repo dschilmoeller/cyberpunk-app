@@ -11,7 +11,8 @@ import {
     changeCharacterPlayer,
     changePermCharacterHumanity,
     changeTempCharacterHumanity,
-    changeCharacterBank
+    changeCharacterBank,
+    changeCharacterXP,
 } from './gm.services';
 
 export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
@@ -154,7 +155,6 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                 bank: charDetail.bank + amount
             }
             try {
-
                 let result = await changeCharacterBank(bankObj);
                 if (result === 'OK') {
                     setCharDetail({
@@ -177,13 +177,28 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         setPageAlert({ open: true, message: 'Something is awry', severity: 'info' })
     }
 
-    // const changeXP = (incoming) => {
-    //     if (charDetail.max_xp + incoming >= charDetail.spent_xp) {
-    //         dispatch({ type: 'GM_CHANGE_XP', payload: incoming })
-    //     } else {
-    //         setShowSnackbar(true)
-    //     }
-    // }
+    const changeXP = async (amount) => {
+        if (charDetail.max_xp + amount >= charDetail.spent_xp) {
+            const XPObj = {
+                max_xp: charDetail.max_xp + amount,
+                charID: charDetail.id,
+            }
+            try {
+                let result = await changeCharacterXP(XPObj);
+                if (result === 'OK') {
+                    setCharDetail({
+                        ...charDetail,
+                        max_xp: charDetail.max_xp + amount
+                    })
+                } else {
+                    chuckError();
+                }
+            } catch (error) {
+                chuckError();
+                console.error('Error changing XP:', error)
+            }
+        }
+    }
 
     // const deleteCharacter = () => {
     //     dispatch({ type: "DELETE_CHARACTER", payload: { charDetailID: charDetail.id, user_id: charDetail.user_id } })
@@ -278,7 +293,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-10000)}>Deduct $10,000 </Button></Grid>
         </Grid>) : <></>}
 
-        {/* <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
+        <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
         {charDetail.max_xp >= 0 ? (
             <Grid container spacing={2} alignContent={'center'}>
                 <Grid item xs={4} textAlign={'center'}>Current XP: {charDetail.max_xp}</Grid>
@@ -290,7 +305,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-1)}>Remove 1 XP </Button></Grid>
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-5)}>Remove 5 XP </Button></Grid>
                 <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-10)}>Remove 10 XP </Button></Grid>
-            </Grid>) : <></>} */}
+            </Grid>) : <></>}
 
 
     </>)
