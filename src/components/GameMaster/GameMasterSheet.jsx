@@ -113,20 +113,26 @@ export default function GameMasterSheet() {
 
 
         {selectedSheet === 'GM' ? (<>
-            <GameMasterMain 
-            charDetail={charDetail} 
-            campaignList={campaignList} 
-            setCharDetail={setCharDetail} 
-            setPageAlert={setPageAlert}
-            loading={loading}
-            setLoading={setLoading}
+            <GameMasterMain
+                charDetail={charDetail}
+                campaignList={campaignList}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
             />
         </>) : <> </>}
 
-        {/* {selectedSheet === 'attributes' ? (<>
-            <GameMasterAttributes />
+        {selectedSheet === 'attributes' ? (<>
+            <GameMasterAttributes
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+            />
         </>) : <> </>}
-
+        {/* 
         {selectedSheet === 'skills' ? (<>
             <GameMasterSkills />
         </>) : <> </>}

@@ -26,6 +26,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
     const [handle, setHandle] = useState(charDetail.handle);
     const changeHandle = async (newHandle) => {
+        setLoading(true);
         const handleObj = {
             handle: newHandle,
             charID: charDetail.id
@@ -38,6 +39,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                     ...charDetail,
                     handle: newHandle,
                 });
+                setLoading(false);
             } else {
                 chuckError();
             }
@@ -49,6 +51,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
     const [player, setPlayer] = useState(charDetail.player);
     const changePlayer = async (newPlayer) => {
+        setLoading(true);
         const playerObj = {
             player: newPlayer,
             charID: charDetail.id,
@@ -61,6 +64,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                     ...charDetail,
                     player: newPlayer
                 });
+                setLoading(false);
             } else {
                 chuckError();
             }
@@ -71,6 +75,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
     }
 
     const changeCampaign = async (campaign_id) => {
+        setLoading(true);
         const campaignObj = {
             campaign_id,
             charID: charDetail.id
@@ -84,6 +89,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                     ...charDetail,
                     campaign_name: campaignList.filter((campaign) => campaign.campaign_id === campaign_id)[0].campaign_name
                 });
+                setLoading(false);
             } else {
                 chuckError();
             }
@@ -95,6 +101,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
     const changeHumanity = async (type, amount) => {
         if (verifyHumanityChange(type, amount)) {
+            setLoading(true);
             try {
                 if (type === 'temp') {
                     const humanityObj = {
@@ -106,7 +113,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                         setCharDetail({
                             ...charDetail,
                             temp_humanity_loss: charDetail.temp_humanity_loss + amount
-                        })
+                        });
+                        setLoading(false);
                     } else {
                         chuckError();
                     }
@@ -120,7 +128,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                         setCharDetail({
                             ...charDetail,
                             perm_humanity_loss: charDetail.perm_humanity_loss + amount
-                        })
+                        });
+                        setLoading(false);
                     } else {
                         chuckError();
                     }
@@ -133,6 +142,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             }
         } else {
             setPageAlert({ open: true, message: 'TOO MUCH', severity: 'error' })
+            setLoading(false);
         }
     }
 
@@ -150,6 +160,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
 
     const changeBank = async (amount) => {
         if (charDetail.bank + amount >= 0) {
+            setLoading(true);
             const bankObj = {
                 charID: charDetail.id,
                 bank: charDetail.bank + amount
@@ -160,7 +171,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                     setCharDetail({
                         ...charDetail,
                         bank: charDetail.bank + amount
-                    })
+                    });
+                    setLoading(false);
                 } else {
                     chuckError();
                 }
@@ -170,15 +182,18 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             }
         } else {
             setPageAlert({ open: true, message: 'Players cannot have negative money', severity: 'error' })
+            setLoading(false);
         }
     }
 
     const chuckError = () => {
-        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' })
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        setLoading(false);
     }
 
     const changeXP = async (amount) => {
         if (charDetail.max_xp + amount >= charDetail.spent_xp) {
+            setLoading(true);
             const XPObj = {
                 max_xp: charDetail.max_xp + amount,
                 charID: charDetail.id,
@@ -189,7 +204,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                     setCharDetail({
                         ...charDetail,
                         max_xp: charDetail.max_xp + amount
-                    })
+                    });
+                    setLoading(false);
                 } else {
                     chuckError();
                 }
@@ -209,16 +225,17 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         <Grid container paddingTop={3} spacing={1} alignItems="center">
 
             <Grid item xs={3} textAlign={'center'}>Handle: {charDetail.handle}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
-            <Grid item xs={2}><Button onClick={() => changeHandle(handle)}>Save</Button></Grid>
+            <Grid item xs={3}><TextField disabled={loading} fullWidth variant='standard' label='Change Handle' value={handle || ''} onChange={(event) => { setHandle(event.target.value) }} /></Grid>
+            <Grid item xs={2}><Button disabled={loading} onClick={() => changeHandle(handle)}>Save</Button></Grid>
             <Grid item xs={3} textAlign={'center'}>Player: {charDetail.player}</Grid>
-            <Grid item xs={3}><TextField fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
-            <Grid item xs={2}><Button onClick={() => changePlayer(player)}>Save</Button></Grid>
+            <Grid item xs={3}><TextField disabled={loading} fullWidth variant='standard' label='Change Player' value={player || ''} onChange={(event) => { setPlayer(event.target.value) }} /></Grid>
+            <Grid item xs={2}><Button disabled={loading} onClick={() => changePlayer(player)}>Save</Button></Grid>
             <Grid item xs={6} textAlign={'center'}>Campaign: {charDetail.campaign_name}</Grid>
             <Grid item xs={6}>
                 <FormControl fullWidth>
                     <InputLabel>Change Campaign</InputLabel>
                     <Select
+                        disabled={loading}
                         value={selectedCampaign}
                         fullWidth
                         label='Change Campaign'
@@ -246,7 +263,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                 </Grid>
             </>) : (<>
                 <Grid item xs={12} padding={3} display={'flex'} justifyContent={'center'}>
-                    <Button variant='contained' fullWidth color='error' onClick={() => deleteCharacter()}>Delete Character</Button>
+                    <Button disabled={loading} variant='contained' fullWidth color='error' onClick={() => deleteCharacter()}>Delete Character</Button>
                 </Grid>
             </>)}
 
@@ -258,10 +275,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             <Grid item xs={4} textAlign={'center'}>Current Total Humanity Loss: {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Permanent Humanity Loss: {charDetail.perm_humanity_loss}</Grid>
             <Grid item xs={4} textAlign={'center'}>Current Temporary Humanity Loss: {charDetail.temp_humanity_loss}</Grid>
-            <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -1)}>Restore 1 Temp Humanity</Button></Grid>
-            <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -5)}>Restore 5 Temp Humanity</Button></Grid>
-            <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 1)}>Remove 1 Temp Humanity</Button></Grid>
-            <Grid item xs={3} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 5)}>Remove 5 Temp Humanity</Button></Grid>
+            <Grid item xs={3} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -1)}>Restore 1 Temp Humanity</Button></Grid>
+            <Grid item xs={3} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeHumanity('temp', -5)}>Restore 5 Temp Humanity</Button></Grid>
+            <Grid item xs={3} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 1)}>Remove 1 Temp Humanity</Button></Grid>
+            <Grid item xs={3} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeHumanity('temp', 5)}>Remove 5 Temp Humanity</Button></Grid>
             <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
                 <FormGroup sx={{ position: 'flex', alignItems: 'center' }} >
                     <FormControlLabel control={<Switch
@@ -270,8 +287,8 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                 </FormGroup>
             </Grid>
             {allowPermHumanityChange ? (<>
-                <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeHumanity('perm', -1)}>Restore 1 Permanent Humanity</Button></Grid>
-                <Grid item xs={6} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeHumanity('perm', 1)}>Remove 1 Permanent Humanity</Button></Grid>
+                <Grid item xs={6} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeHumanity('perm', -1)}>Restore 1 Permanent Humanity</Button></Grid>
+                <Grid item xs={6} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeHumanity('perm', 1)}>Remove 1 Permanent Humanity</Button></Grid>
             </>) : (<></>)}
 
         </Grid>
@@ -279,18 +296,18 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
         <Grid item xs={12} textAlign={'center'}><h1>Money</h1></Grid>
         {charDetail.bank >= 0 ? (<Grid container spacing={2} alignContent={'center'}>
             <Grid item xs={12} textAlign={'center'}>Current Cash on Hand: {euroBuck}{charDetail.bank.toLocaleString()}</Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(10)}>Add $10 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(100)}>Add $100 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-1)}>Deduct $1 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-10)}>Deduct $10 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-100)}>Deduct $100 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(1000)}>Add $1,000 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(5000)}>Add $5,000 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeBank(10000)}>Add $10,000 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-1000)}>Deduct $1,000 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-5000)}>Deduct $5,000 </Button></Grid>
-            <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeBank(-10000)}>Deduct $10,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(1)}>Add $1 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(10)}>Add $10 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(100)}>Add $100 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-1)}>Deduct $1 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-10)}>Deduct $10 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-100)}>Deduct $100 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(1000)}>Add $1,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(5000)}>Add $5,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeBank(10000)}>Add $10,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-1000)}>Deduct $1,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-5000)}>Deduct $5,000 </Button></Grid>
+            <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeBank(-10000)}>Deduct $10,000 </Button></Grid>
         </Grid>) : <></>}
 
         <Grid item xs={12} textAlign={'center'}><h1>Experience</h1></Grid>
@@ -299,12 +316,12 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
                 <Grid item xs={4} textAlign={'center'}>Current XP: {charDetail.max_xp}</Grid>
                 <Grid item xs={4} textAlign={'center'}>Spent XP: {charDetail.spent_xp}</Grid>
                 <Grid item xs={4} textAlign={'center'}>Available XP: {charDetail.max_xp - charDetail.spent_xp}</Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeXP(1)}>Add 1 XP </Button></Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeXP(5)}>Add 5 XP </Button></Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='success' onClick={() => changeXP(10)}>Add 10 XP </Button></Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-1)}>Remove 1 XP </Button></Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-5)}>Remove 5 XP </Button></Grid>
-                <Grid item xs={2} textAlign={'center'}><Button fullWidth variant='contained' color='error' onClick={() => changeXP(-10)}>Remove 10 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeXP(1)}>Add 1 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeXP(5)}>Add 5 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='success' onClick={() => changeXP(10)}>Add 10 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeXP(-1)}>Remove 1 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeXP(-5)}>Remove 5 XP </Button></Grid>
+                <Grid item xs={2} textAlign={'center'}><Button disabled={loading} fullWidth variant='contained' color='error' onClick={() => changeXP(-10)}>Remove 10 XP </Button></Grid>
             </Grid>) : <></>}
 
 
