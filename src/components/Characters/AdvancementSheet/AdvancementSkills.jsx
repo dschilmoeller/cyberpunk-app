@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Item from '../CharacterSheet/Item';
 
 import SkillsDialog from '../../Modals/SkillsDialog';
-import SkillSet from '../../../utils/objects/objects.utils';
+import {SkillSet} from '../../../utils/objects/objects.utils';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 

@@ -41,4 +41,40 @@ const SkillSet = {
     ]
 }
 
-export default SkillSet
+const AttributesObj = {
+    // name, organic maximum
+    physical: [
+        ['strength', 5],
+        ['body', 5],
+        ['reflexes'],
+    ],
+    social: [
+        ['appearance', 5],
+        ['cool', 5],
+        ['street cred'],
+    ],
+    mental: [
+        ['intelligence', 5],
+        ['willpower', 10],
+        ['technique', 10],
+    ],
+    special: [
+        ['luck', 10]
+    ]
+}
+
+const AttributesArr = [
+    // name, organic maximum, cyber version OR database appearance
+        ['strength', 5, 'cyber_strength'],
+        ['body', 5, 'cyber_body'],
+        ['reflexes', 5, 'cyber_reflexes'],
+        ['appearance', 5, 'cyber_appearance'],
+        ['cool', 5, 'cyber_cool'],
+        ['street cred', 10, 'street_cred'],
+        ['intelligence', 5, 'cyber_intelligence'],
+        ['willpower', 10],
+        ['technique', 10],
+        ['luck', 10, 'max_luck']
+]
+
+export { SkillSet, AttributesObj, AttributesArr }

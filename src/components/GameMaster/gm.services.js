@@ -24,8 +24,8 @@ const fetchCampaignListRequest = async () => {
             .catch((error) => {
                 console.error('Error fetching Campaign List:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const fetchCharacterDetailsRequest = async (characterID) => {
@@ -38,8 +38,8 @@ const fetchCharacterDetailsRequest = async (characterID) => {
             .catch((error) => {
                 console.error('Error fetching GM Char Details:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const changeCharacterHandle = async (handleObj) => {
@@ -66,8 +66,8 @@ const changeCharacterPlayer = async (playerObj) => {
             .catch((error) => {
                 console.error('Error changing character player:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const changeCharacterCampaign = async (campaignObj) => {
@@ -94,8 +94,8 @@ const changeTempCharacterHumanity = async (humanityObj) => {
             .catch((error) => {
                 console.error('Error changing Temp humanity:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const changePermCharacterHumanity = async (humanityObj) => {
@@ -108,8 +108,8 @@ const changePermCharacterHumanity = async (humanityObj) => {
             .catch((error) => {
                 console.error('Error changing permanent humanity:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const changeCharacterBank = async (bankObj) => {
@@ -122,8 +122,8 @@ const changeCharacterBank = async (bankObj) => {
             .catch((error) => {
                 console.error('Error changing bank:', error);
                 reject(error);
-            })
-    })
+            });
+    });
 }
 
 const changeCharacterXP = async (XPObj) => {
@@ -136,8 +136,22 @@ const changeCharacterXP = async (XPObj) => {
             .catch((error) => {
                 console.error('Error changing XP:', error);
                 reject(error);
-            })
-    })
+            });
+    });
+}
+
+const changeCharacterAttribute = async (attributeObj) => {
+    return new Promise((resolve, reject) => {
+        axios
+        .post('/api/gamemaster/changeAttribute', attributeObj)
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((error) => {
+            console.error('Error changing attribute:', error);
+            reject(error);
+        });
+    });
 }
 
 export {
@@ -151,4 +165,6 @@ export {
     changePermCharacterHumanity,
     changeCharacterBank,
     changeCharacterXP,
+    changeCharacterAttribute,
+
 }

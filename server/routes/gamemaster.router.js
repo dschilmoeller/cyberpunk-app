@@ -180,4 +180,40 @@ router.post('/changeXP', rejectNonAdmin, (req, res) => {
         });
 })
 
+router.post('/changeAttribute', rejectNonAdmin, (req, res) => {
+
+    let columnName = '';
+    switch (req.body.attribute) {
+        case 'strength':
+        case 'body':
+        case 'reflexes':
+        case 'appearance':
+        case 'cool':
+        case 'street_cred':
+        case 'intelligence':
+        case 'willpower':
+        case 'technique':
+        case 'max_luck':
+            columnName = req.body.attribute
+            break;
+        default:
+            break;
+    }
+    const sqlText = `
+    UPDATE "character" SET "${columnName}" = $1 WHERE "id" = $2`
+    const sqlParams = [req.body.newScore, req.body.charID]
+    pool.query(sqlText, sqlParams)
+        .then((result) => {
+            if (result.rowCount > 0) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+        .catch((err) => {
+            console.error('Error changing attribute:', err);
+            res.sendStatus(400);
+        });
+})
+
 module.exports = router

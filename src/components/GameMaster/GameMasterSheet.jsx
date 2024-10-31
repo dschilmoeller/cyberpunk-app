@@ -64,6 +64,11 @@ export default function GameMasterSheet() {
         }
     }
 
+    const chuckError = () => {
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        setLoading(false);
+    }
+
     useEffect(() => {
         fetchCampaigns();
         fetchCharacterDetails();
@@ -120,6 +125,7 @@ export default function GameMasterSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
+                chuckError={chuckError}
             />
         </>) : <> </>}
 
@@ -130,6 +136,7 @@ export default function GameMasterSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
+                chuckError={chuckError}
             />
         </>) : <> </>}
         {/* 

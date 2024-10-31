@@ -15,7 +15,7 @@ import {
     changeCharacterXP,
 } from './gm.services';
 
-export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
+export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
     const history = useHistory();
 
     const euroBuck = `\u20AC$`
@@ -184,11 +184,6 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             setPageAlert({ open: true, message: 'Players cannot have negative money', severity: 'error' })
             setLoading(false);
         }
-    }
-
-    const chuckError = () => {
-        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
-        setLoading(false);
     }
 
     const changeXP = async (amount) => {
