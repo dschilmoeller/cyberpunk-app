@@ -58,6 +58,7 @@ export default function GameMasterAttributes({
   };
 
   const changeAttribute = async (attribute, max, change) => {
+    setLoading(true);
     const fixedAtt = attributeFixer(attribute);
     // is attribute to be changed + change less than maximum & >0
     if (
@@ -69,6 +70,7 @@ export default function GameMasterAttributes({
         message: 'Task Failed Successfully',
         severity: 'error',
       });
+      setLoading(false);
     } else {
       try {
         let attributeObj = {
@@ -122,6 +124,7 @@ export default function GameMasterAttributes({
               <Grid xs={3} item>
                 <Item>
                   <Button
+                    disabled={loading}
                     variant="contained"
                     color="success"
                     onClick={() => changeAttribute(stat[0], stat[1], 1)}
@@ -133,6 +136,7 @@ export default function GameMasterAttributes({
               <Grid xs={3} item>
                 <Item>
                   <Button
+                    disabled={loading}
                     variant="contained"
                     color="error"
                     onClick={() => changeAttribute(stat[0], stat[1], -1)}

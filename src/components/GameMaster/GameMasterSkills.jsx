@@ -41,6 +41,7 @@ export default function GameMasterSkills({
   };
 
   const changeSkill = async (skillName, change) => {
+    setLoading(true);
     const skillObj = {
       charID: charDetail.id,
       skillName,
@@ -65,6 +66,7 @@ export default function GameMasterSkills({
             message: 'Task Failed Successfully',
             severity: 'error',
           });
+          setLoading(false);
         }
       } catch (error) {
         chuckError();
@@ -76,6 +78,7 @@ export default function GameMasterSkills({
   };
 
   const changeIsParamed = async (change) => {
+    setLoading(true);
     const paraObj = {
       charID: charDetail.id,
       skillName: 'is_paramedical',
@@ -95,6 +98,7 @@ export default function GameMasterSkills({
           message: 'Task Failed Successfully',
           severity: 'error',
         });
+        setLoading(false);
       }
     } catch (error) {
       chuckError();
