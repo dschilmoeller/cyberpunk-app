@@ -17,7 +17,7 @@ import Tab from '@mui/material/Tab';
 import GameMasterMain from './GameMasterMain';
 import GameMasterAttributes from './GameMasterAttributes';
 import GameMasterSkills from './GameMasterSkills';
-// import GameMasterRoles from './GameMasterRoles';
+import GameMasterRoles from './GameMasterRoles';
 // import GameMasterOwnedGear from './GameMasterOwnedGear';
 // import GameMasterGiveGear from './GameMasterGiveGear';
 // import GameMasterCharContacts from './GameMasterCharContacts';
@@ -186,9 +186,20 @@ export default function GameMasterSheet() {
         <> </>
       )}
 
-      {/* {selectedSheet === 'role' ? (<>
-            <GameMasterRoles />
-        </>) : <> </>} */}
+      {selectedSheet === 'role' ? (
+        <>
+          <GameMasterRoles
+            charDetail={charDetail}
+            setCharDetail={setCharDetail}
+            setPageAlert={setPageAlert}
+            loading={loading}
+            setLoading={setLoading}
+            chuckError={chuckError}
+          />
+        </>
+      ) : (
+        <> </>
+      )}
 
       {/* {selectedSheet === 'gear' ? (<>
             <GameMasterOwnedGear />

@@ -6,8 +6,7 @@ import Item from '../Characters/CharacterSheet/Item';
 
 import SkillsDialog from '../Modals/SkillsDialog';
 
-import CircleIcon from '@mui/icons-material/Circle';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import { dotReturn } from '../../utils/funcs/funcs';
 
 import { SkillSet } from '../../utils/objects/objects.utils';
 // import { capitalizer } from '../../utils/funcs/funcs';
@@ -21,25 +20,6 @@ export default function GameMasterSkills({
   setLoading,
   chuckError,
 }) {
-  // const charDetail = useSelector(store => store.advancementDetail)
-
-  const fullCircle = <CircleIcon />;
-  const emptyCircle = <CircleOutlinedIcon />;
-
-  const attDotReturn = (attribute) => {
-    let returnedDots = [];
-    for (let i = 0; i < attribute; i++) {
-      returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>);
-    }
-    let j = attribute;
-    for (j; j <= 4; j++) {
-      returnedDots.push(
-        <React.Fragment key={j + 5}>{emptyCircle}</React.Fragment>
-      );
-    }
-    return returnedDots;
-  };
-
   const changeSkill = async (skillName, change) => {
     setLoading(true);
     const skillObj = {
@@ -125,7 +105,7 @@ export default function GameMasterSkills({
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
-                    <Item>{attDotReturn(charDetail[skill[0]])}</Item>
+                    <Item>{dotReturn(charDetail[skill[0]], 5)}</Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
@@ -169,7 +149,7 @@ export default function GameMasterSkills({
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
-                    <Item>{attDotReturn(charDetail[skill[0]])}</Item>
+                    <Item>{dotReturn(charDetail[skill[0]], 5)}</Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
@@ -213,7 +193,7 @@ export default function GameMasterSkills({
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
-                    <Item>{attDotReturn(charDetail[skill[0]])}</Item>
+                    <Item>{dotReturn(charDetail[skill[0]], 5)}</Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
@@ -278,7 +258,7 @@ export default function GameMasterSkills({
                   </Item>
                 </Grid>
                 <Grid xs={3} item>
-                  <Item>{attDotReturn(charDetail.paramed)}</Item>
+                  <Item>{dotReturn(charDetail.paramed, 5)}</Item>
                 </Grid>
                 <Grid xs={3} item>
                   <Item>
@@ -313,7 +293,7 @@ export default function GameMasterSkills({
                   </Item>
                 </Grid>
                 <Grid xs={3} item>
-                  <Item>{attDotReturn(charDetail.first_aid)}</Item>
+                  <Item>{dotReturn(charDetail.first_aid, 5)}</Item>
                 </Grid>
                 <Grid xs={3} item>
                   <Item>

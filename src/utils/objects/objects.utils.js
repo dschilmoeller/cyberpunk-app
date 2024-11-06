@@ -67,4 +67,28 @@ const AttributesArr = [
   ['luck', 10, 'max_luck'],
 ];
 
-export { SkillSet, AttributesObj, AttributesArr };
+const Roles = [
+  ['rockerboy'],
+  ['solo'],
+  ['netrunner'],
+  ['nomad'],
+  ['media'],
+  ['medtech'],
+  ['maker'],
+];
+
+const RoleSkills = {
+  medtech: [
+    ['med_surgery', 'Surgery', 5],
+    ['med_pharma', 'Pharmaceuticals', 5],
+    ['med_cryo', 'Cryogenics', 5],
+  ],
+  maker: [
+    ['maker_field', 'Field Expertise', 10],
+    ['maker_upgrade', 'Upgrade Expertise', 10],
+    ['maker_fab', 'Fabrication', 10],
+    ['maker_invent', 'Invention', 10],
+  ],
+};
+
+export { SkillSet, AttributesObj, AttributesArr, Roles, RoleSkills };
