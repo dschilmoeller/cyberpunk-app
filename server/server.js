@@ -12,7 +12,7 @@ const userRouter = require('./routes/user.router');
 const characterRouter = require('./routes/character.router');
 const gearRouter = require('./routes/gear.router');
 const advancementRouter = require('./routes/advancement.router');
-const gamemasterRouter = require('./routes/gamemaster.router')
+const gamemasterRouter = require('./routes/gamemaster.router');
 
 // Body parser middleware
 app.use(bodyParser.json());

@@ -9,88 +9,127 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 function Luck(charDetailProp) {
-    const charDetailLuck = charDetailProp.charDetailProp.max_luck
-    const charStatus = useSelector(store => store.characterStatus)
-    const loadStatus = useSelector(store => store.loaders.inPlaySheet)
+  const charDetailLuck = charDetailProp.charDetailProp.max_luck;
+  const charStatus = useSelector((store) => store.characterStatus);
+  const loadStatus = useSelector((store) => store.loaders.inPlaySheet);
 
-    const dispatch = useDispatch();
-    const unhurtMarker = <CircleOutlinedIcon />;
-    const aggMarker = <AcUnitIcon />;
+  const dispatch = useDispatch();
+  const unhurtMarker = <CircleOutlinedIcon />;
+  const aggMarker = <AcUnitIcon />;
 
-    const luckDamageBuilder = (usedLuck) => {
-        let usedLuckArray = []
-        for (let i = 0; i < usedLuck; i++) {
-            usedLuckArray.push(aggMarker)
-        }
-        if (usedLuckArray.length < charDetailLuck) {
-            let remainder = charDetailLuck - usedLuck
-            for (let i = 0; i < remainder; i++) {
-                usedLuckArray.push(unhurtMarker)
-            }
-        }
-        return usedLuckArray
+  const luckDamageBuilder = (usedLuck) => {
+    let usedLuckArray = [];
+    for (let i = 0; i < usedLuck; i++) {
+      usedLuckArray.push(aggMarker);
     }
-
-    const luckBuilder = () => {
-        let luckBoxes = []
-        let luckArray = luckDamageBuilder(charStatus.current_luck_loss)
-        for (let i = 0; i < charDetailLuck; i++) {
-            let luckStatus
-            if (luckArray[i] === unhurtMarker) {
-                luckStatus = 'lucky'
-            } else if (luckArray[i] === aggMarker) {
-                luckStatus = 'noDice'
-            }
-
-            luckBoxes.push(
-                <React.Fragment key={i}>
-                    <Grid item xs={2.4}><Item>{luckArray[i]}</Item></Grid>
-                </React.Fragment>
-            )
-        }
-        return luckBoxes
+    if (usedLuckArray.length < charDetailLuck) {
+      let remainder = charDetailLuck - usedLuck;
+      for (let i = 0; i < remainder; i++) {
+        usedLuckArray.push(unhurtMarker);
+      }
     }
+    return usedLuckArray;
+  };
 
-    const useOneLuck = () => {
-        if (charStatus.current_luck_loss < charDetailLuck) {
-            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
-            dispatch({ type: 'CHANGE_CHARACTER_LUCK', payload: {charStatusID: charStatus.char_status_id, newCurrentLuckLoss: charStatus.current_luck_loss + 1}})
-        } else {
-            console.log(`You're out of luck!`);
-        }
+  const luckBuilder = () => {
+    let luckBoxes = [];
+    let luckArray = luckDamageBuilder(charStatus.current_luck_loss);
+    for (let i = 0; i < charDetailLuck; i++) {
+      let luckStatus;
+      if (luckArray[i] === unhurtMarker) {
+        luckStatus = 'lucky';
+      } else if (luckArray[i] === aggMarker) {
+        luckStatus = 'noDice';
+      }
+
+      luckBoxes.push(
+        <React.Fragment key={i}>
+          <Grid item xs={2.4}>
+            <Item>{luckArray[i]}</Item>
+          </Grid>
+        </React.Fragment>
+      );
     }
+    return luckBoxes;
+  };
 
-    const recoverOneLuck = () => {
-        if (charStatus.current_luck_loss > 0) {
-            dispatch({ type: "SET_CHARSHEET_LOAD_STATUS", payload: true})
-            dispatch({ type: 'CHANGE_CHARACTER_LUCK', payload: {charStatusID: charStatus.char_status_id, newCurrentLuckLoss: charStatus.current_luck_loss - 1}})
-        } else {
-            console.log(`You're full up!`);
-        }
-
+  const useOneLuck = () => {
+    if (charStatus.current_luck_loss < charDetailLuck) {
+      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
+      dispatch({
+        type: 'CHANGE_CHARACTER_LUCK',
+        payload: {
+          charStatusID: charStatus.char_status_id,
+          newCurrentLuckLoss: charStatus.current_luck_loss + 1,
+        },
+      });
+    } else {
+      console.log(`You're out of luck!`);
     }
+  };
 
-    return (
-        <>
-            <Item><OtherAttributesDialog prop={'Luck'} /></Item>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Item>
-                        <Button  variant={loadStatus === false ? 'contained' : 'disabled'} fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} color='secondary' onClick={() => useOneLuck()} >Use Luck</Button>
-                    </Item>
-                </Grid>
-                <Grid item xs={6}>
-                    <Item>
-                        <Button  variant={loadStatus === false ? 'contained' : 'disabled'} fullWidth sx={{lineHeight: 1, height: '125%', fontSize: {xs: '0.6em', md: '0.9em'}}} color='primary' onClick={() => recoverOneLuck()}>Recover Luck</Button>
-                    </Item>
-                </Grid>
-                <Grid container>
-                    {luckBuilder()}
-                </Grid>
-                <Grid item xs={12}><Item sx={{opacity:0}}></Item></Grid>
-            </Grid>
-        </>
-    )
+  const recoverOneLuck = () => {
+    if (charStatus.current_luck_loss > 0) {
+      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
+      dispatch({
+        type: 'CHANGE_CHARACTER_LUCK',
+        payload: {
+          charStatusID: charStatus.char_status_id,
+          newCurrentLuckLoss: charStatus.current_luck_loss - 1,
+        },
+      });
+    } else {
+      console.log(`You're full up!`);
+    }
+  };
+
+  return (
+    <>
+      <Item>
+        <OtherAttributesDialog prop={'Luck'} />
+      </Item>
+      <Grid container>
+        <Grid item xs={6}>
+          <Item>
+            <Button
+              variant={loadStatus === false ? 'contained' : 'disabled'}
+              fullWidth
+              sx={{
+                lineHeight: 1,
+                height: '125%',
+                fontSize: { xs: '0.6em', md: '0.9em' },
+              }}
+              color="secondary"
+              onClick={() => useOneLuck()}
+            >
+              Use Luck
+            </Button>
+          </Item>
+        </Grid>
+        <Grid item xs={6}>
+          <Item>
+            <Button
+              variant={loadStatus === false ? 'contained' : 'disabled'}
+              fullWidth
+              sx={{
+                lineHeight: 1,
+                height: '125%',
+                fontSize: { xs: '0.6em', md: '0.9em' },
+              }}
+              color="primary"
+              onClick={() => recoverOneLuck()}
+            >
+              Recover Luck
+            </Button>
+          </Item>
+        </Grid>
+        <Grid container>{luckBuilder()}</Grid>
+        <Grid item xs={12}>
+          <Item sx={{ opacity: 0 }}></Item>
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
 export default Luck;

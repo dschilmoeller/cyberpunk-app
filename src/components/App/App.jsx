@@ -36,7 +36,7 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -45,11 +45,11 @@ function App() {
   return (
     <Router>
       <div>
-        <div className='navBarLock'>
+        <div className="navBarLock">
           <Nav />
         </div>
 
-        <div className='contentPadder'>
+        <div className="contentPadder">
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/login" />
@@ -83,114 +83,79 @@ function App() {
               <RuleBook />
             </ProtectedRoute>
 
-            <Route
-              exact
-              path="/login"
-            >
-              {user.id ?
-                // If the user is already logged in, 
+            <Route exact path="/login">
+              {user.id ? (
+                // If the user is already logged in,
                 // redirect to the /user page
                 <Redirect to="/user" />
-                :
+              ) : (
                 // Otherwise, show the login page
                 <LoginPage />
-              }
+              )}
             </Route>
 
-            <Route
-              exact
-              path="/registration"
-            >
-              {user.id ?
-                // If the user is already logged in, 
+            <Route exact path="/registration">
+              {user.id ? (
+                // If the user is already logged in,
                 // redirect them to the /user page
                 <Redirect to="/user" />
-                :
+              ) : (
                 // Otherwise, show the registration page
                 <RegisterPage />
-              }
+              )}
             </Route>
 
-            <ProtectedRoute
-              exact
-              path="/characterlist"
-            >
+            <ProtectedRoute exact path="/characterlist">
               <CharacterList />
             </ProtectedRoute>
             {/* in play version, can edit health, luck, and other temp features */}
-            <ProtectedRoute
-              exact
-              path="/charactersheet/:id"
-            >
+            <ProtectedRoute exact path="/charactersheet/:id">
               <CharacterSheet />
             </ProtectedRoute>
 
             {/* detailed version, able to spend XP and change sheet generally */}
-            <ProtectedRoute
-              exact
-              path="/advancementsheet/:id"
-            >
+            <ProtectedRoute exact path="/advancementsheet/:id">
               <AdvancementSheet />
             </ProtectedRoute>
 
             {/* detailed gear equip, repair, attach mods, etc. area */}
-            <ProtectedRoute
-              exact
-              path="/equipsheet/:id">
-                <EquipSheet />
-              </ProtectedRoute>
+            <ProtectedRoute exact path="/equipsheet/:id">
+              <EquipSheet />
+            </ProtectedRoute>
 
             {/* shopping area */}
-            <ProtectedRoute
-              exact
-              path="/shopsheet/:id"
-            >
+            <ProtectedRoute exact path="/shopsheet/:id">
               <ShoppingSheet />
             </ProtectedRoute>
 
             {/* character creation */}
-            <ProtectedRoute
-              exact
-              path="/charcreation/"
-            >
+            <ProtectedRoute exact path="/charcreation/">
               <Creation />
             </ProtectedRoute>
 
             {/* GM Page */}
-            <ProtectedRoute
-              exact
-              path="/gamemaster/"
-            >
+            <ProtectedRoute exact path="/gamemaster/">
               <GameMasterLanding />
             </ProtectedRoute>
 
             {/* GM Individual Character Details Page */}
-            <ProtectedRoute
-              exact
-              path="/gamemastersheet/:id"
-            >
+            <ProtectedRoute exact path="/gamemastersheet/:id">
               <GameMasterSheet />
             </ProtectedRoute>
 
-            <ProtectedRoute
-              exact
-              path="/gamemastercontacts"
-            >
+            <ProtectedRoute exact path="/gamemastercontacts">
               <GameMasterContacts />
             </ProtectedRoute>
 
-            <Route
-              exact
-              path="/home"
-            >
-              {user.id ?
-                // If the user is already logged in, 
+            <Route exact path="/home">
+              {user.id ? (
+                // If the user is already logged in,
                 // redirect them to the /user page
                 <Redirect to="/user" />
-                :
+              ) : (
                 // Otherwise, show the Landing page
                 <LandingPage />
-              }
+              )}
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}

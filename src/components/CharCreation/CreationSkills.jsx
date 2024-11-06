@@ -15,219 +15,343 @@ import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 
 function TransitionUp(props) {
-    return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="up" />;
 }
 
 function CreationSkills() {
+  const fulldot = <CircleIcon />;
+  const emptydot = <CircleOutlinedIcon />;
 
-    const fulldot = <CircleIcon />
-    const emptydot = <CircleOutlinedIcon />
+  const dispatch = useDispatch();
+  const charDetail = useSelector((store) => store.characterCreation);
+  const creationReviewReached = useSelector(
+    (store) => store.characterCreation.creationReviewReached
+  );
 
-    const dispatch = useDispatch();
-    const charDetail = useSelector(store => store.characterCreation)
-    const creationReviewReached = useSelector(store => store.characterCreation.creationReviewReached)
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
-    const [showSnackbar, setShowSnackbar] = React.useState(false);
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
+  const [skillArray, setSkillArray] = useState([]);
 
-    const [skillArray, setSkillArray] = useState([])
+  useEffect(() => {
+    setSkillArray([
+      { skillName: 'Athletics', value: charDetail.athletics },
+      { skillName: 'Demolitions', value: charDetail.demolitions },
+      { skillName: 'Business', value: charDetail.business },
+      { skillName: 'Brawling', value: charDetail.brawling },
+      {
+        skillName: 'Drive Land Vehicle',
+        skillDataName: 'driveLand',
+        value: charDetail.driveLand,
+      },
+      { skillName: 'Cryptography', value: charDetail.cryptography },
+      { skillName: 'Concentration', value: charDetail.concentration },
+      {
+        skillName: 'Drive Exotic Vehicle',
+        skillDataName: 'driveExotic',
+        value: charDetail.driveExotic,
+      },
+      {
+        skillName: 'Cyber Tech',
+        skillDataName: 'cyberTech',
+        value: charDetail.cyberTech,
+      },
+      { skillName: 'Evasion', value: charDetail.evasion },
+      { skillName: 'Etiquette', value: charDetail.etiquette },
+      { skillName: 'Investigation', value: charDetail.investigation },
+      {
+        skillName: 'Fast Talk',
+        skillDataName: 'fastTalk',
+        value: charDetail.fastTalk,
+      },
+      {
+        skillName: 'Heavy Weapons',
+        skillDataName: 'heavyWeapons',
+        value: charDetail.heavyWeapons,
+      },
+      {
+        skillName: 'First Aid',
+        skillDataName: 'firstAid',
+        value: charDetail.firstAid,
+      },
+      { skillName: 'Firearms', value: charDetail.firearms },
+      {
+        skillName: 'Exotic Weapons',
+        skillDataName: 'exoticWeapons',
+        value: charDetail.exoticWeapons,
+      },
+      { skillName: 'Gambling', value: charDetail.gambling },
+      { skillName: 'Legerdemain', value: charDetail.legerdemain },
+      { skillName: 'Performance', value: charDetail.performance },
+      { skillName: 'Language', value: charDetail.language },
+      {
+        skillName: 'Melee Weapons',
+        skillDataName: 'meleeWeapons',
+        value: charDetail.meleeWeapons,
+      },
+      { skillName: 'Stealth', value: charDetail.stealth },
+      {
+        skillName: 'Military Tech',
+        skillDataName: 'militaryTech',
+        value: charDetail.militaryTech,
+      },
+      { skillName: 'Perception', value: charDetail.perception },
+      { skillName: 'Survival', value: charDetail.survival },
+      { skillName: 'Science', value: charDetail.science },
+      { skillName: 'Streetwise', value: charDetail.streetwise },
+      { skillName: 'Tracking', value: charDetail.tracking },
+      {
+        skillName: 'Vehicle Tech',
+        skillDataName: 'vehicleTech',
+        value: charDetail.vehicleTech,
+      },
+    ]);
+    setSkillSelectionOrder(charDetail.skillSelectionHistory);
+    setSkillNumber(charDetail.skillNumber);
+    setSkillCounter(charDetail.skillCounter);
+  }, [charDetail]);
 
-    useEffect(() => {
-        setSkillArray([
-            { skillName: 'Athletics', value: charDetail.athletics },
-            { skillName: 'Demolitions', value: charDetail.demolitions },
-            { skillName: 'Business', value: charDetail.business },
-            { skillName: 'Brawling', value: charDetail.brawling },
-            { skillName: 'Drive Land Vehicle', skillDataName: 'driveLand', value: charDetail.driveLand },
-            { skillName: 'Cryptography', value: charDetail.cryptography },
-            { skillName: 'Concentration', value: charDetail.concentration },
-            { skillName: 'Drive Exotic Vehicle', skillDataName: 'driveExotic', value: charDetail.driveExotic },
-            { skillName: 'Cyber Tech', skillDataName: 'cyberTech', value: charDetail.cyberTech },
-            { skillName: 'Evasion', value: charDetail.evasion },
-            { skillName: 'Etiquette', value: charDetail.etiquette },
-            { skillName: 'Investigation', value: charDetail.investigation },
-            { skillName: 'Fast Talk', skillDataName: 'fastTalk', value: charDetail.fastTalk },
-            { skillName: 'Heavy Weapons', skillDataName: 'heavyWeapons', value: charDetail.heavyWeapons },
-            { skillName: 'First Aid', skillDataName: 'firstAid', value: charDetail.firstAid },
-            { skillName: 'Firearms', value: charDetail.firearms },
-            { skillName: 'Exotic Weapons', skillDataName: 'exoticWeapons', value: charDetail.exoticWeapons },
-            { skillName: 'Gambling', value: charDetail.gambling },
-            { skillName: 'Legerdemain', value: charDetail.legerdemain },
-            { skillName: 'Performance', value: charDetail.performance },
-            { skillName: 'Language', value: charDetail.language },
-            { skillName: 'Melee Weapons', skillDataName: 'meleeWeapons', value: charDetail.meleeWeapons },
-            { skillName: 'Stealth', value: charDetail.stealth },
-            { skillName: 'Military Tech', skillDataName: 'militaryTech', value: charDetail.militaryTech },
-            { skillName: 'Perception', value: charDetail.perception },
-            { skillName: 'Survival', value: charDetail.survival },
-            { skillName: 'Science', value: charDetail.science },
-            { skillName: 'Streetwise', value: charDetail.streetwise },
-            { skillName: 'Tracking', value: charDetail.tracking },
-            { skillName: 'Vehicle Tech', skillDataName: 'vehicleTech', value: charDetail.vehicleTech }
-        ])
-        setSkillSelectionOrder(charDetail.skillSelectionHistory)
-        setSkillNumber(charDetail.skillNumber)
-        setSkillCounter(charDetail.skillCounter)
-    }, [charDetail])
+  const [skillSelectionOrder, setSkillSelectionOrder] = useState(
+    charDetail.skillSelectionHistory
+  );
 
-    const [skillSelectionOrder, setSkillSelectionOrder] = useState(charDetail.skillSelectionHistory)
+  // functions more or less identically to the attributes, except the skill number is tracked via the reducer
+  // for what I'm sure was a good reason.
+  const [skillNumber, setSkillNumber] = useState(charDetail.skillNumber);
+  const [skillCounter, setSkillCounter] = useState(charDetail.skillCounter);
 
-    // functions more or less identically to the attributes, except the skill number is tracked via the reducer
-    // for what I'm sure was a good reason.
-    const [skillNumber, setSkillNumber] = useState(charDetail.skillNumber)
-    const [skillCounter, setSkillCounter] = useState(charDetail.skillCounter)
-
-
-    const dotReturn = (skill) => {
-        let returnedDots = []
-        for (let i = 0; i < skill; i++) {
-            returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
-        }
-        let j = skill
-        for (j; j <= 4; j++) {
-            returnedDots.push(<React.Fragment key={j + 5}>{emptydot}</React.Fragment>);
-        }
-        return returnedDots
+  const dotReturn = (skill) => {
+    let returnedDots = [];
+    for (let i = 0; i < skill; i++) {
+      returnedDots.push(<React.Fragment key={i}>{fulldot}</React.Fragment>);
     }
-
-    const skillSelector = (skill) => {
-        if (skill.skillDataName) {
-            dispatch({ type: 'CREATION_SELECT_SKILL', payload: { skill: skill.skillDataName, value: skillNumber } })
-        } else {
-            dispatch({ type: 'CREATION_SELECT_SKILL', payload: { skill: skill.skillName.toLowerCase(), value: skillNumber } })
-        }
-        increaseCounter()
+    let j = skill;
+    for (j; j <= 4; j++) {
+      returnedDots.push(
+        <React.Fragment key={j + 5}>{emptydot}</React.Fragment>
+      );
     }
+    return returnedDots;
+  };
 
-    const increaseCounter = () => {
-        if (skillCounter < 1) {
-            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 4 })
-        } else if (skillCounter >= 1 && skillCounter <= 4) {
-            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 3 })
-            return;
-        } else if (skillCounter > 4 && skillCounter <= 10) {
-            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 2 })
-        } else if (skillCounter > 10 && skillCounter <= 16) {
-            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 1 })
-            setSkillCounter(skillCounter + 1);
-        } else if (skillCounter > 16) {
-            dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 0 })
-        } else {
-            console.log(`error increasing skill counter`);
-        }
+  const skillSelector = (skill) => {
+    if (skill.skillDataName) {
+      dispatch({
+        type: 'CREATION_SELECT_SKILL',
+        payload: { skill: skill.skillDataName, value: skillNumber },
+      });
+    } else {
+      dispatch({
+        type: 'CREATION_SELECT_SKILL',
+        payload: { skill: skill.skillName.toLowerCase(), value: skillNumber },
+      });
     }
+    increaseCounter();
+  };
 
-    const decreaseCounter = () => {
-        if (skillCounter === 0) {
-            console.log(`Error - no skill selection made`);
-            return;
-        } else if (skillCounter > 0 && skillCounter <= 2) {
-            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 4 })
-            return;
-        } else if (skillCounter > 2 && skillCounter <= 6) {
-            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 3 })
-            return;
-        } else if (skillCounter > 6 && skillCounter <= 12) {
-            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 2 })
-            return;
-        } else if (skillCounter > 12 && skillCounter <= 18) {
-            dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 1 })
-            return;
-        } else {
-            console.log(`Error decreasing counter`);
-        }
+  const increaseCounter = () => {
+    if (skillCounter < 1) {
+      dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 4 });
+    } else if (skillCounter >= 1 && skillCounter <= 4) {
+      dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 3 });
+      return;
+    } else if (skillCounter > 4 && skillCounter <= 10) {
+      dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 2 });
+    } else if (skillCounter > 10 && skillCounter <= 16) {
+      dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 1 });
+      setSkillCounter(skillCounter + 1);
+    } else if (skillCounter > 16) {
+      dispatch({ type: 'INCREASE_SKILL_COUNTER', payload: 0 });
+    } else {
+      console.log(`error increasing skill counter`);
     }
+  };
 
-    const undoLastSkillSelection = () => {
-        if (skillSelectionOrder.length < 1) {
-            console.log(`Error - no skills selected!`);
-            return;
-        } else if (skillSelectionOrder.slice(-1)[0].skillDataName) {
-            dispatch({ type: 'CREATION_UNDO_LAST_SKILL', payload: skillSelectionOrder.pop() })
-            decreaseCounter();
-        } else {
-            dispatch({ type: 'CREATION_UNDO_LAST_SKILL', payload: skillSelectionOrder.pop() })
-            decreaseCounter();
-        }
+  const decreaseCounter = () => {
+    if (skillCounter === 0) {
+      console.log(`Error - no skill selection made`);
+      return;
+    } else if (skillCounter > 0 && skillCounter <= 2) {
+      dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 4 });
+      return;
+    } else if (skillCounter > 2 && skillCounter <= 6) {
+      dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 3 });
+      return;
+    } else if (skillCounter > 6 && skillCounter <= 12) {
+      dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 2 });
+      return;
+    } else if (skillCounter > 12 && skillCounter <= 18) {
+      dispatch({ type: 'DECREASE_SKILL_COUNTER', payload: 1 });
+      return;
+    } else {
+      console.log(`Error decreasing counter`);
     }
+  };
 
-    const resetSkillSelection = () => {
-        dispatch({ type: 'CREATION_RESET_SKILLS' })
+  const undoLastSkillSelection = () => {
+    if (skillSelectionOrder.length < 1) {
+      console.log(`Error - no skills selected!`);
+      return;
+    } else if (skillSelectionOrder.slice(-1)[0].skillDataName) {
+      dispatch({
+        type: 'CREATION_UNDO_LAST_SKILL',
+        payload: skillSelectionOrder.pop(),
+      });
+      decreaseCounter();
+    } else {
+      dispatch({
+        type: 'CREATION_UNDO_LAST_SKILL',
+        payload: skillSelectionOrder.pop(),
+      });
+      decreaseCounter();
     }
+  };
 
-    const selectVerbiage = () => {
-        if (skillNumber > 0) {
-            return 'Select at Rank' + ' ' + skillNumber
-        } else {
-            return 'No more selections remaining.'
-        }
+  const resetSkillSelection = () => {
+    dispatch({ type: 'CREATION_RESET_SKILLS' });
+  };
+
+  const selectVerbiage = () => {
+    if (skillNumber > 0) {
+      return 'Select at Rank' + ' ' + skillNumber;
+    } else {
+      return 'No more selections remaining.';
     }
+  };
 
-    const saveSkills = () => {
-        let counter = 0;
+  const saveSkills = () => {
+    let counter = 0;
 
-        skillArray.map(item => item.value > 0 ? counter += 1 : counter += 0);
+    skillArray.map((item) =>
+      item.value > 0 ? (counter += 1) : (counter += 0)
+    );
 
-        if (skillCounter == 18 && creationReviewReached === false) {
-            dispatch({ type: 'SET_CREATION_STEP', payload: 'role' })
-        } else if (counter == 18 && creationReviewReached === true) {
-            dispatch({ type: 'SET_CREATION_STEP', payload: 'review' })
-        } else {
-            setShowSnackbar(true)
-        }
+    if (skillCounter == 18 && creationReviewReached === false) {
+      dispatch({ type: 'SET_CREATION_STEP', payload: 'role' });
+    } else if (counter == 18 && creationReviewReached === true) {
+      dispatch({ type: 'SET_CREATION_STEP', payload: 'review' });
+    } else {
+      setShowSnackbar(true);
     }
+  };
 
-    return (
-        <>
+  return (
+    <>
+      <Snackbar
+        TransitionComponent={TransitionUp}
+        autoHideDuration={2000}
+        open={showSnackbar}
+        onClose={() => setShowSnackbar(false)}
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+      >
+        <Alert
+          onClose={() => setShowSnackbar(false)}
+          severity="warning"
+          sx={{ width: '100%' }}
+        >
+          Please ensure you have made all your skill selections!
+        </Alert>
+      </Snackbar>
 
-            <Snackbar
-                TransitionComponent={TransitionUp}
-                autoHideDuration={2000}
-                open={showSnackbar}
-                onClose={() => setShowSnackbar(false)}
-                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            >
-                <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-                    Please ensure you have made all your skill selections!
-                </Alert>
-            </Snackbar>
+      <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
+        <Grid item xs={12}>
+          <Item sx={{ height: 1 }}>
+            <Typography variant="h4">Skill Selection:</Typography>
+          </Item>
+        </Grid>
+        <Grid item xs={12}>
+          <Item sx={{ height: 1 }}>
+            Skills are the specific areas that your character excels in - or
+            not. Similar to Attributes, they are selected in descending order of
+            priority.
+          </Item>
+        </Grid>
+        <Grid item xs={12}>
+          <Item sx={{ height: 1 }}>
+            Selections: Two skills are selected at 4 - again, these the traits
+            in which your character excels far beyond most people in.
+          </Item>
+        </Grid>
+        <Grid item xs={12}>
+          <Item sx={{ height: 1 }}>
+            Four more skills are selected at 3 - these are additional areas in
+            which your character is a professional; Next, six skills each are
+            selected at 2 and 1. These are skills in which your character has
+            some familiarity, but perhaps is less impressively skilled at.
+          </Item>
+        </Grid>
+        <Grid item xs={12}>
+          <Item sx={{ height: 1 }}>
+            Click a skill name to learn more about it! Click column headers for
+            special notes involving all the skills in a column.
+          </Item>
+        </Grid>
+      </Grid>
 
-            <Grid container display={'flex'} justifyContent={'center'} spacing={1}>
-                <Grid item xs={12}><Item sx={{ height: 1 }}><Typography variant='h4'>Skill Selection:</Typography></Item></Grid>
-                <Grid item xs={12}><Item sx={{ height: 1 }}>Skills are the specific areas that your character excels in - or not. Similar to Attributes, they are selected in descending order of priority.</Item></Grid>
-                <Grid item xs={12}><Item sx={{ height: 1 }}>Selections: Two skills are selected at 4 - again, these the traits in which your character excels far beyond most people in.</Item></Grid>
-                <Grid item xs={12}><Item sx={{ height: 1 }}>Four more skills are selected at 3 - these are additional areas in which your character is a professional; Next, six skills each are selected at 2 and 1. These are skills in which your character has some familiarity, but perhaps is less impressively skilled at.</Item></Grid>
-                <Grid item xs={12}><Item sx={{ height: 1 }}>Click a skill name to learn more about it! Click column headers for special notes involving all the skills in a column.</Item></Grid>
-            </Grid>
+      <Grid container>
+        <Grid item xs={12} textAlign={'center'}>
+          <Button
+            sx={{ margin: 1 }}
+            variant="contained"
+            onClick={() => resetSkillSelection()}
+          >
+            Reset Skill Selection
+          </Button>
+          <Button
+            sx={{ margin: 1 }}
+            variant="contained"
+            onClick={() => saveSkills()}
+          >
+            Save Skill Selection
+          </Button>
+          <Button
+            sx={{ margin: 1 }}
+            variant="contained"
+            onClick={() => undoLastSkillSelection()}
+          >
+            Undo Last Selection
+          </Button>
+        </Grid>
+      </Grid>
 
-            <Grid container>
-                <Grid item xs={12} textAlign={'center'}>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => resetSkillSelection()}>Reset Skill Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => saveSkills()}>Save Skill Selection</Button>
-                    <Button sx={{ margin: 1 }} variant='contained' onClick={() => undoLastSkillSelection()}>Undo Last Selection</Button>
+      <Grid container>
+        {skillArray.map((skill) => {
+          return (
+            <React.Fragment key={skill.skillName}>
+              <Grid item xs={1.333}>
+                <Item>
+                  <SkillsDialog prop={skill.skillName} />
+                </Item>
+              </Grid>
+              {skill.value === 0 ? (
+                <Grid xs={2.666} item>
+                  {skillNumber > 0 ? (
+                    <Item
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => skillSelector(skill)}
+                    >
+                      {selectVerbiage()}
+                    </Item>
+                  ) : (
+                    <Item>{selectVerbiage()}</Item>
+                  )}
+                  {/* <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector(skill)}>{selectVerbiage()}</Item> */}
                 </Grid>
-            </Grid>
+              ) : (
+                <>
+                  <Grid xs={2.666} item>
+                    <Item>{dotReturn(skill.value)}</Item>
+                  </Grid>
+                </>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </Grid>
 
-            <Grid container>
-                {skillArray.map(skill => {
-                    return (
-                        <React.Fragment key={skill.skillName}>
-                            <Grid item xs={1.333}><Item><SkillsDialog prop={skill.skillName} /></Item></Grid>
-                            {skill.value === 0 ? <Grid xs={2.666} item>
-                                {skillNumber > 0 ? <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector(skill)}>{selectVerbiage()}</Item> : <Item>{selectVerbiage()}</Item>}
-                                {/* <Item sx={{ cursor: 'pointer' }} onClick={() => skillSelector(skill)}>{selectVerbiage()}</Item> */}
-                            </Grid> : <><Grid xs={2.666} item><Item>{dotReturn(skill.value)}</Item></Grid></>}
-                        </React.Fragment>
-                    )
-                })}
-            </Grid>
-
-
-
-
-            {/* <Grid container>
+      {/* <Grid container>
                 <Grid item xs={4} padding={1}>
                     <Grid container spacing={1}>
                         <Grid item xs={12}><Item><SkillsDialog prop={'Streets'} /></Item></Grid>
@@ -392,8 +516,8 @@ function CreationSkills() {
                     </Grid>
                 </Grid>
             </Grid> */}
-        </>
-    )
+    </>
+  );
 }
 
-export default CreationSkills
+export default CreationSkills;

@@ -59,7 +59,6 @@ const rootReducer = combineReducers({
 
   loaders, // sets loaders t/f to allow api calls to work
   alerts, // sets alert status t/f to allow showsnackbar to function (only required to avoid errors on tables)
-  
 });
 
 export default rootReducer;

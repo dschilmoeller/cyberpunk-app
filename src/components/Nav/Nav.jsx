@@ -29,13 +29,16 @@ function Nav() {
               Characters
             </Link>
 
-            {user.user_type === 2 ?
+            {user.user_type === 2 ? (
               <Link className="navLink" to="/gamemaster">
                 GM Page
-              </Link> : <></>}
+              </Link>
+            ) : (
+              <></>
+            )}
 
             <DieRollDialog />
-            
+
             <Link className="navLink" to="/info">
               Rule Book
             </Link>

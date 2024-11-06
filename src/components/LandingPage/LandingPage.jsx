@@ -17,7 +17,14 @@ function LandingPage() {
     <>
       <Grid container spacing={3} padding={5}>
         <Grid item xs={6}>
-          Welcome to The Cyberpumpkin App. Please start by Registering or Logging In. Cyberpumpkin is an immersive role playing experience, and this version has been adapted to the D10 system (similar to e.g. World of Darkness) and dramatically simplified for newer players. This website should contain everything you need to get started. Every effort has been made to ensure that clicking through text will pop up some relevant information. Of course, there's always the rule section to fall back on as well (available once you've logged in).
+          Welcome to The Cyberpumpkin App. Please start by Registering or
+          Logging In. Cyberpumpkin is an immersive role playing experience, and
+          this version has been adapted to the D10 system (similar to e.g. World
+          of Darkness) and dramatically simplified for newer players. This
+          website should contain everything you need to get started. Every
+          effort has been made to ensure that clicking through text will pop up
+          some relevant information. Of course, there's always the rule section
+          to fall back on as well (available once you've logged in).
         </Grid>
 
         <Grid item xs={6}>
@@ -25,20 +32,34 @@ function LandingPage() {
         </Grid>
       </Grid>
 
-
       <Grid container>
-
-        <Grid item display={'flex'} justifyContent={'center'} alignContent={'center'} xs={12}>
-
+        <Grid
+          item
+          display={'flex'}
+          justifyContent={'center'}
+          alignContent={'center'}
+          xs={12}
+        >
           <h2>Already a Member?</h2>
-
         </Grid>
 
-        <Grid item display={'flex'} justifyContent={'center'} alignContent={'center'} xs={12}>
-          <Button className="btn btn_sizeSm" variant='contained' color='success' onClick={onLogin}>Login</Button>
+        <Grid
+          item
+          display={'flex'}
+          justifyContent={'center'}
+          alignContent={'center'}
+          xs={12}
+        >
+          <Button
+            className="btn btn_sizeSm"
+            variant="contained"
+            color="success"
+            onClick={onLogin}
+          >
+            Login
+          </Button>
         </Grid>
       </Grid>
-
     </>
   );
 }

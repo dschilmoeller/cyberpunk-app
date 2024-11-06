@@ -10,15 +10,15 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 // this handles theming. Certain elements are called by ID (e.g. modals) in app.css
 const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
+  },
   typography: {
     allVariants: {
       fontFamily: ['Orbitron'],
@@ -38,8 +38,8 @@ const root = ReactDOM.createRoot(document.getElementById('react-root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
-    {/* <ThemeProvider theme={theme}> */}
-    <CssBaseline />
+      {/* <ThemeProvider theme={theme}> */}
+      <CssBaseline />
       <Provider store={store}>
         <App />
       </Provider>

@@ -18,27 +18,28 @@ import Slide from '@mui/material/Slide';
 // required props for daughter components:
 // setPageAlert={setPageAlert}
 
-const Alert = React.forwardRef((props, ref) => <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />);
+const Alert = React.forwardRef((props, ref) => (
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+));
 
 function TransitionUp(props) {
-    return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="up" />;
 }
 
 const SnackbarComponent = ({ open, message, severity, onClose }) => {
-    return (
-        <Snackbar
-            TransitionComponent={TransitionUp}
-            autoHideDuration={2000}
-            open={open}
-            onClose={onClose}
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
-            <Alert
-                onClose={onClose}
-                severity={severity}>
-                {message}
-            </Alert>
-        </Snackbar>
-    )
-}
+  return (
+    <Snackbar
+      TransitionComponent={TransitionUp}
+      autoHideDuration={2000}
+      open={open}
+      onClose={onClose}
+      anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+    >
+      <Alert onClose={onClose} severity={severity}>
+        {message}
+      </Alert>
+    </Snackbar>
+  );
+};
 
-export default SnackbarComponent
+export default SnackbarComponent;

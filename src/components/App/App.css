@@ -11,7 +11,7 @@ body {
 
 .navBarLock {
   position: fixed;
-  top:0;
+  top: 0;
   width: 100%;
   background-color: black;
   z-index: 2;
@@ -113,8 +113,11 @@ Form Treatment
   max-width: 100%;
   padding: 25px;
   margin: 0 auto 20px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
-  background-color: #1A2027;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.05)
+  );
+  background-color: #1a2027;
   border-radius: 3px;
   box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
 }
@@ -125,7 +128,7 @@ input {
 }
 
 #modal-modal-description {
-  font-family: 'Times New Roman', Times, serif
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #skill-sheet-clickable {
@@ -133,7 +136,7 @@ input {
 }
 
 a {
-  color: yellow
+  color: yellow;
 }
 
 a:hover {

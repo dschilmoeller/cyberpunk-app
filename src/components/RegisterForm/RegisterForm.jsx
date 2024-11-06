@@ -53,7 +53,9 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <Button variant='contained' type='submit' value='register'>Submit</Button>
+        <Button variant="contained" type="submit" value="register">
+          Submit
+        </Button>
       </div>
     </form>
   );

@@ -32,9 +32,7 @@ function TabPanel(props) {
     >
       {value === index && (
         // This is applied to every tab panel.
-        <Box sx={{ p: 1 }}>
-          {children}
-        </Box>
+        <Box sx={{ p: 1 }}>{children}</Box>
       )}
     </div>
   );
@@ -57,8 +55,8 @@ export default function VerticalTabs() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: "FETCH_MASTER_LISTS" })
-  }, [])
+    dispatch({ type: 'FETCH_MASTER_LISTS' });
+  }, []);
 
   // handles tab changes
   const [value, setValue] = useState(0);
@@ -67,25 +65,82 @@ export default function VerticalTabs() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 1 }}>
-      <Box position={"fixed"}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        bgcolor: 'background.paper',
+        display: 'flex',
+        height: 1,
+      }}
+    >
+      <Box position={'fixed'}>
         <Tabs
           orientation="vertical"
           variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="Chapter Tabs"
-          sx={{ borderRight: 1, borderColor: 'divider', minWidth: '11rem', maxWidth: '11rem' }}
+          sx={{
+            borderRight: 1,
+            borderColor: 'divider',
+            minWidth: '11rem',
+            maxWidth: '11rem',
+          }}
         >
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="1 - Introduction" {...a11yProps(0)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="2 - Attributes and Skills" {...a11yProps(1)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="3 - Roles" {...a11yProps(2)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="4 - Gear" {...a11yProps(3)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="5 - Cyberware" {...a11yProps(4)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="6 - Netrunning" {...a11yProps(5)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="7 - Actions & Combat" {...a11yProps(6)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="8 - Injuries & Dying" {...a11yProps(7)} />
-          <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="9 - Vehicles" {...a11yProps(8)} />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="1 - Introduction"
+            {...a11yProps(0)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="2 - Attributes and Skills"
+            {...a11yProps(1)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="3 - Roles"
+            {...a11yProps(2)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="4 - Gear"
+            {...a11yProps(3)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="5 - Cyberware"
+            {...a11yProps(4)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="6 - Netrunning"
+            {...a11yProps(5)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="7 - Actions & Combat"
+            {...a11yProps(6)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="8 - Injuries & Dying"
+            {...a11yProps(7)}
+          />
+          <Tab
+            sx={{ alignItems: 'flex-start', textAlign: 'left' }}
+            wrapped
+            label="9 - Vehicles"
+            {...a11yProps(8)}
+          />
           {/* <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="10 - Clothing and Lifestyle" {...a11yProps(9)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="11 - Character Advancement" {...a11yProps(10)} />
           <Tab sx={{ alignItems: 'flex-start', textAlign: 'left' }} wrapped label="12 - Playing The Game" {...a11yProps(11)} /> */}
@@ -136,8 +191,6 @@ export default function VerticalTabs() {
         <TabPanel value={value} index={11}>
           <Gameplay />
         </TabPanel>
-
-        
 
         {/* Future site of Chargen */}
 

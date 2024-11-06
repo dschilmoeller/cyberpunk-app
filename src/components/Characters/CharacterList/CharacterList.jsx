@@ -18,7 +18,7 @@ function CharacterList() {
   const characterList = useSelector((store) => store.characterList);
 
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -77,7 +77,7 @@ function CharacterList() {
       id: 'Gear',
       numeric: false,
       disablePadding: true,
-      label: 'Equip Gear'
+      label: 'Equip Gear',
     },
     {
       id: 'shopping',
@@ -88,8 +88,7 @@ function CharacterList() {
   ];
 
   function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } =
-      props;
+    const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -114,16 +113,15 @@ function CharacterList() {
                     {headCell.label}
                   </TableSortLabel>
                 </TableCell>
-              )
+              );
             } else {
               return (
                 <TableCell key={headCell.id} align={'center'} padding={'none'}>
                   {headCell.label}
                 </TableCell>
-              )
+              );
             }
-          }
-          )}
+          })}
         </TableRow>
       </TableHead>
     );
@@ -146,78 +144,124 @@ function CharacterList() {
 
   function createCharListData(handle, id, campaign, campaign_name) {
     return {
-      handle, id, campaign, campaign_name
-    }
+      handle,
+      id,
+      campaign,
+      campaign_name,
+    };
   }
 
   // take charMiscGear data and push into array for conversion into rows.
-  const charListRows = []
+  const charListRows = [];
   for (let i = 0; i < characterList.length; i++) {
-    charListRows.push(createCharListData(characterList[i].handle, characterList[i].id, characterList[i].campaign, characterList[i].campaign_name  ))
+    charListRows.push(
+      createCharListData(
+        characterList[i].handle,
+        characterList[i].id,
+        characterList[i].campaign,
+        characterList[i].campaign_name
+      )
+    );
   }
 
   const sortedCharListRows = React.useMemo(
-    () =>
-      stableSort(charListRows, getComparator(order, orderBy)),
-    [order, orderBy, characterList],
+    () => stableSort(charListRows, getComparator(order, orderBy)),
+    [order, orderBy, characterList]
   );
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ALL_CHARACTERS" })
-    dispatch({ type: "CLEAR_ADVANCEMENT_DETAIL" })
-    dispatch({ type: "CLEAR_CHARACTER_DETAIL"})
-    dispatch({ type: "CLEAR_CHARACTER_GEAR_DETAILS"})
-  }, [])
+    dispatch({ type: 'FETCH_ALL_CHARACTERS' });
+    dispatch({ type: 'CLEAR_ADVANCEMENT_DETAIL' });
+    dispatch({ type: 'CLEAR_CHARACTER_DETAIL' });
+    dispatch({ type: 'CLEAR_CHARACTER_GEAR_DETAILS' });
+  }, []);
 
   const moveToCharacterSheet = (id) => {
-    history.push(`/charactersheet/${id}`)
-  }
+    history.push(`/charactersheet/${id}`);
+  };
   const moveToAdvancementSheet = (id) => {
-    history.push(`/advancementsheet/${id}`)
-  }
+    history.push(`/advancementsheet/${id}`);
+  };
   const moveToEquipSheet = (id) => {
-    history.push(`/equipsheet/${id}`)
-  }
+    history.push(`/equipsheet/${id}`);
+  };
 
   const moveToShopSheet = (id) => {
-    history.push(`/shopSheet/${id}`)
-  }
+    history.push(`/shopSheet/${id}`);
+  };
 
+  return (
+    <>
+      <Box sx={{ width: '100%' }}>
+        <Paper sx={{ width: '100%', mb: 2 }}>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={'small'}
+            >
+              <EnhancedTableHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {sortedCharListRows.map((row) => {
+                  return (
+                    <TableRow hover key={row.id}>
+                      <TableCell align="center" padding="normal">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          onClick={() => moveToCharacterSheet(row.id)}
+                        >
+                          {row.handle}
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" padding="normal">
+                        {row.campaign_name}
+                      </TableCell>
+                      <TableCell align="center" padding="normal">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="warning"
+                          onClick={() => moveToAdvancementSheet(row.id)}
+                        >
+                          Spend XP
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" padding="normal">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="info"
+                          onClick={() => moveToEquipSheet(row.id)}
+                        >
+                          Equip Gear{' '}
+                        </Button>
+                      </TableCell>
+                      <TableCell align="center" padding="normal">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="success"
+                          onClick={() => moveToShopSheet(row.id)}
+                        >
+                          Shopping{' '}
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
 
-
-  return (<>
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={'small'}
-          >
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
-            <TableBody>
-              {sortedCharListRows.map((row) => {
-                return (
-                  <TableRow hover key={row.id}>
-                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='primary' onClick={() => moveToCharacterSheet(row.id)}>{row.handle}</Button></TableCell>
-                    <TableCell align='center' padding="normal">{row.campaign_name}</TableCell>
-                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='warning' onClick={() => moveToAdvancementSheet(row.id)}>Spend XP</Button></TableCell>
-                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='info' onClick={() => moveToEquipSheet(row.id)}>Equip Gear </Button></TableCell>
-                    <TableCell align='center' padding="normal"><Button fullWidth variant='contained' color='success' onClick={() => moveToShopSheet(row.id)}>Shopping </Button></TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
-
-    {/* <div>
+      {/* <div>
       <h2>Character List</h2>
       {characterList.length ? (
         <>
@@ -235,7 +279,7 @@ function CharacterList() {
           })}
         </>) : <></>}
     </div> */}
-  </>
+    </>
   );
 }
 

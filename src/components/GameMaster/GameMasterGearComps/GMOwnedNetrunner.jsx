@@ -14,58 +14,72 @@ import Grid from '@mui/material/Grid';
 import Item from '../../Characters/CharacterSheet/Item';
 
 export default function GMOwnedNetrunner() {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
-    
-    const charDetail = useSelector(store => store.advancementDetail)
-    const charNetrunnerGear = useSelector(store => store.advancementGear.netrunnerGear)
-    const charBoughtNetrunnerGear = useSelector(store => store.advancementGear.boughtNetrunnerGear)
+  const charDetail = useSelector((store) => store.advancementDetail);
+  const charNetrunnerGear = useSelector(
+    (store) => store.advancementGear.netrunnerGear
+  );
+  const charBoughtNetrunnerGear = useSelector(
+    (store) => store.advancementGear.boughtNetrunnerGear
+  );
 
-    const gmRemoveNetrunnerGear = (item) => {
-        switch (item.type) {
-            case 'deck':
-                // removes deck, unequips all software and mods
-                dispatch({ type: 'GM_REMOVE_NETRUNNER_DECK', payload: item })
-                // zeroes out netrunner slots
-                dispatch({ type: 'NETRUNNER_DECK_UNEQUIPPED' })
-                break;
-            case 'software':
-            case 'mod':
-                dispatch({ type: 'GM_REMOVE_NETRUNNER_GEAR', payload: item, slots: item.slots })
-                break;
-            default:
-                break;
-        }
+  const gmRemoveNetrunnerGear = (item) => {
+    switch (item.type) {
+      case 'deck':
+        // removes deck, unequips all software and mods
+        dispatch({ type: 'GM_REMOVE_NETRUNNER_DECK', payload: item });
+        // zeroes out netrunner slots
+        dispatch({ type: 'NETRUNNER_DECK_UNEQUIPPED' });
+        break;
+      case 'software':
+      case 'mod':
+        dispatch({
+          type: 'GM_REMOVE_NETRUNNER_GEAR',
+          payload: item,
+          slots: item.slots,
+        });
+        break;
+      default:
+        break;
     }
+  };
 
-    const gmRemoveGMNetrunnerGear = (item) => {
-        dispatch({ type: 'GM_REMOVE_GM_NETRUNNER_GEAR', payload: item })
-    }
+  const gmRemoveGMNetrunnerGear = (item) => {
+    dispatch({ type: 'GM_REMOVE_GM_NETRUNNER_GEAR', payload: item });
+  };
 
-    return (<>
-        <h2>{charDetail.handle}'s Netrunning Equipment</h2>
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow hover>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="center">Description</TableCell>
-                        <TableCell align="center">Equipped?</TableCell>
-                        <TableCell align="center">Remove?</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {charNetrunnerGear.map((item, i) => {
-                        return (
-                            <TableRow hover key={i}>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.description}</TableCell>
-                                <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="center"><Button onClick={() => gmRemoveNetrunnerGear(item)}>Remove</Button></TableCell>
-                            </TableRow>
-                        )
-                    })}
-                    {/* {charBoughtNetrunnerGear.map((item, i) => {
+  return (
+    <>
+      <h2>{charDetail.handle}'s Netrunning Equipment</h2>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow hover>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Equipped?</TableCell>
+              <TableCell align="center">Remove?</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {charNetrunnerGear.map((item, i) => {
+              return (
+                <TableRow hover key={i}>
+                  <TableCell align="left">{item.name} </TableCell>
+                  <TableCell align="center">{item.description}</TableCell>
+                  <TableCell align="center">
+                    {item.equipped ? 'Yes' : 'No'}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button onClick={() => gmRemoveNetrunnerGear(item)}>
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+            {/* {charBoughtNetrunnerGear.map((item, i) => {
                         return (
                             <TableRow hover key={i}>
                                 <TableCell align="left">{item.name} </TableCell>
@@ -75,10 +89,9 @@ export default function GMOwnedNetrunner() {
                             </TableRow>
                         )
                     })} */}
-                </TableBody>
-            </Table>
-
-        </TableContainer>
-
-    </>)
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
+  );
 }

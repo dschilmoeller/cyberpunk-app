@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector(store => store.errors);
+  const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
   const login = (event) => {
@@ -58,7 +58,9 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <Button variant='contained' type='submit' value='Log In'>Log In</Button>
+        <Button variant="contained" type="submit" value="Log In">
+          Log In
+        </Button>
       </div>
     </form>
   );
