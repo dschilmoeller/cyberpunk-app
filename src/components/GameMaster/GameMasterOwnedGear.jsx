@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Item from '../Characters/CharacterSheet/Item';
@@ -14,23 +14,62 @@ import GMOwnedCyberware from './GameMasterGearComps/GMOwnedCyberware';
 import GMOwnedNetrunner from './GameMasterGearComps/GMOwnedNetrunner';
 import GMOwnedVehicles from './GameMasterGearComps/GMOwnedVehicles';
 
-export default function GameMasterOwnedGear() {
+import {
+  fetchCharacterArmorRequest,
+  fetchCharacterShieldsRequest,
+  fetchCharacterWeaponsRequest,
+  fetchCharacterGrenadesRequest,
+  fetchCharacterMiscGearRequest,
+  fetchCharacterCyberwareRequest,
+  fetchCharacterNetrunnerGearRequest,
+  fetchCharacterVehiclesRequest,
+  fetchCharacterVehicleModsRequest,
+} from '../Characters/character.services';
+
+export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const [selectedGear, setSelectedGear] = useState('armor');
   const handleSelectedGearChange = (event, newValue) => {
     setSelectedGear(newValue);
   };
+
+  const [characterGear, setCharacterGear] = useState({});
+  const fetchCharacterGear = async () => {
+    const charObj = {
+      charID: charDetail.id,
+    };
+    const charArmor = await fetchCharacterArmorRequest(charObj);
+    const charShield = await fetchCharacterShieldsRequest(charObj);
+    const charWeapons = await fetchCharacterWeaponsRequest(charObj);
+    const charGrenades = await fetchCharacterGrenadesRequest(charObj);
+    const charMisc = await fetchCharacterMiscGearRequest(charObj);
+    const charCyberware = await fetchCharacterCyberwareRequest(charObj);
+    const charNetrunner = await fetchCharacterNetrunnerGearRequest(charObj);
+    const charVehicles = await fetchCharacterVehiclesRequest(charObj);
+    const charVehicleMods = await fetchCharacterVehicleModsRequest(charObj);
+
+    setCharacterGear({
+      charArmor,
+      charShield,
+      charWeapons,
+      charGrenades,
+      charMisc,
+      charCyberware,
+      charNetrunner,
+      charVehicles,
+      charVehicleMods,
+    });
+  };
+
+  useEffect(() => {
+    fetchCharacterGear();
+  }, []);
 
   return (
     <>
       <Grid container paddingTop={3} spacing={3} alignContent={'center'}>
         <Grid item xs={12} padding={3}>
           <Item>
-            <Tabs
-              value={selectedGear}
-              onChange={handleSelectedGearChange}
-              indicatorColor="primary"
-              textColor="secondary"
-            >
+            <Tabs value={selectedGear} onChange={handleSelectedGearChange} indicatorColor="primary" textColor="secondary">
               <Tab value="armor" label="Armor" />
               <Tab value="weapons" label="Weapons" />
               <Tab value="grenades" label="Grenades" />
@@ -45,7 +84,7 @@ export default function GameMasterOwnedGear() {
         {selectedGear === 'armor' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMOwnedArmor />
+              <GMOwnedArmor charDetail={charDetail} charArmor={characterGear.charArmor} charShield={characterGear.charShield} />
             </Grid>
           </>
         ) : (

@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-const {
-  rejectUnauthenticated,
-} = require('../modules/authentication-middleware');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 // Fetch Armor List
 router.get('/fetcharmor', rejectUnauthenticated, (req, res) => {
@@ -219,9 +217,7 @@ router.post('/buyItem', rejectUnauthenticated, (req, res) => {
         console.log(`Error buying item:`, err);
       });
   } else {
-    console.log(
-      `Failure to buy item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`
-    );
+    console.log(`Failure to buy item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
     res.sendStatus(400);
   }
 });
@@ -253,9 +249,7 @@ router.delete('/sellItem', rejectUnauthenticated, (req, res) => {
         console.log(`Error selling item:`, err);
       });
   } else {
-    console.log(
-      `Failure to sell item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`
-    );
+    console.log(`Failure to sell item due to table/column check failure. Table: ${tableCheck}, Column: ${columnCheck}`);
     res.sendStatus(400);
   }
 });
@@ -353,11 +347,7 @@ router.post('/createPharma', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/createModBridgeEntry/', rejectUnauthenticated, (req, res) => {
-  if (
-    tableCheck(req.body.modTable) === true &&
-    baseItemCheck(req.body.baseItemColumn) === true &&
-    modItemCheck(req.body.modItemColumn) === true
-  ) {
+  if (tableCheck(req.body.modTable) === true && baseItemCheck(req.body.baseItemColumn) === true && modItemCheck(req.body.modItemColumn) === true) {
     const sqlText = `INSERT INTO ${req.body.modTable} (${req.body.baseItemColumn}, ${req.body.modItemColumn}) VALUES ($1, $2)`;
     const sqlParams = [req.body.baseItemID, req.body.modItemID];
     pool
@@ -369,33 +359,22 @@ router.post('/createModBridgeEntry/', rejectUnauthenticated, (req, res) => {
         console.log(`Error Equipping Mod on table ${req.body.modTable}:`, err);
       });
   } else if (tableCheck(req.body.modTable) === false) {
-    console.log(
-      `Error with table check validation. Table ${req.body.modTable} not whitelisted.`
-    );
+    console.log(`Error with table check validation. Table ${req.body.modTable} not whitelisted.`);
     res.sendStatus(400);
   } else if (baseItemCheck(req.body.baseItemColumn) === false) {
-    console.log(
-      `Error with base item check validation. Column ${req.body.baseItemColumn} not whitelisted.`
-    );
+    console.log(`Error with base item check validation. Column ${req.body.baseItemColumn} not whitelisted.`);
     res.sendStatus(400);
   } else if (modItemCheck(req.body.modItemColumn) === false) {
-    console.log(
-      `Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`
-    );
+    console.log(`Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`);
     res.sendStatus(400);
   } else {
-    console.log(
-      `Unknown error with /equipmod status, tables and column validated. This should never appear.`
-    );
+    console.log(`Unknown error with /equipmod status, tables and column validated. This should never appear.`);
     res.sendStatus(400);
   }
 });
 
 router.put('/changeModEquipStatus/', rejectUnauthenticated, (req, res) => {
-  if (
-    modItemTableCheck(req.body.modItemTable) === true &&
-    modItemCheck(req.body.modItemColumn) === true
-  ) {
+  if (modItemTableCheck(req.body.modItemTable) === true && modItemCheck(req.body.modItemColumn) === true) {
     const sqlText = `UPDATE ${req.body.modItemTable} SET "equipped" = $1 WHERE ${req.body.modItemColumn} = $2`;
     const sqlParams = [req.body.equipStatus, req.body.modItemID];
     pool
@@ -404,34 +383,22 @@ router.put('/changeModEquipStatus/', rejectUnauthenticated, (req, res) => {
         res.sendStatus(200);
       })
       .catch((err) => {
-        console.log(
-          `Error changing Mod equipped status on table ${req.body.modItemTable}:`,
-          err
-        );
+        console.log(`Error changing Mod equipped status on table ${req.body.modItemTable}:`, err);
       });
   } else if (modItemTableCheck(req.body.modItemTable) === false) {
-    console.log(
-      `Error with Mod Item Table Validation. Table ${req.body.modItemTable} not whitelisted.`
-    );
+    console.log(`Error with Mod Item Table Validation. Table ${req.body.modItemTable} not whitelisted.`);
     res.sendStatus(400);
   } else if (modItemCheck(req.body.modItemColumn) === false) {
-    console.log(
-      `Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`
-    );
+    console.log(`Error with mod item check validation. Column ${req.body.modItemColumn} not whitelisted`);
     res.sendStatus(400);
   } else {
-    console.log(
-      `Unknown error with /changeModEquipStatus, tables and column validated. This should never appear.`
-    );
+    console.log(`Unknown error with /changeModEquipStatus, tables and column validated. This should never appear.`);
     res.sendStatus(400);
   }
 });
 
 router.delete('/removeModBridgeEntry/', rejectUnauthenticated, (req, res) => {
-  if (
-    tableCheck(req.body.modTable) === true &&
-    tablePKCheck(req.body.modTablePK) === true
-  ) {
+  if (tableCheck(req.body.modTable) === true && tablePKCheck(req.body.modTablePK) === true) {
     const sqlText = `DELETE FROM ${req.body.modTable} WHERE ${req.body.modTablePK} = $1`;
     pool
       .query(sqlText, [req.body.modID])
@@ -442,19 +409,13 @@ router.delete('/removeModBridgeEntry/', rejectUnauthenticated, (req, res) => {
         console.log(`Error removing mod from ${req.body.modTable}:`, err);
       });
   } else if (tableCheck(req.body.modTable) === false) {
-    console.log(
-      `Error with table check validation. Table ${req.body.modTable} not whitelisted.`
-    );
+    console.log(`Error with table check validation. Table ${req.body.modTable} not whitelisted.`);
     res.sendStatus(400);
   } else if (tablePKCheck(req.body.modTablePK) === false) {
-    console.log(
-      `Error with mod table pk validation. Table PK ${req.body.modTablePK} not whitelisted`
-    );
+    console.log(`Error with mod table pk validation. Table PK ${req.body.modTablePK} not whitelisted`);
     res.sendStatus(400);
   } else {
-    console.log(
-      `Unknown error with /removeModBridgeEntry, table and PK validated. This should never appear.`
-    );
+    console.log(`Unknown error with /removeModBridgeEntry, table and PK validated. This should never appear.`);
     res.sendStatus(400);
   }
 });
@@ -472,25 +433,18 @@ router.put('/changeVehicleTotalModCost/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.put(
-  '/changeVehicleArmoredStatus/',
-  rejectUnauthenticated,
-  (req, res) => {
-    const sqlText = `UPDATE "char_vehicle_bridge" SET "has_armor" = $1 WHERE "vehicle_bridge_id" = $2`;
-    const sqlParams = [req.body.status, req.body.id];
-    pool
-      .query(sqlText, sqlParams)
-      .then((result) => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        console.log(
-          `Error changing vehicle armored status to ${req.body.status}:`,
-          err
-        );
-      });
-  }
-);
+router.put('/changeVehicleArmoredStatus/', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_vehicle_bridge" SET "has_armor" = $1 WHERE "vehicle_bridge_id" = $2`;
+  const sqlParams = [req.body.status, req.body.id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log(`Error changing vehicle armored status to ${req.body.status}:`, err);
+    });
+});
 
 router.put('/changeVehicleSeats', rejectUnauthenticated, (req, res) => {
   let sqlText;
@@ -509,10 +463,7 @@ router.put('/changeVehicleSeats', rejectUnauthenticated, (req, res) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.log(
-        `Error changing vehicle armored status to ${req.body.status}:`,
-        err
-      );
+      console.log(`Error changing vehicle armored status to ${req.body.status}:`, err);
     });
 });
 
@@ -567,5 +518,141 @@ const modItemTableCheck = (modItemTable) => {
   }
   return false;
 };
+
+router.post('/fetchCharacterArmor', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_armor_bridge"
+    JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character armor:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterShields', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_shield_bridge"
+    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character shield(s):', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterWeapons', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_weapons_bridge"
+    JOIN "weapon_master" ON "weapon_master".weapon_master_id = "char_weapons_bridge".weapon_id
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character weapons:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterGrenades', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_grenade_bridge"
+    JOIN "grenade_master" ON "grenade_master"."grenade_master_id" = "char_grenade_bridge"."grenade_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character grenades:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterMiscGear', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_gear_bridge"
+    JOIN "misc_gear_master" ON "misc_gear_master"."misc_gear_master_id" = "char_gear_bridge"."misc_gear_id"
+    WHERE "char_id" = $1
+    ORDER BY "name" ASC`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character misc gear:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterCyberware', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_owned_cyberware" 
+    JOIN "cyberware_master" ON "cyberware_master"."cyberware_master_id" = "char_owned_cyberware"."cyberware_master_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character cyberware:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterNetrunnerGear', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "netrunner_bridge"
+    JOIN "netrunner_master" ON "netrunner_master"."netrunner_master_id" = "netrunner_bridge"."netrunner_master_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character netrunner gear:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterVehicles', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_vehicle_bridge"
+    JOIN "vehicle_master" ON "vehicle_master"."vehicle_master_id" = "char_vehicle_bridge"."vehicle_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character vehicles:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchCharacterVehicleMods', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
+    JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
+    WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character vehicle mods:', err);
+      res.sendStatus(400);
+    });
+});
 
 module.exports = router;

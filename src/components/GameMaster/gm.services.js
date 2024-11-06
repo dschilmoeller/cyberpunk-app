@@ -168,6 +168,20 @@ const changeCharacterSkill = async (skillObj) => {
   });
 };
 
+const changeCharacterRole = async (roleObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/gamemaster/changeRole', roleObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing role:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   gmCharFetchRequest,
   fetchCampaignListRequest,
@@ -181,4 +195,5 @@ export {
   changeCharacterXP,
   changeCharacterAttribute,
   changeCharacterSkill,
+  changeCharacterRole,
 };

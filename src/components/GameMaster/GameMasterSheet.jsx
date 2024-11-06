@@ -18,16 +18,13 @@ import GameMasterMain from './GameMasterMain';
 import GameMasterAttributes from './GameMasterAttributes';
 import GameMasterSkills from './GameMasterSkills';
 import GameMasterRoles from './GameMasterRoles';
-// import GameMasterOwnedGear from './GameMasterOwnedGear';
+import GameMasterOwnedGear from './GameMasterOwnedGear';
 // import GameMasterGiveGear from './GameMasterGiveGear';
 // import GameMasterCharContacts from './GameMasterCharContacts';
 
 import SnackbarComponent from '../GeneralAssets/Snackbar';
 
-import {
-  fetchCharacterDetailsRequest,
-  fetchCampaignListRequest,
-} from './gm.services';
+import { fetchCharacterDetailsRequest, fetchCampaignListRequest } from './gm.services';
 
 export default function GameMasterSheet() {
   const [selectedSheet, setSelectedSheet] = useState('GM');
@@ -118,12 +115,7 @@ export default function GameMasterSheet() {
         </Grid>
       </Grid>
 
-      <Tabs
-        value={selectedSheet}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="secondary"
-      >
+      <Tabs value={selectedSheet} onChange={handleTabChange} indicatorColor="primary" textColor="secondary">
         {/* Humanity, Money, and Experience */}
         <Tab value="GM" label="GM Main" />
         {/* Atts, also Street Cred & Luck */}
@@ -201,9 +193,20 @@ export default function GameMasterSheet() {
         <> </>
       )}
 
-      {/* {selectedSheet === 'gear' ? (<>
-            <GameMasterOwnedGear />
-        </>) : <> </>} */}
+      {selectedSheet === 'gear' ? (
+        <>
+          <GameMasterOwnedGear
+            charDetail={charDetail}
+            setCharDetail={setCharDetail}
+            setPageAlert={setPageAlert}
+            loading={loading}
+            setLoading={setLoading}
+            chuckError={chuckError}
+          />
+        </>
+      ) : (
+        <> </>
+      )}
 
       {/* {selectedSheet === 'gmGear' ? (<>
             <GameMasterGiveGear />

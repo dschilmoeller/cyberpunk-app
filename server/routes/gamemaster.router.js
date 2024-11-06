@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-const {
-  rejectUnauthenticated,
-} = require('../modules/authentication-middleware');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const { rejectNonAdmin } = require('../modules/rejectNonAdmin');
 
 // GM Routes
@@ -40,24 +38,20 @@ router.get('/fetchGameMasterCharacters', rejectNonAdmin, (req, res) => {
     });
 });
 
-router.post(
-  '/fetchGamemasterCharacterDetail/',
-  rejectUnauthenticated,
-  (req, res) => {
-    const sqlText = `SELECT * FROM "character"
+router.post('/fetchGamemasterCharacterDetail/', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "character"
     JOIN "campaigns" ON "character"."campaign" = "campaigns"."campaign_id"
     WHERE id = $1`;
-    pool
-      .query(sqlText, [req.body.characterID])
-      .then((result) => {
-        res.send(result.rows[0]);
-      })
-      .catch((err) => {
-        res.sendStatus(400);
-        console.error(`Error fetching character details:`, err);
-      });
-  }
-);
+  pool
+    .query(sqlText, [req.body.characterID])
+    .then((result) => {
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      res.sendStatus(400);
+      console.error(`Error fetching character details:`, err);
+    });
+});
 
 router.post('/changeHandle/', rejectUnauthenticated, (req, res) => {
   const sqlText = `UPDATE "character"
@@ -194,40 +188,29 @@ router.post('/changeXP', rejectNonAdmin, (req, res) => {
     });
 });
 
+const attributeArray = ['strength', 'body', 'reflexes', 'appearance', 'cool', 'street_cred', 'intelligence', 'willpower', 'technique', 'max_luck'];
+
 router.post('/changeAttribute', rejectNonAdmin, (req, res) => {
-  let columnName = '';
-  switch (req.body.attribute) {
-    case 'strength':
-    case 'body':
-    case 'reflexes':
-    case 'appearance':
-    case 'cool':
-    case 'street_cred':
-    case 'intelligence':
-    case 'willpower':
-    case 'technique':
-    case 'max_luck':
-      columnName = req.body.attribute;
-      break;
-    default:
-      break;
-  }
-  const sqlText = `
-    UPDATE "character" SET "${columnName}" = $1 WHERE "id" = $2`;
-  const sqlParams = [req.body.newScore, req.body.charID];
-  pool
-    .query(sqlText, sqlParams)
-    .then((result) => {
-      if (result.rowCount > 0) {
-        res.sendStatus(200);
-      } else {
+  if (attributeArray.includes(req.body.attribute)) {
+    const sqlText = `
+    UPDATE "character" SET "${req.body.attribute}" = $1 WHERE "id" = $2`;
+    const sqlParams = [req.body.newScore, req.body.charID];
+    pool
+      .query(sqlText, sqlParams)
+      .then((result) => {
+        if (result.rowCount > 0) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(400);
+        }
+      })
+      .catch((err) => {
+        console.error('Error changing attribute:', err);
         res.sendStatus(400);
-      }
-    })
-    .catch((err) => {
-      console.error('Error changing attribute:', err);
-      res.sendStatus(400);
-    });
+      });
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 const skillArray = [
@@ -284,7 +267,46 @@ router.post('/changeSkill', rejectNonAdmin, (req, res) => {
         res.sendStatus(400);
       });
   } else {
-    // auto-reject
+    res.sendStatus(400);
+  }
+});
+
+const roleArray = [
+  'rockerboy',
+  'solo',
+  'netrunner',
+  'nomad',
+  'media',
+  'medtech',
+  'maker',
+  'med_surgery',
+  'med_pharma',
+  'med_cryo',
+  'maker_field',
+  'maker_upgrade',
+  'maker_fab',
+  'maker_invent',
+];
+
+router.post('/changeRole', rejectNonAdmin, (req, res) => {
+  if (roleArray.includes(req.body.roleName)) {
+    const sqlText = `Update "character" SET ${req.body.roleName} = $1 WHERE "id" = $2`;
+    const sqlParams = [req.body.newRank, req.body.charID];
+    pool
+      .query(sqlText, sqlParams)
+      .then((result) => {
+        if (result.rowCount > 0) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(400);
+        }
+      })
+      .catch((err) => {
+        console.error('Error changing character skill:', err);
+        res.sendStatus(400);
+      });
+  } else {
+    res.sendStatus(400);
   }
 });
 
