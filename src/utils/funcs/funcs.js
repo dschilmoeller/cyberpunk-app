@@ -1,5 +1,4 @@
 const capitalizer = (string) => {
-  console.log(`string:`, string);
   return (string = string
     .toLowerCase()
     .split(' ')
