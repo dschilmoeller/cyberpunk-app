@@ -2,15 +2,14 @@
 // and utilize props more, along with passing of setters where it makes sense.
 
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
-import { useHistory, useParams } from 'react-router-dom';
+// import { Button } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
-import Item from '../Characters/CharacterSheet/Item';
-import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import Item from '../Characters/CharacterSheet/Item';
+// import Switch from '@mui/material/Switch';
+// import FormGroup from '@mui/material/FormGroup';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -18,10 +17,10 @@ import Tab from '@mui/material/Tab';
 import GameMasterMain from './GameMasterMain';
 import GameMasterAttributes from './GameMasterAttributes';
 import GameMasterSkills from './GameMasterSkills';
-import GameMasterRoles from './GameMasterRoles';
-import GameMasterOwnedGear from './GameMasterOwnedGear';
-import GameMasterGiveGear from './GameMasterGiveGear';
-import GameMasterCharContacts from './GameMasterCharContacts';
+// import GameMasterRoles from './GameMasterRoles';
+// import GameMasterOwnedGear from './GameMasterOwnedGear';
+// import GameMasterGiveGear from './GameMasterGiveGear';
+// import GameMasterCharContacts from './GameMasterCharContacts';
 
 import SnackbarComponent from '../GeneralAssets/Snackbar';
 
@@ -36,8 +35,8 @@ export default function GameMasterSheet() {
     setSelectedSheet(newValue);
   };
 
-  const dispatch = useDispatch();
-  const history = useHistory();
+  // const dispatch = useDispatch();
+  // const history = useHistory();
   const params = useParams();
 
   const [campaignList, setCampaignList] = useState([]);
@@ -85,21 +84,21 @@ export default function GameMasterSheet() {
   }, []);
 
   // move handle, player, campaign to reducer.
-  const saveCharacter = () => {
-    dispatch({
-      type: 'SAVE_GM_CHANGES',
-      payload: {
-        charDetail: charDetail,
-        gear: equipmentDetails,
-        mods: modDetails,
-        handle: handle,
-        player: player,
-        campaign: campaign,
-        contacts: contacts,
-      },
-    });
-    history.push('/gamemaster/');
-  };
+  // const saveCharacter = () => {
+  //   dispatch({
+  //     type: 'SAVE_GM_CHANGES',
+  //     payload: {
+  //       charDetail: charDetail,
+  //       gear: equipmentDetails,
+  //       mods: modDetails,
+  //       handle: handle,
+  //       player: player,
+  //       campaign: campaign,
+  //       contacts: contacts,
+  //     },
+  //   });
+  //   history.push('/gamemaster/');
+  // };
 
   const [pageAlert, setPageAlert] = useState({
     open: false,

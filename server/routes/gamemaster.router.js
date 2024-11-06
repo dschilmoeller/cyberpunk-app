@@ -8,7 +8,6 @@ const {
 const { rejectNonAdmin } = require('../modules/rejectNonAdmin');
 
 // GM Routes
-
 // Fetch campaigns
 router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "campaigns" ORDER BY campaign_id ASC`;
@@ -262,7 +261,8 @@ const skillArray = [
   'science',
   'vehicle_tech',
   'first_aid',
-  'paramedic',
+  'paramed',
+  'is_paramedical',
 ];
 
 router.post('/changeSkill', rejectNonAdmin, (req, res) => {
