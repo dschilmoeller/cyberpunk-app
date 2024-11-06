@@ -5,6 +5,11 @@
 # Build directories for Front-End Assets
 build/
 
+# misc
+.prettierrc
+eslint.config.mjs
+.prettierignore
+
 # Logs
 logs
 *.log
