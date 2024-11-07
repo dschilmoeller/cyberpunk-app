@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 
 // TODO
 // Just this whole damn thing.
-export default function GMOwnedNetrunner({ charDetail, charNetrunnerGear }) {
+export default function GMOwnedNetrunner({ charDetail, charNetrunnerGear, deleteCharacterGear }) {
   return (
     <>
       <h2>{charDetail.handle}'s Netrunning Equipment</h2>
@@ -33,7 +33,7 @@ export default function GMOwnedNetrunner({ charDetail, charNetrunnerGear }) {
                   <TableCell align="center">{item.description}</TableCell>
                   <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
                   <TableCell align="center">
-                    <Button onClick={() => gmRemoveNetrunnerGear(item)}>Remove</Button>
+                    <Button onClick={() => deleteCharacterGear({ type: 'netrunner', data: item.netrunner_bridge_id })}>Remove</Button>
                   </TableCell>
                 </TableRow>
               );

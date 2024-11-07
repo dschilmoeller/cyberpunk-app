@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,16 +8,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Item from '../../Characters/CharacterSheet/Item';
+// import Item from '../../Characters/CharacterSheet/Item';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
+// import FormGroup from '@mui/material/FormGroup';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 
-export default function GMOwnedCyberware({ charDetail, charCyberware }) {
+export default function GMOwnedCyberware({ charDetail, charCyberware, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const [selectedList, setSelectedList] = useState('fashionware');
@@ -26,7 +25,7 @@ export default function GMOwnedCyberware({ charDetail, charCyberware }) {
     setSelectedList(newValue);
   };
 
-  const [allowDeleteEquipped, setAllowDeleteEquipped] = useState(false);
+  // const [allowDeleteEquipped, setAllowDeleteEquipped] = useState(false);
 
   return (
     <>
@@ -46,13 +45,13 @@ export default function GMOwnedCyberware({ charDetail, charCyberware }) {
         <Grid item xs={12}>
           <h2>{charDetail.handle}'s Cyberware</h2>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Item>
             Note: This will restore permanent humanity losses. It will not alter slot counts, armor, or health; removing equipped cyberware is NOT
             recommended.
           </Item>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <Item>
             <FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
               <FormControlLabel
@@ -61,7 +60,7 @@ export default function GMOwnedCyberware({ charDetail, charCyberware }) {
               />
             </FormGroup>
           </Item>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <TableContainer component={Paper}>
@@ -79,7 +78,10 @@ export default function GMOwnedCyberware({ charDetail, charCyberware }) {
           </TableHead>
           <TableBody>
             {charCyberware.map((item) => {
-              if ((item.type === selectedList && item.equipped === false) || (item.type === selectedList && allowDeleteEquipped === true)) {
+              if (item.type === selectedList && item.equipped === false) {
+                {
+                  /* || (item.type === selectedList && allowDeleteEquipped === true) */
+                }
                 return (
                   <React.Fragment key={item.owned_cyberware_id}>
                     <TableRow hover>
@@ -95,7 +97,7 @@ export default function GMOwnedCyberware({ charDetail, charCyberware }) {
                       </TableCell>
                       <TableCell align="center">{item.equipped ? 'Y' : 'N'}</TableCell>
                       <TableCell align="center">
-                        <Button onClick={() => gmRemoveCyberware(item)}>Remove</Button>
+                        <Button onClick={() => deleteCharacterGear({ type: 'cyberware', data: item.owned_cyberware_id })}>Remove</Button>
                       </TableCell>
                     </TableRow>
                   </React.Fragment>

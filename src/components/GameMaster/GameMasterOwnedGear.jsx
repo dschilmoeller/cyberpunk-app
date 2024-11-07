@@ -14,6 +14,8 @@ import GMOwnedCyberware from './GameMasterGearComps/GMOwnedCyberware';
 import GMOwnedNetrunner from './GameMasterGearComps/GMOwnedNetrunner';
 import GMOwnedVehicles from './GameMasterGearComps/GMOwnedVehicles';
 
+import { deleteCharacterGearRequest } from './gm.services';
+
 import {
   fetchCharacterArmorRequest,
   fetchCharacterWeaponsRequest,
@@ -43,6 +45,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
   });
 
   const fetchCharacterGear = async () => {
+    setLoading(true);
     const charObj = {
       charID: charDetail.id,
     };
@@ -69,6 +72,21 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
       setLoading(false);
     } catch (error) {
       console.error('Error fetching gear:', error);
+      chuckError();
+    }
+  };
+
+  const deleteCharacterGear = async (gearID) => {
+    setLoading(true);
+    let result = await deleteCharacterGearRequest(gearID);
+    if (result === 'OK') {
+      fetchCharacterGear();
+      setPageAlert({
+        open: true,
+        message: 'Crap Deleted',
+        severity: 'success',
+      });
+    } else {
       chuckError();
     }
   };
@@ -107,6 +125,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charArmor={characterGear.charArmor}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -122,6 +141,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charWeapons={characterGear.charWeapons}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -137,6 +157,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charGrenades={characterGear.charGrenades}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -152,6 +173,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charMiscGear={characterGear.charMisc}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -167,6 +189,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charCyberware={characterGear.charCyberware}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -182,6 +205,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charNetrunnerGear={characterGear.charNetrunner}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>
@@ -198,6 +222,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
                     charVehicleMods={characterGear.charVehicleMods}
                     setPageAlert={setPageAlert}
                     setCharDetail={setCharDetail}
+                    deleteCharacterGear={deleteCharacterGear}
                   />
                 </Grid>
               </>

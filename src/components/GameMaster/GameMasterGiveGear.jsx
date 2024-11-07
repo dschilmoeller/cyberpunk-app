@@ -26,9 +26,6 @@ import GMGiveNetrunnerMain from './GameMasterGearComps/GMGiveNetrunnerMain';
 import GMGiveVehicles from './GameMasterGearComps/GMGiveVehicles';
 
 // TODO
-// fetch all master gear lists and store as state similar to character fetch?
-// display same properly.
-// DISTINGUISH treasure items.
 // Affirm (setPageAlert) gear has been given
 // Allow creation of items (LATER) through page rather than DB edits.
 export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, setLoading, chuckError }) {

@@ -310,4 +310,48 @@ router.post('/changeRole', rejectNonAdmin, (req, res) => {
   }
 });
 
+router.post('/deleteCharacterGear', rejectNonAdmin, (req, res) => {
+  let sqlText = '';
+
+  switch (req.body.type) {
+    case 'armor':
+      sqlText = `DELETE FROM "char_armor_bridge" WHERE "armor_bridge_id" = $1`;
+      break;
+    case 'weapon':
+      sqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`;
+      break;
+    case 'grenade':
+      sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`;
+      break;
+    case 'misc':
+      sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`;
+      break;
+    case 'cyberware':
+      sqlText = `DELETE FROM "char_owned_cyberware" WHERE "owned_cyberware_id" = $1`;
+      break;
+    case 'netrunner':
+      sqlText = `DELETE FROM "netrunner_bridge" WHERE "netrunner_bridge_id" = $1`;
+      break;
+    case 'vehicle':
+      sqlText = `DELETE FROM "char_vehicle_bridge" WHERE "vehicle_bridge_id" = $1`;
+      break;
+    case 'vehicle_mod':
+      sqlText = `DELETE FROM "char_owned_vehicle_mods" WEHRE "char_owned_vehicle_mods_id" = $1`;
+      break;
+  }
+  pool
+    .query(sqlText, [req.body.data])
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    })
+    .catch((err) => {
+      console.error('Error deleting gear:', err);
+      res.sendStatus(400);
+    });
+});
+
 module.exports = router;
