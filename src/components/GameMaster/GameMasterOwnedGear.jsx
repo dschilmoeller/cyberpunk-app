@@ -117,7 +117,12 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'weapons' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOwnedWeapons />
+                  <GMOwnedWeapons
+                    charDetail={charDetail}
+                    charWeapons={characterGear.charWeapons}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (
@@ -127,7 +132,12 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'grenades' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOwnedGrenade />
+                  <GMOwnedGrenade
+                    charDetail={charDetail}
+                    charGrenades={characterGear.charGrenades}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (
@@ -137,7 +147,12 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'misc' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOtherOwned />
+                  <GMOtherOwned
+                    charDetail={charDetail}
+                    charMiscGear={characterGear.charMisc}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (
@@ -147,7 +162,12 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'cyberware' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOwnedCyberware />
+                  <GMOwnedCyberware
+                    charDetail={charDetail}
+                    charCyberware={characterGear.charCyberware}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (
@@ -157,7 +177,12 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'netrunner' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOwnedNetrunner />
+                  <GMOwnedNetrunner
+                    charDetail={charDetail}
+                    charNetrunnerGear={characterGear.charNetrunner}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (
@@ -167,7 +192,13 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
             {selectedGear === 'vehicles' ? (
               <>
                 <Grid item xs={12} padding={1}>
-                  <GMOwnedVehicles />
+                  <GMOwnedVehicles
+                    charDetail={charDetail}
+                    charVehicles={characterGear.charVehicles}
+                    charVehicleMods={characterGear.charVehicleMods}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
                 </Grid>
               </>
             ) : (

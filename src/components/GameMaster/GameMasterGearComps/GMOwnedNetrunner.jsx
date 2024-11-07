@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -10,45 +9,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import Grid from '@mui/material/Grid';
-import Item from '../../Characters/CharacterSheet/Item';
-
-export default function GMOwnedNetrunner() {
-  const dispatch = useDispatch();
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const charNetrunnerGear = useSelector(
-    (store) => store.advancementGear.netrunnerGear
-  );
-  const charBoughtNetrunnerGear = useSelector(
-    (store) => store.advancementGear.boughtNetrunnerGear
-  );
-
-  const gmRemoveNetrunnerGear = (item) => {
-    switch (item.type) {
-      case 'deck':
-        // removes deck, unequips all software and mods
-        dispatch({ type: 'GM_REMOVE_NETRUNNER_DECK', payload: item });
-        // zeroes out netrunner slots
-        dispatch({ type: 'NETRUNNER_DECK_UNEQUIPPED' });
-        break;
-      case 'software':
-      case 'mod':
-        dispatch({
-          type: 'GM_REMOVE_NETRUNNER_GEAR',
-          payload: item,
-          slots: item.slots,
-        });
-        break;
-      default:
-        break;
-    }
-  };
-
-  const gmRemoveGMNetrunnerGear = (item) => {
-    dispatch({ type: 'GM_REMOVE_GM_NETRUNNER_GEAR', payload: item });
-  };
-
+// TODO
+// Just this whole damn thing.
+export default function GMOwnedNetrunner({ charDetail, charNetrunnerGear }) {
   return (
     <>
       <h2>{charDetail.handle}'s Netrunning Equipment</h2>
@@ -68,27 +31,13 @@ export default function GMOwnedNetrunner() {
                 <TableRow hover key={i}>
                   <TableCell align="left">{item.name} </TableCell>
                   <TableCell align="center">{item.description}</TableCell>
+                  <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
                   <TableCell align="center">
-                    {item.equipped ? 'Yes' : 'No'}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Button onClick={() => gmRemoveNetrunnerGear(item)}>
-                      Remove
-                    </Button>
+                    <Button onClick={() => gmRemoveNetrunnerGear(item)}>Remove</Button>
                   </TableCell>
                 </TableRow>
               );
             })}
-            {/* {charBoughtNetrunnerGear.map((item, i) => {
-                        return (
-                            <TableRow hover key={i}>
-                                <TableCell align="left">{item.name} </TableCell>
-                                <TableCell align="center">{item.description}</TableCell>
-                                <TableCell align="center">{item.equipped ? 'Yes' : 'No'}</TableCell>
-                                <TableCell align="center"><Button onClick={() => gmRemoveGMNetrunnerGear(item)}>Remove</Button></TableCell>
-                            </TableRow>
-                        )
-                    })} */}
           </TableBody>
         </Table>
       </TableContainer>

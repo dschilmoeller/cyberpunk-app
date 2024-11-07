@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -12,28 +11,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-export default function GMOwnedVehicleMods() {
-  const dispatch = useDispatch();
-
-  const charVehicleMods = useSelector(
-    (store) => store.advancementGear.vehicleMods
-  );
-  const boughtVehicleMods = useSelector(
-    (store) => store.advancementGear.boughtVehicleMods
-  );
-
+export default function GMOwnedVehicleMods({ charVehicleMods }) {
   const euroBuck = `\u20AC$`;
-
-  const gmRemoveVehicleMod = (item) => {
-    dispatch({ type: 'GM_REMOVE_VEHICLE_MOD', payload: item });
-  };
-
-  const gmRemoveGMVehicleMod = (item) => {
-    if (item.is_nomad_vehicle === true) {
-      dispatch({ type: 'RESTORE_NOMAD_SLOT' });
-    }
-    dispatch({ type: 'GM_REMOVE_GM_VEHICLE_MOD', payload: item });
-  };
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -46,9 +25,7 @@ export default function GMOwnedVehicleMods() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -147,16 +124,7 @@ export default function GMOwnedVehicleMods() {
     setOrderBy(property);
   };
 
-  function createCharVehicleModData(
-    char_id,
-    char_owned_vehicle_mods_id,
-    description,
-    equipped,
-    name,
-    price,
-    type,
-    vehicle_mod_master_id
-  ) {
+  function createCharVehicleModData(char_id, char_owned_vehicle_mods_id, description, equipped, name, price, type, vehicle_mod_master_id) {
     return {
       char_id,
       char_owned_vehicle_mods_id,
@@ -195,16 +163,8 @@ export default function GMOwnedVehicleMods() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharVehicleModRows.map((row) => {
                   if (row.equipped === false) {
@@ -218,9 +178,7 @@ export default function GMOwnedVehicleMods() {
                           {Math.floor(row.price / 4).toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button onClick={() => gmRemoveVehicleMod(row)}>
-                            Sell
-                          </Button>
+                          <Button onClick={() => gmRemoveVehicleMod(row)}>Sell</Button>
                         </TableCell>
                       </TableRow>
                     );

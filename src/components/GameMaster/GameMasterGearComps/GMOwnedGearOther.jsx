@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -12,25 +11,10 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-export default function GMOtherOwned() {
-  const dispatch = useDispatch();
-
-  const charMiscGear = useSelector((store) => store.advancementGear.gear);
-  const boughtMiscGear = useSelector(
-    (store) => store.advancementGear.boughtMiscGear
-  );
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-
+// TODO
+// Remove Misc Gear
+export default function GMOtherOwned({ charDetail, charMiscGear }) {
   const euroBuck = `\u20AC$`;
-
-  const gmRemoveOther = (item) => {
-    dispatch({ type: 'GM_REMOVE_MISC_GEAR', payload: item });
-  };
-
-  const gmRemoveGMOther = (item) => {
-    dispatch({ type: 'GM_REMOVE_GM_MISC_GEAR', payload: item });
-  };
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -43,9 +27,7 @@ export default function GMOtherOwned() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -138,15 +120,7 @@ export default function GMOtherOwned() {
     setOrderBy(property);
   };
 
-  function createCharOtherData(
-    char_gear_bridge_id,
-    char_id,
-    description,
-    misc_gear_id,
-    misc_gear_master_id,
-    name,
-    price
-  ) {
+  function createCharOtherData(char_gear_bridge_id, char_id, description, misc_gear_id, misc_gear_master_id, name, price) {
     return {
       char_gear_bridge_id,
       char_id,
@@ -174,10 +148,7 @@ export default function GMOtherOwned() {
   }
 
   // sort and monitor changes to charOtherRows in case of sales.
-  const sortedCharOtherRows = React.useMemo(
-    () => stableSort(charOtherRows, getComparator(order, orderBy)),
-    [order, orderBy, charOtherRows]
-  );
+  const sortedCharOtherRows = React.useMemo(() => stableSort(charOtherRows, getComparator(order, orderBy)), [order, orderBy, charOtherRows]);
 
   return (
     <>
@@ -186,16 +157,8 @@ export default function GMOtherOwned() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharOtherRows.map((row) => {
                   return (
@@ -207,23 +170,11 @@ export default function GMOtherOwned() {
                         {Math.floor(row.price / 4).toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button onClick={() => gmRemoveOther(row)}>
-                          Remove
-                        </Button>
+                        <Button onClick={() => gmRemoveOther(row)}>Remove</Button>
                       </TableCell>
                     </TableRow>
                   );
                 })}
-                {/* {boughtMiscGear.map((item, i) => {
-                                return (
-                                    <TableRow hover key={i}>
-                                        <TableCell align="left">{item.name} </TableCell>
-                                        <TableCell align="center">{item.description}</TableCell>
-                                        <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                        <TableCell align="center"><Button onClick={() => gmRemoveGMOther(item)}>Remove</Button></TableCell>
-                                    </TableRow>
-                                )
-                            })} */}
               </TableBody>
             </Table>
           </TableContainer>

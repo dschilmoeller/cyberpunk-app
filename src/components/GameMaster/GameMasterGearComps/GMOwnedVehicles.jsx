@@ -18,28 +18,13 @@ import Tab from '@mui/material/Tab';
 
 import GMOwnedVehicleMods from './GMOwnedVehicleMods';
 
-export default function GMOwnedVehicles() {
-  const dispatch = useDispatch();
+// TODO
+// Remove Vehicles
+// Remove Vehicle mods from inventory
+// Equip vehicle mods to vehicles
 
-  const charVehicles = useSelector((store) => store.advancementGear.vehicles);
-  const boughtVehicles = useSelector(
-    (store) => store.advancementGear.boughtVehicles
-  );
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-
+export default function GMOwnedVehicles({ charDetail, charVehicles, charVehicleMods }) {
   const euroBuck = `\u20AC$`;
-
-  const gmRemoveVehicle = (item) => {
-    dispatch({ type: 'GM_REMOVE_VEHICLE', payload: item });
-  };
-
-  const gmRemoveGMVehicle = (item) => {
-    if (item.is_nomad_vehicle === true) {
-      dispatch({ type: 'RESTORE_NOMAD_SLOT' });
-    }
-    dispatch({ type: 'GM_REMOVE_GM_VEHICLE', payload: item });
-  };
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -52,9 +37,7 @@ export default function GMOwnedVehicles() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -227,10 +210,7 @@ export default function GMOwnedVehicles() {
     );
   }
 
-  const sortedCharVehicleRows = React.useMemo(
-    () => stableSort(charVehicleRows, getComparator(order, orderBy)),
-    [order, orderBy, charVehicleRows]
-  );
+  const sortedCharVehicleRows = React.useMemo(() => stableSort(charVehicleRows, getComparator(order, orderBy)), [order, orderBy, charVehicleRows]);
 
   // handle selection between vehicles and mods
   const [selectedShopping, setSelectedShopping] = React.useState('vehicles');
@@ -244,12 +224,7 @@ export default function GMOwnedVehicles() {
         <h2>{charDetail.handle}'s' Vehicles</h2>
       </Grid>
 
-      <Tabs
-        value={selectedShopping}
-        onChange={handleShoppingSelect}
-        indicatorColor="primary"
-        textColor="secondary"
-      >
+      <Tabs value={selectedShopping} onChange={handleShoppingSelect} indicatorColor="primary" textColor="secondary">
         <Tab value="vehicles" label="Vehicles" />
         <Tab value="mods" label="Vehicle Mods" />
       </Tabs>
@@ -259,24 +234,14 @@ export default function GMOwnedVehicles() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <TableContainer>
-                <Table
-                  sx={{ minWidth: 750 }}
-                  aria-labelledby="tableTitle"
-                  size={'small'}
-                >
-                  <EnhancedTableHead
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
+                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
                   <TableBody>
                     {sortedCharVehicleRows.map((row) => {
                       return (
                         <TableRow hover key={row.vehicle_bridge_id}>
                           <TableCell padding="normal">{row.name}</TableCell>
-                          <TableCell align="center">
-                            {row.description}
-                          </TableCell>
+                          <TableCell align="center">{row.description}</TableCell>
                           <TableCell align="center">{row.health}</TableCell>
                           <TableCell align="center">{row.seats}</TableCell>
                           <TableCell align="center">{row.move}</TableCell>
@@ -284,33 +249,14 @@ export default function GMOwnedVehicles() {
                           <TableCell align="center">{row.type}</TableCell>
                           <TableCell align="center">
                             {euroBuck}
-                            {Math.floor(
-                              row.price / 4 + row.total_mod_cost
-                            ).toLocaleString('en-US')}
+                            {Math.floor(row.price / 4 + row.total_mod_cost).toLocaleString('en-US')}
                           </TableCell>
                           <TableCell align="center">
-                            <Button onClick={() => gmRemoveVehicle(row)}>
-                              Remove
-                            </Button>
+                            <Button onClick={() => gmRemoveVehicle(row)}>Remove</Button>
                           </TableCell>
                         </TableRow>
                       );
                     })}
-                    {/* {boughtVehicles.map((row, i) => {
-                                        return (
-                                            <TableRow hover key={i}>
-                                                <TableCell padding='normal'>{row.name}</TableCell>
-                                                <TableCell align="center">{row.description}</TableCell>
-                                                <TableCell align="center">{row.health}</TableCell>
-                                                <TableCell align="center">{row.seats}</TableCell>
-                                                <TableCell align="center">{row.move}</TableCell>
-                                                <TableCell align="center">{row.mph}</TableCell>
-                                                <TableCell align="center">{row.type}</TableCell>
-                                                <TableCell align="center">{euroBuck}{Math.floor(row.price).toLocaleString("en-US")}</TableCell>
-                                                <TableCell align="center"><Button onClick={() => gmRemoveGMVehicle(row)}>Remove</Button></TableCell>
-                                            </TableRow>
-                                        )
-                                    })} */}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -321,7 +267,7 @@ export default function GMOwnedVehicles() {
         <></>
       )}
 
-      {selectedShopping === 'mods' ? <GMOwnedVehicleMods /> : <></>}
+      {selectedShopping === 'mods' ? <GMOwnedVehicleMods charVehicleMods={charVehicleMods} /> : <></>}
     </>
   );
 }
