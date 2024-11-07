@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
@@ -17,38 +17,7 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 export default function GMGiveGrenade({ charDetail, grenadeMaster, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'description',
-      numeric: true,
-      disablePadding: false,
-      label: 'Description',
-    },
-    {
-      id: 'range',
-      numeric: true,
-      disablePadding: false,
-      label: 'Range',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'purchase',
-      numeric: false,
-      disablePadding: false,
-      label: 'Purchase',
-    },
-  ];
+  const headCells = headCellsGenerator(['name', 'description', 'range', 'price', 'purchase']);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
@@ -59,34 +28,8 @@ export default function GMGiveGrenade({ charDetail, grenadeMaster, setPageAlert,
     setOrderBy(property);
   };
 
-  // create master data
-
-  function createMasterGrenadeData(description, grenade_master_id, is_treasure, name, price) {
-    return {
-      description,
-      grenade_master_id,
-      is_treasure,
-      name,
-      price,
-    };
-  }
-
-  // take master data and push into array for conversion into rows.
-  const grenadeMasterRows = [];
-  for (let i = 0; i < grenadeMaster.length; i++) {
-    grenadeMasterRows.push(
-      createMasterGrenadeData(
-        grenadeMaster[i].description,
-        grenadeMaster[i].grenade_master_id,
-        grenadeMaster[i].is_treasure,
-        grenadeMaster[i].name,
-        grenadeMaster[i].price
-      )
-    );
-  }
-
   // sort and monitor changes.
-  const sortedGrenadeMasterRows = React.useMemo(() => stableSort(grenadeMasterRows, getComparator(order, orderBy)), [order, orderBy, grenadeMaster]);
+  const sortedGrenadeMasterRows = React.useMemo(() => stableSort(grenadeMaster, getComparator(order, orderBy)), [order, orderBy, grenadeMaster]);
 
   return (
     <>

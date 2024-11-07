@@ -203,7 +203,15 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'vehicles' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveVehicles />
+              <GMGiveVehicles
+                charDetail={charDetail}
+                vehicleMaster={gearMaster.vehicles}
+                vehicleModMaster={gearMaster.vehicleMods}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </Grid>
           </>
         ) : (

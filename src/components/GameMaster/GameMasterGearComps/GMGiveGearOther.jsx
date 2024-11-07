@@ -7,37 +7,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 export default function GMGiveGearOther({ charDetail, gearMaster, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'description',
-      numeric: true,
-      disablePadding: false,
-      label: 'Description',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'give',
-      numeric: false,
-      disablePadding: false,
-      label: 'Give',
-    },
-  ];
+  const headCells = headCellsGenerator(['name', 'description', 'price', 'give']);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
@@ -48,27 +23,8 @@ export default function GMGiveGearOther({ charDetail, gearMaster, setPageAlert, 
     setOrderBy(property);
   };
 
-  // create OtherGear Data
-
-  function createOtherMasterData(description, misc_gear_master_id, name, price) {
-    return {
-      description,
-      misc_gear_master_id,
-      name,
-      price,
-    };
-  }
-
-  // take misc gear data and push into array for conversion into rows.
-  const otherMasterRows = [];
-  for (let i = 0; i < gearMaster.length; i++) {
-    otherMasterRows.push(
-      createOtherMasterData(gearMaster[i].description, gearMaster[i].misc_gear_master_id, gearMaster[i].name, gearMaster[i].price)
-    );
-  }
-
   // sort and monitor changes.
-  const sortedOtherMasterRows = React.useMemo(() => stableSort(otherMasterRows, getComparator(order, orderBy)), [order, orderBy]);
+  const sortedOtherMasterRows = React.useMemo(() => stableSort(gearMaster, getComparator(order, orderBy)), [order, orderBy]);
 
   return (
     <>

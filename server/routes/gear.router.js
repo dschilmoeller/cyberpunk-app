@@ -583,7 +583,7 @@ router.get('/fetchVehicleMaster', rejectUnauthenticated, (req, res) => {
 });
 
 router.get('/fetchVehicleModMaster', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT * FROM "vehicle_master"`;
+  const sqlText = `SELECT * FROM "vehicle_mod_master"`;
   pool
     .query(sqlText)
     .then((result) => {

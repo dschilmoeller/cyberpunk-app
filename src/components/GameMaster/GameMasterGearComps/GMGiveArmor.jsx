@@ -7,45 +7,19 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 // TODO
 // Give armor function
+// highlight shields differently
 export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'quality',
-      numeric: true,
-      disablePadding: false,
-      label: 'Quality',
-    },
-    {
-      id: 'description',
-      numeric: false,
-      disablePadding: false,
-      label: 'Description',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'give',
-      numeric: false,
-      disablePadding: false,
-      label: 'Give',
-    },
-  ];
+  const gmGiveArmor = (obj) => {
+    console.log(`obj:`, obj);
+  };
+
+  const headCells = headCellsGenerator(['name', 'quality', 'description', 'price', 'give']);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
@@ -56,30 +30,7 @@ export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loa
     setOrderBy(property);
   };
 
-  function createMasterArmorData(armor_master_id, description, name, price, quality) {
-    return {
-      armor_master_id,
-      description,
-      name,
-      price,
-      quality,
-    };
-  }
-
-  const masterArmorRows = [];
-  for (let i = 0; i < armorMaster.length; i++) {
-    masterArmorRows.push(
-      createMasterArmorData(
-        armorMaster[i].armor_master_id,
-        armorMaster[i].description,
-        armorMaster[i].name,
-        armorMaster[i].price,
-        armorMaster[i].quality
-      )
-    );
-  }
-
-  const sortedMasterArmorRows = React.useMemo(() => stableSort(masterArmorRows, getComparator(order, orderBy)), [order, orderBy, armorMaster]);
+  const sortedMasterArmorRows = React.useMemo(() => stableSort(armorMaster, getComparator(order, orderBy)), [order, orderBy, armorMaster]);
 
   return (
     <>
@@ -102,7 +53,7 @@ export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loa
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="left">
-                        <Button onClick={() => buyArmor(row)}>Give</Button>
+                        <Button onClick={() => gmGiveArmor(row)}>Give</Button>
                       </TableCell>
                     </TableRow>
                   );

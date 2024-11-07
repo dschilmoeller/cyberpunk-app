@@ -10,69 +10,14 @@ import { Button } from '@mui/material';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
 
-import { getComparator, stableSort, EnhancedTableHead } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 // TODO
 // Give weapon function
 // styling for treasure.
 export default function GMGiveWeapons({ charDetail, weaponMaster, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'damage',
-      numeric: true,
-      disablePadding: false,
-      label: 'Damage',
-    },
-    {
-      id: 'range',
-      numeric: true,
-      disablePadding: false,
-      label: 'Range',
-    },
-    {
-      id: 'rof',
-      numeric: true,
-      disablePadding: false,
-      label: 'Rate of Fire',
-    },
-    {
-      id: 'max_clip',
-      numeric: true,
-      disablePadding: false,
-      label: 'Max Clip',
-    },
-    {
-      id: 'hands',
-      numeric: true,
-      disablePadding: false,
-      label: '# of Hands',
-    },
-    {
-      id: 'concealable',
-      numeric: false,
-      disablePadding: false,
-      label: 'Concealable',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'give',
-      numeric: false,
-      disablePadding: false,
-      label: 'Give',
-    },
-  ];
+  const headCells = headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'give']);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
@@ -83,25 +28,7 @@ export default function GMGiveWeapons({ charDetail, weaponMaster, setPageAlert, 
     setOrderBy(property);
   };
 
-  // create weaponMaster data
-
-  function createMasterWeaponData(concealable, damage, dmg_type, hands, max_clip, name, price, range, rof, weapon_master_id, is_treasure) {
-    return {
-      concealable,
-      damage,
-      dmg_type,
-      hands,
-      max_clip,
-      name,
-      price,
-      range,
-      rof,
-      weapon_master_id,
-      is_treasure,
-    };
-  }
-
-  // take weaponMaster data and push into array for conversion into rows.
+  // deal with damage and range
   const weaponMasterRows = [];
   for (let i = 0; i < weaponMaster.length; i++) {
     let damage = 0;
@@ -120,21 +47,19 @@ export default function GMGiveWeapons({ charDetail, weaponMaster, setPageAlert, 
       range = weaponMaster[i].range;
     }
     // return finalized weapon data (allows range and damage to sort properly)
-    weaponMasterRows.push(
-      createMasterWeaponData(
-        weaponMaster[i].concealable,
-        damage,
-        weaponMaster[i].dmg_type,
-        weaponMaster[i].hands,
-        weaponMaster[i].max_clip,
-        weaponMaster[i].name,
-        weaponMaster[i].price,
-        range,
-        weaponMaster[i].rof,
-        weaponMaster[i].weapon_master_id,
-        weaponMaster[i].is_treasure
-      )
-    );
+    weaponMasterRows.push({
+      concealable: weaponMaster[i].concealable,
+      damage,
+      dmg_type: weaponMaster[i].dmg_type,
+      hands: weaponMaster[i].hands,
+      max_clip: weaponMaster[i].max_clip,
+      name: weaponMaster[i].name,
+      price: weaponMaster[i].price,
+      range,
+      rof: weaponMaster[i].rof,
+      weapon_master_id: weaponMaster[i].weapon_master_id,
+      is_treasure: weaponMaster[i].is_treasure,
+    });
   }
 
   // sort and monitor changes.

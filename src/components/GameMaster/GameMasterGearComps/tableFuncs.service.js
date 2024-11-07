@@ -3,6 +3,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import { capitalizer } from '../../../utils/funcs/funcs';
+
+const headCellsGenerator = (IDs) => {
+  let headCellsReturned = [];
+  for (let i = 0; i < IDs.length; i++) {
+    headCellsReturned.push({ id: IDs[i], label: capitalizer(IDs[i]), disablePadding: true, numeric: false });
+  }
+  return headCellsReturned;
+};
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -61,4 +70,4 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
 };
 
-export { getComparator, stableSort, EnhancedTableHead };
+export { getComparator, stableSort, EnhancedTableHead, headCellsGenerator };
