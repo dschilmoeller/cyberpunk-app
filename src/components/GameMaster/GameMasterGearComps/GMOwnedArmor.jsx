@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -12,35 +11,15 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-export default function GMOwnedArmor() {
-  const dispatch = useDispatch();
-
-  const charArmor = useSelector((store) => store.advancementGear.armor);
-  const boughtArmor = useSelector((store) => store.advancementGear.boughtArmor);
-
-  const charShield = useSelector((store) => store.advancementGear.shield);
-  const boughtShield = useSelector(
-    (store) => store.advancementGear.boughtShield
-  );
-
-  const charDetail = useSelector((store) => store.advancementDetail);
+// TODO
+// Remove armor function
+// should show 'No Armor' but not be able to delete.
+// show character total armor
+// show character total shielding
+// equip / remove armor & shields.
+// handle auto-equipping 'no armor'
+export default function GMOwnedArmor({ charDetail, charArmor }) {
   const euroBuck = `\u20AC$`;
-
-  const gmRemoveArmor = (item) => {
-    dispatch({ type: 'GM_REMOVE_ARMOR', payload: item });
-  };
-
-  const gmRemoveGMArmor = (item) => {
-    dispatch({ type: 'GM_REMOVE_GM_ARMOR', payload: item });
-  };
-
-  const gmRemoveShield = (item) => {
-    dispatch({ type: 'GM_REMOVE_SHIELD', payload: item });
-  };
-
-  const gmRemoveGMShield = (item) => {
-    dispatch({ type: 'GM_REMOVE_GM_SHIELD', payload: item });
-  };
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -53,9 +32,7 @@ export default function GMOwnedArmor() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -170,7 +147,8 @@ export default function GMOwnedArmor() {
     equipped,
     name,
     price,
-    quality
+    quality,
+    is_shield
   ) {
     return {
       armor_bridge_id,
@@ -183,6 +161,7 @@ export default function GMOwnedArmor() {
       name,
       price,
       quality,
+      is_shield,
     };
   }
 
@@ -199,81 +178,22 @@ export default function GMOwnedArmor() {
         charArmor[i].equipped,
         charArmor[i].name,
         charArmor[i].price,
-        charArmor[i].quality
+        charArmor[i].quality,
+        charArmor[i].is_shield
       )
     );
   }
 
-  const sortedCharArmorRows = React.useMemo(
-    () => stableSort(charArmorRows, getComparator(order, orderBy)),
-    [order, orderBy, charArmorRows]
-  );
-
-  function createCharShieldData(
-    armor_mod_1,
-    char_id,
-    description,
-    equipped,
-    name,
-    price,
-    quality,
-    shield_bridge_id,
-    shield_id,
-    shield_master_id
-  ) {
-    return {
-      armor_mod_1,
-      char_id,
-      description,
-      equipped,
-      name,
-      price,
-      quality,
-      shield_bridge_id,
-      shield_id,
-      shield_master_id,
-    };
-  }
-
-  const charShieldRows = [];
-  for (let i = 0; i < charShield.length; i++) {
-    charShieldRows.push(
-      createCharShieldData(
-        charShield[i].armor_mod_1,
-        charShield[i].char_id,
-        charShield[i].description,
-        charShield[i].equipped,
-        charShield[i].name,
-        charShield[i].price,
-        charShield[i].quality,
-        charShield[i].shield_bridge_id,
-        charShield[i].shield_id,
-        charShield[i].shield_master_id
-      )
-    );
-  }
-
-  const sortedCharShieldRows = React.useMemo(
-    () => stableSort(charShieldRows, getComparator(order, orderBy)),
-    [order, orderBy, charShieldRows]
-  );
+  const sortedCharArmorRows = React.useMemo(() => stableSort(charArmorRows, getComparator(order, orderBy)), [order, orderBy, charArmorRows]);
 
   return (
     <>
-      <h2>{charDetail.handle}'s Armor</h2>
+      <h2>{charDetail.handle} - Armor</h2>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharArmorRows.map((row) => {
                   return (
@@ -285,62 +205,13 @@ export default function GMOwnedArmor() {
                         {euroBuck}
                         {Math.floor(row.price / 4).toLocaleString('en-US')}
                       </TableCell>
+                      <TableCell align="center">{row.equipped ? 'Y' : 'N'}</TableCell>
                       <TableCell align="center">
-                        {row.equipped ? 'Y' : 'N'}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button onClick={() => gmRemoveArmor(row)}>
-                          Remove
-                        </Button>
+                        <Button onClick={() => gmRemoveArmor(row)}>Remove</Button>
                       </TableCell>
                     </TableRow>
                   );
                 })}
-                {/* {boughtArmor.map((item, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell align="left">{item.name} </TableCell>
-                                            <TableCell align="center">{item.quality}</TableCell>
-                                            <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center">N</TableCell>
-                                            <TableCell align="center"><Button onClick={() => gmRemoveGMArmor(item)}>Remove</Button></TableCell>
-                                        </TableRow>
-                                    )
-                                })} */}
-                {sortedCharShieldRows.map((row) => {
-                  return (
-                    <TableRow hover key={row.shield_bridge_id}>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell align="center">{row.quality}</TableCell>
-                      <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">
-                        {euroBuck}
-                        {Math.floor(row.price / 4).toLocaleString('en-US')}
-                      </TableCell>
-                      <TableCell align="center">
-                        {row.equipped ? 'Y' : 'N'}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button onClick={() => gmRemoveShield(row)}>
-                          Remove
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-                {/* {boughtShield.map((item, i) => {
-                                    return (
-                                        <TableRow hover key={i}>
-                                            <TableCell align="left">{item.name} </TableCell>
-                                            <TableCell align="center">{item.quality}</TableCell>
-                                            <TableCell align="center">{item.description}</TableCell>
-                                            <TableCell align="center">{euroBuck}{Math.floor(item.price).toLocaleString("en-US")}</TableCell>
-                                            <TableCell align="center">N</TableCell>
-                                            <TableCell align="center"><Button onClick={() => gmRemoveGMShield(item)}>Remove</Button></TableCell>
-                                        </TableRow>
-                                    )
-                                })} */}
               </TableBody>
             </Table>
           </TableContainer>

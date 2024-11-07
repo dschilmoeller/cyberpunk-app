@@ -18,19 +18,6 @@ router.get('/fetcharmor', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// Other Fetches
-router.get('/fetchshield', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT * FROM "shield_master" order by "shield_master_id"`;
-  pool
-    .query(sqlText)
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((err) => {
-      console.log(`Error Fetching Armor List:`, err);
-    });
-});
-
 router.get('/fetchweapon', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "weapon_master" order by "weapon_master_id"`;
   pool
@@ -160,7 +147,6 @@ const whiteListTable = [
   'char_grenade_bridge',
   'char_owned_cyberware',
   'char_owned_vehicle_mods',
-  'char_shield_bridge',
   'char_vehicle_bridge',
   'char_weapons_bridge',
 ];
@@ -172,7 +158,6 @@ const whiteListBuyPKs = [
   'grenade_id',
   'cyberware_master_id',
   'vehicle_mod_master_id',
-  'shield_id',
   'vehicle_id',
   'weapon_id',
 ];
@@ -184,7 +169,6 @@ const whiteListSellPKs = [
   'grenade_bridge_id',
   'owned_cyberware_id',
   'char_owned_vehicle_mods_id',
-  'shield_bridge_id',
   'vehicle_bridge_id',
   'weapon_bridge_id',
 ];
@@ -264,19 +248,6 @@ router.put('/changeCharacterArmor/', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(`Error changing in play character armor loss`, err);
-    });
-});
-
-router.put('/changeCharacterShield/', rejectUnauthenticated, (req, res) => {
-  const sqlText = `UPDATE "char_shield_bridge" SET "this_shield_loss" = $1 WHERE "shield_bridge_id" = $2`;
-  const sqlParams = [req.body.newLoss, req.body.shield_bridge_id];
-  pool
-    .query(sqlText, sqlParams)
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      console.log(`Error changing in play character shield loss`, err);
     });
 });
 
@@ -530,21 +501,6 @@ router.post('/fetchCharacterArmor', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching character armor:', err);
-      res.sendStatus(400);
-    });
-});
-
-router.post('/fetchCharacterShields', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT * FROM "char_shield_bridge"
-    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
-    WHERE char_id = $1`;
-  pool
-    .query(sqlText, [req.body.charID])
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((err) => {
-      console.error('Error fetching character shield(s):', err);
       res.sendStatus(400);
     });
 });

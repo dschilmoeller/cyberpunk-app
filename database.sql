@@ -97,12 +97,13 @@ WITH
 	(OIDS = FALSE);
 
 ALTER TABLE "character" ADD CONSTRAINT "char_fk0" FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+
 ALTER TABLE "character" ADD CONSTRAINT "char_fk1" FOREIGN KEY ("campaign") REFERENCES "campaigns" ("campaign_id");
 
-INSERT INTO "public"."campaigns"("campaign_id","campaign_name")
+INSERT INTO
+	"public"."campaigns" ("campaign_id", "campaign_name")
 VALUES
-(1,E'Unknown/Undecided');
-
+	(1, E 'Unknown/Undecided');
 
 CREATE TABLE
 	"char_status" (
@@ -161,23 +162,22 @@ CREATE TABLE
 		"description" varchar NOT NULL DEFAULT 'desc',
 		"quality" integer NOT NULL DEFAULT '0',
 		"price" integer NOT NULL DEFAULT '0',
-		CONSTRAINT "armor_master_pk" PRIMARY KEY ("armor_master_id")
+		"is_shield" boolean NOT NULL DEFAULT FALSE CONSTRAINT "armor_master_pk" PRIMARY KEY ("armor_master_id")
 	)
 WITH
 	(OIDS = FALSE);
 
-CREATE TABLE
-	"shield_master" (
-		"shield_master_id" serial NOT NULL,
-		"name" varchar NOT NULL DEFAULT 'name',
-		"description" varchar NOT NULL DEFAULT 'desc',
-		"quality" integer NOT NULL DEFAULT '0',
-		"price" integer NOT NULL DEFAULT '0',
-		CONSTRAINT "shield_master_pk" PRIMARY KEY ("shield_master_id")
-	)
-WITH
-	(OIDS = FALSE);
-
+-- CREATE TABLE
+-- 	"shield_master" (
+-- 		"shield_master_id" serial NOT NULL,
+-- 		"name" varchar NOT NULL DEFAULT 'name',
+-- 		"description" varchar NOT NULL DEFAULT 'desc',
+-- 		"quality" integer NOT NULL DEFAULT '0',
+-- 		"price" integer NOT NULL DEFAULT '0',
+-- 		CONSTRAINT "shield_master_pk" PRIMARY KEY ("shield_master_id")
+-- 	)
+-- WITH
+-- 	(OIDS = FALSE);
 CREATE TABLE
 	"char_armor_bridge" (
 		"armor_bridge_id" serial NOT NULL,
@@ -190,22 +190,19 @@ CREATE TABLE
 WITH
 	(OIDS = FALSE);
 
-CREATE TABLE
-	"char_shield_bridge" (
-		"shield_bridge_id" serial NOT NULL,
-		"char_id" integer NOT NULL,
-		"shield_id" integer NOT NULL,
-		"this_shield_loss" integer NOT NULL DEFAULT '0',
-		"equipped" boolean NOT NULL DEFAULT false,
-		CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
-	)
-WITH
-	(OIDS = FALSE);
-
-ALTER TABLE "char_shield_bridge" ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "char_shield_bridge" ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master" ("shield_master_id");
-
+-- CREATE TABLE
+-- 	"char_shield_bridge" (
+-- 		"shield_bridge_id" serial NOT NULL,
+-- 		"char_id" integer NOT NULL,
+-- 		"shield_id" integer NOT NULL,
+-- 		"this_shield_loss" integer NOT NULL DEFAULT '0',
+-- 		"equipped" boolean NOT NULL DEFAULT false,
+-- 		CONSTRAINT "char_shield_bridge_pk" PRIMARY KEY ("shield_bridge_id")
+-- 	)
+-- WITH
+-- 	(OIDS = FALSE);
+-- ALTER TABLE "char_shield_bridge" ADD CONSTRAINT "char_shield_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
+-- ALTER TABLE "char_shield_bridge" ADD CONSTRAINT "char_shield_bridge_fk1" FOREIGN KEY ("shield_id") REFERENCES "shield_master" ("shield_master_id");
 CREATE TABLE
 	"grenade_master" (
 		"grenade_master_id" serial NOT NULL,
@@ -2563,90 +2560,122 @@ VALUES
 	);
 
 INSERT INTO
-	"public"."armor_master" ("name", "quality", "price", "description")
+	"public"."armor_master" (
+		"name",
+		"quality",
+		"price",
+		"description",
+		"is_shield"
+	)
 VALUES
+	('No Armor', 0, 0, 'You are unprotected', FALSE),
 	(
-		E 'Clothes',
+		'Clothes',
 		1,
 		10,
-		E 'Standard clothing with mild antiballistic properties.'
+		'Standard clothing with mild antiballistic properties.',
+		FALSE
 	),
 	(
-		E 'Leathers',
+		'Leathers',
 		2,
 		20,
-		E 'Not even slightly bulletproof, but offers protection against small clubs.'
+		'Not even slightly bulletproof, but offers protection against small clubs.',
+		FALSE
 	),
 	(
-		E 'Kevlar',
+		'Kevlar',
 		3,
 		50,
-		E 'Offers decent protection for the vitals at a bargain price.'
+		'Offers decent protection for the vitals at a bargain price.',
+		FALSE
 	),
 	(
-		E 'Light Armorjack',
+		'Light Armorjack',
 		4,
 		100,
-		E 'Full body armor of the lightest kind.'
+		'Full body armor of the lightest kind.',
+		FALSE
 	),
 	(
-		E 'Armored Trench Coat',
+		'Armored Trench Coat',
 		4,
 		1000,
-		E 'A somewhat less obtrusive piece of gear, allowing an edgerunner to armor up in public. Not especially fancy, doesn\'t breathe. Expect a certain amount of musk.'
+		'A somewhat less obtrusive piece of gear, allowing an edgerunner to armor up in public. Not especially fancy, does not breathe. Expect a certain amount of musk.',
+		FALSE
 	),
 	(
-		E 'Fancy Armored Suit',
+		'Fancy Armored Suit',
 		4,
 		2500,
-		E 'A stylish, high class looking bit of body armor. Common amongst Corpos with reason to suspect they are less loved than they should be. Also, it breathes.'
+		'A stylish, high class looking bit of body armor. Common amongst Corpos with reason to suspect they are less loved than they should be. Also, it breathes.',
+		FALSE
 	),
 	(
-		E 'Medium Armorjack',
+		'Medium Armorjack',
 		5,
 		500,
-		E 'A plain suit of modern armor, completely undisguisable as anything else.'
+		'A plain suit of modern armor, completely undisguisable as anything else.',
+		FALSE
 	),
 	(
-		E 'Heavy Armorjack',
+		'Heavy Armorjack',
 		6,
 		1000,
-		E 'The descendent of SWAT armor and platemail, offering considerable protection to the wearer.'
+		'The descendent of SWAT armor and platemail, offering considerable protection to the wearer.',
+		FALSE
 	),
 	(
-		E 'Full Flak',
+		'Full Flak',
 		7,
 		2000,
-		E 'Standard military issue gear, designed to keep the wearer alive through some SHIT.'
+		'Standard military issue gear, designed to keep the wearer alive through some SHIT.',
+		FALSE
 	),
 	(
-		E 'Metalgear',
+		'Metalgear',
 		8,
 		5000,
-		E 'Advanced composite alloys and strategic plating offering the best possible protection. The weaere soaks non-aggravated wounds with a difficulty of 5.'
+		'Advanced composite alloys and strategic plating offering the best possible protection. The weaere soaks non-aggravated wounds with a difficulty of 5.',
+		FALSE
 	),
 	(
-		E 'Military Grade Powered Armor',
+		'Military Grade Powered Armor',
 		10,
 		50000,
-		E 'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Armor is considered Hardened (see rules)'
-	);
-
-INSERT INTO
-	"public"."shield_master" ("name", "quality", "price", "description")
-VALUES
-	(
-		E 'Runner\'s Buckler',
-		1,
-		500,
-		E 'A small shield, useful for deflecting gangers and salesmen.'
+		'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Armor is considered Hardened (see rules)',
+		FALSE
 	),
 	(
-		E 'Riot Shield',
+		'Buckler',
+		1,
+		500,
+		'A small shield, useful for deflecting gangers and salesmen.',
+		TRUE
+	),
+	(
+		'Riot Shield',
 		2,
 		1000,
-		E 'A full sized shield offering decent protection.'
-	)
+		'A full sized shield offering decent protection.',
+		TRUE
+	);
+
+-- INSERT INTO
+-- 	"public"."shield_master" ("name", "quality", "price", "description")
+-- VALUES
+-- 	(
+-- 		E 'Runner\'s Buckler',
+-- 		1,
+-- 		500,
+-- 		E 'A small shield, useful for deflecting gangers and salesmen.'
+-- 	),
+-- 	(
+-- 		E 'Riot Shield',
+-- 		2,
+-- 		1000,
+-- 		E 'A full sized shield offering decent protection.'
+-- 	)
 INSERT INTO
 	"public"."weapon_master" (
 		"name",
@@ -3293,8 +3322,8 @@ VALUES
 		'A portable toolkit suitable for minor field repairs to cyberware. Allows installation of the most basic forms of cyberware in conjunction with the appropriate medical equipment (Mall Level)',
 		500
 	),
-	(	
-		'Workshop - Cybertech',	
+	(
+		'Workshop - Cybertech',
 		'A well equipped cyberware station, suitable for the repair and fabrication of most basic cyberware. Allows installation of most cyberware in conjunction with the appropriate medical equipment (Clinic Level)',
 		5000
 	),
@@ -3327,12 +3356,11 @@ VALUES
 		'Workshop - Armory',
 		'A fully equipped set of tools and machinery for working on or modifying most weapons and armor. Allows for the production of non-custom ammunition. Allows for repair and modification of armor without the Hardened property. In conjunction with a Cyberware Workshop, allows for repair and modification of most cyberweapons.',
 		5000
-	)
-	(
+	) (
 		'Facility - Armory',
 		'A fully stocked shop for working on any conceivable set of weapons or armor. Allows for repair and modification of any such item, as well as the crafting of weapon-specific custom ammunition. In conjunction with a Cyberware Workshop, allows for the repair and modification of any cyberweapon.',
 		25000
-	), 
+	),
 	(
 		'Workshop - Pharmaceutical',
 		'A well equipped station with everyday tools necessary for the production of various medicines and compounds. Allows for the creation of most pharmaceuticals.',
@@ -3360,8 +3388,7 @@ VALUES
 	),
 	(
 		'Facility - Fabrication',
-		'A full set of 3-D Printers, lathes, laser cutters, and other tools needed to produce large amounts of specialized equipment. Allows for the production of unique equipment, as well as mass production of other kinds of gear in conjunction with the relevant Workshop / Facility.'
-		25000
+		'A full set of 3-D Printers, lathes, laser cutters, and other tools needed to produce large amounts of specialized equipment. Allows for the production of unique equipment, as well as mass production of other kinds of gear in conjunction with the relevant Workshop / Facility.' 25000
 	),
 	(
 		'Workshop - Invention',
@@ -3383,29 +3410,33 @@ VALUES
 		'A specialized freezer allowing the long term storage of spare limbs, organs, and other biological tissue. Can store a full set of replacement parts for 2 people, or the critical organs - hearts, livers, kidneys, eyes, etc - of a full dozen.',
 		5000
 	)
+CREATE TABLE
+	"pharma_master" (
+		"pharma_master_id" SERIAL NOT NULL,
+		"name" varchar NOT NULL,
+		"description" varchar NOT NULL,
+		"price" integer NOT NULL,
+		"rank" integer NOT NULL,
+		CONSTRAINT "pharma_master_pk" PRIMARY KEY ("pharma_master_id")
+	)
+WITH
+	(OIDS = FALSE);
 
-CREATE TABLE "pharma_master" (
-	"pharma_master_id" SERIAL NOT NULL,
-	"name" varchar NOT NULL,
-	"description" varchar NOT NULL,
-	"price" integer NOT NULL,
-	"rank" integer NOT NULL,
-	CONSTRAINT "pharma_master_pk" PRIMARY KEY ("pharma_master_id")
-) WITH (OIDS = FALSE);
+CREATE TABLE
+	"char_pharma_bridge" (
+		"char_pharma_bridge_id" SERIAL NOT NULL,
+		"char_id" integer NOT NULL,
+		"pharma_master_id" integer NOT NULL,
+		CONSTRAINT "char_pharma_bridge_pk" PRIMARY KEY ("char_pharma_brige_id")
+	)
+WITH
+	(OIDS = FALSE);
 
-CREATE TABLE "char_pharma_bridge" (
-	"char_pharma_bridge_id" SERIAL NOT NULL,
-	"char_id" integer NOT NULL,
-	"pharma_master_id" integer NOT NULL,
-	CONSTRAINT "char_pharma_bridge_pk" PRIMARY KEY ("char_pharma_brige_id")
-) WITH (OIDS = FALSE);
-
-ALTER TABLE "char_pharma_bridge"
-ADD CONSTRAINT "char_pharma_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE
-ALTER TABLE "char_pharma_bridge"
-ADD CONSTRAINT "char_pharma_bridge_fk1" FOREIGN KEY ("pharma_master_id") REFERENCES "pharma_master"("pharma_master_id") ON DELETE CASCADE
-
-INSERT INTO "pharma_master" ("name", "description", "price", "rank") VALUES
+ALTER TABLE "char_pharma_bridge" ADD CONSTRAINT "char_pharma_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE
+ALTER TABLE "char_pharma_bridge" ADD CONSTRAINT "char_pharma_bridge_fk1" FOREIGN KEY ("pharma_master_id") REFERENCES "pharma_master" ("pharma_master_id") ON DELETE CASCADE
+INSERT INTO
+	"pharma_master" ("name", "description", "price", "rank")
+VALUES
 	(
 		'Speedheal',
 		'When administered, the subject immediately recovers 1 lethal or 2 stun wounds per success on the administration test. The subject also immediately loses one temporary humanity point. Can be administered to a given subject no more than once per day. Has no effect on aggravated wounds.',
@@ -3545,8 +3576,7 @@ INSERT INTO "pharma_master" ("name", "description", "price", "rank") VALUES
 		5
 	),
 	(
-		'Poison - Rank 1'
-		'A somewhat dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 8 Stun Damage.',
+		'Poison - Rank 1' 'A somewhat dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 8 Stun Damage.',
 		500,
 		1
 	),
@@ -3598,110 +3628,6 @@ INSERT INTO "pharma_master" ("name", "description", "price", "rank") VALUES
 		5000,
 		5
 	)
-	
-INSERT INTO
-	"public"."armor_master" (
-		"armor_master_id",
-		"name",
-		"quality",
-		"price",
-		"description"
-	)
-VALUES
-	(
-		1,
-		E 'Clothes',
-		1,
-		10,
-		E 'Standard clothing with mild antiballistic properties.'
-	),
-	(
-		2,
-		E 'Leathers',
-		2,
-		20,
-		E 'Not even slightly bulletproof, but offers protection against small clubs.'
-	),
-	(
-		3,
-		E 'Kevlar',
-		3,
-		50,
-		E 'Offers decent protection for the vitals at a bargain price.'
-	),
-	(
-		4,
-		E 'Light Armorjack',
-		4,
-		100,
-		E 'Full body armor of the lightest kind.'
-	),
-	(
-		5,
-		E 'Medium Armorjack',
-		5,
-		500,
-		E 'A plain suit of modern armor, completely undisguisable as anything else.'
-	),
-	(
-		6,
-		E 'Heavy Armorjack',
-		6,
-		1000,
-		E 'The descendent of SWAT armor and platemail, offering considerable protection to the wearer.'
-	),
-	(
-		7,
-		E 'Full Flak',
-		7,
-		2000,
-		E 'Standard military issue gear, designed to keep the wearer alive through some SHIT.'
-	),
-	(
-		8,
-		E 'Metalgear',
-		8,
-		5000,
-		E 'Advanced composite alloys and strategic plating offering the best possible protection. The weaere soaks non-aggravated wounds with a difficulty of 5.'
-	),
-	(
-		11,
-		E 'Armored Trench Coat',
-		4,
-		1000,
-		E 'A somewhat less obtrusive piece of gear, allowing an edgerunner to armor up in public. Not especially fancy, doesn\'t breathe. Expect a certain amount of musk.'
-	),
-	(
-		12,
-		E 'Fancy Armored Suit',
-		4,
-		2500,
-		E 'A stylish, high class looking bit of body armor. Common amongst Corpos with reason to suspect they are less loved than they should be. Also, it breathes.'
-	),
-	(
-		13,
-		E 'Military Grade Powered Armor',
-		10,
-		25000,
-		E 'Sometimes you gotta send in the Space Marines. +2 Dice to any strength rolls. Non-aggravated wounds are soaked with a difficulty of 4. '
-	);
-
-INSERT INTO
-	"public"."shield_master" ("name", "quality", "price", "description")
-VALUES
-	(
-		E 'Runner\'s Buckler',
-		1,
-		500,
-		E 'A small shield, useful for deflecting gangers and salesmen.'
-	),
-	(
-		E 'Riot Shield',
-		2,
-		1000,
-		E 'A full sized shield offering decent protection.'
-	);
-
 CREATE TABLE
 	char_notes (
 		char_note_id SERIAL NOT NULL,
@@ -3852,43 +3778,137 @@ ALTER TABLE char_clothing_bridge ADD CONSTRAINT char_id_pk0 FOREIGN KEY (char_id
 
 ALTER TABLE char_clothing_bridge ADD CONSTRAINT clothing_id_pk1 FOREIGN KEY (clothing_id) REFERENCES clothing_master (clothing_master_id) ON DELETE CASCADE;
 
+CREATE TABLE
+	"lifestyle_master" (
+		"lifestyle_master_id" serial NOT NULL,
+		"quality" integer NOT NULL DEFAULT 1,
+		"name" varchar NOT NULL,
+		"housing" text NOT NULL,
+		"storage" text NOT NULL,
+		"ameneties" text NOT NULL,
+		"food" text NOT NULL,
+		"parking" text NOT NULL,
+		CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
+	)
+WITH
+	(OIDS = FALSE);
 
+CREATE TABLE
+	"char_lifestyle_bridge" (
+		"lifestyle_bridge_id" serial NOT NULL,
+		"char_id" integer NOT NULL,
+		"housing_rank" integer NOT NULL DEFAULT 1,
+		"storage_rank" integer NOT NULL DEFAULT 1,
+		"ameneties_rank" integer NOT NULL DEFAULT 1,
+		"food_rank" integer NOT NULL DEFAULT 1,
+		"parking_rank" integer NOT NULL DEFAULT 1,
+		"months_owned" integer NOT NULL,
+		CONSTRAINT "char_lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
+	)
+WITH
+	(OIDS = FALSE);
 
-CREATE TABLE "lifestyle_master" (
-	"lifestyle_master_id" serial NOT NULL,
-	"quality" integer NOT NULL DEFAULT 1,
-	"name" varchar NOT NULL,
-	"housing" text NOT NULL,
-	"storage" text NOT NULL,
-	"ameneties" text NOT NULL,
-	"food" text NOT NULL,
-	"parking" text NOT NULL,
-	CONSTRAINT "lifestyle_master_pk" PRIMARY KEY ("lifestyle_master_id")
-) WITH (OIDS = FALSE);
+ALTER TABLE "char_lifestyle_bridge" ADD CONSTRAINT "char_lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character" ("id") ON DELETE CASCADE;
 
-CREATE TABLE "char_lifestyle_bridge" (
-	"lifestyle_bridge_id" serial NOT NULL,
-	"char_id" integer NOT NULL,
-	"housing_rank" integer NOT NULL DEFAULT 1,
-	"storage_rank" integer NOT NULL DEFAULT 1,
-	"ameneties_rank" integer NOT NULL DEFAULT 1,
-	"food_rank" integer NOT NULL DEFAULT 1,
-	"parking_rank" integer NOT NULL DEFAULT 1,
-	"months_owned" integer NOT NULL,
-	CONSTRAINT "char_lifestyle_bridge_pk" PRIMARY KEY ("lifestyle_bridge_id")
-) WITH (OIDS = FALSE);
-ALTER TABLE "char_lifestyle_bridge"
-ADD CONSTRAINT "char_lifestyle_bridge_fk0" FOREIGN KEY ("char_id") REFERENCES "character"("id") ON DELETE CASCADE;
-
-INSERT INTO "lifestyle_master" ("quality", "name", "housing", "storage", "ameneties","food","parking","monthly_price")
-VALUES 
-(1, 'Street Livin', 'You live on the street.', 'You are entirely self reliant regarding your gear. You cannot keep more than you can carry on your person.', 'You can get the occasional Personal CarePak to clean up, but otherwise you are on your own.', 'Food is whatever you can find in the dumpster today.', 'You park on the street, but are in constant danger of it being ripped off, towed, or messed with.'),
-(2, 'Low Life','You live in a bedsit or illegally converted storage container, and envy the spacious accommodations given to felons.', 'You can store about a duffel bags worth of stuff securely, provided you make sure everyone you live near thinks you are as poor as they are.', 'You have a common area with filthy toilets, sporadically available running water and electricity, and you generally stash some batteries and bottles of water in your space for redundancy. Problems with your living area are distinctly your problem.', 'You live off food you would not give to a dog you disliked. You can go out to a street food vendor or a braindance parlor once a week.', 'You park on the street, and your vehicle is only as secure as you can make it. You at least have access to a private lot or an arrangement to use an alley.'),
-(3, 'Scraping By', 'You live in a legally converted shipping container, or a modified hotel, with about 2x6 meters of living space.', 'You have a small amount of private storage space that is relatively secure - it is not hard to break into your living area, but your neighbors are not so desperate they will try.', 'You have access to a relatively well maintained common kitchen and bathroom, with short if relatively secure intervals where you can get water and electricity, but you have to keep the local gangers paid off or risk their ire to use them. Problems with your living area are your problem, but they are relatively infrequent.', 'You usually eat kibble, instant noodles, and the like, but at least have access to a variety of flavors and a small supply of condiments. You visit street vendors relatively often as well to liven up your diet.', 'You have access to a surface parking lot. It has decent lighting and security cameras, which will deter the most casual of thieves.'),
-(4, 'Dire Straits', 'You live in a furnished micro-condo, or a small trailer outside of town. You have roughly 48 meters squared of living space.','You have a closet sized storage area which is well locked and alarmed.', 'You have reliable-ish utilities, as well as a microsopic or barely functional kitchen and access to some sort of gym facilities. If there is a problem, you can fix it yourself or get on a months long waitlist.', 'Your meals are instant and well supplemented with kibble, but you also can get takeout or visit a street vendor a few times a week without bringing on a financial crisis.', 'You have access to a shared garagae with decent security - not a place to keep a nice car, but at least the odds are in your favor if you drive a piece of crap. Alternately, simple isolation provides some security for your vehicle(s).'),
-(5, 'Distinctly Mid', 'You live in a small house on the outskirts of town, or a Super Efficiency apartment or condo.', 'You have a small second bedroom or the like which can be used for storage, and your whole place is relatively secure. In addition to on site security, your neighborhood is actually patrolled by police occasionally and local gangs are savvy enough not to shit where they eat.', 'You have reliable utilities several hours a day, and some kind of backup in the form of solar or bottled water. You enjoy a private bathroom with rationed showers, and a terrible kitchen or small limited food preparation area. You actually have a landlord you have met, and can get your problems fixed in a month or two. There is an on-site gym of of some kind you have ready access to.', 'You generally eat pre-pak food or takeout, and have access to a decent variety of flavor and enough to eat that you are not hungry all the time.', 'You have a small private garage, suitable for 1 vehicle, whose locks are of decent quality. If in a shared structure, the security is sufficient to deter any but the most determined gangers from messing with your stuff.'),
-(6, 'Doing alright', 'You have a decent sized house on the edge of a combat zone, or a mid-sized efficiency apartment. In all, you have roughly 150 square meters of space.', 'You have a good sized room or two and a backup closet that can be secured with high end electronic and physical locks.', 'You have reliable, if still rationed, utilities, as well as a small kitchen, bathroom, and access to a decent gym with volunteer-led classes and maintained equipment. Your landlord can fix most problems within a few weeks.', 'You eat out regularly, sometimes at actual sit down restaurants, and enjoy real fruit or vegetables on top of your instant meals once or twice a month.', 'You have access to two spots in a well secured garage - either paying off local gangers if in a house, or enjoying low level corporate security in a shared garage environment.'),
-(7, 'Corporate Lite', 'You live in a corporate apartment, large co-op, or a modest house in a nice part of town, with about 400 square meters of space to do with as you please.', 'Your entire space is relatively secure, and your storage is limited only by what level of space you are willing to dedicate to it.', 'You have a nice bathroom, an actual kitchen, and access to a good gym with a pool. Utilities are largely unrestricted, but you do get the occasional brownout. Several bars or restaurants are in your building or nearby. Any issues with your space are dealt with inside of a week.', 'You enjoy high quality pre-pak food, and have to fresh food every week or so, as well as some vat-grown actual meats.', 'You have a couple secure parking spots, with high end security of one flavor or another. You have access to an aircar hangar, but no permanent storage - just pick up and drop off priveleges.'),
-(8, 'Upper Middle Class', 'You have either a luxury corporate apartment, or a good sized house - either way, some 1000 square meters of space.', 'In addition to your living space being highly secure, you have a closet sized vault to store really valuable items. You also have access to a safe deposit box in a reputable bank.', 'You have several bathrooms, a large kitchen, and access to a top flight gym with profesionally led classes, shared secure conference rooms, and an onsite concierge to handle most minor issues immediately. Any major problems will be attended to within a day or two.', 'You eat fresh food several times a week, supplemented with prepak or takeout as you like, and can dine out at restaurants more or less at will. Once a month, you can enjoy a truly world class meal or evening of decadent entertainment.', 'You have a private, highly secure garage for up to four vehicles, as well as access to an equally well protected aircar hangar for a single vessel.'),
-(9, 'Executive Living', 'You have a penthouse apartment, with a private rooftop garden, aircar pad, private elevator access, and luxurious surroundings. Some 2400 square meters of space.', 'In addition to your residence, you have a room sized vault that requires a professional team to even consider breaking into. In addition, you have one or more off site places you can stash things - equally protected and private.', 'You live a life of luxury, with access to just about any convenience you deem necessary. Any issues with your living space are attended immediately by a crack team of specialists.', 'Your dining habits are epicurean, and in addition to the fresh food your private chef prepares you can enjoy a world class restaurant meal at least once a week.', 'You have a highly secure private garage, capable of holding an entire collection of high end cars, as well as access to a shared AV hangar with room for several vehicles.'), 
-(10, 'Truly Wealthy', 'You have a multi-level penthouse, suburban mansion, or a small compound - in any case, you have a 5000+ square meter living area.', 'You have multiple secure vaults, as well as access to off-site storage facilities that cater to a variety of security conscious consumers.', 'Your lifestyle is the stuff of sybaritic legend, with staff to attend to just about any need you might dream up.', 'You eat only the finest foods, generally at world class restaurants or prepared by your personal chef.', 'You have multiple secure garages, aircraft hangars, and if in a penthouse, priority access to a zeppelin mooring post.')
+INSERT INTO
+	"lifestyle_master" (
+		"quality",
+		"name",
+		"housing",
+		"storage",
+		"ameneties",
+		"food",
+		"parking",
+		"monthly_price"
+	)
+VALUES
+	(
+		1,
+		'Street Livin',
+		'You live on the street.',
+		'You are entirely self reliant regarding your gear. You cannot keep more than you can carry on your person.',
+		'You can get the occasional Personal CarePak to clean up, but otherwise you are on your own.',
+		'Food is whatever you can find in the dumpster today.',
+		'You park on the street, but are in constant danger of it being ripped off, towed, or messed with.'
+	),
+	(
+		2,
+		'Low Life',
+		'You live in a bedsit or illegally converted storage container, and envy the spacious accommodations given to felons.',
+		'You can store about a duffel bags worth of stuff securely, provided you make sure everyone you live near thinks you are as poor as they are.',
+		'You have a common area with filthy toilets, sporadically available running water and electricity, and you generally stash some batteries and bottles of water in your space for redundancy. Problems with your living area are distinctly your problem.',
+		'You live off food you would not give to a dog you disliked. You can go out to a street food vendor or a braindance parlor once a week.',
+		'You park on the street, and your vehicle is only as secure as you can make it. You at least have access to a private lot or an arrangement to use an alley.'
+	),
+	(
+		3,
+		'Scraping By',
+		'You live in a legally converted shipping container, or a modified hotel, with about 2x6 meters of living space.',
+		'You have a small amount of private storage space that is relatively secure - it is not hard to break into your living area, but your neighbors are not so desperate they will try.',
+		'You have access to a relatively well maintained common kitchen and bathroom, with short if relatively secure intervals where you can get water and electricity, but you have to keep the local gangers paid off or risk their ire to use them. Problems with your living area are your problem, but they are relatively infrequent.',
+		'You usually eat kibble, instant noodles, and the like, but at least have access to a variety of flavors and a small supply of condiments. You visit street vendors relatively often as well to liven up your diet.',
+		'You have access to a surface parking lot. It has decent lighting and security cameras, which will deter the most casual of thieves.'
+	),
+	(
+		4,
+		'Dire Straits',
+		'You live in a furnished micro-condo, or a small trailer outside of town. You have roughly 48 meters squared of living space.',
+		'You have a closet sized storage area which is well locked and alarmed.',
+		'You have reliable-ish utilities, as well as a microsopic or barely functional kitchen and access to some sort of gym facilities. If there is a problem, you can fix it yourself or get on a months long waitlist.',
+		'Your meals are instant and well supplemented with kibble, but you also can get takeout or visit a street vendor a few times a week without bringing on a financial crisis.',
+		'You have access to a shared garagae with decent security - not a place to keep a nice car, but at least the odds are in your favor if you drive a piece of crap. Alternately, simple isolation provides some security for your vehicle(s).'
+	),
+	(
+		5,
+		'Distinctly Mid',
+		'You live in a small house on the outskirts of town, or a Super Efficiency apartment or condo.',
+		'You have a small second bedroom or the like which can be used for storage, and your whole place is relatively secure. In addition to on site security, your neighborhood is actually patrolled by police occasionally and local gangs are savvy enough not to shit where they eat.',
+		'You have reliable utilities several hours a day, and some kind of backup in the form of solar or bottled water. You enjoy a private bathroom with rationed showers, and a terrible kitchen or small limited food preparation area. You actually have a landlord you have met, and can get your problems fixed in a month or two. There is an on-site gym of of some kind you have ready access to.',
+		'You generally eat pre-pak food or takeout, and have access to a decent variety of flavor and enough to eat that you are not hungry all the time.',
+		'You have a small private garage, suitable for 1 vehicle, whose locks are of decent quality. If in a shared structure, the security is sufficient to deter any but the most determined gangers from messing with your stuff.'
+	),
+	(
+		6,
+		'Doing alright',
+		'You have a decent sized house on the edge of a combat zone, or a mid-sized efficiency apartment. In all, you have roughly 150 square meters of space.',
+		'You have a good sized room or two and a backup closet that can be secured with high end electronic and physical locks.',
+		'You have reliable, if still rationed, utilities, as well as a small kitchen, bathroom, and access to a decent gym with volunteer-led classes and maintained equipment. Your landlord can fix most problems within a few weeks.',
+		'You eat out regularly, sometimes at actual sit down restaurants, and enjoy real fruit or vegetables on top of your instant meals once or twice a month.',
+		'You have access to two spots in a well secured garage - either paying off local gangers if in a house, or enjoying low level corporate security in a shared garage environment.'
+	),
+	(
+		7,
+		'Corporate Lite',
+		'You live in a corporate apartment, large co-op, or a modest house in a nice part of town, with about 400 square meters of space to do with as you please.',
+		'Your entire space is relatively secure, and your storage is limited only by what level of space you are willing to dedicate to it.',
+		'You have a nice bathroom, an actual kitchen, and access to a good gym with a pool. Utilities are largely unrestricted, but you do get the occasional brownout. Several bars or restaurants are in your building or nearby. Any issues with your space are dealt with inside of a week.',
+		'You enjoy high quality pre-pak food, and have to fresh food every week or so, as well as some vat-grown actual meats.',
+		'You have a couple secure parking spots, with high end security of one flavor or another. You have access to an aircar hangar, but no permanent storage - just pick up and drop off priveleges.'
+	),
+	(
+		8,
+		'Upper Middle Class',
+		'You have either a luxury corporate apartment, or a good sized house - either way, some 1000 square meters of space.',
+		'In addition to your living space being highly secure, you have a closet sized vault to store really valuable items. You also have access to a safe deposit box in a reputable bank.',
+		'You have several bathrooms, a large kitchen, and access to a top flight gym with profesionally led classes, shared secure conference rooms, and an onsite concierge to handle most minor issues immediately. Any major problems will be attended to within a day or two.',
+		'You eat fresh food several times a week, supplemented with prepak or takeout as you like, and can dine out at restaurants more or less at will. Once a month, you can enjoy a truly world class meal or evening of decadent entertainment.',
+		'You have a private, highly secure garage for up to four vehicles, as well as access to an equally well protected aircar hangar for a single vessel.'
+	),
+	(
+		9,
+		'Executive Living',
+		'You have a penthouse apartment, with a private rooftop garden, aircar pad, private elevator access, and luxurious surroundings. Some 2400 square meters of space.',
+		'In addition to your residence, you have a room sized vault that requires a professional team to even consider breaking into. In addition, you have one or more off site places you can stash things - equally protected and private.',
+		'You live a life of luxury, with access to just about any convenience you deem necessary. Any issues with your living space are attended immediately by a crack team of specialists.',
+		'Your dining habits are epicurean, and in addition to the fresh food your private chef prepares you can enjoy a world class restaurant meal at least once a week.',
+		'You have a highly secure private garage, capable of holding an entire collection of high end cars, as well as access to a shared AV hangar with room for several vehicles.'
+	),
+	(
+		10,
+		'Truly Wealthy',
+		'You have a multi-level penthouse, suburban mansion, or a small compound - in any case, you have a 5000+ square meter living area.',
+		'You have multiple secure vaults, as well as access to off-site storage facilities that cater to a variety of security conscious consumers.',
+		'Your lifestyle is the stuff of sybaritic legend, with staff to attend to just about any need you might dream up.',
+		'You eat only the finest foods, generally at world class restaurants or prepared by your personal chef.',
+		'You have multiple secure garages, aircraft hangars, and if in a penthouse, priority access to a zeppelin mooring post.'
+	)

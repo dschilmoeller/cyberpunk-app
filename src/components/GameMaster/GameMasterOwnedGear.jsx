@@ -16,7 +16,6 @@ import GMOwnedVehicles from './GameMasterGearComps/GMOwnedVehicles';
 
 import {
   fetchCharacterArmorRequest,
-  fetchCharacterShieldsRequest,
   fetchCharacterWeaponsRequest,
   fetchCharacterGrenadesRequest,
   fetchCharacterMiscGearRequest,
@@ -24,7 +23,7 @@ import {
   fetchCharacterNetrunnerGearRequest,
   fetchCharacterVehiclesRequest,
   fetchCharacterVehicleModsRequest,
-} from '../Characters/character.services';
+} from '../Characters/gear.services';
 
 export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const [selectedGear, setSelectedGear] = useState('armor');
@@ -32,125 +31,151 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
     setSelectedGear(newValue);
   };
 
-  const [characterGear, setCharacterGear] = useState({});
+  const [characterGear, setCharacterGear] = useState({
+    charArmor: [],
+    charWeapons: [],
+    charGrenades: [],
+    charMisc: [],
+    charCyberware: [],
+    charNetrunner: [],
+    charVehicles: [],
+    charVehicleMods: [],
+  });
+
   const fetchCharacterGear = async () => {
     const charObj = {
       charID: charDetail.id,
     };
-    const charArmor = await fetchCharacterArmorRequest(charObj);
-    const charShield = await fetchCharacterShieldsRequest(charObj);
-    const charWeapons = await fetchCharacterWeaponsRequest(charObj);
-    const charGrenades = await fetchCharacterGrenadesRequest(charObj);
-    const charMisc = await fetchCharacterMiscGearRequest(charObj);
-    const charCyberware = await fetchCharacterCyberwareRequest(charObj);
-    const charNetrunner = await fetchCharacterNetrunnerGearRequest(charObj);
-    const charVehicles = await fetchCharacterVehiclesRequest(charObj);
-    const charVehicleMods = await fetchCharacterVehicleModsRequest(charObj);
+    try {
+      const charArmor = await fetchCharacterArmorRequest(charObj);
+      const charWeapons = await fetchCharacterWeaponsRequest(charObj);
+      const charGrenades = await fetchCharacterGrenadesRequest(charObj);
+      const charMisc = await fetchCharacterMiscGearRequest(charObj);
+      const charCyberware = await fetchCharacterCyberwareRequest(charObj);
+      const charNetrunner = await fetchCharacterNetrunnerGearRequest(charObj);
+      const charVehicles = await fetchCharacterVehiclesRequest(charObj);
+      const charVehicleMods = await fetchCharacterVehicleModsRequest(charObj);
 
-    setCharacterGear({
-      charArmor,
-      charShield,
-      charWeapons,
-      charGrenades,
-      charMisc,
-      charCyberware,
-      charNetrunner,
-      charVehicles,
-      charVehicleMods,
-    });
+      setCharacterGear({
+        charArmor,
+        charWeapons,
+        charGrenades,
+        charMisc,
+        charCyberware,
+        charNetrunner,
+        charVehicles,
+        charVehicleMods,
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching gear:', error);
+      chuckError();
+    }
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchCharacterGear();
   }, []);
 
   return (
     <>
-      <Grid container paddingTop={3} spacing={3} alignContent={'center'}>
-        <Grid item xs={12} padding={3}>
-          <Item>
-            <Tabs value={selectedGear} onChange={handleSelectedGearChange} indicatorColor="primary" textColor="secondary">
-              <Tab value="armor" label="Armor" />
-              <Tab value="weapons" label="Weapons" />
-              <Tab value="grenades" label="Grenades" />
-              <Tab value="misc" label="Misc Gear" />
-              <Tab value="cyberware" label="Cyberware" />
-              <Tab value="netrunner" label="Netrunner" />
-              <Tab value="vehicles" label="Vehicles" />
-            </Tabs>
-          </Item>
-        </Grid>
-
-        {selectedGear === 'armor' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedArmor charDetail={charDetail} charArmor={characterGear.charArmor} charShield={characterGear.charShield} />
+      {loading ? (
+        <> </>
+      ) : (
+        <>
+          <Grid container paddingTop={3} spacing={3} alignContent={'center'}>
+            <Grid item xs={12} padding={3}>
+              <Item>
+                <Tabs value={selectedGear} onChange={handleSelectedGearChange} indicatorColor="primary" textColor="secondary">
+                  <Tab value="armor" label="Armor" />
+                  <Tab value="weapons" label="Weapons" />
+                  <Tab value="grenades" label="Grenades" />
+                  <Tab value="misc" label="Misc Gear" />
+                  <Tab value="cyberware" label="Cyberware" />
+                  <Tab value="netrunner" label="Netrunner" />
+                  <Tab value="vehicles" label="Vehicles" />
+                </Tabs>
+              </Item>
             </Grid>
-          </>
-        ) : (
-          <></>
-        )}
 
-        {selectedGear === 'weapons' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedWeapons />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+            {selectedGear === 'armor' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedArmor
+                    charDetail={charDetail}
+                    charArmor={characterGear.charArmor}
+                    setPageAlert={setPageAlert}
+                    setCharDetail={setCharDetail}
+                  />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
-        {selectedGear === 'grenades' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedGrenade />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+            {selectedGear === 'weapons' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedWeapons />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
-        {selectedGear === 'misc' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOtherOwned />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+            {selectedGear === 'grenades' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedGrenade />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
-        {selectedGear === 'cyberware' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedCyberware />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+            {selectedGear === 'misc' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOtherOwned />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
-        {selectedGear === 'netrunner' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedNetrunner />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+            {selectedGear === 'cyberware' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedCyberware />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
 
-        {selectedGear === 'vehicles' ? (
-          <>
-            <Grid item xs={12} padding={1}>
-              <GMOwnedVehicles />
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
-      </Grid>
+            {selectedGear === 'netrunner' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedNetrunner />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
+
+            {selectedGear === 'vehicles' ? (
+              <>
+                <Grid item xs={12} padding={1}>
+                  <GMOwnedVehicles />
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </>
+      )}
     </>
   );
 }

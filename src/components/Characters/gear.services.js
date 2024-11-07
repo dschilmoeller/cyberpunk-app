@@ -13,19 +13,6 @@ const fetchCharacterArmorRequest = async (charID) => {
       });
   });
 };
-const fetchCharacterShieldsRequest = async (charID) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post('/api/gear/fetchCharacterShields', charID)
-      .then((result) => {
-        resolve(result.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching character shield:', error);
-        reject(error);
-      });
-  });
-};
 
 const fetchCharacterWeaponsRequest = async (charID) => {
   return new Promise((resolve, reject) => {
@@ -127,7 +114,6 @@ const fetchCharacterVehicleModsRequest = async (charID) => {
 
 export {
   fetchCharacterArmorRequest,
-  fetchCharacterShieldsRequest,
   fetchCharacterWeaponsRequest,
   fetchCharacterGrenadesRequest,
   fetchCharacterMiscGearRequest,

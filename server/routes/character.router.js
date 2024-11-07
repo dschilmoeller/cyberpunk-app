@@ -100,7 +100,7 @@ router.get('/fetchcharacterstatusbystatusid/:id', rejectUnauthenticated, (req, r
     });
 });
 
-// fetch character armor & shields for in play sheet
+// fetch character armor for in play sheet
 router.get('/fetchcharacterarmor/:id', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_armor_bridge"
     JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"
@@ -112,20 +112,6 @@ router.get('/fetchcharacterarmor/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(`Error fetching character armor details`, err);
-    });
-});
-
-router.get('/fetchcharactershield/:id', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT * FROM "char_shield_bridge"
-    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
-    WHERE char_id = $1 AND equipped = true`;
-  pool
-    .query(sqlText, [req.params.id])
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((err) => {
-      console.log(`Error fetching character shield details`, err);
     });
 });
 
@@ -341,21 +327,6 @@ router.put('/savecharacterarmor/:id', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(`Error saving character Armor Details:`, err);
-    });
-});
-
-router.put('/savecharactershield/:id', rejectUnauthenticated, (req, res) => {
-  const sqlText = `UPDATE "char_shield_bridge"
-    SET "this_shield_loss" = $1
-    WHERE "shield_bridge_id" = $2`;
-  const sqlParams = [req.body.this_shield_loss, req.body.shield_bridge_id];
-  pool
-    .query(sqlText, sqlParams)
-    .then((result) => {
-      res.sendStatus(202);
-    })
-    .catch((err) => {
-      console.log(`Error saving character shield Details:`, err);
     });
 });
 
@@ -706,20 +677,6 @@ router.get('/fetchAdvancementArmor/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get('/fetchAdvancementShield/:id', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT * FROM "char_shield_bridge" 
-    JOIN "shield_master" ON "shield_master"."shield_master_id" = "char_shield_bridge"."shield_id"
-    WHERE char_id = $1`;
-  pool
-    .query(sqlText, [req.params.id])
-    .then((result) => {
-      res.send(result.rows);
-    })
-    .catch((err) => {
-      console.log(`Error fetching equipped shield details:`, err);
-    });
-});
-
 router.get('/fetchAdvancementWeapons/:id', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_weapons_bridge" 
     JOIN "weapon_master" ON "weapon_master"."weapon_master_id" = "char_weapons_bridge"."weapon_id"
@@ -892,10 +849,6 @@ router.get('/fetchAdvancementClothes/:id', rejectUnauthenticated, (req, res) => 
     });
 });
 
-// fetch advancement armor
-
-// fetch advancement shield
-
 // advancement save route
 // big one is to update the character stats, skills, and such.
 router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) => {
@@ -1014,17 +967,6 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
       for (let i = 0; i < armor.length; i++) {
         const armorSqlParams = [armor[i].equipped, armor[i].this_armor_loss, armor[i].armor_bridge_id];
         pool.query(armorSqlText, armorSqlParams);
-      }
-
-      // change shield mod, equipped status
-      const shield = req.body.gear.shield;
-      const shieldSqlText = `UPDATE "char_shield_bridge"
-            SET "equipped" = $1, "this_shield_loss" = $2
-            WHERE shield_bridge_id = $3`;
-
-      for (let i = 0; i < shield.length; i++) {
-        const shieldSqlParams = [shield[i].equipped, shield[i].this_shield_loss, shield[i].shield_bridge_id];
-        pool.query(shieldSqlText, shieldSqlParams);
       }
 
       // change weapon details
@@ -1168,24 +1110,6 @@ router.put('/saveAdvancementCharacter/:id', rejectUnauthenticated, (req, res) =>
         for (let i = 0; i < boughtArmor.length; i++) {
           const boughtArmorParams = [req.body.char.id, boughtArmor[i].armor_master_id, 0, false];
           pool.query(boughtArmorSqlText, boughtArmorParams);
-        }
-      }
-
-      const soldShield = req.body.gear.soldShield;
-      if (soldShield.length > 0) {
-        const soldShieldSqlText = `DELETE FROM "char_shield_bridge" WHERE "shield_bridge_id" = $1`;
-        for (let i = 0; i < soldShield.length; i++) {
-          const soldShieldParams = [soldShield[i].shield_bridge_id];
-          pool.query(soldShieldSqlText, soldShieldParams);
-        }
-      }
-      const boughtShield = req.body.gear.boughtShield;
-      if (boughtShield.length > 0) {
-        const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "this_shield_loss", "equipped")
-            VALUES ($1, $2, $3, $4);`;
-        for (let i = 0; i < boughtShield.length; i++) {
-          const boughtShieldParams = [req.body.char.id, boughtShield[i].shield_master_id, 0, false];
-          pool.query(boughtShieldSqlText, boughtShieldParams);
         }
       }
 
@@ -1439,8 +1363,8 @@ router.put('/attributegearchangeintelligence/:id', rejectUnauthenticated, (req, 
 
 router.put('/changeEquipStatus/:id', rejectUnauthenticated, (req, res) => {
   // allows string literal in insert statement while removing SQL Injection possibility (hopefully)
-  const whiteListTable = ['char_armor_bridge', 'char_shield_bridge', 'char_weapons_bridge', 'char_clothing_bridge', 'char_owned_cyberware'];
-  const whiteListPKs = ['armor_bridge_id', 'shield_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id', 'owned_cyberware_id'];
+  const whiteListTable = ['char_armor_bridge', 'char_weapons_bridge', 'char_clothing_bridge', 'char_owned_cyberware'];
+  const whiteListPKs = ['armor_bridge_id', 'weapon_bridge_id', 'clothing_bridge_id', 'owned_cyberware_id'];
 
   let tableCheck = false;
   let pkCheck = false;
@@ -1647,21 +1571,6 @@ router.post('/saveCreationCharacter/', rejectUnauthenticated, (req, res) => {
                     VALUES ($1, $2, $3, $4)`;
           const armorSqlParams = [result.rows[0].id, rb.armor[i], 0, false];
           pool.query(armorSqlText, armorSqlParams);
-        }
-      }
-      for (let i = 0; i < req.body.shield.length; i++) {
-        if (rb.shield[i] === 3) {
-          const shieldSqlText = `INSERT INTO "char_shield_bridge" 
-                    ("char_id", "shield_id", "this_shield_loss", "equipped")
-                    VALUES ($1, $2, $3, $4)`;
-          const shieldSqlParams = [result.rows[0].id, rb.shield[i], 0, true];
-          pool.query(shieldSqlText, shieldSqlParams);
-        } else {
-          const shieldSqlText = `INSERT INTO "char_shield_bridge" 
-                ("char_id", "shield_id", "this_shield_loss", "equipped")
-                VALUES ($1, $2, $3, $4)`;
-          const shieldSqlParams = [result.rows[0].id, rb.shield[i], 0, false];
-          pool.query(shieldSqlText, shieldSqlParams);
         }
       }
       for (let i = 0; i < req.body.weapons.length; i++) {
@@ -1894,24 +1803,6 @@ router.put('/savegamemastercharacter/:id', rejectNonAdmin, (req, res) => {
         for (let i = 0; i < boughtArmor.length; i++) {
           const boughtArmorParams = [req.body.charDetail.id, boughtArmor[i].armor_master_id, 0, false];
           pool.query(boughtArmorSqlText, boughtArmorParams);
-        }
-      }
-
-      const soldShield = req.body.gear.soldShield;
-      if (soldShield.length > 0) {
-        const soldShieldSqlText = `DELETE FROM "char_shield_bridge" WHERE "shield_bridge_id" = $1`;
-        for (let i = 0; i < soldShield.length; i++) {
-          const soldShieldParams = [soldShield[i].shield_bridge_id];
-          pool.query(soldShieldSqlText, soldShieldParams);
-        }
-      }
-      const boughtShield = req.body.gear.boughtShield;
-      if (boughtShield.length > 0) {
-        const boughtShieldSqlText = `INSERT INTO "char_shield_bridge" ("char_id", "shield_id", "this_shield_loss", "equipped")
-            VALUES ($1, $2, $3, $4);`;
-        for (let i = 0; i < boughtShield.length; i++) {
-          const boughtShieldParams = [req.body.charDetail.id, boughtShield[i].shield_master_id, 0, false];
-          pool.query(boughtShieldSqlText, boughtShieldParams);
         }
       }
 
