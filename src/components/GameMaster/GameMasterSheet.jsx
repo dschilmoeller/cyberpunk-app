@@ -19,13 +19,15 @@ import GameMasterAttributes from './GameMasterAttributes';
 import GameMasterSkills from './GameMasterSkills';
 import GameMasterRoles from './GameMasterRoles';
 import GameMasterOwnedGear from './GameMasterOwnedGear';
-// import GameMasterGiveGear from './GameMasterGiveGear';
+import GameMasterGiveGear from './GameMasterGiveGear';
 // import GameMasterCharContacts from './GameMasterCharContacts';
 
 import SnackbarComponent from '../GeneralAssets/Snackbar';
 
 import { fetchCharacterDetailsRequest, fetchCampaignListRequest } from './gm.services';
 
+// TODO
+// Verify required props across all pages.
 export default function GameMasterSheet() {
   const [selectedSheet, setSelectedSheet] = useState('GM');
   const handleTabChange = (event, newValue) => {
@@ -208,9 +210,13 @@ export default function GameMasterSheet() {
         <> </>
       )}
 
-      {/* {selectedSheet === 'gmGear' ? (<>
-            <GameMasterGiveGear />
-        </>) : <> </>} */}
+      {selectedSheet === 'gmGear' ? (
+        <>
+          <GameMasterGiveGear charDetail={charDetail} setPageAlert={setPageAlert} loading={loading} setLoading={setLoading} chuckError={chuckError} />
+        </>
+      ) : (
+        <> </>
+      )}
 
       {/* {selectedSheet === 'gmCharContacts' ? (<>
             <GameMasterCharContacts />

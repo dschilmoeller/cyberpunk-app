@@ -490,6 +490,111 @@ const modItemTableCheck = (modItemTable) => {
   return false;
 };
 
+// UPDATED APP ROUTER START
+router.get('/fetchArmorMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "armor_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching master armor list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchWeaponMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "weapon_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching master weapon list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchGrenadeMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "grenade_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching grenade master list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchMiscGearMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "misc_gear_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching misc gear master list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchCyberwareMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "cyberware_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching cyberware master list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchNetrunnerMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "netrunner_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching netrunner master list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchVehicleMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "vehicle_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching vehicle master list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.get('/fetchVehicleModMaster', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "vehicle_master"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching vehicle mod master list:', err);
+      res.sendStatus(400);
+    });
+});
+
 router.post('/fetchCharacterArmor', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_armor_bridge"
     JOIN "armor_master" ON "armor_master"."armor_master_id" = "char_armor_bridge"."armor_id"

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,17 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
-
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-export default function GMGiveCyberware() {
-  const dispatch = useDispatch();
-  const cyberwareID = useSelector((store) => store.advancementGear.cyberwareID);
-  const cyberwareMaster = useSelector((store) => store.gearMaster.cyberware);
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-
+// TODO
+// Give Cyberware function
+export default function GMGiveCyberware({ charDetail, cyberwareMaster, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
   const [selectedList, setSelectedList] = useState('fashionware');
@@ -26,23 +20,11 @@ export default function GMGiveCyberware() {
     setSelectedList(newValue);
   };
 
-  const buyCyberware = (item) => {
-    dispatch({
-      type: 'GM_GIVE_CYBERWARE',
-      payload: { item, cyberwareID: cyberwareID, price: 0 },
-    });
-  };
-
   return (
     <>
       <h2>Give {charDetail.handle} Cyberware</h2>
 
-      <Tabs
-        value={selectedList}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="secondary"
-      >
+      <Tabs value={selectedList} onChange={handleTabChange} indicatorColor="primary" textColor="secondary">
         <Tab value="fashionware" label="Fashionware" />
         <Tab value="neuralware" label="Neuralware" />
         <Tab value="cyberoptics" label="Cyberoptics" />
@@ -78,17 +60,13 @@ export default function GMGiveCyberware() {
                         <TableCell align="center">
                           {item.humanity_loss_min} - {item.humanity_loss_max}
                         </TableCell>
-                        <TableCell align="center">
-                          {item.install_level}
-                        </TableCell>
+                        <TableCell align="center">{item.install_level}</TableCell>
                         <TableCell align="center">
                           {euroBuck}
                           {Math.floor(item.price).toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button onClick={() => buyCyberware(item)}>
-                            Give
-                          </Button>
+                          <Button onClick={() => buyCyberware(item)}>Give</Button>
                         </TableCell>
                       </TableRow>
                     </React.Fragment>

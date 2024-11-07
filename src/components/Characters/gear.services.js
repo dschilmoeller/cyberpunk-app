@@ -1,5 +1,116 @@
 import axios from 'axios';
 
+const fetchArmorMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchArmorMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching armor master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchWeaponMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchWeaponMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching weapon master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchGrenadeMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchGrenadeMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching grenade master list:', error);
+        reject(error);
+      });
+  });
+};
+const fetchMiscGearMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchMiscGearMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching misc gear master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchCyberwareMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchCyberwareMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching cyberware master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchNetrunnerMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchNetrunnerMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching netrunner master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchVehicleMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchVehicleMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching vehicle master list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchVehicleModMasterRequest = async () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/gear/fetchVehicleModMaster')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching vehicle mod master list:', error);
+        reject(error);
+      });
+  });
+};
+
 const fetchCharacterArmorRequest = async (charID) => {
   return new Promise((resolve, reject) => {
     axios
@@ -113,6 +224,14 @@ const fetchCharacterVehicleModsRequest = async (charID) => {
 };
 
 export {
+  fetchArmorMasterRequest,
+  fetchWeaponMasterRequest,
+  fetchGrenadeMasterRequest,
+  fetchMiscGearMasterRequest,
+  fetchCyberwareMasterRequest,
+  fetchNetrunnerMasterRequest,
+  fetchVehicleMasterRequest,
+  fetchVehicleModMasterRequest,
   fetchCharacterArmorRequest,
   fetchCharacterWeaponsRequest,
   fetchCharacterGrenadesRequest,
