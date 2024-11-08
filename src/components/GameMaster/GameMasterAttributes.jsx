@@ -1,13 +1,9 @@
 import React from 'react';
-import { Button } from '@mui/material';
-
-import Grid from '@mui/material/Grid';
+import { Button, Grid } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
-
 import AttributesDialog from '../Modals/AttributesDialog';
 import { AttributesArr } from '../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../utils/funcs/funcs';
-
 import { changeCharacterAttribute } from './gm.services';
 
 export default function GameMasterAttributes({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
@@ -21,7 +17,6 @@ export default function GameMasterAttributes({ charDetail, setCharDetail, setPag
         message: 'Task Failed Successfully',
         severity: 'error',
       });
-      setLoading(false);
     } else {
       try {
         let attributeObj = {
@@ -35,13 +30,13 @@ export default function GameMasterAttributes({ charDetail, setCharDetail, setPag
             ...charDetail,
             [fixedAtt]: charDetail[fixedAtt] + change,
           });
-          setLoading(false);
         }
       } catch (error) {
         console.error('Error:', error);
         chuckError();
       }
     }
+    setLoading(false);
   };
 
   const attributeFixer = (attributeName) => {

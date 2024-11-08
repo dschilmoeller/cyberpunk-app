@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
 
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  Grid,
-  TextField,
-  Switch,
-  FormGroup,
-  FormControlLabel,
-  Select,
-  MenuItem,
-} from '@mui/material';
+import { Button, FormControl, InputLabel, Grid, TextField, Switch, FormGroup, FormControlLabel, Select, MenuItem } from '@mui/material';
 
 import Item from '../Characters/CharacterSheet/Item';
 
@@ -26,17 +14,7 @@ import {
   changeCharacterXP,
 } from './gm.services';
 
-export default function GameMasterMain({
-  charDetail,
-  campaignList,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
-  const history = useHistory();
-
+export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;
 
   const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false);
@@ -58,7 +36,6 @@ export default function GameMasterMain({
           ...charDetail,
           handle: newHandle,
         });
-        setLoading(false);
       } else {
         chuckError();
       }
@@ -66,6 +43,7 @@ export default function GameMasterMain({
       chuckError();
       console.error('Error changing handle:', error);
     }
+    setLoading(false);
   };
 
   const [player, setPlayer] = useState(charDetail.player);
@@ -83,7 +61,6 @@ export default function GameMasterMain({
           ...charDetail,
           player: newPlayer,
         });
-        setLoading(false);
       } else {
         chuckError();
       }
@@ -91,6 +68,7 @@ export default function GameMasterMain({
       chuckError();
       console.error('Error changing Player:', error);
     }
+    setLoading(false);
   };
 
   const changeCampaign = async (campaign_id) => {
@@ -106,11 +84,8 @@ export default function GameMasterMain({
         // Change current state to reflect change.
         setCharDetail({
           ...charDetail,
-          campaign_name: campaignList.filter(
-            (campaign) => campaign.campaign_id === campaign_id
-          )[0].campaign_name,
+          campaign_name: campaignList.filter((campaign) => campaign.campaign_id === campaign_id)[0].campaign_name,
         });
-        setLoading(false);
       } else {
         chuckError();
       }
@@ -118,11 +93,12 @@ export default function GameMasterMain({
       chuckError();
       console.error('Error Changing Campaign:', error);
     }
+    setLoading(false);
   };
 
   const changeHumanity = async (type, amount) => {
+    setLoading(true);
     if (verifyHumanityChange(type, amount)) {
-      setLoading(true);
       try {
         if (type === 'temp') {
           const humanityObj = {
@@ -135,7 +111,6 @@ export default function GameMasterMain({
               ...charDetail,
               temp_humanity_loss: charDetail.temp_humanity_loss + amount,
             });
-            setLoading(false);
           } else {
             chuckError();
           }
@@ -150,7 +125,6 @@ export default function GameMasterMain({
               ...charDetail,
               perm_humanity_loss: charDetail.perm_humanity_loss + amount,
             });
-            setLoading(false);
           } else {
             chuckError();
           }
@@ -163,21 +137,15 @@ export default function GameMasterMain({
       }
     } else {
       setPageAlert({ open: true, message: 'TOO MUCH', severity: 'error' });
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const verifyHumanityChange = (type, amount) => {
-    if (
-      amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <=
-      40
-    ) {
+    if (amount + charDetail.temp_humanity_loss + charDetail.perm_humanity_loss <= 40) {
       if (type === 'temp' && amount + charDetail.temp_humanity_loss >= 0) {
         return true;
-      } else if (
-        type === 'perm' &&
-        amount + charDetail.perm_humanity_loss >= 0
-      ) {
+      } else if (type === 'perm' && amount + charDetail.perm_humanity_loss >= 0) {
         return true;
       }
     } else {
@@ -186,8 +154,8 @@ export default function GameMasterMain({
   };
 
   const changeBank = async (amount) => {
+    setLoading(true);
     if (charDetail.bank + amount >= 0) {
-      setLoading(true);
       const bankObj = {
         charID: charDetail.id,
         bank: charDetail.bank + amount,
@@ -199,7 +167,6 @@ export default function GameMasterMain({
             ...charDetail,
             bank: charDetail.bank + amount,
           });
-          setLoading(false);
         } else {
           chuckError();
         }
@@ -213,13 +180,13 @@ export default function GameMasterMain({
         message: 'Players cannot have negative money',
         severity: 'error',
       });
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const changeXP = async (amount) => {
+    setLoading(true);
     if (charDetail.max_xp + amount >= charDetail.spent_xp) {
-      setLoading(true);
       const XPObj = {
         max_xp: charDetail.max_xp + amount,
         charID: charDetail.id,
@@ -231,7 +198,6 @@ export default function GameMasterMain({
             ...charDetail,
             max_xp: charDetail.max_xp + amount,
           });
-          setLoading(false);
         } else {
           chuckError();
         }
@@ -240,6 +206,7 @@ export default function GameMasterMain({
         console.error('Error changing XP:', error);
       }
     }
+    setLoading(false);
   };
 
   // const deleteCharacter = () => {
@@ -296,19 +263,10 @@ export default function GameMasterMain({
         <Grid item xs={6}>
           <FormControl fullWidth>
             <InputLabel>Change Campaign</InputLabel>
-            <Select
-              disabled={loading}
-              value={selectedCampaign}
-              fullWidth
-              label="Change Campaign"
-              onChange={(e) => changeCampaign(e.target.value)}
-            >
+            <Select disabled={loading} value={selectedCampaign} fullWidth label="Change Campaign" onChange={(e) => changeCampaign(e.target.value)}>
               {campaignList.map((campaign) => {
                 return (
-                  <MenuItem
-                    key={campaign.campaign_id}
-                    value={campaign.campaign_id}
-                  >
+                  <MenuItem key={campaign.campaign_id} value={campaign.campaign_id}>
                     {campaign.campaign_name}
                   </MenuItem>
                 );
@@ -321,12 +279,7 @@ export default function GameMasterMain({
           <Item>
             <FormGroup>
               <FormControlLabel
-                control={
-                  <Switch
-                    checked={allowDeleteCharacter}
-                    onChange={(e) => setAllowDeleteCharacter(e.target.checked)}
-                  />
-                }
+                control={<Switch checked={allowDeleteCharacter} onChange={(e) => setAllowDeleteCharacter(e.target.checked)} />}
                 label="Allow Character Deletion"
               />
             </FormGroup>
@@ -335,13 +288,7 @@ export default function GameMasterMain({
 
         {allowDeleteCharacter === false ? (
           <>
-            <Grid
-              item
-              xs={12}
-              padding={3}
-              display={'flex'}
-              justifyContent={'center'}
-            >
+            <Grid item xs={12} padding={3} display={'flex'} justifyContent={'center'}>
               <Button variant="contained" fullWidth color="error" disabled>
                 Delete Character
               </Button>
@@ -349,20 +296,8 @@ export default function GameMasterMain({
           </>
         ) : (
           <>
-            <Grid
-              item
-              xs={12}
-              padding={3}
-              display={'flex'}
-              justifyContent={'center'}
-            >
-              <Button
-                disabled={loading}
-                variant="contained"
-                fullWidth
-                color="error"
-                onClick={() => deleteCharacter()}
-              >
+            <Grid item xs={12} padding={3} display={'flex'} justifyContent={'center'}>
+              <Button disabled={loading} variant="contained" fullWidth color="error" onClick={() => deleteCharacter()}>
                 Delete Character
               </Button>
             </Grid>
@@ -376,8 +311,7 @@ export default function GameMasterMain({
 
       <Grid container spacing={2} alignContent={'center'}>
         <Grid item xs={4} textAlign={'center'}>
-          Current Total Humanity Loss:{' '}
-          {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40
+          Current Total Humanity Loss: {charDetail.perm_humanity_loss + charDetail.temp_humanity_loss} / 40
         </Grid>
         <Grid item xs={4} textAlign={'center'}>
           Current Permanent Humanity Loss: {charDetail.perm_humanity_loss}
@@ -386,58 +320,29 @@ export default function GameMasterMain({
           Current Temporary Humanity Loss: {charDetail.temp_humanity_loss}
         </Grid>
         <Grid item xs={3} textAlign={'center'}>
-          <Button
-            disabled={loading}
-            fullWidth
-            variant="contained"
-            color="success"
-            onClick={() => changeHumanity('temp', -1)}
-          >
+          <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeHumanity('temp', -1)}>
             Restore 1 Temp Humanity
           </Button>
         </Grid>
         <Grid item xs={3} textAlign={'center'}>
-          <Button
-            disabled={loading}
-            fullWidth
-            variant="contained"
-            color="success"
-            onClick={() => changeHumanity('temp', -5)}
-          >
+          <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeHumanity('temp', -5)}>
             Restore 5 Temp Humanity
           </Button>
         </Grid>
         <Grid item xs={3} textAlign={'center'}>
-          <Button
-            disabled={loading}
-            fullWidth
-            variant="contained"
-            color="error"
-            onClick={() => changeHumanity('temp', 1)}
-          >
+          <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeHumanity('temp', 1)}>
             Remove 1 Temp Humanity
           </Button>
         </Grid>
         <Grid item xs={3} textAlign={'center'}>
-          <Button
-            disabled={loading}
-            fullWidth
-            variant="contained"
-            color="error"
-            onClick={() => changeHumanity('temp', 5)}
-          >
+          <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeHumanity('temp', 5)}>
             Remove 5 Temp Humanity
           </Button>
         </Grid>
         <Grid item xs={12} textAlign={'center'} alignContent={'center'}>
           <FormGroup sx={{ position: 'flex', alignItems: 'center' }}>
             <FormControlLabel
-              control={
-                <Switch
-                  checked={allowPermHumanityChange}
-                  onChange={(e) => setAllowPermHumanityChange(e.target.checked)}
-                />
-              }
+              control={<Switch checked={allowPermHumanityChange} onChange={(e) => setAllowPermHumanityChange(e.target.checked)} />}
               label="Allow Permanent Humanity Changes"
             />
           </FormGroup>
@@ -445,24 +350,12 @@ export default function GameMasterMain({
         {allowPermHumanityChange ? (
           <>
             <Grid item xs={6} textAlign={'center'}>
-              <Button
-                disabled={loading}
-                fullWidth
-                variant="contained"
-                color="success"
-                onClick={() => changeHumanity('perm', -1)}
-              >
+              <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeHumanity('perm', -1)}>
                 Restore 1 Permanent Humanity
               </Button>
             </Grid>
             <Grid item xs={6} textAlign={'center'}>
-              <Button
-                disabled={loading}
-                fullWidth
-                variant="contained"
-                color="error"
-                onClick={() => changeHumanity('perm', 1)}
-              >
+              <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeHumanity('perm', 1)}>
                 Remove 1 Permanent Humanity
               </Button>
             </Grid>
@@ -482,134 +375,62 @@ export default function GameMasterMain({
             {charDetail.bank.toLocaleString()}
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(1)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(1)}>
               Add $1{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(10)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(10)}>
               Add $10{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(100)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(100)}>
               Add $100{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-1)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-1)}>
               Deduct $1{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-10)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-10)}>
               Deduct $10{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-100)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-100)}>
               Deduct $100{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(1000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(1000)}>
               Add $1,000{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(5000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(5000)}>
               Add $5,000{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeBank(10000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeBank(10000)}>
               Add $10,000{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-1000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-1000)}>
               Deduct $1,000{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-5000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-5000)}>
               Deduct $5,000{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeBank(-10000)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeBank(-10000)}>
               Deduct $10,000{' '}
             </Button>
           </Grid>
@@ -633,68 +454,32 @@ export default function GameMasterMain({
             Available XP: {charDetail.max_xp - charDetail.spent_xp}
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeXP(1)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeXP(1)}>
               Add 1 XP{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeXP(5)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeXP(5)}>
               Add 5 XP{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="success"
-              onClick={() => changeXP(10)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="success" onClick={() => changeXP(10)}>
               Add 10 XP{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeXP(-1)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeXP(-1)}>
               Remove 1 XP{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeXP(-5)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeXP(-5)}>
               Remove 5 XP{' '}
             </Button>
           </Grid>
           <Grid item xs={2} textAlign={'center'}>
-            <Button
-              disabled={loading}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={() => changeXP(-10)}
-            >
+            <Button disabled={loading} fullWidth variant="contained" color="error" onClick={() => changeXP(-10)}>
               Remove 10 XP{' '}
             </Button>
           </Grid>

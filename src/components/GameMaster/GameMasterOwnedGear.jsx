@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
-import Grid from '@mui/material/Grid';
+import { Grid, Tab, Tabs } from '@mui/material';
 import Item from '../Characters/CharacterSheet/Item';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 
 import GMOwnedArmor from './GameMasterGearComps/GMOwnedArmor';
 import GMOwnedWeapons from './GameMasterGearComps/GMOwnedWeapons';
@@ -69,16 +65,16 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
         charVehicles,
         charVehicleMods,
       });
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching gear:', error);
       chuckError();
     }
+    setLoading(false);
   };
 
   const deleteCharacterGear = async (gearObj) => {
+    setLoading(true);
     try {
-      setLoading(true);
       let result = await deleteCharacterGearRequest(gearObj);
       if (result === 'OK') {
         fetchCharacterGear();
@@ -94,6 +90,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
       console.error('Error deleting character gear:', error);
       chuckError();
     }
+    setLoading(false);
   };
 
   useEffect(() => {

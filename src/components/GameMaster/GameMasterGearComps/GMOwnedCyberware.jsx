@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Grid, Tabs, Tab } from '@mui/material';
 // import Item from '../../Characters/CharacterSheet/Item';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 
 // import Switch from '@mui/material/Switch';
 // import FormGroup from '@mui/material/FormGroup';
@@ -43,7 +32,7 @@ export default function GMOwnedCyberware({ charDetail, charCyberware, deleteChar
 
       <Grid container>
         <Grid item xs={12}>
-          <h2>{charDetail.handle}'s Cyberware</h2>
+          <h2>{charDetail.handle}&apos;s Cyberware</h2>
         </Grid>
         {/* <Grid item xs={12}>
           <Item>

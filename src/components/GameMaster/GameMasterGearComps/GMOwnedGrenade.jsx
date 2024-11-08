@@ -1,19 +1,8 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
-
-// TODO
-// remove grenades from inventory.
-// Quantity?
 export default function GMOwnedGrenade({ charDetail, charGrenades, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
@@ -33,7 +22,7 @@ export default function GMOwnedGrenade({ charDetail, charGrenades, deleteCharact
 
   return (
     <>
-      <h2>My Grenades</h2>
+      <h2>{charDetail.handle}&apos; Grenades</h2>
 
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>

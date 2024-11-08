@@ -1,16 +1,7 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
-// TODO
-// Remove Misc Gear
 export default function GMOtherOwned({ charDetail, charMiscGear, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
@@ -30,7 +21,7 @@ export default function GMOtherOwned({ charDetail, charMiscGear, deleteCharacter
 
   return (
     <>
-      <h2>{charDetail.handle}'s Misc Gear</h2>
+      <h2>{charDetail.handle}&apos;s Misc Gear</h2>
 
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>

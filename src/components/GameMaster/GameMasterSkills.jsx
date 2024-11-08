@@ -12,14 +12,7 @@ import { SkillSet } from '../../utils/objects/objects.utils';
 // import { capitalizer } from '../../utils/funcs/funcs';
 import { changeCharacterSkill } from './gm.services';
 
-export default function GameMasterSkills({
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function GameMasterSkills({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const changeSkill = async (skillName, change) => {
     setLoading(true);
     const skillObj = {
@@ -28,10 +21,7 @@ export default function GameMasterSkills({
       newRank: charDetail[skillName] + change,
     };
 
-    if (
-      (change > 0 && charDetail[skillName] + change <= 5) ||
-      (change < 0 && charDetail[skillName] + change >= 0)
-    ) {
+    if ((change > 0 && charDetail[skillName] + change <= 5) || (change < 0 && charDetail[skillName] + change >= 0)) {
       try {
         let result = await changeCharacterSkill(skillObj);
         if (result === 'OK') {
@@ -39,14 +29,12 @@ export default function GameMasterSkills({
             ...charDetail,
             [skillName]: charDetail[skillName] + change,
           });
-          setLoading(false);
         } else {
           setPageAlert({
             open: true,
             message: 'Task Failed Successfully',
             severity: 'error',
           });
-          setLoading(false);
         }
       } catch (error) {
         chuckError();
@@ -55,6 +43,7 @@ export default function GameMasterSkills({
     } else {
       chuckError();
     }
+    setLoading(false);
   };
 
   const changeIsParamed = async (change) => {
@@ -71,19 +60,18 @@ export default function GameMasterSkills({
           ...charDetail,
           is_paramedical: change,
         });
-        setLoading(false);
       } else {
         setPageAlert({
           open: true,
           message: 'Task Failed Successfully',
           severity: 'error',
         });
-        setLoading(false);
       }
     } catch (error) {
       chuckError();
       console.error('Error changing skill rank:', error);
     }
+    setLoading(false);
   };
 
   return (
@@ -109,24 +97,14 @@ export default function GameMasterSkills({
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="success"
-                        onClick={() => changeSkill(skill[0], 1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="success" onClick={() => changeSkill(skill[0], 1)}>
                         Increase
                       </Button>
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="error"
-                        onClick={() => changeSkill(skill[0], -1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="error" onClick={() => changeSkill(skill[0], -1)}>
                         Decrease
                       </Button>
                     </Item>
@@ -153,24 +131,14 @@ export default function GameMasterSkills({
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="success"
-                        onClick={() => changeSkill(skill[0], 1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="success" onClick={() => changeSkill(skill[0], 1)}>
                         Increase
                       </Button>
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="error"
-                        onClick={() => changeSkill(skill[0], -1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="error" onClick={() => changeSkill(skill[0], -1)}>
                         Decrease
                       </Button>
                     </Item>
@@ -197,24 +165,14 @@ export default function GameMasterSkills({
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="success"
-                        onClick={() => changeSkill(skill[0], 1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="success" onClick={() => changeSkill(skill[0], 1)}>
                         Increase
                       </Button>
                     </Item>
                   </Grid>
                   <Grid xs={3} item>
                     <Item>
-                      <Button
-                        disabled={loading}
-                        variant="contained"
-                        color="error"
-                        onClick={() => changeSkill(skill[0], -1)}
-                      >
+                      <Button disabled={loading} variant="contained" color="error" onClick={() => changeSkill(skill[0], -1)}>
                         Decrease
                       </Button>
                     </Item>
@@ -231,20 +189,14 @@ export default function GameMasterSkills({
             </Grid>
             <Grid item xs={3}>
               <Item>
-                <Button
-                  disabled={charDetail.is_paramedical ? true : false}
-                  onClick={() => changeIsParamed(true)}
-                >
+                <Button disabled={charDetail.is_paramedical ? true : false} onClick={() => changeIsParamed(true)}>
                   Enable
                 </Button>
               </Item>
             </Grid>
             <Grid item xs={3}>
               <Item>
-                <Button
-                  disabled={charDetail.is_paramedical ? false : true}
-                  onClick={() => changeIsParamed(false)}
-                >
+                <Button disabled={charDetail.is_paramedical ? false : true} onClick={() => changeIsParamed(false)}>
                   Disable
                 </Button>
               </Item>
@@ -262,24 +214,14 @@ export default function GameMasterSkills({
                 </Grid>
                 <Grid xs={3} item>
                   <Item>
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="success"
-                      onClick={() => changeSkill('paramed', 1)}
-                    >
+                    <Button disabled={loading} variant="contained" color="success" onClick={() => changeSkill('paramed', 1)}>
                       Increase
                     </Button>
                   </Item>
                 </Grid>
                 <Grid xs={3} item>
                   <Item>
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="error"
-                      onClick={() => changeSkill('paramed', -1)}
-                    >
+                    <Button disabled={loading} variant="contained" color="error" onClick={() => changeSkill('paramed', -1)}>
                       Decrease
                     </Button>
                   </Item>
@@ -297,24 +239,14 @@ export default function GameMasterSkills({
                 </Grid>
                 <Grid xs={3} item>
                   <Item>
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="success"
-                      onClick={() => changeSkill('first_aid', 1)}
-                    >
+                    <Button disabled={loading} variant="contained" color="success" onClick={() => changeSkill('first_aid', 1)}>
                       Increase
                     </Button>
                   </Item>
                 </Grid>
                 <Grid xs={3} item>
                   <Item>
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="error"
-                      onClick={() => changeSkill('first_aid', -1)}
-                    >
+                    <Button disabled={loading} variant="contained" color="error" onClick={() => changeSkill('first_aid', -1)}>
                       Decrease
                     </Button>
                   </Item>

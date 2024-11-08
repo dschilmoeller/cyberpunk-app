@@ -1,20 +1,11 @@
-import { useState, useEffect } from 'react';
-
-import { Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { Paper, Table, TableBody, TableHead, TableCell, TableContainer, TableRow, Button } from '@mui/material';
 
 // TODO
 // Just this whole damn thing.
 export default function GMOwnedNetrunner({ charDetail, charNetrunnerGear, deleteCharacterGear }) {
   return (
     <>
-      <h2>{charDetail.handle}'s Netrunning Equipment</h2>
+      <h2>{charDetail.handle}&apos;s Netrunning Equipment</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>

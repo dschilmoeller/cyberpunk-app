@@ -23,9 +23,8 @@ import GMGiveNetrunnerMain from './GameMasterGearComps/GMGiveNetrunnerMain';
 import GMGiveVehicles from './GameMasterGearComps/GMGiveVehicles';
 
 // TODO
-// Affirm (setPageAlert) gear has been given
 // Allow creation of items (LATER) through page rather than DB edits.
-export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterGiveGear({ charDetail, setPageAlert, setLoading, chuckError }) {
   const [gearMaster, setGearMaster] = useState({
     armor: [],
     weapons: [],
@@ -38,6 +37,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
   });
 
   const fetchGearMaster = async () => {
+    setLoading(true);
     try {
       const armor = await fetchArmorMasterRequest();
       const weapons = await fetchWeaponMasterRequest();
@@ -66,8 +66,8 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
   };
 
   const giveCharacterGear = async (gearObj) => {
+    setLoading(true);
     try {
-      setLoading(true);
       let result = await giveCharacterGearRequest(gearObj);
       if (result === 'OK') {
         setPageAlert({
@@ -75,7 +75,6 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
           message: 'Item Given',
           severity: 'success',
         });
-        setLoading(false);
       } else {
         chuckError();
       }
@@ -83,10 +82,10 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
       console.error('Error giving character gear:', error);
       chuckError();
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchGearMaster();
   }, []);
 

@@ -1,12 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
@@ -70,7 +63,7 @@ export default function GMOwnedWeapons({ charDetail, charWeapons, deleteCharacte
 
   return (
     <>
-      <h2>{charDetail.handle}'s Weapons</h2>
+      <h2>{charDetail.handle}&apos;s Weapons</h2>
 
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>

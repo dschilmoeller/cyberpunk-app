@@ -1,12 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 // TODO
 // show character total armor

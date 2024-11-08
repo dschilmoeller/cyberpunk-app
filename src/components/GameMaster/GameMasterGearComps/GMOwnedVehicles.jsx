@@ -5,10 +5,7 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 import GMOwnedVehicleMods from './GMOwnedVehicleMods';
 
 // TODO
-// Remove Vehicles
-// Remove Vehicle mods from inventory
 // Equip vehicle mods to vehicles
-
 export default function GMOwnedVehicles({ charDetail, charVehicles, charVehicleMods, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
@@ -34,7 +31,7 @@ export default function GMOwnedVehicles({ charDetail, charVehicles, charVehicleM
   return (
     <>
       <Grid item xs={12}>
-        <h2>{charDetail.handle}'s Vehicles</h2>
+        <h2>{charDetail.handle}&apos;s Vehicles</h2>
       </Grid>
 
       <Tabs value={selectedShopping} onChange={handleShoppingSelect} indicatorColor="primary" textColor="secondary">

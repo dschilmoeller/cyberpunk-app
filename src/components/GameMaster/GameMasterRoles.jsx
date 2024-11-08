@@ -24,7 +24,6 @@ export default function GameMasterRoles({ charDetail, setCharDetail, setPageAler
         message: 'Task Failed Successfully',
         severity: 'error',
       });
-      setLoading(false);
     } else {
       try {
         let result = await changeCharacterRole(roleObj);
@@ -33,13 +32,13 @@ export default function GameMasterRoles({ charDetail, setCharDetail, setPageAler
             ...charDetail,
             [role]: charDetail[role] + change,
           });
-          setLoading(false);
         }
       } catch (error) {
         console.error('Error changing Role value:', error);
         chuckError();
       }
     }
+    setLoading(false);
   };
 
   return (
