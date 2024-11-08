@@ -53,6 +53,22 @@ router.post('/fetchGamemasterCharacterDetail/', rejectUnauthenticated, (req, res
     });
 });
 
+router.post('/fetchCharacterContacts/', rejectNonAdmin, (req, res) => {
+  const sqlText = `SELECT * FROM "char_contact_bridge"
+  JOIN "contact_master" ON "char_contact_bridge"."contact_id" = "contact_master"."contact_master_id"
+  WHERE "char_id" = $1
+  ORDER BY "contact_master_id"`;
+  pool
+    .query(sqlText, [req.body.characterID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      res.sendStatus(400);
+      console.error('Error fetching character contacts for GM:', err);
+    });
+});
+
 router.post('/changeHandle/', rejectUnauthenticated, (req, res) => {
   const sqlText = `UPDATE "character"
     SET "handle" = $1
@@ -402,6 +418,24 @@ router.post('/giveCharacterGear', rejectNonAdmin, (req, res) => {
     })
     .catch((err) => {
       console.error('Error adding gear:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/changeContactLoyalty', rejectNonAdmin, (req, res) => {
+  const sqlText = `UPDATE "char_contact_bridge" SET "loyalty" = $1 WHERE "char_contact_id" = $2`;
+  const sqlParams = [req.body.loyalty, req.body.contactID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    })
+    .catch((err) => {
+      console.error('Error changing contact loyalty:', err);
       res.sendStatus(400);
     });
 });

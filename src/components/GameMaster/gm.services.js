@@ -42,6 +42,20 @@ const fetchCharacterDetailsRequest = async (characterID) => {
   });
 };
 
+const fetchCharacterContactsRequest = async (characterID) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/gamemaster/fetchCharacterContacts', { characterID })
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching GM Character Contacts:', error);
+        reject(error);
+      });
+  });
+};
+
 const changeCharacterHandle = async (handleObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -210,10 +224,25 @@ const giveCharacterGearRequest = async (gearObj) => {
   });
 };
 
+const changeContactLoyaltyRequest = async (contactObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/gamemaster/changeContactLoyalty', contactObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing contact loyalty:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   gmCharFetchRequest,
   fetchCampaignListRequest,
   fetchCharacterDetailsRequest,
+  fetchCharacterContactsRequest,
   changeCharacterHandle,
   changeCharacterPlayer,
   changeCharacterCampaign,
@@ -226,4 +255,5 @@ export {
   changeCharacterRole,
   deleteCharacterGearRequest,
   giveCharacterGearRequest,
+  changeContactLoyaltyRequest,
 };
