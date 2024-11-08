@@ -1,20 +1,9 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
-
 import WeaponDialog from '../../Modals/WeaponDialog';
-
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
-// TODO
-// Give weapon function
-// styling for treasure.
-export default function GMGiveWeapons({ charDetail, weaponMaster, setPageAlert, loading, setLoading, chuckError }) {
+
+export default function GMGiveWeapons({ charDetail, weaponMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const headCells = headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'give']);
@@ -91,7 +80,7 @@ export default function GMGiveWeapons({ charDetail, weaponMaster, setPageAlert, 
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="left">
-                        <Button onClick={() => buyWeapon(row)}>Give</Button>
+                        <Button onClick={() => giveCharacterGear({ type: 'weapon', data: row.weapon_master_id, charID: charDetail.id })}>Give</Button>
                       </TableCell>
                     </TableRow>
                   );

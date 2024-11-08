@@ -196,6 +196,20 @@ const deleteCharacterGearRequest = async (gearObj) => {
   });
 };
 
+const giveCharacterGearRequest = async (gearObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/gamemaster/giveCharacterGear', gearObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error giving character gear:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   gmCharFetchRequest,
   fetchCampaignListRequest,
@@ -211,4 +225,5 @@ export {
   changeCharacterSkill,
   changeCharacterRole,
   deleteCharacterGearRequest,
+  giveCharacterGearRequest,
 };

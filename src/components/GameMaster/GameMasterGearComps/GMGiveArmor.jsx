@@ -1,23 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
-// TODO
-// Give armor function
-// highlight shields differently
-export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveArmor({ charDetail, armorMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
-
-  const gmGiveArmor = (obj) => {
-    console.log(`obj:`, obj);
-  };
 
   const headCells = headCellsGenerator(['name', 'quality', 'description', 'price', 'give']);
 
@@ -44,7 +30,7 @@ export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loa
               <TableBody>
                 {sortedMasterArmorRows.map((row) => {
                   return (
-                    <TableRow hover key={row.armor_master_id}>
+                    <TableRow hover key={row.armor_master_id} sx={row.is_shield ? { backgroundColor: 'darkgreen' } : {}}>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">{row.quality}</TableCell>
                       <TableCell align="left">{row.description}</TableCell>
@@ -53,7 +39,12 @@ export default function GMGiveArmor({ charDetail, armorMaster, setPageAlert, loa
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="left">
-                        <Button onClick={() => gmGiveArmor(row)}>Give</Button>
+                        <Button
+                          disabled={row.name === 'No Armor'}
+                          onClick={() => giveCharacterGear({ type: 'armor', data: row.armor_master_id, charID: charDetail.id })}
+                        >
+                          Give
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );

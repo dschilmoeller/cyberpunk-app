@@ -338,6 +338,10 @@ router.post('/deleteCharacterGear', rejectNonAdmin, (req, res) => {
     case 'vehicle_mod':
       sqlText = `DELETE FROM "char_owned_vehicle_mods" WEHRE "char_owned_vehicle_mods_id" = $1`;
       break;
+    default:
+      console.error('Error in gear type:', req.body.type);
+      res.sendStatus(400);
+      break;
   }
   pool
     .query(sqlText, [req.body.data])
@@ -354,4 +358,51 @@ router.post('/deleteCharacterGear', rejectNonAdmin, (req, res) => {
     });
 });
 
+router.post('/giveCharacterGear', rejectNonAdmin, (req, res) => {
+  let sqlText = '';
+  switch (req.body.type) {
+    case 'armor':
+      sqlText = `INSERT INTO "char_armor_bridge" ("armor_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'weapon':
+      sqlText = `INSERT INTO "char_weapons_bridge" ("weapon_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'grenade':
+      sqlText = `INSERT INTO "char_grenade_bridge" ("grenade_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'misc':
+      sqlText = `INSERT INTO "char_gear_bridge" ("misc_gear_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'cyberware':
+      sqlText = `INSERT INTO "char_owned_cyberware" ("cyberware_master_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'netrunner':
+      sqlText = `INSERT INTO "netrunner_bridge" ("netrunner_master_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'vehicle':
+      sqlText = `INSERT INTO "char_vehicle_bridge" ("vehicle_id", "char_id") VALUES ($1, $2);`;
+      break;
+    case 'vehicle_mod':
+      sqlText = `INSERT INTO "char_owned_vehicle_mods" ("vehicle_mod_master_id", "char_id") VALUES ($1, $2);`;
+      break;
+    default:
+      console.error('Error in gear type:', req.body.type);
+      res.sendStatus(400);
+      break;
+  }
+  const sqlParams = [req.body.data, req.body.charID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    })
+    .catch((err) => {
+      console.error('Error adding gear:', err);
+      res.sendStatus(400);
+    });
+});
 module.exports = router;

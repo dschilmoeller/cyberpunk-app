@@ -1,18 +1,7 @@
 import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import { Button, Paper, Table, TableHead, TableBody, TableCell, TableContainer, TableRow, Tabs, Tab } from '@mui/material';
 
-// TODO
-// Give Cyberware function
-export default function GMGiveCyberware({ charDetail, cyberwareMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveCyberware({ charDetail, cyberwareMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const [selectedList, setSelectedList] = useState('fashionware');
@@ -66,7 +55,9 @@ export default function GMGiveCyberware({ charDetail, cyberwareMaster, setPageAl
                           {Math.floor(item.price).toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button onClick={() => buyCyberware(item)}>Give</Button>
+                          <Button onClick={() => giveCharacterGear({ type: 'cyberware', data: item.cyberware_master_id, charID: charDetail.id })}>
+                            Give
+                          </Button>
                         </TableCell>
                       </TableRow>
                     </React.Fragment>

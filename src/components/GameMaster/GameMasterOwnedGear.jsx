@@ -76,17 +76,22 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
     }
   };
 
-  const deleteCharacterGear = async (gearID) => {
-    setLoading(true);
-    let result = await deleteCharacterGearRequest(gearID);
-    if (result === 'OK') {
-      fetchCharacterGear();
-      setPageAlert({
-        open: true,
-        message: 'Crap Deleted',
-        severity: 'success',
-      });
-    } else {
+  const deleteCharacterGear = async (gearObj) => {
+    try {
+      setLoading(true);
+      let result = await deleteCharacterGearRequest(gearObj);
+      if (result === 'OK') {
+        fetchCharacterGear();
+        setPageAlert({
+          open: true,
+          message: 'Crap Deleted',
+          severity: 'success',
+        });
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error deleting character gear:', error);
       chuckError();
     }
   };

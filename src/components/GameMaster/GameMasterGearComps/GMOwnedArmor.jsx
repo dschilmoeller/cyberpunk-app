@@ -50,10 +50,7 @@ export default function GMOwnedArmor({ charDetail, charArmor, deleteCharacterGea
                       </TableCell>
                       <TableCell align="center">{row.equipped ? 'Y' : 'N'}</TableCell>
                       <TableCell align="center">
-                        <Button
-                          disabled={row.name === 'No Armor' ? true : false}
-                          onClick={() => deleteCharacterGear({ type: 'armor', data: row.armor_bridge_id })}
-                        >
+                        <Button disabled={row.name === 'No Armor'} onClick={() => deleteCharacterGear({ type: 'armor', data: row.armor_bridge_id })}>
                           Remove
                         </Button>
                       </TableCell>

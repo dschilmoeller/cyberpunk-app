@@ -1,20 +1,9 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import WeaponDialog from '../../Modals/WeaponDialog';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
-import WeaponDialog from '../../Modals/WeaponDialog';
-
-// TODO
-// Give grenade Function
-// styling?
-export default function GMGiveGrenade({ charDetail, grenadeMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveGrenade({ charDetail, grenadeMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const headCells = headCellsGenerator(['name', 'description', 'range', 'price', 'purchase']);
@@ -47,13 +36,15 @@ export default function GMGiveGrenade({ charDetail, grenadeMaster, setPageAlert,
                         <WeaponDialog prop={row.name} />
                       </TableCell>
                       <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">Strength * 5 Meters</TableCell>
+                      <TableCell align="center">{(charDetail.strength + charDetail.cyber_strength) * 5}</TableCell>
                       <TableCell align="center">
                         {euroBuck}
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button onClick={() => buyGrenade(row)}>Give</Button>
+                        <Button onClick={() => giveCharacterGear({ type: 'grenade', data: row.grenade_master_id, charID: charDetail.id })}>
+                          Give
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );

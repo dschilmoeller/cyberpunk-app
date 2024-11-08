@@ -27,7 +27,6 @@ export default function GMOwnedVehicleMods({ charVehicleMods, deleteCharacterGea
               <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharVehicleModRows.map((row) => {
-                  console.log(`row:`, row);
                   if (row.equipped === false) {
                     return (
                       <TableRow hover key={row.char_owned_vehicle_mods_id}>

@@ -1,15 +1,8 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
-export default function GMGiveVehicleMods({ vehicleModMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveVehicleMods({ vehicleModMaster, charDetail, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const headCells = headCellsGenerator(['name', 'description', 'type', 'price', 'give']);
@@ -45,7 +38,9 @@ export default function GMGiveVehicleMods({ vehicleModMaster, setPageAlert, load
                           {Math.floor(row.price).toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button onClick={() => buyVehicleMod(row)}>Buy</Button>
+                          <Button onClick={() => giveCharacterGear({ type: 'vehicle_mod', data: row.vehicle_mod_master_id, charID: charDetail.id })}>
+                            Give
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );

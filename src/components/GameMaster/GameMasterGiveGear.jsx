@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
-import Item from '../Characters/CharacterSheet/Item';
+import { Grid, Tabs, Tab } from '@mui/material/';
 
 import {
   fetchArmorMasterRequest,
@@ -16,7 +11,9 @@ import {
   fetchVehicleMasterRequest,
   fetchVehicleModMasterRequest,
 } from '../Characters/gear.services';
+import { giveCharacterGearRequest } from '../GameMaster/gm.services';
 
+import Item from '../Characters/CharacterSheet/Item';
 import GMGiveArmor from './GameMasterGearComps/GMGiveArmor';
 import GMGiveWeapons from './GameMasterGearComps/GMGiveWeapons';
 import GMGiveGrenade from './GameMasterGearComps/GMGiveGrenade';
@@ -68,6 +65,26 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
     }
   };
 
+  const giveCharacterGear = async (gearObj) => {
+    try {
+      setLoading(true);
+      let result = await giveCharacterGearRequest(gearObj);
+      if (result === 'OK') {
+        setPageAlert({
+          open: true,
+          message: 'Item Given',
+          severity: 'success',
+        });
+        setLoading(false);
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error giving character gear:', error);
+      chuckError();
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     fetchGearMaster();
@@ -89,7 +106,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
               <Tab value="grenades" label="Grenades" />
               <Tab value="misc" label="Misc Gear" />
               <Tab value="cyberware" label="Cyberware" />
-              <Tab value="netrunner" label="Netrunner" />
+              <Tab disabled value="netrunner" label="Netrunner" />
               <Tab value="vehicles" label="Vehicles" />
             </Tabs>
           </Item>
@@ -98,14 +115,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'armor' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveArmor
-                charDetail={charDetail}
-                armorMaster={gearMaster.armor}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveArmor charDetail={charDetail} armorMaster={gearMaster.armor} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -115,14 +125,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'weapons' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveWeapons
-                charDetail={charDetail}
-                weaponMaster={gearMaster.weapons}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveWeapons charDetail={charDetail} weaponMaster={gearMaster.weapons} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -132,14 +135,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'grenades' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveGrenade
-                charDetail={charDetail}
-                grenadeMaster={gearMaster.grenades}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveGrenade charDetail={charDetail} grenadeMaster={gearMaster.grenades} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -149,14 +145,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'misc' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveGearOther
-                charDetail={charDetail}
-                gearMaster={gearMaster.miscGear}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveGearOther charDetail={charDetail} gearMaster={gearMaster.miscGear} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -166,14 +155,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'cyberware' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveCyberware
-                charDetail={charDetail}
-                cyberwareMaster={gearMaster.cyberware}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveCyberware charDetail={charDetail} cyberwareMaster={gearMaster.cyberware} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -183,14 +165,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
         {selectedGear === 'netrunner' ? (
           <>
             <Grid item xs={12} padding={1}>
-              <GMGiveNetrunnerMain
-                charDetail={charDetail}
-                netrunnerMaster={gearMaster.netrunner}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
-              />
+              <GMGiveNetrunnerMain charDetail={charDetail} netrunnerMaster={gearMaster.netrunner} giveCharacterGear={giveCharacterGear} />
             </Grid>
           </>
         ) : (
@@ -204,10 +179,7 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, loading, 
                 charDetail={charDetail}
                 vehicleMaster={gearMaster.vehicles}
                 vehicleModMaster={gearMaster.vehicleMods}
-                setPageAlert={setPageAlert}
-                loading={loading}
-                setLoading={setLoading}
-                chuckError={chuckError}
+                giveCharacterGear={giveCharacterGear}
               />
             </Grid>
           </>

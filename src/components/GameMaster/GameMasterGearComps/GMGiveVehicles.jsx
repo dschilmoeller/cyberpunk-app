@@ -1,20 +1,10 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Tabs, Tab } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
 
 import GMGiveVehicleMods from './GMGiveVehicleMods';
 
-export default function GMGiveVehicles({ charDetail, vehicleMaster, vehicleModMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveVehicles({ charDetail, vehicleMaster, vehicleModMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
   const headCells = headCellsGenerator(['name', 'description', 'health', 'seats', 'move', 'mph', 'type', 'price', 'give']);
@@ -68,7 +58,9 @@ export default function GMGiveVehicles({ charDetail, vehicleMaster, vehicleModMa
                             {Math.floor(row.price).toLocaleString('en-US')}
                           </TableCell>
                           <TableCell align="center">
-                            <Button onClick={() => buyVehicle(row)}>Give</Button>
+                            <Button onClick={() => giveCharacterGear({ type: 'vehicle', data: row.vehicle_master_id, charID: charDetail.id })}>
+                              Give
+                            </Button>
                           </TableCell>
                         </TableRow>
                       );
@@ -84,13 +76,7 @@ export default function GMGiveVehicles({ charDetail, vehicleMaster, vehicleModMa
       )}
 
       {selectedShopping === 'mods' ? (
-        <GMGiveVehicleMods
-          vehicleModMaster={vehicleModMaster}
-          setPageAlert={setPageAlert}
-          loading={loading}
-          setLoading={setLoading}
-          chuckError={chuckError}
-        />
+        <GMGiveVehicleMods vehicleModMaster={vehicleModMaster} charDetail={charDetail} giveCharacterGear={giveCharacterGear} />
       ) : (
         <></>
       )}
