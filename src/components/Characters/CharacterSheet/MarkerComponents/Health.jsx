@@ -1,64 +1,25 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import { Button } from '@mui/material';
-import Item from './Item';
-
+import Item from '../Item';
+import OtherAttributesDialog from '../../../Modals/OtherAttributesDialog';
 import Chip from '@mui/material/Chip';
-import Avatar from '@mui/material';
-
-import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { inPlayStatusChangeRequest } from '../../character.services';
 
-function Health() {
-  const charStatus = useSelector((store) => store.characterStatus);
-  const characterCyberware = useSelector(
-    (store) => store.characterGear.cyberware
-  );
-  // base health of 10 + health boxes created by cyberware
+function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loading, setLoading, chuckError }) {
   const totalHealth = 10 + charStatus.current_cyberware_health_boxes;
-  const totalDamage =
-    charStatus.current_stun +
-    charStatus.current_lethal +
-    charStatus.current_agg;
-
-  const dispatch = useDispatch();
-  const loadStatus = useSelector((store) => store.loaders.inPlaySheet);
+  const totalDamage = charStatus.current_stun + charStatus.current_lethal + charStatus.current_agg;
 
   // shorthand for different special characters
   const unhurtMarker = <CircleOutlinedIcon />;
-  const stunMarker = (
-    <HorizontalRuleOutlinedIcon
-      sx={{ backgroundColor: '#ce93d8', color: 'black', borderRadius: '16px' }}
-    />
-  );
-  const lethalMarker = (
-    <CloseOutlinedIcon
-      sx={{ backgroundColor: '#90caf9', color: 'black', borderRadius: '16px' }}
-    />
-  );
-  const aggMarker = (
-    <AcUnitIcon
-      sx={{ backgroundColor: '#f44336', color: 'black', borderRadius: '16px' }}
-    />
-  );
-
-  // handles changing marks on character sheet, affects characterStatus reducer
-  // const healthBoxChanger = (b) => {
-  //     if (b === 'unhurt') {
-  //         dispatch({ type: "ADD_STUN_WOUND" })
-  //     } else if (b === 'stun') {
-  //         dispatch({ type: "ADD_LETHAL_WOUND" })
-  //     } else if (b === 'lethal') {
-  //         dispatch({ type: "ADD_AGG_WOUND" })
-  //     } else {
-  //         dispatch({ type: "REMOVE_WOUND" })
-  //     }
-  // }
+  const stunMarker = <HorizontalRuleOutlinedIcon sx={{ backgroundColor: '#ce93d8', color: 'black', borderRadius: '16px' }} />;
+  const lethalMarker = <CloseOutlinedIcon sx={{ backgroundColor: '#90caf9', color: 'black', borderRadius: '16px' }} />;
+  const aggMarker = <AcUnitIcon sx={{ backgroundColor: '#f44336', color: 'black', borderRadius: '16px' }} />;
 
   // creates array of current wounds, starting with agg, then lethal, then stun, and fills remainder with unhurt boxes
 
@@ -103,11 +64,7 @@ function Health() {
       }
     });
 
-    let healthArray = woundBuilder(
-      charStatus.current_stun,
-      charStatus.current_lethal,
-      charStatus.current_agg
-    );
+    let healthArray = woundBuilder(charStatus.current_stun, charStatus.current_lethal, charStatus.current_agg);
 
     let healthArraySpot = 0;
     let diePenaltySpot = 0;
@@ -134,7 +91,7 @@ function Health() {
         } else if (healthArray[healthArraySpot] === aggMarker) {
           woundtype = 'agg';
         } else {
-          console.log(`Error!`);
+          console.error(`Error!`);
         }
         let woundtype2 = '';
         if (healthArray[healthArraySpot + 1] === unhurtMarker) {
@@ -146,7 +103,7 @@ function Health() {
         } else if (healthArray[healthArraySpot + 1] === aggMarker) {
           woundtype2 = 'agg';
         } else {
-          console.log(`Error!`);
+          console.error(`Error!`);
         }
 
         healthBoxes.push(
@@ -182,12 +139,11 @@ function Health() {
         } else if (healthArray[healthArraySpot] === aggMarker) {
           woundtype = 'agg';
         } else {
-          console.log(`Error!`);
+          console.error(`Error!`);
         }
 
         healthBoxes.push(
           <Grid key={i + 100} item xs={4}>
-            {/* <Item onClick={() => healthBoxChanger(woundtype)}>{healthArray[healthArraySpot]}</Item></Grid>) */}
             <Item>{healthArray[healthArraySpot]}</Item>
           </Grid>
         );
@@ -206,9 +162,7 @@ function Health() {
       diePenaltySpot > i
         ? healthBoxes.push(
             <Grid key={i + 150} item xs={4}>
-              <Item sx={{ backgroundColor: '#E11845', color: 'aqua' }}>
-                {painPenalty[i]}
-              </Item>
+              <Item sx={{ backgroundColor: '#E11845', color: 'aqua' }}>{painPenalty[i]}</Item>
             </Grid>
           )
         : healthBoxes.push(
@@ -221,12 +175,6 @@ function Health() {
     return healthBoxes;
   };
 
-  // need two kinds of wounds - overwrite and new
-  // if stun wounds == 0 -> new
-  // else if stun wounds 1+ -> replace
-  // agg will probably need 3? replace stun, replace lethal?
-  // prevent sending dam when full or healing when empty to avoid confusion.
-
   // total health = 10
   // add 1 stun - if total damages < 10 => +1 stun
   // add 1 stun - if total damage >= 10 => move to lethal add track
@@ -235,9 +183,8 @@ function Health() {
   // add 1 agg - if total damage < 10 => +1 agg
   // add 1 agg - if total damage >= 10 => Char dead (do nothing)
 
-  // combine into single function (dam_type, heal/harm)
-
   const woundHandler = (damageType, healOrHarm) => {
+    setLoading(true);
     switch (damageType) {
       case 'stun':
         handleStun(healOrHarm);
@@ -249,164 +196,170 @@ function Health() {
         handleAgg(healOrHarm);
         break;
       default:
-        console.log(`Error applying damage`);
+        console.error(`Error applying damage`);
+        chuckError();
         break;
     }
+    setLoading(false);
   };
 
-  const handleStun = (healOrHarm) => {
+  const handleStun = async (healOrHarm) => {
     switch (healOrHarm) {
       case 'harm':
         if (totalDamage < totalHealth) {
-          dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-          dispatch({
-            type: 'CHANGE_CHARACTER_HEALTH',
-            payload: {
-              charStatusID: charStatus.char_status_id,
-              setStun: charStatus.current_stun + 1,
-              setLethal: charStatus.current_lethal,
-              setAgg: charStatus.current_agg,
-            },
-          });
+          try {
+            let result = await inPlayStatusChangeRequest({ ...charStatus, current_stun: charStatus.current_stun + 1, charID: charDetail.id });
+            if (result === 'OK') {
+              setCharStatus({ ...charStatus, current_stun: charStatus.current_stun + 1 });
+            }
+          } catch (error) {
+            console.error('Error changing character status:', error);
+            chuckError();
+          }
         } else if (totalDamage === totalHealth) {
           handleLethal(healOrHarm);
         } else {
-          console.log(`Error applying STUN damage`);
+          console.error(`Error applying STUN damage`);
+          chuckError();
         }
         break;
       case 'heal':
         if (charStatus.current_stun > 0) {
-          dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-          dispatch({
-            type: 'CHANGE_CHARACTER_HEALTH',
-            payload: {
-              charStatusID: charStatus.char_status_id,
-              setStun: charStatus.current_stun - 1,
-              setLethal: charStatus.current_lethal,
-              setAgg: charStatus.current_agg,
-            },
-          });
+          try {
+            let result = await inPlayStatusChangeRequest({ ...charStatus, current_stun: charStatus.current_stun - 1, charID: charDetail.id });
+            if (result === 'OK') {
+              setCharStatus({ ...charStatus, current_stun: charStatus.current_stun - 1 });
+            }
+          } catch (error) {
+            console.error('Error changing character status', error);
+            chuckError();
+          }
         } else {
-          console.log(`No STUN damage to heal detected`);
+          console.error(`No STUN damage to heal detected`);
+          chuckError();
         }
     }
   };
 
-  const handleLethal = (healOrHarm) => {
+  const handleLethal = async (healOrHarm) => {
     switch (healOrHarm) {
       case 'harm':
         // if character has any health boxes remaining || character has some stun damage && damage track is filled
-        if (
-          totalDamage < totalHealth ||
-          (charStatus.current_stun > 0 && totalDamage === totalHealth)
-        ) {
+        if (totalDamage < totalHealth || (charStatus.current_stun > 0 && totalDamage === totalHealth)) {
           if (charStatus.current_stun > 0) {
-            // disable additional button clicking
-            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-            // lethal wounds overwrite stun wounds, so if char has one, subtract 1 from total stun damage
-            dispatch({
-              type: 'CHANGE_CHARACTER_HEALTH',
-              payload: {
-                charStatusID: charStatus.char_status_id,
-                setStun: charStatus.current_stun - 1,
-                setLethal: charStatus.current_lethal + 1,
-                setAgg: charStatus.current_agg,
-              },
-            });
+            try {
+              // // lethal wounds overwrite stun wounds, so if char has one, subtract 1 from total stun damage
+              let result = await inPlayStatusChangeRequest({
+                ...charStatus,
+                current_lethal: charStatus.current_lethal + 1,
+                current_stun: charStatus.current_stun - 1,
+                charID: charDetail.id,
+              });
+              if (result === 'OK') {
+                setCharStatus({ ...charStatus, current_lethal: charStatus.current_lethal + 1, current_stun: charStatus.current_stun - 1 });
+              }
+            } catch (error) {
+              console.error('Error changing character status:', error);
+              chuckError();
+            }
           } else {
-            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-            // if no stun wounds are present, do not change stun wound total.
-            dispatch({
-              type: 'CHANGE_CHARACTER_HEALTH',
-              payload: {
-                charStatusID: charStatus.char_status_id,
-                setStun: charStatus.current_stun,
-                setLethal: charStatus.current_lethal + 1,
-                setAgg: charStatus.current_agg,
-              },
-            });
+            // // if no stun wounds are present, do not change stun wound total.
+            try {
+              let result = await inPlayStatusChangeRequest({ ...charStatus, current_lethal: charStatus.current_lethal + 1, charID: charDetail.id });
+              if (result === 'OK') {
+                setCharStatus({ ...charStatus, current_lethal: charStatus.current_lethal + 1 });
+              }
+            } catch (error) {
+              console.error('Error changing character status:', error);
+              chuckError();
+            }
           }
         } else if (totalDamage === totalHealth) {
           handleAgg(healOrHarm);
         } else {
-          console.log(`Error applying LETHAL damage`);
+          console.error(`Error applying LETHAL damage`);
         }
         break;
       case 'heal':
         if (charStatus.current_lethal > 0) {
-          dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-          dispatch({
-            type: 'CHANGE_CHARACTER_HEALTH',
-            payload: {
-              charStatusID: charStatus.char_status_id,
-              setStun: charStatus.current_stun,
-              setLethal: charStatus.current_lethal - 1,
-              setAgg: charStatus.current_agg,
-            },
-          });
+          try {
+            let result = await inPlayStatusChangeRequest({ ...charStatus, current_lethal: charStatus.current_lethal - 1, charID: charDetail.id });
+            if (result === 'OK') {
+              setCharStatus({ ...charStatus, current_lethal: charStatus.current_lethal - 1 });
+            }
+          } catch (error) {
+            console.error('Error changing character status:', error);
+            chuckError();
+          }
         } else {
-          console.log(`No LETHAL damage to heal detected`);
+          console.error(`No LETHAL damage to heal detected`);
         }
     }
   };
 
-  const handleAgg = (healOrHarm) => {
+  const handleAgg = async (healOrHarm) => {
     switch (healOrHarm) {
       case 'harm':
         if (charStatus.current_agg < totalHealth) {
           if (charStatus.current_lethal > 0) {
-            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-            // as with lethal, agg wounds overwrite lethal wounds.
-            dispatch({
-              type: 'CHANGE_CHARACTER_HEALTH',
-              payload: {
-                charStatusID: charStatus.char_status_id,
-                setStun: charStatus.current_stun,
-                setLethal: charStatus.current_lethal - 1,
-                setAgg: charStatus.current_agg + 1,
-              },
-            });
+            // // as with lethal, agg wounds overwrite lethal and stun wounds. It is preferable to overwrite a lethal wound, so that comes first.
+            try {
+              let result = await inPlayStatusChangeRequest({
+                ...charStatus,
+                current_lethal: charStatus.current_lethal - 1,
+                current_agg: charStatus.current_agg + 1,
+                charID: charDetail.id,
+              });
+              if (result === 'OK') {
+                setCharStatus({ ...charStatus, current_lethal: charStatus.current_lethal - 1, current_agg: charStatus.current_agg + 1 });
+              }
+            } catch (error) {
+              console.error('Error changing character status:', error);
+              chuckError();
+            }
           } else if (charStatus.current_stun > 0) {
-            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-            dispatch({
-              type: 'CHANGE_CHARACTER_HEALTH',
-              payload: {
-                charStatusID: charStatus.char_status_id,
-                setStun: charStatus.current_stun - 1,
-                setLethal: charStatus.current_lethal,
-                setAgg: charStatus.current_agg + 1,
-              },
-            });
+            try {
+              let result = await inPlayStatusChangeRequest({
+                ...charStatus,
+                current_stun: charStatus.current_stun - 1,
+                current_agg: charStatus.current_agg + 1,
+                charID: charDetail.id,
+              });
+              if (result === 'OK') {
+                setCharStatus({ ...charStatus, current_stun: charStatus.current_stun - 1, current_agg: charStatus.current_agg + 1 });
+              }
+            } catch (error) {
+              console.error('Error changing character status:', error);
+              chuckError();
+            }
           } else {
-            dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-            dispatch({
-              type: 'CHANGE_CHARACTER_HEALTH',
-              payload: {
-                charStatusID: charStatus.char_status_id,
-                setStun: charStatus.current_stun,
-                setLethal: charStatus.current_lethal,
-                setAgg: charStatus.current_agg + 1,
-              },
-            });
+            try {
+              let result = await inPlayStatusChangeRequest({ ...charStatus, current_agg: charStatus.current_agg + 1, charID: charDetail.id });
+              if (result === 'OK') {
+                setCharStatus({ ...charStatus, current_agg: charStatus.current_agg + 1 });
+              }
+            } catch (error) {
+              console.error('Error changing character status:', error);
+              chuckError();
+            }
           }
         } else {
-          console.log(`Error applying AGG damage OR damage track filled`);
+          console.error(`Error applying AGG damage OR damage track filled`);
         }
         break;
       case 'heal':
         if (charStatus.current_agg > 0) {
-          dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-          dispatch({
-            type: 'CHANGE_CHARACTER_HEALTH',
-            payload: {
-              charStatusID: charStatus.char_status_id,
-              setStun: charStatus.current_stun,
-              setLethal: charStatus.current_lethal,
-              setAgg: charStatus.current_agg - 1,
-            },
-          });
+          try {
+            let result = await inPlayStatusChangeRequest({ ...charStatus, current_agg: charStatus.current_agg - 1, charID: charDetail.id });
+            if (result === 'OK') {
+              setCharStatus({ ...charStatus, current_agg: charStatus.current_agg - 1 });
+            }
+          } catch (error) {
+            console.error('Error changing character status:', error);
+            chuckError();
+          }
         } else {
-          console.log(`No AGG damage to heal detected`);
+          console.error(`No AGG damage to heal detected`);
         }
     }
   };
@@ -428,7 +381,7 @@ function Health() {
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
                 color="secondary"
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 onClick={() => woundHandler('stun', 'harm')}
               >
                 +Stun
@@ -454,7 +407,7 @@ function Health() {
                 size="small"
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 color="secondary"
                 onClick={() => woundHandler('stun', 'heal')}
               >
@@ -470,7 +423,7 @@ function Health() {
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
                 color="primary"
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 onClick={() => woundHandler('lethal', 'harm')}
               >
                 +Lethal
@@ -496,7 +449,7 @@ function Health() {
                 size="small"
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 onClick={() => woundHandler('lethal', 'heal')}
               >
                 Heal Lethal
@@ -511,7 +464,7 @@ function Health() {
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
                 color="error"
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 onClick={() => woundHandler('agg', 'harm')}
               >
                 +Agg
@@ -537,7 +490,7 @@ function Health() {
                 size="small"
                 sx={{ lineHeight: 1, height: '125%' }}
                 fullWidth
-                variant={loadStatus === false ? 'contained' : 'disabled'}
+                variant={loading === false ? 'contained' : 'disabled'}
                 color="error"
                 onClick={() => woundHandler('agg', 'heal')}
               >

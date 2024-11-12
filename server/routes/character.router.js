@@ -5,6 +5,20 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const { rejectNonAdmin } = require('../modules/rejectNonAdmin');
 
+router.post('/fetchInPlayCharDetail', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "character"
+  JOIN "campaigns" ON "character"."campaign" = "campaigns"."campaign_id"
+  WHERE id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error(`Error fetching in play sheet character details:`, err);
+    });
+});
+
 // Fetch campaigns
 router.get('/fetchcampaigns', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "campaigns" ORDER BY campaign_id ASC`;
@@ -44,12 +58,7 @@ router.get('/fetchcharacterdetails/:id', rejectUnauthenticated, (req, res) => {
   pool
     .query(sqlText, [req.params.id])
     .then((result) => {
-      // Crude security measure to prevent accessing unauthorized chars. disabled for the moment.
-      // if (result.rows[0].user_id === req.user.id) {
       res.send(result.rows);
-      // } else {
-      //     res.send(404)
-      // }
     })
     .catch((err) => {
       console.log(`Error fetching character details:`, err);
