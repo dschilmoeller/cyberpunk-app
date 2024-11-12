@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 
 import Health from './MarkerComponents/Health';
-import Humanity from './Humanity';
+import Humanity from './MarkerComponents/Humanity';
 import Luck from './MarkerComponents/Luck';
 import Armor from './MarkerComponents/Armor';
 
@@ -37,7 +37,15 @@ function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware
           chuckError={chuckError}
           setPageAlert={setPageAlert}
         />
-        {/* <Humanity charDetail={charDetail} charStatus={charStatus} /> */}
+        <Humanity
+          charDetail={charDetail}
+          charStatus={charStatus}
+          setCharStatus={setCharStatus}
+          loading={loading}
+          setLoading={setLoading}
+          chuckError={chuckError}
+          setPageAlert={setPageAlert}
+        />
       </Grid>
     </>
   );
