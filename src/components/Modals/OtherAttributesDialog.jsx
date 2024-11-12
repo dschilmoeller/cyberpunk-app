@@ -275,8 +275,8 @@ export default function OtherAttributesDialog({ prop }) {
               cannot spend more than one point of luck each round.
             </Grid>
             <Grid item xs={12}>
-              <b>Just Plain Lucky:</b>A character can add a single success - add a die that came up 10. This can be declared after the result of a
-              roll is known.
+              <b>Just Plain Lucky:</b>A character can add a die that came up 10 to their roll. This can be declared after the result of a roll is
+              known, and counts for the purposes of getting a major success (2x 10s = 4x successes)
             </Grid>
             <Grid item xs={12}>
               <b>Doesn't Even Sting:</b> This must be declared before rolling. A character can ignore any wound penalties they have for one turn.

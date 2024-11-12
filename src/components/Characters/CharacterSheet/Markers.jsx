@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 
 import Health from './MarkerComponents/Health';
 import Humanity from './Humanity';
-import Luck from './Luck';
+import Luck from './MarkerComponents/Luck';
 import Armor from './MarkerComponents/Armor';
 
 function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware, loading, setLoading, chuckError, setPageAlert }) {

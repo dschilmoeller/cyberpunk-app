@@ -9,7 +9,7 @@ import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './Markers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
-// import Weapons from './Weapons';
+import Weapons from './Weapons';
 // import CharacterVehicles from './CharacterVehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
 // import CharacterSheetCyberware from './Cyberware';
@@ -74,7 +74,6 @@ export default function CharacterSheet() {
   if (charDetail.id && charStatus.char_id) {
     return (
       <>
-        <button onClick={() => chuckError()}>Alert</button>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={1}>
             {charDetail ? (
@@ -113,13 +112,13 @@ export default function CharacterSheet() {
                   <Tab value="contacts" label="Contacts" />
                 </Tabs>
 
-                {/* {selectedInventory === 'weapons' ? (
+                {selectedInventory === 'weapons' ? (
                   <>
                     <Weapons />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'backpack' ? (
                   <>

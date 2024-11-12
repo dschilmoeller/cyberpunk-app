@@ -8,13 +8,20 @@ import { fetchInPlayArmorRequest, inPlayArmorChangeRequest, inPlayStatusChangeRe
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import GpsFixedOutlinedIcon from '@mui/icons-material/GpsFixedOutlined';
+import GpsNotFixedOutlinedIcon from '@mui/icons-material/GpsNotFixedOutlined';
+import PanoramaVerticalOutlinedIcon from '@mui/icons-material/PanoramaVerticalOutlined';
+import PanoramaVerticalSelectOutlinedIcon from '@mui/icons-material/PanoramaVerticalSelectOutlined';
 // TODO
-// Find add'l icons for shields, cyberware armor.
 // refine spacer thing at bottom (4/3/2/1 spaces.)
 function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chuckError, setPageAlert }) {
   const unhurtMarker = <CircleOutlinedIcon />;
   const aggMarker = <AcUnitIcon />;
   const bodyMarker = <CheckBoxOutlineBlankOutlinedIcon />;
+  const cyberMarkerFilled = <GpsFixedOutlinedIcon />;
+  const cyberMarker = <GpsNotFixedOutlinedIcon />;
+  const shieldMarker = <PanoramaVerticalOutlinedIcon />;
+  const shieldMarkerFilled = <PanoramaVerticalSelectOutlinedIcon />;
 
   const [charArmorList, setCharArmorList] = useState([]);
   const [charTotalArmor, setCharTotalArmor] = useState(0);
@@ -55,7 +62,6 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
   }, []);
 
   // Builds armor html from various sources. If no armor/shield worn, default to 0.
-  // need to pull equipped armor and .this_armor_loss field
   const armorBuilderTwo = () => {
     let armorBoxes = [];
     let keyMaker = 0;
@@ -77,7 +83,7 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
       armorBoxes.push(
         <React.Fragment key={keyMaker}>
           <Grid item xs={2.4}>
-            <Item>{unhurtMarker}</Item>
+            <Item>{cyberMarker}</Item>
           </Grid>
         </React.Fragment>
       );
@@ -87,7 +93,7 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
       armorBoxes.push(
         <React.Fragment key={keyMaker}>
           <Grid item xs={2.4}>
-            <Item>{aggMarker}</Item>
+            <Item>{cyberMarkerFilled}</Item>
           </Grid>
         </React.Fragment>
       );
@@ -99,7 +105,7 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         armorBoxes.push(
           <React.Fragment key={keyMaker}>
             <Grid item xs={2.4}>
-              <Item>{unhurtMarker}</Item>
+              <Item>{armor.is_shield ? shieldMarker : unhurtMarker}</Item>
             </Grid>
           </React.Fragment>
         );
@@ -109,7 +115,7 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         armorBoxes.push(
           <React.Fragment key={keyMaker}>
             <Grid item xs={2.4}>
-              <Item>{aggMarker}</Item>
+              <Item>{armor.is_shield ? shieldMarkerFilled : aggMarker}</Item>
             </Grid>
           </React.Fragment>
         );
@@ -244,6 +250,20 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
       2
   );
 
+  const spacer = (spaces) => {
+    let spacers = [];
+    for (let i = 0; i < spaces; i++) {
+      spacers.push(
+        <React.Fragment key={i}>
+          <Grid item xs={12}>
+            <Item sx={{ opacity: 0 }}></Item>
+          </Grid>
+        </React.Fragment>
+      );
+    }
+    return spacers;
+  };
+
   return (
     <>
       <>
@@ -299,63 +319,10 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
 
         <Grid container>{armorBuilderTwo()}</Grid>
 
-        {charTotalArmor + charDetail.body + charDetail.cyber_body <= 5 ? (
-          <>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
-
-        {charTotalArmor + charDetail.body + charDetail.cyber_body >= 6 && charTotalArmor + charDetail.body + charDetail.cyber_body < 11 ? (
-          <>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
-
-        {charTotalArmor + charDetail.body + charDetail.cyber_body >= 11 && charTotalArmor + charDetail.body + charDetail.cyber_body <= 15 ? (
-          <>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
-
-        {charTotalArmor + charDetail.body + charDetail.cyber_body >= 16 && charTotalArmor + charDetail.body + charDetail.cyber_body <= 20 ? (
-          <>
-            <Grid item xs={12}>
-              <Item sx={{ opacity: 0 }}></Item>
-            </Grid>
-          </>
-        ) : (
-          <></>
-        )}
+        {charTotalArmor + charDetail.body + charDetail.cyber_body <= 5 ? spacer(1) : <></>}
+        {charTotalArmor + charDetail.body + charDetail.cyber_body <= 10 ? spacer(1) : <></>}
+        {charTotalArmor + charDetail.body + charDetail.cyber_body <= 15 ? spacer(1) : <></>}
+        {charTotalArmor + charDetail.body + charDetail.cyber_body <= 20 ? spacer(1) : <></>}
       </>
     </>
   );

@@ -83,6 +83,7 @@ const inPlayArmorChangeRequest = async (armorObj) => {
       });
   });
 };
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
