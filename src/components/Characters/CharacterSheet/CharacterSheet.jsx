@@ -10,10 +10,10 @@ import CharacterMarkers from './Markers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 import Weapons from './GearComponents/Weapons';
+import Backpack from './GearComponents/Backpack';
 // import CharacterVehicles from './CharacterVehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
 // import CharacterSheetCyberware from './Cyberware';
-// import Backpack from './Backpack';
 // import Pharmaceuticals from './Pharmaceuticals';
 // import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
@@ -135,13 +135,13 @@ export default function CharacterSheet() {
                   <></>
                 )}
 
-                {/* {selectedInventory === 'backpack' ? (
+                {selectedInventory === 'backpack' ? (
                   <>
                     <Backpack />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'pharma' ? (
                   <>
@@ -202,7 +202,6 @@ export default function CharacterSheet() {
           severity={pageAlert.severity}
           onClose={() => setPageAlert({ open: false, message: '', severity: '' })}
         />
-        ;
       </>
     );
   }

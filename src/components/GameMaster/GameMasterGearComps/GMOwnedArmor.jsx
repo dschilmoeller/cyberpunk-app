@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
 // TODO
 // show character total armor
 // show character total shielding

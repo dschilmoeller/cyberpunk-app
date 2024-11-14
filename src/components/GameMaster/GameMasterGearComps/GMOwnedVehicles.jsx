@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button, Grid, Tabs, Tab } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
 
 import GMOwnedVehicleMods from './GMOwnedVehicleMods';
 

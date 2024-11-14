@@ -1,7 +1,7 @@
 import React from 'react';
 import WeaponDialog from '../../Modals/WeaponDialog';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
 
 export default function GMGiveWeapons({ charDetail, weaponMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;

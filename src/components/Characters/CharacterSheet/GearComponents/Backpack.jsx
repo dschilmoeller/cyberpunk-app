@@ -13,16 +13,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-import Item from './Item';
-import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
+import Item from '../Item';
+import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
 
 export default function Backpack() {
   const characterDetail = useSelector((store) => store.characterDetail);
@@ -30,13 +22,6 @@ export default function Backpack() {
   const dispatch = useDispatch();
 
   const euroBuck = `\u20AC$`;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const [snackbarText, setSnackBarText] = React.useState('');
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -49,9 +34,7 @@ export default function Backpack() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -105,12 +88,7 @@ export default function Backpack() {
           {headCells.map((headCell) => {
             if (headCell.id != 'consume') {
               return (
-                <TableCell
-                  key={headCell.id}
-                  align={'left'}
-                  padding={'normal'}
-                  sortDirection={orderBy === headCell.id ? order : false}
-                >
+                <TableCell key={headCell.id} align={'left'} padding={'normal'} sortDirection={orderBy === headCell.id ? order : false}>
                   <TableSortLabel
                     active={orderBy === headCell.id}
                     direction={orderBy === headCell.id ? order : 'asc'}
@@ -161,26 +139,13 @@ export default function Backpack() {
   // take charMiscGear data and push into array for conversion into rows.
   const charMiscGearRows = [];
   for (let i = 0; i < charMiscGear.length; i++) {
-    charMiscGearRows.push(
-      createMiscGearData(
-        charMiscGear[i].name,
-        charMiscGear[i].description,
-        charMiscGear[i].char_gear_bridge_id
-      )
-    );
+    charMiscGearRows.push(createMiscGearData(charMiscGear[i].name, charMiscGear[i].description, charMiscGear[i].char_gear_bridge_id));
   }
 
-  const sortedcharMiscGearRows = React.useMemo(
-    () => stableSort(charMiscGearRows, getComparator(order, orderBy)),
-    [order, orderBy, charMiscGear]
-  );
+  const sortedcharMiscGearRows = React.useMemo(() => stableSort(charMiscGearRows, getComparator(order, orderBy)), [order, orderBy, charMiscGear]);
 
   const edibleTest = (row) => {
-    if (
-      row.name === 'MRE' ||
-      row.name === 'Food Stick' ||
-      row.name === 'Kibble Pack'
-    ) {
+    if (row.name === 'MRE' || row.name === 'Food Stick' || row.name === 'Kibble Pack') {
       let isFood = true;
       return (
         <>
@@ -280,10 +245,7 @@ export default function Backpack() {
   };
 
   const spendMoney = (change) => {
-    if (
-      (change > 0 && change < 10000) ||
-      (change <= characterDetail.bank && change > 0)
-    ) {
+    if ((change > 0 && change < 10000) || (change <= characterDetail.bank && change > 0)) {
       dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
       dispatch({
         type: 'ARBITRARY_BANK_CHANGE',
@@ -301,23 +263,6 @@ export default function Backpack() {
 
   return (
     <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        transitionDuration={2000}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
-          {snackbarText}
-        </Alert>
-      </Snackbar>
-
       <Grid container>
         <Grid item xs={12} paddingBottom={4}>
           <Item>
@@ -327,13 +272,7 @@ export default function Backpack() {
       </Grid>
 
       <Grid container>
-        <Grid
-          item
-          xs={6}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
+        <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>
           <Typography variant="h4">
             Bank: {euroBuck}
             {characterDetail.bank.toLocaleString('en-US')}
@@ -341,50 +280,25 @@ export default function Backpack() {
         </Grid>
 
         <Grid item xs={2} display={'flex'} justifyContent={'center'}>
-          <Button
-            variant={loadStatus === false ? 'contained' : 'disabled'}
-            color="error"
-            fullWidth
-            onClick={() => spendMoney(bankChange)}
-          >
+          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" fullWidth onClick={() => spendMoney(bankChange)}>
             Spend Eddies
           </Button>
         </Grid>
 
         <Grid item xs={2} display={'flex'} justifyContent={'center'}>
-          <TextField
-            label="Add/Remove Amount"
-            onChange={(e) => setBankChange(e.target.value)}
-            required
-            type="number"
-            value={bankChange}
-            fullWidth
-          />
+          <TextField label="Add/Remove Amount" onChange={(e) => setBankChange(e.target.value)} required type="number" value={bankChange} fullWidth />
         </Grid>
 
         <Grid item xs={2} display={'flex'} justifyContent={'center'}>
-          <Button
-            variant={loadStatus === false ? 'contained' : 'disabled'}
-            color="success"
-            fullWidth
-            onClick={() => addMoney(bankChange)}
-          >
+          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" fullWidth onClick={() => addMoney(bankChange)}>
             Gain Eddies
           </Button>
         </Grid>
       </Grid>
 
       <TableContainer>
-        <Table
-          sx={{ minWidth: 750 }}
-          aria-labelledby="tableTitle"
-          size={'small'}
-        >
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-          />
+        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+          <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
             {sortedcharMiscGearRows.map((row, i) => {
               return (

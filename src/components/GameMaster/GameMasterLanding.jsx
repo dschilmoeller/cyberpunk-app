@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Grid, Select, MenuItem } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './GameMasterGearComps/tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../GeneralAssets/tableFuncs.service';
 
 import { gmCharFetchRequest, fetchCampaignListRequest } from './gm.services';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Button } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from './tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
 
 export default function GMOtherOwned({ charDetail, charMiscGear, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
