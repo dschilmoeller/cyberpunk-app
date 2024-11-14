@@ -9,7 +9,7 @@ import CharacterSkills from './CharacterSkills';
 import CharacterMarkers from './Markers';
 import CharacterRoleAbilities from './CharacterRoleAbilities';
 
-import Weapons from './Weapons';
+import Weapons from './GearComponents/Weapons';
 // import CharacterVehicles from './CharacterVehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
 // import CharacterSheetCyberware from './Cyberware';
@@ -32,6 +32,7 @@ export default function CharacterSheet() {
   });
   const [charDetail, setCharDetail] = useState({});
   const [charStatus, setCharStatus] = useState({});
+  const [painEditor, setPainEditor] = useState(false);
 
   const [charCyberware, setCharCyberware] = useState([]);
   const charSheetSetup = async () => {
@@ -44,6 +45,11 @@ export default function CharacterSheet() {
 
       let characterCyberware = await fetchInPlayCharCyberwareRequest({ charID: params.id });
       setCharCyberware(characterCyberware);
+      characterCyberware.map((cyberware) => {
+        if (cyberware.name === 'Pain Editor') {
+          setPainEditor(true);
+        }
+      });
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -114,7 +120,16 @@ export default function CharacterSheet() {
 
                 {selectedInventory === 'weapons' ? (
                   <>
-                    <Weapons />
+                    <Weapons
+                      charDetail={charDetail}
+                      charStatus={charStatus}
+                      charCyberware={charCyberware}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                      painEditor={painEditor}
+                    />
                   </>
                 ) : (
                   <></>

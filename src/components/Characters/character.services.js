@@ -56,6 +56,34 @@ const fetchInPlayCharCyberwareRequest = async (charObj) => {
   });
 };
 
+const fetchCharWeaponsRequest = async (weaponObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayCharWeapons', weaponObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching character weapon list:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchCharGrenadesRequest = async (weaponObj) => {
+  return new Promise((resolve, reject) => [
+    axios
+      .post('/api/inPlay/fetchInPlayGrenades', weaponObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching character grenade list:', error);
+        reject(error);
+      }),
+  ]);
+};
+
 const inPlayStatusChangeRequest = async (statusObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -84,11 +112,43 @@ const inPlayArmorChangeRequest = async (armorObj) => {
   });
 };
 
+const inPlayWeaponChangeRequest = async (weaponObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayWeaponChange', weaponObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing in play weapon:', error);
+        reject(error);
+      });
+  });
+};
+
+const inPlayUseGrenade = async (grenadeObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayUseGrenade', grenadeObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error using grenade in play:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
   fetchInPlayArmorRequest,
   fetchInPlayCharCyberwareRequest,
+  fetchCharWeaponsRequest,
+  fetchCharGrenadesRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
+  inPlayWeaponChangeRequest,
+  inPlayUseGrenade,
 };

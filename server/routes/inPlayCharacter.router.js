@@ -52,7 +52,7 @@ router.post('/fetchInPlayCharCyberware', rejectUnauthenticated, (req, res) => {
 router.post('/fetchInPlayCharacterArmor', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_armor_bridge"
   JOIN "armor_master" ON "char_armor_bridge"."armor_id" = "armor_master"."armor_master_id"
-  WHERE "char_id" = $1 AND "equipped" = true
+  WHERE "char_id" = $1 AND "equipped" = TRUE
   ORDER BY "is_shield"`;
   pool
     .query(sqlText, [req.body.charID])
@@ -62,6 +62,34 @@ router.post('/fetchInPlayCharacterArmor', rejectUnauthenticated, (req, res) => {
     .catch((err) => {
       console.error('Error fetching character equipped armor list:', err);
       res.sendStatus(400);
+    });
+});
+
+router.post('/fetchInPlayCharWeapons', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_weapons_bridge"
+  JOIN "weapon_master" ON "char_weapons_bridge"."weapon_id" = "weapon_master"."weapon_master_id"
+  WHERE "char_id" = $1 AND "equipped" = TRUE`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character equipped weapon list:', err);
+    });
+});
+
+router.post('/fetchInPlayGrenades', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_grenade_bridge"
+  JOIN "grenade_master" on "char_grenade_bridge"."grenade_id" = "grenade_master"."grenade_master_id"
+  WHERE "char_id" = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character grenade list:', err);
     });
 });
 
@@ -111,7 +139,38 @@ router.post('/inPlayArmorChange', rejectUnauthenticated, (req, res) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.error('Error changing character in play status:', err);
+      console.error('Error changing character in play armor:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayWeaponChange', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_weapons_bridge"
+  SET "current_shots_fired" = $1
+  WHERE "weapon_bridge_id" = $2`;
+  const sqlParams = [req.body.current_shots_fired, req.body.weapon_bridge_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing character in play weapon:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayUseGrenade', rejectUnauthenticated, (req, res) => {
+  console.log(`req.body:`, req.body);
+  const sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`;
+  const sqlParams = [req.body.grenade_bridge_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing character in play grenades:', err);
       res.sendStatus(400);
     });
 });

@@ -1,45 +1,26 @@
 import * as React from 'react';
 
-import { useSelector } from 'react-redux';
-
-import { Button } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-
-import { Grid } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, FormControl, Select, Grid } from '@mui/material';
 
 import DiceTenBase from '../Dice/DiceTenBase';
 import DiceTenHighlighted from '../Dice/DiceTenHighlighted';
 
 import './animation.css';
 
-export default function CharWeaponDieRollDialog({ prop }) {
+export default function CharWeaponDieRollDialog({ type, charStatus, charDetail, painEditor }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
-
-  const charDetails = useSelector((store) => store.characterDetail);
-  const charStatus = useSelector((store) => store.characterStatus);
-  const characterCyberware = useSelector(
-    (store) => store.characterGear.cyberware
-  );
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
-    if (prop.type === 'melee') {
+    if (type === 'melee') {
       quickRoll(meleeAttackDice, false, 6);
       setSelectedDieIndex(meleeAttackDice);
-    } else if (prop.type === 'firearm') {
+    } else if (type === 'firearm') {
       quickRoll(firearmsAttackDice, false, 6);
       setSelectedDieIndex(firearmsAttackDice);
-    } else if (prop.type === 'exotic') {
+    } else if (type === 'exotic') {
       quickRoll(exoticWeaponAttackDice, false, 6);
       setSelectedDieIndex(exoticWeaponAttackDice);
     }
@@ -93,9 +74,7 @@ export default function CharWeaponDieRollDialog({ prop }) {
         // const max = Math.floor(11);
         // return Math.floor(Math.random() * (max - min) + min);
         // It would be wrong to increase the chance of failure to 14.3%, right?
-        const arr = [
-          1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10,
-        ];
+        const arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
         return arr[Math.floor(Math.random() * arr.length)];
       }
 
@@ -171,17 +150,11 @@ export default function CharWeaponDieRollDialog({ prop }) {
       }
 
       // list initiative outcome
-      let initiativeResult =
-        charDetails.reflexes +
-        charDetails.cyber_reflexes +
-        successes.length -
-        glitches.length;
+      let initiativeResult = charDetail.reflexes + charDetail.cyber_reflexes + successes.length - glitches.length;
 
       // Display: You rolled the following: [], resulting in {successes} hits and {glitches} glitches. You have {outcome}!
       if (isInitiative === true) {
-        setRollresult(
-          `${dieResultText}. Your initiative is ${initiativeResult}.`
-        );
+        setRollresult(`${dieResultText}. Your initiative is ${initiativeResult}.`);
       } else {
         setRollresult(`${dieResultText}. This is a ${outcome}`);
       }
@@ -198,12 +171,7 @@ export default function CharWeaponDieRollDialog({ prop }) {
     for (let i = 0; i < selectedIndex; i++) {
       diceSVGArray.push(
         <React.Fragment key={i}>
-          <Grid
-            item
-            xs={1.2}
-            onClick={() => difficultyRoll(i + 1, false, selectedDifficulty)}
-            onMouseEnter={() => handleMouseEnter(i + 1)}
-          >
+          <Grid item xs={1.2} onClick={() => difficultyRoll(i + 1, false, selectedDifficulty)} onMouseEnter={() => handleMouseEnter(i + 1)}>
             <DiceTenHighlighted prop={{ class_id: dieClass }} />
           </Grid>
         </React.Fragment>
@@ -229,14 +197,8 @@ export default function CharWeaponDieRollDialog({ prop }) {
 
   const painPenalty = (stun, lethal, agg, cyberBoxes) => {
     let woundAggregator = stun + lethal + agg;
-    let painPenalty = [0, 0, 0, -1, -1, -2, -2, -3, -3, -5, -8];
+    let painPenalty = painEditor ? [0, 0, 0, 0, 0, -1, -1, -2, -2, -3, -4] : [0, 0, 0, -1, -1, -2, -2, -3, -3, -5, -8];
     let finalPain;
-
-    characterCyberware.map((cyberware) => {
-      if (cyberware.name === 'Pain Editor' && cyberware.equipped === true) {
-        painPenalty = [0, 0, 0, 0, 0, -1, -1, -2, -2, -3, -4];
-      }
-    });
 
     if (woundAggregator == 0) {
       finalPain = 0;
@@ -262,37 +224,12 @@ export default function CharWeaponDieRollDialog({ prop }) {
       return total;
     }
   };
-
-  const meleeAttackDice = dieChecker(
-    charDetails.reflexes +
-      charDetails.cyber_reflexes +
-      charDetails.melee_weapons +
-      painPenaltyAmount
-  );
-  const firearmsAttackDice = dieChecker(
-    charDetails.reflexes +
-      charDetails.cyber_reflexes +
-      charDetails.firearms +
-      painPenaltyAmount
-  );
-  const exoticWeaponAttackDice = dieChecker(
-    charDetails.reflexes +
-      charDetails.cyber_reflexes +
-      charDetails.exotic_weapons +
-      painPenaltyAmount
-  );
-  const quickDodgeDice = dieChecker(
-    charDetails.reflexes + charDetails.cyber_reflexes + painPenaltyAmount
-  );
-  const fullDodgeDice = dieChecker(
-    charDetails.reflexes +
-      charDetails.cyber_reflexes +
-      charDetails.evasion +
-      painPenaltyAmount
-  );
-  const initiativeDice = dieChecker(
-    charDetails.reflexes + charDetails.cyber_reflexes + painPenaltyAmount
-  );
+  const meleeAttackDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + charDetail.melee_weapons + painPenaltyAmount);
+  const firearmsAttackDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + charDetail.firearms + painPenaltyAmount);
+  const exoticWeaponAttackDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + charDetail.exotic_weapons + painPenaltyAmount);
+  const quickDodgeDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + painPenaltyAmount);
+  const fullDodgeDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + charDetail.evasion + painPenaltyAmount);
+  const initiativeDice = dieChecker(charDetail.reflexes + charDetail.cyber_reflexes + painPenaltyAmount);
 
   return (
     <>
@@ -311,20 +248,17 @@ export default function CharWeaponDieRollDialog({ prop }) {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">
-          Rolling Dice - Hover and click to roll
-        </DialogTitle>
+        <DialogTitle id="scroll-dialog-title">Rolling Dice - Hover and click to roll</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <Grid container spacing={1}>
             {diceBuilder(selectedDieIndex)}
             <Grid item xs={12} display={'flex'} justifyContent={'center'}>
               <h3>
-                You will roll {selectedDieIndex} Dice with a Difficulty Value of{' '}
-                {selectedDifficulty}
+                You will roll {selectedDieIndex} Dice with a Difficulty Value of {selectedDifficulty}
               </h3>
             </Grid>
 
-            {charDetails.id > 0 && charStatus.char_id > 0 ? (
+            {charDetail.id > 0 && charStatus.char_id > 0 ? (
               <>
                 <Grid container spacing={1} paddingBottom={1}>
                   <Grid item xs={12} display={'flex'} justifyContent={'center'}>
@@ -332,43 +266,16 @@ export default function CharWeaponDieRollDialog({ prop }) {
                   </Grid>
 
                   <Grid item xs={3} />
-                  <Grid
-                    item
-                    xs={6}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    onClick={() =>
-                      quickRoll(initiativeDice, true, selectedDifficulty)
-                    }
-                  >
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="secondary"
-                      onMouseEnter={() => handleMouseEnter(initiativeDice)}
-                    >
-                      Initiative - add {initiativeDice} to hits!{' '}
-                      {initiativeDice}d10 @ DV {selectedDifficulty}
+                  <Grid item xs={6} display={'flex'} justifyContent={'center'} onClick={() => quickRoll(initiativeDice, true, selectedDifficulty)}>
+                    <Button fullWidth variant="contained" color="secondary" onMouseEnter={() => handleMouseEnter(initiativeDice)}>
+                      Initiative - add {initiativeDice} to hits! {initiativeDice}d10 @ DV {selectedDifficulty}
                     </Button>
                   </Grid>
                   <Grid item xs={3} />
 
-                  <Grid
-                    item
-                    xs={6}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    onClick={() =>
-                      quickRoll(meleeAttackDice, false, selectedDifficulty)
-                    }
-                  >
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onMouseEnter={() => handleMouseEnter(meleeAttackDice)}
-                    >
-                      Melee Attack / Parry - {meleeAttackDice}d10 @ DV{' '}
-                      {selectedDifficulty}
+                  <Grid item xs={6} display={'flex'} justifyContent={'center'} onClick={() => quickRoll(meleeAttackDice, false, selectedDifficulty)}>
+                    <Button fullWidth variant="contained" onMouseEnter={() => handleMouseEnter(meleeAttackDice)}>
+                      Melee Attack / Parry - {meleeAttackDice}d10 @ DV {selectedDifficulty}
                     </Button>
                   </Grid>
 
@@ -377,53 +284,21 @@ export default function CharWeaponDieRollDialog({ prop }) {
                     xs={6}
                     display={'flex'}
                     justifyContent={'center'}
-                    onClick={() =>
-                      quickRoll(firearmsAttackDice, false, selectedDifficulty)
-                    }
+                    onClick={() => quickRoll(firearmsAttackDice, false, selectedDifficulty)}
                   >
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onMouseEnter={() => handleMouseEnter(firearmsAttackDice)}
-                    >
-                      Firearms Attack - {firearmsAttackDice}d10 @ DV{' '}
-                      {selectedDifficulty}
+                    <Button fullWidth variant="contained" onMouseEnter={() => handleMouseEnter(firearmsAttackDice)}>
+                      Firearms Attack - {firearmsAttackDice}d10 @ DV {selectedDifficulty}
                     </Button>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={6}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    onClick={() =>
-                      quickRoll(quickDodgeDice, false, selectedDifficulty)
-                    }
-                  >
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onMouseEnter={() => handleMouseEnter(quickDodgeDice)}
-                    >
-                      Quick Dodge - {quickDodgeDice}d10 @ DV{' '}
-                      {selectedDifficulty}
+                  <Grid item xs={6} display={'flex'} justifyContent={'center'} onClick={() => quickRoll(quickDodgeDice, false, selectedDifficulty)}>
+                    <Button fullWidth variant="contained" onMouseEnter={() => handleMouseEnter(quickDodgeDice)}>
+                      Quick Dodge - {quickDodgeDice}d10 @ DV {selectedDifficulty}
                     </Button>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={6}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    onClick={() =>
-                      quickRoll(fullDodgeDice, false, selectedDifficulty)
-                    }
-                  >
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onMouseEnter={() => handleMouseEnter(fullDodgeDice)}
-                    >
+                  <Grid item xs={6} display={'flex'} justifyContent={'center'} onClick={() => quickRoll(fullDodgeDice, false, selectedDifficulty)}>
+                    <Button fullWidth variant="contained" onMouseEnter={() => handleMouseEnter(fullDodgeDice)}>
                       Evade - {fullDodgeDice}d10 @ DV {selectedDifficulty}
                     </Button>
                   </Grid>
@@ -436,9 +311,7 @@ export default function CharWeaponDieRollDialog({ prop }) {
             <Grid item xs={12}>
               {
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Select Difficulty Value
-                  </InputLabel>
+                  <InputLabel id="demo-simple-select-label">Select Difficulty Value</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

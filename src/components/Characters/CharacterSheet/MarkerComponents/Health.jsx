@@ -293,6 +293,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
           }
         } else {
           console.error(`No LETHAL damage to heal detected`);
+          chuckError();
         }
     }
   };
@@ -345,6 +346,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
           }
         } else {
           console.error(`Error applying AGG damage OR damage track filled`);
+          chuckError();
         }
         break;
       case 'heal':
@@ -360,6 +362,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
           }
         } else {
           console.error(`No AGG damage to heal detected`);
+          chuckError();
         }
     }
   };
