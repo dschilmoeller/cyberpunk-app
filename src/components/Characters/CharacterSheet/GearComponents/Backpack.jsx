@@ -1,121 +1,81 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Button } from '@mui/material';
-
-import PropTypes from 'prop-types';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import { Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableRow, Grid, Typography } from '@mui/material';
 
 import Item from '../Item';
 import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
+import { inPlayUseConsumable, inPlayBankChange } from '../../character.services';
 
-export default function Backpack() {
-  const characterDetail = useSelector((store) => store.characterDetail);
-  const loadStatus = useSelector((store) => store.loaders.inPlaySheet);
-  const dispatch = useDispatch();
-
+export default function Backpack({ charDetail, setCharDetail, charMiscGear, setCharMiscGear, loading, setLoading, chuckError, setPageAlert }) {
   const euroBuck = `\u20AC$`;
 
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  function getComparator(order, orderBy) {
-    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-  // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-  // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-  // with exampleArray.slice().sort(getComparator(order, orderBy))
-  // DS - the above gives a .map error for some reason. Not sure why.
-
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'description',
-      numeric: false,
-      disablePadding: true,
-      label: 'Description',
-    },
-    {
-      id: 'consume',
-      numeric: false,
-      disablePadding: true,
-      label: 'Consume?',
-    },
-  ];
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
+  const UseConsumable = async (stuff, isFood) => {
+    setLoading(true);
+    const miscObj = {
+      char_gear_bridge_id: stuff.char_gear_bridge_id,
     };
-
-    return (
-      <TableHead>
-        <TableRow hover>
-          {headCells.map((headCell) => {
-            if (headCell.id != 'consume') {
-              return (
-                <TableCell key={headCell.id} align={'left'} padding={'normal'} sortDirection={orderBy === headCell.id ? order : false}>
-                  <TableSortLabel
-                    active={orderBy === headCell.id}
-                    direction={orderBy === headCell.id ? order : 'asc'}
-                    onClick={createSortHandler(headCell.id)}
-                  >
-                    {headCell.label}
-                  </TableSortLabel>
-                </TableCell>
-              );
-            } else {
-              return (
-                <TableCell key={headCell.id} align={'left'} padding={'normal'}>
-                  {headCell.label}
-                </TableCell>
-              );
-            }
-          })}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  EnhancedTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
+    try {
+      let result = await inPlayUseConsumable(miscObj);
+      if (result === 'OK') {
+        setCharMiscGear(charMiscGear.filter((e) => e.char_gear_bridge_id != stuff.char_gear_bridge_id));
+        if (isFood) {
+          setPageAlert({ open: true, message: 'YUM!', type: 'success' });
+        } else {
+          setPageAlert({ open: true, message: 'Item used', type: 'success' });
+        }
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error using consumable:', error);
+      chuckError();
+    }
+    setLoading(false);
   };
+
+  // arbitrary money changes:
+  const [bankChange, setBankChange] = React.useState(0);
+
+  const changeMoney = async (change, add) => {
+    setLoading(true);
+    // turn change absolute, then pos/neg - this will mean adding/subtracting the absolute value,
+    // which can be weird if using negative numbers, but the players shouldn't be pulling that shite anyhow.
+    if (add === true) {
+      change = Math.abs(parseFloat(change));
+    } else {
+      change = -Math.abs(parseFloat(change));
+    }
+    const bankObj = {
+      charID: charDetail.id,
+      bank: parseFloat(charDetail.bank) + change,
+    };
+    // if adding, limit change to 10000 at a time. Why? 'Cause
+    // if removing, cannot remove more than one has. Also if they do some nonsense that results in a positive number (or negative for adding)
+    // then call them on it.
+    if ((add === true && change > 0 && change < 10001) || (add === false && Math.abs(change) <= charDetail.bank && change < 0)) {
+      try {
+        let result = await inPlayBankChange(bankObj);
+        if (result === 'OK') {
+          setCharDetail({
+            ...charDetail,
+            bank: charDetail.bank + change,
+          });
+          setPageAlert({ open: true, message: 'Cha-Ching!', severity: 'success' });
+          setBankChange(0);
+        } else {
+          chuckError();
+        }
+      } catch (error) {
+        console.error('Error', error);
+        chuckError();
+      }
+    } else {
+      setPageAlert({ open: true, message: 'Nice try.', severity: 'error' });
+    }
+    setLoading(false);
+  };
+
+  const headCells = headCellsGenerator(['name', 'description', 'consume']);
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
@@ -126,140 +86,7 @@ export default function Backpack() {
     setOrderBy(property);
   };
 
-  // create charMiscGear data
-  const charMiscGear = useSelector((store) => store.characterGear.gear);
-  function createMiscGearData(name, description, char_gear_bridge_id) {
-    return {
-      name,
-      description,
-      char_gear_bridge_id,
-    };
-  }
-
-  // take charMiscGear data and push into array for conversion into rows.
-  const charMiscGearRows = [];
-  for (let i = 0; i < charMiscGear.length; i++) {
-    charMiscGearRows.push(createMiscGearData(charMiscGear[i].name, charMiscGear[i].description, charMiscGear[i].char_gear_bridge_id));
-  }
-
-  const sortedcharMiscGearRows = React.useMemo(() => stableSort(charMiscGearRows, getComparator(order, orderBy)), [order, orderBy, charMiscGear]);
-
-  const edibleTest = (row) => {
-    if (row.name === 'MRE' || row.name === 'Food Stick' || row.name === 'Kibble Pack') {
-      let isFood = true;
-      return (
-        <>
-          <TableCell align="center" padding="normal">
-            <Button
-              sx={{
-                textTransform: 'none',
-                backgroundColor: '#1A2027',
-                color: 'white',
-                '&:hover': {
-                  backgroundColor: '#fff',
-                  color: '#000',
-                },
-              }}
-              variant={loadStatus === false ? 'contained' : 'disabled'}
-              fullWidth
-              onClick={() => UseConsumable(row, isFood)}
-            >
-              Eat
-            </Button>
-          </TableCell>
-        </>
-      );
-    } else if (
-      row.name === 'Personal CarePak' ||
-      row.name === 'Vial of deadly poison' ||
-      row.name === 'Vial of biotoxin' ||
-      row.name === 'Glow Paint' ||
-      row.name === 'Glow Stick' ||
-      row.name === 'Memory Chip' ||
-      row.name === 'Road Flare' ||
-      row.name === 'Antibiotic' ||
-      row.name === 'Rapi-Detox' ||
-      row.name === 'Speedheal' ||
-      row.name === 'Stim' ||
-      row.name === 'Surge' ||
-      row.name === 'Hotel Soap'
-    ) {
-      return (
-        <TableCell align="center" padding="normal">
-          <Button
-            sx={{
-              textTransform: 'none',
-              backgroundColor: '#1A2027',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: '#fff',
-                color: '#000',
-              },
-            }}
-            variant={loadStatus === false ? 'contained' : 'disabled'}
-            fullWidth
-            onClick={() => UseConsumable(row)}
-          >
-            Use
-          </Button>
-        </TableCell>
-      );
-    } else {
-      return <TableCell padding="normal"></TableCell>;
-    }
-  };
-
-  const UseConsumable = (foodstuff, isFood) => {
-    dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-    dispatch({
-      type: 'USE_CONSUMABLE_FROM_PACK',
-      payload: { foodstuff, charID: characterDetail.id },
-    });
-    if (isFood === true) {
-      setShowSnackbar(true);
-      setSnackBarText('NOM NOM NOM');
-    } else {
-      setShowSnackbar(true);
-      setSnackBarText('Item Used');
-    }
-  };
-
-  // arbitrary money changes:
-  const [bankChange, setBankChange] = React.useState(0);
-
-  const addMoney = (change) => {
-    if (change > 0 && change < 10000) {
-      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'ARBITRARY_BANK_CHANGE',
-        payload: {
-          newBank: parseFloat(characterDetail.bank) + parseFloat(change),
-          charID: characterDetail.id,
-        },
-      });
-      setBankChange(0);
-    } else {
-      setSnackBarText('Nice try.');
-      setShowSnackbar(true);
-    }
-  };
-
-  const spendMoney = (change) => {
-    if ((change > 0 && change < 10000) || (change <= characterDetail.bank && change > 0)) {
-      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'ARBITRARY_BANK_CHANGE',
-        payload: {
-          newBank: parseFloat(characterDetail.bank) - parseFloat(change),
-          charID: characterDetail.id,
-        },
-      });
-      setBankChange(0);
-    } else {
-      setSnackBarText('Nice try.');
-      setShowSnackbar(true);
-    }
-  };
+  const sortedcharMiscGearRows = React.useMemo(() => stableSort(charMiscGear, getComparator(order, orderBy)), [order, orderBy, charMiscGear]);
 
   return (
     <>
@@ -275,12 +102,12 @@ export default function Backpack() {
         <Grid item xs={6} display={'flex'} alignItems={'center'} justifyContent={'center'}>
           <Typography variant="h4">
             Bank: {euroBuck}
-            {characterDetail.bank.toLocaleString('en-US')}
+            {charDetail.bank.toLocaleString('en-US')}
           </Typography>
         </Grid>
 
         <Grid item xs={2} display={'flex'} justifyContent={'center'}>
-          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" fullWidth onClick={() => spendMoney(bankChange)}>
+          <Button variant={loading === false ? 'contained' : 'disabled'} color="error" fullWidth onClick={() => changeMoney(bankChange, false)}>
             Spend Eddies
           </Button>
         </Grid>
@@ -290,7 +117,7 @@ export default function Backpack() {
         </Grid>
 
         <Grid item xs={2} display={'flex'} justifyContent={'center'}>
-          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" fullWidth onClick={() => addMoney(bankChange)}>
+          <Button variant={loading === false ? 'contained' : 'disabled'} color="success" fullWidth onClick={() => changeMoney(bankChange, true)}>
             Gain Eddies
           </Button>
         </Grid>
@@ -298,14 +125,38 @@ export default function Backpack() {
 
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-          <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+          <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
           <TableBody>
             {sortedcharMiscGearRows.map((row, i) => {
               return (
                 <TableRow hover key={i}>
                   <TableCell padding="normal">{row.name}</TableCell>
                   <TableCell padding="normal">{row.description}</TableCell>
-                  {edibleTest(row)}
+                  <TableCell align="center" padding="normal">
+                    {row.name === 'MRE' || row.name === 'Food Stick' || row.name === 'Kibble Pack' ? (
+                      <Button disabled={loading} fullWidth onClick={() => UseConsumable(row, true)}>
+                        Eat
+                      </Button>
+                    ) : row.name === 'Personal CarePak' ||
+                      row.name === 'Vial of deadly poison' ||
+                      row.name === 'Vial of biotoxin' ||
+                      row.name === 'Glow Paint' ||
+                      row.name === 'Glow Stick' ||
+                      row.name === 'Memory Chip' ||
+                      row.name === 'Road Flare' ||
+                      row.name === 'Antibiotic' ||
+                      row.name === 'Rapi-Detox' ||
+                      row.name === 'Speedheal' ||
+                      row.name === 'Stim' ||
+                      row.name === 'Surge' ||
+                      row.name === 'Hotel Soap' ? (
+                      <Button disabled={loading} fullWidth onClick={() => UseConsumable(row, false)}>
+                        Use
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                  </TableCell>
                 </TableRow>
               );
             })}

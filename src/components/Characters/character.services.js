@@ -84,6 +84,20 @@ const fetchCharGrenadesRequest = async (weaponObj) => {
   ]);
 };
 
+const fetchCharMiscGearRequest = async (gearObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayMiscGear', gearObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching character misc gear list:', error);
+        reject(error);
+      });
+  });
+};
+
 const inPlayStatusChangeRequest = async (statusObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -140,6 +154,34 @@ const inPlayUseGrenade = async (grenadeObj) => {
   });
 };
 
+const inPlayUseConsumable = async (miscObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayUseConsumable', miscObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error using consumable:', error);
+        reject(error);
+      });
+  });
+};
+
+const inPlayBankChange = async (bankObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayBankChange', bankObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing character bank:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
@@ -147,8 +189,11 @@ export {
   fetchInPlayCharCyberwareRequest,
   fetchCharWeaponsRequest,
   fetchCharGrenadesRequest,
+  fetchCharMiscGearRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
   inPlayWeaponChangeRequest,
   inPlayUseGrenade,
+  inPlayUseConsumable,
+  inPlayBankChange,
 };

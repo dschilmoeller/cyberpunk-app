@@ -18,7 +18,12 @@ import Backpack from './GearComponents/Backpack';
 // import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
 
-import { fetchInPlayCharDetailRequest, fetchInPlayCharStatusRequest, fetchInPlayCharCyberwareRequest } from '../character.services';
+import {
+  fetchInPlayCharDetailRequest,
+  fetchInPlayCharStatusRequest,
+  fetchInPlayCharCyberwareRequest,
+  fetchCharMiscGearRequest,
+} from '../character.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
 
@@ -35,6 +40,8 @@ export default function CharacterSheet() {
   const [painEditor, setPainEditor] = useState(false);
 
   const [charCyberware, setCharCyberware] = useState([]);
+  const [charMiscGear, setCharMiscGear] = useState([]);
+
   const charSheetSetup = async () => {
     setLoading(true);
     try {
@@ -50,6 +57,9 @@ export default function CharacterSheet() {
           setPainEditor(true);
         }
       });
+
+      let characterMiscGear = await fetchCharMiscGearRequest({ charID: params.id });
+      setCharMiscGear(characterMiscGear);
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -137,7 +147,16 @@ export default function CharacterSheet() {
 
                 {selectedInventory === 'backpack' ? (
                   <>
-                    <Backpack />
+                    <Backpack
+                      charDetail={charDetail}
+                      setCharDetail={setCharDetail}
+                      charMiscGear={charMiscGear}
+                      setCharMiscGear={setCharMiscGear}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                    />
                   </>
                 ) : (
                   <></>
