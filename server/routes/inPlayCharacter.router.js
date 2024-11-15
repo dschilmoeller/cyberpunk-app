@@ -14,8 +14,8 @@ router.post('/fetchInPlayCharDetail', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows[0]);
     })
-    .catch((error) => {
-      console.error('Error fetching in play sheet character details:', error);
+    .catch((err) => {
+      console.error('Error fetching in play sheet character details:', err);
       res.sendStatus(400);
     });
 });
@@ -28,8 +28,8 @@ router.post('/fetchInPlayCharStatus', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows[0]);
     })
-    .catch((error) => {
-      console.error('Error fetching character status details', error);
+    .catch((err) => {
+      console.error('Error fetching character status details', err);
       res.sendStatus(400);
     });
 });
@@ -43,8 +43,8 @@ router.post('/fetchInPlayCharCyberware', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => {
-      console.error('Error fetching character cyberware list:', error);
+    .catch((err) => {
+      console.error('Error fetching character cyberware list:', err);
       res.sendStatus(400);
     });
 });
@@ -59,8 +59,8 @@ router.post('/fetchInPlayCharacterArmor', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => {
-      console.error('Error fetching character equipped armor list:', error);
+    .catch((err) => {
+      console.error('Error fetching character equipped armor list:', err);
       res.sendStatus(400);
     });
 });
@@ -74,8 +74,8 @@ router.post('/fetchInPlayCharWeapons', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => {
-      console.error('Error fetching character equipped weapon list:', error);
+    .catch((err) => {
+      console.error('Error fetching character equipped weapon list:', err);
     });
 });
 
@@ -88,8 +88,8 @@ router.post('/fetchInPlayGrenades', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => {
-      console.error('Error fetching character grenade list:', error);
+    .catch((err) => {
+      console.error('Error fetching character grenade list:', err);
     });
 });
 
@@ -102,8 +102,22 @@ router.post('/fetchInPlayMiscGear', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((error) => {
-      console.error('Error fetching char misc gear list:', error);
+    .catch((err) => {
+      console.error('Error fetching char misc gear list:', err);
+    });
+});
+
+router.post('/fetchInPlayPharmaGear', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_pharma_bridge" 
+  JOIN "pharma_master" ON "char_pharma_bridge"."pharma_master_id" = "pharma_master"."pharma_master_id"
+  WHERE "char_id" = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching char pharma gear list:', err);
     });
 });
 
@@ -136,8 +150,8 @@ router.post('/inPlayStatusChange', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error changing character in play status:', error);
+    .catch((err) => {
+      console.error('Error changing character in play status:', err);
       res.sendStatus(400);
     });
 });
@@ -152,8 +166,8 @@ router.post('/inPlayArmorChange', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error changing character in play armor:', error);
+    .catch((err) => {
+      console.error('Error changing character in play armor:', err);
       res.sendStatus(400);
     });
 });
@@ -168,8 +182,8 @@ router.post('/inPlayWeaponChange', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error changing character in play weapon:', error);
+    .catch((err) => {
+      console.error('Error changing character in play weapon:', err);
       res.sendStatus(400);
     });
 });
@@ -182,8 +196,8 @@ router.post('/inPlayUseGrenade', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error changing character in play grenades:', error);
+    .catch((err) => {
+      console.error('Error changing character in play grenades:', err);
       res.sendStatus(400);
     });
 });
@@ -195,8 +209,8 @@ router.post('/inPlayUseConsumable', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error using in play consumable:', error);
+    .catch((err) => {
+      console.error('Error using in play consumable:', err);
     });
 });
 
@@ -208,8 +222,21 @@ router.post('/inPlayBankChange', rejectUnauthenticated, (req, res) => {
     .then((result) => {
       res.sendStatus(200);
     })
-    .catch((error) => {
-      console.error('Error changing character bank:', error);
+    .catch((err) => {
+      console.error('Error changing character bank:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayUsePharma', rejectUnauthenticated, (req, res) => {
+  const sqlText = `DELETE FROM "char_pharma_bridge" WHERE "char_pharma_bridge_id" = $1`;
+  pool
+    .query(sqlText, [req.body.char_pharma_bridge_id])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error using pharmaceutical:', err);
       res.sendStatus(400);
     });
 });

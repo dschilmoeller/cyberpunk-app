@@ -84,7 +84,7 @@ const fetchCharGrenadesRequest = async (weaponObj) => {
   ]);
 };
 
-const fetchCharMiscGearRequest = async (gearObj) => {
+const fetchInPlayMiscGearRequest = async (gearObj) => {
   return new Promise((resolve, reject) => {
     axios
       .post('/api/inPlay/fetchInPlayMiscGear', gearObj)
@@ -98,6 +98,17 @@ const fetchCharMiscGearRequest = async (gearObj) => {
   });
 };
 
+const fetchInPlayPharmaGearRequest = async (pharmObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayPharmaGear', pharmObj)
+      .then((result) => resolve(result.data))
+      .catch((error) => {
+        console.error('Error fetching character pharma gear:', error);
+        reject(error);
+      });
+  });
+};
 const inPlayStatusChangeRequest = async (statusObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -182,6 +193,20 @@ const inPlayBankChange = async (bankObj) => {
   });
 };
 
+const inPlayUsePharma = async (pharmaObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayUsePharma', pharmaObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error using pharmaceutical:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
@@ -189,11 +214,13 @@ export {
   fetchInPlayCharCyberwareRequest,
   fetchCharWeaponsRequest,
   fetchCharGrenadesRequest,
-  fetchCharMiscGearRequest,
+  fetchInPlayMiscGearRequest,
+  fetchInPlayPharmaGearRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
   inPlayWeaponChangeRequest,
   inPlayUseGrenade,
   inPlayUseConsumable,
   inPlayBankChange,
+  inPlayUsePharma,
 };

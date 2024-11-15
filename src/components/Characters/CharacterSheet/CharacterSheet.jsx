@@ -11,10 +11,10 @@ import CharacterRoleAbilities from './CharacterRoleAbilities';
 
 import Weapons from './GearComponents/Weapons';
 import Backpack from './GearComponents/Backpack';
+import Pharmaceuticals from './GearComponents/Pharmaceuticals';
 // import CharacterVehicles from './CharacterVehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
 // import CharacterSheetCyberware from './Cyberware';
-// import Pharmaceuticals from './Pharmaceuticals';
 // import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
 
@@ -22,7 +22,8 @@ import {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
   fetchInPlayCharCyberwareRequest,
-  fetchCharMiscGearRequest,
+  fetchInPlayMiscGearRequest,
+  fetchInPlayPharmaGearRequest,
 } from '../character.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
@@ -41,6 +42,7 @@ export default function CharacterSheet() {
 
   const [charCyberware, setCharCyberware] = useState([]);
   const [charMiscGear, setCharMiscGear] = useState([]);
+  const [charPharma, setCharPharma] = useState([]);
 
   const charSheetSetup = async () => {
     setLoading(true);
@@ -58,8 +60,11 @@ export default function CharacterSheet() {
         }
       });
 
-      let characterMiscGear = await fetchCharMiscGearRequest({ charID: params.id });
+      let characterMiscGear = await fetchInPlayMiscGearRequest({ charID: params.id });
       setCharMiscGear(characterMiscGear);
+
+      let characterPharma = await fetchInPlayPharmaGearRequest({ charID: params.id });
+      setCharPharma(characterPharma);
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -67,7 +72,8 @@ export default function CharacterSheet() {
   };
 
   useEffect(() => {
-    // dispatch({ type: 'FETCH_CHARACTER_DETAIL', payload: params.id });
+    // holdovers - first for modpocalypse
+    // second I think is for weapon modals?
     // dispatch({ type: 'FETCH_CHARACTER_MOD_MASTER', payload: params.id });
     // dispatch({ type: 'FETCH_MASTER_LISTS' });
     charSheetSetup();
@@ -162,13 +168,22 @@ export default function CharacterSheet() {
                   <></>
                 )}
 
-                {/* {selectedInventory === 'pharma' ? (
+                {selectedInventory === 'pharma' ? (
                   <>
-                    <Pharmaceuticals />
+                    <Pharmaceuticals
+                      charDetail={charDetail}
+                      setCharDetail={setCharDetail}
+                      charPharma={charPharma}
+                      setCharPharma={setCharPharma}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                    />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'cyberware' ? (
                   <>
