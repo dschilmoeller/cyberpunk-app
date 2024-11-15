@@ -4,7 +4,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import Item from '.././Item';
 import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
 
-export default function CharacterSheetCyberware({ charCyberware }) {
+export default function Cyberware({ charCyberware }) {
   return (
     <>
       <Grid container>

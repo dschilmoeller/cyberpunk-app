@@ -102,9 +102,39 @@ const fetchInPlayPharmaGearRequest = async (pharmObj) => {
   return new Promise((resolve, reject) => {
     axios
       .post('/api/inPlay/fetchInPlayPharmaGear', pharmObj)
-      .then((result) => resolve(result.data))
+      .then((result) => {
+        resolve(result.data);
+      })
       .catch((error) => {
         console.error('Error fetching character pharma gear:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchInPlayVehicleRequest = async (vehicleObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayVehicles', vehicleObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching in play vehicles:', error);
+        reject(error);
+      });
+  });
+};
+
+const fetchInPlayVehicleModsRequest = async (vehicleModObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayVehicleMods', vehicleModObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching in play vehicle mods:', error);
         reject(error);
       });
   });
@@ -207,6 +237,20 @@ const inPlayUsePharma = async (pharmaObj) => {
   });
 };
 
+const inPlayVehicleStatusChange = async (vehicleObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayVehicleStatusChange', vehicleObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing vehicle status:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
@@ -216,6 +260,8 @@ export {
   fetchCharGrenadesRequest,
   fetchInPlayMiscGearRequest,
   fetchInPlayPharmaGearRequest,
+  fetchInPlayVehicleRequest,
+  fetchInPlayVehicleModsRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
   inPlayWeaponChangeRequest,
@@ -223,4 +269,5 @@ export {
   inPlayUseConsumable,
   inPlayBankChange,
   inPlayUsePharma,
+  inPlayVehicleStatusChange,
 };

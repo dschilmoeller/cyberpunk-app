@@ -76,6 +76,7 @@ router.post('/fetchInPlayCharWeapons', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching character equipped weapon list:', err);
+      res.sendStatus(400);
     });
 });
 
@@ -90,6 +91,7 @@ router.post('/fetchInPlayGrenades', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching character grenade list:', err);
+      res.sendStatus(400);
     });
 });
 
@@ -104,6 +106,7 @@ router.post('/fetchInPlayMiscGear', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching char misc gear list:', err);
+      res.sendStatus(400);
     });
 });
 
@@ -118,6 +121,41 @@ router.post('/fetchInPlayPharmaGear', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching char pharma gear list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchInPlayVehicles', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_vehicle_bridge"
+  JOIN "vehicle_master" ON "char_vehicle_bridge"."vehicle_id" = "vehicle_master"."vehicle_master_id"
+  WHERE "char_id" = $1
+  ORDER BY "name"`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character vehicle list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchInPlayVehicleMods', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT 
+  *
+  FROM "char_owned_vehicle_mods"
+  JOIN "vehicle_mod_master" ON "char_owned_vehicle_mods"."vehicle_mod_master_id" = "vehicle_mod_master"."vehicle_mod_master_id"
+  JOIN "char_vehicle_mod_bridge" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
+  WHERE "char_id" = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character vehicle mod list:', err);
+      res.sendStatus(400);
     });
 });
 
@@ -211,6 +249,7 @@ router.post('/inPlayUseConsumable', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error using in play consumable:', err);
+      res.sendStatus(400);
     });
 });
 
@@ -237,6 +276,24 @@ router.post('/inPlayUsePharma', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error using pharmaceutical:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayVehicleStatusChange', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_vehicle_bridge" 
+  SET 
+  current_damage = $1,
+  current_armor_damage = $2
+  WHERE vehicle_bridge_id = $3`;
+  const sqlParams = [req.body.current_damage, req.body.current_armor_damage, req.body.vehicle_bridge_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error updating vehicle:', err);
       res.sendStatus(400);
     });
 });

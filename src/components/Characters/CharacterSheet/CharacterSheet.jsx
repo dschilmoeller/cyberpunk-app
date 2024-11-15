@@ -12,8 +12,8 @@ import CharacterRoleAbilities from './CharacterRoleAbilities';
 import Weapons from './GearComponents/Weapons';
 import Backpack from './GearComponents/Backpack';
 import Pharmaceuticals from './GearComponents/Pharmaceuticals';
-import CharacterSheetCyberware from './GearComponents/Cyberware';
-// import CharacterVehicles from './CharacterVehicles';
+import Cyberware from './GearComponents/Cyberware';
+import Vehicles from './GearComponents/Vehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
 // import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
@@ -24,6 +24,8 @@ import {
   fetchInPlayCharCyberwareRequest,
   fetchInPlayMiscGearRequest,
   fetchInPlayPharmaGearRequest,
+  fetchInPlayVehicleRequest,
+  fetchInPlayVehicleModsRequest,
 } from '../character.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
@@ -43,6 +45,8 @@ export default function CharacterSheet() {
   const [charCyberware, setCharCyberware] = useState([]);
   const [charMiscGear, setCharMiscGear] = useState([]);
   const [charPharma, setCharPharma] = useState([]);
+  const [charVehicles, setCharVehicles] = useState([]);
+  const [charVehicleMods, setCharVehicleMods] = useState([]);
 
   const charSheetSetup = async () => {
     setLoading(true);
@@ -65,6 +69,12 @@ export default function CharacterSheet() {
 
       let characterPharma = await fetchInPlayPharmaGearRequest({ charID: params.id });
       setCharPharma(characterPharma);
+
+      let characterVehicles = await fetchInPlayVehicleRequest({ charID: params.id });
+      setCharVehicles(characterVehicles);
+
+      let characterVehicleMods = await fetchInPlayVehicleModsRequest({ charID: params.id });
+      setCharVehicleMods(characterVehicleMods);
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -185,19 +195,30 @@ export default function CharacterSheet() {
 
                 {selectedInventory === 'cyberware' ? (
                   <>
-                    <CharacterSheetCyberware charCyberware={charCyberware} />
+                    <Cyberware charCyberware={charCyberware} />
                   </>
                 ) : (
                   <></>
                 )}
 
-                {/* {selectedInventory === 'vehicles' ? (
+                {selectedInventory === 'vehicles' ? (
                   <>
-                    <CharacterVehicles />
+                    <Vehicles
+                      charDetail={charDetail}
+                      setCharDetail={setCharDetail}
+                      charVehicles={charVehicles}
+                      setCharVehicles={setCharVehicles}
+                      charVehicleMods={charVehicleMods}
+                      setCharVehicleMods={setCharVehicleMods}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                    />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'netrunner' ? (
                   <>
