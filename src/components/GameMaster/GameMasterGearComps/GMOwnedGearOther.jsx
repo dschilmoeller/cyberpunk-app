@@ -4,19 +4,8 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 
 export default function GMOtherOwned({ charDetail, charMiscGear, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
-
-  const headCells = headCellsGenerator(['name', 'description', 'price', 'remove']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  // sort and monitor changes to charOtherRows in case of sales.
   const sortedCharOtherRows = React.useMemo(() => stableSort(charMiscGear, getComparator(order, orderBy)), [order, orderBy, charMiscGear]);
 
   return (
@@ -27,7 +16,13 @@ export default function GMOtherOwned({ charDetail, charMiscGear, deleteCharacter
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'description', 'price', 'remove'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedCharOtherRows.map((row) => {
                   return (

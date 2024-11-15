@@ -4,18 +4,8 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 
 export default function GMOwnedVehicleMods({ charVehicleMods, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
-
-  const headCells = headCellsGenerator(['name', 'description', 'type', 'price', 'remove']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const sortedCharVehicleModRows = React.useMemo(() => stableSort(charVehicleMods, getComparator(order, orderBy)), [order, orderBy, charVehicleMods]);
 
   return (
@@ -24,7 +14,13 @@ export default function GMOwnedVehicleMods({ charVehicleMods, deleteCharacterGea
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'description', 'type', 'price', 'remove'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedCharVehicleModRows.map((row) => {
                   if (row.equipped === false) {

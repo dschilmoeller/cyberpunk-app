@@ -1,23 +1,14 @@
 import React from 'react';
-import WeaponDialog from '../../Modals/WeaponDialog';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
+import WeaponDialog from '../../Modals/WeaponDialog';
 
 export default function GMGiveWeapons({ charDetail, weaponMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'give']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  // deal with damage and range
   const weaponMasterRows = [];
   for (let i = 0; i < weaponMaster.length; i++) {
     let damage = 0;
@@ -61,7 +52,13 @@ export default function GMGiveWeapons({ charDetail, weaponMaster, giveCharacterG
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'give'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedWeaponMasterRows.map((row) => {
                   return (

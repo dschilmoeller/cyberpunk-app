@@ -9,17 +9,8 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 // equip/unequip weapon
 export default function GMOwnedWeapons({ charDetail, charWeapons, deleteCharacterGear }) {
   const euroBuck = `\u20AC$`;
-
-  const headCells = headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'equipped', 'remove']);
-
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('equipped');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   // Produce proper damage and range values for various weapons.
   const charWeaponRows = [];
@@ -69,7 +60,13 @@ export default function GMOwnedWeapons({ charDetail, charWeapons, deleteCharacte
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'equipped', 'remove'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedCharWeaponRows.map((row) => {
                   return (

@@ -1,8 +1,6 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableSortLabel from '@mui/material/TableSortLabel';
+import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 import { capitalizer } from '../../utils/funcs/funcs';
 
 const headCellsGenerator = (IDs) => {
@@ -40,9 +38,9 @@ const stableSort = (array, comparator) => {
 };
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
+  const { order, orderBy, setOrder, setOrderBy } = props;
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
+    handleRequestSort(event, property, order, setOrder, orderBy, setOrderBy);
   };
 
   return (
@@ -65,9 +63,16 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
+  setOrder: PropTypes.func.isRequired,
+  setOrderBy: PropTypes.func.isRequired,
 };
 
-export { getComparator, stableSort, EnhancedTableHead, headCellsGenerator };
+const handleRequestSort = (event, property, order, setOrder, orderBy, setOrderBy) => {
+  const isAsc = orderBy === property && order === 'asc';
+  setOrder(isAsc ? 'desc' : 'asc');
+  setOrderBy(property);
+};
+
+export { getComparator, stableSort, EnhancedTableHead, headCellsGenerator, handleRequestSort };

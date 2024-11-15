@@ -1,21 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
 
 export default function GMGiveArmor({ charDetail, armorMaster, giveCharacterGear }) {
   const euroBuck = `\u20AC$`;
 
-  const headCells = headCellsGenerator(['name', 'quality', 'description', 'price', 'give']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const sortedMasterArmorRows = React.useMemo(() => stableSort(armorMaster, getComparator(order, orderBy)), [order, orderBy, armorMaster]);
 
   return (
@@ -26,7 +17,13 @@ export default function GMGiveArmor({ charDetail, armorMaster, giveCharacterGear
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'quality', 'description', 'price', 'give'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedMasterArmorRows.map((row) => {
                   return (

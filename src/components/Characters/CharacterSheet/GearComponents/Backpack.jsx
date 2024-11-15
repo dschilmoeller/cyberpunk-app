@@ -3,7 +3,7 @@ import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableRo
 
 import Item from '../Item';
 import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator, handleRequestSort } from '../../../GeneralAssets/tableFuncs.service';
 import { inPlayUseConsumable, inPlayBankChange } from '../../character.services';
 
 export default function Backpack({ charDetail, setCharDetail, charMiscGear, setCharMiscGear, loading, setLoading, chuckError, setPageAlert }) {
@@ -75,17 +75,8 @@ export default function Backpack({ charDetail, setCharDetail, charMiscGear, setC
     setLoading(false);
   };
 
-  const headCells = headCellsGenerator(['name', 'description', 'consume']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const sortedcharMiscGearRows = React.useMemo(() => stableSort(charMiscGear, getComparator(order, orderBy)), [order, orderBy, charMiscGear]);
 
   return (
@@ -125,7 +116,14 @@ export default function Backpack({ charDetail, setCharDetail, charMiscGear, setC
 
       <TableContainer>
         <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-          <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+          <EnhancedTableHead
+            headCells={headCellsGenerator(['name', 'description', 'consume'])}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            setOrder={setOrder}
+            setOrderBy={setOrderBy}
+          />
           <TableBody>
             {sortedcharMiscGearRows.map((row, i) => {
               return (

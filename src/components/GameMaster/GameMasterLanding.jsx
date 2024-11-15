@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Grid, Select, MenuItem } from '@mui/material';
-import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../GeneralAssets/tableFuncs.service';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator, handleRequestSort } from '../GeneralAssets/tableFuncs.service';
 
 import { gmCharFetchRequest, fetchCampaignListRequest } from './gm.services';
 
@@ -62,16 +62,8 @@ export default function GameMasterLanding() {
     }
   };
 
-  const headCells = headCellsGenerator(['handle', 'player', 'perception', 'reflexes', 'humanityLoss', 'availableExp', 'bank']);
-
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   function createTableData(id, handle, player, campaign, perception, reflexes, humanityLoss, availableExp, bank) {
     return {
@@ -167,7 +159,13 @@ export default function GameMasterLanding() {
         <>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['handle', 'player', 'perception', 'reflexes', 'humanityLoss', 'availableExp', 'bank'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
 
               {sortedCharacterListRows.map((character) => {
                 if (character.campaign == campaign || campaign == 0) {
