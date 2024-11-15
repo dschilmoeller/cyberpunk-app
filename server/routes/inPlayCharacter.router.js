@@ -3,7 +3,6 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
-const { rejectNonAdmin } = require('../modules/rejectNonAdmin');
 
 router.post('/fetchInPlayCharDetail', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "character"
@@ -37,7 +36,8 @@ router.post('/fetchInPlayCharStatus', rejectUnauthenticated, (req, res) => {
 router.post('/fetchInPlayCharCyberware', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_owned_cyberware"
   JOIN "cyberware_master" ON "char_owned_cyberware"."cyberware_master_id" = "cyberware_master"."cyberware_master_id"
-  WHERE "char_id" = $1`;
+  WHERE "char_id" = $1
+  ORDER BY "name" ASC`;
   pool
     .query(sqlText, [req.body.charID])
     .then((result) => {

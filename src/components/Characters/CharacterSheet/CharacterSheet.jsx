@@ -12,9 +12,9 @@ import CharacterRoleAbilities from './CharacterRoleAbilities';
 import Weapons from './GearComponents/Weapons';
 import Backpack from './GearComponents/Backpack';
 import Pharmaceuticals from './GearComponents/Pharmaceuticals';
+import CharacterSheetCyberware from './GearComponents/Cyberware';
 // import CharacterVehicles from './CharacterVehicles';
 // import CharacterNetrunner from './CharacterNetrunner';
-// import CharacterSheetCyberware from './Cyberware';
 // import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
 
@@ -171,8 +171,6 @@ export default function CharacterSheet() {
                 {selectedInventory === 'pharma' ? (
                   <>
                     <Pharmaceuticals
-                      charDetail={charDetail}
-                      setCharDetail={setCharDetail}
                       charPharma={charPharma}
                       setCharPharma={setCharPharma}
                       loading={loading}
@@ -185,13 +183,13 @@ export default function CharacterSheet() {
                   <></>
                 )}
 
-                {/* {selectedInventory === 'cyberware' ? (
+                {selectedInventory === 'cyberware' ? (
                   <>
-                    <CharacterSheetCyberware />
+                    <CharacterSheetCyberware charCyberware={charCyberware} />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'vehicles' ? (
                   <>
