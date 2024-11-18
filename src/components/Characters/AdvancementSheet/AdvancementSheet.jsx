@@ -1,24 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import { Button, Grid, Tabs, Tab } from '@mui/material';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 
-import Grid from '@mui/material/Grid';
+import { fetchAdvancementDetailsRequest } from './advancement.services';
 import Item from '../CharacterSheet/Item';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 
 import AdvancementAttributes from './AdvancementAttributes';
 import AdvancementSkills from './AdvancementSkills';
 import AdvancementRoles from './AdvancementRoles';
 import AdvancementOther from './AdvancementOther';
+import SnackbarComponent from '../../GeneralAssets/Snackbar';
 
 // Top Level Sheet
 function AdvancementSheet() {
-  const advancementDetails = useSelector((store) => store.advancementDetail);
+  // const advancementDetails = useSelector((store) => store.advancementDetail);
 
-  const dispatch = useDispatch();
+  const [advancementDetails, setAdvancementDetails] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [pageAlert, setPageAlert] = useState({
+    open: false,
+    message: '',
+    severity: '',
+  });
+
+  const fetchAdvancementDetails = async () => {
+    const charObj = {
+      charID: params.id,
+    };
+    try {
+      let charDetails = await fetchAdvancementDetailsRequest(charObj);
+      setAdvancementDetails(charDetails);
+    } catch (error) {
+      chuckError();
+    }
+  };
+
+  const chuckError = () => {
+    setPageAlert({
+      open: true,
+      message: 'Something is awry',
+      severity: 'info',
+    });
+    setLoading(false);
+  };
+
   const history = useHistory();
   const params = useParams();
   const location = useLocation();
@@ -30,8 +55,7 @@ function AdvancementSheet() {
   };
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_ADVANCEMENT_DETAIL', payload: params.id });
-    dispatch({ type: 'FETCH_MASTER_LISTS' });
+    fetchAdvancementDetails();
   }, []);
 
   return (
@@ -110,7 +134,13 @@ function AdvancementSheet() {
 
         {value === '#attributes' ? (
           <>
-            <AdvancementAttributes />
+            <AdvancementAttributes
+              advancementDetails={advancementDetails}
+              loading={loading}
+              setLoading={setLoading}
+              setPageAlert={setPageAlert}
+              chuckError={chuckError}
+            />
           </>
         ) : (
           <></>
@@ -140,6 +170,12 @@ function AdvancementSheet() {
           <></>
         )}
       </div>
+      <SnackbarComponent
+        open={pageAlert.open}
+        message={pageAlert.message}
+        severity={pageAlert.severity}
+        onClose={() => setPageAlert({ open: false, message: '', severity: '' })}
+      />
     </>
   );
 }

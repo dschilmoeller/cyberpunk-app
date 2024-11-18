@@ -2,48 +2,50 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-const {
-  rejectUnauthenticated,
-} = require('../modules/authentication-middleware');
-const { rejectNonAdmin } = require('../modules/rejectNonAdmin');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
-// Character Advancement Routes
-// routes having to do with spending experience mainly.
+// advancement routing - having to do with spending experience, roles, etc.
 
-router.get(
-  '/fetchAdvancementDetails/:id',
-  rejectUnauthenticated,
-  (req, res) => {
-    const sqlText = `SELECT * FROM "character"
-    JOIN "char_status" ON "char_status"."char_id" = "character"."id"
-    JOIN "campaigns" ON "campaigns"."campaign_id" = "character"."campaign"
-    WHERE id = $1`;
+router.post('/fetchAdvancementDetails', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "character" WHERE id = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.log(`Error fetching advancement character details:`, err);
+    });
+});
+
+const attributeArray = ['strength', 'body', 'reflexes', 'appearance', 'cool', 'street_cred', 'intelligence', 'willpower', 'technique', 'max_luck'];
+
+router.post('/updateCharacterStat', rejectUnauthenticated, (req, res) => {
+  if (attributeArray.includes(req.body.skillName)) {
+    const sqlText = `UPDATE "character" SET ${req.body.skillName} = $1, "spent_xp" = $2`;
+    const sqlParams = [req.body.newRank, req.body.newSpentXP];
     pool
-      .query(sqlText, [req.params.id])
+      .query(sqlText, sqlParams)
       .then((result) => {
-        res.send(result.rows);
+        res.sendStatus(200);
       })
       .catch((err) => {
-        console.log(`Error fetching advancement character details:`, err);
+        console.error('Error updating character details:', err);
       });
   }
-);
+});
 
-router.get(
-  '/fetchadvancementhumanity/:id',
-  rejectUnauthenticated,
-  (req, res) => {
-    const sqlText = `SELECT "perm_humanity_loss", "temp_humanity_loss" FROM "character" WHERE id = $1`;
-    pool
-      .query(sqlText, [req.params.id])
-      .then((result) => {
-        res.send(result.rows);
-      })
-      .catch((err) => {
-        console.log(`Error fetching advancement humanity ratings:`, err);
-      });
-  }
-);
+router.get('/fetchadvancementhumanity/:id', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT "perm_humanity_loss", "temp_humanity_loss" FROM "character" WHERE id = $1`;
+  pool
+    .query(sqlText, [req.params.id])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log(`Error fetching advancement humanity ratings:`, err);
+    });
+});
 
 router.put('/changeStat', rejectUnauthenticated, (req, res) => {
   if (characterTableColumnCheck(req.body.statName) === true) {
@@ -58,22 +60,13 @@ router.put('/changeStat', rejectUnauthenticated, (req, res) => {
         console.log(`Error updating character stat ${req.body.statName}:`, err);
       });
   } else {
-    console.log(
-      `Error changing attribute due to column validation failure. Column Check value:`,
-      req.body.statName
-    );
+    console.log(`Error changing attribute due to column validation failure. Column Check value:`, req.body.statName);
     res.sendStatus(400);
   }
 });
 
 router.put('/repairItem', rejectUnauthenticated, (req, res) => {
-  if (
-    repairCheck(
-      req.body.table,
-      req.body.columnName,
-      req.body.tablePrimaryKey
-    ) === true
-  ) {
+  if (repairCheck(req.body.table, req.body.columnName, req.body.tablePrimaryKey) === true) {
     const sqlText = `UPDATE ${req.body.table} SET ${req.body.columnName} = 0 WHERE ${req.body.tablePrimaryKey} = $1`;
     const sqlParams = [req.body.tableID];
     pool
@@ -119,9 +112,7 @@ router.put('/changecyberwareslotcount', rejectUnauthenticated, (req, res) => {
         console.log(`Error changing cyberware slots:`, err);
       });
   } else {
-    console.log(
-      `Error changing cyberware slots due to columnName validation failure. ColumnName:${req.body.columnName}`
-    );
+    console.log(`Error changing cyberware slots due to columnName validation failure. ColumnName:${req.body.columnName}`);
     res.sendStatus(400);
   }
 });
@@ -139,24 +130,17 @@ router.put('/changecyberwarearmorhealth', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get(
-  '/fetchadvancementcharstatus/:id',
-  rejectUnauthenticated,
-  (req, res) => {
-    const sqlText = `SELECT * FROM "char_status" WHERE char_id = $1`;
-    pool
-      .query(sqlText, [req.params.id])
-      .then((result) => {
-        res.send(result.rows);
-      })
-      .catch((err) => {
-        console.log(
-          `Error fetching char status id: ${req.params.id} with error:`,
-          err
-        );
-      });
-  }
-);
+router.get('/fetchadvancementcharstatus/:id', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_status" WHERE char_id = $1`;
+  pool
+    .query(sqlText, [req.params.id])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log(`Error fetching char status id: ${req.params.id} with error:`, err);
+    });
+});
 
 router.get('/getCyberwareStatus/:id', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "char_cyberware_bridge" WHERE "cyberware_bridge_id" = $1`;
@@ -203,10 +187,7 @@ router.get('/fetchNomadVehicleSlots/:id', rejectUnauthenticated, (req, res) => {
       res.send(result.rows);
     })
     .catch((err) => {
-      console.log(
-        `Error selecting nomad slots for character ${req.params.id}:`,
-        err
-      );
+      console.log(`Error selecting nomad slots for character ${req.params.id}:`, err);
     });
 });
 
@@ -282,11 +263,7 @@ const characterTableColumnCheck = (statName) => {
 };
 
 const repairCheck = (table, column, pk) => {
-  if (
-    itemTableCheck(table) === true &&
-    itemColumnCheck(column) === true &&
-    itemPrimaryKeyCheck(pk) === true
-  ) {
+  if (itemTableCheck(table) === true && itemColumnCheck(column) === true && itemPrimaryKeyCheck(pk) === true) {
     return true;
   } else {
     return false;
