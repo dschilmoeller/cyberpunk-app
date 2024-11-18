@@ -136,6 +136,7 @@ function AdvancementSheet() {
           <>
             <AdvancementAttributes
               advancementDetails={advancementDetails}
+              setAdvancementDetails={setAdvancementDetails}
               loading={loading}
               setLoading={setLoading}
               setPageAlert={setPageAlert}
@@ -148,7 +149,14 @@ function AdvancementSheet() {
 
         {value === '#skills' ? (
           <>
-            <AdvancementSkills />
+            <AdvancementSkills
+              advancementDetails={advancementDetails}
+              setAdvancementDetails={setAdvancementDetails}
+              loading={loading}
+              setLoading={setLoading}
+              setPageAlert={setPageAlert}
+              chuckError={chuckError}
+            />
           </>
         ) : (
           <></>

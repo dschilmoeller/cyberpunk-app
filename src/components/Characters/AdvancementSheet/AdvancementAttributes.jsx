@@ -8,7 +8,7 @@ import { AttributesArr } from '../../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
 import { updateCharacterStat } from './advancement.services';
 
-export default function AdvancementAttributes({ advancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementAttributes({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
   const increaseStat = async (attribute, maxRank) => {
     setLoading(true);
     const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp;
@@ -17,13 +17,18 @@ export default function AdvancementAttributes({ advancementDetails, loading, set
     if (requiredExp <= availableExp && advancementDetails[attribute] + 1 <= maxRank) {
       const statObj = {
         newRank: advancementDetails[attribute] + 1,
-        skillName: attribute,
+        statName: attribute,
         newSpentXP: advancementDetails.spent_xp + requiredExp,
       };
       try {
         let result = await updateCharacterStat(statObj);
         if (result === 'OK') {
           setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+          setAdvancementDetails({
+            ...advancementDetails,
+            [attribute]: advancementDetails[attribute] + 1,
+            spent_xp: advancementDetails.spent_xp + (advancementDetails[attribute] + 1) * 2,
+          });
         }
       } catch (error) {
         chuckError();
