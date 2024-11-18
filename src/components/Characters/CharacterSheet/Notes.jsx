@@ -1,23 +1,13 @@
 import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { Icon } from '@mui/material';
+import { Icon, Grid, Card, CardHeader, CardActions, CardContent, Typography } from '@mui/material';
 import GradeIcon from '@mui/icons-material/Grade';
 
 import CharacterNoteEdit from '../../Modals/CharacterNoteEdit';
 import Item from './Item';
 import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
 
-export default function CharacterSheetNotes() {
-  const charNotes = useSelector((store) => store.characterNotes);
-  const charDetailID = useSelector((store) => store.characterDetail.id);
-
+export default function CharacterSheetNotes({ charDetail, charNotes, loading, setLoading, chuckError, setPageAlert, setCharNotes }) {
+  console.log('char note:', charNotes);
   return (
     <>
       <Grid container>
@@ -31,7 +21,15 @@ export default function CharacterSheetNotes() {
         <Grid container spacing={1}>
           <Grid item xs={3}></Grid>
           <Grid item xs={6} display={'flex'} justifyContent={'center'}>
-            <CharacterNoteEdit prop={charDetailID} />
+            <CharacterNoteEdit
+              isNew={true}
+              charID={charDetail.id}
+              loading={loading}
+              setLoading={setLoading}
+              chuckError={chuckError}
+              setPageAlert={setPageAlert}
+              setCharNotes={setCharNotes}
+            />
           </Grid>
           <Grid item xs={3}></Grid>
           {charNotes.map((note) => {
@@ -56,16 +54,22 @@ export default function CharacterSheetNotes() {
                       <CardHeader title={note.title} />
                     )}
                     <CardContent>
-                      <Typography
-                        sx={{ whiteSpace: 'pre-wrap' }}
-                        variant="body2"
-                      >
+                      <Typography sx={{ whiteSpace: 'pre-wrap' }} variant="body2">
                         {note.body}
                       </Typography>
                     </CardContent>
                     <CardActions>
                       <Grid container justifyContent={'center'}>
-                        <CharacterNoteEdit prop={note} />
+                        <CharacterNoteEdit
+                          note={note}
+                          isNew={false}
+                          charID={charDetail.id}
+                          loading={loading}
+                          setLoading={setLoading}
+                          chuckError={chuckError}
+                          setPageAlert={setPageAlert}
+                          setCharNotes={setCharNotes}
+                        />
                       </Grid>
                     </CardActions>
                   </Card>

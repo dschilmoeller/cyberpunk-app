@@ -1,37 +1,98 @@
 import * as React from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-
-import { TextField, Button } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
+import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GradeIcon from '@mui/icons-material/Grade';
-import { Grid } from '@mui/material';
+import { inPlayNoteCreate, inPlayNoteEdit, inPlayNoteDelete, fetchInPlayCharacterNotesRequest } from '../Characters/character.services';
 
-export default function CharacterNoteEdit({ prop }) {
+// TODO TESTING New note doesn't work, nothing checked.
+export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoading, chuckError, setPageAlert, setCharNotes }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
-
-  const [isNew, setIsNew] = React.useState(
-    prop.title === undefined ? true : false
-  );
-
   const [showRealDelete, setShowRealDelete] = React.useState(false);
 
-  const dispatch = useDispatch();
+  const handleClose = async () => {
+    setLoading(true);
+    const noteObj = {
+      char_note_id: isNew ? 0 : note.char_note_id,
+      charID,
+      title: titleText,
+      body: bodyText,
+      favorite: favoriteStatus,
+    };
+    try {
+      if (isNew === true) {
+        let result = await inPlayNoteCreate(noteObj);
+        if (result === 'OK') {
+          setPageAlert({ open: true, message: 'Note Created', severity: 'success' });
+          let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
+          setCharNotes(refetchNotes);
+        } else {
+          chuckError();
+        }
+      } else if (isNew === false) {
+        let result = await inPlayNoteEdit(noteObj);
+        if (result === 'OK') {
+          setPageAlert({ open: true, message: 'Note Saved', severity: 'success' });
+          let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
+          setCharNotes(refetchNotes);
+        } else {
+          chuckError();
+        }
+      }
+    } catch (error) {
+      console.error('Error creating or editing note:', error);
+      chuckError();
+    }
+    setOpen(false);
+    setLoading(false);
+  };
 
-  const notes = useSelector((store) => store.characterNotes);
-  const loadStatus = useSelector((store) => store.loaders.inPlaySheet);
+  const handleCancel = () => {
+    setOpen(false);
+    setShowRealDelete(false);
+  };
+
+  const handleDelete = () => {
+    setShowRealDelete(true);
+  };
+
+  const handleActuallyDelete = async () => {
+    setLoading(true);
+    const noteObj = {
+      char_note_id: note.char_note_id,
+      charID,
+    };
+    try {
+      let result = await inPlayNoteDelete(noteObj);
+      if (result === 'OK') {
+        setPageAlert({ open: true, message: 'Note deleted', severity: 'success' });
+        let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
+        setCharNotes(refetchNotes);
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      chuckError();
+    }
+    setOpen(false);
+    setLoading(false);
+  };
+
+  const favoriteNote = () => {
+    setFavoriteStatus(!favoriteStatus);
+  };
+
+  const [titleText, setTitleText] = React.useState('');
+  const [bodyText, setBodyText] = React.useState('');
+  const [favoriteStatus, setFavoriteStatus] = React.useState(false);
 
   // clearing out between notes / after saving new note.
   React.useEffect(() => {
-    setTitleText(prop.title !== undefined ? prop.title : '');
-    setBodyText(prop.body !== undefined ? prop.body : '');
-  }, [notes]);
+    setTitleText(isNew ? '' : note.title);
+    setBodyText(isNew ? '' : note.body);
+    setFavoriteStatus(isNew ? false : note.favorite);
+  }, []);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -39,67 +100,10 @@ export default function CharacterNoteEdit({ prop }) {
     setShowRealDelete(false);
   };
 
-  const handleClose = () => {
-    setShowRealDelete(false);
-    if (isNew === false) {
-      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'CHARACTER_NOTE_UPDATE',
-        payload: {
-          title: titleText,
-          body: bodyText,
-          id: prop.char_note_id,
-          charID: prop.char_id,
-          favorite: favoriteStatus,
-        },
-      });
-      setOpen(false);
-    } else {
-      dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'CHARACTER_NEW_NOTE',
-        payload: {
-          title: titleText,
-          body: bodyText,
-          charID: prop,
-          favorite: favoriteStatus,
-        },
-      });
-      setOpen(false);
-    }
-  };
-  const handleCancel = () => {
-    setOpen(false);
-    setShowRealDelete(false);
-  };
-  const handleDelete = () => {
-    setShowRealDelete(true);
-  };
-  const actuallyDelete = () => {
-    dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-    dispatch({
-      type: 'CHARACTER_DELETE_NOTE',
-      payload: { noteID: prop.char_note_id, charID: prop.char_id },
-    });
-    setOpen(false);
-  };
-
-  const favoriteNote = () => {
-    setFavoriteStatus(!favoriteStatus);
-  };
-
-  const [titleText, setTitleText] = React.useState(
-    prop.title !== undefined ? prop.title : ''
-  );
-  const [bodyText, setBodyText] = React.useState(
-    prop.body !== undefined ? prop.body : ''
-  );
-  const [favoriteStatus, setFavoriteStatus] = React.useState(prop.favorite);
-
   return (
     <>
-      <Button onClick={handleClickOpen('paper')} variant="contained">
-        {prop.title !== undefined ? 'Edit Note' : 'New Note'}
+      <Button disabled={loading} onClick={handleClickOpen('paper')} variant="contained">
+        {isNew ? 'New Note' : 'Edit Note'}
       </Button>
       <Dialog
         open={open}
@@ -114,6 +118,7 @@ export default function CharacterNoteEdit({ prop }) {
         <IconButton
           aria-label="favorite"
           onClick={favoriteNote}
+          disabled={loading}
           sx={{
             position: 'absolute',
             right: 50,
@@ -126,7 +131,8 @@ export default function CharacterNoteEdit({ prop }) {
         {showRealDelete ? (
           <IconButton
             aria-label="close"
-            onClick={actuallyDelete}
+            onClick={handleActuallyDelete}
+            disabled={loading}
             sx={{
               position: 'absolute',
               right: 8,
@@ -142,25 +148,11 @@ export default function CharacterNoteEdit({ prop }) {
           <Grid container>
             <Grid item xs={12} padding={2}>
               Title:
-              <TextField
-                onChange={(e) => setTitleText(e.target.value)}
-                required
-                type="text"
-                value={titleText}
-                fullWidth
-              />
+              <TextField onChange={(e) => setTitleText(e.target.value)} required type="text" value={titleText} fullWidth />
             </Grid>
             <Grid item xs={12} padding={2}>
               Body:
-              <TextField
-                onChange={(e) => setBodyText(e.target.value)}
-                required
-                multiline
-                rows={8}
-                type="text"
-                value={bodyText}
-                fullWidth
-              />
+              <TextField onChange={(e) => setBodyText(e.target.value)} required multiline rows={8} type="text" value={bodyText} fullWidth />
             </Grid>
           </Grid>
         </DialogContent>
@@ -168,11 +160,7 @@ export default function CharacterNoteEdit({ prop }) {
           <Grid container justifyContent={'center'}>
             {titleText === '' || bodyText === '' ? (
               <>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => setOpen(false)}
-                >
+                <Button disabled={loading} variant="contained" color="error" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
               </>
@@ -181,17 +169,13 @@ export default function CharacterNoteEdit({ prop }) {
                 <Grid item>
                   {showRealDelete ? (
                     <>
-                      <Button color="error" variant="contained">
+                      <Button disabled={loading} color="error" variant="contained">
                         Garbage Can In Top Right
                       </Button>
                     </>
                   ) : (
                     <>
-                      <Button
-                        color="error"
-                        variant="contained"
-                        onClick={() => handleDelete()}
-                      >
+                      <Button disabled={loading} color="error" variant="contained" onClick={() => handleDelete()}>
                         Delete Note
                       </Button>
                     </>
@@ -200,7 +184,7 @@ export default function CharacterNoteEdit({ prop }) {
               </>
             )}
             <Grid item paddingLeft={1}>
-              <Button variant="contained" onClick={() => handleClose()}>
+              <Button disabled={loading} variant="contained" onClick={() => handleClose()}>
                 Save and Close
               </Button>
             </Grid>

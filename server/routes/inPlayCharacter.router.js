@@ -159,6 +159,21 @@ router.post('/fetchInPlayVehicleMods', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/fetchInPlayNotes', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_notes" 
+  WHERE "char_id" = $1 
+  ORDER BY "favorite" DESC, "char_note_id"`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching in play notes:', err);
+      res.sendStatus(400);
+    });
+});
+
 router.post('/inPlayStatusChange', rejectUnauthenticated, (req, res) => {
   const sqlText = `UPDATE "char_status" SET
   "current_stun" = $1,
@@ -294,6 +309,51 @@ router.post('/inPlayVehicleStatusChange', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error updating vehicle:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayNoteCreate', rejectUnauthenticated, (req, res) => {
+  const sqlText = `INSERT INTO "char_notes" ("char_id", "title", "body", "favorite")
+    VALUES ($1, $2, $3, $4)`;
+  const sqlParams = [req.body.charID, req.body.title, req.body.body, req.body.favorite];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error creating note', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayNoteEdit', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_notes"
+    SET "title" = $1, "body" = $2, "favorite" = $3
+    WHERE "char_note_id" = $4`;
+  const sqlParams = [req.body.title, req.body.body, req.body.favorite, req.body.char_note_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error updating note:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayNoteDelete', rejectUnauthenticated, (req, res) => {
+  const sqlText = `DELETE FROM "char_notes" WHERE "char_note_id" = $1`;
+  const sqlParams = [req.body.char_note_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error deleting note:', err);
       res.sendStatus(400);
     });
 });

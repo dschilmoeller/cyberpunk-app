@@ -139,6 +139,21 @@ const fetchInPlayVehicleModsRequest = async (vehicleModObj) => {
       });
   });
 };
+
+const fetchInPlayCharacterNotesRequest = async (noteObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayNotes', noteObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching in play notes:', error);
+        reject(error);
+      });
+  });
+};
+
 const inPlayStatusChangeRequest = async (statusObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -251,6 +266,48 @@ const inPlayVehicleStatusChange = async (vehicleObj) => {
   });
 };
 
+const inPlayNoteCreate = async (noteObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayNoteCreate', noteObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error creating new note:', error);
+        reject(error);
+      });
+  });
+};
+
+const inPlayNoteEdit = async (noteObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayNoteEdit', noteObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error editing note:', error);
+        reject(error);
+      });
+  });
+};
+
+const inPlayNoteDelete = async (noteObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayNoteDelete', noteObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error deleting note:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
@@ -262,6 +319,7 @@ export {
   fetchInPlayPharmaGearRequest,
   fetchInPlayVehicleRequest,
   fetchInPlayVehicleModsRequest,
+  fetchInPlayCharacterNotesRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
   inPlayWeaponChangeRequest,
@@ -270,4 +328,7 @@ export {
   inPlayBankChange,
   inPlayUsePharma,
   inPlayVehicleStatusChange,
+  inPlayNoteCreate,
+  inPlayNoteEdit,
+  inPlayNoteDelete,
 };

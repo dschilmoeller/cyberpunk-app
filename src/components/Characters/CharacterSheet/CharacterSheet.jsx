@@ -14,9 +14,9 @@ import Backpack from './GearComponents/Backpack';
 import Pharmaceuticals from './GearComponents/Pharmaceuticals';
 import Cyberware from './GearComponents/Cyberware';
 import Vehicles from './GearComponents/Vehicles';
-// import CharacterNetrunner from './CharacterNetrunner';
-// import CharacterSheetNotes from './Notes';
+import CharacterSheetNotes from './Notes';
 // import CharacterSheetContacts from './Contacts';
+// import CharacterNetrunner from './CharacterNetrunner';
 
 import {
   fetchInPlayCharDetailRequest,
@@ -26,6 +26,7 @@ import {
   fetchInPlayPharmaGearRequest,
   fetchInPlayVehicleRequest,
   fetchInPlayVehicleModsRequest,
+  fetchInPlayCharacterNotesRequest,
 } from '../character.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
@@ -47,6 +48,7 @@ export default function CharacterSheet() {
   const [charPharma, setCharPharma] = useState([]);
   const [charVehicles, setCharVehicles] = useState([]);
   const [charVehicleMods, setCharVehicleMods] = useState([]);
+  const [charNotes, setCharNotes] = useState([]);
 
   const charSheetSetup = async () => {
     setLoading(true);
@@ -75,6 +77,9 @@ export default function CharacterSheet() {
 
       let characterVehicleMods = await fetchInPlayVehicleModsRequest({ charID: params.id });
       setCharVehicleMods(characterVehicleMods);
+
+      let characterNotes = await fetchInPlayCharacterNotesRequest({ charID: params.id });
+      setCharNotes(characterNotes);
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -204,16 +209,11 @@ export default function CharacterSheet() {
                 {selectedInventory === 'vehicles' ? (
                   <>
                     <Vehicles
-                      charDetail={charDetail}
-                      setCharDetail={setCharDetail}
                       charVehicles={charVehicles}
-                      setCharVehicles={setCharVehicles}
                       charVehicleMods={charVehicleMods}
-                      setCharVehicleMods={setCharVehicleMods}
                       loading={loading}
                       setLoading={setLoading}
                       chuckError={chuckError}
-                      setPageAlert={setPageAlert}
                     />
                   </>
                 ) : (
@@ -228,13 +228,21 @@ export default function CharacterSheet() {
                   <></>
                 )} */}
 
-                {/* {selectedInventory === 'notes' ? (
+                {selectedInventory === 'notes' ? (
                   <>
-                    <CharacterSheetNotes />
+                    <CharacterSheetNotes
+                      charDetail={charDetail}
+                      charNotes={charNotes}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                      setCharNotes={setCharNotes}
+                    />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
 
                 {/* {selectedInventory === 'contacts' ? (
                   <>
