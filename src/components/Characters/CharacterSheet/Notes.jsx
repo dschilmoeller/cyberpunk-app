@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Icon, Grid, Card, CardHeader, CardActions, CardContent, Typography } from '@mui/material';
 import GradeIcon from '@mui/icons-material/Grade';
 
-import CharacterNoteEdit from '../../Modals/CharacterNoteEdit';
+import CharacterNoteEdit from './Modals/CharacterNoteEdit';
 import Item from './Item';
-import CharacterSheetHeaderDialog from '../../Modals/CharacterSheetHeaderDialog';
+import CharacterSheetHeaderDialog from './Modals/CharacterSheetHeaderDialog';
 
-export default function CharacterSheetNotes({ charDetail, charNotes, loading, setLoading, chuckError, setPageAlert, setCharNotes }) {
-  console.log('char note:', charNotes);
+export default function CharacterSheetNotes({ charDetail, charNotes, setCharNotes, loading, setLoading, chuckError, setPageAlert }) {
   return (
     <>
       <Grid container>

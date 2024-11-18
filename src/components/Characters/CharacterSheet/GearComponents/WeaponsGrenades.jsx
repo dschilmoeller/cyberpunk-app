@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Item from '../Item';
 import { Button } from '@mui/material';
-import { inPlayUseGrenade } from '../../character.services';
+import { inPlayUseGrenade } from '../character.services';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 
 export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrenades, loading, setLoading, chuckError, setPageAlert }) {

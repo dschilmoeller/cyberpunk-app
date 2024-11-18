@@ -1,16 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
-import { Grid } from '@mui/material';
-
-import { useSelector, useDispatch } from 'react-redux';
-
-import { Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@mui/material';
 
 export default function CharacterSheetHeaderDialog({ prop }) {
   const [open, setOpen] = React.useState(false);
@@ -23,15 +12,6 @@ export default function CharacterSheetHeaderDialog({ prop }) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const dispatch = useDispatch();
-
-  const history = useHistory();
-  const charID = useSelector((store) => store.characterDetail.id);
-
-  const moveToAdvancementPage = (id) => {
-    history.push(`/equipsheet/${id}#pharma`);
   };
 
   const dialogText = (prop) => {

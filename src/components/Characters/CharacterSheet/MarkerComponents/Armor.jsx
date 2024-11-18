@@ -3,7 +3,7 @@ import { Button, Grid } from '@mui/material';
 import Item from '../Item';
 import OtherAttributesDialog from '../../../Modals/OtherAttributesDialog';
 
-import { fetchInPlayArmorRequest, inPlayArmorChangeRequest, inPlayStatusChangeRequest } from '../../character.services';
+import { fetchInPlayArmorRequest, inPlayArmorChangeRequest, inPlayStatusChangeRequest } from '../character.services';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';

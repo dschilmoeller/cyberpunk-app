@@ -2,7 +2,7 @@ import React from 'react';
 import Item from '../Item';
 import { Grid } from '@mui/material';
 import Card from '../../../GeneralAssets/Card';
-import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
+import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 import VehicleCard from './VehicleCard';
 
 export default function Vehicles({ charVehicles, charVehicleMods, loading, setLoading, chuckError }) {

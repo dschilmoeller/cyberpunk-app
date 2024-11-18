@@ -15,7 +15,7 @@ import Pharmaceuticals from './GearComponents/Pharmaceuticals';
 import Cyberware from './GearComponents/Cyberware';
 import Vehicles from './GearComponents/Vehicles';
 import CharacterSheetNotes from './Notes';
-// import CharacterSheetContacts from './Contacts';
+import CharacterSheetContacts from './Contacts';
 // import CharacterNetrunner from './CharacterNetrunner';
 
 import {
@@ -27,7 +27,8 @@ import {
   fetchInPlayVehicleRequest,
   fetchInPlayVehicleModsRequest,
   fetchInPlayCharacterNotesRequest,
-} from '../character.services';
+  fetchInPlayContactsRequest,
+} from './character.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
 
@@ -49,6 +50,7 @@ export default function CharacterSheet() {
   const [charVehicles, setCharVehicles] = useState([]);
   const [charVehicleMods, setCharVehicleMods] = useState([]);
   const [charNotes, setCharNotes] = useState([]);
+  const [charContacts, setCharContacts] = useState([]);
 
   const charSheetSetup = async () => {
     setLoading(true);
@@ -80,6 +82,9 @@ export default function CharacterSheet() {
 
       let characterNotes = await fetchInPlayCharacterNotesRequest({ charID: params.id });
       setCharNotes(characterNotes);
+
+      let characterContacts = await fetchInPlayContactsRequest({ charID: params.id });
+      setCharContacts(characterContacts);
     } catch (error) {
       console.error('Error fetching in play character sheet:', error);
     }
@@ -233,24 +238,32 @@ export default function CharacterSheet() {
                     <CharacterSheetNotes
                       charDetail={charDetail}
                       charNotes={charNotes}
+                      setCharNotes={setCharNotes}
                       loading={loading}
                       setLoading={setLoading}
                       chuckError={chuckError}
                       setPageAlert={setPageAlert}
-                      setCharNotes={setCharNotes}
                     />
                   </>
                 ) : (
                   <></>
                 )}
 
-                {/* {selectedInventory === 'contacts' ? (
+                {selectedInventory === 'contacts' ? (
                   <>
-                    <CharacterSheetContacts />
+                    <CharacterSheetContacts
+                      charDetail={charDetail}
+                      charContacts={charContacts}
+                      setCharContacts={setCharContacts}
+                      loading={loading}
+                      setLoading={setLoading}
+                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
+                    />
                   </>
                 ) : (
                   <></>
-                )} */}
+                )}
               </>
             ) : (
               <></>

@@ -1,53 +1,38 @@
 import * as React from 'react';
+import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { inPlayContactEdit, fetchInPlayContactsRequest } from '../character.services';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import { TextField, Button } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import { Grid } from '@mui/material';
-
-/* contact parts =
-Name
-Loyalty
-Connection
-Description
-*/
-
-// number inputs require validation function to get rid of -, + non-number entries.
-
-export default function CharacterContactEdit({ prop }) {
+export default function CharacterContactEdit({ charDetail, contact, setCharContacts, loading, setLoading, chuckError, setPageAlert }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
-
-  const dispatch = useDispatch();
-
-  // clearing out between contact edits / after saving new contact.
-  // React.useEffect(() => {
-  //     setNoteText(prop.notes)
-  //     setLoyaltyAmount(prop.loyalty)
-  // }, [notes])
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
   };
 
-  const handleClose = () => {
-    dispatch({ type: 'SET_CHARSHEET_LOAD_STATUS', payload: true });
-    dispatch({
-      type: 'CHARACTER_CONTACT_UPDATE',
-      payload: {
-        char_contact_id: prop.char_contact_id,
-        charID: prop.char_id,
-        loyalty: loyaltyAmount,
-        notes: noteText,
-        existingContact: prop,
-      },
-    });
+  const handleClose = async () => {
+    setLoading(true);
+    const contactObj = {
+      charID: charDetail.id,
+      char_contact_id: contact.char_contact_id,
+      loyalty: loyaltyAmount,
+      notes: noteText,
+    };
+    try {
+      let result = await inPlayContactEdit(contactObj);
+      if (result === 'OK') {
+        setPageAlert({ open: true, message: 'Contact Updated', severity: 'success' });
+        let refetchContacts = await fetchInPlayContactsRequest(contactObj);
+        setCharContacts(refetchContacts);
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error updating contact:', error);
+      chuckError();
+    }
+    setLoading(false);
     setOpen(false);
   };
 
@@ -60,14 +45,12 @@ export default function CharacterContactEdit({ prop }) {
     setLoyaltyAmount(newLoyalty);
   };
 
-  // const [loyaltyAmount, setLoyaltyAmount] = React.useState(prop.loyalty !== undefined ? prop.loyalty : 0);
-  const [loyaltyAmount, setLoyaltyAmount] = React.useState(prop.loyalty);
-  // const [noteText, setNoteText] = React.useState(prop.notes !== undefined ? prop.notes : '');
-  const [noteText, setNoteText] = React.useState(prop.notes);
+  const [loyaltyAmount, setLoyaltyAmount] = React.useState(contact.loyalty);
+  const [noteText, setNoteText] = React.useState(contact.notes);
 
   return (
     <>
-      <Button onClick={handleClickOpen('paper')} variant="contained">
+      <Button onClick={handleClickOpen('paper')} disabled={loading} variant="contained">
         {'Edit Contact'}
       </Button>
       <Dialog
@@ -79,7 +62,7 @@ export default function CharacterContactEdit({ prop }) {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">{prop.name}</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">{contact.name}</DialogTitle>
 
         <DialogContent dividers={scroll === 'paper'}>
           <Grid container alignItems={'center'}>
@@ -97,7 +80,7 @@ export default function CharacterContactEdit({ prop }) {
               marginLeft={2}
               padding={1}
             >
-              Connection: {prop.connection}
+              Connection: {contact.connection}
             </Grid>
 
             <Grid item xs={1} marginLeft={1} padding={1}>
@@ -127,20 +110,12 @@ export default function CharacterContactEdit({ prop }) {
               marginLeft={2}
               padding={1}
             >
-              {prop.description}
+              {contact.description}
             </Grid>
 
             <Grid item xs={12} padding={2}>
               <h3>My Notes:</h3>
-              <TextField
-                onChange={(e) => setNoteText(e.target.value)}
-                required
-                multiline
-                rows={8}
-                type="text"
-                value={noteText}
-                fullWidth
-              />
+              <TextField onChange={(e) => setNoteText(e.target.value)} required multiline rows={8} type="text" value={noteText} fullWidth />
             </Grid>
           </Grid>
         </DialogContent>
@@ -148,23 +123,13 @@ export default function CharacterContactEdit({ prop }) {
           <Grid container justifyContent={'center'}>
             <Grid item xs={3} />
             <Grid item xs={2}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="error"
-                onClick={() => setOpen(false)}
-              >
+              <Button fullWidth disabled={loading} variant="contained" color="error" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
             </Grid>
             <Grid item xs={2} />
             <Grid item xs={2}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={handleClose}
-              >
+              <Button fullWidth disabled={loading} variant="contained" color="primary" onClick={handleClose}>
                 Save and Close
               </Button>
             </Grid>

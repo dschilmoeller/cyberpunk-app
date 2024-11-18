@@ -154,6 +154,20 @@ const fetchInPlayCharacterNotesRequest = async (noteObj) => {
   });
 };
 
+const fetchInPlayContactsRequest = async (contactObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/fetchInPlayContacts', contactObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching in play contacts:', error);
+        reject(error);
+      });
+  });
+};
+
 const inPlayStatusChangeRequest = async (statusObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -308,6 +322,20 @@ const inPlayNoteDelete = async (noteObj) => {
   });
 };
 
+const inPlayContactEdit = async (contactObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/inPlay/inPlayContactEdit', contactObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error updating character contact:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchInPlayCharDetailRequest,
   fetchInPlayCharStatusRequest,
@@ -320,6 +348,7 @@ export {
   fetchInPlayVehicleRequest,
   fetchInPlayVehicleModsRequest,
   fetchInPlayCharacterNotesRequest,
+  fetchInPlayContactsRequest,
   inPlayStatusChangeRequest,
   inPlayArmorChangeRequest,
   inPlayWeaponChangeRequest,
@@ -331,4 +360,5 @@ export {
   inPlayNoteCreate,
   inPlayNoteEdit,
   inPlayNoteDelete,
+  inPlayContactEdit,
 };

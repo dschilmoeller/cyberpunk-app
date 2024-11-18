@@ -2,12 +2,12 @@ import React from 'react';
 import { Grid } from '@mui/material';
 
 import Item from '../Item';
-import { fetchCharWeaponsRequest, fetchCharGrenadesRequest } from '../../character.services';
+import { fetchCharWeaponsRequest, fetchCharGrenadesRequest } from '../character.services';
 
 import WeaponCard from './WeaponCard';
 import WeaponsGrenades from './WeaponsGrenades';
 
-import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
+import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 
 function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, chuckError, setPageAlert, painEditor }) {
   const [charWeapons, setCharWeapons] = React.useState([]);

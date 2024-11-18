@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import VehicleModDialog from '../../../Modals/VehicleModDialog';
-import { inPlayVehicleStatusChange } from '../../character.services';
+import { inPlayVehicleStatusChange } from '../character.services';
 import Item from '../Item';
 
 export default function VehicleCard({ incomingVehicle, charVehicleMods, loading, setLoading, chuckError }) {

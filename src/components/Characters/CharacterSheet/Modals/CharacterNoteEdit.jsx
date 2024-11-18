@@ -2,9 +2,8 @@ import * as React from 'react';
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GradeIcon from '@mui/icons-material/Grade';
-import { inPlayNoteCreate, inPlayNoteEdit, inPlayNoteDelete, fetchInPlayCharacterNotesRequest } from '../Characters/character.services';
+import { inPlayNoteCreate, inPlayNoteEdit, inPlayNoteDelete, fetchInPlayCharacterNotesRequest } from '../character.services';
 
-// TODO TESTING New note doesn't work, nothing checked.
 export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoading, chuckError, setPageAlert, setCharNotes }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');

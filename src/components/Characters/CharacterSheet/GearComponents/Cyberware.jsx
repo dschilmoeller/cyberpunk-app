@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 import Item from '.././Item';
-import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
+import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 
 export default function Cyberware({ charCyberware }) {
   return (

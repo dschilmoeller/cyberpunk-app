@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableRow, Grid } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
-import { inPlayUsePharma } from '../../character.services';
+import { inPlayUsePharma } from '../character.services';
 import Item from '../Item';
-import CharacterSheetHeaderDialog from '../../../Modals/CharacterSheetHeaderDialog';
+import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 
 export default function Pharmaceuticals({ charPharma, setCharPharma, loading, setLoading, chuckError, setPageAlert }) {
   const [order, setOrder] = React.useState('asc');

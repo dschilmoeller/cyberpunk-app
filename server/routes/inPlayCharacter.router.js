@@ -142,9 +142,7 @@ router.post('/fetchInPlayVehicles', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/fetchInPlayVehicleMods', rejectUnauthenticated, (req, res) => {
-  const sqlText = `SELECT 
-  *
-  FROM "char_owned_vehicle_mods"
+  const sqlText = `SELECT * FROM "char_owned_vehicle_mods"
   JOIN "vehicle_mod_master" ON "char_owned_vehicle_mods"."vehicle_mod_master_id" = "vehicle_mod_master"."vehicle_mod_master_id"
   JOIN "char_vehicle_mod_bridge" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
   WHERE "char_id" = $1`;
@@ -170,6 +168,24 @@ router.post('/fetchInPlayNotes', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error fetching in play notes:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/fetchInPlayContacts', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_contact_bridge"
+  JOIN "contact_master" ON "char_contact_bridge"."contact_id" = "contact_master"."contact_master_id"
+  WHERE "char_id" = $1
+  ORDER BY "name"`;
+
+  const sqlParams = [req.body.charID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching character contacts:', err);
       res.sendStatus(400);
     });
 });
@@ -354,6 +370,22 @@ router.post('/inPlayNoteDelete', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error deleting note:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/inPlayContactEdit', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_contact_bridge" SET
+  loyalty = $1, notes = $2
+  WHERE "char_contact_id" = $3`;
+  const sqlParams = [req.body.loyalty, req.body.notes, req.body.char_contact_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error editing player contact:', err);
       res.sendStatus(400);
     });
 });
