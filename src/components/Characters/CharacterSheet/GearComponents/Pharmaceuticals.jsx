@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Table, TableBody, TableCell, TableContainer, TableRow, Grid } from '@mui/material';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
-import { inPlayUsePharma } from '../character.services';
+import { inPlayUsePharma } from '../CharInPlay.services';
 import Item from '../Item';
 import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 

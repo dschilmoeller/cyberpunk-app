@@ -9,7 +9,7 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { inPlayStatusChangeRequest } from '../character.services';
+import { inPlayStatusChangeRequest } from '../CharInPlay.services';
 
 function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loading, setLoading, chuckError }) {
   const totalHealth = 10 + charStatus.current_cyberware_health_boxes;

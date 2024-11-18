@@ -14,6 +14,7 @@ import AdvancementSkills from './AdvancementSkills';
 import AdvancementRoles from './AdvancementRoles';
 import AdvancementOther from './AdvancementOther';
 
+// Top Level Sheet
 function AdvancementSheet() {
   const advancementDetails = useSelector((store) => store.advancementDetail);
 
@@ -38,46 +39,25 @@ function AdvancementSheet() {
       <div>
         <Grid container>
           <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-            <Button
-              variant="contained"
-              onClick={() => history.push('/characterlist')}
-            >
+            <Button variant="contained" onClick={() => history.push('/characterlist')}>
               Back to Character List
             </Button>
           </Grid>
 
           <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() =>
-                history.push(`/charactersheet/${advancementDetails.id}`)
-              }
-            >
+            <Button variant="contained" color="secondary" onClick={() => history.push(`/charactersheet/${advancementDetails.id}`)}>
               Move to In Play Sheet
             </Button>
           </Grid>
 
           <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={() =>
-                history.push(`/equipSheet/${advancementDetails.id}`)
-              }
-            >
+            <Button variant="contained" color="info" onClick={() => history.push(`/equipSheet/${advancementDetails.id}`)}>
               Move to Equip Sheet
             </Button>
           </Grid>
 
           <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() =>
-                history.push(`/shopSheet/${advancementDetails.id}`)
-              }
-            >
+            <Button variant="contained" color="success" onClick={() => history.push(`/shopSheet/${advancementDetails.id}`)}>
               Move to Shopping Sheet
             </Button>
           </Grid>
@@ -106,10 +86,7 @@ function AdvancementSheet() {
             <Grid container>
               <Grid item xs={12}>
                 <Item>
-                  <h3>
-                    Available XP:{' '}
-                    {advancementDetails.max_xp - advancementDetails.spent_xp}
-                  </h3>
+                  <h3>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h3>
                 </Item>
               </Grid>
             </Grid>
@@ -124,33 +101,11 @@ function AdvancementSheet() {
         ) : (
           <></>
         )}
-        <Tabs
-          centered
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="secondary"
-        >
-          <Tab
-            value="#attributes"
-            href={`/#/advancementsheet/${params.id}#attributes`}
-            label="Attributes"
-          />
-          <Tab
-            value="#skills"
-            href={`/#/advancementsheet/${params.id}#skills`}
-            label="Skills"
-          />
-          <Tab
-            value="#role"
-            href={`/#/advancementsheet/${params.id}#role`}
-            label="Role Abilities"
-          />
-          <Tab
-            value="#otherTraits"
-            href={`/#/advancementsheet/${params.id}#otherTraits`}
-            label="Other Traits"
-          />
+        <Tabs centered value={value} onChange={handleChange} indicatorColor="primary" textColor="secondary">
+          <Tab value="#attributes" href={`/#/advancementsheet/${params.id}#attributes`} label="Attributes" />
+          <Tab value="#skills" href={`/#/advancementsheet/${params.id}#skills`} label="Skills" />
+          <Tab value="#role" href={`/#/advancementsheet/${params.id}#role`} label="Role Abilities" />
+          <Tab value="#otherTraits" href={`/#/advancementsheet/${params.id}#otherTraits`} label="Other Traits" />
         </Tabs>
 
         {value === '#attributes' ? (

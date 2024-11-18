@@ -28,7 +28,7 @@ import {
   fetchInPlayVehicleModsRequest,
   fetchInPlayCharacterNotesRequest,
   fetchInPlayContactsRequest,
-} from './character.services';
+} from './CharInPlay.services';
 
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
 

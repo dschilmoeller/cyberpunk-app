@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 
 import Item from '../Item';
-import { fetchCharWeaponsRequest, fetchCharGrenadesRequest } from '../character.services';
+import { fetchCharWeaponsRequest, fetchCharGrenadesRequest } from '../CharInPlay.services';
 
 import WeaponCard from './WeaponCard';
 import WeaponsGrenades from './WeaponsGrenades';

@@ -6,7 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import OtherAttributesDialog from '../../../Modals/OtherAttributesDialog';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 import CharWeaponDieRollDialog from '../../../Modals/CharWeaponDieRoll';
-import { inPlayWeaponChangeRequest } from '../character.services';
+import { inPlayWeaponChangeRequest } from '../CharInPlay.services';
 
 // need to store clip as individual piece of state on this card?
 export default function WeaponCard({ prop, charDetail, charStatus, loading, setLoading, clip, chuckError, painEditor }) {
