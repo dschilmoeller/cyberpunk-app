@@ -42,41 +42,39 @@ export default function AdvancementAttributes({ advancementDetails, setAdvanceme
   };
 
   return (
-    <>
-      <Grid container>
-        {AttributesArr.map((att, i) => {
-          if (att[0] != 'street cred' && att[0] != 'luck') {
-            return (
-              <React.Fragment key={i}>
-                {i === 0 || i === 3 || i === 6 ? (
-                  <Grid item xs={12}>
-                    <Item>
-                      <h2>{i === 0 ? 'Physical' : i === 3 ? 'Social' : 'Mental'}</h2>
-                    </Item>
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Grid item xs={4}>
+    <Grid container>
+      {AttributesArr.map((att, i) => {
+        if (att[0] != 'street cred' && att[0] != 'luck') {
+          return (
+            <React.Fragment key={i}>
+              {i === 0 || i === 3 || i === 6 ? (
+                <Grid item xs={12}>
                   <Item>
-                    <AttributesDialog prop={capitalizer(att[0])} />
+                    <h2>{i === 0 ? 'Physical' : i === 3 ? 'Social' : 'Mental'}</h2>
                   </Item>
                 </Grid>
-                <Grid item xs={4}>
-                  <Item>{dotReturn(advancementDetails[att[0]], att[1])}</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>
-                    <Button disabled={loading} variant="contained" fullWidth onClick={() => increaseStat(att[0], att[1])}>
-                      Increase Cost: {(advancementDetails[att[0]] + 1) * 5} XP
-                    </Button>
-                  </Item>
-                </Grid>
-              </React.Fragment>
-            );
-          }
-        })}
-      </Grid>
-    </>
+              ) : (
+                <></>
+              )}
+              <Grid item xs={4}>
+                <Item>
+                  <AttributesDialog prop={capitalizer(att[0])} />
+                </Item>
+              </Grid>
+              <Grid item xs={4}>
+                <Item>{dotReturn(advancementDetails[att[0]], att[1])}</Item>
+              </Grid>
+              <Grid item xs={4}>
+                <Item>
+                  <Button disabled={loading} variant="contained" fullWidth onClick={() => increaseStat(att[0], att[1])}>
+                    Increase Cost: {(advancementDetails[att[0]] + 1) * 5} XP
+                  </Button>
+                </Item>
+              </Grid>
+            </React.Fragment>
+          );
+        }
+      })}
+    </Grid>
   );
 }

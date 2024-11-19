@@ -60,6 +60,24 @@ const whitelist = [
   'vehicle_tech',
   'max_luck',
   'street_cred',
+  'rockerboy',
+  'solo',
+  'netrunner',
+  'nomad',
+  'nomad_vehicle_slots',
+  'media',
+  'medtech',
+  'maker',
+  'med_surgery',
+  'med_pharma',
+  'med_cryo',
+  'is_paramedical',
+  'medtech_available',
+  'maker_field',
+  'maker_upgrade',
+  'maker_fab',
+  'maker_invent',
+  'maker_available',
 ];
 
 router.post('/updateCharacterStat', rejectUnauthenticated, (req, res) => {
@@ -73,7 +91,10 @@ router.post('/updateCharacterStat', rejectUnauthenticated, (req, res) => {
       })
       .catch((err) => {
         console.error('Error updating character details:', err);
+        req.sendStatus(400);
       });
+  } else {
+    req.sendStatus(400);
   }
 });
 

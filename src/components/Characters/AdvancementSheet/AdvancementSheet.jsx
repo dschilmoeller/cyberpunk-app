@@ -108,17 +108,29 @@ function AdvancementSheet() {
             </Grid>
 
             <Grid container>
-              <Grid item xs={12}>
+              <Grid item xs={4}>
+                <Item>Medtech Skill Points: {value === '#role' ? advancementDetails.medtech_available : ''}</Item>
+              </Grid>
+              <Grid item xs={4}>
                 <Item>
                   <h3>Available XP: {advancementDetails.max_xp - advancementDetails.spent_xp}</h3>
                 </Item>
               </Grid>
+              <Grid item xs={4}>
+                <Item>/TODO Netrunner Actions/ </Item>
+              </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={12}>
+              <Grid item xs={4}>
+                <Item>Maker Skill Points: {value === '#role' ? advancementDetails.maker_available : ''}</Item>
+              </Grid>
+              <Grid item xs={4}>
                 <Item>
                   <h2>Spend Experience</h2>
                 </Item>
+              </Grid>
+              <Grid item xs={4}>
+                <Item>Nomad Vehicles: {value === '#role' ? advancementDetails.nomad_vehicle_slots : ''}</Item>
               </Grid>
             </Grid>
           </>
@@ -164,7 +176,14 @@ function AdvancementSheet() {
 
         {value === '#role' ? (
           <>
-            <AdvancementRoles />
+            <AdvancementRoles
+              advancementDetails={advancementDetails}
+              setAdvancementDetails={setAdvancementDetails}
+              loading={loading}
+              setLoading={setLoading}
+              setPageAlert={setPageAlert}
+              chuckError={chuckError}
+            />
           </>
         ) : (
           <></>

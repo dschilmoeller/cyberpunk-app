@@ -1,63 +1,12 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@mui/material/Grid';
+import React from 'react';
+import { Grid, Button } from '@mui/material/';
 import Item from '../CharacterSheet/Item';
-
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
+import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
+import { Roles, RoleSkills } from '../../../utils/objects/objects.utils';
+import { updateCharacterStat } from './advancement.services';
 
-import CircleIcon from '@mui/icons-material/Circle';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
-
-export default function AdvancementRoles() {
-  const dispatch = useDispatch();
-  const advancementDetails = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const fullCircle = <CircleIcon />;
-  const emptyCircle = <CircleOutlinedIcon />;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const roleDotReturn = (role) => {
-    let returnedDots = [];
-    for (let i = 0; i < role; i++) {
-      returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>);
-    }
-    let j = role;
-    for (j; j < 10; j++) {
-      returnedDots.push(
-        <React.Fragment key={j + 10}>{emptyCircle}</React.Fragment>
-      );
-    }
-    return returnedDots;
-  };
-
-  const dotReturn = (role) => {
-    let returnedDots = [];
-
-    for (let i = 0; i < role; i++) {
-      returnedDots.push(<React.Fragment key={i}>{fullCircle}</React.Fragment>);
-    }
-    let j = role;
-    for (j; j <= 4; j++) {
-      returnedDots.push(
-        <React.Fragment key={j + 10}>{emptyCircle}</React.Fragment>
-      );
-    }
-    return returnedDots;
-  };
-
+export default function AdvancementRoles({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
   const roleExpReturn = (role) => {
     if (role < 1) {
       return `15 XP`;
@@ -67,557 +16,235 @@ export default function AdvancementRoles() {
     }
   };
 
-  const roleSpendExp = (roleScore, roleName) => {
-    const availableExp =
-      advancementDetails.max_xp - advancementDetails.spent_xp;
-    roleScore = Number(roleScore);
-    let increaseRoleCost = 0;
-    if (roleScore === 0) {
-      increaseRoleCost = 15;
-    } else {
-      increaseRoleCost = (roleScore + 1) * 5;
-    }
-
-    if (increaseRoleCost <= availableExp) {
-      dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'ADVANCEMENT_CHANGE_STAT',
-        payload: {
-          statName: roleName,
-          newValue: roleScore + 1,
-          newSpentXP: advancementDetails.spent_xp + increaseRoleCost,
-          charID: advancementDetails.id,
-        },
-      });
-    } else {
-      setShowSnackbar(true);
-    }
-  };
-
-  const increaseRoleSkill = (currentSkillRank, skillName) => {
-    // if available points - 1 === 0 -> dispatch ADVANCEMENT_CHANGE_STAT
-    // else dispatch change to reducer and continue (if gaining two ranks in one session)
-    dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
-    dispatch({
-      type: 'ADVANCEMENT_CHANGE_STAT',
-      payload: {
-        statName: skillName,
-        newValue: currentSkillRank + 1,
+  //REQUIRES EXTENSIVE REVIEW & TESTING =/
+  const increaseStat = async (attribute, maxRank, roleSkill, roleSkillPool) => {
+    if (roleSkill === false) {
+      setLoading(true);
+      const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp;
+      const requiredExp = advancementDetails[attribute] === 0 ? 15 : (advancementDetails[attribute] + 1) * 5;
+      const statObj = {
+        newRank: advancementDetails[attribute] + 1,
+        statName: attribute,
+        newSpentXP: advancementDetails.spent_xp + requiredExp,
+      };
+      if (requiredExp <= availableExp && advancementDetails[attribute] + 1 <= maxRank) {
+        try {
+          let result = await updateCharacterStat(statObj);
+          if (result === 'OK' && (attribute === 'medtech' || attribute === 'maker')) {
+            try {
+              const roleSkillObj = {
+                newRank: attribute === 'medtech' ? advancementDetails.medtech_available + 1 : advancementDetails.maker_available + 2,
+                statName: attribute === 'medtech' ? 'medtech_available' : 'maker_available',
+                newSpentXP: advancementDetails.spent_xp + requiredExp,
+              };
+              let roleSkillResult = await updateCharacterStat(roleSkillObj);
+              // handle first rank of medtech - convert first aid -> paramedic and and set paramed = first aid
+              if (roleSkillResult === 'OK' && attribute === 'medtech' && statObj.newRank === 1) {
+                let paramedObj = {
+                  newRank: true,
+                  statName: 'is_paramedical',
+                  newSpentXP: advancementDetails.spent_xp + requiredExp,
+                };
+                let paramedSkillObj = {
+                  newRank: advancementDetails.first_aid,
+                  statName: 'paramed',
+                  newSpentXP: advancementDetails.spent_xp + requiredExp,
+                };
+                let paramedBoolResult = await updateCharacterStat(paramedObj);
+                let firstParamedResult = await updateCharacterStat(paramedSkillObj);
+                if (paramedBoolResult === 'OK' && firstParamedResult === 'OK') {
+                  setAdvancementDetails({
+                    ...advancementDetails,
+                    is_paramedical: true,
+                    paramed: advancementDetails.first_aid,
+                    [attribute]: advancementDetails[attribute] + 1,
+                    medtech_available: attribute === 'medtech' ? advancementDetails.medtech_available + 1 : advancementDetails.medtech_available,
+                    maker_available: attribute === 'maker' ? advancementDetails.maker_available + 2 : advancementDetails.maker_available,
+                    spent_xp: advancementDetails.spent_xp + requiredExp,
+                  });
+                  setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+                } else {
+                  chuckError();
+                }
+              } else if (roleSkillResult === 'OK') {
+                console.log(`att`, attribute, 'max', maxRank, 'roleskill', roleSkill, 'skillpool', roleSkillPool);
+                setAdvancementDetails({
+                  ...advancementDetails,
+                  [attribute]: advancementDetails[attribute] + 1,
+                  medtech_available: attribute === 'medtech' ? advancementDetails.medtech_available + 1 : advancementDetails.medtech_available,
+                  maker_available: attribute === 'maker' ? advancementDetails.maker_available + 2 : advancementDetails.maker_available,
+                  spent_xp: advancementDetails.spent_xp + requiredExp,
+                });
+                setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+              } else {
+                chuckError();
+              }
+            } catch (error) {
+              chuckError();
+            }
+          } else if (result === 'OK' && attribute === 'nomad') {
+            const nomadObj = {
+              newRank: advancementDetails.nomad_vehicle_slots + 1,
+              statName: 'nomad_vehicle_slots',
+              newSpentXP: advancementDetails.spent_xp + requiredExp,
+            };
+            let nomadResult = await updateCharacterStat(nomadObj);
+            console.log(`nomad result:`, nomadResult, 'nomad obj:', nomadObj);
+            if (nomadResult === 'OK') {
+              setAdvancementDetails({
+                ...advancementDetails,
+                [attribute]: advancementDetails[attribute] + 1,
+                spent_xp: advancementDetails.spent_xp + requiredExp,
+                nomad_vehicle_slots: advancementDetails.nomad_vehicle_slots + 1,
+              });
+              setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+            } else {
+              chuckError();
+            }
+          } else if (result === 'OK') {
+            setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+            setAdvancementDetails({
+              ...advancementDetails,
+              [attribute]: advancementDetails[attribute] + 1,
+              spent_xp: advancementDetails.spent_xp + requiredExp,
+            });
+          } else {
+            chuckError();
+          }
+        } catch (error) {
+          chuckError();
+        }
+      } else if (requiredExp > availableExp) {
+        setPageAlert({ open: true, message: 'Insufficient XP', severity: 'error' });
+      } else {
+        chuckError();
+      }
+    } else if (roleSkill === true) {
+      // handle increasing skill - whole different thing.
+      const roleSkillObj = {
+        newRank: advancementDetails[attribute] + 1,
+        statName: attribute,
         newSpentXP: advancementDetails.spent_xp,
-        charID: advancementDetails.id,
-      },
-    });
+      };
+      const spentRoleSkillObj = {
+        newRank: advancementDetails[roleSkillPool] - 1,
+        statName: roleSkillPool,
+        newSpentXP: advancementDetails.spent_xp,
+      };
+      let roleSkillResult = await updateCharacterStat(roleSkillObj);
+      let spentRoleSkillResult = await updateCharacterStat(spentRoleSkillObj);
+      if (roleSkillResult === 'OK' && spentRoleSkillResult === 'OK') {
+        setAdvancementDetails({
+          ...advancementDetails,
+          [attribute]: advancementDetails[attribute] + 1,
+          [roleSkillPool]: advancementDetails[roleSkillPool] - 1,
+          spent_xp: advancementDetails.spent_xp,
+        });
+        setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+      } else {
+        chuckError();
+      }
+    } else {
+      chuckError();
+    }
+    setLoading(false);
   };
 
   return (
-    <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
-          Insufficient XP
-        </Alert>
-      </Snackbar>
-
-      <h1>Role Abilities</h1>
-      <Grid container spacing={1}>
-        {loadStatus === false ? (
-          <>
-            <Grid item xs={3}>
+    <Grid container spacing={1}>
+      {Roles.map((role, i) => {
+        return (
+          <React.Fragment key={i}>
+            <Grid item xs={4}>
               <Item>
-                <RoleAbilitiesDialog prop={'Rockerboy'} />
+                <RoleAbilitiesDialog prop={capitalizer(role[0])} />
               </Item>
             </Grid>
-            <Grid item xs={6}>
-              <Item>{roleDotReturn(advancementDetails.rockerboy)}</Item>
+            <Grid item xs={4}>
+              <Item>{dotReturn(advancementDetails[role[0]], 10)}</Item>
             </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.rockerboy < 10 ? (
-                <Item
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.rockerboy, 'rockerboy')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.rockerboy)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Item>
-                <RoleAbilitiesDialog prop={'Solo'} />
+                <Button variant="contained" disabled={loading} fullWidth onClick={() => increaseStat(role[0], 10, false)}>
+                  {roleExpReturn(advancementDetails[role[0]])}
+                </Button>
               </Item>
             </Grid>
-            <Grid item xs={6}>
-              <Item>{roleDotReturn(advancementDetails.solo)}</Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.solo < 10 ? (
-                <Item
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() => roleSpendExp(advancementDetails.solo, 'solo')}
-                >
-                  Increase: {roleExpReturn(advancementDetails.solo)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item>
-                <RoleAbilitiesDialog prop={'Netrunner'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item>{roleDotReturn(advancementDetails.netrunner)}</Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.netrunner < 10 ? (
-                <Item
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.netrunner, 'netrunner')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.netrunner)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item>
-                <RoleAbilitiesDialog prop={'Nomad'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item>{roleDotReturn(advancementDetails.nomad)}</Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.nomad < 10 ? (
-                <Item
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.nomad, 'nomad')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.nomad)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item>Nomad Vehicles Available:</Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item>
-                {roleDotReturn(advancementDetails.nomad_vehicle_slots)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              <Item>Increase Nomad Role</Item>
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item>
-                <RoleAbilitiesDialog prop={'Media'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item>{roleDotReturn(advancementDetails.media)}</Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.media < 10 ? (
-                <Item
-                  sx={{
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.media, 'media')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.media)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                <RoleAbilitiesDialog prop={'Medtech'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                {roleDotReturn(advancementDetails.medtech)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.medtech < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#074287',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.medtech, 'medtech')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.medtech)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                <RoleAbilitiesDialog prop={'Surgery'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                {dotReturn(advancementDetails.med_surgery)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.medtech_available > 0 &&
-              advancementDetails.med_surgery < 5 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#074287',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(
-                      advancementDetails.med_surgery,
-                      'med_surgery'
-                    )
-                  }
-                >
-                  Spend Role Points ({advancementDetails.medtech_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#074287' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                <RoleAbilitiesDialog prop={'Pharmaceuticals'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                {dotReturn(advancementDetails.med_pharma)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.medtech_available > 0 &&
-              advancementDetails.med_pharma < 5 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#074287',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(
-                      advancementDetails.med_pharma,
-                      'med_pharma'
-                    )
-                  }
-                >
-                  Spend Role Points ({advancementDetails.medtech_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#074287' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                <RoleAbilitiesDialog prop={'Cryogenics'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#074287' }}>
-                {dotReturn(advancementDetails.med_cryo)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.medtech_available > 0 &&
-              advancementDetails.med_cryo < 5 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#074287',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(advancementDetails.med_cryo, 'med_cryo')
-                  }
-                >
-                  Spend Role Points ({advancementDetails.medtech_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#074287' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                <RoleAbilitiesDialog prop={'Maker'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                {roleDotReturn(advancementDetails.maker)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.maker < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#02520d',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    roleSpendExp(advancementDetails.maker, 'maker')
-                  }
-                >
-                  Increase: {roleExpReturn(advancementDetails.maker)}
-                </Item>
-              ) : (
-                <Item>Maxed</Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                <RoleAbilitiesDialog prop={'Field Expertise'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                {roleDotReturn(advancementDetails.maker_field)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.maker_available > 0 &&
-              advancementDetails.maker_field < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#02520d',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(
-                      advancementDetails.maker_field,
-                      'maker_field'
-                    )
-                  }
-                >
-                  Spend Role Points ({advancementDetails.maker_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#02520d' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                <RoleAbilitiesDialog prop={'Upgrade Expertise'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                {roleDotReturn(advancementDetails.maker_upgrade)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.maker_available > 0 &&
-              advancementDetails.maker_upgrade < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#02520d',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(
-                      advancementDetails.maker_upgrade,
-                      'maker_upgrade'
-                    )
-                  }
-                >
-                  Spend Role Points ({advancementDetails.maker_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#02520d' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                <RoleAbilitiesDialog prop={'Fabrication'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                {roleDotReturn(advancementDetails.maker_fab)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.maker_available > 0 &&
-              advancementDetails.maker_fab < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#02520d',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(advancementDetails.maker_fab, 'maker_fab')
-                  }
-                >
-                  Spend Role Points ({advancementDetails.maker_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#02520d' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-
-            <Grid item xs={3}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                <RoleAbilitiesDialog prop={'Invention'} />
-              </Item>
-            </Grid>
-            <Grid item xs={6}>
-              <Item sx={{ backgroundColor: '#02520d' }}>
-                {roleDotReturn(advancementDetails.maker_invent)}
-              </Item>
-            </Grid>
-            <Grid item xs={3}>
-              {advancementDetails.maker_available > 0 &&
-              advancementDetails.maker_invent < 10 ? (
-                <Item
-                  sx={{
-                    backgroundColor: '#02520d',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#fff',
-                      color: '#000',
-                    },
-                  }}
-                  onClick={() =>
-                    increaseRoleSkill(
-                      advancementDetails.maker_invent,
-                      'maker_invent'
-                    )
-                  }
-                >
-                  Spend Role Points ({advancementDetails.maker_available})
-                </Item>
-              ) : (
-                <Item sx={{ backgroundColor: '#02520d' }}>
-                  No Points to Spend
-                </Item>
-              )}
-            </Grid>
-          </>
-        ) : (
-          <>
-            <Grid item xs={12}>
-              <Item>Loading...</Item>
-            </Grid>
-          </>
-        )}
-      </Grid>
-    </>
+            {role[0] === 'medtech' ? (
+              RoleSkills.medtech.map((skill, i) => {
+                return (
+                  <React.Fragment key={i}>
+                    <Grid item xs={4}>
+                      <Item>
+                        <RoleAbilitiesDialog prop={skill[1]} />
+                      </Item>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Item>{dotReturn(advancementDetails[skill[0]], skill[2])}</Item>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Item>
+                        {advancementDetails.medtech_available > 0 ? (
+                          <>
+                            <Button
+                              variant="contained"
+                              disabled={loading}
+                              fullWidth
+                              onClick={() => increaseStat(skill[0], 5, true, 'medtech_available')}
+                            >
+                              Increase by 1
+                            </Button>
+                          </>
+                        ) : (
+                          'Increase Role'
+                        )}
+                      </Item>
+                    </Grid>
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <></>
+            )}
+            {role[0] === 'maker' ? (
+              RoleSkills.maker.map((skill, i) => {
+                return (
+                  <React.Fragment key={i}>
+                    <Grid item xs={4}>
+                      <Item>
+                        <RoleAbilitiesDialog prop={skill[1]} />
+                      </Item>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Item>{dotReturn(advancementDetails[skill[0]], skill[2])}</Item>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Item>
+                        {advancementDetails.maker_available > 0 ? (
+                          <>
+                            <Button
+                              variant="contained"
+                              disabled={loading}
+                              fullWidth
+                              onClick={() => increaseStat(skill[0], 10, true, 'maker_available')}
+                            >
+                              Increase by 1
+                            </Button>
+                          </>
+                        ) : (
+                          'Increase Role'
+                        )}
+                      </Item>
+                    </Grid>
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </Grid>
   );
 }
