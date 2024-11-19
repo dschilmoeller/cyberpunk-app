@@ -23,6 +23,7 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
       const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp;
       const requiredExp = advancementDetails[attribute] === 0 ? 15 : (advancementDetails[attribute] + 1) * 5;
       const statObj = {
+        charID: advancementDetails.id,
         newRank: advancementDetails[attribute] + 1,
         statName: attribute,
         newSpentXP: advancementDetails.spent_xp + requiredExp,
@@ -33,6 +34,7 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
           if (result === 'OK' && (attribute === 'medtech' || attribute === 'maker')) {
             try {
               const roleSkillObj = {
+                charID: advancementDetails.id,
                 newRank: attribute === 'medtech' ? advancementDetails.medtech_available + 1 : advancementDetails.maker_available + 2,
                 statName: attribute === 'medtech' ? 'medtech_available' : 'maker_available',
                 newSpentXP: advancementDetails.spent_xp + requiredExp,
@@ -41,11 +43,13 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
               // handle first rank of medtech - convert first aid -> paramedic and and set paramed = first aid
               if (roleSkillResult === 'OK' && attribute === 'medtech' && statObj.newRank === 1) {
                 let paramedObj = {
+                  charID: advancementDetails.id,
                   newRank: true,
                   statName: 'is_paramedical',
                   newSpentXP: advancementDetails.spent_xp + requiredExp,
                 };
                 let paramedSkillObj = {
+                  charID: advancementDetails.id,
                   newRank: advancementDetails.first_aid,
                   statName: 'paramed',
                   newSpentXP: advancementDetails.spent_xp + requiredExp,
@@ -84,6 +88,7 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
             }
           } else if (result === 'OK' && attribute === 'nomad') {
             const nomadObj = {
+              charID: advancementDetails.id,
               newRank: advancementDetails.nomad_vehicle_slots + 1,
               statName: 'nomad_vehicle_slots',
               newSpentXP: advancementDetails.spent_xp + requiredExp,
@@ -122,11 +127,13 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
     } else if (roleSkill === true) {
       // handle increasing skill - whole different thing.
       const roleSkillObj = {
+        charID: advancementDetails.id,
         newRank: advancementDetails[attribute] + 1,
         statName: attribute,
         newSpentXP: advancementDetails.spent_xp,
       };
       const spentRoleSkillObj = {
+        charID: advancementDetails.id,
         newRank: advancementDetails[roleSkillPool] - 1,
         statName: roleSkillPool,
         newSpentXP: advancementDetails.spent_xp,

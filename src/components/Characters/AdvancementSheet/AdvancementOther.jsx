@@ -1,223 +1,132 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@mui/material/Grid';
+import { Grid, Button } from '@mui/material/';
 import Item from '../CharacterSheet/Item';
+
+import { dotReturn, humanityDotReturnGrid } from '../../../utils/funcs/funcs';
+import { updateCharacterStat } from './advancement.services';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
-
-export default function AdvancementOther() {
-  const dispatch = useDispatch();
-  const advancementDetails = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const unhurtMarker = <CircleOutlinedIcon />;
-  const stunMarker = <HorizontalRuleOutlinedIcon />;
-  const aggMarker = <AcUnitIcon />;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  // creates 10 boxes; character luck are empty square, unpurchased luck is X'd square.
-  const luckBuilder = () => {
-    let luckBoxes = [];
-    // push 1 empty square per point of max luck
-    for (let i = 0; i < advancementDetails.max_luck; i++) {
-      luckBoxes.push(
-        <React.Fragment key={i}>
-          <Grid item xs={2.4}>
-            <Item>{unhurtMarker}</Item>
-          </Grid>
-        </React.Fragment>
-      );
-    }
-    // fill remainder with filled squares.
-    for (let i = 0; i < 10 - advancementDetails.max_luck; i++) {
-      luckBoxes.push(
-        <React.Fragment key={i + 10}>
-          <Grid item xs={2.4}>
-            <Item>{aggMarker}</Item>
-          </Grid>
-        </React.Fragment>
-      );
-    }
-    return luckBoxes;
-  };
-
-  // returns cost of increasing luck score
-  const luckExpReturn = () => {
-    return advancementDetails.max_luck * 2 + ' XP';
-  };
-
-  // increase Luck in advancementDetails reducer by sending new max score + amount of XP spent.
-  const addLuck = () => {
-    let increaseLuckCost = advancementDetails.max_luck * 2;
-    if (
-      advancementDetails.max_xp - advancementDetails.spent_xp >=
-      increaseLuckCost
-    ) {
-      dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'ADVANCEMENT_CHANGE_STAT',
-        payload: {
+export default function AdvancementOther({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+  const addLuck = async () => {
+    setLoading(true);
+    if (advancementDetails.max_xp - advancementDetails.spent_xp >= (advancementDetails.max_luck + 1) * 2) {
+      try {
+        let luckObj = {
+          charID: advancementDetails.id,
+          newRank: advancementDetails.max_luck + 1,
           statName: 'max_luck',
-          newValue: advancementDetails.max_luck + 1,
-          newSpentXP: advancementDetails.spent_xp + increaseLuckCost,
-          charID: advancementDetails.id,
-        },
-      });
-    } else {
-      setShowSnackbar(true);
-    }
-  };
-
-  // creates 40 entries in an array; permanent cyberware humanity loss repped by an X; temp by a *, and remainining humanity represented by empty square
-  // each entry shows up as a box with appropriate mark.
-  const humanityArrayBuilder = (tempHumanityLoss, permHumanityLoss) => {
-    let humanityArray = [];
-    for (let i = 0; i < permHumanityLoss; i++) {
-      humanityArray.push(
-        <Grid key={i} item xs={1.2}>
-          <Item>{aggMarker}</Item>
-        </Grid>
-      );
-    }
-    for (let i = 0; i < tempHumanityLoss; i++) {
-      humanityArray.push(
-        <Grid key={i + 40} item xs={1.2}>
-          <Item>{stunMarker}</Item>
-        </Grid>
-      );
-    }
-    if (humanityArray.length < 40) {
-      let remainder = 40 - (permHumanityLoss + tempHumanityLoss);
-      for (let i = 0; i < remainder; i++) {
-        humanityArray.push(
-          <Grid key={i + 80} item xs={1.2}>
-            <Item>{unhurtMarker}</Item>
-          </Grid>
-        );
+          newSpentXP: advancementDetails.spent_xp + (advancementDetails.max_luck + 1) * 2,
+        };
+        let result = await updateCharacterStat(luckObj);
+        if (result === 'OK') {
+          setAdvancementDetails({
+            ...advancementDetails,
+            max_luck: advancementDetails.max_luck + 1,
+            spent_xp: advancementDetails.spent_xp + (advancementDetails.max_luck + 1) * 2,
+          });
+          setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+        } else {
+          chuckError();
+        }
+      } catch (error) {
+        console.error('Error updating luck:', error);
+        chuckError();
       }
+    } else {
+      chuckError();
     }
-    return humanityArray;
+    setLoading(false);
   };
 
-  const restoreTemporaryHumanity = () => {
-    if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
-      // dispatch({ type: "REMOVE_TEMP_HUMANITY_LOSS", payload: advancementDetails.temp_humanity_loss - 1 })
-      dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'ADVANCEMENT_CHANGE_STAT',
-        payload: {
-          statName: 'temp_humanity_loss',
-          newValue: advancementDetails.temp_humanity_loss - 1,
-          newSpentXP: advancementDetails.spent_xp + 1,
+  const restoreTemporaryHumanity = async () => {
+    setLoading(true);
+    if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1 && advancementDetails.temp_humanity_loss > 0) {
+      try {
+        let humObj = {
           charID: advancementDetails.id,
-        },
-      });
+          newRank: advancementDetails.temp_humanity_loss - 1,
+          statName: 'temp_humanity_loss',
+          newSpentXP: advancementDetails.spent_xp + 1,
+        };
+        let result = await updateCharacterStat(humObj);
+        if (result === 'OK') {
+          setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
+          setAdvancementDetails({
+            ...advancementDetails,
+            temp_humanity_loss: advancementDetails.temp_humanity_loss - 1,
+            spent_xp: advancementDetails.spent_xp + 1,
+          });
+        } else {
+          chuckError();
+        }
+      } catch (error) {
+        console.error('Error updating temp humanity loss:', error);
+        chuckError();
+      }
+    } else if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
+      setPageAlert({ open: true, message: 'Insufficient XP!', severity: 'error' });
+    } else if (advancementDetails.temp_humanity_loss > 0) {
+      setPageAlert({ open: true, message: 'Nothing temporary left - try removing some cyberware?', severity: 'error' });
     } else {
-      setShowSnackbar(true);
+      chuckError(); // should cover all bases, so something is off if this ever fires.
     }
+    setLoading(false);
   };
 
   return (
     <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
-          Insufficient Experience
-        </Alert>
-      </Snackbar>
-      <h1>Other Traits</h1>
       <Grid container>
-        {loadStatus === false ? (
-          <>
-            <Grid item xs={6}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Item>
-                    <OtherAttributesDialog prop={'Luck'} />
-                  </Item>
-                </Grid>
-                <Grid item xs={12}>
-                  {advancementDetails.max_luck < 10 ? (
-                    <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>
-                      Increase Maximum Luck: {luckExpReturn()}{' '}
-                    </Item>
-                  ) : (
-                    <Item>Maximum Luck Achieved!</Item>
-                  )}
-                </Grid>
-                {luckBuilder()}
-              </Grid>
+        <>
+          <Grid container spacing={2} marginTop={2}>
+            <Grid item xs={4}>
+              <Item>
+                <OtherAttributesDialog prop={'Luck'} />
+              </Item>
+            </Grid>
+            <Grid item xs={4}>
+              <Item>{dotReturn(advancementDetails.max_luck, 10)}</Item>
+            </Grid>
+            <Grid item xs={4}>
+              {advancementDetails.max_luck < 10 ? (
+                <Item sx={{ cursor: 'pointer' }} onClick={() => addLuck()}>
+                  <Button variant="contained" disabled={loading} onClick={() => restoreTemporaryHumanity()}>
+                    Increase Maximum Luck: {(advancementDetails.max_luck + 1) * 2} XP
+                  </Button>
+                </Item>
+              ) : (
+                <Item>Maximum Luck Achieved!</Item>
+              )}
             </Grid>
 
-            <Grid item xs={6}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Item>
-                    <OtherAttributesDialog prop={'Humanity'} />
-                  </Item>
-                </Grid>
-                <Grid item xs={12}>
-                  {advancementDetails.temp_humanity_loss > 0 ? (
-                    <Item
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => restoreTemporaryHumanity()}
-                    >
-                      Restore Temporary Humanity: 1 XP
-                    </Item>
-                  ) : (
-                    <></>
-                  )}
-                  {advancementDetails.temp_humanity_loss === 0 ? (
-                    <Item>Remove Cyberware to restore additional humanity</Item>
-                  ) : (
-                    <></>
-                  )}
-                  {advancementDetails.perm_humanity_loss === 0 &&
-                  advancementDetails.temp_humanity_loss === 0 ? (
-                    <Item>Maximum Humanity reached</Item>
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-                {humanityArrayBuilder(
-                  advancementDetails.temp_humanity_loss,
-                  advancementDetails.perm_humanity_loss
-                )}
-              </Grid>
+            <Grid item xs={4}>
+              <Item>
+                <OtherAttributesDialog prop={'Humanity'} />
+              </Item>
             </Grid>
-          </>
-        ) : (
-          <>
-            <Grid item xs={12}>
-              <Item>Loading...</Item>
+            <Grid item xs={8}>
+              {advancementDetails.temp_humanity_loss > 0 ? (
+                <Item sx={{ cursor: 'pointer' }}>
+                  <Button variant="contained" disabled={loading} onClick={() => restoreTemporaryHumanity()}>
+                    Restore Temporary Humanity: 1 XP
+                  </Button>
+                </Item>
+              ) : (
+                <></>
+              )}
+              {advancementDetails.temp_humanity_loss === 0 ? <Item>Remove Cyberware to restore additional humanity</Item> : <></>}
+              {advancementDetails.perm_humanity_loss === 0 && advancementDetails.temp_humanity_loss === 0 ? (
+                <Item>Maximum Humanity reached</Item>
+              ) : (
+                <></>
+              )}
             </Grid>
-          </>
-        )}
+            <Grid container marginTop={2}>
+              {humanityDotReturnGrid(advancementDetails.temp_humanity_loss, advancementDetails.perm_humanity_loss)}
+              {/* {humanityArrayBuilder(advancementDetails.temp_humanity_loss, advancementDetails.perm_humanity_loss)} */}
+            </Grid>
+          </Grid>
+        </>
       </Grid>
     </>
   );

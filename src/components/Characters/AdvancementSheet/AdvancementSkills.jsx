@@ -20,6 +20,7 @@ export default function AdvancementSkills({ advancementDetails, setAdvancementDe
 
     if (requiredExp <= availableExp && advancementDetails[skillName] + 1 <= 5) {
       const statObj = {
+        charID: advancementDetails.id,
         newRank: advancementDetails[skillName] + 1,
         statName: skillName,
         newSpentXP: advancementDetails.spent_xp + (advancementDetails[skillName] + 1) * 2,

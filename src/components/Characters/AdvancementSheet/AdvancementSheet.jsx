@@ -109,7 +109,7 @@ function AdvancementSheet() {
 
             <Grid container>
               <Grid item xs={4}>
-                <Item>Medtech Skill Points: {value === '#role' ? advancementDetails.medtech_available : ''}</Item>
+                <Item>{value === '#role' ? 'Medtech Skill Points:' + advancementDetails.medtech_available : ''}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>
@@ -117,12 +117,12 @@ function AdvancementSheet() {
                 </Item>
               </Grid>
               <Grid item xs={4}>
-                <Item>/TODO Netrunner Actions/ </Item>
+                <Item>{value === '#role' ? '/TODO Netrunner Actions/ ' : ''} </Item>
               </Grid>
             </Grid>
             <Grid container>
               <Grid item xs={4}>
-                <Item>Maker Skill Points: {value === '#role' ? advancementDetails.maker_available : ''}</Item>
+                <Item> {value === '#role' ? 'Maker Skill Points:' + advancementDetails.maker_available : ''}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>
@@ -130,7 +130,7 @@ function AdvancementSheet() {
                 </Item>
               </Grid>
               <Grid item xs={4}>
-                <Item>Nomad Vehicles: {value === '#role' ? advancementDetails.nomad_vehicle_slots : ''}</Item>
+                <Item>{value === '#role' ? 'Nomad Vehicles:' + advancementDetails.nomad_vehicle_slots : ''}</Item>
               </Grid>
             </Grid>
           </>
@@ -191,7 +191,14 @@ function AdvancementSheet() {
 
         {value === '#otherTraits' ? (
           <>
-            <AdvancementOther />
+            <AdvancementOther
+              advancementDetails={advancementDetails}
+              setAdvancementDetails={setAdvancementDetails}
+              loading={loading}
+              setLoading={setLoading}
+              setPageAlert={setPageAlert}
+              chuckError={chuckError}
+            />
           </>
         ) : (
           <></>

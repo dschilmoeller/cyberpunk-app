@@ -58,8 +58,6 @@ const whitelist = [
   'military_tech',
   'science',
   'vehicle_tech',
-  'max_luck',
-  'street_cred',
   'rockerboy',
   'solo',
   'netrunner',
@@ -78,12 +76,15 @@ const whitelist = [
   'maker_fab',
   'maker_invent',
   'maker_available',
+  'max_luck',
+  'temp_humanity_loss',
+  // 'street_cred',
 ];
 
 router.post('/updateCharacterStat', rejectUnauthenticated, (req, res) => {
   if (whitelist.includes(req.body.statName)) {
-    const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, "spent_xp" = $2`;
-    const sqlParams = [req.body.newRank, req.body.newSpentXP];
+    const sqlText = `UPDATE "character" SET ${req.body.statName} = $1, "spent_xp" = $2 WHERE id = $3`;
+    const sqlParams = [req.body.newRank, req.body.newSpentXP, req.body.charID];
     pool
       .query(sqlText, sqlParams)
       .then((result) => {
@@ -91,10 +92,10 @@ router.post('/updateCharacterStat', rejectUnauthenticated, (req, res) => {
       })
       .catch((err) => {
         console.error('Error updating character details:', err);
-        req.sendStatus(400);
+        res.sendStatus(400);
       });
   } else {
-    req.sendStatus(400);
+    res.sendStatus(400);
   }
 });
 

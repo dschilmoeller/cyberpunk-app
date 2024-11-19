@@ -16,6 +16,7 @@ export default function AdvancementAttributes({ advancementDetails, setAdvanceme
 
     if (requiredExp <= availableExp && advancementDetails[attribute] + 1 <= maxRank) {
       const statObj = {
+        charID: advancementDetails.id,
         newRank: advancementDetails[attribute] + 1,
         statName: attribute,
         newSpentXP: advancementDetails.spent_xp + requiredExp,
