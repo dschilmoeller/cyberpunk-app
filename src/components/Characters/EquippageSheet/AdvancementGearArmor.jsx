@@ -229,11 +229,18 @@ export default function AdvancementGearArmor({
       statName: 'current_cyberware_armor_loss',
       newRank: 0,
     };
+    const bankObj = {
+      charID: equipCharDetails.id,
+      statName: 'bank',
+      newRank: equipCharDetails.bank - 1,
+    };
     if (equipCharStatus.current_cyberware_armor_loss > 0) {
       try {
+        let bankresult = await updateCharacter(bankObj);
         let result = await updateCharacterStatus(statObj);
-        if (result === 'OK') {
+        if (result === 'OK' && bankresult === 'OK') {
           setEquipCharStatus({ ...equipCharStatus, current_cyberware_armor_loss: 0 });
+          setEquipCharDetails({ ...equipCharDetails, bank: bankObj.newRank });
         } else {
           chuckError();
         }

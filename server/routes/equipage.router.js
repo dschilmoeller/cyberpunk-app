@@ -205,9 +205,9 @@ router.post('/updateCharacter', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/updateCharacterStatus', rejectUnauthenticated, (req, res) => {
-  if (whitelist.includes(req.body.column)) {
-    const sqlText = `UPDATE "char_status" SET ${req.body.column} = $1 WHERE char_id = $2`;
-    const sqlParams = [req.body.newVal, req.body.charID];
+  if (whitelist.includes(req.body.statName)) {
+    const sqlText = `UPDATE "char_status" SET ${req.body.statName} = $1 WHERE char_id = $2`;
+    const sqlParams = [req.body.newRank, req.body.charID];
     pool
       .query(sqlText, sqlParams)
       .then((result) => {
