@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,7 +19,7 @@ import CharacterList from '../Characters/CharacterList/CharacterList';
 import CharacterSheet from '../Characters/CharacterSheet/CharacterSheet';
 import Creation from '../CharCreation/Creation';
 import AdvancementSheet from '../Characters/AdvancementSheet/AdvancementSheet';
-import EquipSheet from '../Characters/AdvancementSheet/EquipSheet';
+import EquipSheet from '../Characters/EquippageSheet/EquipSheet';
 import ShoppingSheet from '../Characters/ShoppingSheet/ShoppingSheet';
 
 import GameMasterLanding from '../GameMaster/GameMasterLanding';

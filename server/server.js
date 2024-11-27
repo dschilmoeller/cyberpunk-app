@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const characterRouter = require('./routes/character.router');
 const gearRouter = require('./routes/gear.router');
 const advancementRouter = require('./routes/advancement.router');
+const equipageRouter = require('./routes/equipage.router');
 const gamemasterRouter = require('./routes/gamemaster.router');
 const inPlayCharacterRouter = require('./routes/inPlayCharacter.router');
 
@@ -31,6 +32,7 @@ app.use('/api/user/', userRouter);
 app.use('/api/characters/', characterRouter);
 app.use('/api/gear/', gearRouter);
 app.use('/api/advancement/', advancementRouter);
+app.use('/api/equipage/', equipageRouter);
 app.use('/api/gamemaster/', gamemasterRouter);
 app.use('/api/inPlay/', inPlayCharacterRouter);
 

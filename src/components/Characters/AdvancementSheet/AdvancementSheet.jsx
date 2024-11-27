@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, Grid, Tabs, Tab } from '@mui/material';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 
-import { fetchAdvancementDetailsRequest } from './advancement.services';
 import Item from '../CharacterSheet/Item';
+
+import { fetchAdvancementDetailsRequest } from './advancement.services';
 
 import AdvancementAttributes from './AdvancementAttributes';
 import AdvancementSkills from './AdvancementSkills';
@@ -11,10 +12,8 @@ import AdvancementRoles from './AdvancementRoles';
 import AdvancementOther from './AdvancementOther';
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
 
-// Top Level Sheet
+// Top Level Sheet - Spending XP
 function AdvancementSheet() {
-  // const advancementDetails = useSelector((store) => store.advancementDetail);
-
   const [advancementDetails, setAdvancementDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [pageAlert, setPageAlert] = useState({
@@ -138,10 +137,10 @@ function AdvancementSheet() {
           <></>
         )}
         <Tabs centered value={value} onChange={handleChange} indicatorColor="primary" textColor="secondary">
-          <Tab value="#attributes" href={`/#/advancementsheet/${params.id}#attributes`} label="Attributes" />
-          <Tab value="#skills" href={`/#/advancementsheet/${params.id}#skills`} label="Skills" />
-          <Tab value="#role" href={`/#/advancementsheet/${params.id}#role`} label="Role Abilities" />
-          <Tab value="#otherTraits" href={`/#/advancementsheet/${params.id}#otherTraits`} label="Other Traits" />
+          <Tab value="#attributes" label="Attributes" />
+          <Tab value="#skills" label="Skills" />
+          <Tab value="#role" label="Role Abilities" />
+          <Tab value="#otherTraits" label="Other Traits" />
         </Tabs>
 
         {value === '#attributes' ? (

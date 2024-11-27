@@ -2568,7 +2568,6 @@ INSERT INTO
 		"is_shield"
 	)
 VALUES
-	('No Armor', 0, 0, 'You are unprotected', FALSE),
 	(
 		'Clothes',
 		1,

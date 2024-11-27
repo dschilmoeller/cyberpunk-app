@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -83,9 +83,7 @@ export default function ArmorMasterTable() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -184,13 +182,7 @@ export default function ArmorMasterTable() {
     setOrderBy(property);
   };
 
-  function createMasterArmorData(
-    armor_master_id,
-    description,
-    name,
-    price,
-    quality
-  ) {
+  function createMasterArmorData(armor_master_id, description, name, price, quality) {
     return {
       armor_master_id,
       description,
@@ -213,18 +205,9 @@ export default function ArmorMasterTable() {
     );
   }
 
-  const sortedMasterArmorRows = React.useMemo(
-    () => stableSort(masterArmorRows, getComparator(order, orderBy)),
-    [order, orderBy, armorMaster]
-  );
+  const sortedMasterArmorRows = React.useMemo(() => stableSort(masterArmorRows, getComparator(order, orderBy)), [order, orderBy, armorMaster]);
 
-  function createMasterShieldData(
-    description,
-    name,
-    price,
-    quality,
-    shield_master_id
-  ) {
+  function createMasterShieldData(description, name, price, quality, shield_master_id) {
     return {
       description,
       name,
@@ -247,10 +230,7 @@ export default function ArmorMasterTable() {
     );
   }
 
-  const sortedMasterShieldRows = React.useMemo(
-    () => stableSort(masterShieldRows, getComparator(order, orderBy)),
-    [order, orderBy, shieldMaster]
-  );
+  const sortedMasterShieldRows = React.useMemo(() => stableSort(masterShieldRows, getComparator(order, orderBy)), [order, orderBy, shieldMaster]);
 
   return (
     <>
@@ -261,11 +241,7 @@ export default function ArmorMasterTable() {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
       >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
           Transaction canceled due to lack of funds!
         </Alert>
       </Snackbar>
@@ -275,16 +251,8 @@ export default function ArmorMasterTable() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
 
               <TableBody>
                 {sortedMasterArmorRows.map((row) => {
@@ -298,13 +266,7 @@ export default function ArmorMasterTable() {
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button
-                          variant={
-                            loadStatus === false ? 'contained' : 'disabled'
-                          }
-                          color="success"
-                          onClick={() => buyArmor(row)}
-                        >
+                        <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyArmor(row)}>
                           Buy
                         </Button>
                       </TableCell>
@@ -322,13 +284,7 @@ export default function ArmorMasterTable() {
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button
-                          variant={
-                            loadStatus === false ? 'contained' : 'disabled'
-                          }
-                          color="success"
-                          onClick={() => buyShield(row)}
-                        >
+                        <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyShield(row)}>
                           Buy
                         </Button>
                       </TableCell>
