@@ -182,6 +182,20 @@ const updateArmorStatusRequest = (armorObj) => {
   });
 };
 
+const updateWeaponStatusRequest = (weaponObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/updateEquipageWeapon', weaponObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error updating weapon equip status:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchEquipCharDetailsRequest,
   fetchEquipCharStatusRequest,
@@ -196,4 +210,5 @@ export {
   updateCharacter, // update name
   updateCharacterStatus, // update name
   updateArmorStatusRequest,
+  updateWeaponStatusRequest,
 };

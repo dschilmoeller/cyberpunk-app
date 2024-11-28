@@ -1,53 +1,49 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-
-import { Button } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material/';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
+import { updateWeaponStatusRequest } from './Equip.services';
 
-export default function AdvancementGearWeapons() {
-  const dispatch = useDispatch();
-  const characterWeapons = useSelector(
-    (store) => store.advancementGear.weapons
-  );
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
+// TODO: Modding to be enabled. Eventually.
+export default function AdvancementGearWeapons({
+  equipCharDetails,
+  charGear,
+  setCharGear,
+  loading,
+  setLoading,
+  // setPageAlert,
+  chuckError,
+}) {
+  const changeWeaponStatus = async (incomingWeapon) => {
+    setLoading(true);
+    const weaponObj = {
+      weapon_bridge_id: incomingWeapon.weapon_bridge_id,
+      equipped: !incomingWeapon.equipped,
+    };
 
-  const equipWeapon = (incomingWeapon) => {
-    // dispatch({ type: "EQUIP_WEAPON", payload: { weapon: incomingWeapon, charID: charDetail.id } })
-    dispatch({
-      type: 'CHANGE_GEAR_EQUIP_STATUS',
-      payload: {
-        item: incomingWeapon,
-        charID: charDetail.id,
-        table: 'char_weapons_bridge',
-        tablePrimaryKey: 'weapon_bridge_id',
-        tableID: incomingWeapon.weapon_bridge_id,
-        equipStatus: true,
-      },
-    });
-  };
-
-  const unequipWeapon = (incomingWeapon) => {
-    dispatch({
-      type: 'CHANGE_GEAR_EQUIP_STATUS',
-      payload: {
-        item: incomingWeapon,
-        charID: charDetail.id,
-        table: 'char_weapons_bridge',
-        tablePrimaryKey: 'weapon_bridge_id',
-        tableID: incomingWeapon.weapon_bridge_id,
-        equipStatus: false,
-      },
-    });
+    try {
+      let result = await updateWeaponStatusRequest(weaponObj);
+      if (result === 'OK') {
+        let updatedWeapons = [];
+        for (let i = 0; i < charGear.weapons.length; i++) {
+          if (charGear.weapons[i].weapon_bridge_id === incomingWeapon.weapon_bridge_id) {
+            updatedWeapons.push({ ...charGear.weapons[i], equipped: !incomingWeapon.equipped });
+          } else {
+            updatedWeapons.push(charGear.weapons[i]);
+          }
+        }
+        setCharGear({
+          ...charGear,
+          weapons: updatedWeapons,
+        });
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error changing weapon equip status:', error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -68,7 +64,7 @@ export default function AdvancementGearWeapons() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {characterWeapons.map((item, i) => {
+            {charGear.weapons.map((item, i) => {
               if (item.equipped === true) {
                 return (
                   <TableRow hover key={i}>
@@ -77,28 +73,16 @@ export default function AdvancementGearWeapons() {
                     </TableCell>
                     <TableCell align="center">
                       {item.dmg_type === 'melee' || item.dmg_type === 'bow'
-                        ? `${charDetail.strength + charDetail.cyber_strength + item.damage}`
+                        ? `${equipCharDetails.strength + equipCharDetails.cyber_strength + item.damage}`
                         : `${item.damage}`}
                     </TableCell>
-                    <TableCell align="center">
-                      {item.dmg_type === 'bow'
-                        ? `Str * ${item.range}`
-                        : `${item.range}`}
-                    </TableCell>
+                    <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                     <TableCell align="center">{item.rof}</TableCell>
                     <TableCell align="center">{item.max_clip}</TableCell>
                     <TableCell align="center">{item.hands}</TableCell>
+                    <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="center">
-                      {item.concealable ? 'Yes' : 'No'}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant={
-                          loadStatus === false ? 'contained' : 'disabled'
-                        }
-                        color="secondary"
-                        onClick={() => unequipWeapon(item)}
-                      >
+                      <Button variant="contained" disabled={loading} color="secondary" onClick={() => changeWeaponStatus(item)}>
                         Unequip
                       </Button>
                     </TableCell>
@@ -126,7 +110,7 @@ export default function AdvancementGearWeapons() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {characterWeapons.map((item, i) => {
+            {charGear.weapons.map((item, i) => {
               if (item.equipped === false) {
                 return (
                   <TableRow hover key={i}>
@@ -135,28 +119,16 @@ export default function AdvancementGearWeapons() {
                     </TableCell>
                     <TableCell align="center">
                       {item.dmg_type === 'melee' || item.dmg_type === 'bow'
-                        ? `${charDetail.strength + charDetail.cyber_strength + item.damage}`
+                        ? `${equipCharDetails.strength + equipCharDetails.cyber_strength + item.damage}`
                         : `${item.damage}`}
                     </TableCell>
-                    <TableCell align="center">
-                      {item.dmg_type === 'bow'
-                        ? `Str * ${item.range}`
-                        : `${item.range}`}
-                    </TableCell>
+                    <TableCell align="center">{item.dmg_type === 'bow' ? `Str * ${item.range}` : `${item.range}`}</TableCell>
                     <TableCell align="center">{item.rof}</TableCell>
                     <TableCell align="center">{item.max_clip}</TableCell>
                     <TableCell align="center">{item.hands}</TableCell>
+                    <TableCell align="center">{item.concealable ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="center">
-                      {item.concealable ? 'Yes' : 'No'}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant={
-                          loadStatus === false ? 'contained' : 'disabled'
-                        }
-                        color="info"
-                        onClick={() => equipWeapon(item)}
-                      >
+                      <Button variant="contained" disabled={loading} color="info" onClick={() => changeWeaponStatus(item)}>
                         Equip
                       </Button>
                     </TableCell>

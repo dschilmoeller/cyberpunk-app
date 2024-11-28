@@ -3,6 +3,8 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+// TODO : When not sending back result.rows (eg. update equip status routes) put in a check for num of rows changed,
+// and send back 400 / negative result if rows changed != 1.
 
 router.post('/fetchCharDetails', rejectUnauthenticated, (req, res) => {
   const sqlText = `SELECT * FROM "character" WHERE id = $1`;
@@ -31,11 +33,11 @@ router.post('/fetchStatus', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/fetchCharArmor', rejectUnauthenticated, (req, res) => {
-  const armorText = `SELECT * FROM "char_armor_bridge"
+  const sqlText = `SELECT * FROM "char_armor_bridge"
   JOIN "armor_master" ON "char_armor_bridge"."armor_id" = "armor_master"."armor_master_id"
   WHERE "char_id" = $1`;
   pool
-    .query(armorText, [req.body.charID])
+    .query(sqlText, [req.body.charID])
     .then((result) => {
       res.send(result.rows);
     })
@@ -60,16 +62,30 @@ router.post('/updateEquipageArmor', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/fetchCharWeapons', rejectUnauthenticated, (req, res) => {
-  const weaponText = `SELECT * FROM "char_weapons_bridge"
+  const sqlText = `SELECT * FROM "char_weapons_bridge"
   JOIN "weapon_master" ON "char_weapons_bridge"."weapon_id" = "weapon_master"."weapon_master_id"
   WHERE "char_id" = $1`;
   pool
-    .query(weaponText, [req.body.charID])
+    .query(sqlText, [req.body.charID])
     .then((result) => {
       res.send(result.rows);
     })
     .catch((err) => {
       console.error('Error fetching weapons:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/updateEquipageWeapon', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_weapons_bridge" SET "equipped" = $1 WHERE "weapon_bridge_id" = $2`;
+  const sqlParams = [req.body.equipped, req.body.weapon_bridge_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing weapon status:', err);
       res.sendStatus(400);
     });
 });

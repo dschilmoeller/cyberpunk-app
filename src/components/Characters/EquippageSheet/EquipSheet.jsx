@@ -1,3 +1,4 @@
+// Top level equipment changing sheet.
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Tab, Tabs } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
@@ -28,6 +29,8 @@ import {
   updateCharacter,
   updateCharacterStatus,
 } from './Equip.services';
+
+//TODO Reinstate #armor, #weapons to URL and open appropriate tab to allow refreshing page.
 
 export default function EquipSheet() {
   const history = useHistory();
@@ -217,7 +220,15 @@ export default function EquipSheet() {
 
           {value === 'weapons' ? (
             <>
-              <AdvancementGearWeapons />
+              <AdvancementGearWeapons
+                equipCharDetails={equipCharDetails}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                loading={loading}
+                setLoading={setLoading}
+                setPageAlert={setPageAlert}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>

@@ -4,6 +4,7 @@ import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import Item from '../CharacterSheet/Item';
 import { fetchCharArmorRequest, updateArmorStatusRequest, updateCharacter, updateCharacterStatus } from './Equip.services';
 
+// TODO - Don't refetch, figure out how to just change relevant armor states.
 export default function AdvancementGearArmor({
   equipCharDetails,
   setEquipCharDetails,
@@ -192,7 +193,7 @@ export default function AdvancementGearArmor({
     setLoading(true);
     const armorObj = {
       this_armor_loss: 0,
-      equipped: false,
+      equipped: incomingArmor.equipped,
       armor_bridge_id: incomingArmor.armor_bridge_id,
     };
     const statObj = {
