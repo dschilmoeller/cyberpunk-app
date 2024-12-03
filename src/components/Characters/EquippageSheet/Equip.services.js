@@ -196,6 +196,33 @@ const updateWeaponStatusRequest = (weaponObj) => {
   });
 };
 
+const fetchMasterPharmaListRequest = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/api/equipage/fetchMasterPharmaList')
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching master Pharma list:', error);
+        reject(error);
+      });
+  });
+};
+
+const createPharmaceuticalRequest = (pharmaObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/createPharmaceutical', pharmaObj)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.error('Error creating pharmaceutical:', error);
+        reject(error);
+      });
+  });
+};
 export {
   fetchEquipCharDetailsRequest,
   fetchEquipCharStatusRequest,
@@ -211,4 +238,6 @@ export {
   updateCharacterStatus, // update name
   updateArmorStatusRequest,
   updateWeaponStatusRequest,
+  fetchMasterPharmaListRequest,
+  createPharmaceuticalRequest,
 };

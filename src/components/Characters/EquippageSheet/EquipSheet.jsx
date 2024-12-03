@@ -1,7 +1,7 @@
 // Top level equipment changing sheet.
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Tab, Tabs } from '@mui/material';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import Item from '../CharacterSheet/Item';
 
@@ -28,6 +28,7 @@ import {
   fetchCharVehicleModsRequest,
   updateCharacter,
   updateCharacterStatus,
+  fetchMasterPharmaListRequest,
 } from './Equip.services';
 
 //TODO Reinstate #armor, #weapons to URL and open appropriate tab to allow refreshing page.
@@ -35,11 +36,12 @@ import {
 export default function EquipSheet() {
   const history = useHistory();
   const params = useParams();
+  const location = useLocation();
 
   const euroBuck = `\u20AC$`;
 
   // opener for primary tabs.
-  const [value, setValue] = useState('armor');
+  const [value, setValue] = useState(location.hash ? location.hash : '#armor');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -55,6 +57,9 @@ export default function EquipSheet() {
     cyberware: [],
     vehicles: [],
     vehicleMods: [],
+  });
+  const [masterGear, setMasterGear] = useState({
+    pharma: [],
   });
 
   const [loading, setLoading] = useState(false);
@@ -94,6 +99,9 @@ export default function EquipSheet() {
         vehicles: charVehicles,
         vehicleMods: charVehicleMods,
       });
+
+      const masterPharma = await fetchMasterPharmaListRequest();
+      setMasterGear({ ...masterGear, pharma: masterPharma });
     } catch (error) {
       chuckError();
     }
@@ -189,17 +197,20 @@ export default function EquipSheet() {
           )}
 
           <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor="secondary">
-            <Tab value="armor" label="Armor" />
-            <Tab value="weapons" label="Weapons" />
-            <Tab value="other" label="Other Gear" />
-            {equipCharDetails.med_pharma > 0 ? <Tab value="pharma" label="Pharmaceuticals" /> : <Tab disabled label="Pharmaceuticals" />}
-            <Tab value="netrunner" disabled label="Netrunner Gear" />
-            <Tab value="cyberware" label="Cyberware" />
-            <Tab value="vehicles" label="Vehicles" />
-            <Tab value="clothes" label="Clothes" />
+            <Tab value="#armor" href={`/#/equipsheet/${params.id}#armor`} label="Armor" />
+            <Tab value="#weapons" href={`/#/equipsheet/${params.id}#weapons`} label="Weapons" />
+            <Tab value="#other" href={`/#/equipsheet/${params.id}#other`} label="Other Gear" />
+            {equipCharDetails.med_pharma > 0 ? (
+              <Tab value="#pharma" href={`/#/equipsheet/${params.id}#pharma`} label="Pharmaceuticals" />
+            ) : (
+              <Tab disabled value="#pharma" label="Pharmaceuticals" />
+            )}
+            <Tab value="#netrunner" disabled href={`/#/equipsheet/${params.id}#netrunner`} label="Netrunner Gear" />
+            <Tab value="#cyberware" href={`/#/equipsheet/${params.id}#cyberware`} label="Cyberware" />
+            <Tab value="#vehicles" href={`/#/equipsheet/${params.id}#vehicles`} label="Vehicles" />
+            <Tab value="#clothes" href={`/#/equipsheet/${params.id}#clothes`} label="Clothes" />
           </Tabs>
-
-          {value === 'armor' && !loading ? (
+          {value === '#armor' && !loading ? (
             <>
               <AdvancementGearArmor
                 equipCharDetails={equipCharDetails}
@@ -218,10 +229,11 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'weapons' ? (
+          {value === '#weapons' ? (
             <>
               <AdvancementGearWeapons
                 equipCharDetails={equipCharDetails}
+                setEquipCharDetails={setEquipCharDetails}
                 charGear={charGear}
                 setCharGear={setCharGear}
                 loading={loading}
@@ -234,15 +246,25 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'pharma' && equipCharDetails.med_pharma > 0 ? (
+          {value === '#pharma' && equipCharDetails.med_pharma > 0 ? (
             <>
-              <AdvancementPharma />
+              <AdvancementPharma
+                equipCharDetails={equipCharDetails}
+                setEquipCharDetails={setEquipCharDetails}
+                masterGear={masterGear}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                loading={loading}
+                setLoading={setLoading}
+                setPageAlert={setPageAlert}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>
           )}
 
-          {value === 'other' ? (
+          {value === '#other' ? (
             <>
               <AdvancementGearOther />
             </>
@@ -250,7 +272,7 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'netrunner' ? (
+          {value === '#netrunner' ? (
             <>
               <AdvancementNetrunnerGear />
             </>
@@ -258,7 +280,7 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'cyberware' ? (
+          {value === '#cyberware' ? (
             <>
               <AdvancementCyberware updateCharacter={updateCharacter} updateCharacterStatus={updateCharacterStatus} />
             </>
@@ -266,7 +288,7 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'vehicles' ? (
+          {value === '#vehicles' ? (
             <>
               <AdvancementGarage />
             </>
@@ -274,7 +296,7 @@ export default function EquipSheet() {
             <></>
           )}
 
-          {value === 'clothes' ? (
+          {value === '#clothes' ? (
             <>
               <AdvancementClothes />
             </>

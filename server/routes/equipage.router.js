@@ -238,4 +238,31 @@ router.post('/updateCharacterStatus', rejectUnauthenticated, (req, res) => {
   }
 });
 
+router.get('/fetchMasterPharmaList', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * from "pharma_master" ORDER BY "rank", "name"`;
+  pool
+    .query(sqlText)
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching master pharma list:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/createPharmaceutical', rejectUnauthenticated, (req, res) => {
+  const sqlText = `INSERT INTO "char_pharma_bridge" ("char_id", "pharma_master_id") VALUES ($1, $2)`;
+  const sqlParams = [req.body.charID, req.body.pharma_master_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error creating pharmaceuticals:', err);
+      res.sendStatus(400);
+    });
+});
+
 module.exports = router;

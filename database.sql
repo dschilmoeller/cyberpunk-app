@@ -3474,13 +3474,13 @@ VALUES
 	),
 	(
 		'Anti-Poison Protocol',
-		'When administered, the subject can resist poisons for about 6 hours. They can ignore any poison whose potency is lower than the rank of the pharmacist making the Anti-Poison protocol. This treatemnt is effective against a number of poisonings equal to the successes rolled on the administration test.',
+		'When administered, the subject becomes resistant to most poisons for 24 hours. They can ignore a number of wounds caused by a poison equal to the rank of the pharmacist making the Anti-Poison protocol.',
 		1000,
 		2
 	),
 	(
 		'The Bloodwall',
-		'When administered, the subject is immune to virtually any poison not specifically tailored to their specific biology. The effects last for 1 day per success on the administration test.',
+		'When administered, the subject is immune to any poison not specifically tailored to their DNA. The effects last for 1 day per success on the administration test.',
 		5000,
 		5
 	),
@@ -3575,31 +3575,31 @@ VALUES
 		5
 	),
 	(
-		'Poison - Rank 1' 'A somewhat dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 8 Stun Damage.',
+		'Poison - Rank 1' 'A somewhat dangerous poison. Melee weapons slathered in the substance deal 1 additional lethal wound on any attack that deals damage. If injected or ingested, subject suffers 8 Stun Damage.',
 		500,
 		1
 	),
 	(
 		'Poison - Rank 2',
-		'A dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 10 Stun Damage.',
+		'A dangerous poison. Melee weapons slathered in the substance deal 1 additional lethal wound on any attack that deals damage. If injected or ingested, subject suffers 10 Stun Damage.',
 		1000,
 		2
 	),
 	(
 		'Poison - Rank 3',
-		'A very dangerous poison. Melee weapons slathered in the substance deal 3 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 12 Stun Damage.',
+		'A very dangerous poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 12 Stun Damage.',
 		2000,
 		3
 	),
 	(
 		'Poison - Rank 4',
-		'A lethal poison. Melee weapons slathered in the substance deal 3 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 14 Stun Damage.',
+		'A lethal poison. Melee weapons slathered in the substance deal 2 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 14 Stun Damage.',
 		3000,
 		4
 	),
 	(
 		'Poison - Rank 5',
-		'An extremely lethal poison. Melee weapons slathered in the substance deal 4 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 16 Stun Damage.',
+		'An extremely lethal poison. Melee weapons slathered in the substance deal 3 additional lethal wounds on any attack that deals damage. If injected or ingested, subject suffers 16 Stun Damage.',
 		5000,
 		5
 	),
