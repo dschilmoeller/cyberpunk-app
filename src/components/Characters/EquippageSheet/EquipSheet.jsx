@@ -24,10 +24,9 @@ import {
   fetchCharMiscGearRequest,
   fetchCharPharmaRequest,
   fetchCharCyberwareRequest,
+  fetchCharCyberwareStatusRequest,
   fetchCharVehiclesRequest,
   fetchCharVehicleModsRequest,
-  updateCharacter,
-  updateCharacterStatus,
   fetchMasterPharmaListRequest,
 } from './Equip.services';
 
@@ -55,6 +54,16 @@ export default function EquipSheet() {
     misc: [],
     pharma: [],
     cyberware: [],
+    cyberwareStatus: {
+      fashionware_slots: 0,
+      neuralware_slots: 0,
+      cyberoptic_slots: 0,
+      cyberaudio_slots: 0,
+      internalware_slots: 0,
+      externalware_slots: 0,
+      cyberarm_slots: 0,
+      cyberleg_slots: 0,
+    },
     vehicles: [],
     vehicleMods: [],
   });
@@ -87,6 +96,7 @@ export default function EquipSheet() {
       let charMiscGear = await fetchCharMiscGearRequest(charObj);
       let charPharma = await fetchCharPharmaRequest(charObj);
       let charCyberware = await fetchCharCyberwareRequest(charObj);
+      let charCyberwareStatus = await fetchCharCyberwareStatusRequest(charObj);
       let charVehicles = await fetchCharVehiclesRequest(charObj);
       let charVehicleMods = await fetchCharVehicleModsRequest(charObj);
       setCharGear({
@@ -96,6 +106,7 @@ export default function EquipSheet() {
         misc: charMiscGear,
         pharma: charPharma,
         cyberware: charCyberware,
+        cyberwareStatus: charCyberwareStatus,
         vehicles: charVehicles,
         vehicleMods: charVehicleMods,
       });
@@ -282,7 +293,18 @@ export default function EquipSheet() {
 
           {value === '#cyberware' ? (
             <>
-              <AdvancementCyberware updateCharacter={updateCharacter} updateCharacterStatus={updateCharacterStatus} />
+              <AdvancementCyberware
+                equipCharStatus={equipCharStatus}
+                equipCharDetails={equipCharDetails}
+                charGear={charGear}
+                setEquipCharDetails={setEquipCharDetails}
+                setEquipCharStatus={setEquipCharStatus}
+                setCharGear={setCharGear}
+                loading={loading}
+                setLoading={setLoading}
+                setPageAlert={setPageAlert}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>

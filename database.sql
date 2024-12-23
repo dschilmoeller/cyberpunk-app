@@ -1541,7 +1541,7 @@ VALUES
 	(
 		'Kerenzikov',
 		500,
-		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 1 and adds 1 die to most combat rolls for one scene when activated. Deals the user 3 stun damage when the effect wears off.',
+		'Speedware that dramatically boosts a users experiential sense of time. Increases Move by 1, and User gains a second complex action each round. Deals the user 6 stun damage when the effect wears off.',
 		0,
 		0,
 		'Chip',
@@ -1551,7 +1551,7 @@ VALUES
 	(
 		'Sandevistan',
 		2000,
-		'Speedware that artifically boosts a users experiential sense of time. Increases Move by 2 and adds 2 die to most combat rolls for one scene when activated. Deals the user 6 stun damage when the effect wears off.',
+		'Speedware that dangerously boosts a users experiential sense of time. Increases Move by 3 and the user gains two additional complex actions each round. Deals the user 6 lethal damage when the effect wears off.',
 		0,
 		0,
 		'Chip',
@@ -2541,7 +2541,7 @@ VALUES
 	(
 		'Linear Frame Alpha',
 		50000,
-		'Grafted exoskeleton with built in power supply for heavy manual labor. Adds 5 armor and 4 health boxes. Increases Strength and Body by 3. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',
+		'Grafted exoskeleton with built in power supply for heavy manual labor. Adds 5 armor and 4 health boxes. Increases Strength and Body by 3. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',
 		5,
 		15,
 		'Hospital',
@@ -2551,7 +2551,7 @@ VALUES
 	(
 		'Linear Frame Beta',
 		150000,
-		'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply, designed for combat. Adds 8 armor and 6 health boxes. Increases Strength and Body by 4. Decreases Reflexes by 1. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',
+		'(BETA - Does not work) Advanced grafted exoskeleton with built in power supply, designed for combat. Adds 8 armor and 6 health boxes. Increases Strength and Body by 4. Not compatible with any Externalware, Cyberlimbs, Grafted Muscles, Bone Lacing, or Nervous System Siliconization.',
 		6,
 		18,
 		'Hospital',

@@ -126,6 +126,20 @@ const fetchCharVehiclesRequest = (charObj) => {
   });
 };
 
+const fetchCharCyberwareStatusRequest = (charObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/fetchCharCyberwareStatus', charObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching character cyber status:', error);
+        reject(error);
+      });
+  });
+};
+
 const fetchCharVehicleModsRequest = (charObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -140,7 +154,7 @@ const fetchCharVehicleModsRequest = (charObj) => {
   });
 };
 
-const updateCharacter = (statObj) => {
+const updateCharacterRequest = (statObj) => {
   return new Promise((resolve, reject) => {
     axios
       .post('/api/equipage/updateCharacter', statObj)
@@ -154,7 +168,7 @@ const updateCharacter = (statObj) => {
   });
 };
 
-const updateCharacterStatus = (statObj) => {
+const updateCharacterStatusRequest = (statObj) => {
   return new Promise((resolve, reject) => {
     axios
       .post('/api/equipage/updateCharacterStatus', statObj)
@@ -215,7 +229,7 @@ const createPharmaceuticalRequest = (pharmaObj) => {
     axios
       .post('/api/equipage/createPharmaceutical', pharmaObj)
       .then((result) => {
-        resolve(result);
+        resolve(result.data);
       })
       .catch((error) => {
         console.error('Error creating pharmaceutical:', error);
@@ -223,6 +237,35 @@ const createPharmaceuticalRequest = (pharmaObj) => {
       });
   });
 };
+
+const updateCyberwareEquipRequest = (cyberObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/updateCyberwareEquip', cyberObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing cyberware equip status:', error);
+        reject(error);
+      });
+  });
+};
+
+const updateCyberwareSlotRequest = (slotObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/updateCyberwareSlot', slotObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing cyberware slot counts:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchEquipCharDetailsRequest,
   fetchEquipCharStatusRequest,
@@ -232,12 +275,15 @@ export {
   fetchCharMiscGearRequest,
   fetchCharPharmaRequest,
   fetchCharCyberwareRequest,
+  fetchCharCyberwareStatusRequest,
   fetchCharVehiclesRequest,
   fetchCharVehicleModsRequest,
-  updateCharacter, // update name
-  updateCharacterStatus, // update name
+  updateCharacterRequest,
+  updateCharacterStatusRequest,
   updateArmorStatusRequest,
   updateWeaponStatusRequest,
   fetchMasterPharmaListRequest,
   createPharmaceuticalRequest,
+  updateCyberwareEquipRequest,
+  updateCyberwareSlotRequest,
 };

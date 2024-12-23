@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Grid, Tabs, Tab } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
-import { updateCharacter, createPharmaceuticalRequest, fetchCharPharmaRequest } from './Equip.services';
+import { updateCharacterRequest, createPharmaceuticalRequest, fetchCharPharmaRequest } from './Equip.services';
 
 // TODO : allow reagent cost to be customized.
 // TODO : pharma products to have quantity rather than individual entries. Similar to Grenades.
@@ -51,7 +51,7 @@ export default function AdvancementPharma({
       };
       let charObj = { charID: equipCharDetails.id };
       try {
-        let bankResult = await updateCharacter(statObj);
+        let bankResult = await updateCharacterRequest(statObj);
 
         for (let i = 1; i <= dosesToMake; i++) {
           try {

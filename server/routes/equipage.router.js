@@ -150,6 +150,19 @@ router.post('/fetchCharCyberware', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/fetchCharCyberwareStatus', rejectUnauthenticated, (req, res) => {
+  const sqlText = `SELECT * FROM "char_cyberware_bridge" WHERE "char_id" = $1`;
+  pool
+    .query(sqlText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.error('Error fetching cyberware status:', err);
+      res.sendStatus(400);
+    });
+});
+
 router.post('/fetchCharVehicles', rejectUnauthenticated, (req, res) => {
   const vehicleText = `SELECT * FROM "char_vehicle_bridge"
   JOIN "vehicle_master" ON "char_vehicle_bridge"."vehicle_id" = "vehicle_master"."vehicle_master_id"
@@ -265,4 +278,47 @@ router.post('/createPharmaceutical', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/updateCyberwareEquip', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_owned_cyberware" SET "equipped" = $1 WHERE "owned_cyberware_id" = $2`;
+  const sqlParams = [req.body.equipped, req.body.owned_cyberware_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing cyberware equipped status:', err);
+      res.sendStatus(400);
+    });
+});
+
+const cyberwareSlotWhitelist = [
+  'fashionware_slots',
+  'neuralware_slots',
+  'cyberoptic_slots',
+  'cyberaudio_slots',
+  'internalware_slots',
+  'externalware_slots',
+  'cyberarm_slots',
+  'cyberleg_slots',
+];
+
+router.post('/updateCyberwareSlot', rejectUnauthenticated, (req, res) => {
+  if (cyberwareSlotWhitelist.includes(req.body.columnName)) {
+    const sqlText = `UPDATE "char_cyberware_bridge" SET ${req.body.columnName} = $1 WHERE "cyberware_bridge_id" = $2`;
+    const sqlParams = [req.body.slotCount, req.body.cyberware_bridge_id];
+    pool
+      .query(sqlText, sqlParams)
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.error('Error changing cyberware slot counts:', err);
+        res.sendStatus(400);
+      });
+  } else {
+    console.error('Forbidden!');
+    res.sendStatus(403);
+  }
+});
 module.exports = router;

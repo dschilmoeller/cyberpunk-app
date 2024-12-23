@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material/';
 
 import Item from '../CharacterSheet/Item';
-import { fetchCharArmorRequest, updateArmorStatusRequest, updateCharacter, updateCharacterStatus } from './Equip.services';
+import { fetchCharArmorRequest, updateArmorStatusRequest, updateCharacterRequest, updateCharacterStatusRequest } from './Equip.services';
 
 // TODO - Don't refetch, figure out how to just change relevant armor states.
 export default function AdvancementGearArmor({
@@ -203,7 +203,7 @@ export default function AdvancementGearArmor({
     };
     if (incomingArmor.this_armor_loss > 0) {
       try {
-        let bankresult = await updateCharacter(statObj);
+        let bankresult = await updateCharacterRequest(statObj);
         let result = await updateArmorStatusRequest(armorObj);
         if (result === 'OK' && bankresult === 'OK') {
           const charObj = { charID: equipCharDetails.id };
@@ -237,8 +237,8 @@ export default function AdvancementGearArmor({
     };
     if (equipCharStatus.current_cyberware_armor_loss > 0) {
       try {
-        let bankresult = await updateCharacter(bankObj);
-        let result = await updateCharacterStatus(statObj);
+        let bankresult = await updateCharacterRequest(bankObj);
+        let result = await updateCharacterStatusRequest(statObj);
         if (result === 'OK' && bankresult === 'OK') {
           setEquipCharStatus({ ...equipCharStatus, current_cyberware_armor_loss: 0 });
           setEquipCharDetails({ ...equipCharDetails, bank: bankObj.newRank });
