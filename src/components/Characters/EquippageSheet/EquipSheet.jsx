@@ -27,6 +27,7 @@ import {
   fetchCharCyberwareStatusRequest,
   fetchCharVehiclesRequest,
   fetchCharVehicleModsRequest,
+  fetchCharVehicleModBridgeRequest,
   fetchMasterPharmaListRequest,
 } from './Equip.services';
 
@@ -99,6 +100,7 @@ export default function EquipSheet() {
       let charCyberwareStatus = await fetchCharCyberwareStatusRequest(charObj);
       let charVehicles = await fetchCharVehiclesRequest(charObj);
       let charVehicleMods = await fetchCharVehicleModsRequest(charObj);
+      let charVehicleModBridge = await fetchCharVehicleModBridgeRequest(charObj);
       setCharGear({
         armor: charArmor,
         weapons: charWeapons,
@@ -109,6 +111,7 @@ export default function EquipSheet() {
         cyberwareStatus: charCyberwareStatus,
         vehicles: charVehicles,
         vehicleMods: charVehicleMods,
+        vehicleModBridge: charVehicleModBridge,
       });
 
       const masterPharma = await fetchMasterPharmaListRequest();
@@ -312,7 +315,14 @@ export default function EquipSheet() {
 
           {value === '#vehicles' ? (
             <>
-              <AdvancementGarage />
+              <AdvancementGarage
+                charGear={charGear}
+                setCharGear={setCharGear}
+                loading={loading}
+                setLoading={setLoading}
+                setPageAlert={setPageAlert}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>
@@ -326,6 +336,7 @@ export default function EquipSheet() {
             <></>
           )}
         </div>
+
         <SnackbarComponent
           open={pageAlert.open}
           message={pageAlert.message}

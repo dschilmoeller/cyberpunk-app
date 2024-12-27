@@ -154,6 +154,20 @@ const fetchCharVehicleModsRequest = (charObj) => {
   });
 };
 
+const fetchCharVehicleModBridgeRequest = (charObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/fetchEquippedVehicleMods', charObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching character vehicle mod bridge:', error);
+        reject(error);
+      });
+  });
+};
+
 const updateCharacterRequest = (statObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -278,6 +292,7 @@ export {
   fetchCharCyberwareStatusRequest,
   fetchCharVehiclesRequest,
   fetchCharVehicleModsRequest,
+  fetchCharVehicleModBridgeRequest,
   updateCharacterRequest,
   updateCharacterStatusRequest,
   updateArmorStatusRequest,

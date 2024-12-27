@@ -193,6 +193,36 @@ router.post('/fetchCharVehicleMods', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/fetchEquippedVehicleMods', rejectUnauthenticated, (req, res) => {
+  const requestText = ` SELECT 
+  "char_vehicle_bridge"."char_id",
+  "char_owned_vehicle_mods"."char_owned_vehicle_mods_id",
+  "char_vehicle_mod_bridge_id",
+  "char_vehicle_mod_bridge"."vehicle_bridge_id",
+  "description",
+  "equipped",
+  "name",
+  "price",
+  "type",
+  "vehicle_id",
+  "vehicle_mod_master"."vehicle_mod_master_id"
+  FROM "char_vehicle_mod_bridge"
+  JOIN "char_vehicle_bridge" ON "char_vehicle_bridge"."vehicle_bridge_id" = "char_vehicle_mod_bridge"."vehicle_bridge_id"
+  JOIN "char_owned_vehicle_mods" ON "char_owned_vehicle_mods"."char_owned_vehicle_mods_id" = "char_vehicle_mod_bridge"."char_owned_vehicle_mods_id"
+  JOIN "vehicle_mod_master" ON "vehicle_mod_master"."vehicle_mod_master_id" = "char_owned_vehicle_mods"."vehicle_mod_master_id"
+  WHERE "char_vehicle_bridge"."char_id" = $1;`;
+
+  pool
+    .query(requestText, [req.body.charID])
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching Vehicle Mod Bridge Data:', err);
+      res.sendStatus(400);
+    });
+});
+
 const whitelist = [
   // character table - updating for equipping cyberware
   'cyber_strength',

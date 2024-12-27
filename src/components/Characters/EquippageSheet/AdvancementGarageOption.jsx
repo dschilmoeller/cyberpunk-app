@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import TableCell from '@mui/material/TableCell';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import { Button, TableCell, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
-import { Button } from '@mui/material';
-
-export default function AdvancementGarageOption({ prop }) {
+export default function AdvancementGarageOption({ row, vehicles }) {
   const advancementDetail = useSelector((store) => store.advancementDetail);
-  const characterVehicles = useSelector(
-    (store) => store.advancementGear.vehicles
-  );
+  const characterVehicles = vehicles;
   const loadStatus = useSelector((store) => store.loaders.advancementSheet);
 
   const dispatch = useDispatch();
@@ -56,19 +48,11 @@ export default function AdvancementGarageOption({ prop }) {
       <TableCell align="center" sx={{ minWidth: 0.25 }}>
         <FormControl fullWidth>
           <InputLabel>Vehicle</InputLabel>
-          <Select
-            value={selectedVehicle}
-            label="Vehicle"
-            fullWidth
-            onChange={handleChange}
-          >
+          <Select value={selectedVehicle} label="Vehicle" fullWidth onChange={handleChange}>
             {characterVehicles.map((vehicle) => {
-              if (vehicle.type === prop.type) {
+              if (vehicle.type === row.type) {
                 return (
-                  <MenuItem
-                    key={vehicle.vehicle_bridge_id}
-                    value={vehicle.vehicle_bridge_id}
-                  >
+                  <MenuItem key={vehicle.vehicle_bridge_id} value={vehicle.vehicle_bridge_id}>
                     {vehicle.name}
                   </MenuItem>
                 );
@@ -79,13 +63,9 @@ export default function AdvancementGarageOption({ prop }) {
       </TableCell>
       <TableCell align="center">
         <Button
-          variant={
-            loadStatus === false && selectedVehicle != ''
-              ? 'contained'
-              : 'disabled'
-          }
+          variant={loadStatus === false && selectedVehicle != '' ? 'contained' : 'disabled'}
           color="info"
-          onClick={() => equipVehicleMod(prop, selectedVehicle)}
+          onClick={() => equipVehicleMod(row, selectedVehicle)}
         >
           Equip Mod
         </Button>
