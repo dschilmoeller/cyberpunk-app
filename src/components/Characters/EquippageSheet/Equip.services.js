@@ -280,6 +280,62 @@ const updateCyberwareSlotRequest = (slotObj) => {
   });
 };
 
+const updateVehicleRequest = (vehicleObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/updateVehicleBridge', vehicleObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error updating Vehicle Bridge:', error);
+        reject(error);
+      });
+  });
+};
+
+const equipVehicleMod = (vehicleModObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/equipVehicleMod', vehicleModObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error equipping vehicle mod:', error);
+        reject(error);
+      });
+  });
+};
+
+const unequipVehicleModRequest = (vehicleModObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/unequipVehicleMod', vehicleModObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error UNequipping vehicle mod:', error);
+        reject(error);
+      });
+  });
+};
+
+const deleteModVehicleBridgeRequest = (vehicleModObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/deleteModVehicleBridgeEntry', vehicleModObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error deleting Mod-Vehicle Bridge Entry:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchEquipCharDetailsRequest,
   fetchEquipCharStatusRequest,
@@ -301,4 +357,8 @@ export {
   createPharmaceuticalRequest,
   updateCyberwareEquipRequest,
   updateCyberwareSlotRequest,
+  updateVehicleRequest,
+  equipVehicleMod,
+  unequipVehicleModRequest,
+  deleteModVehicleBridgeRequest,
 };

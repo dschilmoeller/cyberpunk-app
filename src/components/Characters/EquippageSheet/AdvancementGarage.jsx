@@ -3,11 +3,9 @@ import React from 'react';
 import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import AdvancementGarageOption from './AdvancementGarageOption';
-
+import { updateVehicleRequest, unequipVehicleModRequest, deleteModVehicleBridgeRequest } from './Equip.services';
 export default function AdvancementGarage({ charGear, setCharGear, loading, setLoading, setPageAlert, chuckError }) {
-  const characterVehicles = charGear.vehicles;
-  const characterVehicleMods = charGear.vehicleMods;
-
+  // TODO: saving for reference of generic mod equip/remove route...
   // const unequipMod = (mod, vehicle) => {
   //   dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
   //   console.log(`mod:`, mod);
@@ -29,6 +27,42 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
   //   });
   // };
 
+  const handleUnequip = async (mod, vehicle) => {
+    console.log(`Mod:`, mod);
+    console.log(`vehicle:`, vehicle);
+    let vehicleUpdateResult = '';
+    if (mod.name === 'Armored') {
+      vehicleUpdateResult = await updateVehicleRequest({
+        vehicleBridgeId: vehicle.vehicle_bridge_id,
+        has_armor: false,
+        extra_seats: vehicle.extra_seats,
+        total_mod_cost: vehicle.total_mod_cost,
+      });
+    } else if (mod.name === 'Seating Upgrade') {
+      vehicleUpdateResult = await updateVehicleRequest({
+        vehicleBridgeId: vehicle.vehicle_bridge_id,
+        has_armor: vehicle.has_armor,
+        extra_seats: vehicle.extra_seats - 1,
+        total_mod_cost: vehicle.total_mod_cost,
+      });
+    } else {
+      vehicleUpdateResult = await updateVehicleRequest({
+        vehicleBridgeId: vehicle.vehicle_bridge_id,
+        has_armor: vehicle.has_armor,
+        extra_seats: vehicle.extra_seats,
+        total_mod_cost: vehicle.total_mod_cost,
+      });
+    }
+
+    const modRemoveResult = await deleteModVehicleBridgeRequest({ vehicleModBridgeId: mod.char_vehicle_mod_bridge_id });
+    const modUpdateResult = await unequipVehicleModRequest({ vehicleModId: mod.char_owned_vehicle_mods_id });
+
+    if (modRemoveResult === 'OK' && modUpdateResult === 'OK' && vehicleUpdateResult === 'OK') {
+      setPageAlert({ open: true, message: 'Mod Removed', severity: 'success' });
+    } else {
+      chuckError();
+    }
+  };
   return (
     <>
       <h1>The Garage</h1>
@@ -47,7 +81,7 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
             </TableRow>
           </TableHead>
           <TableBody>
-            {characterVehicles.map((row) => {
+            {charGear.vehicles.map((row) => {
               return (
                 <React.Fragment key={row.vehicle_bridge_id}>
                   <TableRow hover>
@@ -67,12 +101,11 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
                       return (
                         <React.Fragment key={i}>
                           <TableRow hover>
-                            {/* <TableCell>{row.name} Mod:</TableCell> */}
                             <TableCell />
                             <TableCell align="center">{mod.name}</TableCell>
                             <TableCell colSpan={4}>{mod.description}</TableCell>
                             <TableCell>
-                              <Button color="secondary" onClick={() => unequipMod(mod, row)}>
+                              <Button color="secondary" onClick={() => handleUnequip(mod, row)}>
                                 Unequip
                               </Button>
                             </TableCell>
@@ -81,28 +114,6 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
                       );
                     }
                   })}
-                  {/* {characterPreviouslyEquippedVehicleMods.map((mod, i) => {
-                    if (mod.vehicle_bridge_id === row.vehicle_bridge_id) {
-                      return (
-                        <React.Fragment key={i}>
-                          <TableRow hover>
-                            <TableCell>{row.name} Mod:</TableCell>
-                            <TableCell align="center">{mod.name}</TableCell>
-                            <TableCell colSpan={4}>{mod.description}</TableCell>
-                            <TableCell>
-                              <Button
-                                variant={loadStatus === false ? 'contained' : 'disabled'}
-                                color="secondary"
-                                onClick={() => unequipMod(mod, row)}
-                              >
-                                Unequip
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        </React.Fragment>
-                      );
-                    }
-                  })} */}
                 </React.Fragment>
               );
             })}
@@ -123,7 +134,7 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
             </TableRow>
           </TableHead>
           <TableBody>
-            {characterVehicleMods.map((row, i) => {
+            {charGear.vehicleMods.map((row, i) => {
               if (row.equipped === false) {
                 return (
                   <TableRow hover key={i}>
@@ -131,7 +142,6 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
                     <TableCell align="center">{row.description}</TableCell>
                     <TableCell align="center">{row.type}</TableCell>
                     <AdvancementGarageOption row={row} vehicles={charGear.vehicles} />
-                    {/* {optionBuilder(row.type, row)} */}
                   </TableRow>
                 );
               }

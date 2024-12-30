@@ -351,4 +351,50 @@ router.post('/updateCyberwareSlot', rejectUnauthenticated, (req, res) => {
     res.sendStatus(403);
   }
 });
+
+router.post('/updateVehicleBridge', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_vehicle_bridge" SET "total_mod_cost" = $1, "has_armor" = $2, "extra_seats" = $3 WHERE "vehicle_bridge_id" = $4`;
+  const sqlParams = [req.body.total_mod_cost, req.body.has_armor, req.body.extra_seats, req.body.vehicleBridgeId];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error updating vehicle:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/equipVehicleMod', rejectUnauthenticated, (req, res) => {
+  console.log(`Req.body:`, req.body);
+  res.sendStatus(200);
+});
+
+router.post('/unequipVehicleMod', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = false WHERE "char_owned_vehicle_mods_id" = $1`;
+  pool
+    .query(sqlText, [req.body.vehicleModId])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing owned mod equipped state:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/deleteModVehicleBridgeEntry', rejectUnauthenticated, (req, res) => {
+  const sqlText = `DELETE FROM "char_vehicle_mod_bridge" WHERE "char_vehicle_mod_bridge_id" = $1`;
+  pool
+    .query(sqlText, [req.body.vehicleModBridgeId])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error deleting vehicle-mod-bridge entry:', err);
+      res.sendStatus(400);
+    });
+});
+
 module.exports = router;
