@@ -1,46 +1,61 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
 import { Button, TableCell, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { updateVehicleRequest, updateVehicleModEquipStatusRequest, insertModVehicleBridgeRequest } from './Equip.services';
 
-export default function AdvancementGarageOption({ row, vehicles }) {
-  const advancementDetail = useSelector((store) => store.advancementDetail);
-  const characterVehicles = vehicles;
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const dispatch = useDispatch();
-
+export default function AdvancementGarageOption({ row, vehicles, charGear, setCharGear, setPageAlert, chuckError }) {
   const [selectedVehicle, setSelectedVehicle] = useState('');
 
   const handleChange = (event) => {
     setSelectedVehicle(event.target.value);
   };
 
-  const equipVehicleMod = (mod, selectedVehicle) => {
-    if (selectedVehicle != '') {
-      dispatch({ type: 'SET_ADVANCEMENT_LOAD_STATUS', payload: true });
-      dispatch({
-        type: 'CHANGE_MOD_EQUIP_STATUS',
-        payload: {
-          modItemID: mod.char_owned_vehicle_mods_id,
-          mod,
-          baseItemID: selectedVehicle,
-          equipStatus: true,
-          charID: advancementDetail.id,
-          modTable: 'char_vehicle_mod_bridge',
-          baseItemColumn: 'vehicle_bridge_id',
-          modItemColumn: 'char_owned_vehicle_mods_id',
-          modItemTable: 'char_owned_vehicle_mods',
-        },
+  const handleEquip = async (mod, vehicle) => {
+    console.log({ vehicle: vehicle, mod: mod });
+    let vehicleUpdateResult = '';
+    vehicleUpdateResult = await updateVehicleRequest({
+      vehicleBridgeId: vehicle.vehicle_bridge_id,
+      has_armor: mod.name === 'Armored' ? true : vehicle.has_armor,
+      extra_seats: mod.name === 'Seating Upgrade' ? vehicle.extra_seats + 1 : vehicle.extra_seats,
+      total_mod_cost: vehicle.total_mod_cost,
+    });
+
+    const modInsertResult = await insertModVehicleBridgeRequest({ vehicleID: vehicle.vehicle_bridge_id, modID: mod.char_owned_vehicle_mods_id });
+    const modUpdateResult = await updateVehicleModEquipStatusRequest({ equipStatus: true, vehicleModId: mod.char_owned_vehicle_mods_id });
+
+    if (modInsertResult.success === 1 && modUpdateResult === 'OK' && vehicleUpdateResult === 'OK') {
+      setPageAlert({ open: true, message: 'Mod Installed', severity: 'success' });
+      setCharGear({
+        ...charGear,
+        vehicles: charGear.vehicles.map((gearVehicle) => {
+          if (gearVehicle.vehicle_bridge_id === vehicle.vehicle_bridge_id && mod.name === 'Armored') {
+            return { ...gearVehicle, has_armor: true };
+          } else if (gearVehicle.vehicle_bridge_id === vehicle.vehicle_bridge_id && mod.name === 'Seating Upgrade') {
+            return { ...gearVehicle, extra_seats: gearVehicle.extra_seats + 1 };
+          } else {
+            return gearVehicle;
+          }
+        }),
+        vehicleMods: charGear.vehicleMods.map((gearMod) => {
+          if (gearMod.char_owned_vehicle_mods_id === mod.char_owned_vehicle_mods_id) {
+            return { ...gearMod, equipped: true };
+          } else {
+            return gearMod;
+          }
+        }),
+        vehicleModBridge: [
+          ...charGear.vehicleModBridge,
+          {
+            ...mod,
+            vehicle_id: vehicle.vehicle_id,
+            vehicle_bridge_id: vehicle.vehicle_bridge_id,
+            char_vehicle_mod_bridge_id: modInsertResult.result.char_vehicle_mod_bridge_id,
+            equipped: true,
+          },
+        ],
       });
     } else {
-      setShowSnackbar(true);
+      chuckError();
     }
-  };
-
-  const setShowSnackbar = (incoming) => {
-    // This currently affects the snackbar in the AdvancementGarage only.
-    dispatch({ type: 'SET_ADVANCEMENT_ALERT_STATUS', payload: incoming });
   };
 
   return (
@@ -49,10 +64,10 @@ export default function AdvancementGarageOption({ row, vehicles }) {
         <FormControl fullWidth>
           <InputLabel>Vehicle</InputLabel>
           <Select value={selectedVehicle} label="Vehicle" fullWidth onChange={handleChange}>
-            {characterVehicles.map((vehicle) => {
+            {vehicles.map((vehicle) => {
               if (vehicle.type === row.type) {
                 return (
-                  <MenuItem key={vehicle.vehicle_bridge_id} value={vehicle.vehicle_bridge_id}>
+                  <MenuItem key={vehicle.vehicle_bridge_id} value={vehicle}>
                     {vehicle.name}
                   </MenuItem>
                 );
@@ -62,11 +77,7 @@ export default function AdvancementGarageOption({ row, vehicles }) {
         </FormControl>
       </TableCell>
       <TableCell align="center">
-        <Button
-          variant={loadStatus === false && selectedVehicle != '' ? 'contained' : 'disabled'}
-          color="info"
-          onClick={() => equipVehicleMod(row, selectedVehicle)}
-        >
+        <Button variant={selectedVehicle != '' ? 'contained' : 'disabled'} color="info" onClick={() => handleEquip(row, selectedVehicle)}>
           Equip Mod
         </Button>
       </TableCell>

@@ -308,15 +308,29 @@ const equipVehicleMod = (vehicleModObj) => {
   });
 };
 
-const unequipVehicleModRequest = (vehicleModObj) => {
+const updateVehicleModEquipStatusRequest = (vehicleModObj) => {
   return new Promise((resolve, reject) => {
     axios
-      .post('/api/equipage/unequipVehicleMod', vehicleModObj)
+      .post('/api/equipage/updateVehicleModEquipStatus', vehicleModObj)
       .then((result) => {
         resolve(result.data);
       })
       .catch((error) => {
         console.error('Error UNequipping vehicle mod:', error);
+        reject(error);
+      });
+  });
+};
+
+const insertModVehicleBridgeRequest = (vehicleModObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/insertModVehicleBridgeEntry', vehicleModObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error inserting Mod-Vehicle Bridge Entry:', error);
         reject(error);
       });
   });
@@ -359,6 +373,7 @@ export {
   updateCyberwareSlotRequest,
   updateVehicleRequest,
   equipVehicleMod,
-  unequipVehicleModRequest,
+  updateVehicleModEquipStatusRequest,
+  insertModVehicleBridgeRequest,
   deleteModVehicleBridgeRequest,
 };

@@ -366,20 +366,29 @@ router.post('/updateVehicleBridge', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/equipVehicleMod', rejectUnauthenticated, (req, res) => {
-  console.log(`Req.body:`, req.body);
-  res.sendStatus(200);
-});
-
-router.post('/unequipVehicleMod', rejectUnauthenticated, (req, res) => {
-  const sqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = false WHERE "char_owned_vehicle_mods_id" = $1`;
+router.post('/updateVehicleModEquipStatus', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_owned_vehicle_mods" SET "equipped" = $1 WHERE "char_owned_vehicle_mods_id" = $2`;
   pool
-    .query(sqlText, [req.body.vehicleModId])
+    .query(sqlText, [req.body.equipStatus, req.body.vehicleModId])
     .then((result) => {
       res.sendStatus(200);
     })
     .catch((err) => {
       console.error('Error changing owned mod equipped state:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/insertModVehicleBridgeEntry', rejectUnauthenticated, (req, res) => {
+  const sqlText = `INSERT INTO "char_vehicle_mod_bridge" ("vehicle_bridge_id", "char_owned_vehicle_mods_id") VALUES ($1, $2) RETURNING "char_vehicle_mod_bridge_id"`;
+  const sqlParams = [req.body.vehicleID, req.body.modID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.send({ success: 1, result: result.rows[0] });
+    })
+    .catch((err) => {
+      console.error('Error inserting mod into vehicle-mod-bridge:', err);
       res.sendStatus(400);
     });
 });
