@@ -139,6 +139,29 @@ export default function AdvancementGearWeapons({
           </TableBody>
         </Table>
       </TableContainer>
+      <h1>Grenades</h1>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow hover>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Qty Owned</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {charGear.grenades.map((nade, i) => {
+              return (
+                <TableRow key={i}>
+                  <TableCell align="left">{nade.name}</TableCell>
+                  <TableCell align="center">{nade.description}</TableCell>
+                  <TableCell align="center">{nade.qty_owned}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

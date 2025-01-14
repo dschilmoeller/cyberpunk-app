@@ -258,8 +258,8 @@ router.post('/inPlayWeaponChange', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/inPlayUseGrenade', rejectUnauthenticated, (req, res) => {
-  const sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`;
-  const sqlParams = [req.body.grenade_bridge_id];
+  const sqlText = `UPDATE "char_grenade_bridge" SET "qty_owned" = $1 WHERE "grenade_bridge_id" = $2`;
+  const sqlParams = [req.body.qty_owned, req.body.grenade_bridge_id];
   pool
     .query(sqlText, sqlParams)
     .then((result) => {

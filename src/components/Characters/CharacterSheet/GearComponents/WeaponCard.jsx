@@ -8,7 +8,6 @@ import WeaponDialog from '../../../Modals/WeaponDialog';
 import CharWeaponDieRollDialog from '../../../Modals/CharWeaponDieRoll';
 import { inPlayWeaponChangeRequest } from '../CharInPlay.services';
 
-// need to store clip as individual piece of state on this card?
 export default function WeaponCard({ prop, charDetail, charStatus, loading, setLoading, clip, chuckError, painEditor }) {
   const unhurtMarker = <CircleOutlinedIcon />;
   const aggMarker = <CancelIcon />;
@@ -18,6 +17,7 @@ export default function WeaponCard({ prop, charDetail, charStatus, loading, setL
   let damage = undefined;
   let hands = undefined;
   let concealable = false;
+  let rof = 2;
   switch (prop.name) {
     case 'Cybersnake':
       damage = charDetail.strength + charDetail.cyber_strength + 2;
@@ -226,7 +226,7 @@ export default function WeaponCard({ prop, charDetail, charStatus, loading, setL
             <Item>{damage === undefined ? weaponDamageCalculation(prop) : damage}</Item>
           </Grid>
           <Grid item xs={2}>
-            <Item>2</Item>
+            <Item>{prop.rof ? prop.rof : rof}</Item>
           </Grid>
           <Grid item xs={2}>
             <Item>{prop.range > 0 ? weaponRangeCalculation(prop) : 'Melee'}</Item>

@@ -10,12 +10,22 @@ export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrena
     setLoading(true);
     const grenadeObj = {
       grenade_bridge_id: grenade.grenade_bridge_id,
+      qty_owned: grenade.qty_owned - 1,
     };
     try {
       let result = await inPlayUseGrenade(grenadeObj);
       if (result === 'OK') {
         setPageAlert({ open: true, message: 'KABOOM', severity: 'error' });
-        setCharGrenades(charGrenades.filter((e) => e.grenade_bridge_id != grenade.grenade_bridge_id));
+        // setCharGrenades(charGrenades.filter((e) => e.grenade_bridge_id != grenade.grenade_bridge_id));
+        setCharGrenades(
+          charGrenades.map((nade) => {
+            if (nade.grenade_bridge_id === grenade.grenade_bridge_id) {
+              return { ...nade, qty_owned: nade.qty_owned - 1 };
+            } else {
+              return nade;
+            }
+          })
+        );
       } else {
         chuckError();
       }
@@ -32,39 +42,36 @@ export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrena
     <>
       <Grid container>
         <Grid item xs={12}>
-          <Item>Grenades</Item>
+          <Item>Grenades - You can throw one of these hot potatoes a cool {grenadeRange} meters</Item>
         </Grid>
         {charGrenades.map((grenade) => {
-          return (
-            <React.Fragment key={grenade.grenade_bridge_id}>
-              <Grid item xs={4} padding={1}>
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Item>
-                      <b>Name</b>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>
-                      <b>Range: {grenadeRange}</b>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>
-                      <WeaponDialog prop={grenade.name} />
-                    </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>
-                      <Button disabled={loading} onClick={() => useGrenade(grenade)}>
-                        Use
-                      </Button>
-                    </Item>
+          if (grenade.qty_owned > 0) {
+            return (
+              <React.Fragment key={grenade.grenade_bridge_id}>
+                <Grid item xs={4} padding={1}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Item>
+                        <WeaponDialog prop={grenade.name} />
+                      </Item>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Item>
+                        <b>Quantity: {grenade.qty_owned}</b>
+                      </Item>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Item>
+                        <Button disabled={loading} onClick={() => useGrenade(grenade)}>
+                          Use
+                        </Button>
+                      </Item>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </React.Fragment>
-          );
+              </React.Fragment>
+            );
+          }
         })}
       </Grid>
     </>

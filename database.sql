@@ -220,6 +220,7 @@ CREATE TABLE
 		"grenade_bridge_id" serial NOT NULL,
 		"char_id" integer NOT NULL,
 		"grenade_id" integer NOT NULL,
+		"qty_owned" INT NOT NULL DEFAULT 0,
 		CONSTRAINT "char_grenade_bridge_pk" PRIMARY KEY ("grenade_bridge_id")
 	)
 WITH

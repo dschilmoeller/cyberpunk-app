@@ -21,6 +21,8 @@ import Slide from '@mui/material/Slide';
 function TransitionUp(props) {
   return <Slide {...props} direction="up" />;
 }
+
+// TODO: Don't forget grenades have a qty owned now.
 export default function GrenadeMasterTable() {
   const dispatch = useDispatch();
   const grenadeMaster = useSelector((store) => store.gearMaster.grenades);
@@ -64,9 +66,7 @@ export default function GrenadeMasterTable() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -167,13 +167,7 @@ export default function GrenadeMasterTable() {
 
   // create master data
 
-  function createMasterGrenadeData(
-    description,
-    grenade_master_id,
-    is_treasure,
-    name,
-    price
-  ) {
+  function createMasterGrenadeData(description, grenade_master_id, is_treasure, name, price) {
     return {
       description,
       grenade_master_id,
@@ -198,10 +192,7 @@ export default function GrenadeMasterTable() {
   }
 
   // sort and monitor changes.
-  const sortedGrenadeMasterRows = React.useMemo(
-    () => stableSort(grenadeMasterRows, getComparator(order, orderBy)),
-    [order, orderBy, grenadeMaster]
-  );
+  const sortedGrenadeMasterRows = React.useMemo(() => stableSort(grenadeMasterRows, getComparator(order, orderBy)), [order, orderBy, grenadeMaster]);
 
   return (
     <>
@@ -212,11 +203,7 @@ export default function GrenadeMasterTable() {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
       >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
           Transaction canceled due to lack of funds!
         </Alert>
       </Snackbar>
@@ -225,16 +212,8 @@ export default function GrenadeMasterTable() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedGrenadeMasterRows.map((row) => {
                   if (row.is_treasure === false) {
@@ -244,21 +223,13 @@ export default function GrenadeMasterTable() {
                           <WeaponDialog prop={row.name} />
                         </TableCell>
                         <TableCell align="center">{row.description}</TableCell>
-                        <TableCell align="center">
-                          Strength * 5 Meters
-                        </TableCell>
+                        <TableCell align="center">Strength * 5 Meters</TableCell>
                         <TableCell align="center">
                           {euroBuck}
                           {row.price.toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button
-                            variant={
-                              loadStatus === false ? 'contained' : 'disabled'
-                            }
-                            color="success"
-                            onClick={() => buyGrenade(row)}
-                          >
+                          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyGrenade(row)}>
                             Buy
                           </Button>
                         </TableCell>
