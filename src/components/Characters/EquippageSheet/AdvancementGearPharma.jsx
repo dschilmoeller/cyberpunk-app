@@ -95,7 +95,7 @@ export default function AdvancementPharma({
     <>
       <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor="secondary">
         <Tab value="owned" label="Owned" />
-        <Tab value="create" label="Create" />
+        {equipCharDetails.med_pharma > 0 ? <Tab value="create" label="Create" /> : <Tab disabled value="create" label="Create" />}
       </Tabs>
 
       {value === 'owned' && !loading ? (
@@ -105,7 +105,7 @@ export default function AdvancementPharma({
               <TableContainer>
                 <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
                   <EnhancedTableHead
-                    headCells={headCellsGenerator(['name', 'description', 'rank'])}
+                    headCells={headCellsGenerator(['name', 'description', 'rank', 'Owned'])}
                     order={order}
                     orderBy={orderBy}
                     setOrder={setOrder}
@@ -118,6 +118,7 @@ export default function AdvancementPharma({
                           <TableCell align="left">{row.name}</TableCell>
                           <TableCell align="left">{row.description}</TableCell>
                           <TableCell align="left">{row.rank}</TableCell>
+                          <TableCell align="left">{row.qty_owned}</TableCell>
                         </TableRow>
                       );
                     })}

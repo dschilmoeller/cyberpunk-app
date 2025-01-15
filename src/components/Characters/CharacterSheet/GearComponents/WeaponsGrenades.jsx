@@ -16,7 +16,6 @@ export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrena
       let result = await inPlayUseGrenade(grenadeObj);
       if (result === 'OK') {
         setPageAlert({ open: true, message: 'KABOOM', severity: 'error' });
-        // setCharGrenades(charGrenades.filter((e) => e.grenade_bridge_id != grenade.grenade_bridge_id));
         setCharGrenades(
           charGrenades.map((nade) => {
             if (nade.grenade_bridge_id === grenade.grenade_bridge_id) {

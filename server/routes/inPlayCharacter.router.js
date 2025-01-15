@@ -299,9 +299,10 @@ router.post('/inPlayBankChange', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/inPlayUsePharma', rejectUnauthenticated, (req, res) => {
-  const sqlText = `DELETE FROM "char_pharma_bridge" WHERE "char_pharma_bridge_id" = $1`;
+  const sqlText = `UPDATE "char_pharma_bridge" SET "qty_owned" = $1 WHERE "char_pharma_bridge_id" = $2`;
+  const sqlParams = [req.body.qty_owned, req.body.char_pharma_bridge_id];
   pool
-    .query(sqlText, [req.body.char_pharma_bridge_id])
+    .query(sqlText, sqlParams)
     .then((result) => {
       res.sendStatus(200);
     })

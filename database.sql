@@ -3427,6 +3427,7 @@ CREATE TABLE
 		"char_pharma_bridge_id" SERIAL NOT NULL,
 		"char_id" integer NOT NULL,
 		"pharma_master_id" integer NOT NULL,
+		"qty_owned" integer NOT NULL,
 		CONSTRAINT "char_pharma_bridge_pk" PRIMARY KEY ("char_pharma_brige_id")
 	)
 WITH
