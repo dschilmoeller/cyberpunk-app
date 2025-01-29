@@ -2370,6 +2370,16 @@ VALUES
 		false
 	),
 	(
+		'Gorilla Grip',
+		5000,
+		'Massive upgrades to the musculature and density of the fingers. Characters with this cyberware have -1 DV to any roll involving climbing, keeping hold of something, and grabbing/choking attacks. The character can tear apart enemy gear with a Strength test, and ablates armor equal to the damage they deal with unarmed attacks.',
+		0,
+		0,
+		'Clinic',
+		'cyberarm',
+		false
+	),
+	(
 		'Hardened Shielding',
 		1000,
 		'Cyberlimb is immune to the effect of EMP devices.',

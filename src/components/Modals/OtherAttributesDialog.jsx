@@ -244,9 +244,8 @@ export default function OtherAttributesDialog({ prop }) {
             <Grid item xs={12} paddingBottom={1}>
               <b>Ignoring Damage:</b> Weapons whose base damage is 1/4 or less of a target's armor + cyberware armor value (rounded down) cannot
               damage that target - they are simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will
-              not shoot through a heavily armored car no matter how many times it is fired. This rarely comes into play except as regards some kinds
-              of cover and certain super-heavy cyberware. The GM has may allow a character's successes to be added to the base weapons damage,
-              reflecting that character finding a weak point in the armor.
+              not shoot through a bank vault door no matter how many times it is fired. This rarely comes into play except as regards some kinds of
+              cover and certain super-heavy cyberware.
             </Grid>
 
             <Grid item xs={12} paddingBottom={1}>

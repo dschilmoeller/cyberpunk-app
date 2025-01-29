@@ -438,9 +438,8 @@ export default function RulebookAttSkills() {
             </Grid>
             <Grid item xs={12} paddingBottom={1}>
               Weapons whose base damage is 1/4 or less of a target's armor + cyberware armor value (rounded down) cannot damage that target - they are
-              simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a heavily
-              armored car no matter how many times it is fired. The GM has may allow a character's successes to be added to the base weapons damage,
-              reflecting that character finding a weak point in the armor.
+              simply too tough. The weapon does no damage and the armor is not ablated or degraded. A light pistol will not shoot through a bank vault
+              door no matter how many times it is fired.
             </Grid>
             <Grid item xs={12} paddingBottom={1}>
               <b>Hardened Armor:</b> Some armor is vastly tougher than others, and is considered <i>Hardened.</i> Typically this consists of advanced

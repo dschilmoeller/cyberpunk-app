@@ -87,8 +87,8 @@ export default function RulebookCombat() {
                         <TableCell>Dodge</TableCell>
                         <TableCell align="left">Free</TableCell>
                         <TableCell align="left">
-                          Attempt to jerk out of the way of a single attack. Roll higher of Reflexes or Evasion against DV6. Use same total minus 1
-                          for each additional attack in a round.
+                          Attempt to jerk out of the way of attacks. Roll higher of Reflexes or Evasion against DV6. Use same total minus 1 for each
+                          additional attack in a round.
                         </TableCell>
                       </TableRow>
 
@@ -305,9 +305,9 @@ export default function RulebookCombat() {
 
         <Grid item xs={12}>
           <Typography variant="p">
-            Defenders should only make a single defense roll per round. A character rolls Reflexes or Evasion against a DV of 6. They take their
-            successes on this roll and compare it to the attackers successes. Should they be attacked again in the same round, they will use this
-            number minus one for each additional attack in the same round.
+            Defenders should only make a single defense roll per round. To do so, a character rolls Reflexes or Evasion against a DV of 6. They take
+            their successes on this roll and compare it to the attackers successes. Should they be attacked again in the same round, they will use
+            this number minus one for each additional attack they receive in the same round.
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -323,15 +323,29 @@ export default function RulebookCombat() {
         </Grid>
 
         <Grid item xs={12}>
+          <Typography variant="h6">High Rate of Fire</Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
+            Some weapons have a high ROF stat, indicating they can be used multiple times in a round. Doing so requires the character to split their
+            die pool - so a character with Reflexes 3 + Firearms 4 shooting a gun with ROF 3 can roll one attack with 7 dice, two with 4 and 3 dice,
+            or three with 3, 2, and 2 dice. Characters can split their pools as they like - from the previous example, two attacks with 1 and 6 dice,
+            or three with 5, 1, and 1 are likewise acceptable.
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
           <Typography variant="h6">Wielding Multiple Weapons</Typography>
         </Grid>
 
         <Grid item xs={12}>
           <Typography variant="p">
-            Obviously it's pretty cool, but weapons must split their ROF to be used in a single turn. For instance, a character can use a machete
-            (medium melee weapon, ROF 2) for one attack, walk down a hall and shoot a ganger with a Heavy pistol (ROF 2). The lowest ROF applies if
-            one weapon's is higher than the other (e.g. a character with a SMG and a Machete has an effective ROF of 2, not 3). If any weapon has a
-            ROF of 1, it cannot be used in the same round as another weapon, though two such weapons can be still be held.
+            A character can use, for example, a machete (medium melee weapon, ROF 2) for one attack, walk down a hall and shoot a ganger with a Heavy
+            pistol (ROF 2) in their other hand. The lowest ROF applies if one weapon's is higher than the other (e.g. a character with a SMG and a
+            Machete has a max ROF of 2, not 3). If any weapon has a ROF of 1, it cannot be used in the same round as another weapon, though two such
+            weapons can be still be held. The character must split the LOWER of their die pools if they are wielding weapons that use different
+            skills.
           </Typography>
         </Grid>
 
@@ -417,6 +431,10 @@ export default function RulebookCombat() {
             Shots fired at a target between 2 and 3 times the weapons Range are considered 'extreme range', and have a difficulty value 3 higher than
             normal to hit (typically 9).
           </Grid>
+          <Grid item xs={12}>
+            Range and Aimed Shot modifiers stack, but cannot go above a total DV of 9 - each DV above is treated as an automatic 1 on the roll
+            instead.
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
@@ -466,9 +484,9 @@ export default function RulebookCombat() {
                   <TableRow hover>
                     <TableCell>Weak Point</TableCell>
                     <TableCell align="left">
-                      If a weapon cannot normally deal damage to a target due to its heavy armor, a aimed shot can be made. Normal rules apply (+2 DV)
-                      except additional successes are added to the weapon's base damage, which can allow weapons to harm targets they normally
-                      couldn't. This can be done to non-human targets (eg Vehicles, Drons, Cover) at the GM's discretion.
+                      If a weapon cannot normally deal damage to a target due to its heavy armor, an aimed shot can be made. Normal rules apply (+2
+                      DV) except additional successes are added to the weapon's <i>base damage</i>, which may allow some weapons to harm targets they
+                      normally couldn't. This can be done to non-human targets (eg Vehicles, Drones, Cover) at the GM's discretion.
                     </TableCell>
                   </TableRow>
 
@@ -501,7 +519,7 @@ export default function RulebookCombat() {
           <Typography variant="p">
             SMGs cannot make Aimed Shots at any range beyond point blank. Further, they do not deal extra damage based on the number of successes made
             to hit if the target has ANY armor remaining. They are extremely effective rapid fire devices, however - when a character splits their die
-            pool while making more than one attack in a round, add +1 die to each SMG die pool.
+            pool while attacking, add +1 die to each SMG die pool.
           </Typography>
         </Grid>
 
@@ -530,8 +548,7 @@ export default function RulebookCombat() {
             rounds remaining in its clip. This attack cannot be an aimed shot, and additional successes on the attack do not provide additional
             damage. However, the attacker can elect to remove one or more dice from their attack die pool. If they do so, they can force their
             opponent to remove the same number of dice from their Reflexes roll to dodge <b>OR</b> increase the amount of armor lost by the target by
-            the number of dice removed, provided they hit the target at all. Additional armor cannot be removed if the target's armor is{' '}
-            <i>Hardened</i>.
+            the number of dice removed, provided they hit the target at all. The latter does not work against <i>Hardened</i> armor.
             <Grid item xs={12}>
               Automatic Fire is only usable at the weapons normal range. If used at point blank range, the attacker has a difficulty of 4 AND trades
               dice at a 1:2 ratio - for every die they remove, their opponent loses 2 from their dodge roll or loses 2 armor.
@@ -556,6 +573,65 @@ export default function RulebookCombat() {
 
         <Grid item xs={12}>
           <Typography variant="p">
+            <i>(Complex) Example Combat Round with special Automatic rules:</i>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
+            <i>
+              Ace is attacking a ganger wearing some heavy scavenged armor (7 Armor!) with their SubMariachine Gun at medium range. They roll 7 dice
+              (3 reflexes + 4 firearms), and elect to first wear down the Ganger's armor. On their first turn, they split their die pool into three.
+              Due to using an SMG, +1 dice is added to each - they roll 3, 3, and 4 dice, getting multiple successes on each roll. This doesn't
+              matter, as SMGs do not gain additional damage based on successes while the target has armor left. They do manage to damage the ganger's
+              armor pretty severely, ablating it three times, but otherwise dealing no damage - the ganger is pretty tough (Body 4) and Ace just isn't
+              doing enough damage.
+            </i>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
+            <i>
+              The ganger charges Ace, hoping to close the distance while their armor protects them. They get within 2 meters of Ace, who switches to
+              full automatic fire. For this attack, Ace's ROF is 1, so they don't split their die pool (7). However, their difficulty is only 4 - they
+              are at point blank range. Ace elects to reduce their die pool by 2 in order to ablate the ganger's remaining armor. After the ganger
+              dodges, they get a single success - this is enough, and they literally shoot the ganger's remaining armor (4) to pieces. However, they
+              STILL don't do any actual damage - ablation occurs after checking for damage, and the Ganger's Damage reduction of 4 is still higher
+              than Ace's weapon damage.
+            </i>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
+            <i>
+              Unfortunately, the ganger has not counted on Ace's friend Krumb, who opens up with another SMG. Krumb splits an impressive 9 dice
+              between 3 attacks, rolling 4 dice on each, and gets 2 successes on all 3. As the ganger has no armor remaining, they suffer 5 wounds
+              from each attack, reducing each by 2 from their Body attribute, for a total of 9 wounds.
+            </i>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
+            <i>
+              Ace's <i>other</i> ally, Lurex, now has a turn - this time with an assault rifle, and they intend to ensure the Ganger can't dodge. They
+              lower their attack by 3 dice, leaving them only 2 to attack with, and score a single success. The ganger, understandably, attempts a to
+            </i>{' '}
+            Evade{' '}
+            <i>
+              (see above) this attack. They are, however, <i>Crippled</i>, and only roll 3 dice (4 reflexes + 4 evasion - 5 (Crippled)), but manage to
+              pull out an incredible 5 successes by rolling a critical success. However, they lose immediately lose 6 successes from Lurex's die pool
+              reduction, and still fail to dodge. The ganger suffers 5 more damage - the Assault Rifle's base damage of 7 minus 2 from their body
+              attribute, as Lurex scored no additional successes beyond what was needed to hit (the ganger's total dodge roll of -1 is only treated as
+              a 0). The ganger dies. Messily.
+            </i>
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="p">
             <b>Shellfire</b> - Shotguns
           </Typography>
         </Grid>
@@ -563,7 +639,7 @@ export default function RulebookCombat() {
         <Grid item xs={12}>
           <Typography variant="p">
             Shotguns can be set to wide dispersal, and can hit a 2x2 square up to 3 meters away from the shooter in grid play. This attack has a base
-            DV of 7, cannot be aimed, and additional successes do not increase damage. Thit attack can only be dodged by characters with Reflexes of 6
+            DV of 7, cannot be aimed, and additional successes do not increase damage. This attack can only be dodged by characters with Reflexes of 6
             or higher. In narrative play, the GM has the final say on whether enemies are close enough together for a single shotgun attack to hit
             more than one target.
           </Typography>
@@ -576,9 +652,7 @@ export default function RulebookCombat() {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="p">
-            Some weapons are very accurate. These weapons suffer only a +1 DV to Aimed Shots at normal or point blank range.
-          </Typography>
+          <Typography variant="p">Some weapons are very accurate. These weapons only have +1 DV to Aimed Shots.</Typography>
         </Grid>
 
         <Grid item xs={12}>
@@ -607,8 +681,9 @@ export default function RulebookCombat() {
 
         <Grid item xs={12}>
           <Typography variant="p">
-            Brawling attacks deal (Strength) stun wounds. Brawling attacks do NOT ablate armor. This also goes for characters with Cyberarms and no
-            cyberweapons. Characters with the Big Knucks Cyberware can deal Stun or Lethal wounds, but still do not ablate armor.
+            Brawling attacks deal (Strength) stun wounds. Brawling attacks do NOT ablate armor. This also goes for characters with Cyberarms.
+            Characters with the Big Knucks Cyberware can deal Stun or Lethal wounds, but still do not ablate armor. Only characters with the Gorilla
+            Grip cyberware in a cyberlimb can ablate armor with unarmed attacks.
           </Typography>
         </Grid>
 

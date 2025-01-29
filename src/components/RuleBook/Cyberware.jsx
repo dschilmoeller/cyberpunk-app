@@ -25,8 +25,7 @@ export default function RulebookCyberware() {
   const euroBuck = `\u20AC$`;
 
   // handles cyberware accordion
-  const [expandedCyberwareAccordion, setExpandedCyberwareAccordion] =
-    useState(false);
+  const [expandedCyberwareAccordion, setExpandedCyberwareAccordion] = useState(false);
   const handleCyberwareAccordionChange = (panel) => (event, newExpanded) => {
     setExpandedCyberwareAccordion(newExpanded ? panel : false);
   };
@@ -45,49 +44,36 @@ export default function RulebookCyberware() {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="p">
-            Cyberware has a variety of classifications, having to do with where
-            it is located on or inside a character.
+            Cyberware has a variety of classifications, having to do with where it is located on or inside a character.
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="p">
-            Cyberware is generally limited by a number of slots, either inherent
-            to the user (such as Fashion or Internal 'Ware), a base implant
-            (such as a Neural Link or Cybereyes), or the space in a Cyberlimb.
+            Cyberware is generally limited by a number of slots, either inherent to the user (such as Fashion or Internal 'Ware), a base implant (such
+            as a Neural Link or Cybereyes), or the space in a Cyberlimb.
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="p">
-            Cyberware frequently costs some amount of Humanity from the person
-            it's installed in. This is not a problem in most cases - fashionware
-            generally doesn't cause issues, and even complete cyberlimb
-            replacements can be gotten used to over time. Going beyond the
-            normal abilities of Humanity 1.0 can, however, result in drastic
-            mental dissasociations and disorders. Adding too much cyberware
-            (especially doing so very quickly, without time or professional
-            counseling) can result in Cyberpsychosis, a complete mental break
-            with reality. Even more controlled or modest use, however, can cause
-            severe psychological issues as the individual becomes alienated from
-            their own body and the people around them by their new abilities.
+            Cyberware frequently costs some amount of Humanity from the person it's installed in. This is not a problem in most cases - fashionware
+            generally doesn't cause issues, and even complete cyberlimb replacements can be gotten used to over time. Going beyond the normal
+            abilities of Humanity 1.0 can, however, result in drastic mental dissasociations and disorders. Adding too much cyberware (especially
+            doing so very quickly, without time or professional counseling) can result in Cyberpsychosis, a complete mental break with reality. Even
+            more controlled or modest use, however, can cause severe psychological issues as the individual becomes alienated from their own body and
+            the people around them by their new abilities.
           </Typography>
         </Grid>
 
         <Grid item xs={12}>
           <Typography variant="p">
-            No matter how much effort cyberware owners put in, there is always{' '}
-            <i>some</i> dissasociation with body warping equipment. This is
-            reflected in the minimum humanity loss. Temporary humanity loss is
-            variable, and can be much higher. Temporary humanity loss can be
+            No matter how much effort cyberware owners put in, there is always <i>some</i> dissasociation with body warping equipment. This is
+            reflected in the minimum humanity loss. Temporary humanity loss is variable, and can be much higher. Temporary humanity loss can be
             mitigated by spending experience or seeking professional counseling.
           </Typography>
         </Grid>
       </Grid>
 
-      <Tabs
-        value={cyberwareValue}
-        onChange={handleCyberwareValueChange}
-        indicatorColor="secondary"
-      >
+      <Tabs value={cyberwareValue} onChange={handleCyberwareValueChange} indicatorColor="secondary">
         <Tab value="fashionware" label="Fashionware" />
         <Tab value="neuralware" label="Neuralware" />
         <Tab value="cyberoptics" label="Cyberoptics" />
@@ -100,25 +86,16 @@ export default function RulebookCyberware() {
       </Tabs>
 
       <Grid item xs={12}>
-        <Accordion
-          disableGutters
-          expanded={expandedCyberwareAccordion === 'panel1'}
-          onChange={handleCyberwareAccordionChange('panel1')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="cyberware-content"
-            id="cyberware-panel-header"
-          >
+        <Accordion disableGutters expanded={expandedCyberwareAccordion === 'panel1'} onChange={handleCyberwareAccordionChange('panel1')}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="cyberware-content" id="cyberware-panel-header">
             <Typography>Cyberware List</Typography>
           </AccordionSummary>
           <AccordionDetails>
             {cyberwareValue === 'fashionware' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Fashionware is mainly cosmetic, and does no lasting damage to
-                  the psyche. Installation is usually painless and done in less
-                  than an hour.
+                  Fashionware is mainly cosmetic, and does no lasting damage to the psyche. Installation is usually painless and done in less than an
+                  hour.
                 </Typography>
               </Grid>
             ) : (
@@ -127,9 +104,8 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'neuralware' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Neuralware requires a Neural Link, which has a number of
-                  chip-slots, usually found in the neck. The rest of the
-                  category are simply chips slotted into the link.
+                  Neuralware requires a Neural Link, which has a number of chip-slots, usually found in the neck. The rest of the category are simply
+                  chips slotted into the link.
                 </Typography>
               </Grid>
             ) : (
@@ -138,8 +114,7 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'cyberoptics' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Cyberoptics start by replacing one or both eyes; the other
-                  modifications affect the implanted eyes.
+                  Cyberoptics start by replacing one or both eyes; the other modifications affect the implanted eyes.
                 </Typography>
               </Grid>
             ) : (
@@ -148,10 +123,8 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'cyberaudio' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Cyberaudio starts by replacing the inner ear; the other
-                  modifications affect the implanted ear replacement. This
-                  modification is not visible - no metal ears without a special
-                  request.
+                  Cyberaudio starts by replacing the inner ear; the other modifications affect the implanted ear replacement. This modification is not
+                  visible - no metal ears without a special request.
                 </Typography>
               </Grid>
             ) : (
@@ -160,9 +133,8 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'internalware' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Internalware is installed directly inside a character, and
-                  runs the gamut from simple contraception implants to nanohives
-                  and metal bones.
+                  Internalware is installed directly inside a character, and runs the gamut from simple contraception implants to nanohives and metal
+                  bones.
                 </Typography>
               </Grid>
             ) : (
@@ -171,9 +143,7 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'externalware' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Externalware is somewhat misnamed; these generally involve
-                  replacing the exterior of a character with something besides
-                  skin.
+                  Externalware is somewhat misnamed; these generally involve replacing the exterior of a character with something besides skin.
                 </Typography>
               </Grid>
             ) : (
@@ -181,20 +151,14 @@ export default function RulebookCyberware() {
             )}
             {cyberwareValue === 'cyberarm' ? (
               <Grid item xs={12}>
-                <Typography variant="p">
-                  Cyberarms are exactly what they sound like - mechanical
-                  replacements for missing limbs.
-                </Typography>
+                <Typography variant="p">Cyberarms are exactly what they sound like - mechanical replacements for missing limbs.</Typography>
               </Grid>
             ) : (
               <></>
             )}
             {cyberwareValue === 'cyberleg' ? (
               <Grid item xs={12}>
-                <Typography variant="p">
-                  Cyberlegs are exactly what they sound like - mechanical
-                  replacements for missing limbs
-                </Typography>
+                <Typography variant="p">Cyberlegs are exactly what they sound like - mechanical replacements for missing limbs</Typography>
               </Grid>
             ) : (
               <></>
@@ -202,9 +166,7 @@ export default function RulebookCyberware() {
             {cyberwareValue === 'borgware' ? (
               <Grid item xs={12}>
                 <Typography variant="p">
-                  Borgware usually involves fairly extreme changes or
-                  replacements, and for the most part doesn't currently work
-                  'cause it's in Beta!
+                  Borgware usually involves fairly extreme changes or replacements, and for the most part doesn't currently work 'cause it's in Beta!
                 </Typography>
               </Grid>
             ) : (
@@ -212,11 +174,7 @@ export default function RulebookCyberware() {
             )}
 
             <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650 }}
-                size="small"
-                aria-label="a dense table"
-              >
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                   <TableRow hover>
                     <TableCell>Name</TableCell>
@@ -228,23 +186,16 @@ export default function RulebookCyberware() {
                 </TableHead>
                 <TableBody>
                   {cyberwareMaster.map((row, i) => {
-                    if (
-                      row.type === cyberwareValue &&
-                      row.is_treasure != true
-                    ) {
+                    if (row.type === cyberwareValue && row.is_treasure != true) {
                       return (
                         <Fragment key={i}>
                           <TableRow hover key={i}>
                             <TableCell>{row.name}</TableCell>
-                            <TableCell align="left">
-                              {row.description}
-                            </TableCell>
+                            <TableCell align="left">{row.description}</TableCell>
                             <TableCell align="left">
                               {row.humanity_loss_min} - {row.humanity_loss_max}
                             </TableCell>
-                            <TableCell align="left">
-                              {row.install_level}
-                            </TableCell>
+                            <TableCell align="left">{row.install_level}</TableCell>
                             <TableCell align="right">
                               {euroBuck}
                               {row.price.toLocaleString('en-US')}
