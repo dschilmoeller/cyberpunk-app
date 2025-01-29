@@ -122,14 +122,16 @@ export default function AdvancementPharma({ equipCharDetails, setEquipCharDetail
                   />
                   <TableBody>
                     {sortedPharma.map((row) => {
-                      return (
-                        <TableRow hover key={row.char_pharma_bridge_id}>
-                          <TableCell align="left">{row.name}</TableCell>
-                          <TableCell align="left">{row.description}</TableCell>
-                          <TableCell align="left">{row.rank}</TableCell>
-                          <TableCell align="left">{row.qty_owned}</TableCell>
-                        </TableRow>
-                      );
+                      if (row.qty_owned > 0) {
+                        return (
+                          <TableRow hover key={row.char_pharma_bridge_id}>
+                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="left">{row.description}</TableCell>
+                            <TableCell align="left">{row.rank}</TableCell>
+                            <TableCell align="left">{row.qty_owned}</TableCell>
+                          </TableRow>
+                        );
+                      }
                     })}
                   </TableBody>
                 </Table>

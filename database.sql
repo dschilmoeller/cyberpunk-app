@@ -2940,7 +2940,7 @@ VALUES
 	),
 	(
 		'Kendachi Arms Monokatana',
-		'A crystalline blade with built in microvibrators allow this weapon to slice through, well, anything. Ignores most armor.',
+		'A crystalline blade with built in microvibrators allow this weapon to slice through, well, anything. Ignores armor without the Hardened property.',
 		3,
 		'melee',
 		0,
