@@ -252,6 +252,20 @@ const createPharmaceuticalRequest = (pharmaObj) => {
   });
 };
 
+const updatePharmaQtyRequest = (pharmaObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/equipage/updatePharmaQtyRequest', pharmaObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error updating pharmaceutical qty:', error);
+        reject(error);
+      });
+  });
+};
+
 const updateCyberwareEquipRequest = (cyberObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -369,6 +383,7 @@ export {
   updateWeaponStatusRequest,
   fetchMasterPharmaListRequest,
   createPharmaceuticalRequest,
+  updatePharmaQtyRequest,
   updateCyberwareEquipRequest,
   updateCyberwareSlotRequest,
   updateVehicleRequest,

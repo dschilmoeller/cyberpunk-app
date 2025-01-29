@@ -295,8 +295,8 @@ router.get('/fetchMasterPharmaList', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/createPharmaceutical', rejectUnauthenticated, (req, res) => {
-  const sqlText = `INSERT INTO "char_pharma_bridge" ("char_id", "pharma_master_id") VALUES ($1, $2)`;
-  const sqlParams = [req.body.charID, req.body.pharma_master_id];
+  const sqlText = `INSERT INTO "char_pharma_bridge" ("char_id", "pharma_master_id", "qty_owned") VALUES ($1, $2, $3)`;
+  const sqlParams = [req.body.charID, req.body.pharma_master_id, req.body.doses];
   pool
     .query(sqlText, sqlParams)
     .then((result) => {
@@ -304,6 +304,20 @@ router.post('/createPharmaceutical', rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.error('Error creating pharmaceuticals:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/updatePharmaQtyRequest', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "char_pharma_bridge" SET "qty_owned" = $1 WHERE "char_pharma_bridge_id" = $2`;
+  const sqlParams = [req.body.qty_owned, req.body.char_pharma_bridge_id];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error updating pharmaceuticals:', err);
       res.sendStatus(400);
     });
 });

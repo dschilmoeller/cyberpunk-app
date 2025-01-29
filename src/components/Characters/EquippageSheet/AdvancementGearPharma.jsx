@@ -2,68 +2,77 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Grid, Tabs, Tab } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
-import { updateCharacterRequest, createPharmaceuticalRequest, fetchCharPharmaRequest } from './Equip.services';
+import { updateCharacterRequest, createPharmaceuticalRequest, updatePharmaQtyRequest, fetchCharPharmaRequest } from './Equip.services';
 
-// TODO : allow reagent cost to be customized.
-// TODO : pharma products to have quantity rather than individual entries. Similar to Grenades.
-
-export default function AdvancementPharma({
-  equipCharDetails,
-  setEquipCharDetails,
-  masterGear,
-  charGear,
-  setCharGear,
-  loading,
-  setLoading,
-  setPageAlert,
-  chuckError,
-}) {
-  // State does what it says on the tin.
+export default function AdvancementPharma({ equipCharDetails, setEquipCharDetails, masterGear, charGear, setCharGear, setPageAlert, chuckError }) {
   const [selectedPharma, setSelectedPharma] = useState('None Selected');
   const [pharmReagentCost, setPharmReagentCost] = useState(0);
-  const [dosesToMake, setDosesToMake] = useState('');
+  const [dosesToMake, setDosesToMake] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const setPharma = (pharm) => {
     setSelectedPharma(pharm);
     setPharmReagentCost(pharm.price / 2);
   };
 
-  // first check that a pharmaceutical has been selected, the doses to create is a whole, positive number, and the character has sufficient funds.
-  // if all that checks out, reduce character's funds appropriately, then loop through and create pharma entries.
+  // first check that a pharmaceutical has been selected,
+  // the doses to create is a whole, positive number,
+  // and the character has sufficient funds.
+  // if all that checks out, reduce character's funds appropriately, then move on.
 
   const createPharma = async () => {
     setLoading(true);
     if (selectedPharma === 'None Selected') {
       setPageAlert({ open: true, message: 'Please select a pharmaceutical to craft!', severity: 'error' });
-    } else if (dosesToMake <= 0 || dosesToMake % 1 != 0) {
+    } else if (dosesToMake < 1 || dosesToMake % 1 != 0 || dosesToMake === null) {
       setPageAlert({ open: true, message: 'Please select a postive, whole number of doses to make!', severity: 'error' });
     } else if (equipCharDetails.bank < pharmReagentCost) {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });
+    } else if (pharmReagentCost < 0 || pharmReagentCost % 1 != 0 || pharmReagentCost === null) {
+      setPageAlert({ open: true, message: 'Nice try.', severity: 'error' });
     } else if (equipCharDetails.bank >= pharmReagentCost) {
       let statObj = {
         charID: equipCharDetails.id,
         statName: 'bank',
         newRank: equipCharDetails.bank - pharmReagentCost,
       };
-      let pharmaObj = {
-        charID: equipCharDetails.id,
-        pharma_master_id: selectedPharma.pharma_master_id,
-      };
       let charObj = { charID: equipCharDetails.id };
       try {
         let bankResult = await updateCharacterRequest(statObj);
+        let result = '';
 
-        for (let i = 1; i <= dosesToMake; i++) {
+        if (charGear.pharma.filter((e) => e.pharma_master_id === selectedPharma.pharma_master_id).length > 0) {
+          let pharmUpdateObj = {
+            char_pharma_bridge_id: charGear.pharma.filter((e) => e.pharma_master_id === selectedPharma.pharma_master_id)[0].char_pharma_bridge_id,
+            qty_owned: charGear.pharma.filter((e) => e.pharma_master_id === selectedPharma.pharma_master_id)[0].qty_owned + dosesToMake,
+          };
           try {
-            await createPharmaceuticalRequest(pharmaObj);
+            result = await updatePharmaQtyRequest(pharmUpdateObj);
           } catch (error) {
-            console.error('Error creating pharmaceutical:', error);
+            console.error('Error updating pharma qty:', error);
+            setPageAlert({ open: true, message: 'Error increasing owned pharma count', severity: 'error' });
+          }
+        } else {
+          // new entry
+          const pharmaObj = {
+            charID: equipCharDetails.id,
+            pharma_master_id: selectedPharma.pharma_master_id,
+            doses: dosesToMake,
+          };
+          try {
+            result = await createPharmaceuticalRequest(pharmaObj);
+          } catch (error) {
+            console.error('Error creating new pharmaceutical:', error);
+            setPageAlert({ open: true, message: 'Error creating new pharmaceutical', severity: 'error' });
           }
         }
-        if (bankResult === 'OK') {
+
+        if (bankResult === 'OK' && result === 'OK') {
           setEquipCharDetails({ ...equipCharDetails, bank: equipCharDetails.bank - pharmReagentCost });
+          setPageAlert({ open: true, message: 'Pharmaceuticals Crafted!', severity: 'success' });
           let charPharma = await fetchCharPharmaRequest(charObj);
-          setCharGear({ ...charGear, pharma: charPharma });
+          console.log(`result char pharma:`, charPharma);
+          await setCharGear({ ...charGear, pharma: charPharma });
         } else {
           chuckError();
         }
@@ -71,20 +80,20 @@ export default function AdvancementPharma({
         console.error('Error creating Pharma:', error);
         setPageAlert({ open: true, message: 'Error generating pharmaceuticals!', severity: 'error' });
       }
-      setDosesToMake('');
+      setDosesToMake(0);
       setSelectedPharma('None Selected');
       setPharmReagentCost(0);
-      setLoading(false);
     } else {
       chuckError();
     }
+    setLoading(false);
   };
 
   // sortable table reqs.
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
 
-  const sortedPharma = React.useMemo(() => stableSort(charGear.pharma, getComparator(order, orderBy)), [order, orderBy]);
+  const sortedPharma = React.useMemo(() => stableSort(charGear.pharma, getComparator(order, orderBy)), [order, orderBy, charGear]);
 
   // Tab Handlers
   const [value, setValue] = useState('owned');
@@ -95,17 +104,17 @@ export default function AdvancementPharma({
     <>
       <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor="secondary">
         <Tab value="owned" label="Owned" />
-        {equipCharDetails.med_pharma > 0 ? <Tab value="create" label="Create" /> : <Tab disabled value="create" label="Create" />}
+        {<Tab disabled={equipCharDetails.med_pharma > 0 ? false : true} value="create" label="Create" />}
       </Tabs>
 
-      {value === 'owned' && !loading ? (
+      {value === 'owned' ? (
         <>
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <TableContainer>
                 <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
                   <EnhancedTableHead
-                    headCells={headCellsGenerator(['name', 'description', 'rank', 'Owned'])}
+                    headCells={headCellsGenerator(['name', 'description', 'rank', 'owned'])}
                     order={order}
                     orderBy={orderBy}
                     setOrder={setOrder}
@@ -132,13 +141,14 @@ export default function AdvancementPharma({
         <></>
       )}
 
-      {value === 'create' && !loading ? (
+      {value === 'create' ? (
         <>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <Grid container padding={1}>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <h2>
-                  Create Pharmaceuticals: Intelligence ({equipCharDetails.intelligence}) + Pharmaceuticals ({equipCharDetails.med_pharma})
+                  Create Pharmaceuticals: Intelligence ({equipCharDetails.intelligence + equipCharDetails.cyber_intelligence}) + Pharmaceuticals (
+                  {equipCharDetails.med_pharma})
                 </h2>
               </Grid>
               <Grid display={'flex'} justifyContent={'center'} item xs={4}>
@@ -148,7 +158,7 @@ export default function AdvancementPharma({
                 Quantity to make:
                 <TextField
                   label="Doses To Create"
-                  onChange={(e) => setDosesToMake(e.target.value)}
+                  onChange={(e) => setDosesToMake(Number(e.target.value))}
                   required
                   autoFocus
                   type="number"
@@ -157,18 +167,25 @@ export default function AdvancementPharma({
                 />
               </Grid>
               <Grid display={'flex'} justifyContent={'center'} item xs={4}>
-                Reagent Cost: {pharmReagentCost}
+                <TextField
+                  label="Pharma Reagent Cost"
+                  onChange={(e) => setPharmReagentCost(Number(e.target.value))}
+                  required
+                  type="number"
+                  value={pharmReagentCost}
+                  fullWidth
+                ></TextField>
               </Grid>
               <Grid display={'flex'} justifyContent={'center'} item padding={2} xs={12}>
-                {selectedPharma != 'None Selected' ? (
-                  <Button variant="contained" disabled={loading} color="info" size="large" onClick={() => createPharma()}>
-                    Craft Pharmaceuticals
-                  </Button>
-                ) : (
-                  <Button variant="disabled" color="info" size="large">
-                    Craft Pharmaceuticals
-                  </Button>
-                )}
+                <Button
+                  variant={selectedPharma != 'None Selected' ? 'contained' : 'disabled'}
+                  disabled={loading}
+                  color="info"
+                  size="large"
+                  onClick={() => createPharma()}
+                >
+                  Craft Pharmaceuticals
+                </Button>
               </Grid>
             </Grid>
           </Paper>
