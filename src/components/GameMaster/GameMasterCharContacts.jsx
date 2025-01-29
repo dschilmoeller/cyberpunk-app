@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
-import { fetchCharacterContactsRequest, changeContactLoyaltyRequest } from './gm.services';
+import { fetchCharacterContactsRequest, changeContactLoyaltyRequest } from '../../services/gm.services';
 
 export default function GameMasterCharContacts({ charDetail, characterContacts, setPageAlert, loading, setLoading, chuckError, setCharContacts }) {
   const changeLoyalty = async (contact, change) => {

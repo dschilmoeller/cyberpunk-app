@@ -15,7 +15,7 @@ import GameMasterCharContacts from './GameMasterCharContacts';
 
 import SnackbarComponent from '../GeneralAssets/Snackbar';
 
-import { fetchCharacterDetailsRequest, fetchCampaignListRequest, fetchCharacterContactsRequest } from './gm.services';
+import { fetchCharacterDetailsRequest, fetchCampaignListRequest, fetchCharacterContactsRequest } from '../../services/gm.services';
 
 export default function GameMasterSheet() {
   const [selectedSheet, setSelectedSheet] = useState('GM');

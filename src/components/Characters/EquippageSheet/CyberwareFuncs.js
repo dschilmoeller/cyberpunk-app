@@ -1,10 +1,13 @@
-import { updateCharacterRequest, updateCharacterStatusRequest, updateCyberwareEquipRequest, updateCyberwareSlotRequest } from './Equip.services';
 import {
+  updateCharacterRequest,
+  updateCharacterStatusRequest,
+  updateCyberwareEquipRequest,
+  updateCyberwareSlotRequest,
   fetchEquipCharDetailsRequest,
   fetchEquipCharStatusRequest,
   fetchCharCyberwareRequest,
   fetchCharCyberwareStatusRequest,
-} from './Equip.services';
+} from '../../../services/Equip.services';
 
 // TODO - no removing externalware w/o repair first. Or change current cyberware armor loss to 0 upon unequipping cyberware that affects armor?
 function equipCyberwareHandler(

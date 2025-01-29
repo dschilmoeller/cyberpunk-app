@@ -10,7 +10,7 @@ import GMOwnedCyberware from './GameMasterGearComps/GMOwnedCyberware';
 import GMOwnedNetrunner from './GameMasterGearComps/GMOwnedNetrunner';
 import GMOwnedVehicles from './GameMasterGearComps/GMOwnedVehicles';
 
-import { deleteCharacterGearRequest } from './gm.services';
+import { deleteCharacterGearRequest } from '../../services/gm.services';
 
 import {
   fetchCharacterArmorRequest,
@@ -21,7 +21,7 @@ import {
   fetchCharacterNetrunnerGearRequest,
   fetchCharacterVehiclesRequest,
   fetchCharacterVehicleModsRequest,
-} from '../Characters/gear.services';
+} from '../../services/gear.services';
 
 export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const [selectedGear, setSelectedGear] = useState('armor');

@@ -4,7 +4,7 @@ import Item from '../CharacterSheet/Item';
 import RoleAbilitiesDialog from '../../Modals/RoleAbilitiesDialog';
 import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
 import { Roles, RoleSkills } from '../../../utils/objects/objects.utils';
-import { updateCharacterStat } from './advancement.services';
+import { updateCharacterStat } from '../../../services/advancement.services';
 
 export default function AdvancementRoles({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
   const roleExpReturn = (role) => {

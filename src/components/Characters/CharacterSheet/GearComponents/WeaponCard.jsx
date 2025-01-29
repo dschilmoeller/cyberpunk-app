@@ -6,7 +6,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import OtherAttributesDialog from '../../../Modals/OtherAttributesDialog';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 import CharWeaponDieRollDialog from '../../../Modals/CharWeaponDieRoll';
-import { inPlayWeaponChangeRequest } from '../CharInPlay.services';
+import { inPlayWeaponChangeRequest } from '../../../../services/CharInPlay.services';
 
 export default function WeaponCard({ prop, charDetail, charStatus, loading, setLoading, clip, chuckError, painEditor }) {
   const unhurtMarker = <CircleOutlinedIcon />;

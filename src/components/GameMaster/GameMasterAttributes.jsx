@@ -4,7 +4,7 @@ import Item from '../Characters/CharacterSheet/Item';
 import AttributesDialog from '../Modals/AttributesDialog';
 import { AttributesArr } from '../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../utils/funcs/funcs';
-import { changeCharacterAttribute } from './gm.services';
+import { changeCharacterAttribute } from '../../services/gm.services';
 
 export default function GameMasterAttributes({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const changeAttribute = async (attribute, max, change) => {

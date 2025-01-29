@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Grid, Tabs, Tab } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../GeneralAssets/tableFuncs.service';
-import { updateCharacterRequest, createPharmaceuticalRequest, updatePharmaQtyRequest, fetchCharPharmaRequest } from './Equip.services';
+import {
+  updateCharacterRequest,
+  createPharmaceuticalRequest,
+  updatePharmaQtyRequest,
+  fetchCharPharmaRequest,
+} from '../../../services/Equip.services';
 
 export default function AdvancementPharma({ equipCharDetails, setEquipCharDetails, masterGear, charGear, setCharGear, setPageAlert, chuckError }) {
   const [selectedPharma, setSelectedPharma] = useState('None Selected');

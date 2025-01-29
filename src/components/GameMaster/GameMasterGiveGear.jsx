@@ -10,8 +10,8 @@ import {
   fetchNetrunnerMasterRequest,
   fetchVehicleMasterRequest,
   fetchVehicleModMasterRequest,
-} from '../Characters/gear.services';
-import { giveCharacterGearRequest } from '../GameMaster/gm.services';
+} from '../../services/gear.services';
+import { giveCharacterGearRequest } from '../../services/gm.services';
 
 import Item from '../Characters/CharacterSheet/Item';
 import GMGiveArmor from './GameMasterGearComps/GMGiveArmor';

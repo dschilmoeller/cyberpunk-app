@@ -3,7 +3,7 @@ import { Grid, Button } from '@mui/material/';
 import Item from '../CharacterSheet/Item';
 
 import { dotReturn, humanityDotReturnGrid } from '../../../utils/funcs/funcs';
-import { updateCharacterStat } from './advancement.services';
+import { updateCharacterStat } from '../../../services/advancement.services';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 

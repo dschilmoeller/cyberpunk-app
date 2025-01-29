@@ -12,7 +12,7 @@ import {
   changeTempCharacterHumanity,
   changeCharacterBank,
   changeCharacterXP,
-} from './gm.services';
+} from '../../services/gm.services';
 
 export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const euroBuck = `\u20AC$`;

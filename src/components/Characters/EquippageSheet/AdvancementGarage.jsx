@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { updateVehicleRequest, updateVehicleModEquipStatusRequest, deleteModVehicleBridgeRequest } from './Equip.services';
+import { updateVehicleRequest, updateVehicleModEquipStatusRequest, deleteModVehicleBridgeRequest } from '../../../services/Equip.services';
 import AdvancementGarageOption from './AdvancementGarageOption';
 export default function AdvancementGarage({ charGear, setCharGear, loading, setLoading, setPageAlert, chuckError }) {
   // TODO: change mod total cost so vehicle can be sold with mods attached

@@ -8,7 +8,7 @@ import RoleAbilitiesDialog from '../Modals/RoleAbilitiesDialog';
 
 import { capitalizer, dotReturn } from '../../utils/funcs/funcs';
 import { Roles, RoleSkills } from '../../utils/objects/objects.utils';
-import { changeCharacterRole } from './gm.services';
+import { changeCharacterRole } from '../../services/gm.services';
 
 export default function GameMasterRoles({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const changeRole = async (role, change, max) => {

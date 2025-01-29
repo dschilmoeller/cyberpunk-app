@@ -4,7 +4,7 @@ import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableRo
 import Item from '../Item';
 import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator, handleRequestSort } from '../../../GeneralAssets/tableFuncs.service';
-import { inPlayUseConsumable, inPlayBankChange } from '../CharInPlay.services';
+import { inPlayUseConsumable, inPlayBankChange } from '../../../../services/CharInPlay.services';
 
 export default function Backpack({ charDetail, setCharDetail, charMiscGear, setCharMiscGear, loading, setLoading, chuckError, setPageAlert }) {
   const euroBuck = `\u20AC$`;

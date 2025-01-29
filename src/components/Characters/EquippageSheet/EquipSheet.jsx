@@ -29,7 +29,7 @@ import {
   fetchCharVehicleModsRequest,
   fetchCharVehicleModBridgeRequest,
   fetchMasterPharmaListRequest,
-} from './Equip.services';
+} from '../../../services/Equip.services';
 
 //TODO Reinstate #armor, #weapons to URL and open appropriate tab to allow refreshing page.
 

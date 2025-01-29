@@ -1,16 +1,12 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
-import Grid from '@mui/material/Grid';
 import Item from '../Characters/CharacterSheet/Item';
-
 import SkillsDialog from '../Modals/SkillsDialog';
 
 import { dotReturn } from '../../utils/funcs/funcs';
-
 import { SkillSet } from '../../utils/objects/objects.utils';
-// import { capitalizer } from '../../utils/funcs/funcs';
-import { changeCharacterSkill } from './gm.services';
+import { changeCharacterSkill } from '../../services/gm.services';
 
 export default function GameMasterSkills({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const changeSkill = async (skillName, change) => {

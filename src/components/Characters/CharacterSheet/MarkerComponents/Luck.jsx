@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Grid } from '@mui/material';
 import Item from '../Item';
 import OtherAttributesDialog from '../../../Modals/OtherAttributesDialog';
-import { inPlayStatusChangeRequest } from '../CharInPlay.services';
+import { inPlayStatusChangeRequest } from '../../../../services/CharInPlay.services';
 
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';

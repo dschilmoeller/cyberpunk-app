@@ -5,7 +5,7 @@ import Item from '../CharacterSheet/Item';
 import SkillsDialog from '../../Modals/SkillsDialog';
 import { SkillSet } from '../../../utils/objects/objects.utils';
 import { dotReturn } from '../../../utils/funcs/funcs';
-import { updateCharacterStat } from './advancement.services';
+import { updateCharacterStat } from '../../../services/advancement.services';
 
 export default function AdvancementSkills({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
   const skillExpReturn = (skill) => {

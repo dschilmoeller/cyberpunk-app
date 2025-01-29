@@ -6,7 +6,7 @@ import AttributesDialog from '../../Modals/AttributesDialog';
 
 import { AttributesArr } from '../../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
-import { updateCharacterStat } from './advancement.services';
+import { updateCharacterStat } from '../../../services/advancement.services';
 
 export default function AdvancementAttributes({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
   const increaseStat = async (attribute, maxRank) => {

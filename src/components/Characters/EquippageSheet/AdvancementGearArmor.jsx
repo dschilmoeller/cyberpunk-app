@@ -2,7 +2,12 @@ import React from 'react';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material/';
 
 import Item from '../CharacterSheet/Item';
-import { fetchCharArmorRequest, updateArmorStatusRequest, updateCharacterRequest, updateCharacterStatusRequest } from './Equip.services';
+import {
+  fetchCharArmorRequest,
+  updateArmorStatusRequest,
+  updateCharacterRequest,
+  updateCharacterStatusRequest,
+} from '../../../services/Equip.services';
 
 // TODO - Don't refetch, figure out how to just change relevant armor states.
 export default function AdvancementGearArmor({

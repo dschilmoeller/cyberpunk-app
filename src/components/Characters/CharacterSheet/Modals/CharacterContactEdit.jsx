@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { inPlayContactEdit, fetchInPlayContactsRequest } from '../CharInPlay.services';
+import { inPlayContactEdit, fetchInPlayContactsRequest } from '../../../../services/CharInPlay.services';
 
 export default function CharacterContactEdit({ charDetail, contact, setCharContacts, loading, setLoading, chuckError, setPageAlert }) {
   const [open, setOpen] = React.useState(false);

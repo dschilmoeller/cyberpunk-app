@@ -4,7 +4,7 @@ import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import Item from '../CharacterSheet/Item';
 
-import { fetchAdvancementDetailsRequest } from './advancement.services';
+import { fetchAdvancementDetailsRequest } from '../../../services/advancement.services';
 
 import AdvancementAttributes from './AdvancementAttributes';
 import AdvancementSkills from './AdvancementSkills';
