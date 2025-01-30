@@ -12,7 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-import WeaponDialog from '../../Modals/WeaponDialog';
+import WeaponDialog from '../../../Modals/WeaponDialog';
 
 export default function GrenadeOwnedTable() {
   const dispatch = useDispatch();
@@ -48,9 +48,7 @@ export default function GrenadeOwnedTable() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -149,16 +147,7 @@ export default function GrenadeOwnedTable() {
     setOrderBy(property);
   };
 
-  function createCharGrenadeData(
-    char_id,
-    name,
-    description,
-    price,
-    range,
-    grenade_bridge_id,
-    grenade_id,
-    grenade_master_id
-  ) {
+  function createCharGrenadeData(char_id, name, description, price, range, grenade_bridge_id, grenade_id, grenade_master_id) {
     return {
       char_id,
       name,
@@ -188,10 +177,7 @@ export default function GrenadeOwnedTable() {
   }
 
   // sort and monitor changes to charWeaponRows in case of sales.
-  const sortedCharGrenadeRows = React.useMemo(
-    () => stableSort(charGrenadeRows, getComparator(order, orderBy)),
-    [order, orderBy, charGrenadeRows]
-  );
+  const sortedCharGrenadeRows = React.useMemo(() => stableSort(charGrenadeRows, getComparator(order, orderBy)), [order, orderBy, charGrenadeRows]);
 
   return (
     <>
@@ -200,16 +186,8 @@ export default function GrenadeOwnedTable() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharGrenadeRows.map((row) => {
                   return (
@@ -218,21 +196,13 @@ export default function GrenadeOwnedTable() {
                         <WeaponDialog prop={row.name} />
                       </TableCell>
                       <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">
-                        {5 * (charDetail.strength + charDetail.cyber_strength)}
-                      </TableCell>
+                      <TableCell align="center">{5 * (charDetail.strength + charDetail.cyber_strength)}</TableCell>
                       <TableCell align="center">
                         {euroBuck}
                         {Math.floor(row.price / 4).toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button
-                          variant={
-                            loadStatus === false ? 'contained' : 'disabled'
-                          }
-                          color="error"
-                          onClick={() => sellGrenade(row)}
-                        >
+                        <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" onClick={() => sellGrenade(row)}>
                           Sell
                         </Button>
                       </TableCell>

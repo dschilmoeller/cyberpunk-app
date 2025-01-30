@@ -12,7 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-import WeaponDialog from '../../Modals/WeaponDialog';
+import WeaponDialog from '../../../Modals/WeaponDialog';
 
 export default function WeaponsOwnedTable() {
   const dispatch = useDispatch();
@@ -76,9 +76,7 @@ export default function WeaponsOwnedTable() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -236,20 +234,14 @@ export default function WeaponsOwnedTable() {
     let damage = 0;
     let range = 0;
 
-    if (
-      charWeapons[i].dmg_type === 'melee' ||
-      charWeapons[i].dmg_type === 'bow'
-    ) {
-      damage =
-        charDetail.strength + charDetail.cyber_strength + charWeapons[i].damage;
+    if (charWeapons[i].dmg_type === 'melee' || charWeapons[i].dmg_type === 'bow') {
+      damage = charDetail.strength + charDetail.cyber_strength + charWeapons[i].damage;
     } else {
       damage = charWeapons[i].damage;
     }
 
     if (charWeapons[i].dmg_type === 'bow') {
-      range =
-        (charDetail.strength + charDetail.cyber_strength) *
-        charWeapons[i].range;
+      range = (charDetail.strength + charDetail.cyber_strength) * charWeapons[i].range;
     } else {
       range = charWeapons[i].range;
     }
@@ -276,10 +268,7 @@ export default function WeaponsOwnedTable() {
   }
 
   // sort and monitor changes to charWeaponRows in case of sales.
-  const sortedCharWeaponRows = React.useMemo(
-    () => stableSort(charWeaponRows, getComparator(order, orderBy)),
-    [order, orderBy, charWeaponRows]
-  );
+  const sortedCharWeaponRows = React.useMemo(() => stableSort(charWeaponRows, getComparator(order, orderBy)), [order, orderBy, charWeaponRows]);
 
   return (
     <>
@@ -288,16 +277,8 @@ export default function WeaponsOwnedTable() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
                 {sortedCharWeaponRows.map((row) => {
                   return (
@@ -311,9 +292,7 @@ export default function WeaponsOwnedTable() {
                         <TableCell align="center">{row.rof}</TableCell>
                         <TableCell align="center">{row.max_clip}</TableCell>
                         <TableCell align="center">{row.hands}</TableCell>
-                        <TableCell align="center">
-                          {row.concealable === true ? 'Yes' : 'No'}
-                        </TableCell>
+                        <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="center">
                           {euroBuck}
                           {Math.floor(row.price / 4).toLocaleString('en-US')}
@@ -326,28 +305,12 @@ export default function WeaponsOwnedTable() {
                               {row.name} is Equipped!
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button
-                                variant={
-                                  loadStatus === false
-                                    ? 'contained'
-                                    : 'disabled'
-                                }
-                                color="secondary"
-                                onClick={() => unequipWeapon(row)}
-                              >
+                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="secondary" onClick={() => unequipWeapon(row)}>
                                 Unequip
                               </Button>
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button
-                                variant={
-                                  loadStatus === false
-                                    ? 'contained'
-                                    : 'disabled'
-                                }
-                                color="error"
-                                onClick={() => sellWeapon(row)}
-                              >
+                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" onClick={() => sellWeapon(row)}>
                                 Sell
                               </Button>
                             </TableCell>
@@ -360,28 +323,12 @@ export default function WeaponsOwnedTable() {
                               {row.name} is NOT Equipped!
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button
-                                variant={
-                                  loadStatus === false
-                                    ? 'contained'
-                                    : 'disabled'
-                                }
-                                color="info"
-                                onClick={() => equipWeapon(row)}
-                              >
+                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="info" onClick={() => equipWeapon(row)}>
                                 Equip
                               </Button>
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button
-                                variant={
-                                  loadStatus === false
-                                    ? 'contained'
-                                    : 'disabled'
-                                }
-                                color="error"
-                                onClick={() => sellWeapon(row)}
-                              >
+                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" onClick={() => sellWeapon(row)}>
                                 Sell
                               </Button>
                             </TableCell>

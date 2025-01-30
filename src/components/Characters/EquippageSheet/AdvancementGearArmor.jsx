@@ -7,7 +7,7 @@ import {
   updateArmorStatusRequest,
   updateCharacterRequest,
   updateCharacterStatusRequest,
-} from '../../../services/Equip.services';
+} from '../../../services/equip.services';
 
 // TODO - Don't refetch, figure out how to just change relevant armor states.
 export default function AdvancementGearArmor({

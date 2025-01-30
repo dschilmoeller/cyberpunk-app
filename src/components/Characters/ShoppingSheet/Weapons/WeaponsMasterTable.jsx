@@ -12,6 +12,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
+import WeaponDialog from '../../../Modals/WeaponDialog';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -19,12 +21,9 @@ import Slide from '@mui/material/Slide';
 function TransitionUp(props) {
   return <Slide {...props} direction="up" />;
 }
-
-export default function ArmorMasterTable() {
+export default function WeaponsMasterTable() {
   const dispatch = useDispatch();
-
-  const armorMaster = useSelector((store) => store.gearMaster.armor);
-  const shieldMaster = useSelector((store) => store.gearMaster.shields);
+  const weaponMaster = useSelector((store) => store.gearMaster.weapons);
 
   const charDetail = useSelector((store) => store.advancementDetail);
   const loadStatus = useSelector((store) => store.loaders.advancementSheet);
@@ -36,35 +35,17 @@ export default function ArmorMasterTable() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const buyArmor = (item) => {
+  const buyWeapon = (item) => {
     if (charDetail.bank >= item.price) {
       let newBank = charDetail.bank - item.price;
       dispatch({
         type: 'BUY_ITEM',
         payload: {
-          itemMasterID: item.armor_master_id,
+          itemMasterID: item.weapon_master_id,
           newBank,
           charID: charDetail.id,
-          table: 'char_armor_bridge',
-          column: 'armor_id',
-        },
-      });
-    } else {
-      setShowSnackbar(true);
-    }
-  };
-
-  const buyShield = (item) => {
-    if (charDetail.bank >= item.price) {
-      let newBank = charDetail.bank - item.price;
-      dispatch({
-        type: 'BUY_ITEM',
-        payload: {
-          itemMasterID: item.shield_master_id,
-          newBank,
-          charID: charDetail.id,
-          table: 'char_shield_bridge',
-          column: 'shield_id',
+          table: 'char_weapons_bridge',
+          column: 'weapon_id',
         },
       });
     } else {
@@ -107,21 +88,45 @@ export default function ArmorMasterTable() {
   const headCells = [
     {
       id: 'name',
-      numeric: false,
+      numeric: true,
       disablePadding: true,
       label: 'Name',
     },
     {
-      id: 'quality',
+      id: 'damage',
       numeric: true,
       disablePadding: false,
-      label: 'Quality',
+      label: 'Damage',
     },
     {
-      id: 'description',
+      id: 'range',
       numeric: true,
       disablePadding: false,
-      label: 'Description',
+      label: 'Range',
+    },
+    {
+      id: 'rof',
+      numeric: true,
+      disablePadding: false,
+      label: 'Rate of Fire',
+    },
+    {
+      id: 'max_clip',
+      numeric: true,
+      disablePadding: false,
+      label: 'Max Clip',
+    },
+    {
+      id: 'hands',
+      numeric: true,
+      disablePadding: false,
+      label: '# of Hands',
+    },
+    {
+      id: 'concealable',
+      numeric: false,
+      disablePadding: false,
+      label: 'Concealable',
     },
     {
       id: 'price',
@@ -130,10 +135,10 @@ export default function ArmorMasterTable() {
       label: 'Price',
     },
     {
-      id: 'buy',
+      id: 'purchase',
       numeric: false,
       disablePadding: false,
-      label: 'Buy',
+      label: 'Purchase',
     },
   ];
 
@@ -182,55 +187,77 @@ export default function ArmorMasterTable() {
     setOrderBy(property);
   };
 
-  function createMasterArmorData(armor_master_id, description, name, price, quality) {
+  // create weaponMaster data
+
+  function createMasterWeaponData(
+    concealable,
+    damage,
+    description,
+    dmg_type,
+    hands,
+    is_treasure,
+    max_clip,
+    name,
+    price,
+    range,
+    rof,
+    weapon_master_id
+  ) {
     return {
-      armor_master_id,
+      concealable,
+      damage,
       description,
+      dmg_type,
+      hands,
+      is_treasure,
+      max_clip,
       name,
       price,
-      quality,
+      range,
+      rof,
+      weapon_master_id,
     };
   }
 
-  const masterArmorRows = [];
-  for (let i = 0; i < armorMaster.length; i++) {
-    masterArmorRows.push(
-      createMasterArmorData(
-        armorMaster[i].armor_master_id,
-        armorMaster[i].description,
-        armorMaster[i].name,
-        armorMaster[i].price,
-        armorMaster[i].quality
+  // take weaponMaster data and push into array for conversion into rows.
+  const weaponMasterRows = [];
+  for (let i = 0; i < weaponMaster.length; i++) {
+    let damage = 0;
+    let range = 0;
+
+    // precalculate strength based damage
+    if (weaponMaster[i].dmg_type === 'melee' || weaponMaster[i].dmg_type === 'bow') {
+      damage = charDetail.strength + charDetail.cyber_strength + weaponMaster[i].damage;
+    } else {
+      damage = weaponMaster[i].damage;
+    }
+    // precalculate strength based range
+    if (weaponMaster[i].dmg_type === 'bow') {
+      range = (charDetail.strength + charDetail.cyber_strength) * weaponMaster[i].range;
+    } else {
+      range = weaponMaster[i].range;
+    }
+    // return finalized weapon data (allows range and damage to sort properly)
+    weaponMasterRows.push(
+      createMasterWeaponData(
+        weaponMaster[i].concealable,
+        damage,
+        weaponMaster[i].description,
+        weaponMaster[i].dmg_type,
+        weaponMaster[i].hands,
+        weaponMaster[i].is_treasure,
+        weaponMaster[i].max_clip,
+        weaponMaster[i].name,
+        weaponMaster[i].price,
+        range,
+        weaponMaster[i].rof,
+        weaponMaster[i].weapon_master_id
       )
     );
   }
 
-  const sortedMasterArmorRows = React.useMemo(() => stableSort(masterArmorRows, getComparator(order, orderBy)), [order, orderBy, armorMaster]);
-
-  function createMasterShieldData(description, name, price, quality, shield_master_id) {
-    return {
-      description,
-      name,
-      price,
-      quality,
-      shield_master_id,
-    };
-  }
-
-  const masterShieldRows = [];
-  for (let i = 0; i < shieldMaster.length; i++) {
-    masterShieldRows.push(
-      createMasterShieldData(
-        shieldMaster[i].description,
-        shieldMaster[i].name,
-        shieldMaster[i].price,
-        shieldMaster[i].quality,
-        shieldMaster[i].shield_master_id
-      )
-    );
-  }
-
-  const sortedMasterShieldRows = React.useMemo(() => stableSort(masterShieldRows, getComparator(order, orderBy)), [order, orderBy, shieldMaster]);
+  // sort and monitor changes.
+  const sortedWeaponMasterRows = React.useMemo(() => stableSort(weaponMasterRows, getComparator(order, orderBy)), [order, orderBy, weaponMaster]);
 
   return (
     <>
@@ -246,50 +273,38 @@ export default function ArmorMasterTable() {
         </Alert>
       </Snackbar>
 
-      <h2>Buy Armor</h2>
-
+      <h2>Buy Weapons</h2>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
-
               <TableBody>
-                {sortedMasterArmorRows.map((row) => {
-                  return (
-                    <TableRow hover key={row.armor_master_id}>
-                      <TableCell padding={'normal'}>{row.name}</TableCell>
-                      <TableCell align="center">{row.quality}</TableCell>
-                      <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">
-                        {euroBuck}
-                        {row.price.toLocaleString('en-US')}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyArmor(row)}>
-                          Buy
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-                {sortedMasterShieldRows.map((row) => {
-                  return (
-                    <TableRow hover key={row.shield_master_id}>
-                      <TableCell padding="normal">{row.name}</TableCell>
-                      <TableCell align="center">{row.quality}</TableCell>
-                      <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">
-                        {euroBuck}
-                        {row.price.toLocaleString('en-US')}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyShield(row)}>
-                          Buy
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
+                {sortedWeaponMasterRows.map((row) => {
+                  if (row.is_treasure === false) {
+                    return (
+                      <TableRow hover key={row.name}>
+                        <TableCell>
+                          <WeaponDialog prop={row.name} />
+                        </TableCell>
+                        <TableCell align="center">{row.damage}</TableCell>
+                        <TableCell align="center">{row.range}</TableCell>
+                        <TableCell align="center">{row.rof}</TableCell>
+                        <TableCell align="center">{row.max_clip}</TableCell>
+                        <TableCell align="center">{row.hands}</TableCell>
+                        <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="center">
+                          {euroBuck}
+                          {row.price.toLocaleString('en-US')}
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyWeapon(row)}>
+                            Buy
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }
                 })}
               </TableBody>
             </Table>

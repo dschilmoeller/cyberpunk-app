@@ -12,7 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-import WeaponDialog from '../../Modals/WeaponDialog';
+import WeaponDialog from '../../../Modals/WeaponDialog';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -21,9 +21,11 @@ import Slide from '@mui/material/Slide';
 function TransitionUp(props) {
   return <Slide {...props} direction="up" />;
 }
-export default function WeaponsMasterTable() {
+
+// TODO: Don't forget grenades have a qty owned now.
+export default function GrenadeMasterTable() {
   const dispatch = useDispatch();
-  const weaponMaster = useSelector((store) => store.gearMaster.weapons);
+  const grenadeMaster = useSelector((store) => store.gearMaster.grenades);
 
   const charDetail = useSelector((store) => store.advancementDetail);
   const loadStatus = useSelector((store) => store.loaders.advancementSheet);
@@ -35,17 +37,17 @@ export default function WeaponsMasterTable() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const buyWeapon = (item) => {
+  const buyGrenade = (item) => {
     if (charDetail.bank >= item.price) {
       let newBank = charDetail.bank - item.price;
       dispatch({
         type: 'BUY_ITEM',
         payload: {
-          itemMasterID: item.weapon_master_id,
+          itemMasterID: item.grenade_master_id,
           newBank,
           charID: charDetail.id,
-          table: 'char_weapons_bridge',
-          column: 'weapon_id',
+          table: 'char_grenade_bridge',
+          column: 'grenade_id',
         },
       });
     } else {
@@ -64,9 +66,7 @@ export default function WeaponsMasterTable() {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
@@ -90,45 +90,21 @@ export default function WeaponsMasterTable() {
   const headCells = [
     {
       id: 'name',
-      numeric: true,
+      numeric: false,
       disablePadding: true,
       label: 'Name',
     },
     {
-      id: 'damage',
+      id: 'description',
       numeric: true,
       disablePadding: false,
-      label: 'Damage',
+      label: 'Description',
     },
     {
       id: 'range',
       numeric: true,
       disablePadding: false,
       label: 'Range',
-    },
-    {
-      id: 'rof',
-      numeric: true,
-      disablePadding: false,
-      label: 'Rate of Fire',
-    },
-    {
-      id: 'max_clip',
-      numeric: true,
-      disablePadding: false,
-      label: 'Max Clip',
-    },
-    {
-      id: 'hands',
-      numeric: true,
-      disablePadding: false,
-      label: '# of Hands',
-    },
-    {
-      id: 'concealable',
-      numeric: false,
-      disablePadding: false,
-      label: 'Concealable',
     },
     {
       id: 'price',
@@ -189,88 +165,34 @@ export default function WeaponsMasterTable() {
     setOrderBy(property);
   };
 
-  // create weaponMaster data
+  // create master data
 
-  function createMasterWeaponData(
-    concealable,
-    damage,
-    description,
-    dmg_type,
-    hands,
-    is_treasure,
-    max_clip,
-    name,
-    price,
-    range,
-    rof,
-    weapon_master_id
-  ) {
+  function createMasterGrenadeData(description, grenade_master_id, is_treasure, name, price) {
     return {
-      concealable,
-      damage,
       description,
-      dmg_type,
-      hands,
+      grenade_master_id,
       is_treasure,
-      max_clip,
       name,
       price,
-      range,
-      rof,
-      weapon_master_id,
     };
   }
 
-  // take weaponMaster data and push into array for conversion into rows.
-  const weaponMasterRows = [];
-  for (let i = 0; i < weaponMaster.length; i++) {
-    let damage = 0;
-    let range = 0;
-
-    // precalculate strength based damage
-    if (
-      weaponMaster[i].dmg_type === 'melee' ||
-      weaponMaster[i].dmg_type === 'bow'
-    ) {
-      damage =
-        charDetail.strength +
-        charDetail.cyber_strength +
-        weaponMaster[i].damage;
-    } else {
-      damage = weaponMaster[i].damage;
-    }
-    // precalculate strength based range
-    if (weaponMaster[i].dmg_type === 'bow') {
-      range =
-        (charDetail.strength + charDetail.cyber_strength) *
-        weaponMaster[i].range;
-    } else {
-      range = weaponMaster[i].range;
-    }
-    // return finalized weapon data (allows range and damage to sort properly)
-    weaponMasterRows.push(
-      createMasterWeaponData(
-        weaponMaster[i].concealable,
-        damage,
-        weaponMaster[i].description,
-        weaponMaster[i].dmg_type,
-        weaponMaster[i].hands,
-        weaponMaster[i].is_treasure,
-        weaponMaster[i].max_clip,
-        weaponMaster[i].name,
-        weaponMaster[i].price,
-        range,
-        weaponMaster[i].rof,
-        weaponMaster[i].weapon_master_id
+  // take master data and push into array for conversion into rows.
+  const grenadeMasterRows = [];
+  for (let i = 0; i < grenadeMaster.length; i++) {
+    grenadeMasterRows.push(
+      createMasterGrenadeData(
+        grenadeMaster[i].description,
+        grenadeMaster[i].grenade_master_id,
+        grenadeMaster[i].is_treasure,
+        grenadeMaster[i].name,
+        grenadeMaster[i].price
       )
     );
   }
 
   // sort and monitor changes.
-  const sortedWeaponMasterRows = React.useMemo(
-    () => stableSort(weaponMasterRows, getComparator(order, orderBy)),
-    [order, orderBy, weaponMaster]
-  );
+  const sortedGrenadeMasterRows = React.useMemo(() => stableSort(grenadeMasterRows, getComparator(order, orderBy)), [order, orderBy, grenadeMaster]);
 
   return (
     <>
@@ -281,57 +203,33 @@ export default function WeaponsMasterTable() {
         onClose={() => setShowSnackbar(false)}
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
       >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
           Transaction canceled due to lack of funds!
         </Alert>
       </Snackbar>
 
-      <h2>Buy Weapons</h2>
+      <h2>Buy Grenades</h2>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'small'}
-            >
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
               <TableBody>
-                {sortedWeaponMasterRows.map((row) => {
+                {sortedGrenadeMasterRows.map((row) => {
                   if (row.is_treasure === false) {
                     return (
                       <TableRow hover key={row.name}>
-                        <TableCell>
+                        <TableCell align="left">
                           <WeaponDialog prop={row.name} />
                         </TableCell>
-                        <TableCell align="center">{row.damage}</TableCell>
-                        <TableCell align="center">{row.range}</TableCell>
-                        <TableCell align="center">{row.rof}</TableCell>
-                        <TableCell align="center">{row.max_clip}</TableCell>
-                        <TableCell align="center">{row.hands}</TableCell>
-                        <TableCell align="center">
-                          {row.concealable === true ? 'Yes' : 'No'}
-                        </TableCell>
+                        <TableCell align="center">{row.description}</TableCell>
+                        <TableCell align="center">Strength * 5 Meters</TableCell>
                         <TableCell align="center">
                           {euroBuck}
                           {row.price.toLocaleString('en-US')}
                         </TableCell>
                         <TableCell align="center">
-                          <Button
-                            variant={
-                              loadStatus === false ? 'contained' : 'disabled'
-                            }
-                            color="success"
-                            onClick={() => buyWeapon(row)}
-                          >
+                          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyGrenade(row)}>
                             Buy
                           </Button>
                         </TableCell>

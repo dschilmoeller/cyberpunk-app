@@ -29,7 +29,7 @@ import {
   fetchCharVehicleModsRequest,
   fetchCharVehicleModBridgeRequest,
   fetchMasterPharmaListRequest,
-} from '../../../services/Equip.services';
+} from '../../../services/equip.services';
 
 //TODO Reinstate #armor, #weapons to URL and open appropriate tab to allow refreshing page.
 
@@ -85,22 +85,22 @@ export default function EquipSheet() {
       charID: params.id,
     };
     try {
-      let charDetails = await fetchEquipCharDetailsRequest(charObj);
+      const charDetails = await fetchEquipCharDetailsRequest(charObj);
       setEquipCharDetails(charDetails);
 
-      let charStatus = await fetchEquipCharStatusRequest(charObj);
+      const charStatus = await fetchEquipCharStatusRequest(charObj);
       setEquipCharStatus(charStatus);
 
-      let charArmor = await fetchCharArmorRequest(charObj);
-      let charWeapons = await fetchCharWeaponsRequest(charObj);
-      let charGrenades = await fetchCharGrenadesRequest(charObj);
-      let charMiscGear = await fetchCharMiscGearRequest(charObj);
-      let charPharma = await fetchCharPharmaRequest(charObj);
-      let charCyberware = await fetchCharCyberwareRequest(charObj);
-      let charCyberwareStatus = await fetchCharCyberwareStatusRequest(charObj);
-      let charVehicles = await fetchCharVehiclesRequest(charObj);
-      let charVehicleMods = await fetchCharVehicleModsRequest(charObj);
-      let charVehicleModBridge = await fetchCharVehicleModBridgeRequest(charObj);
+      const charArmor = await fetchCharArmorRequest(charObj);
+      const charWeapons = await fetchCharWeaponsRequest(charObj);
+      const charGrenades = await fetchCharGrenadesRequest(charObj);
+      const charMiscGear = await fetchCharMiscGearRequest(charObj);
+      const charPharma = await fetchCharPharmaRequest(charObj);
+      const charCyberware = await fetchCharCyberwareRequest(charObj);
+      const charCyberwareStatus = await fetchCharCyberwareStatusRequest(charObj);
+      const charVehicles = await fetchCharVehiclesRequest(charObj);
+      const charVehicleMods = await fetchCharVehicleModsRequest(charObj);
+      const charVehicleModBridge = await fetchCharVehicleModBridgeRequest(charObj);
       setCharGear({
         armor: charArmor,
         weapons: charWeapons,

@@ -3,7 +3,7 @@ import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material/';
 
 import WeaponDialog from '../../Modals/WeaponDialog';
-import { updateWeaponStatusRequest } from '../../../services/Equip.services';
+import { updateWeaponStatusRequest } from '../../../services/equip.services';
 
 // TODO: Modding to be enabled. Eventually.
 export default function AdvancementGearWeapons({

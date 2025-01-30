@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TableCell, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import { updateVehicleRequest, updateVehicleModEquipStatusRequest, insertModVehicleBridgeRequest } from '../../../services/Equip.services';
+import { updateVehicleRequest, updateVehicleModEquipStatusRequest, insertModVehicleBridgeRequest } from '../../../services/equip.services';
 
 export default function AdvancementGarageOption({ row, vehicles, charGear, setCharGear, setPageAlert, chuckError }) {
   const [selectedVehicle, setSelectedVehicle] = useState('');

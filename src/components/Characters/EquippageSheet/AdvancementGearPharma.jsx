@@ -7,7 +7,7 @@ import {
   createPharmaceuticalRequest,
   updatePharmaQtyRequest,
   fetchCharPharmaRequest,
-} from '../../../services/Equip.services';
+} from '../../../services/equip.services';
 
 export default function AdvancementPharma({ equipCharDetails, setEquipCharDetails, masterGear, charGear, setCharGear, setPageAlert, chuckError }) {
   const [selectedPharma, setSelectedPharma] = useState('None Selected');
