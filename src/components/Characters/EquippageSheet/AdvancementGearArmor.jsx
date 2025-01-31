@@ -51,142 +51,33 @@ export default function AdvancementGearArmor({
     }
   };
 
-  // unwieldy but there are four distinct cases to be handled.
-  // {
-  // armor_bridge_id: Primary Key from table
-  // equipped: boolean
-  // }
-  // this_armor_loss is being included right now to save time later (re-use service & route for repairs.)
   async function changeArmorEquip(incomingArmor) {
     setLoading(true);
     const armor = charGear.armor;
-    // case 1 - removing armor that is currently equipped.
-    if (incomingArmor.equipped === true && incomingArmor.is_shield === false) {
-      // technically this doesn't need to be done - could just shove the current item straight in.
-      // combined with losing the 'No armor' item would simplify this considerably.
-      // but still have to check that all other non-shield armor is unequipped, requiring a map or loop
-      // which in turn needs to be run async.
-      // apparently our dear (let i = 0; etc) loop with ASYNC
-      for (let i = 0; i < armor.length; i++) {
-        // find and unequip armor
-        if (armor[i].armor_bridge_id === incomingArmor.armor_bridge_id) {
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: false,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result === 'OK') {
-              setPageAlert({ open: true, message: 'Armor Removed', severity: 'success' });
-            }
-          } catch (error) {
-            console.error('Error equipping armor:', error);
-            chuckError();
+    // case 1 - equipping armor
+    for (let i = 0; i < armor.length; i++) {
+      // find and unequip any other of same armor type
+      if (
+        (armor[i].equipped === true && armor[i].is_shield === incomingArmor.is_shield) ||
+        armor[i].armor_bridge_id === incomingArmor.armor_bridge_id
+      ) {
+        const armorObj = {
+          this_armor_loss: armor[i].this_armor_loss,
+          equipped: armor[i].equipped === true ? false : true,
+          armor_bridge_id: armor[i].armor_bridge_id,
+        };
+        try {
+          const result = await updateArmorStatusRequest(armorObj);
+          if (result === 'OK') {
+            setPageAlert({ open: true, message: 'Armor Equipped', severity: 'success' });
           }
+        } catch (error) {
+          console.error('Error equipping armor:', error);
+          chuckError();
         }
       }
-      setLoading(false);
-      // case 2 - equipping inventory armor
-    } else if (incomingArmor.equipped === false && incomingArmor.is_shield === false) {
-      for (let i = 0; i < armor.length; i++) {
-        // find and equip armor
-        if (armor[i].armor_bridge_id === incomingArmor.armor_bridge_id) {
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: true,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result === 'OK') {
-              setPageAlert({ open: true, message: 'Armor Equipped', severity: 'success' });
-            }
-          } catch (error) {
-            console.error('Error equipping armor:', error);
-            chuckError();
-          }
-          // remove other equipped armor.
-        } else if (armor[i].armor_bridge_id != incomingArmor.armor_bridge_id && armor[i].is_shield === false && armor[i].equipped === true) {
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: false,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result != 'OK') {
-              console.error('Error removing current armor:', result);
-              chuckError();
-            }
-          } catch (error) {
-            console.error('Error equipping armor:', error);
-            chuckError();
-          }
-        }
-      }
-      setLoading(false);
-      // case 3 - removing currently equipped shield.
-    } else if (incomingArmor.equipped === true && incomingArmor.is_shield === true) {
-      for (let i = 0; i < armor.length; i++) {
-        if (armor[i].armor_bridge_id === incomingArmor.armor_bridge_id) {
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: false,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result === 'OK') {
-              setPageAlert({ open: true, message: 'Shield Removed', severity: 'success' });
-            }
-          } catch (error) {
-            console.error('Error equipping Shield:', error);
-            chuckError();
-          }
-        }
-      }
-      setLoading(false);
-      // case 4 - equipping inventory shield
-    } else if (incomingArmor.equipped === false && incomingArmor.is_shield === true) {
-      for (let i = 0; i < armor.length; i++) {
-        // find and equip desired shield.
-        if (armor[i].armor_bridge_id === incomingArmor.armor_bridge_id) {
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: true,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result === 'OK') {
-              setPageAlert({ open: true, message: 'Armor Equipped', severity: 'success' });
-            }
-          } catch (error) {
-            console.error('Error equipping shield:', error);
-            chuckError();
-          }
-        } else if (armor[i].armor_bridge_id != incomingArmor.armor_bridge_id && armor[i].is_shield === true && armor[i].equipped === true) {
-          // unequip existing shield (if any)
-          const armorObj = {
-            this_armor_loss: armor[i].this_armor_loss,
-            equipped: false,
-            armor_bridge_id: armor[i].armor_bridge_id,
-          };
-          try {
-            let result = await updateArmorStatusRequest(armorObj);
-            if (result != 'OK') {
-              console.error('Result from removing existing shield:', result);
-            }
-          } catch (error) {
-            console.error('Error removing equipped shield:', error);
-            chuckError();
-          }
-        }
-      }
-    } else {
-      chuckError();
     }
+    setLoading(false);
     const charObj = { charID: equipCharDetails.id };
     let charArmorResult = await fetchCharArmorRequest(charObj);
     setCharGear({ ...charGear, armor: charArmorResult });
