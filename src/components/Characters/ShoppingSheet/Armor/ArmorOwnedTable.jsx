@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charSellGearRequest } from '../../../../services/shopping.services';
+import { updateArmorStatusRequest } from '../../../../services/equip.services';
 
 export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, chuckError }) {
   const euroBuck = `\u20AC$`;
@@ -32,18 +33,47 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
     }
   };
 
-  const equipArmor = (incomingArmor) => {
-    characterArmor.map((armor) => {
-      if (armor.equipped === true) {
-        unequipArmor(armor);
+  async function changeArmorEquip(incomingArmor) {
+    // setLoading(true);
+    const armor = charGear.armor;
+    // case 1 - equipping armor
+    for (let i = 0; i < armor.length; i++) {
+      // find and unequip any other of same armor type
+      if (
+        (armor[i].equipped === true && armor[i].is_shield === incomingArmor.is_shield) ||
+        armor[i].armor_bridge_id === incomingArmor.armor_bridge_id
+      ) {
+        const armorObj = {
+          this_armor_loss: armor[i].this_armor_loss,
+          equipped: armor[i].equipped === true ? false : true,
+          armor_bridge_id: armor[i].armor_bridge_id,
+        };
+        try {
+          const result = await updateArmorStatusRequest(armorObj);
+          if (result === 'OK') {
+            setCharGear({
+              ...charGear,
+              armor: charGear.armor.map((e) =>
+                e.armor_bridge_id === incomingArmor.armor_bridge_id
+                  ? { ...e, equipped: !e.equipped }
+                  : e.is_shield === incomingArmor.is_shield
+                    ? { ...e, equipped: false }
+                    : e
+              ),
+            });
+          }
+        } catch (error) {
+          console.error('Error equipping armor:', error);
+          chuckError();
+        }
       }
-    });
-    // see equip routes - this one will have all the previous incidences. Refactor that first.
-  };
-
-  const unequipArmor = (incomingArmor) => {
-    // see equip routes
-  };
+    }
+    // setLoading(false);
+    // const charObj = { charID: equipCharDetails.id };
+    // let charArmorResult = await fetchCharArmorRequest(charObj);
+    // setCharGear({ ...charGear, armor: charArmorResult });
+    // setLoading(false);
+  }
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
@@ -77,7 +107,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                         <TableCell align="center">{row.quality}</TableCell>
                         <TableCell align="center">{row.description}</TableCell>
                         <TableCell align="center">
-                          <Button color="secondary" onClick={() => unequipArmor(row)}>
+                          <Button color="secondary" onClick={() => changeArmorEquip(row)}>
                             Unequip
                           </Button>
                         </TableCell>
@@ -122,7 +152,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                         <TableCell align="center">{row.quality}</TableCell>
                         <TableCell align="center">{row.description}</TableCell>
                         <TableCell align="center">
-                          <Button color="info" onClick={() => equipArmor(row)}>
+                          <Button color="info" onClick={() => changeArmorEquip(row)}>
                             Equip
                           </Button>
                         </TableCell>

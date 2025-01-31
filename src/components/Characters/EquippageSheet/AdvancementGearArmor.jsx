@@ -51,10 +51,11 @@ export default function AdvancementGearArmor({
     }
   };
 
+  // Ah. This reverses the current state, so you can equip everything.
   async function changeArmorEquip(incomingArmor) {
     setLoading(true);
+
     const armor = charGear.armor;
-    // case 1 - equipping armor
     for (let i = 0; i < armor.length; i++) {
       // find and unequip any other of same armor type
       if (
@@ -63,13 +64,18 @@ export default function AdvancementGearArmor({
       ) {
         const armorObj = {
           this_armor_loss: armor[i].this_armor_loss,
-          equipped: armor[i].equipped === true ? false : true,
+          equipped:
+            armor[i].armor_bridge_id === incomingArmor.armor_bridge_id && armor[i].is_shield === incomingArmor.is_shield ? !armor[i].equipped : false,
           armor_bridge_id: armor[i].armor_bridge_id,
         };
         try {
           const result = await updateArmorStatusRequest(armorObj);
           if (result === 'OK') {
             setPageAlert({ open: true, message: 'Armor Equipped', severity: 'success' });
+          } else {
+            setLoading(false);
+            chuckError();
+            break;
           }
         } catch (error) {
           console.error('Error equipping armor:', error);
@@ -78,10 +84,16 @@ export default function AdvancementGearArmor({
       }
     }
     setLoading(false);
-    const charObj = { charID: equipCharDetails.id };
-    let charArmorResult = await fetchCharArmorRequest(charObj);
-    setCharGear({ ...charGear, armor: charArmorResult });
-    setLoading(false);
+    setCharGear({
+      ...charGear,
+      armor: charGear.armor.map((e) =>
+        e.armor_bridge_id === incomingArmor.armor_bridge_id
+          ? { ...e, equipped: !e.equipped }
+          : e.is_shield === incomingArmor.is_shield
+            ? { ...e, equipped: false }
+            : e
+      ),
+    });
   }
 
   const repairArmor = async (incomingArmor) => {
