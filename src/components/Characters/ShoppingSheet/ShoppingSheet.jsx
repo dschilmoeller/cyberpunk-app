@@ -154,7 +154,6 @@ function ShoppingSheet() {
     return (
       <>
         <div>
-          <Button onClick={() => setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' })}>!!</Button>
           <Grid container>
             <Grid item display={'flex'} justifyContent={'center'} xs={3}>
               <Button variant="contained" onClick={() => history.push('/characterlist')}>
@@ -233,20 +232,19 @@ function ShoppingSheet() {
           {selectedShopping === '#armor' ? (
             <>
               <ArmorOwnedTable
-                charArmor={charGear.armor}
+                charGear={charGear}
                 setCharGear={setCharGear}
                 charDetail={charDetail}
                 setCharDetail={setCharDetail}
-                pageAlert={pageAlert}
                 setPageAlert={setPageAlert}
                 chuckError={chuckError}
               />
               <ArmorMasterTable
                 masterArmor={masterGear.armor}
+                charGear={charGear}
                 setCharGear={setCharGear}
                 charDetail={charDetail}
                 setCharDetail={setCharDetail}
-                pageAlert={pageAlert}
                 setPageAlert={setPageAlert}
                 chuckError={chuckError}
               />

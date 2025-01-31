@@ -1,14 +1,15 @@
 import React from 'react';
 import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
-import { charSpendMoneyRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
-export default function ArmorMasterTable({ masterArmor, charDetail, setCharDetail, pageAlert, setPageAlert, chuckError }) {
+import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
+export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, chuckError }) {
   const euroBuck = `\u20AC$`;
+
   const buyArmor = async (item) => {
     if (charDetail.bank >= item.price) {
       const bankObj = {
         charID: charDetail.id,
-        newBank: charDetail.bank - item.price,
+        newBank: Number(charDetail.bank - item.price),
       };
       const gearObj = {
         type: 'Armor',
@@ -16,9 +17,11 @@ export default function ArmorMasterTable({ masterArmor, charDetail, setCharDetai
         gearID: item.armor_master_id,
       };
       try {
-        let bankResult = await charSpendMoneyRequest(bankObj);
+        let bankResult = await charChangeBankRequest(bankObj);
         let shopResult = await charPurchaseGearRequest(gearObj);
-        if (bankResult === 'OK' && shopResult === 'OK') {
+        if (bankResult === 'OK' && shopResult.armor_bridge_id) {
+          setCharGear({ ...charGear, armor: [...charGear.armor, shopResult] });
+          setCharDetail({ ...charDetail, bank: bankObj.newBank });
           setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
         } else {
           chuckError();
@@ -43,6 +46,7 @@ export default function ArmorMasterTable({ masterArmor, charDetail, setCharDetai
 
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
+          <Button onClick={() => console.log(charGear.armor)}>Click</Button>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead

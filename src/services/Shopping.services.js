@@ -126,10 +126,10 @@ const fetchMasterVehicleModsListRequest = () => {
   });
 };
 
-const charSpendMoneyRequest = (bankObj) => {
+const charChangeBankRequest = (bankObj) => {
   return new Promise((resolve, reject) => {
     axios
-      .post('/api/shopping/charSpendMoney', bankObj)
+      .post('/api/shopping/charChangeBank', bankObj)
       .then((result) => {
         resolve(result.data);
       })
@@ -154,6 +154,20 @@ const charPurchaseGearRequest = (gearObj) => {
   });
 };
 
+const charSellGearRequest = (gearObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/shopping/charSellGear', gearObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error while character selling gear:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchShopCharDetailsRequest,
   fetchMasterArmorListRequest,
@@ -164,6 +178,7 @@ export {
   fetchMasterCyberwareListRequest,
   fetchMasterVehiclesListRequest,
   fetchMasterVehicleModsListRequest,
-  charSpendMoneyRequest,
+  charChangeBankRequest,
   charPurchaseGearRequest,
+  charSellGearRequest,
 };

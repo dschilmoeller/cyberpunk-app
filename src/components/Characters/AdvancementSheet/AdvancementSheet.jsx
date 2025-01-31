@@ -80,7 +80,7 @@ function AdvancementSheet() {
           </Grid>
 
           <Grid item display={'flex'} justifyContent={'center'} xs={3}>
-            <Button variant="contained" color="success" onClick={() => history.push(`/shopSheet/${advancementDetails.id}`)}>
+            <Button variant="contained" color="success" onClick={() => history.push(`/shopSheet/${advancementDetails.id}#armor`)}>
               Move to Shopping Sheet
             </Button>
           </Grid>

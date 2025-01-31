@@ -121,7 +121,7 @@ router.get('/fetchMasterVehicleModsList', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/charSpendMoney', rejectUnauthenticated, (req, res) => {
+router.post('/charChangeBank', rejectUnauthenticated, (req, res) => {
   const sqlText = `UPDATE "character" SET "bank" = $1 WHERE "id" = $2`;
   const sqlParams = [req.body.newBank, req.body.charID];
   pool
@@ -139,10 +139,20 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
   let sqlText = ``;
   switch (req.body.type) {
     case 'Armor':
-      sqlText = `INSERT INTO "char_armor_bridge" ("char_id", "armor_id") VALUES ($1, $2)`;
+      sqlText = `WITH inserted_row AS 
+                  (INSERT INTO "char_armor_bridge" ("char_id", "armor_id") 
+                  VALUES ($1, $2) 
+                  RETURNING *) 
+                SELECT * FROM inserted_row
+                JOIN "armor_master" ON inserted_row.armor_id = "armor_master"."armor_master_id"`;
       break;
     case 'Weapon':
-      sqlText = `INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id") VALUES ($1, $2)`;
+      sqlText = `WITH inserted_row AS 
+                  (INSERT INTO "char_weapons_bridge" ("char_id", "weapon_id") 
+                  VALUES ($1, $2) 
+                  RETURNING *) 
+                SELECT * FROM inserted_row
+                JOIN "weapon_master" ON inserted_row.weapon_id = "weapon_master"."weapon_master_id"`;
       break;
     default:
       console.error('Error - invalid purchase type.');
@@ -154,13 +164,44 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
     .query(sqlText, sqlParams)
     .then((result) => {
       if (result.rowCount > 0) {
-        res.sendStatus(200);
+        res.send(result.rows[0]);
       } else {
         res.sendStatus(400);
       }
     })
     .catch((err) => {
       console.error('Error character purchasing gear:', err);
+      res.sendStatus(400);
+    });
+});
+
+router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
+  let sqlText = ``;
+  switch (req.body.type) {
+    case 'Armor':
+      sqlText = `DELETE FROM "char_armor_bridge" WHERE "armor_bridge_id" = $1`;
+      break;
+    case 'Weapon':
+      sqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`;
+      break;
+    default:
+      console.error('Error - invalid purchase type.');
+      res.sendStatus(400);
+      break;
+  }
+
+  const sqlParams = [req.body.gearID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    })
+    .catch((err) => {
+      console.error('Error character selling gear:', err);
       res.sendStatus(400);
     });
 });

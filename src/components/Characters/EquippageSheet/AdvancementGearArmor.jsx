@@ -9,7 +9,6 @@ import {
   updateCharacterStatusRequest,
 } from '../../../services/equip.services';
 
-// TODO - Don't refetch, figure out how to just change relevant armor states.
 export default function AdvancementGearArmor({
   equipCharDetails,
   setEquipCharDetails,
