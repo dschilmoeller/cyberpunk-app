@@ -3,11 +3,11 @@ import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableR
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charSellGearRequest } from '../../../../services/shopping.services';
 import { updateArmorStatusRequest } from '../../../../services/equip.services';
+import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, chuckError }) {
-  const euroBuck = `\u20AC$`;
-
+export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
   const sellArmor = async (item) => {
+    setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
     const bankObj = {
       charID: charDetail.id,
@@ -31,10 +31,11 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
       console.error('Error selling armor:', error);
       setPageAlert({ open: true, message: 'Error selling armor!', severity: 'error' });
     }
+    setLoading(false);
   };
 
   async function changeArmorEquip(incomingArmor) {
-    // setLoading(true);
+    setLoading(true);
     const armor = charGear.armor;
     // case 1 - equipping armor
     for (let i = 0; i < armor.length; i++) {
@@ -68,11 +69,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
         }
       }
     }
-    // setLoading(false);
-    // const charObj = { charID: equipCharDetails.id };
-    // let charArmorResult = await fetchCharArmorRequest(charObj);
-    // setCharGear({ ...charGear, armor: charArmorResult });
-    // setLoading(false);
+    setLoading(false);
   }
 
   const [order, setOrder] = React.useState('asc');
@@ -107,16 +104,13 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                         <TableCell align="center">{row.quality}</TableCell>
                         <TableCell align="center">{row.description}</TableCell>
                         <TableCell align="center">
-                          <Button color="secondary" onClick={() => changeArmorEquip(row)}>
+                          <Button color="secondary" variant={loading ? 'disabled' : 'contained'} onClick={() => changeArmorEquip(row)}>
                             Unequip
                           </Button>
                         </TableCell>
+                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
                         <TableCell align="center">
-                          {euroBuck}
-                          {Math.floor(row.price / 4).toLocaleString('en-US')}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button color="error" onClick={() => sellArmor(row)}>
+                          <Button color="error" variant={loading ? 'disabled' : 'contained'} onClick={() => sellArmor(row)}>
                             Sell
                           </Button>
                         </TableCell>
@@ -152,16 +146,13 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                         <TableCell align="center">{row.quality}</TableCell>
                         <TableCell align="center">{row.description}</TableCell>
                         <TableCell align="center">
-                          <Button color="info" onClick={() => changeArmorEquip(row)}>
+                          <Button color="info" variant={loading ? 'disabled' : 'contained'} onClick={() => changeArmorEquip(row)}>
                             Equip
                           </Button>
                         </TableCell>
+                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
                         <TableCell align="center">
-                          {euroBuck}
-                          {Math.floor(row.price / 4).toLocaleString('en-US')}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button color="error" onClick={() => sellArmor(row)}>
+                          <Button color="error" variant={loading ? 'disabled' : 'contained'} onClick={() => sellArmor(row)}>
                             Sell
                           </Button>
                         </TableCell>

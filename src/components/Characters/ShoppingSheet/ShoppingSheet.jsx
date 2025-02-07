@@ -3,6 +3,7 @@ import { Button, Grid, Tabs, Tab } from '@mui/material';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import SnackbarComponent from '../../GeneralAssets/Snackbar';
 import Item from '../CharacterSheet/Item';
+import { moneyMaker } from '../../../utils/funcs/funcs';
 
 import ArmorOwnedTable from './Armor/ArmorOwnedTable';
 import ArmorMasterTable from './Armor/ArmorMasterTable';
@@ -78,8 +79,6 @@ function ShoppingSheet() {
   const params = useParams();
   const location = useLocation();
 
-  const euroBuck = `\u20AC$`;
-
   const shopSheetSetup = async () => {
     setLoading(true);
     try {
@@ -130,6 +129,7 @@ function ShoppingSheet() {
     } catch (error) {
       chuckError();
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -203,10 +203,7 @@ function ShoppingSheet() {
               <Grid container>
                 <Grid item xs={12}>
                   <Item>
-                    <h3>
-                      Cash on Hand: {euroBuck}
-                      {charDetail.bank}
-                    </h3>
+                    <h3>Cash on Hand: {moneyMaker(charDetail.bank)}</h3>
                   </Item>
                 </Grid>
               </Grid>
@@ -237,6 +234,8 @@ function ShoppingSheet() {
                 charDetail={charDetail}
                 setCharDetail={setCharDetail}
                 setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
                 chuckError={chuckError}
               />
               <ArmorMasterTable
@@ -246,6 +245,8 @@ function ShoppingSheet() {
                 charDetail={charDetail}
                 setCharDetail={setCharDetail}
                 setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
                 chuckError={chuckError}
               />
             </>

@@ -2,10 +2,21 @@ import React from 'react';
 import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
-export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, chuckError }) {
+export default function ArmorMasterTable({
+  masterArmor,
+  charGear,
+  setCharGear,
+  charDetail,
+  setCharDetail,
+  setPageAlert,
+  loading,
+  setLoading,
+  chuckError,
+}) {
   const euroBuck = `\u20AC$`;
 
   const buyArmor = async (item) => {
+    setLoading(true);
     if (charDetail.bank >= item.price) {
       const bankObj = {
         charID: charDetail.id,
@@ -33,6 +44,7 @@ export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, c
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });
     }
+    setLoading(false);
   };
 
   const [order, setOrder] = React.useState('asc');
@@ -46,7 +58,6 @@ export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, c
 
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
-          <Button onClick={() => console.log(charGear.armor)}>Click</Button>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead
@@ -64,12 +75,12 @@ export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, c
                       <TableCell padding={'normal'}>{row.name}</TableCell>
                       <TableCell align="center">{row.quality}</TableCell>
                       <TableCell align="center">{row.description}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" style={{ width: '10%' }}>
                         {euroBuck}
                         {row.price.toLocaleString('en-US')}
                       </TableCell>
                       <TableCell align="center">
-                        <Button variant="contained" color="success" onClick={() => buyArmor(row)}>
+                        <Button variant={loading ? 'disabled' : 'contained'} color="success" onClick={() => buyArmor(row)}>
                           Buy
                         </Button>
                       </TableCell>

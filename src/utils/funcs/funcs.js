@@ -1,11 +1,3 @@
-const capitalizer = (string) => {
-  return (string = string
-    .toLowerCase()
-    .split(' ')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    .join(' '));
-};
-
 import React from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -15,6 +7,14 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlined';
 import Item from '../../components/Characters/CharacterSheet/Item';
 import { Grid } from '@mui/material';
+
+const capitalizer = (string) => {
+  return (string = string
+    .toLowerCase()
+    .split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' '));
+};
 
 const dotReturn = (charStat, max, cyber, charCyberStat) => {
   let returnedDots = [];
@@ -66,4 +66,17 @@ const humanityDotReturnGrid = (tempLoss, permLoss) => {
   return returnedDots;
 };
 
-export { capitalizer, dotReturn, humanityDotReturnGrid };
+const moneyMaker = (amount) => {
+  if (isNaN(amount)) {
+    return 'Not a number, try harder';
+  }
+
+  const numberAmount = Number(amount);
+
+  // eslint-disable-next-line no-undef
+  const formatted = new Intl.NumberFormat('en-us', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(numberAmount);
+
+  return `€$` + formatted;
+};
+
+export { capitalizer, dotReturn, humanityDotReturnGrid, moneyMaker };
