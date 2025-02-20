@@ -1,193 +1,57 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
-
+import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material/';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
+import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
+import { moneyMaker } from '../../../../utils/funcs/funcs';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
+export default function WeaponsMasterTable({
+  masterWeapons,
+  charGear,
+  setCharGear,
+  charDetail,
+  setCharDetail,
+  setPageAlert,
+  loading,
+  setLoading,
+  chuckError,
+}) {
+  console.log(`master weapons:`, masterWeapons);
 
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
-export default function WeaponsMasterTable() {
-  const dispatch = useDispatch();
-  const weaponMaster = useSelector((store) => store.gearMaster.weapons);
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const euroBuck = `\u20AC$`;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const buyWeapon = (item) => {
+  const buyWeapon = async (item) => {
+    setLoading(true);
     if (charDetail.bank >= item.price) {
-      let newBank = charDetail.bank - item.price;
-      dispatch({
-        type: 'BUY_ITEM',
-        payload: {
-          itemMasterID: item.weapon_master_id,
-          newBank,
-          charID: charDetail.id,
-          table: 'char_weapons_bridge',
-          column: 'weapon_id',
-        },
-      });
-    } else {
-      setShowSnackbar(true);
-    }
-  };
-
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  function getComparator(order, orderBy) {
-    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-  // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-  // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-  // with exampleArray.slice().sort(getComparator(order, orderBy))
-  // DS - the above gives a .map error for some reason. Not sure why.
-
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
+      const bankObj = {
+        charID: charDetail.id,
+        newBank: Number(charDetail.bank - item.price),
+      };
+      const gearObj = {
+        type: 'Weapon',
+        charID: charDetail.id,
+        gearID: item.weapon_master_id,
+      };
+      try {
+        let bankResult = await charChangeBankRequest(bankObj);
+        let shopResult = await charPurchaseGearRequest(gearObj);
+        if (bankResult === 'OK' && shopResult.weapon_master_id) {
+          setCharGear({ ...charGear, weapons: [...charGear.weapons, shopResult] });
+          setCharDetail({ ...charDetail, bank: bankObj.newBank });
+          setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
+        } else {
+          chuckError();
+        }
+      } catch (error) {
+        console.error('Error purchasing gear:', error);
+        chuckError();
       }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  const headCells = [
-    {
-      id: 'name',
-      numeric: true,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'damage',
-      numeric: true,
-      disablePadding: false,
-      label: 'Damage',
-    },
-    {
-      id: 'range',
-      numeric: true,
-      disablePadding: false,
-      label: 'Range',
-    },
-    {
-      id: 'rof',
-      numeric: true,
-      disablePadding: false,
-      label: 'Rate of Fire',
-    },
-    {
-      id: 'max_clip',
-      numeric: true,
-      disablePadding: false,
-      label: 'Max Clip',
-    },
-    {
-      id: 'hands',
-      numeric: true,
-      disablePadding: false,
-      label: '# of Hands',
-    },
-    {
-      id: 'concealable',
-      numeric: false,
-      disablePadding: false,
-      label: 'Concealable',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'purchase',
-      numeric: false,
-      disablePadding: false,
-      label: 'Purchase',
-    },
-  ];
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
-    };
-
-    return (
-      <TableHead>
-        <TableRow hover>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.numeric ? 'center' : 'left'}
-              padding={headCell.disablePadding ? 'normal' : 'normal'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  EnhancedTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
+    } else {
+      setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });
+    }
+    setLoading(false);
   };
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  // create weaponMaster data
 
   function createMasterWeaponData(
     concealable,
@@ -221,64 +85,58 @@ export default function WeaponsMasterTable() {
 
   // take weaponMaster data and push into array for conversion into rows.
   const weaponMasterRows = [];
-  for (let i = 0; i < weaponMaster.length; i++) {
+  for (let i = 0; i < masterWeapons.length; i++) {
     let damage = 0;
     let range = 0;
 
     // precalculate strength based damage
-    if (weaponMaster[i].dmg_type === 'melee' || weaponMaster[i].dmg_type === 'bow') {
-      damage = charDetail.strength + charDetail.cyber_strength + weaponMaster[i].damage;
+    if (masterWeapons[i].dmg_type === 'melee' || masterWeapons[i].dmg_type === 'bow') {
+      damage = charDetail.strength + charDetail.cyber_strength + masterWeapons[i].damage;
     } else {
-      damage = weaponMaster[i].damage;
+      damage = masterWeapons[i].damage;
     }
     // precalculate strength based range
-    if (weaponMaster[i].dmg_type === 'bow') {
-      range = (charDetail.strength + charDetail.cyber_strength) * weaponMaster[i].range;
+    if (masterWeapons[i].dmg_type === 'bow') {
+      range = (charDetail.strength + charDetail.cyber_strength) * masterWeapons[i].range;
     } else {
-      range = weaponMaster[i].range;
+      range = masterWeapons[i].range;
     }
     // return finalized weapon data (allows range and damage to sort properly)
     weaponMasterRows.push(
       createMasterWeaponData(
-        weaponMaster[i].concealable,
+        masterWeapons[i].concealable,
         damage,
-        weaponMaster[i].description,
-        weaponMaster[i].dmg_type,
-        weaponMaster[i].hands,
-        weaponMaster[i].is_treasure,
-        weaponMaster[i].max_clip,
-        weaponMaster[i].name,
-        weaponMaster[i].price,
+        masterWeapons[i].description,
+        masterWeapons[i].dmg_type,
+        masterWeapons[i].hands,
+        masterWeapons[i].is_treasure,
+        masterWeapons[i].max_clip,
+        masterWeapons[i].name,
+        masterWeapons[i].price,
         range,
-        weaponMaster[i].rof,
-        weaponMaster[i].weapon_master_id
+        masterWeapons[i].rof,
+        masterWeapons[i].weapon_master_id
       )
     );
   }
 
   // sort and monitor changes.
-  const sortedWeaponMasterRows = React.useMemo(() => stableSort(weaponMasterRows, getComparator(order, orderBy)), [order, orderBy, weaponMaster]);
+  const sortedWeaponMasterRows = React.useMemo(() => stableSort(weaponMasterRows, getComparator(order, orderBy)), [order, orderBy, weaponMasterRows]);
 
   return (
     <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert onClose={() => setShowSnackbar(false)} severity="warning" sx={{ width: '100%' }}>
-          Transaction canceled due to lack of funds!
-        </Alert>
-      </Snackbar>
-
       <h2>Buy Weapons</h2>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price', 'purchase'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedWeaponMasterRows.map((row) => {
                   if (row.is_treasure === false) {
@@ -293,12 +151,9 @@ export default function WeaponsMasterTable() {
                         <TableCell align="center">{row.max_clip}</TableCell>
                         <TableCell align="center">{row.hands}</TableCell>
                         <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="center">{moneyMaker(row.price)}</TableCell>
                         <TableCell align="center">
-                          {euroBuck}
-                          {row.price.toLocaleString('en-US')}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="success" onClick={() => buyWeapon(row)}>
+                          <Button variant={loading === false ? 'contained' : 'disabled'} color="success" onClick={() => buyWeapon(row)}>
                             Buy
                           </Button>
                         </TableCell>
