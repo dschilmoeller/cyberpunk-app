@@ -1,197 +1,70 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
-
 import WeaponDialog from '../../../Modals/WeaponDialog';
+import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material/';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
+import { charChangeBankRequest, charSellGearRequest } from '../../../../services/shopping.services';
+import { updateWeaponStatusRequest } from '../../../../services/equip.services';
+import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function WeaponsOwnedTable() {
-  const dispatch = useDispatch();
-
-  const charWeapons = useSelector((store) => store.advancementGear.weapons);
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const euroBuck = `\u20AC$`;
-
-  const sellWeapon = (item) => {
+export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+  const sellWeapon = async (item) => {
+    setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
-    dispatch({
-      type: 'SELL_ITEM',
-      payload: {
-        itemID: item.weapon_bridge_id,
-        newBank,
-        charID: charDetail.id,
-        table: 'char_weapons_bridge',
-        column: 'weapon_bridge_id',
-      },
-    });
-  };
-
-  const equipWeapon = (item) => {
-    dispatch({
-      type: 'CHANGE_GEAR_EQUIP_STATUS',
-      payload: {
-        item,
-        charID: charDetail.id,
-        table: 'char_weapons_bridge',
-        tablePrimaryKey: 'weapon_bridge_id',
-        tableID: item.weapon_bridge_id,
-        equipStatus: true,
-      },
-    });
-  };
-
-  const unequipWeapon = (item) => {
-    dispatch({
-      type: 'CHANGE_GEAR_EQUIP_STATUS',
-      payload: {
-        item,
-        charID: charDetail.id,
-        table: 'char_weapons_bridge',
-        tablePrimaryKey: 'weapon_bridge_id',
-        tableID: item.weapon_bridge_id,
-        equipStatus: false,
-      },
-    });
-  };
-
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  function getComparator(order, orderBy) {
-    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-  // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-  // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-  // with exampleArray.slice().sort(getComparator(order, orderBy))
-  // DS - the above gives a .map error for some reason. Not sure why.
-
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'damage',
-      numeric: true,
-      disablePadding: false,
-      label: 'Damage',
-    },
-    {
-      id: 'range',
-      numeric: true,
-      disablePadding: false,
-      label: 'Range',
-    },
-    {
-      id: 'rof',
-      numeric: true,
-      disablePadding: false,
-      label: 'Rate of Fire',
-    },
-    {
-      id: 'max_clip',
-      numeric: true,
-      disablePadding: false,
-      label: 'Max Clip',
-    },
-    {
-      id: 'hands',
-      numeric: true,
-      disablePadding: false,
-      label: '# of Hands',
-    },
-    {
-      id: 'concealable',
-      numeric: true,
-      disablePadding: false,
-      label: 'Concealable',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Street Price',
-    },
-  ];
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
+    const bankObj = {
+      charID: charDetail.id,
+      newBank: newBank,
     };
+    const itemObj = {
+      type: 'Weapon',
+      gearID: item.weapon_bridge_id,
+    };
+    try {
+      let bankResult = await charChangeBankRequest(bankObj);
+      let sellResult = await charSellGearRequest(itemObj);
+      if (bankResult === 'OK' && sellResult === 'OK') {
+        setCharGear({ ...charGear, weapons: charGear.weapons.filter((e) => e.armor_bridge_id != item.armor_bridge_id) });
+        setCharDetail({ ...charDetail, bank: newBank });
+        setPageAlert({ open: true, message: 'Weapon Sold!', severity: 'success' });
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error selling weapon:', error);
+      setPageAlert({ open: true, message: 'Error selling weapons!', severity: 'error' });
+    }
+    setLoading(false);
+  };
 
-    return (
-      <TableHead>
-        <TableRow hover>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.numeric ? 'center' : 'left'}
-              padding={headCell.disablePadding ? 'normal' : 'normal'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  EnhancedTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
+  const changeWeaponEquip = async (incomingWeapon) => {
+    setLoading(true);
+    const weapons = charGear.weapons;
+    for (let i = 0; i < weapons.length; i++) {
+      // find the weapon being changed.
+      if (weapons[i].armor_bridge_id === incomingWeapon.armor_bridge_id) {
+        const weaponObj = {
+          // flip status
+          equipped: !weapons[i].equipped === true,
+          weapon_bridge_id: weapons[i].weapon_bridge_id,
+        };
+        try {
+          const result = await updateWeaponStatusRequest(weaponObj);
+          if (result === 'OK') {
+            setCharGear({
+              ...charGear,
+              weapons: charGear.weapons.map((e) => (e.weapon_bridge_id === incomingWeapon.weapon_bridge_id ? { ...e, equipped: !e.equipped } : e)),
+            });
+          }
+        } catch (error) {
+          console.error('Error changing weapon equip status:', error);
+          chuckError();
+        }
+      }
+    }
+    setLoading(false);
   };
 
   const [order, setOrder] = React.useState('desc');
   const [orderBy, setOrderBy] = React.useState('equipped');
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   function createCharWeaponData(
     char_id,
@@ -230,39 +103,39 @@ export default function WeaponsOwnedTable() {
   }
 
   const charWeaponRows = [];
-  for (let i = 0; i < charWeapons.length; i++) {
+  for (let i = 0; i < charGear.weapons.length; i++) {
     let damage = 0;
     let range = 0;
 
-    if (charWeapons[i].dmg_type === 'melee' || charWeapons[i].dmg_type === 'bow') {
-      damage = charDetail.strength + charDetail.cyber_strength + charWeapons[i].damage;
+    if (charGear.weapons[i].dmg_type === 'melee' || charGear.weapons[i].dmg_type === 'bow') {
+      damage = charDetail.strength + charDetail.cyber_strength + charGear.weapons[i].damage;
     } else {
-      damage = charWeapons[i].damage;
+      damage = charGear.weapons[i].damage;
     }
 
-    if (charWeapons[i].dmg_type === 'bow') {
-      range = (charDetail.strength + charDetail.cyber_strength) * charWeapons[i].range;
+    if (charGear.weapons[i].dmg_type === 'bow') {
+      range = (charDetail.strength + charDetail.cyber_strength) * charGear.weapons[i].range;
     } else {
-      range = charWeapons[i].range;
+      range = charGear.weapons[i].range;
     }
 
     charWeaponRows.push(
       createCharWeaponData(
-        charWeapons[i].char_id,
-        charWeapons[i].concealable,
-        charWeapons[i].current_shots_fired,
+        charGear.weapons[i].char_id,
+        charGear.weapons[i].concealable,
+        charGear.weapons[i].current_shots_fired,
         damage,
-        charWeapons[i].dmg_type,
-        charWeapons[i].equipped,
-        charWeapons[i].hands,
-        charWeapons[i].max_clip,
-        charWeapons[i].name,
-        charWeapons[i].price,
+        charGear.weapons[i].dmg_type,
+        charGear.weapons[i].equipped,
+        charGear.weapons[i].hands,
+        charGear.weapons[i].max_clip,
+        charGear.weapons[i].name,
+        charGear.weapons[i].price,
         range,
-        charWeapons[i].rof,
-        charWeapons[i].weapon_bridge_id,
-        charWeapons[i].weapon_id,
-        charWeapons[i].weapon_master_id
+        charGear.weapons[i].rof,
+        charGear.weapons[i].weapon_bridge_id,
+        charGear.weapons[i].weapon_id,
+        charGear.weapons[i].weapon_master_id
       )
     );
   }
@@ -278,7 +151,13 @@ export default function WeaponsOwnedTable() {
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <EnhancedTableHead
+                headCells={headCellsGenerator(['name', 'damage', 'range', 'rof', 'max_clip', 'hands', 'concealable', 'price'])}
+                order={order}
+                orderBy={orderBy}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+              />
               <TableBody>
                 {sortedCharWeaponRows.map((row) => {
                   return (
@@ -293,10 +172,7 @@ export default function WeaponsOwnedTable() {
                         <TableCell align="center">{row.max_clip}</TableCell>
                         <TableCell align="center">{row.hands}</TableCell>
                         <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="center">
-                          {euroBuck}
-                          {Math.floor(row.price / 4).toLocaleString('en-US')}
-                        </TableCell>
+                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
                       </TableRow>
                       {row.equipped === true ? (
                         <>
@@ -305,12 +181,12 @@ export default function WeaponsOwnedTable() {
                               {row.name} is Equipped!
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="secondary" onClick={() => unequipWeapon(row)}>
+                              <Button variant={'contained'} disabled={loading} color="secondary" onClick={() => changeWeaponEquip(row)}>
                                 Unequip
                               </Button>
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" onClick={() => sellWeapon(row)}>
+                              <Button variant={'contained'} disabled={loading} color="error" onClick={() => sellWeapon(row)}>
                                 Sell
                               </Button>
                             </TableCell>
@@ -323,12 +199,12 @@ export default function WeaponsOwnedTable() {
                               {row.name} is NOT Equipped!
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="info" onClick={() => equipWeapon(row)}>
+                              <Button variant={'contained'} disabled={loading} color="info" onClick={() => changeWeaponEquip(row)}>
                                 Equip
                               </Button>
                             </TableCell>
                             <TableCell colSpan={3} align="center">
-                              <Button variant={loadStatus === false ? 'contained' : 'disabled'} color="error" onClick={() => sellWeapon(row)}>
+                              <Button variant={'contained'} disabled={loading} color="error" onClick={() => sellWeapon(row)}>
                                 Sell
                               </Button>
                             </TableCell>

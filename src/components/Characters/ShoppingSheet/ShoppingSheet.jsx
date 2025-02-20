@@ -256,8 +256,27 @@ function ShoppingSheet() {
 
           {selectedShopping === '#weapons' ? (
             <>
-              <WeaponsOwnedTable />
-              <WeaponsMasterTable />
+              <WeaponsOwnedTable
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
+              <WeaponsMasterTable
+                masterWeapons={masterGear.weapons}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>

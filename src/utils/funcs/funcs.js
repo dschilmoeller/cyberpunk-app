@@ -8,12 +8,18 @@ import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlin
 import Item from '../../components/Characters/CharacterSheet/Item';
 import { Grid } from '@mui/material';
 
+// returns string with first letter capitalized.
 const capitalizer = (string) => {
-  return (string = string
-    .toLowerCase()
-    .split(' ')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    .join(' '));
+  // if there's more add in a split('_') or whatever.
+  if (string === 'max_clip') {
+    return 'Max Clip';
+  } else {
+    return (string = string
+      .toLowerCase()
+      .split(' ')
+      .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+      .join(' '));
+  }
 };
 
 const dotReturn = (charStat, max, cyber, charCyberStat) => {
