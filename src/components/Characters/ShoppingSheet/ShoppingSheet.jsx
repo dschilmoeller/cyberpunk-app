@@ -97,6 +97,7 @@ function ShoppingSheet() {
       const charCyberware = await fetchCharCyberwareRequest(charObj);
       const charVehicles = await fetchCharVehiclesRequest(charObj);
       const charVehicleMods = await fetchCharVehicleModsRequest(charObj);
+
       setCharGear({
         armor: charArmor,
         weapons: charWeapons,
@@ -282,10 +283,29 @@ function ShoppingSheet() {
             <></>
           )}
 
-          {selectedShopping === '#grenades' ? (
+          {selectedShopping === '#grenades' && charGear.grenades.length > 0 ? (
             <>
-              <GrenadeOwnedTable />
-              <GrenadeMasterTable />
+              <GrenadeOwnedTable
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
+              <GrenadeMasterTable
+                masterGrenades={masterGear.grenades}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>

@@ -13,6 +13,8 @@ const capitalizer = (string) => {
   // if there's more add in a split('_') or whatever.
   if (string === 'max_clip') {
     return 'Max Clip';
+  } else if (string === 'qty_owned') {
+    return 'Quantity Owned';
   } else {
     return (string = string
       .toLowerCase()
