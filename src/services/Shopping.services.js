@@ -168,6 +168,20 @@ const charSellGearRequest = (gearObj) => {
   });
 };
 
+const charChangeGearQtyRequest = (gearObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/shopping/charChangeGearQty', gearObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('error changing character gear qty owned:', error);
+        reject(error);
+      });
+  });
+};
+
 export {
   fetchShopCharDetailsRequest,
   fetchMasterArmorListRequest,
@@ -181,4 +195,5 @@ export {
   charChangeBankRequest,
   charPurchaseGearRequest,
   charSellGearRequest,
+  charChangeGearQtyRequest,
 };

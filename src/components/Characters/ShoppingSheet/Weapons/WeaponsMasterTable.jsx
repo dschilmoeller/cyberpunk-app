@@ -16,8 +16,6 @@ export default function WeaponsMasterTable({
   setLoading,
   chuckError,
 }) {
-  console.log(`master weapons:`, masterWeapons);
-
   const buyWeapon = async (item) => {
     setLoading(true);
     if (charDetail.bank >= item.price) {
