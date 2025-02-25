@@ -30,7 +30,6 @@ export default function GrenadeOwnedTable({ charGear, setCharGear, charDetail, s
             ...charGear,
             grenades: charGear.grenades.map((e) => (e.grenade_bridge_id === item.grenade_bridge_id ? { ...e, qty_owned: e.qty_owned - 1 } : e)),
           });
-          console.log(`grenades:`, charGear);
           setPageAlert({ open: true, message: 'Grenade Sold!', severity: 'success' });
         }
       } else {
@@ -39,7 +38,7 @@ export default function GrenadeOwnedTable({ charGear, setCharGear, charDetail, s
         if (bankResult === 'OK' && sellResult === 'OK') {
           setCharGear({ ...charGear, grenades: charGear.grenades.filter((e) => e.grenade_bridge_id != item.grenade_bridge_id) });
           setCharDetail({ ...charDetail, bank: newBank });
-          setPageAlert({ open: true, message: 'Weapon Sold!', severity: 'success' });
+          setPageAlert({ open: true, message: 'Grenade Sold!', severity: 'success' });
         } else {
           chuckError();
         }

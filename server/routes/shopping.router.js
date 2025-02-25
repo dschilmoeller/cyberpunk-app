@@ -12,7 +12,7 @@ router.post('/fetchCharDetails', rejectUnauthenticated, (req, res) => {
       res.send(result.rows[0]);
     })
     .catch((err) => {
-      console.log(`Error fetching equip character details:`, err);
+      console.error(`Error fetching equip character details:`, err);
       res.sendStatus(400);
     });
 });
@@ -170,6 +170,14 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
                 SELECT * FROM inserted_row
                 JOIN "misc_gear_master" ON inserted_row.misc_gear_id = "misc_gear_master"."misc_gear_master_id"`;
       break;
+    case 'Pharma':
+      sqlText = `WITH inserted_row AS 
+                  (INSERT INTO "char_pharma_bridge" ("char_id", "pharma_master_id", "qty_owned") 
+                  VALUES ($1, $2, 1) 
+                  RETURNING *) 
+                SELECT * FROM inserted_row
+                JOIN "pharma_master" ON inserted_row.pharma_master_id = "pharma_master"."pharma_master_id"`;
+      break;
     default:
       console.error('Error - invalid purchase type.');
       res.sendStatus(400);
@@ -206,6 +214,9 @@ router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
     case 'Misc':
       sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`;
       break;
+    case 'Pharma':
+      sqlText = `DELETE FROM "char_pharma_bridge" where "char_pharma_bridge_id" = $1`;
+      break;
     default:
       console.error('Error - invalid sell type.');
       res.sendStatus(400);
@@ -233,6 +244,9 @@ router.post('/charChangeGearQty', rejectUnauthenticated, (req, res) => {
   switch (req.body.type) {
     case 'Grenade':
       sqlText = `UPDATE "char_grenade_bridge" set "qty_owned" = $1 WHERE "grenade_bridge_id" = $2`;
+      break;
+    case 'Pharma':
+      sqlText = `UPDATE "char_pharma_bridge" set "qty_owned" = $1 WHERE "char_pharma_bridge_id" = $2`;
       break;
     default:
       console.error('Error - invalid sell type.');
