@@ -313,8 +313,27 @@ function ShoppingSheet() {
 
           {selectedShopping === '#other' ? (
             <>
-              <OtherOwnedTable />
-              <OtherMasterTable />
+              <OtherOwnedTable
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
+              <OtherMasterTable
+                masterMiscGear={masterGear.misc}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>

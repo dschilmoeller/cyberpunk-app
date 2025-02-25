@@ -162,6 +162,14 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
                 SELECT * FROM inserted_row
                 JOIN "grenade_master" ON inserted_row.grenade_id = "grenade_master"."grenade_master_id"`;
       break;
+    case 'Misc':
+      sqlText = `WITH inserted_row AS 
+                  (INSERT INTO "char_gear_bridge" ("char_id", "misc_gear_id") 
+                  VALUES ($1, $2) 
+                  RETURNING *) 
+                SELECT * FROM inserted_row
+                JOIN "misc_gear_master" ON inserted_row.misc_gear_id = "misc_gear_master"."misc_gear_master_id"`;
+      break;
     default:
       console.error('Error - invalid purchase type.');
       res.sendStatus(400);
@@ -194,6 +202,9 @@ router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
       break;
     case 'Grenade':
       sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`;
+      break;
+    case 'Misc':
+      sqlText = `DELETE FROM "char_gear_bridge" WHERE "char_gear_bridge_id" = $1`;
       break;
     default:
       console.error('Error - invalid sell type.');

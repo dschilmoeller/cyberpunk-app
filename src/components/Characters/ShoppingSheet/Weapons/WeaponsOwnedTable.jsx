@@ -172,7 +172,7 @@ export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, s
                         <TableCell align="center">{row.max_clip}</TableCell>
                         <TableCell align="center">{row.hands}</TableCell>
                         <TableCell align="center">{row.concealable === true ? 'Yes' : 'No'}</TableCell>
-                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
+                        <TableCell align="center">{moneyMaker(Math.floor(row.price / 4))}</TableCell>
                       </TableRow>
                       {row.equipped === true ? (
                         <>

@@ -112,7 +112,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                             Unequip
                           </Button>
                         </TableCell>
-                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
+                        <TableCell align="center">{moneyMaker(Math.Floor(row.price / 4))}</TableCell>
                         <TableCell align="center">
                           <Button color="error" variant={loading ? 'disabled' : 'contained'} onClick={() => sellArmor(row)}>
                             Sell
@@ -154,7 +154,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
                             Equip
                           </Button>
                         </TableCell>
-                        <TableCell align="center">{moneyMaker(row.price / 4)}</TableCell>
+                        <TableCell align="center">{moneyMaker(Math.Floor(row.price / 4))}</TableCell>
                         <TableCell align="center">
                           <Button color="error" variant={loading ? 'disabled' : 'contained'} onClick={() => sellArmor(row)}>
                             Sell
