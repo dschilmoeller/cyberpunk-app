@@ -154,6 +154,14 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
                 SELECT * FROM inserted_row
                 JOIN "weapon_master" ON inserted_row.weapon_id = "weapon_master"."weapon_master_id"`;
       break;
+    case 'Grenade':
+      sqlText = `WITH inserted_row AS 
+                  (INSERT INTO "char_grenade_bridge" ("char_id", "grenade_id", "qty_owned") 
+                  VALUES ($1, $2, 1) 
+                  RETURNING *) 
+                SELECT * FROM inserted_row
+                JOIN "grenade_master" ON inserted_row.grenade_id = "grenade_master"."grenade_master_id"`;
+      break;
     default:
       console.error('Error - invalid purchase type.');
       res.sendStatus(400);
@@ -184,8 +192,11 @@ router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
     case 'Weapon':
       sqlText = `DELETE FROM "char_weapons_bridge" WHERE "weapon_bridge_id" = $1`;
       break;
+    case 'Grenade':
+      sqlText = `DELETE FROM "char_grenade_bridge" WHERE "grenade_bridge_id" = $1`;
+      break;
     default:
-      console.error('Error - invalid purchase type.');
+      console.error('Error - invalid sell type.');
       res.sendStatus(400);
       break;
   }
@@ -206,4 +217,31 @@ router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/charChangeGearQty', rejectUnauthenticated, (req, res) => {
+  let sqlText = ``;
+  switch (req.body.type) {
+    case 'Grenade':
+      sqlText = `UPDATE "char_grenade_bridge" set "qty_owned" = $1 WHERE "grenade_bridge_id" = $2`;
+      break;
+    default:
+      console.error('Error - invalid sell type.');
+      res.sendStatus(400);
+      break;
+  }
+
+  const sqlParams = [req.body.qty_owned, req.body.gearID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(400);
+      }
+    })
+    .catch((err) => {
+      console.error('Error character selling gear:', err);
+      res.sendStatus(400);
+    });
+});
 module.exports = router;
