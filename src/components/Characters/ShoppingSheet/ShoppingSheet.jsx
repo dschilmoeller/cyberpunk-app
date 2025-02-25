@@ -341,8 +341,27 @@ function ShoppingSheet() {
 
           {selectedShopping === '#pharma' ? (
             <>
-              <PharmaOwnedTable />
-              <PharmaMasterTable />
+              <PharmaOwnedTable
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
+              <PharmaMasterTable
+                masterPharma={masterGear.pharma}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>
