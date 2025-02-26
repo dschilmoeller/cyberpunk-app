@@ -4,11 +4,10 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 import { charChangeBankRequest, charSellGearRequest, charChangeGearQtyRequest } from '../../../../services/shopping.services';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 
-export default function GrenadeOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GrenadeOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const euroBuck = `\u20AC$`;
 
   const sellGrenade = async (item) => {
-    // need to deal with altering quantity on grenade table - two cases?
     setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
     const bankObj = {
@@ -40,7 +39,7 @@ export default function GrenadeOwnedTable({ charGear, setCharGear, charDetail, s
           setCharDetail({ ...charDetail, bank: newBank });
           setPageAlert({ open: true, message: 'Grenade Sold!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry!', severity: 'error' });
         }
       }
     } catch (error) {
