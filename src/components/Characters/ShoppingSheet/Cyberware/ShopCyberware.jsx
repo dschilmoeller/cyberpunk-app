@@ -1,104 +1,83 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
-
-export default function ShopCyberware() {
-  const dispatch = useDispatch();
-  const charCyberware = useSelector((store) => store.advancementGear.cyberware);
-  const cyberwareMaster = useSelector((store) => store.gearMaster.cyberware);
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const euroBuck = `\u20AC$`;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
+import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from '@mui/material/';
+import { moneyMaker } from '../../../../utils/funcs/funcs';
+import { Tabs, Tab } from '@mui/material/';
+import { charChangeBankRequest, charPurchaseGearRequest, charSellGearRequest } from '../../../../services/shopping.services';
+export default function ShopCyberware({
+  masterCyber,
+  charGear,
+  setCharGear,
+  charDetail,
+  setCharDetail,
+  setPageAlert,
+  loading,
+  setLoading,
+  chuckError,
+}) {
   const [selectedList, setSelectedList] = useState('fashionware');
   const handleTabChange = (event, newValue) => {
     setSelectedList(newValue);
   };
 
-  const sellOwnedCyberware = (item) => {
-    let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
-    dispatch({
-      type: 'SELL_ITEM',
-      payload: {
-        itemID: item.owned_cyberware_id,
-        newBank,
-        charID: charDetail.id,
-        table: 'char_owned_cyberware',
-        column: 'owned_cyberware_id',
-      },
-    });
+  const buyCyberware = async (item) => {
+    setLoading(true);
+    const bankObj = {
+      charID: charDetail.id,
+      newBank: Number(charDetail.bank - item.price),
+    };
+    const gearObj = {
+      type: 'Cyberware',
+      charID: charDetail.id,
+      gearID: item.cyberware_master_id,
+    };
+    try {
+      const bankResult = await charChangeBankRequest(bankObj);
+      const shopResult = await charPurchaseGearRequest(gearObj);
+      if (bankResult === 'OK' && shopResult.owned_cyberware_id) {
+        setCharGear({ ...charGear, cyberware: [...charGear.cyberware, shopResult] });
+        setCharDetail({ ...charDetail, bank: bankObj.newBank });
+        setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error buying cyberware:', error);
+      setPageAlert({ open: true, message: 'Error purchasingcyberware!', severity: 'error' });
+    }
+    setLoading(false);
   };
 
-  const buyCyberware = (item) => {
-    if (charDetail.bank >= item.price) {
-      let newBank = charDetail.bank - item.price;
-      dispatch({
-        type: 'BUY_ITEM',
-        payload: {
-          itemMasterID: item.cyberware_master_id,
-          newBank,
-          charID: charDetail.id,
-          table: 'char_owned_cyberware',
-          column: 'cyberware_master_id',
-        },
-      });
-      return;
-    } else {
-      setShowSnackbar(true);
-      return;
+  const sellCyberware = async (item) => {
+    setLoading(true);
+    let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
+    const bankObj = {
+      charID: charDetail.id,
+      newBank: newBank,
+    };
+    const itemObj = {
+      type: 'Cyberware',
+      gearID: item.owned_cyberware_id,
+    };
+    try {
+      let bankResult = await charChangeBankRequest(bankObj);
+      let sellResult = await charSellGearRequest(itemObj);
+      if (bankResult === 'OK' && sellResult === 'OK') {
+        setCharGear({ ...charGear, cyberware: charGear.cyberware.filter((e) => e.owned_cyberware_id != item.owned_cyberware_id) });
+        setCharDetail({ ...charDetail, bank: newBank });
+        setPageAlert({ open: true, message: 'Cyberware Sold!', severity: 'success' });
+      } else {
+        chuckError();
+      }
+    } catch (error) {
+      console.error('Error selling cyberware:', error);
+      setPageAlert({ open: true, message: 'Error selling cyberware!', severity: 'error' });
     }
+    setLoading(false);
   };
 
   return (
     <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
-          Transaction canceled due to lack of funds
-        </Alert>
-      </Snackbar>
-
-      <Tabs
-        value={selectedList}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="secondary"
-      >
+      <Tabs value={selectedList} onChange={handleTabChange} indicatorColor="primary" textColor="secondary">
         <Tab value="fashionware" label="Fashionware" />
         <Tab value="neuralware" label="Neuralware" />
         <Tab value="cyberoptics" label="Cyberoptics" />
@@ -125,7 +104,7 @@ export default function ShopCyberware() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {charCyberware.map((item) => {
+            {charGear.cyberware.map((item) => {
               if (item.equipped === false && item.type === selectedList) {
                 return (
                   <React.Fragment key={item.owned_cyberware_id}>
@@ -136,18 +115,9 @@ export default function ShopCyberware() {
                         {item.humanity_loss_min} - {item.humanity_loss_max}
                       </TableCell>
                       <TableCell align="center">{item.install_level}</TableCell>
+                      <TableCell align="center">{moneyMaker(Math.floor(item.price / 4))}</TableCell>
                       <TableCell align="center">
-                        {euroBuck}
-                        {Math.floor(item.price / 4).toLocaleString('en-US')}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          variant={
-                            loadStatus === false ? 'contained' : 'disabled'
-                          }
-                          color="error"
-                          onClick={() => sellOwnedCyberware(item)}
-                        >
+                        <Button variant={loading === false ? 'contained' : 'disabled'} color="error" onClick={() => sellCyberware(item)}>
                           Sell
                         </Button>
                       </TableCell>
@@ -175,7 +145,7 @@ export default function ShopCyberware() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cyberwareMaster.map((item) => {
+            {masterCyber.map((item) => {
               if (item.is_treasure != true) {
                 return (
                   <React.Fragment key={item.cyberware_master_id}>
@@ -183,27 +153,14 @@ export default function ShopCyberware() {
                       <React.Fragment key={item.cyberware_master_id}>
                         <TableRow hover>
                           <TableCell align="left">{item.name} </TableCell>
-                          <TableCell align="center">
-                            {item.description}
-                          </TableCell>
+                          <TableCell align="center">{item.description}</TableCell>
                           <TableCell align="center">
                             {item.humanity_loss_min} - {item.humanity_loss_max}
                           </TableCell>
+                          <TableCell align="center">{item.install_level}</TableCell>
+                          <TableCell align="center">{moneyMaker(Math.floor(item.price))}</TableCell>
                           <TableCell align="center">
-                            {item.install_level}
-                          </TableCell>
-                          <TableCell align="center">
-                            {euroBuck}
-                            {Math.floor(item.price).toLocaleString('en-US')}
-                          </TableCell>
-                          <TableCell align="center">
-                            <Button
-                              variant={
-                                loadStatus === false ? 'contained' : 'disabled'
-                              }
-                              color="success"
-                              onClick={() => buyCyberware(item)}
-                            >
+                            <Button variant={loading === false ? 'contained' : 'disabled'} color="success" onClick={() => buyCyberware(item)}>
                               Buy
                             </Button>
                           </TableCell>

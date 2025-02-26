@@ -94,6 +94,7 @@ function ShoppingSheet() {
       const charGrenades = await fetchCharGrenadesRequest(charObj);
       const charMiscGear = await fetchCharMiscGearRequest(charObj);
       const charPharma = await fetchCharPharmaRequest(charObj);
+      // netrunner stuff
       const charCyberware = await fetchCharCyberwareRequest(charObj);
       const charVehicles = await fetchCharVehiclesRequest(charObj);
       const charVehicleMods = await fetchCharVehicleModsRequest(charObj);
@@ -104,6 +105,7 @@ function ShoppingSheet() {
         grenades: charGrenades,
         misc: charMiscGear,
         pharma: charPharma,
+        // netrunner: charNetrunner
         cyberware: charCyberware,
         vehicles: charVehicles,
         vehicleMods: charVehicleMods,
@@ -114,6 +116,7 @@ function ShoppingSheet() {
       const masterGrenades = await fetchMasterGrenadesListRequest();
       const masterMiscGear = await fetchMasterMiscGearListRequest();
       const masterPharma = await fetchMasterPharmaListRequest();
+      // masterNetrunner
       const masterCyberware = await fetchMasterCyberwareListRequest();
       const masterVehicles = await fetchMasterVehiclesListRequest();
       const masterVehicleMods = await fetchMasterVehicleModsListRequest();
@@ -123,6 +126,7 @@ function ShoppingSheet() {
         grenades: masterGrenades,
         misc: masterMiscGear,
         pharma: masterPharma,
+        // netrunner: masterNetrunner
         cyberware: masterCyberware,
         vehicles: masterVehicles,
         vehicleMods: masterVehicleMods,
@@ -378,7 +382,17 @@ function ShoppingSheet() {
 
           {selectedShopping === '#cyberware' ? (
             <>
-              <ShopCyberware />
+              <ShopCyberware
+                masterCyber={masterGear.cyberware}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+                chuckError={chuckError}
+              />
             </>
           ) : (
             <></>
