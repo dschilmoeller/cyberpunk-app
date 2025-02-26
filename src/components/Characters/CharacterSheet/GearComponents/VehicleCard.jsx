@@ -4,7 +4,7 @@ import VehicleModDialog from '../../../Modals/VehicleModDialog';
 import { inPlayVehicleStatusChange } from '../../../../services/CharInPlay.services';
 import Item from '../Item';
 
-export default function VehicleCard({ incomingVehicle, charVehicleMods, loading, setLoading, chuckError }) {
+export default function VehicleCard({ incomingVehicle, charVehicleMods, loading, setLoading, setPageAlert }) {
   const unhurtMarker = `\u2610`;
   const aggMarker = `\u2718`;
   const [vehicle, setVehicle] = React.useState(incomingVehicle);
@@ -47,7 +47,7 @@ export default function VehicleCard({ incomingVehicle, charVehicleMods, loading,
         current_armor_damage: armor ? vehicle.current_armor_damage + change : vehicle.current_armor_damage,
       });
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

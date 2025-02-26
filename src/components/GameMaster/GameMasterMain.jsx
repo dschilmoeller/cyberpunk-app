@@ -14,7 +14,7 @@ import {
   changeCharacterXP,
 } from '../../services/gm.services';
 
-export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterMain({ charDetail, campaignList, setCharDetail, setPageAlert, loading, setLoading }) {
   const euroBuck = `\u20AC$`;
 
   const [allowDeleteCharacter, setAllowDeleteCharacter] = useState(false);
@@ -37,10 +37,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
           handle: newHandle,
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       console.error('Error changing handle:', error);
     }
     setLoading(false);
@@ -62,10 +62,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
           player: newPlayer,
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       console.error('Error changing Player:', error);
     }
     setLoading(false);
@@ -87,10 +87,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
           campaign_name: campaignList.filter((campaign) => campaign.campaign_id === campaign_id)[0].campaign_name,
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       console.error('Error Changing Campaign:', error);
     }
     setLoading(false);
@@ -112,7 +112,7 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
               temp_humanity_loss: charDetail.temp_humanity_loss + amount,
             });
           } else {
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else if (type === 'perm') {
           const humanityObj = {
@@ -126,13 +126,13 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
               perm_humanity_loss: charDetail.perm_humanity_loss + amount,
             });
           } else {
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         console.error('Error changing player humanity:', error);
       }
     } else {
@@ -168,10 +168,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             bank: charDetail.bank + amount,
           });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         console.error('Error changing bank:', error);
       }
     } else {
@@ -199,10 +199,10 @@ export default function GameMasterMain({ charDetail, campaignList, setCharDetail
             max_xp: charDetail.max_xp + amount,
           });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         console.error('Error changing XP:', error);
       }
     }

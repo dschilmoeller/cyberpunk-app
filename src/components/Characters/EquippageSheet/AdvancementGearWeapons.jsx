@@ -6,15 +6,7 @@ import WeaponDialog from '../../Modals/WeaponDialog';
 import { updateWeaponStatusRequest } from '../../../services/equip.services';
 
 // TODO: Modding to be enabled. Eventually.
-export default function AdvancementGearWeapons({
-  equipCharDetails,
-  charGear,
-  setCharGear,
-  loading,
-  setLoading,
-  // setPageAlert,
-  chuckError,
-}) {
+export default function AdvancementGearWeapons({ equipCharDetails, charGear, setCharGear, loading, setLoading, setPageAlert }) {
   const changeWeaponStatus = async (incomingWeapon) => {
     setLoading(true);
     const weaponObj = {
@@ -38,7 +30,7 @@ export default function AdvancementGearWeapons({
           weapons: updatedWeapons,
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error changing weapon equip status:', error);

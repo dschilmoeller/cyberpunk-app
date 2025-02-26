@@ -99,15 +99,6 @@ export default function CharacterSheet() {
     charSheetSetup();
   }, []);
 
-  const chuckError = () => {
-    setPageAlert({
-      open: true,
-      message: 'Something is awry',
-      severity: 'info',
-    });
-    setLoading(false);
-  };
-
   const [selectedInventory, setSelectedInventory] = useState('weapons');
   const handleInventorySelect = (event, newValue) => {
     setSelectedInventory(newValue);
@@ -139,7 +130,6 @@ export default function CharacterSheet() {
                   charCyberware={charCyberware}
                   loading={loading}
                   setLoading={setLoading}
-                  chuckError={chuckError}
                   setPageAlert={setPageAlert}
                 />
 
@@ -162,7 +152,6 @@ export default function CharacterSheet() {
                       charCyberware={charCyberware}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
                       setPageAlert={setPageAlert}
                       painEditor={painEditor}
                     />
@@ -180,7 +169,6 @@ export default function CharacterSheet() {
                       setCharMiscGear={setCharMiscGear}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
                       setPageAlert={setPageAlert}
                     />
                   </>
@@ -195,7 +183,6 @@ export default function CharacterSheet() {
                       setCharPharma={setCharPharma}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
                       setPageAlert={setPageAlert}
                     />
                   </>
@@ -218,7 +205,7 @@ export default function CharacterSheet() {
                       charVehicleMods={charVehicleMods}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
+                      setPageAlert={setPageAlert}
                     />
                   </>
                 ) : (
@@ -241,7 +228,6 @@ export default function CharacterSheet() {
                       setCharNotes={setCharNotes}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
                       setPageAlert={setPageAlert}
                     />
                   </>
@@ -257,7 +243,6 @@ export default function CharacterSheet() {
                       setCharContacts={setCharContacts}
                       loading={loading}
                       setLoading={setLoading}
-                      chuckError={chuckError}
                       setPageAlert={setPageAlert}
                     />
                   </>

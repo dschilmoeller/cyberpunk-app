@@ -3,17 +3,7 @@ import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow, T
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 import { Tabs, Tab } from '@mui/material/';
 import { charChangeBankRequest, charPurchaseGearRequest, charSellGearRequest } from '../../../../services/shopping.services';
-export default function ShopCyberware({
-  masterCyber,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function ShopCyberware({ masterCyber, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const [selectedList, setSelectedList] = useState('fashionware');
   const handleTabChange = (event, newValue) => {
     setSelectedList(newValue);
@@ -38,7 +28,7 @@ export default function ShopCyberware({
         setCharDetail({ ...charDetail, bank: bankObj.newBank });
         setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error buying cyberware:', error);
@@ -66,7 +56,7 @@ export default function ShopCyberware({
         setCharDetail({ ...charDetail, bank: newBank });
         setPageAlert({ open: true, message: 'Cyberware Sold!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error selling cyberware:', error);

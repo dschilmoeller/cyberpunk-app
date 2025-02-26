@@ -11,7 +11,7 @@ import HorizontalRuleOutlinedIcon from '@mui/icons-material/HorizontalRuleOutlin
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { inPlayStatusChangeRequest } from '../../../../services/CharInPlay.services';
 
-function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loading, setLoading, chuckError }) {
+function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loading, setLoading, setPageAlert }) {
   const totalHealth = 10 + charStatus.current_cyberware_health_boxes;
   const totalDamage = charStatus.current_stun + charStatus.current_lethal + charStatus.current_agg;
 
@@ -156,8 +156,8 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
         handleAgg(healOrHarm);
         break;
       default:
-        console.error(`Error applying damage`);
-        chuckError();
+        console.error(`Type error applying damage type:`, damageType);
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         break;
     }
     setLoading(false);
@@ -174,13 +174,13 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
             }
           } catch (error) {
             console.error('Error changing character status:', error);
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else if (totalDamage === totalHealth) {
           handleLethal(healOrHarm);
         } else {
           console.error(`Error applying STUN damage`);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
         break;
       case 'heal':
@@ -192,12 +192,17 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
             }
           } catch (error) {
             console.error('Error changing character status', error);
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else {
           console.error(`No STUN damage to heal detected`);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
+        break;
+      default:
+        console.error(`handleStun - this should never happen.`);
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        break;
     }
   };
 
@@ -208,7 +213,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
         if (totalDamage < totalHealth || (charStatus.current_stun > 0 && totalDamage === totalHealth)) {
           if (charStatus.current_stun > 0) {
             try {
-              // // lethal wounds overwrite stun wounds, so if char has one, subtract 1 from total stun damage
+              // lethal wounds overwrite stun wounds, so if char has one, subtract 1 from total stun damage
               let result = await inPlayStatusChangeRequest({
                 ...charStatus,
                 current_lethal: charStatus.current_lethal + 1,
@@ -220,10 +225,10 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
               }
             } catch (error) {
               console.error('Error changing character status:', error);
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           } else {
-            // // if no stun wounds are present, do not change stun wound total.
+            // if no stun wounds are present, do not change stun wound total.
             try {
               let result = await inPlayStatusChangeRequest({ ...charStatus, current_lethal: charStatus.current_lethal + 1, charID: charDetail.id });
               if (result === 'OK') {
@@ -231,7 +236,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
               }
             } catch (error) {
               console.error('Error changing character status:', error);
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           }
         } else if (totalDamage === totalHealth) {
@@ -249,12 +254,17 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
             }
           } catch (error) {
             console.error('Error changing character status:', error);
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else {
           console.error(`No LETHAL damage to heal detected`);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
+        break;
+      default:
+        console.error(`HandleLethal - this should never happen.`);
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        break;
     }
   };
 
@@ -263,7 +273,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
       case 'harm':
         if (charStatus.current_agg < totalHealth) {
           if (charStatus.current_lethal > 0) {
-            // // as with lethal, agg wounds overwrite lethal and stun wounds. It is preferable to overwrite a lethal wound, so that comes first.
+            // as with lethal, agg wounds overwrite lethal and stun wounds. It is preferable to overwrite a lethal wound, so that comes first.
             try {
               let result = await inPlayStatusChangeRequest({
                 ...charStatus,
@@ -276,7 +286,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
               }
             } catch (error) {
               console.error('Error changing character status:', error);
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           } else if (charStatus.current_stun > 0) {
             try {
@@ -291,7 +301,7 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
               }
             } catch (error) {
               console.error('Error changing character status:', error);
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           } else {
             try {
@@ -301,12 +311,12 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
               }
             } catch (error) {
               console.error('Error changing character status:', error);
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           }
         } else {
           console.error(`Error applying AGG damage OR damage track filled`);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
         break;
       case 'heal':
@@ -318,12 +328,17 @@ function Health({ charDetail, charStatus, setCharStatus, characterCyberware, loa
             }
           } catch (error) {
             console.error('Error changing character status:', error);
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } else {
           console.error(`No AGG damage to heal detected`);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
+        break;
+      default:
+        console.error(`HandleAgg - this should never happen.`);
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        break;
     }
   };
 

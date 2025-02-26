@@ -132,7 +132,7 @@ function ShoppingSheet() {
         vehicleMods: masterVehicleMods,
       });
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -140,15 +140,6 @@ function ShoppingSheet() {
   useEffect(() => {
     shopSheetSetup();
   }, []);
-
-  const chuckError = () => {
-    setPageAlert({
-      open: true,
-      message: 'Something is awry',
-      severity: 'info',
-    });
-    setLoading(false);
-  };
 
   const [selectedShopping, setSelectedShopping] = useState(location.hash ? location.hash : false);
   const handleShoppingSelect = (event, newValue) => {
@@ -241,7 +232,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
               <ArmorMasterTable
                 masterArmor={masterGear.armor}
@@ -252,7 +242,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -269,7 +258,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
               <WeaponsMasterTable
                 masterWeapons={masterGear.weapons}
@@ -280,7 +268,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -297,7 +284,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
               <GrenadeMasterTable
                 masterGrenades={masterGear.grenades}
@@ -308,7 +294,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -325,7 +310,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
               <OtherMasterTable
                 masterMiscGear={masterGear.misc}
@@ -336,7 +320,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -353,7 +336,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
               <PharmaMasterTable
                 masterPharma={masterGear.pharma}
@@ -364,7 +346,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -391,7 +372,6 @@ function ShoppingSheet() {
                 setPageAlert={setPageAlert}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -400,8 +380,25 @@ function ShoppingSheet() {
 
           {selectedShopping === '#vehicles' ? (
             <>
-              <VehicleOwnedTable />
-              <VehicleMasterTable />
+              <VehicleOwnedTable
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+              />
+              <VehicleMasterTable
+                masterVehicles={masterGear.vehicles}
+                charGear={charGear}
+                setCharGear={setCharGear}
+                charDetail={charDetail}
+                setCharDetail={setCharDetail}
+                setPageAlert={setPageAlert}
+                loading={loading}
+                setLoading={setLoading}
+              />
             </>
           ) : (
             <></>

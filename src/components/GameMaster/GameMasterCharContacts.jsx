@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { fetchCharacterContactsRequest, changeContactLoyaltyRequest } from '../../services/gm.services';
 
-export default function GameMasterCharContacts({ charDetail, characterContacts, setPageAlert, loading, setLoading, chuckError, setCharContacts }) {
+export default function GameMasterCharContacts({ charDetail, characterContacts, setPageAlert, loading, setLoading, setCharContacts }) {
   const changeLoyalty = async (contact, change) => {
     setLoading(true);
     if (contact.loyalty + change >= 0 && contact.loyalty + change <= 10) {
@@ -23,7 +23,7 @@ export default function GameMasterCharContacts({ charDetail, characterContacts, 
         }
       } catch (error) {
         console.error('error changing contact loyalty:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({

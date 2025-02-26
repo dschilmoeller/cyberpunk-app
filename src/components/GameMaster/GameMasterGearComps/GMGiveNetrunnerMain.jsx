@@ -8,7 +8,7 @@ import GMGiveNetrunnerSoftware from './GMGiveNetrunnerSoftware';
 
 // TODO
 // reexamine this one - can probably be made more efficient.
-export default function GMGiveNetrunnerMain({ charDetail, netrunnerMaster, setPageAlert, loading, setLoading, chuckError }) {
+export default function GMGiveNetrunnerMain({ charDetail, netrunnerMaster, setPageAlert, loading, setLoading }) {
   // Tab handlers
   const [selectedGearType, setSelectedGearType] = useState('software');
   const handleGearTypeSelect = (event, newValue) => {

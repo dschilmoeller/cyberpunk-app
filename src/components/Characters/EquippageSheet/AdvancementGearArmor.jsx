@@ -19,7 +19,6 @@ export default function AdvancementGearArmor({
   loading,
   setLoading,
   setPageAlert,
-  chuckError,
 }) {
   const armorBuilder = (stat) => {
     let maxArmorTotal = equipCharStatus.current_cyberware_armor_quality;
@@ -73,17 +72,15 @@ export default function AdvancementGearArmor({
           if (result === 'OK') {
             setPageAlert({ open: true, message: 'Armor Equipped', severity: 'success' });
           } else {
-            setLoading(false);
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             break;
           }
         } catch (error) {
           console.error('Error equipping armor:', error);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       }
     }
-    setLoading(false);
     setCharGear({
       ...charGear,
       armor: charGear.armor.map((e) =>
@@ -94,6 +91,7 @@ export default function AdvancementGearArmor({
             : e
       ),
     });
+    setLoading(false);
   }
 
   const repairArmor = async (incomingArmor) => {
@@ -118,11 +116,11 @@ export default function AdvancementGearArmor({
           setCharGear({ ...charGear, armor: charArmorResult });
           setEquipCharDetails({ ...equipCharDetails, bank: statObj.newRank });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error repairing armor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Armor not damaged!', severity: 'error' });
@@ -150,7 +148,7 @@ export default function AdvancementGearArmor({
           setEquipCharStatus({ ...equipCharStatus, current_cyberware_armor_loss: 0 });
           setEquipCharDetails({ ...equipCharDetails, bank: bankObj.newRank });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error repairing cyberware armor:', error);

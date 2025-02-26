@@ -10,7 +10,7 @@ import { capitalizer, dotReturn } from '../../utils/funcs/funcs';
 import { Roles, RoleSkills } from '../../utils/objects/objects.utils';
 import { changeCharacterRole } from '../../services/gm.services';
 
-export default function GameMasterRoles({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterRoles({ charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const changeRole = async (role, change, max) => {
     setLoading(true);
     const roleObj = {
@@ -35,7 +35,7 @@ export default function GameMasterRoles({ charDetail, setCharDetail, setPageAler
         }
       } catch (error) {
         console.error('Error changing Role value:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     }
     setLoading(false);

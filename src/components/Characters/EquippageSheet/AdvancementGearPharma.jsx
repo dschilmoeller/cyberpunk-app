@@ -9,7 +9,7 @@ import {
   fetchCharPharmaRequest,
 } from '../../../services/equip.services';
 
-export default function AdvancementPharma({ equipCharDetails, setEquipCharDetails, masterGear, charGear, setCharGear, setPageAlert, chuckError }) {
+export default function AdvancementPharma({ equipCharDetails, setEquipCharDetails, masterGear, charGear, setCharGear, setPageAlert }) {
   const [selectedPharma, setSelectedPharma] = useState('None Selected');
   const [pharmReagentCost, setPharmReagentCost] = useState(0);
   const [dosesToMake, setDosesToMake] = useState(1);
@@ -79,7 +79,7 @@ export default function AdvancementPharma({ equipCharDetails, setEquipCharDetail
           console.log(`result char pharma:`, charPharma);
           await setCharGear({ ...charGear, pharma: charPharma });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error creating Pharma:', error);
@@ -89,7 +89,7 @@ export default function AdvancementPharma({ equipCharDetails, setEquipCharDetail
       setSelectedPharma('None Selected');
       setPharmReagentCost(0);
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

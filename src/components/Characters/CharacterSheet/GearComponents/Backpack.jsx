@@ -6,7 +6,7 @@ import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator, handleRequestSort } from '../../../GeneralAssets/tableFuncs.service';
 import { inPlayUseConsumable, inPlayBankChange } from '../../../../services/CharInPlay.services';
 
-export default function Backpack({ charDetail, setCharDetail, charMiscGear, setCharMiscGear, loading, setLoading, chuckError, setPageAlert }) {
+export default function Backpack({ charDetail, setCharDetail, charMiscGear, setCharMiscGear, loading, setLoading, setPageAlert }) {
   const euroBuck = `\u20AC$`;
 
   const UseConsumable = async (stuff, isFood) => {
@@ -24,11 +24,11 @@ export default function Backpack({ charDetail, setCharDetail, charMiscGear, setC
           setPageAlert({ open: true, message: 'Item used', type: 'success' });
         }
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error using consumable:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -63,11 +63,11 @@ export default function Backpack({ charDetail, setCharDetail, charMiscGear, setC
           setPageAlert({ open: true, message: 'Cha-Ching!', severity: 'success' });
           setBankChange(0);
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Nice try.', severity: 'error' });

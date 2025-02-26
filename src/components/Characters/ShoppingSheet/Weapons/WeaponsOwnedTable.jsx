@@ -6,7 +6,7 @@ import { charChangeBankRequest, charSellGearRequest } from '../../../../services
 import { updateWeaponStatusRequest } from '../../../../services/equip.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const sellWeapon = async (item) => {
     setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
@@ -26,7 +26,7 @@ export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, s
         setCharDetail({ ...charDetail, bank: newBank });
         setPageAlert({ open: true, message: 'Weapon Sold!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error selling weapon:', error);
@@ -56,7 +56,7 @@ export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, s
           }
         } catch (error) {
           console.error('Error changing weapon equip status:', error);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       }
     }

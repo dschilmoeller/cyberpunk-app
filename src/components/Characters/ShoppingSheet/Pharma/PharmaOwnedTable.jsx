@@ -3,7 +3,7 @@ import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableR
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charSellGearRequest, charChangeGearQtyRequest } from '../../../../services/shopping.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
-export default function PharmaOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function PharmaOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const sellOwnedGear = async (item) => {
     setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
@@ -36,7 +36,7 @@ export default function PharmaOwnedTable({ charGear, setCharGear, charDetail, se
           setCharDetail({ ...charDetail, bank: newBank });
           setPageAlert({ open: true, message: 'Pharma Sold!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       }
     } catch (error) {

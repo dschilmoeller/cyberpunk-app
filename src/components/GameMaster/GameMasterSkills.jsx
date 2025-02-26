@@ -8,7 +8,7 @@ import { dotReturn } from '../../utils/funcs/funcs';
 import { SkillSet } from '../../utils/objects/objects.utils';
 import { changeCharacterSkill } from '../../services/gm.services';
 
-export default function GameMasterSkills({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterSkills({ charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const changeSkill = async (skillName, change) => {
     setLoading(true);
     const skillObj = {
@@ -33,11 +33,11 @@ export default function GameMasterSkills({ charDetail, setCharDetail, setPageAle
           });
         }
       } catch (error) {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         console.error('Error changing skill rank:', error);
       }
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -64,7 +64,7 @@ export default function GameMasterSkills({ charDetail, setCharDetail, setPageAle
         });
       }
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       console.error('Error changing skill rank:', error);
     }
     setLoading(false);

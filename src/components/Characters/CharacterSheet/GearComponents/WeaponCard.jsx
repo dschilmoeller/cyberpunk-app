@@ -8,7 +8,7 @@ import WeaponDialog from '../../../Modals/WeaponDialog';
 import CharWeaponDieRollDialog from '../../../Modals/CharWeaponDieRoll';
 import { inPlayWeaponChangeRequest } from '../../../../services/CharInPlay.services';
 
-export default function WeaponCard({ prop, charDetail, charStatus, loading, setLoading, clip, chuckError, painEditor }) {
+export default function WeaponCard({ prop, charDetail, charStatus, loading, setLoading, clip, painEditor, setPageAlert }) {
   const unhurtMarker = <CircleOutlinedIcon />;
   const aggMarker = <CancelIcon />;
 
@@ -94,7 +94,7 @@ export default function WeaponCard({ prop, charDetail, charStatus, loading, setL
       }
     } catch (error) {
       console.error('Error reloading weapon', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -113,10 +113,10 @@ export default function WeaponCard({ prop, charDetail, charStatus, loading, setL
         }
       } catch (error) {
         console.error('Error firing weapon', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -135,10 +135,10 @@ export default function WeaponCard({ prop, charDetail, charStatus, loading, setL
         }
       } catch (error) {
         console.error('Error reloading weapon', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

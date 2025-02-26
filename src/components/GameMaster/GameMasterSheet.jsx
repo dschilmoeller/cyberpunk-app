@@ -29,6 +29,7 @@ export default function GameMasterSheet() {
   const [charContacts, setCharContacts] = useState([]);
 
   const fetchCharacterDetails = async () => {
+    setLoading(true);
     try {
       const characterDetails = await fetchCharacterDetailsRequest(params.id);
       setCharDetail(characterDetails);
@@ -46,14 +47,6 @@ export default function GameMasterSheet() {
     } catch (error) {
       console.error('Error fetching campaign list:', error);
     }
-  };
-
-  const chuckError = () => {
-    setPageAlert({
-      open: true,
-      message: 'Something is awry',
-      severity: 'info',
-    });
     setLoading(false);
   };
 
@@ -106,7 +99,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
           />
         </>
       ) : (
@@ -121,7 +113,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
           />
         </>
       ) : (
@@ -136,7 +127,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
           />
         </>
       ) : (
@@ -151,7 +141,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
           />
         </>
       ) : (
@@ -166,7 +155,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
           />
         </>
       ) : (
@@ -175,7 +163,7 @@ export default function GameMasterSheet() {
 
       {selectedSheet === 'gmGear' ? (
         <>
-          <GameMasterGiveGear charDetail={charDetail} setPageAlert={setPageAlert} loading={loading} setLoading={setLoading} chuckError={chuckError} />
+          <GameMasterGiveGear charDetail={charDetail} setPageAlert={setPageAlert} loading={loading} setLoading={setLoading} />
         </>
       ) : (
         <> </>
@@ -189,7 +177,6 @@ export default function GameMasterSheet() {
             setPageAlert={setPageAlert}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
             setCharContacts={setCharContacts}
           />
         </>

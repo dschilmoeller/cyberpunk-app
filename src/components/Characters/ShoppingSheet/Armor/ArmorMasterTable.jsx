@@ -2,17 +2,7 @@ import React from 'react';
 import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material/';
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
-export default function ArmorMasterTable({
-  masterArmor,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function ArmorMasterTable({ masterArmor, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const euroBuck = `\u20AC$`;
 
   const buyArmor = async (item) => {
@@ -35,11 +25,11 @@ export default function ArmorMasterTable({
           setCharDetail({ ...charDetail, bank: bankObj.newBank });
           setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error purchasing gear:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });

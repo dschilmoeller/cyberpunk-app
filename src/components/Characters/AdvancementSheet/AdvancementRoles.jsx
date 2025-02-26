@@ -6,7 +6,7 @@ import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
 import { Roles, RoleSkills } from '../../../utils/objects/objects.utils';
 import { updateCharacterStat } from '../../../services/advancement.services';
 
-export default function AdvancementRoles({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementRoles({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert }) {
   const roleExpReturn = (role) => {
     if (role < 1) {
       return `15 XP`;
@@ -16,10 +16,10 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
     }
   };
 
-  //REQUIRES EXTENSIVE REVIEW & TESTING =/
+  // TODO REQUIRES EXTENSIVE REVIEW & TESTING =/
   const increaseStat = async (attribute, maxRank, roleSkill, roleSkillPool) => {
+    setLoading(true);
     if (roleSkill === false) {
-      setLoading(true);
       const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp;
       const requiredExp = advancementDetails[attribute] === 0 ? 15 : (advancementDetails[attribute] + 1) * 5;
       const statObj = {
@@ -68,7 +68,7 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
                   });
                   setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
                 } else {
-                  chuckError();
+                  setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
                 }
               } else if (roleSkillResult === 'OK') {
                 console.log(`att`, attribute, 'max', maxRank, 'roleskill', roleSkill, 'skillpool', roleSkillPool);
@@ -81,10 +81,10 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
                 });
                 setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
               } else {
-                chuckError();
+                setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
               }
             } catch (error) {
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           } else if (result === 'OK' && attribute === 'nomad') {
             const nomadObj = {
@@ -104,7 +104,7 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
               });
               setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
             } else {
-              chuckError();
+              setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
             }
           } else if (result === 'OK') {
             setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
@@ -114,15 +114,15 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
               spent_xp: advancementDetails.spent_xp + requiredExp,
             });
           } else {
-            chuckError();
+            setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
           }
         } catch (error) {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } else if (requiredExp > availableExp) {
         setPageAlert({ open: true, message: 'Insufficient XP', severity: 'error' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (roleSkill === true) {
       // handle increasing skill - whole different thing.
@@ -149,10 +149,10 @@ export default function AdvancementRoles({ advancementDetails, setAdvancementDet
         });
         setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

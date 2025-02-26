@@ -8,7 +8,7 @@ import { AttributesArr } from '../../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../../utils/funcs/funcs';
 import { updateCharacterStat } from '../../../services/advancement.services';
 
-export default function AdvancementAttributes({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementAttributes({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert }) {
   const increaseStat = async (attribute, maxRank) => {
     setLoading(true);
     const availableExp = advancementDetails.max_xp - advancementDetails.spent_xp;
@@ -32,7 +32,7 @@ export default function AdvancementAttributes({ advancementDetails, setAdvanceme
           });
         }
       } catch (error) {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (advancementDetails[attribute] + 1 > maxRank) {
       setPageAlert({ open: true, message: 'Maybe try some cyberware?', severity: 'error' });

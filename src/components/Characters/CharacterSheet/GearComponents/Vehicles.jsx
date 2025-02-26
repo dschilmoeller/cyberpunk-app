@@ -5,7 +5,7 @@ import Card from '../../../GeneralAssets/Card';
 import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 import VehicleCard from './VehicleCard';
 
-export default function Vehicles({ charVehicles, charVehicleMods, loading, setLoading, chuckError }) {
+export default function Vehicles({ charVehicles, charVehicleMods, loading, setLoading, setPageAlert }) {
   return (
     <>
       <Grid container>
@@ -27,7 +27,7 @@ export default function Vehicles({ charVehicles, charVehicleMods, loading, setLo
                     charVehicleMods={charVehicleMods}
                     loading={loading}
                     setLoading={setLoading}
-                    chuckError={chuckError}
+                    setPageAlert={setPageAlert}
                   />
                 </Grid>
               </Card>

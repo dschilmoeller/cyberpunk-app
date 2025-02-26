@@ -23,6 +23,7 @@ function AdvancementSheet() {
   });
 
   const fetchAdvancementDetails = async () => {
+    setLoading(true);
     const charObj = {
       charID: params.id,
     };
@@ -30,16 +31,8 @@ function AdvancementSheet() {
       let charDetails = await fetchAdvancementDetailsRequest(charObj);
       setAdvancementDetails(charDetails);
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
-  };
-
-  const chuckError = () => {
-    setPageAlert({
-      open: true,
-      message: 'Something is awry',
-      severity: 'info',
-    });
     setLoading(false);
   };
 
@@ -151,7 +144,6 @@ function AdvancementSheet() {
               loading={loading}
               setLoading={setLoading}
               setPageAlert={setPageAlert}
-              chuckError={chuckError}
             />
           </>
         ) : (
@@ -166,7 +158,6 @@ function AdvancementSheet() {
               loading={loading}
               setLoading={setLoading}
               setPageAlert={setPageAlert}
-              chuckError={chuckError}
             />
           </>
         ) : (
@@ -181,7 +172,6 @@ function AdvancementSheet() {
               loading={loading}
               setLoading={setLoading}
               setPageAlert={setPageAlert}
-              chuckError={chuckError}
             />
           </>
         ) : (
@@ -196,7 +186,6 @@ function AdvancementSheet() {
               loading={loading}
               setLoading={setLoading}
               setPageAlert={setPageAlert}
-              chuckError={chuckError}
             />
           </>
         ) : (

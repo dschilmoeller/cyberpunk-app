@@ -4,17 +4,7 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 import { charChangeBankRequest, charPurchaseGearRequest, charChangeGearQtyRequest } from '../../../../services/shopping.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function PharmaMasterTable({
-  masterPharma,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function PharmaMasterTable({ masterPharma, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const buyPharma = async (item) => {
     setLoading(true);
     const bankObj = {
@@ -40,7 +30,7 @@ export default function PharmaMasterTable({
         setCharDetail({ ...charDetail, bank: bankObj.newBank });
         setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charDetail.bank >= item.price && charGear.pharma.filter((e) => e.pharma_master_id === item.pharma_master_id).length <= 0) {
       const gearObj = {
@@ -55,7 +45,7 @@ export default function PharmaMasterTable({
         setCharDetail({ ...charDetail, bank: bankObj.newBank });
         setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });

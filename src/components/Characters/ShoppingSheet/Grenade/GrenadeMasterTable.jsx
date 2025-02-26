@@ -4,17 +4,7 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 import { charChangeBankRequest, charPurchaseGearRequest, charChangeGearQtyRequest } from '../../../../services/shopping.services';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
-export default function GrenadeMasterTable({
-  masterGrenades,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function GrenadeMasterTable({ masterGrenades, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const buyGrenade = async (item) => {
     setLoading(true);
     const bankObj = {
@@ -39,7 +29,7 @@ export default function GrenadeMasterTable({
         setCharDetail({ ...charDetail, bank: bankObj.newBank });
         setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charDetail.bank >= item.price && charGear.grenades.filter((e) => e.grenade_master_id === item.grenade_master_id).length <= 0) {
       // grenade not owned, insert row.
@@ -55,7 +45,7 @@ export default function GrenadeMasterTable({
         setCharDetail({ ...charDetail, bank: bankObj.newBank });
         setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });

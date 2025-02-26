@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TableCell, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { updateVehicleRequest, updateVehicleModEquipStatusRequest, insertModVehicleBridgeRequest } from '../../../services/equip.services';
 
-export default function AdvancementGarageOption({ row, vehicles, charGear, setCharGear, setPageAlert, chuckError }) {
+export default function AdvancementGarageOption({ row, vehicles, charGear, setCharGear, setPageAlert, loading, setLoading }) {
   const [selectedVehicle, setSelectedVehicle] = useState('');
 
   const handleChange = (event) => {
@@ -10,6 +10,7 @@ export default function AdvancementGarageOption({ row, vehicles, charGear, setCh
   };
 
   const handleEquip = async (mod, vehicle) => {
+    setLoading(true);
     console.log({ vehicle: vehicle, mod: mod });
     let vehicleUpdateResult = '';
     vehicleUpdateResult = await updateVehicleRequest({
@@ -54,8 +55,9 @@ export default function AdvancementGarageOption({ row, vehicles, charGear, setCh
         ],
       });
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
+    setLoading(false);
   };
 
   return (
@@ -77,7 +79,12 @@ export default function AdvancementGarageOption({ row, vehicles, charGear, setCh
         </FormControl>
       </TableCell>
       <TableCell align="center">
-        <Button variant={selectedVehicle != '' ? 'contained' : 'disabled'} color="info" onClick={() => handleEquip(row, selectedVehicle)}>
+        <Button
+          variant={selectedVehicle != '' ? 'contained' : 'disabled'}
+          disabled={loading}
+          color="info"
+          onClick={() => handleEquip(row, selectedVehicle)}
+        >
           Equip Mod
         </Button>
       </TableCell>

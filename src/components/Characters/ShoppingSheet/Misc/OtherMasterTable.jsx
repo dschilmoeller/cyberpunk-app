@@ -3,17 +3,7 @@ import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableR
 import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
 import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
-export default function OtherMasterTable({
-  masterMiscGear,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function OtherMasterTable({ masterMiscGear, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const buyMiscGear = async (item) => {
     setLoading(true);
     if (charDetail.bank >= item.price) {
@@ -35,11 +25,11 @@ export default function OtherMasterTable({
           setCharDetail({ ...charDetail, bank: bankObj.newBank });
           setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error purchasing gear:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds', severity: 'error' });

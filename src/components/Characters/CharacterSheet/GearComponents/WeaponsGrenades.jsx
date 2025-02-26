@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { inPlayUseGrenade } from '../../../../services/CharInPlay.services';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 
-export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrenades, loading, setLoading, chuckError, setPageAlert }) {
+export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrenades, loading, setLoading, setPageAlert }) {
   const useGrenade = async (grenade) => {
     setLoading(true);
     const grenadeObj = {
@@ -26,11 +26,11 @@ export default function WeaponsGrenades({ charDetail, charGrenades, setCharGrena
           })
         );
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error using grenade:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

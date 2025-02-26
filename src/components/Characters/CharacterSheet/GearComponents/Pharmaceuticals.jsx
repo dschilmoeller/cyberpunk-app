@@ -5,7 +5,7 @@ import { inPlayUsePharma } from '../../../../services/CharInPlay.services';
 import Item from '../Item';
 import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 
-export default function Pharmaceuticals({ charPharma, setCharPharma, loading, setLoading, chuckError, setPageAlert }) {
+export default function Pharmaceuticals({ charPharma, setCharPharma, loading, setLoading, setPageAlert }) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
 
@@ -28,11 +28,11 @@ export default function Pharmaceuticals({ charPharma, setCharPharma, loading, se
           })
         );
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error using pharmaceutical:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

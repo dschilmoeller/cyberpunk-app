@@ -5,17 +5,7 @@ import { charChangeBankRequest, charPurchaseGearRequest } from '../../../../serv
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 import WeaponDialog from '../../../Modals/WeaponDialog';
 
-export default function WeaponsMasterTable({
-  masterWeapons,
-  charGear,
-  setCharGear,
-  charDetail,
-  setCharDetail,
-  setPageAlert,
-  loading,
-  setLoading,
-  chuckError,
-}) {
+export default function WeaponsMasterTable({ masterWeapons, charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const buyWeapon = async (item) => {
     setLoading(true);
     if (charDetail.bank >= item.price) {
@@ -36,11 +26,11 @@ export default function WeaponsMasterTable({
           setCharDetail({ ...charDetail, bank: bankObj.newBank });
           setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error purchasing gear:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });

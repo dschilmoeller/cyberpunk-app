@@ -24,7 +24,7 @@ import GMGiveVehicles from './GameMasterGearComps/GMGiveVehicles';
 
 // TODO
 // Allow creation of items (LATER) through page rather than DB edits.
-export default function GameMasterGiveGear({ charDetail, setPageAlert, setLoading, chuckError }) {
+export default function GameMasterGiveGear({ charDetail, setPageAlert, setLoading }) {
   const [gearMaster, setGearMaster] = useState({
     armor: [],
     weapons: [],
@@ -58,11 +58,11 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, setLoadin
         vehicles,
         vehicleMods,
       });
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching master gear lists:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
+    setLoading(false);
   };
 
   const giveCharacterGear = async (gearObj) => {
@@ -76,11 +76,12 @@ export default function GameMasterGiveGear({ charDetail, setPageAlert, setLoadin
           severity: 'success',
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error giving character gear:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

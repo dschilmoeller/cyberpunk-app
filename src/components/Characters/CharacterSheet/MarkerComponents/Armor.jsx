@@ -14,7 +14,7 @@ import PanoramaVerticalOutlinedIcon from '@mui/icons-material/PanoramaVerticalOu
 import PanoramaVerticalSelectOutlinedIcon from '@mui/icons-material/PanoramaVerticalSelectOutlined';
 // TODO
 // refine spacer thing at bottom (4/3/2/1 spaces.)
-function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chuckError, setPageAlert }) {
+function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, setPageAlert }) {
   const unhurtMarker = <CircleOutlinedIcon />;
   const aggMarker = <AcUnitIcon />;
   const bodyMarker = <CheckBoxOutlineBlankOutlinedIcon />;
@@ -49,14 +49,15 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
           setCharTotalArmor(armorTotal + charStatus.current_cyberware_armor_quality);
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error fetching in play armor:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
+
   useEffect(() => {
     fetchInPlayArmor();
   }, []);
@@ -132,11 +133,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         if (result === 'OK') {
           fetchInPlayArmor();
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character armor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charArmor.this_armor_loss + 1 <= charArmor.quality) {
       try {
@@ -144,11 +145,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         if (result === 'OK') {
           fetchInPlayArmor();
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character armor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charStatus.current_cyberware_armor_loss + 1 <= charStatus.current_cyberware_armor_quality) {
       try {
@@ -165,11 +166,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
             current_cyberware_armor_loss: charStatus.current_cyberware_armor_loss + 1,
           });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character cyberarmor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({
@@ -198,11 +199,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
             current_cyberware_armor_loss: charStatus.current_cyberware_armor_loss - 1,
           });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character cyberarmor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charArmor.this_armor_loss - 1 >= 0) {
       try {
@@ -210,11 +211,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         if (result === 'OK') {
           fetchInPlayArmor();
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character armor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (charShield.this_armor_loss - 1 >= 0) {
       try {
@@ -222,11 +223,11 @@ function Armor({ charDetail, charStatus, setCharStatus, loading, setLoading, chu
         if (result === 'OK') {
           fetchInPlayArmor();
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing character armor:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({

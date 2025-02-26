@@ -7,7 +7,7 @@ import { SkillSet } from '../../../utils/objects/objects.utils';
 import { dotReturn } from '../../../utils/funcs/funcs';
 import { updateCharacterStat } from '../../../services/advancement.services';
 
-export default function AdvancementSkills({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementSkills({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert }) {
   const skillExpReturn = (skill) => {
     let newCost = (skill + 1) * 2;
     return `${newCost} XP`;
@@ -41,7 +41,7 @@ export default function AdvancementSkills({ advancementDetails, setAdvancementDe
     } else if (requiredExp > availableExp) {
       setPageAlert({ open: true, message: 'Insufficient XP', severity: 'error' });
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

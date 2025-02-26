@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { updateVehicleRequest, updateVehicleModEquipStatusRequest, deleteModVehicleBridgeRequest } from '../../../services/equip.services';
 import AdvancementGarageOption from './AdvancementGarageOption';
-export default function AdvancementGarage({ charGear, setCharGear, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementGarage({ charGear, setCharGear, loading, setLoading, setPageAlert }) {
   // TODO: change mod total cost so vehicle can be sold with mods attached
   // TODO: update vehicle selling page to handle the above?
 
@@ -64,7 +64,7 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
         vehicleModBridge: charGear.vehicleModBridge.filter((e) => e.char_owned_vehicle_mods_id != mod.char_owned_vehicle_mods_id),
       });
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
 
     setLoading(false);
@@ -153,7 +153,8 @@ export default function AdvancementGarage({ charGear, setCharGear, loading, setL
                       charGear={charGear}
                       setCharGear={setCharGear}
                       setPageAlert={setPageAlert}
-                      chuckError={chuckError}
+                      loading={loading}
+                      setLoading={setLoading}
                     />
                   </TableRow>
                 );

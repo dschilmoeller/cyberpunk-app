@@ -6,7 +6,7 @@ import Humanity from './MarkerComponents/Humanity';
 import Luck from './MarkerComponents/Luck';
 import Armor from './MarkerComponents/Armor';
 
-function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware, loading, setLoading, chuckError, setPageAlert }) {
+function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware, loading, setLoading, setPageAlert }) {
   return (
     <>
       <Health
@@ -16,7 +16,7 @@ function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware
         characterCyberware={charCyberware}
         loading={loading}
         setLoading={setLoading}
-        chuckError={chuckError}
+        setPageAlert={setPageAlert}
       />
       <Grid item xs={4}>
         <Armor
@@ -25,7 +25,6 @@ function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware
           setCharStatus={setCharStatus}
           loading={loading}
           setLoading={setLoading}
-          chuckError={chuckError}
           setPageAlert={setPageAlert}
         />
         <Luck
@@ -34,7 +33,6 @@ function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware
           setCharStatus={setCharStatus}
           loading={loading}
           setLoading={setLoading}
-          chuckError={chuckError}
           setPageAlert={setPageAlert}
         />
         <Humanity
@@ -43,7 +41,6 @@ function CharacterMarkers({ charDetail, charStatus, setCharStatus, charCyberware
           setCharStatus={setCharStatus}
           loading={loading}
           setLoading={setLoading}
-          chuckError={chuckError}
           setPageAlert={setPageAlert}
         />
       </Grid>

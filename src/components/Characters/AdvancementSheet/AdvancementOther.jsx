@@ -7,7 +7,7 @@ import { updateCharacterStat } from '../../../services/advancement.services';
 
 import OtherAttributesDialog from '../../Modals/OtherAttributesDialog';
 
-export default function AdvancementOther({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert, chuckError }) {
+export default function AdvancementOther({ advancementDetails, setAdvancementDetails, loading, setLoading, setPageAlert }) {
   const addLuck = async () => {
     setLoading(true);
     if (advancementDetails.max_xp - advancementDetails.spent_xp >= (advancementDetails.max_luck + 1) * 2) {
@@ -27,14 +27,14 @@ export default function AdvancementOther({ advancementDetails, setAdvancementDet
           });
           setPageAlert({ open: true, message: 'You have improved!', severity: 'success' });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error updating luck:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -58,18 +58,18 @@ export default function AdvancementOther({ advancementDetails, setAdvancementDet
             spent_xp: advancementDetails.spent_xp + 1,
           });
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error updating temp humanity loss:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else if (advancementDetails.max_xp - advancementDetails.spent_xp >= 1) {
       setPageAlert({ open: true, message: 'Insufficient XP!', severity: 'error' });
     } else if (advancementDetails.temp_humanity_loss > 0) {
       setPageAlert({ open: true, message: 'Nothing temporary left - try removing some cyberware?', severity: 'error' });
     } else {
-      chuckError(); // should cover all bases, so something is off if this ever fires.
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };

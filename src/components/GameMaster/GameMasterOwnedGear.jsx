@@ -23,7 +23,7 @@ import {
   fetchCharacterVehicleModsRequest,
 } from '../../services/gear.services';
 
-export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const [selectedGear, setSelectedGear] = useState('armor');
   const handleSelectedGearChange = (event, newValue) => {
     setSelectedGear(newValue);
@@ -67,7 +67,7 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
       });
     } catch (error) {
       console.error('Error fetching gear:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
@@ -84,17 +84,16 @@ export default function GameMasterOwnedGear({ charDetail, setCharDetail, setPage
           severity: 'success',
         });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error deleting character gear:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchCharacterGear();
   }, []);
 

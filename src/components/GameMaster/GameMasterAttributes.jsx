@@ -6,7 +6,7 @@ import { AttributesArr } from '../../utils/objects/objects.utils';
 import { capitalizer, dotReturn } from '../../utils/funcs/funcs';
 import { changeCharacterAttribute } from '../../services/gm.services';
 
-export default function GameMasterAttributes({ charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function GameMasterAttributes({ charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const changeAttribute = async (attribute, max, change) => {
     setLoading(true);
     const fixedAtt = attributeFixer(attribute);
@@ -33,7 +33,7 @@ export default function GameMasterAttributes({ charDetail, setCharDetail, setPag
         }
       } catch (error) {
         console.error('Error:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     }
     setLoading(false);

@@ -6,7 +6,7 @@ import CharacterNoteEdit from './Modals/CharacterNoteEdit';
 import Item from './Item';
 import CharacterSheetHeaderDialog from './Modals/CharacterSheetHeaderDialog';
 
-export default function CharacterSheetNotes({ charDetail, charNotes, setCharNotes, loading, setLoading, chuckError, setPageAlert }) {
+export default function CharacterSheetNotes({ charDetail, charNotes, setCharNotes, loading, setLoading, setPageAlert }) {
   return (
     <>
       <Grid container>
@@ -25,7 +25,6 @@ export default function CharacterSheetNotes({ charDetail, charNotes, setCharNote
               charID={charDetail.id}
               loading={loading}
               setLoading={setLoading}
-              chuckError={chuckError}
               setPageAlert={setPageAlert}
               setCharNotes={setCharNotes}
             />
@@ -65,7 +64,6 @@ export default function CharacterSheetNotes({ charDetail, charNotes, setCharNote
                           charID={charDetail.id}
                           loading={loading}
                           setLoading={setLoading}
-                          chuckError={chuckError}
                           setPageAlert={setPageAlert}
                           setCharNotes={setCharNotes}
                         />

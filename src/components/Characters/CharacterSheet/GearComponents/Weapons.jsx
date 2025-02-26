@@ -9,7 +9,7 @@ import WeaponsGrenades from './WeaponsGrenades';
 
 import CharacterSheetHeaderDialog from '../Modals/CharacterSheetHeaderDialog';
 
-function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, chuckError, setPageAlert, painEditor }) {
+function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, setPageAlert, painEditor }) {
   const [charWeapons, setCharWeapons] = React.useState([]);
   const [charGrenades, setCharGrenades] = React.useState([]);
 
@@ -69,7 +69,6 @@ function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, c
                 key={cyberware.owned_cyberware_id}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
                 setPageAlert={setPageAlert}
                 painEditor={painEditor}
               />
@@ -86,7 +85,6 @@ function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, c
                 key={weapon.weapon_bridge_id}
                 loading={loading}
                 setLoading={setLoading}
-                chuckError={chuckError}
                 setPageAlert={setPageAlert}
                 painEditor={painEditor}
               />
@@ -104,7 +102,6 @@ function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, c
                 loading={loading}
                 setLoading={setLoading}
                 clip={true}
-                chuckError={chuckError}
                 setPageAlert={setPageAlert}
                 painEditor={painEditor}
               />
@@ -119,7 +116,6 @@ function Weapons({ charDetail, charStatus, charCyberware, loading, setLoading, c
             setCharGrenades={setCharGrenades}
             loading={loading}
             setLoading={setLoading}
-            chuckError={chuckError}
             setPageAlert={setPageAlert}
           />
         </Grid>

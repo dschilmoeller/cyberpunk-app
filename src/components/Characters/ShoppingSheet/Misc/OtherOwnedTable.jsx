@@ -4,7 +4,7 @@ import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from
 import { charChangeBankRequest, charSellGearRequest } from '../../../../services/shopping.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function OtherOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function OtherOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const sellOwnedGear = async (item) => {
     setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
@@ -24,7 +24,7 @@ export default function OtherOwnedTable({ charGear, setCharGear, charDetail, set
         setCharDetail({ ...charDetail, bank: newBank });
         setPageAlert({ open: true, message: 'Gear Sold!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error selling gear:', error);

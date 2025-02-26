@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import GradeIcon from '@mui/icons-material/Grade';
 import { inPlayNoteCreate, inPlayNoteEdit, inPlayNoteDelete, fetchInPlayCharacterNotesRequest } from '../../../../services/CharInPlay.services';
 
-export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoading, chuckError, setPageAlert, setCharNotes }) {
+export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoading, setPageAlert, setCharNotes }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
   const [showRealDelete, setShowRealDelete] = React.useState(false);
@@ -26,7 +26,7 @@ export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoa
           let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
           setCharNotes(refetchNotes);
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } else if (isNew === false) {
         let result = await inPlayNoteEdit(noteObj);
@@ -35,12 +35,12 @@ export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoa
           let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
           setCharNotes(refetchNotes);
         } else {
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       }
     } catch (error) {
       console.error('Error creating or editing note:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setOpen(false);
     setLoading(false);
@@ -68,11 +68,11 @@ export default function CharacterNoteEdit({ note, isNew, charID, loading, setLoa
         let refetchNotes = await fetchInPlayCharacterNotesRequest(noteObj);
         setCharNotes(refetchNotes);
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error deleting note:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setOpen(false);
     setLoading(false);

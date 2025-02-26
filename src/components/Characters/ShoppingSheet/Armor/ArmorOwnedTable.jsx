@@ -5,7 +5,7 @@ import { charChangeBankRequest, charSellGearRequest } from '../../../../services
 import { updateArmorStatusRequest } from '../../../../services/equip.services';
 import { moneyMaker } from '../../../../utils/funcs/funcs';
 
-export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading, chuckError }) {
+export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const sellArmor = async (item) => {
     setLoading(true);
     let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
@@ -25,7 +25,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
         setCharDetail({ ...charDetail, bank: newBank });
         setPageAlert({ open: true, message: 'Armor Sold!', severity: 'success' });
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error selling armor:', error);
@@ -69,7 +69,7 @@ export default function ArmorOwnedTable({ charGear, setCharGear, charDetail, set
           }
         } catch (error) {
           console.error('Error equipping armor:', error);
-          chuckError();
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       }
     }

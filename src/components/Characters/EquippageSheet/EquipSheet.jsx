@@ -117,17 +117,8 @@ export default function EquipSheet() {
       const masterPharma = await fetchMasterPharmaListRequest();
       setMasterGear({ ...masterGear, pharma: masterPharma });
     } catch (error) {
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
-    setLoading(false);
-  };
-
-  const chuckError = () => {
-    setPageAlert({
-      open: true,
-      message: 'Something is awry',
-      severity: 'info',
-    });
     setLoading(false);
   };
 
@@ -232,7 +223,6 @@ export default function EquipSheet() {
                 loading={loading}
                 setLoading={setLoading}
                 setPageAlert={setPageAlert}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -249,7 +239,6 @@ export default function EquipSheet() {
                 loading={loading}
                 setLoading={setLoading}
                 setPageAlert={setPageAlert}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -267,7 +256,6 @@ export default function EquipSheet() {
                 loading={loading}
                 setLoading={setLoading}
                 setPageAlert={setPageAlert}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -302,7 +290,6 @@ export default function EquipSheet() {
                 loading={loading}
                 setLoading={setLoading}
                 setPageAlert={setPageAlert}
-                chuckError={chuckError}
               />
             </>
           ) : (
@@ -317,7 +304,6 @@ export default function EquipSheet() {
                 loading={loading}
                 setLoading={setLoading}
                 setPageAlert={setPageAlert}
-                chuckError={chuckError}
               />
             </>
           ) : (

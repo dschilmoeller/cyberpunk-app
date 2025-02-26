@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { inPlayContactEdit, fetchInPlayContactsRequest } from '../../../../services/CharInPlay.services';
 
-export default function CharacterContactEdit({ charDetail, contact, setCharContacts, loading, setLoading, chuckError, setPageAlert }) {
+export default function CharacterContactEdit({ charDetail, contact, setCharContacts, loading, setLoading, setPageAlert }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
 
@@ -26,11 +26,11 @@ export default function CharacterContactEdit({ charDetail, contact, setCharConta
         let refetchContacts = await fetchInPlayContactsRequest(contactObj);
         setCharContacts(refetchContacts);
       } else {
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } catch (error) {
       console.error('Error updating contact:', error);
-      chuckError();
+      setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
     }
     setLoading(false);
     setOpen(false);

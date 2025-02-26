@@ -7,7 +7,7 @@ import { inPlayStatusChangeRequest } from '../../../../services/CharInPlay.servi
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 
-function Luck({ charDetail, charStatus, setCharStatus, loading, setLoading, chuckError, setPageAlert }) {
+function Luck({ charDetail, charStatus, setCharStatus, loading, setLoading, setPageAlert }) {
   const unhurtMarker = <CircleOutlinedIcon />;
   const aggMarker = <AcUnitIcon />;
 
@@ -41,11 +41,11 @@ function Luck({ charDetail, charStatus, setCharStatus, loading, setLoading, chuc
             current_luck_loss: charStatus.current_luck_loss + change,
           });
         } else {
-          chuckError;
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
         }
       } catch (error) {
         console.error('Error changing luck:', error);
-        chuckError();
+        setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
       }
     } else {
       setPageAlert({ open: true, message: 'No Bueno', severity: 'error' });

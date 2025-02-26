@@ -5,7 +5,7 @@ import { Grid, Card, CardHeader, CardActions, CardContent, Typography } from '@m
 import CharacterContactEdit from './Modals/CharacterContactEdit';
 import CharacterSheetHeaderDialog from './Modals/CharacterSheetHeaderDialog';
 
-export default function CharacterSheetContacts({ charDetail, charContacts, setCharContacts, loading, setLoading, chuckError, setPageAlert }) {
+export default function CharacterSheetContacts({ charDetail, charContacts, setCharContacts, loading, setLoading, setPageAlert }) {
   return (
     <>
       <Grid container>
@@ -49,7 +49,6 @@ export default function CharacterSheetContacts({ charDetail, charContacts, setCh
                           setCharContacts={setCharContacts}
                           loading={loading}
                           setLoading={setLoading}
-                          chuckError={chuckError}
                           setPageAlert={setPageAlert}
                         />
                       </Grid>
