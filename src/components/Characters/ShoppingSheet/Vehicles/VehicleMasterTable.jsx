@@ -1,42 +1,23 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
-
+import { Box, Paper, Button, Table, TableBody, TableCell, TableContainer, TableRow, Tabs, Tab } from '@mui/material/';
+import { getComparator, stableSort, EnhancedTableHead, headCellsGenerator } from '../../../GeneralAssets/tableFuncs.service';
+import { charChangeBankRequest, charChangeNomadVehicleSlotsRequest, charPurchaseGearRequest } from '../../../../services/shopping.services';
+import { moneyMaker } from '../../../../utils/funcs/funcs';
 import ModVehicleMasterTable from './ModVehicleMasterTable';
 
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
-
-export default function VehicleMasterTable() {
-  const dispatch = useDispatch();
-
-  const vehicleMaster = useSelector((store) => store.gearMaster.vehicles);
-
-  const charDetail = useSelector((store) => store.advancementDetail);
-  const loadStatus = useSelector((store) => store.loaders.advancementSheet);
-
-  const useNomadFreebie = useSelector(
-    (store) => store.advancementGear.useNomadFreebie
-  );
-
+// need to pull Nomad Vehicles available, state for using Nomad Vehicle Slot needs to be up one level and passed down here.
+export default function VehicleMasterTable({
+  useNomadFreebie,
+  setUseNomadFreebie,
+  masterVehicles,
+  charGear,
+  setCharGear,
+  charDetail,
+  setCharDetail,
+  setPageAlert,
+  loading,
+  setLoading,
+}) {
   const [nomadDiscount, setNomadDiscount] = React.useState(0);
 
   const calculateNomadDiscount = () => {
@@ -55,229 +36,60 @@ export default function VehicleMasterTable() {
     calculateNomadDiscount();
   }, [charDetail]);
 
-  const euroBuck = `\u20AC$`;
-
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const buyVehicle = (item) => {
-    if (charDetail.bank >= item.price && useNomadFreebie === false) {
-      let newBank = charDetail.bank - item.price;
-      // dispatch({ type: 'BUY_VEHICLE', payload: { item, vehicleID } })
-      dispatch({
-        type: 'BUY_ITEM',
-        payload: {
-          itemMasterID: item.vehicle_master_id,
-          newBank,
-          charID: charDetail.id,
-          table: 'char_vehicle_bridge',
-          column: 'vehicle_id',
-          useNomadFreebie: false,
-        },
-      });
-    } else if (useNomadFreebie === true) {
-      let newBank = charDetail.bank;
-      dispatch({
-        type: 'BUY_ITEM',
-        payload: {
-          itemMasterID: item.vehicle_master_id,
-          newBank,
-          charID: charDetail.id,
-          table: 'char_vehicle_bridge',
-          column: 'vehicle_id',
-          useNomadFreebie: true,
-        },
-      });
-      dispatch({ type: 'SET_NOMAD_FREEBIE', payload: false });
-    } else {
-      setShowSnackbar(true);
-    }
-  };
-
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  function getComparator(order, orderBy) {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-  // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-  // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-  // with exampleArray.slice().sort(getComparator(order, orderBy))
-  // DS - the above gives a .map error for some reason. Not sure why.
-
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Name',
-    },
-    {
-      id: 'description',
-      numeric: false,
-      disablePadding: false,
-      label: 'Description',
-    },
-    {
-      id: 'health',
-      numeric: false,
-      disablePadding: false,
-      label: 'Health',
-    },
-    {
-      id: 'seats',
-      numeric: false,
-      disablePadding: false,
-      label: 'Seats',
-    },
-    {
-      id: 'move',
-      numeric: false,
-      disablePadding: false,
-      label: 'Move',
-    },
-    {
-      id: 'mph',
-      numeric: false,
-      disablePadding: false,
-      label: 'Top Speed',
-    },
-    {
-      id: 'type',
-      numeric: false,
-      disablePadding: false,
-      label: 'Type',
-    },
-    {
-      id: 'price',
-      numeric: true,
-      disablePadding: false,
-      label: 'Price',
-    },
-    {
-      id: 'buy',
-      numeric: false,
-      disablePadding: false,
-      label: 'Buy',
-    },
-  ];
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
+  const buyVehicle = async (item) => {
+    setLoading(true);
+    const bankObj = {
+      charID: charDetail.id,
+      newBank: Number(charDetail.bank - item.price),
     };
-
-    return (
-      <TableHead>
-        <TableRow hover>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.numeric ? 'center' : 'left'}
-              padding={headCell.disablePadding ? 'normal' : 'normal'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  EnhancedTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
+    const gearObj = {
+      type: 'Vehicle',
+      charID: charDetail.id,
+      gearID: item.vehicle_master_id,
+    };
+    if (charDetail.bank >= item.price && useNomadFreebie === false) {
+      try {
+        let bankResult = await charChangeBankRequest(bankObj);
+        let shopResult = await charPurchaseGearRequest(gearObj);
+        if (bankResult === 'OK' && shopResult.vehicle_bridge_id) {
+          setCharGear({ ...charGear, vehicles: [...charGear.vehicles, shopResult] });
+          setCharDetail({ ...charDetail, bank: bankObj.newBank });
+          setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
+        } else {
+          setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
+        }
+      } catch (error) {
+        console.error('Error buying vehicle:', error);
+      }
+    } else if (useNomadFreebie === true) {
+      try {
+        let charObj = {
+          charID: charDetail.id,
+          newSlotCount: charDetail.nomad_vehicle_slots - 1,
+        };
+        let charResult = await charChangeNomadVehicleSlotsRequest(charObj);
+        let shopResult = await charPurchaseGearRequest(gearObj);
+        if (charResult === 'OK' && shopResult.vehicle_bridge_id) {
+          setCharGear({ ...charGear, vehicles: [...charGear.vehicles, shopResult] });
+          setCharDetail({ ...charDetail, nomad_vehicle_slots: charDetail.nomad_vehicle_slots - 1 });
+          setPageAlert({ open: true, message: 'Item purchased!', severity: 'success' });
+          setUseNomadFreebie(false);
+        } else {
+          setPageAlert({ open: true, message: 'Something is awry w/ freebie', severity: 'info' });
+        }
+      } catch (error) {
+        console.error('Error acquiring nomad vehicle:', error);
+      }
+    } else {
+      setPageAlert({ open: true, message: 'Insufficient Funds!', severity: 'error' });
+    }
+    setLoading(false);
   };
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('price');
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  function createVehicleMasterData(
-    description,
-    health,
-    move,
-    mph,
-    name,
-    price,
-    seats,
-    type,
-    vehicle_master_id
-  ) {
-    return {
-      description,
-      health,
-      move,
-      mph,
-      name,
-      price,
-      seats,
-      type,
-      vehicle_master_id,
-    };
-  }
-
-  const vehicleMasterRows = [];
-  for (let i = 0; i < vehicleMaster.length; i++) {
-    vehicleMasterRows.push(
-      createVehicleMasterData(
-        vehicleMaster[i].description,
-        vehicleMaster[i].health,
-        vehicleMaster[i].move,
-        vehicleMaster[i].mph,
-        vehicleMaster[i].name,
-        vehicleMaster[i].price,
-        vehicleMaster[i].seats,
-        vehicleMaster[i].type,
-        vehicleMaster[i].vehicle_master_id
-      )
-    );
-  }
-
-  // sort and monitor changes to charvehiclerows in case of sales.
-  const sortedVehicleMasterRows = React.useMemo(
-    () => stableSort(vehicleMasterRows, getComparator(order, orderBy)),
-    [order, orderBy, vehicleMaster]
-  );
+  const sortedVehicleMasterRows = React.useMemo(() => stableSort(masterVehicles, getComparator(order, orderBy)), [order, orderBy, masterVehicles]);
 
   // handle selection between vehicles and mods
   const [selectedShopping, setSelectedShopping] = React.useState('vehicles');
@@ -287,28 +99,7 @@ export default function VehicleMasterTable() {
 
   return (
     <>
-      <Snackbar
-        TransitionComponent={TransitionUp}
-        autoHideDuration={2000}
-        open={showSnackbar}
-        onClose={() => setShowSnackbar(false)}
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-      >
-        <Alert
-          onClose={() => setShowSnackbar(false)}
-          severity="warning"
-          sx={{ width: '100%' }}
-        >
-          Transaction canceled due to lack of funds!
-        </Alert>
-      </Snackbar>
-
-      <Tabs
-        value={selectedShopping}
-        onChange={handleShoppingSelect}
-        indicatorColor="primary"
-        textColor="secondary"
-      >
+      <Tabs value={selectedShopping} onChange={handleShoppingSelect} indicatorColor="primary" textColor="secondary">
         <Tab value="vehicles" label="Vehicles" />
         <Tab value="mods" label="Vehicle Mods" />
       </Tabs>
@@ -319,65 +110,38 @@ export default function VehicleMasterTable() {
           <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
               <TableContainer>
-                <Table
-                  sx={{ minWidth: 750 }}
-                  aria-labelledby="tableTitle"
-                  size={'small'}
-                >
+                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'small'}>
                   <EnhancedTableHead
+                    headCells={headCellsGenerator(['name', 'description', 'health', 'seats', 'move', 'mph', 'type', 'price', 'buy'])}
                     order={order}
                     orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
+                    setOrder={setOrder}
+                    setOrderBy={setOrderBy}
                   />
                   <TableBody>
                     {useNomadFreebie === true ? (
                       <>
                         {sortedVehicleMasterRows.map((row) => {
-                          if (
-                            useNomadFreebie === true &&
-                            row.price <= nomadDiscount
-                          ) {
+                          if (useNomadFreebie === true && row.price <= nomadDiscount) {
                             return (
                               <TableRow hover key={row.vehicle_master_id}>
-                                <TableCell padding="normal">
-                                  {row.name}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.description}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.health}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.seats}
-                                </TableCell>
+                                <TableCell padding="normal">{row.name}</TableCell>
+                                <TableCell align="center">{row.description}</TableCell>
+                                <TableCell align="center">{row.health}</TableCell>
+                                <TableCell align="center">{row.seats}</TableCell>
                                 <TableCell align="center">{row.move}</TableCell>
                                 <TableCell align="center">{row.mph}</TableCell>
                                 <TableCell align="center">{row.type}</TableCell>
+                                <TableCell align="center">{moneyMaker(0)}</TableCell>
                                 <TableCell align="center">
-                                  {euroBuck}0
-                                </TableCell>
-                                <TableCell align="center">
-                                  <Button
-                                    variant={
-                                      loadStatus === false
-                                        ? 'contained'
-                                        : 'disabled'
-                                    }
-                                    color="success"
-                                    onClick={() => buyVehicle(row)}
-                                  >
+                                  <Button variant={loading === false ? 'contained' : 'disabled'} color="success" onClick={() => buyVehicle(row)}>
                                     Buy
                                   </Button>
                                 </TableCell>
                               </TableRow>
                             );
                           } else {
-                            return (
-                              <React.Fragment
-                                key={row.vehicle_master_id}
-                              ></React.Fragment>
-                            );
+                            return <React.Fragment key={row.vehicle_master_id}></React.Fragment>;
                           }
                         })}
                       </>
@@ -391,28 +155,15 @@ export default function VehicleMasterTable() {
                           return (
                             <TableRow hover key={row.vehicle_master_id}>
                               <TableCell padding="normal">{row.name}</TableCell>
-                              <TableCell align="center">
-                                {row.description}
-                              </TableCell>
+                              <TableCell align="center">{row.description}</TableCell>
                               <TableCell align="center">{row.health}</TableCell>
                               <TableCell align="center">{row.seats}</TableCell>
                               <TableCell align="center">{row.move}</TableCell>
                               <TableCell align="center">{row.mph}</TableCell>
                               <TableCell align="center">{row.type}</TableCell>
+                              <TableCell align="center">{moneyMaker(Math.floor(row.price))}</TableCell>
                               <TableCell align="center">
-                                {euroBuck}
-                                {Math.floor(row.price).toLocaleString('en-US')}
-                              </TableCell>
-                              <TableCell align="center">
-                                <Button
-                                  variant={
-                                    loadStatus === false
-                                      ? 'contained'
-                                      : 'disabled'
-                                  }
-                                  color="success"
-                                  onClick={() => buyVehicle(row)}
-                                >
+                                <Button variant={loading === false ? 'contained' : 'disabled'} color="success" onClick={() => buyVehicle(row)}>
                                   Buy
                                 </Button>
                               </TableCell>
@@ -433,7 +184,20 @@ export default function VehicleMasterTable() {
         <></>
       )}
 
-      {selectedShopping === 'mods' ? <ModVehicleMasterTable /> : <></>}
+      {selectedShopping === 'mods' ? (
+        <ModVehicleMasterTable
+          masterVehicles={masterVehicles}
+          charGear={charGear}
+          setCharGear={setCharGear}
+          charDetail={charDetail}
+          setCharDetail={setCharDetail}
+          setPageAlert={setPageAlert}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

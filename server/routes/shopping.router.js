@@ -135,6 +135,20 @@ router.post('/charChangeBank', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/charChangeNomadVehicleSlots', rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "character" set "nomad_vehicle_slots" = $1 WHERE "id" = $2`;
+  const sqlParams = [req.body.newSlotCount, req.body.charID];
+  pool
+    .query(sqlText, sqlParams)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error changing character Nomad Vehicle Slots:', err);
+      res.sendStatus(400);
+    });
+});
+
 router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
   let sqlText = ``;
   switch (req.body.type) {
@@ -186,6 +200,18 @@ router.post('/charPurchaseGear', rejectUnauthenticated, (req, res) => {
                 SELECT * FROM inserted_row
                 JOIN "cyberware_master" ON inserted_row.cyberware_master_id = "cyberware_master"."cyberware_master_id"`;
       break;
+    case 'Vehicle':
+      sqlText = `WITH inserted_row AS
+                  (INSERT INTO "char_vehicle_bridge" 
+                    (
+                        "char_id", "vehicle_id","current_damage","current_armor_damage", "total_mod_cost","has_armor","extra_seats")
+                      VALUES 
+                        ($1, $2, 0, 0, 0, false, 0)
+                      RETURNING *
+                    ) 
+                SELECT * FROM inserted_row
+                JOIN "vehicle_master" ON inserted_row.vehicle_id = "vehicle_master"."vehicle_master_id"`;
+      break;
     default:
       console.error('Error - invalid purchase type.');
       res.sendStatus(400);
@@ -227,6 +253,9 @@ router.post('/charSellGear', rejectUnauthenticated, (req, res) => {
       break;
     case 'Cyberware':
       sqlText = `DELETE FROM "char_owned_cyberware" WHERE "owned_cyberware_id" = $1`;
+      break;
+    case 'Vehicle':
+      sqlText = `DELETE FROM "char_vehicle_bridge" WHERE "vehicle_bridge_id" = $1`;
       break;
     default:
       console.error('Error - invalid sell type.');
@@ -280,4 +309,5 @@ router.post('/charChangeGearQty', rejectUnauthenticated, (req, res) => {
       res.sendStatus(400);
     });
 });
+
 module.exports = router;

@@ -55,6 +55,7 @@ function ShoppingSheet() {
     severity: '',
   });
   const [charDetail, setCharDetail] = useState({});
+  const [useNomadFreebie, setUseNomadFreebie] = useState(false);
   const [charGear, setCharGear] = useState({
     armor: [],
     weapons: [],
@@ -381,6 +382,8 @@ function ShoppingSheet() {
           {selectedShopping === '#vehicles' ? (
             <>
               <VehicleOwnedTable
+                useNomadFreebie={useNomadFreebie}
+                setUseNomadFreebie={setUseNomadFreebie}
                 charGear={charGear}
                 setCharGear={setCharGear}
                 charDetail={charDetail}
@@ -390,6 +393,8 @@ function ShoppingSheet() {
                 setLoading={setLoading}
               />
               <VehicleMasterTable
+                useNomadFreebie={useNomadFreebie}
+                setUseNomadFreebie={setUseNomadFreebie}
                 masterVehicles={masterGear.vehicles}
                 charGear={charGear}
                 setCharGear={setCharGear}

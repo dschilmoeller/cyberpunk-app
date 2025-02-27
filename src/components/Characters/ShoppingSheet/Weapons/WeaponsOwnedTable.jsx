@@ -9,10 +9,9 @@ import { moneyMaker } from '../../../../utils/funcs/funcs';
 export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, setCharDetail, setPageAlert, loading, setLoading }) {
   const sellWeapon = async (item) => {
     setLoading(true);
-    let newBank = Number(charDetail.bank + Math.floor(item.price / 4));
     const bankObj = {
       charID: charDetail.id,
-      newBank: newBank,
+      newBank: Number(charDetail.bank + Math.floor(item.price / 4)),
     };
     const itemObj = {
       type: 'Weapon',
@@ -22,8 +21,8 @@ export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, s
       let bankResult = await charChangeBankRequest(bankObj);
       let sellResult = await charSellGearRequest(itemObj);
       if (bankResult === 'OK' && sellResult === 'OK') {
-        setCharGear({ ...charGear, weapons: charGear.weapons.filter((e) => e.armor_bridge_id != item.armor_bridge_id) });
-        setCharDetail({ ...charDetail, bank: newBank });
+        setCharGear({ ...charGear, weapons: charGear.weapons.filter((e) => e.weapon_bridge_id != item.weapon_bridge_id) });
+        setCharDetail({ ...charDetail, bank: Number(charDetail.bank + Math.floor(item.price / 4)) });
         setPageAlert({ open: true, message: 'Weapon Sold!', severity: 'success' });
       } else {
         setPageAlert({ open: true, message: 'Something is awry', severity: 'info' });
@@ -40,7 +39,7 @@ export default function WeaponsOwnedTable({ charGear, setCharGear, charDetail, s
     const weapons = charGear.weapons;
     for (let i = 0; i < weapons.length; i++) {
       // find the weapon being changed.
-      if (weapons[i].armor_bridge_id === incomingWeapon.armor_bridge_id) {
+      if (weapons[i].weapon_bridge_id === incomingWeapon.weapon_bridge_id) {
         const weaponObj = {
           // flip status
           equipped: !weapons[i].equipped === true,

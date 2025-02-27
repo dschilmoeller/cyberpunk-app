@@ -140,6 +140,20 @@ const charChangeBankRequest = (bankObj) => {
   });
 };
 
+const charChangeNomadVehicleSlotsRequest = (charObj) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/api/shopping/charChangeNomadVehicleSlots', charObj)
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch((error) => {
+        console.error('Error changing character nomad vehicle freebies:', error);
+        reject(error);
+      });
+  });
+};
+
 const charPurchaseGearRequest = (gearObj) => {
   return new Promise((resolve, reject) => {
     axios
@@ -193,6 +207,7 @@ export {
   fetchMasterVehiclesListRequest,
   fetchMasterVehicleModsListRequest,
   charChangeBankRequest,
+  charChangeNomadVehicleSlotsRequest,
   charPurchaseGearRequest,
   charSellGearRequest,
   charChangeGearQtyRequest,
